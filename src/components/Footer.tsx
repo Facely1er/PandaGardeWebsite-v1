@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Book, ClipboardCheck as ChalkboardTeacher, School, Shield as Child, User, UserCheck, Gamepad2, Mail, HelpCircle, Newspaper, Headphones, Facebook, Twitter, Instagram, Youtube, Linkedin } from 'lucide-react';
-import Logo from './Logo';
 
 const Footer: React.FC = () => {
   const socialLinks = [
@@ -39,7 +38,13 @@ const Footer: React.FC = () => {
         <div className="footer-grid">
           <div className="footer-brand">
             <h3>
-              <Logo />
+              <div className="logo-icon" style={{ width: '32px', height: '32px', marginRight: '8px' }}>
+                <img 
+                  src="/src/assets/LogoPandagarde.png" 
+                  alt="PandaGarde Logo" 
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                />
+              </div>
               PandaGarde
             </h3>
             <p>Building privacy skills for tomorrow's world. Comprehensive digital privacy education for families with children ages 5-17.</p>

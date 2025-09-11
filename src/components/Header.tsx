@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
-import Logo from './Logo';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -55,7 +54,14 @@ const Header: React.FC = () => {
       <div className="container">
         <nav className="nav">
           <Link to="/" className="logo">
-            <Logo />
+            <div className="logo-icon">
+              <img 
+                src="/src/assets/LogoPandagarde.png" 
+                alt="PandaGarde Logo" 
+                className="panda-logo"
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+              />
+            </div>
             <span>Panda<span className="highlight">Garde</span></span>
           </Link>
           
