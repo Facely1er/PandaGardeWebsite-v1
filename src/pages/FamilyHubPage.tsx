@@ -121,11 +121,12 @@ const FamilyHubPage: React.FC = () => {
       color: 'from-purple-500 to-purple-600'
     },
     {
-      title: 'Family Settings',
-      description: 'Configure privacy settings and preferences',
-      icon: Settings,
-      action: 'settings',
-      color: 'from-gray-500 to-gray-600'
+      title: 'PrivacyPanda App',
+      description: 'Access the full PrivacyPanda mobile application',
+      icon: Star,
+      action: 'app-link',
+      color: 'from-orange-500 to-orange-600',
+      url: 'https://www.hub.pandagarde.com'
     }
   ];
 
@@ -317,6 +318,30 @@ const FamilyHubPage: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {quickActions.map((action, index) => {
                   const IconComponent = action.icon;
+                  
+                  if (action.url) {
+                    return (
+                      <a
+                        key={index}
+                        href={action.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-white rounded-xl p-6 text-left hover:shadow-lg transition-all transform hover:scale-105 block"
+                        style={{ backgroundColor: 'var(--card-color)' }}
+                      >
+                        <div className={`w-12 h-12 bg-gradient-to-r ${action.color} rounded-lg flex items-center justify-center text-white mb-4`}>
+                          <IconComponent size={24} />
+                        </div>
+                        <h3 className="font-bold mb-2" style={{ color: 'var(--primary)' }}>
+                          {action.title}
+                        </h3>
+                        <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
+                          {action.description}
+                        </p>
+                      </a>
+                    );
+                  }
+                  
                   return (
                     <button
                       key={index}
@@ -527,6 +552,27 @@ const FamilyHubPage: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <a 
+                href="https://www.hub.pandagarde.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-white rounded-xl p-6 hover:shadow-lg transition-all transform hover:scale-105 block"
+                style={{ backgroundColor: 'var(--card-color)' }}
+              >
+                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                  <Star size={24} className="text-orange-600" />
+                </div>
+                <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
+                  PrivacyPanda Mobile App
+                </h3>
+                <p className="mb-4" style={{ color: 'var(--gray-600)' }}>
+                  Access the full PrivacyPanda mobile application with advanced features and offline capabilities.
+                </p>
+                <div className="text-orange-600 font-semibold hover:text-orange-700 transition-colors">
+                  Launch App →
+                </div>
+              </a>
+
               <div className="bg-white rounded-xl p-6" style={{ backgroundColor: 'var(--card-color)' }}>
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
                   <Download size={24} className="text-blue-600" />
