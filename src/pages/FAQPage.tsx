@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ChevronDown, ChevronUp, HelpCircle, Book, Users, Shield, Download } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
 import Logo from '../components/Logo';
 
 interface FAQItem {
@@ -12,7 +11,6 @@ interface FAQItem {
 }
 
 const FAQPage: React.FC = () => {
-  const { theme } = useTheme();
   const [openItems, setOpenItems] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 

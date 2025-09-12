@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { RotateCcw, CheckCircle, ArrowUp, ArrowDown, ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface MazeActivityProps {
@@ -19,7 +19,7 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
   const [mazeSize] = useState({ width: 15, height: 15 });
 
   // Maze: 0 = path, 1 = wall, 2 = start, 3 = end
-  const generateMaze = () => {
+  const generateMaze = useCallback(() => {
     const newMaze = Array(mazeSize.height).fill(null).map(() => Array(mazeSize.width).fill(1));
     
     // Create a simple maze pattern
@@ -45,21 +45,21 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
     newMaze[mazeSize.height - 2][mazeSize.width - 2] = 3; // End
     
     return newMaze;
-  };
+  }, [mazeSize]);
 
   useEffect(() => {
     const newMaze = generateMaze();
     setMaze(newMaze);
     setPlayerPos({ x: 1, y: 1 });
     setIsCompleted(false);
-  }, []);
+  }, [generateMaze]);
 
   useEffect(() => {
     if (maze.length === 0) return;
     drawMaze();
-  }, [maze, playerPos]);
+  }, [maze, playerPos, drawMaze]);
 
-  const drawMaze = () => {
+  const drawMaze = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -116,9 +116,9 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
     ctx.beginPath();
     ctx.arc(playerX + 5, playerY - 3, 2, 0, 2 * Math.PI);
     ctx.fill();
-  };
+  }, [maze, playerPos, mazeSize]);
 
-  const movePlayer = (direction: 'up' | 'down' | 'left' | 'right') => {
+  const movePlayer = useCallback((direction: 'up' | 'down' | 'left' | 'right') => {
     if (isCompleted) return;
 
     let newX = playerPos.x;
@@ -149,7 +149,7 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
         onComplete();
       }
     }
-  };
+  }, [playerPos, maze, isCompleted, onComplete, mazeSize]);
 
   const resetMaze = () => {
     const newMaze = generateMaze();
@@ -158,7 +158,7 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
     setIsCompleted(false);
   };
 
-  const handleKeyPress = (e: KeyboardEvent) => {
+  const handleKeyPress = useCallback((e: KeyboardEvent) => {
     switch (e.key) {
       case 'ArrowUp':
       case 'w':
@@ -185,12 +185,12 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
         movePlayer('right');
         break;
     }
-  };
+  }, [movePlayer]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [playerPos, maze, isCompleted]);
+  }, [handleKeyPress]);
 
   return (
     <div className="maze-activity">

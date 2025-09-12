@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { CheckCircle, AlertCircle, Info, X } from 'lucide-react';
 
 export interface ToastProps {
@@ -33,12 +33,12 @@ const Toast: React.FC<ToastProps> = ({
       clearTimeout(timer);
       clearTimeout(autoCloseTimer);
     };
-  }, [duration]);
+  }, [duration, handleClose]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setIsVisible(false);
     setTimeout(() => onClose(id), 300);
-  };
+  }, [onClose, id]);
 
   const getIcon = () => {
     switch (type) {

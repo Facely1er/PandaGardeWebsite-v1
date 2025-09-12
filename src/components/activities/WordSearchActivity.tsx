@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { RotateCcw, CheckCircle, Search } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { RotateCcw, CheckCircle } from 'lucide-react';
 
 interface WordSearchActivityProps {
   onComplete: () => void;
@@ -16,23 +16,22 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
   const [grid, setGrid] = useState<string[][]>([]);
   const [words, setWords] = useState<Word[]>([]);
   const [selectedCells, setSelectedCells] = useState<{ row: number; col: number }[]>([]);
-  const [isSelecting, setIsSelecting] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [foundWords, setFoundWords] = useState(0);
   const gridRef = useRef<HTMLDivElement>(null);
-
-  const wordList = [
-    'PRIVACY', 'PASSWORD', 'SECURE', 'SAFE', 'PROTECT',
-    'ONLINE', 'DIGITAL', 'DATA', 'INFORMATION', 'SECURITY'
-  ];
 
   const gridSize = 12;
 
   useEffect(() => {
     generateWordSearch();
-  }, []);
+  }, [generateWordSearch]);
 
-  const generateWordSearch = () => {
+  const generateWordSearch = useCallback(() => {
+    const wordList = [
+      'PRIVACY', 'PASSWORD', 'SECURE', 'SAFE', 'PROTECT',
+      'ONLINE', 'DIGITAL', 'DATA', 'INFORMATION', 'SECURITY'
+    ];
+    
     // Create empty grid
     const newGrid = Array(gridSize).fill(null).map(() => Array(gridSize).fill(''));
     
@@ -75,7 +74,7 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
     setSelectedCells([]);
     setIsCompleted(false);
     setFoundWords(0);
-  };
+  }, [gridSize]);
 
   const canPlaceWord = (grid: string[][], word: string, row: number, col: number, direction: number): boolean => {
     const directions = [

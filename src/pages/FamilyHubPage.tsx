@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Users, BookOpen, Book, Calendar, Settings, Award, TrendingUp, Clock, CheckCircle, ArrowLeft, User, Shield as Child, UserCheck, Star, Play, Download } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
+import { Users, BookOpen, Book, Settings, Award, TrendingUp, Clock, CheckCircle, ArrowLeft, User, Shield as Child, UserCheck, Star, Play, Download } from 'lucide-react';
 import Logo from '../components/Logo';
 
 interface FamilyMember {
@@ -23,12 +22,10 @@ interface Activity {
   ageGroups: string[];
   duration: string;
   completed: boolean;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
 }
 
 const FamilyHubPage: React.FC = () => {
-  const { theme } = useTheme();
-  const [selectedMember, setSelectedMember] = useState<string>('all');
   const [activeTab, setActiveTab] = useState<'dashboard' | 'activities' | 'progress' | 'resources'>('dashboard');
 
   // Sample family data - in real app this would come from API/database
@@ -216,7 +213,7 @@ const FamilyHubPage: React.FC = () => {
               ].map(({ key, label, icon: Icon }) => (
                 <button
                   key={key}
-                  onClick={() => setActiveTab(key as any)}
+                  onClick={() => setActiveTab(key as 'dashboard' | 'activities' | 'progress' | 'resources')}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
                     activeTab === key 
                       ? 'bg-green-100 text-green-700' 

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { RotateCcw, CheckCircle, Download } from 'lucide-react';
 
 interface ConnectDotsActivityProps {
@@ -27,7 +27,7 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
 
   useEffect(() => {
     drawCanvas();
-  }, [dots, connectedDots, currentDot]);
+  }, [drawCanvas]);
 
   const generateDots = () => {
     // Create a shield shape with dots
@@ -55,7 +55,7 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
     setCurrentDot(null);
   };
 
-  const drawCanvas = () => {
+  const drawCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -102,7 +102,7 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
     ctx.stroke();
 
     // Draw dots
-    dots.forEach((dot, index) => {
+    dots.forEach((dot) => {
       const isConnected = connectedDots.includes(dot.id);
       const isCurrent = currentDot === dot.id;
       
@@ -139,7 +139,7 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
       ctx.font = '18px Arial';
       ctx.fillText('Privacy Panda\'s protection shield is now active!', 300, 240);
     }
-  };
+  }, [dots, connectedDots, currentDot, isCompleted]);
 
   const handleDotClick = (dotId: number) => {
     if (isCompleted) return;

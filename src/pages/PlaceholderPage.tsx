@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Construction } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
 import Logo from '../components/Logo';
 
 interface PlaceholderPageProps {
@@ -15,7 +14,6 @@ const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
   description = "We're working hard to bring you this content. Check back soon!",
   comingSoon = true
 }) => {
-  const { theme } = useTheme();
 
   useEffect(() => {
     // Scroll to top when component mounts
