@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, GraduationCap, Accessibility as UniversalAccess, Gamepad2, Lock, Users, Shield, School, Rocket, ArrowLeft } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
 import Logo from '../components/Logo';
 
 const AboutPage: React.FC = () => {
-  const { theme } = useTheme();
 
   useEffect(() => {
     // Scroll to top when component mounts

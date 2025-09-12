@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, HelpCircle, Play, RotateCcw } from 'lucide-react';
+import { Play, RotateCcw } from 'lucide-react';
 import ColoringActivity from './ColoringActivity';
 import DragDropActivity from './DragDropActivity';
 import MazeActivity from './MazeActivity';
@@ -14,9 +14,7 @@ interface ActivityManagerProps {
 }
 
 const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, onComplete }) => {
-  const [isCompleted, setIsCompleted] = useState(false);
   const [showInstructions, setShowInstructions] = useState(true);
-  const [hasStarted, setHasStarted] = useState(false);
 
   const activityInstructions = {
     coloring: {
@@ -98,24 +96,18 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
   useEffect(() => {
     // Show instructions for new activities
     setShowInstructions(true);
-    setHasStarted(false);
-    setIsCompleted(false);
   }, [activityId]);
 
   const handleComplete = () => {
-    setIsCompleted(true);
     onComplete(activityId);
   };
 
   const handleStart = () => {
     setShowInstructions(false);
-    setHasStarted(true);
   };
 
   const handleRestart = () => {
     setShowInstructions(true);
-    setHasStarted(false);
-    setIsCompleted(false);
   };
 
   const renderActivity = () => {

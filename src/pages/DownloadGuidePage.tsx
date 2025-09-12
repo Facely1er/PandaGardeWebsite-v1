@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Download, FileText } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
 import Logo from '../components/Logo';
 
 interface DownloadGuidePageProps {
@@ -15,7 +14,6 @@ const DownloadGuidePage: React.FC<DownloadGuidePageProps> = ({
   description = "This resource is being prepared for you.",
   type
 }) => {
-  const { theme } = useTheme();
 
   useEffect(() => {
     // Scroll to top when component mounts

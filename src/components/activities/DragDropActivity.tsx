@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Shuffle, CheckCircle, RotateCcw } from 'lucide-react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import { Shuffle, CheckCircle } from 'lucide-react';
 
 interface DragDropActivityProps {
   onComplete: () => void;
@@ -22,7 +22,7 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
   const [score, setScore] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const initialItems: Omit<Item, 'x' | 'y' | 'isDragging'>[] = [
+  const initialItems: Omit<Item, 'x' | 'y' | 'isDragging'>[] = useMemo(() => [
     { id: '1', text: 'My full name', category: 'private' },
     { id: '2', text: 'My favorite color', category: 'safe' },
     { id: '3', text: 'My home address', category: 'private' },
@@ -33,13 +33,13 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
     { id: '8', text: 'My favorite game', category: 'safe' },
     { id: '9', text: 'My social security number', category: 'private' },
     { id: '10', text: 'My favorite movie', category: 'safe' },
-  ];
+  ], []);
 
   useEffect(() => {
     shuffleItems();
-  }, []);
+  }, [shuffleItems]);
 
-  const shuffleItems = () => {
+  const shuffleItems = useCallback(() => {
     const shuffled = initialItems.map((item, index) => ({
       ...item,
       x: 50 + (index % 5) * 100,
@@ -49,7 +49,7 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
     setItems(shuffled);
     setIsCompleted(false);
     setScore(0);
-  };
+  }, [initialItems]);
 
   const getEventPos = (e: React.MouseEvent | React.TouchEvent) => {
     const rect = containerRef.current?.getBoundingClientRect();

@@ -65,7 +65,7 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
         const processedProgress = {
           ...parsed,
           activityDetails: Object.fromEntries(
-            Object.entries(parsed.activityDetails || {}).map(([key, value]: [string, any]) => [
+            Object.entries(parsed.activityDetails || {}).map(([key, value]: [string, ActivityProgress]) => [
               key,
               {
                 ...value,
@@ -174,7 +174,7 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
       const processedProgress = {
         ...parsed,
         activityDetails: Object.fromEntries(
-          Object.entries(parsed.activityDetails || {}).map(([key, value]: [string, any]) => [
+          Object.entries(parsed.activityDetails || {}).map(([key, value]: [string, ActivityProgress]) => [
             key,
             {
               ...value,

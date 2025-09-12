@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { RotateCcw, CheckCircle, Eye, EyeOff } from 'lucide-react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { RotateCcw, CheckCircle, Eye } from 'lucide-react';
 
 interface MatchingActivityProps {
   onComplete: () => void;
@@ -22,7 +22,7 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
   const [moves, setMoves] = useState(0);
   const [matches, setMatches] = useState(0);
 
-  const cardPairs = [
+  const cardPairs = useMemo(() => [
     { symbol: '🔒', meaning: 'Password Protection' },
     { symbol: '🛡️', meaning: 'Security Shield' },
     { symbol: '👁️', meaning: 'Privacy Settings' },
@@ -31,19 +31,19 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
     { symbol: '⚠️', meaning: 'Warning/Alert' },
     { symbol: '🔐', meaning: 'Encryption' },
     { symbol: '🌐', meaning: 'Internet/Online' },
-  ];
+  ], []);
 
   useEffect(() => {
     initializeCards();
-  }, []);
+  }, [initializeCards]);
 
   useEffect(() => {
     if (flippedCards.length === 2) {
       checkForMatch();
     }
-  }, [flippedCards]);
+  }, [flippedCards, checkForMatch]);
 
-  const initializeCards = () => {
+  const initializeCards = useCallback(() => {
     const newCards: Card[] = [];
     
     cardPairs.forEach((pair, index) => {
@@ -75,7 +75,7 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
     setIsCompleted(false);
     setMoves(0);
     setMatches(0);
-  };
+  }, [cardPairs]);
 
   const handleCardClick = (cardId: string) => {
     if (flippedCards.length >= 2 || cards.find(c => c.id === cardId)?.isFlipped || cards.find(c => c.id === cardId)?.isMatched) {
@@ -89,7 +89,7 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
     setFlippedCards(prev => [...prev, cardId]);
   };
 
-  const checkForMatch = () => {
+  const checkForMatch = useCallback(() => {
     const [firstId, secondId] = flippedCards;
     const firstCard = cards.find(c => c.id === firstId);
     const secondCard = cards.find(c => c.id === secondId);
@@ -122,7 +122,7 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
 
     setFlippedCards([]);
     setMoves(prev => prev + 1);
-  };
+  }, [flippedCards, cards, matches, onComplete, cardPairs.length]);
 
   const getCardContent = (card: Card) => {
     if (card.isFlipped || card.isMatched) {

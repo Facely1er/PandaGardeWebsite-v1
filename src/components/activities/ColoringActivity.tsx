@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Palette, RotateCcw, Download, CheckCircle } from 'lucide-react';
+import { RotateCcw, Download, CheckCircle } from 'lucide-react';
 
 interface ColoringActivityProps {
   onComplete: () => void;
