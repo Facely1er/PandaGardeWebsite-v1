@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { ToastProvider } from './contexts/ToastContext';
+import { ProgressProvider } from './contexts/ProgressContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
@@ -9,16 +11,19 @@ import StoryPage from './pages/StoryPage';
 import ActivityBookPage from './pages/ActivityBookPage';
 import AboutPage from './pages/AboutPage';
 import FamilyHubPage from './pages/FamilyHubPage';
+import ContactPage from './pages/ContactPage';
 import PlaceholderPage from './pages/PlaceholderPage';
 import DownloadGuidePage from './pages/DownloadGuidePage';
 
 function App() {
   return (
     <ThemeProvider>
-      <Router>
-        <div className="App">
-          <Header />
-          <Routes>
+      <ToastProvider>
+        <ProgressProvider>
+          <Router>
+            <div className="App">
+              <Header />
+              <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/story" element={<StoryPage />} />
             <Route path="/activity-book" element={<ActivityBookPage />} />
@@ -35,7 +40,7 @@ function App() {
             
             {/* General Pages */}
             <Route path="/educator-tools" element={<PlaceholderPage title="Educator Tools" description="Resources and materials for teachers and educators" />} />
-            <Route path="/contact" element={<PlaceholderPage title="Contact Us" description="Get in touch with the PandaGarde team" />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="/faq" element={<PlaceholderPage title="Frequently Asked Questions" description="Common questions about PandaGarde and privacy education" />} />
             <Route path="/newsletter" element={<PlaceholderPage title="Newsletter" description="Stay updated with the latest privacy education news" />} />
             <Route path="/support" element={<PlaceholderPage title="Support" description="Help and support for using PandaGarde resources" />} />
@@ -60,10 +65,12 @@ function App() {
             <Route path="/guides/modeling-behavior" element={<DownloadGuidePage title="Modeling Good Digital Citizenship" description="Tips for demonstrating healthy online behavior" type="guide" />} />
             <Route path="/guides/privacy-concerns" element={<DownloadGuidePage title="Responding to Privacy Concerns" description="What to do when privacy issues arise" type="guide" />} />
           </Routes>
-          <Footer />
-          <BackToTop />
-        </div>
-      </Router>
+              <Footer />
+              <BackToTop />
+            </div>
+          </Router>
+        </ProgressProvider>
+      </ToastProvider>
     </ThemeProvider>
   );
 }

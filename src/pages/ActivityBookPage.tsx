@@ -17,7 +17,10 @@ import {
   Star
 } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useToast } from '../contexts/ToastContext';
+import { useProgress } from '../contexts/ProgressContext';
 import Logo from '../components/Logo';
+import ActivityManager from '../components/activities/ActivityManager';
 
 interface Activity {
   id: string;
@@ -32,8 +35,10 @@ interface Activity {
 
 const ActivityBookPage: React.FC = () => {
   const { theme } = useTheme();
-  const [completedActivities, setCompletedActivities] = useState<string[]>([]);
+  const { showSuccess } = useToast();
+  const { progress, markActivityCompleted, getOverallProgress } = useProgress();
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
+  const [showActivity, setShowActivity] = useState(false);
 
   const activities: Activity[] = [
     {
@@ -92,23 +97,26 @@ const ActivityBookPage: React.FC = () => {
     },
   ];
 
-  // Load progress from localStorage
-  useEffect(() => {
-    const savedProgress = localStorage.getItem('pandagardeActivityProgress');
-    if (savedProgress) {
-      setCompletedActivities(JSON.parse(savedProgress));
-    }
-  }, []);
 
-  const markActivityCompleted = (activityId: string) => {
-    if (!completedActivities.includes(activityId)) {
-      const newCompleted = [...completedActivities, activityId];
-      setCompletedActivities(newCompleted);
-      localStorage.setItem('pandagardeActivityProgress', JSON.stringify(newCompleted));
-    }
+  const handleActivityStart = (activity: Activity) => {
+    setSelectedActivity(activity);
+    setShowActivity(true);
   };
 
-  const progressPercentage = (completedActivities.length / activities.length) * 100;
+  const handleActivityClose = () => {
+    setShowActivity(false);
+    setSelectedActivity(null);
+  };
+
+  const handleActivityComplete = (activityId: string) => {
+    markActivityCompleted(activityId);
+    const activity = activities.find(a => a.id === activityId);
+    showSuccess('Activity Completed!', `Great job completing "${activity?.title}"! Keep up the great work!`);
+    setShowActivity(false);
+    setSelectedActivity(null);
+  };
+
+  const overallProgress = getOverallProgress();
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -197,15 +205,15 @@ const ActivityBookPage: React.FC = () => {
             <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
               <div 
                 className="h-4 rounded-full transition-all duration-500 bg-gradient-to-r from-green-500 to-green-600"
-                style={{ width: `${progressPercentage}%` }}
+                style={{ width: `${overallProgress.percentage}%` }}
               />
             </div>
             <p className="text-lg" style={{ color: 'var(--gray-600)' }}>
-              {completedActivities.length} of {activities.length} activities completed
+              {overallProgress.completedCount} of {overallProgress.totalCount} activities completed
             </p>
           </div>
 
-          {progressPercentage === 100 && (
+          {overallProgress.percentage === 100 && (
             <div className="text-center bg-yellow-50 border border-yellow-200 rounded-lg p-6" 
                  style={{ 
                    backgroundColor: theme === 'dark' ? 'rgba(251, 191, 36, 0.1)' : '#FFFBEB',
@@ -241,7 +249,7 @@ const ActivityBookPage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {activities.map((activity) => {
             const Icon = activity.icon;
-            const isCompleted = completedActivities.includes(activity.id);
+            const isCompleted = progress.completedActivities.includes(activity.id);
             
             return (
               <div
@@ -253,7 +261,7 @@ const ActivityBookPage: React.FC = () => {
                   backgroundColor: 'var(--card-color)',
                   boxShadow: 'var(--shadow-md)'
                 }}
-                onClick={() => setSelectedActivity(activity)}
+                onClick={() => handleActivityStart(activity)}
               >
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
@@ -290,7 +298,7 @@ const ActivityBookPage: React.FC = () => {
                       className="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all"
                       onClick={(e) => {
                         e.stopPropagation();
-                        setSelectedActivity(activity);
+                        handleActivityStart(activity);
                       }}
                     >
                       {isCompleted ? 'Play Again' : 'Start'}
@@ -303,86 +311,13 @@ const ActivityBookPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Activity Modal */}
-      {selectedActivity && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" 
-               style={{ backgroundColor: 'var(--card-color)' }}>
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold" style={{ color: 'var(--primary)' }}>
-                  {selectedActivity.title}
-                </h2>
-                <button 
-                  onClick={() => setSelectedActivity(null)}
-                  className="text-gray-500 hover:text-gray-700 transition-colors"
-                >
-                  ✕
-                </button>
-              </div>
-              
-              <div className="mb-6">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center text-white mb-4">
-                  <selectedActivity.icon size={32} />
-                </div>
-                
-                <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
-                  {selectedActivity.description}
-                </p>
-                
-                <div className="flex items-center gap-4 mb-6">
-                  <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getDifficultyColor(selectedActivity.difficulty)}`}>
-                    {selectedActivity.difficulty}
-                  </span>
-                  <span className="text-sm" style={{ color: 'var(--gray-500)' }}>
-                    {selectedActivity.duration}
-                  </span>
-                  <span className="text-sm" style={{ color: 'var(--gray-500)' }}>
-                    Ages {selectedActivity.ageGroup}
-                  </span>
-                </div>
-              </div>
-              
-              {/* Activity Preview */}
-              <div className="bg-gray-50 rounded-lg p-8 text-center mb-6" 
-                   style={{ backgroundColor: 'var(--light)' }}>
-                <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center">
-                  <selectedActivity.icon size={40} className="text-white" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--primary)' }}>
-                  Ready to Start?
-                </h3>
-                <p className="text-sm mb-4" style={{ color: 'var(--gray-600)' }}>
-                  This activity will open in a new interactive window where you can play and learn!
-                </p>
-              </div>
-              
-              <div className="flex gap-4">
-                <button
-                  className="flex-1 bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105"
-                  onClick={() => {
-                    // In a real implementation, this would open the interactive activity
-                    markActivityCompleted(selectedActivity.id);
-                    setSelectedActivity(null);
-                  }}
-                >
-                  <Play size={20} className="inline mr-2" />
-                  Start Activity
-                </button>
-                <button
-                  className="px-6 py-3 border border-gray-300 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
-                  style={{ 
-                    borderColor: 'var(--gray-300)',
-                    color: 'var(--gray-700)'
-                  }}
-                  onClick={() => setSelectedActivity(null)}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+      {/* Interactive Activity */}
+      {showActivity && selectedActivity && (
+        <ActivityManager
+          activityId={selectedActivity.id}
+          onClose={handleActivityClose}
+          onComplete={handleActivityComplete}
+        />
       )}
 
       {/* Parent Resources Section */}
