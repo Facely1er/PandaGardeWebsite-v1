@@ -95,7 +95,11 @@ const HeroSection: React.FC = () => {
           <div className="hero-visual slide-in-right">
             <div className="hero-image floating">
               <div className="hero-logo">
-                <Logo />
+                <img 
+                  src="/LogoPandagarde.png" 
+                  alt="PandaGarde Logo" 
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                />
               </div>
               <h3>Privacy Panda Family Hub</h3>
               <p>Interactive learning for ages 5-17</p>
