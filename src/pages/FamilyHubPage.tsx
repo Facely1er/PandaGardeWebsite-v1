@@ -126,7 +126,7 @@ const FamilyHubPage: React.FC = () => {
       icon: Star,
       action: 'app-link',
       color: 'from-orange-500 to-orange-600',
-      url: 'https://github.com/Facely1er/privacypanda'
+      url: 'https://www.hub.pandagarde.com'
     }
   ];
 
@@ -553,7 +553,7 @@ const FamilyHubPage: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <a 
-                href="https://github.com/Facely1er/privacypanda" 
+                href="https://www.hub.pandagarde.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="bg-white rounded-xl p-6 hover:shadow-lg transition-all transform hover:scale-105 block"
@@ -569,7 +569,7 @@ const FamilyHubPage: React.FC = () => {
                   Access the full PrivacyPanda mobile application with advanced features and offline capabilities.
                 </p>
                 <div className="text-orange-600 font-semibold hover:text-orange-700 transition-colors">
-                  Visit GitHub Repository →
+                  Launch App →
                 </div>
               </a>
 
