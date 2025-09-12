@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -8,6 +8,7 @@ const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,18 +20,18 @@ const Header: React.FC = () => {
   }, []);
 
   const navItems = [
-    { icon: Home, label: 'Home', href: '#' },
-    { icon: BookOpen, label: 'Resources', href: '#featured' },
-    { icon: Users, label: 'Age Groups', href: '#age-groups' },
-    { icon: Calendar, label: 'Implementation', href: '#implementation' },
-    { icon: ChalkboardTeacher, label: 'For Parents', href: '#parent-resources' },
-    { icon: Info, label: 'About', href: '/about' },
+    { icon: Home, label: 'Home', href: '/', isExternal: false },
+    { icon: BookOpen, label: 'Activity Book', href: '/activity-book', isExternal: false },
+    { icon: Users, label: 'Age Groups', href: '/#age-groups', isExternal: true },
+    { icon: Calendar, label: 'Implementation', href: '/#implementation', isExternal: true },
+    { icon: ChalkboardTeacher, label: 'For Parents', href: '/#parent-resources', isExternal: true },
+    { icon: Info, label: 'About', href: '/about', isExternal: false },
   ];
 
   const scrollToSection = (href: string) => {
     if (href.startsWith('#')) {
       // If we're not on the home page, navigate there first
-      if (window.location.pathname !== '/') {
+      if (location.pathname !== '/') {
         navigate('/');
         // Wait for navigation to complete, then scroll
         setTimeout(() => {
@@ -40,13 +41,20 @@ const Header: React.FC = () => {
           }
         }, 100);
       } else {
-      const element = document.querySelector(href);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        const element = document.querySelector(href);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
         }
       }
       setIsMobileMenuOpen(false);
     }
+  };
+
+  const isActive = (href: string) => {
+    if (href === '/') {
+      return location.pathname === '/';
+    }
+    return location.pathname.startsWith(href);
   };
 
   return (
@@ -68,10 +76,10 @@ const Header: React.FC = () => {
           <ul className={`nav-menu ${isMobileMenuOpen ? 'active' : ''}`}>
             {navItems.map((item) => (
               <li key={item.label}>
-                {item.href.startsWith('#') ? (
+                {item.isExternal ? (
                   <a
                     href={item.href}
-                    className="nav-link"
+                    className={`nav-link ${isActive(item.href) ? 'active' : ''}`}
                     onClick={(e) => {
                       e.preventDefault();
                       scrollToSection(item.href);
@@ -81,7 +89,11 @@ const Header: React.FC = () => {
                     {item.label}
                   </a>
                 ) : (
-                  <Link to={item.href} className="nav-link">
+                  <Link 
+                    to={item.href} 
+                    className={`nav-link ${isActive(item.href) ? 'active' : ''}`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
                     <item.icon size={16} />
                     {item.label}
                   </Link>

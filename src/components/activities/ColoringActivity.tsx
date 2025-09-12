@@ -115,23 +115,50 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
     ctx.fillText('Protect Your Digital Treasure!', 300, 75);
   };
 
-  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    setIsDrawing(true);
-    draw(e);
+  const getEventPos = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return { x: 0, y: 0 };
+
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    if ('touches' in e) {
+      // Touch event
+      const touch = e.touches[0];
+      return {
+        x: (touch.clientX - rect.left) * scaleX,
+        y: (touch.clientY - rect.top) * scaleY
+      };
+    } else {
+      // Mouse event
+      return {
+        x: (e.clientX - rect.left) * scaleX,
+        y: (e.clientY - rect.top) * scaleY
+      };
+    }
   };
 
-  const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isDrawing) return;
+  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    setIsDrawing(true);
+    const pos = getEventPos(e);
+    drawAt(pos.x, pos.y);
+  };
 
+  const draw = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    if (!isDrawing) return;
+    e.preventDefault();
+    const pos = getEventPos(e);
+    drawAt(pos.x, pos.y);
+  };
+
+  const drawAt = (x: number, y: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
 
     ctx.globalCompositeOperation = 'source-over';
     ctx.strokeStyle = selectedColor;
@@ -260,7 +287,11 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
             onMouseMove={draw}
             onMouseUp={stopDrawing}
             onMouseLeave={stopDrawing}
+            onTouchStart={startDrawing}
+            onTouchMove={draw}
+            onTouchEnd={stopDrawing}
             className="coloring-canvas"
+            style={{ touchAction: 'none' }}
           />
           {isCompleted && (
             <div className="completion-overlay">
@@ -467,22 +498,79 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
           .tools-panel {
             width: 100%;
             height: auto;
-            max-height: 200px;
+            max-height: 250px;
+            overflow-y: auto;
+            padding: 15px;
           }
           
           .colors-grid {
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+          }
+          
+          .color-button {
+            width: 35px;
+            height: 35px;
+            min-width: 35px;
+            min-height: 35px;
           }
           
           .action-buttons {
             flex-direction: row;
             flex-wrap: wrap;
+            gap: 8px;
+          }
+          
+          .action-button {
+            flex: 1;
+            min-width: 80px;
+            padding: 10px 12px;
+            font-size: 13px;
           }
           
           .coloring-canvas {
             width: 100%;
-            max-width: 400px;
-            height: auto;
+            max-width: 350px;
+            height: 250px;
+            touch-action: none;
+          }
+          
+          .canvas-container {
+            padding: 15px;
+            min-height: 300px;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .tools-panel {
+            max-height: 200px;
+            padding: 10px;
+          }
+          
+          .colors-grid {
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+          }
+          
+          .color-button {
+            width: 30px;
+            height: 30px;
+            min-width: 30px;
+            min-height: 30px;
+          }
+          
+          .action-buttons {
+            flex-direction: column;
+          }
+          
+          .action-button {
+            width: 100%;
+            margin-bottom: 5px;
+          }
+          
+          .coloring-canvas {
+            max-width: 300px;
+            height: 200px;
           }
         }
       `}</style>

@@ -200,6 +200,11 @@ body {
   color: var(--warning);
 }
 
+.nav-link.active {
+  color: var(--warning);
+  font-weight: 700;
+}
+
 .nav-link::after {
   content: '';
   position: absolute;
@@ -211,7 +216,8 @@ body {
   transition: var(--transition);
 }
 
-.nav-link:hover::after {
+.nav-link:hover::after,
+.nav-link.active::after {
   width: 100%;
 }
 

@@ -51,19 +51,38 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
     setScore(0);
   };
 
-  const handleMouseDown = (e: React.MouseEvent, item: Item) => {
+  const getEventPos = (e: React.MouseEvent | React.TouchEvent) => {
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (!rect) return { x: 0, y: 0 };
+
+    if ('touches' in e) {
+      // Touch event
+      const touch = e.touches[0];
+      return {
+        x: touch.clientX - rect.left - 50,
+        y: touch.clientY - rect.top - 25
+      };
+    } else {
+      // Mouse event
+      return {
+        x: e.clientX - rect.left - 50,
+        y: e.clientY - rect.top - 25
+      };
+    }
+  };
+
+  const handleStart = (e: React.MouseEvent | React.TouchEvent, item: Item) => {
     e.preventDefault();
     setDraggedItem({ ...item, isDragging: true });
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (!draggedItem) return;
 
     const rect = containerRef.current?.getBoundingClientRect();
     if (!rect) return;
 
-    const x = e.clientX - rect.left - 50; // Offset for item center
-    const y = e.clientY - rect.top - 25;
+    const { x, y } = getEventPos(e);
 
     setItems(prev => prev.map(item => 
       item.id === draggedItem.id 
@@ -72,7 +91,7 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
     ));
   };
 
-  const handleMouseUp = () => {
+  const handleEnd = () => {
     if (!draggedItem) return;
 
     setItems(prev => prev.map(item => 
@@ -160,9 +179,12 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
         <div 
           ref={containerRef}
           className="game-container"
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
+          onMouseMove={handleMove}
+          onMouseUp={handleEnd}
+          onMouseLeave={handleEnd}
+          onTouchMove={handleMove}
+          onTouchEnd={handleEnd}
+          style={{ touchAction: 'none' }}
         >
           {/* Drop Zones */}
           <div className="drop-zone safe-zone">
@@ -181,7 +203,8 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
               key={item.id}
               className={getItemClassName(item)}
               style={getItemStyle(item)}
-              onMouseDown={(e) => handleMouseDown(e, item)}
+              onMouseDown={(e) => handleStart(e, item)}
+              onTouchStart={(e) => handleStart(e, item)}
             >
               {item.text}
             </div>
@@ -445,31 +468,96 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
         
         @media (max-width: 768px) {
           .game-container {
-            padding: 20px;
+            padding: 15px;
+            min-height: 400px;
           }
           
           .drop-zone {
-            width: 150px;
-            height: 80px;
+            width: 140px;
+            height: 70px;
+            font-size: 12px;
           }
           
           .safe-zone {
-            left: 20px;
+            left: 15px;
+            top: 250px;
           }
           
           .private-zone {
-            right: 20px;
+            right: 15px;
+            top: 250px;
+          }
+          
+          .drag-item {
+            width: 90px;
+            height: 45px;
+            font-size: 11px;
+            padding: 8px;
+            min-height: 45px;
+            touch-action: none;
+            user-select: none;
+          }
+          
+          .controls {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+          }
+          
+          .control-button {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px 16px;
+            font-size: 13px;
+          }
+          
+          .instructions {
+            padding: 15px;
+            font-size: 14px;
+          }
+          
+          .score {
+            font-size: 16px;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .game-container {
+            padding: 10px;
+            min-height: 350px;
+          }
+          
+          .drop-zone {
+            width: 120px;
+            height: 60px;
+            font-size: 11px;
+          }
+          
+          .safe-zone {
+            left: 10px;
+            top: 200px;
+          }
+          
+          .private-zone {
+            right: 10px;
+            top: 200px;
           }
           
           .drag-item {
             width: 80px;
             height: 40px;
             font-size: 10px;
+            padding: 6px;
           }
           
           .controls {
             flex-direction: column;
-            align-items: center;
+          }
+          
+          .control-button {
+            width: 100%;
+            margin-bottom: 8px;
           }
         }
       `}</style>

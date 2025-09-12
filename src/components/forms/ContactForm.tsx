@@ -19,16 +19,34 @@ interface FormErrors {
 
 const ContactForm: React.FC = () => {
   const { showSuccess, showError } = useToast();
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-    inquiryType: 'general'
+  const [formData, setFormData] = useState<FormData>(() => {
+    // Load form data from localStorage if available
+    const saved = localStorage.getItem('pandagarde_contact_form');
+    if (saved) {
+      try {
+        return { ...JSON.parse(saved), inquiryType: 'general' };
+      } catch {
+        return {
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+          inquiryType: 'general'
+        };
+      }
+    }
+    return {
+      name: '',
+      email: '',
+      subject: '',
+      message: '',
+      inquiryType: 'general'
+    };
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitAttempts, setSubmitAttempts] = useState(0);
 
   const inquiryTypes = [
     { value: 'general', label: 'General Inquiry' },
@@ -42,24 +60,43 @@ const ContactForm: React.FC = () => {
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
+    // Name validation
     if (!formData.name.trim()) {
       newErrors.name = 'Name is required';
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = 'Name must be at least 2 characters long';
+    } else if (!/^[a-zA-Z\s'-]+$/.test(formData.name.trim())) {
+      newErrors.name = 'Name can only contain letters, spaces, hyphens, and apostrophes';
     }
 
+    // Email validation
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+    } else {
+      const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+      if (!emailRegex.test(formData.email)) {
+        newErrors.email = 'Please enter a valid email address';
+      } else if (formData.email.length > 254) {
+        newErrors.email = 'Email address is too long';
+      }
     }
 
+    // Subject validation
     if (!formData.subject.trim()) {
       newErrors.subject = 'Subject is required';
+    } else if (formData.subject.trim().length < 3) {
+      newErrors.subject = 'Subject must be at least 3 characters long';
+    } else if (formData.subject.trim().length > 100) {
+      newErrors.subject = 'Subject must be less than 100 characters';
     }
 
+    // Message validation
     if (!formData.message.trim()) {
       newErrors.message = 'Message is required';
     } else if (formData.message.trim().length < 10) {
       newErrors.message = 'Message must be at least 10 characters long';
+    } else if (formData.message.trim().length > 2000) {
+      newErrors.message = 'Message must be less than 2000 characters';
     }
 
     setErrors(newErrors);
@@ -68,7 +105,11 @@ const ContactForm: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    const newFormData = { ...formData, [name]: value };
+    setFormData(newFormData);
+    
+    // Save to localStorage
+    localStorage.setItem('pandagarde_contact_form', JSON.stringify(newFormData));
     
     // Clear error when user starts typing
     if (errors[name as keyof FormErrors]) {
@@ -80,29 +121,51 @@ const ContactForm: React.FC = () => {
     e.preventDefault();
     
     if (!validateForm()) {
+      setSubmitAttempts(prev => prev + 1);
+      return;
+    }
+
+    // Rate limiting: prevent spam
+    if (submitAttempts >= 3) {
+      showError('Too Many Attempts', 'Please wait a few minutes before trying again.');
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Simulate API call with better error handling
+      await new Promise((resolve, reject) => {
+        setTimeout(() => {
+          // Simulate occasional network errors
+          if (Math.random() < 0.1) {
+            reject(new Error('Network error'));
+          } else {
+            resolve(true);
+          }
+        }, 2000);
+      });
       
       // In a real implementation, you would send the data to your backend
       console.log('Form submitted:', formData);
       
-      showSuccess('Message Sent!', 'Thank you for your message. We\'ll get back to you soon.');
-      setFormData({
+      showSuccess('Message Sent!', 'Thank you for your message. We\'ll get back to you within 24-48 hours.');
+      
+      // Clear form and localStorage
+      const emptyForm = {
         name: '',
         email: '',
         subject: '',
         message: '',
         inquiryType: 'general'
-      });
+      };
+      setFormData(emptyForm);
+      localStorage.removeItem('pandagarde_contact_form');
+      setSubmitAttempts(0);
     } catch (error) {
       console.error('Error submitting form:', error);
-      showError('Error', 'Sorry, there was an error sending your message. Please try again later.');
+      setSubmitAttempts(prev => prev + 1);
+      showError('Error', 'Sorry, there was an error sending your message. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -270,7 +333,12 @@ const ContactForm: React.FC = () => {
               </span>
             )}
             <div className="character-count">
-              {formData.message.length} characters
+              {formData.message.length}/2000 characters
+              {formData.message.length > 1800 && (
+                <span className="text-orange-600 ml-2">
+                  (Approaching limit)
+                </span>
+              )}
             </div>
           </div>
 
