@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 
 interface ActivityProgress {
   activityId: string;
@@ -30,15 +30,7 @@ interface ProgressContextType {
   importProgress: (data: string) => boolean;
 }
 
-const ProgressContext = createContext<ProgressContextType | undefined>(undefined);
-
-export const useProgress = () => {
-  const context = useContext(ProgressContext);
-  if (!context) {
-    throw new Error('useProgress must be used within a ProgressProvider');
-  }
-  return context;
-};
+export const ProgressContext = createContext<ProgressContextType | undefined>(undefined);
 
 interface ProgressProviderProps {
   children: React.ReactNode;

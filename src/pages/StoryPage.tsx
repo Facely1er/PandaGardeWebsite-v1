@@ -1,6 +1,6 @@
 import React from 'react';
 import { Book, ArrowLeft, Heart, Star } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '../hooks/useTheme';
 import Logo from '../components/Logo';
 
 const StoryPage: React.FC = () => {

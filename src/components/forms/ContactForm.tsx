@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Send, Mail, Phone, MapPin, AlertCircle } from 'lucide-react';
-import { useToast } from '../../contexts/ToastContext';
+import { useToast } from '../../hooks/useToast';
 
 interface FormData {
   name: string;

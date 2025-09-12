@@ -16,9 +16,9 @@ import {
   CheckCircle,
   Star
 } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
-import { useToast } from '../contexts/ToastContext';
-import { useProgress } from '../contexts/ProgressContext';
+import { useTheme } from '../hooks/useTheme';
+import { useToast } from '../hooks/useToast';
+import { useProgress } from '../hooks/useProgress';
 import Logo from '../components/Logo';
 import ActivityManager from '../components/activities/ActivityManager';
 
