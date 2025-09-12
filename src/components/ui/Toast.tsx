@@ -1,13 +1,17 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { CheckCircle, AlertCircle, Info, X } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { CheckCircle, AlertCircle, Info, X, AlertTriangle } from 'lucide-react';
 
 export interface ToastProps {
   id: string;
-  type: 'success' | 'error' | 'info' | 'warning';
+  type: 'success' | 'error' | 'warning' | 'info';
   title: string;
   message?: string;
   duration?: number;
   onClose: (id: string) => void;
+  action?: {
+    label: string;
+    onClick: () => void;
+  };
 }
 
 const Toast: React.FC<ToastProps> = ({
@@ -16,90 +20,133 @@ const Toast: React.FC<ToastProps> = ({
   title,
   message,
   duration = 5000,
-  onClose
+  onClose,
+  action
 }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isLeaving, setIsLeaving] = useState(false);
 
   useEffect(() => {
-    // Trigger animation
-    const timer = setTimeout(() => setIsVisible(true), 100);
-    
-    // Auto close
-    const autoCloseTimer = setTimeout(() => {
-      handleClose();
-    }, duration);
+    // Trigger entrance animation
+    const timer = setTimeout(() => setIsVisible(true), 10);
+    return () => clearTimeout(timer);
+  }, []);
 
-    return () => {
-      clearTimeout(timer);
-      clearTimeout(autoCloseTimer);
-    };
-  }, [duration, handleClose]);
+  useEffect(() => {
+    if (duration > 0) {
+      const timer = setTimeout(() => {
+        handleClose();
+      }, duration);
+      return () => clearTimeout(timer);
+    }
+  }, [duration]);
 
-  const handleClose = useCallback(() => {
-    setIsVisible(false);
-    setTimeout(() => onClose(id), 300);
-  }, [onClose, id]);
+  const handleClose = () => {
+    setIsLeaving(true);
+    setTimeout(() => {
+      onClose(id);
+    }, 300);
+  };
 
   const getIcon = () => {
     switch (type) {
       case 'success':
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
+        return <CheckCircle size={20} />;
       case 'error':
-        return <AlertCircle className="h-5 w-5 text-red-500" />;
+        return <AlertCircle size={20} />;
       case 'warning':
-        return <AlertCircle className="h-5 w-5 text-yellow-500" />;
+        return <AlertTriangle size={20} />;
       case 'info':
-        return <Info className="h-5 w-5 text-blue-500" />;
+        return <Info size={20} />;
       default:
-        return <Info className="h-5 w-5 text-blue-500" />;
+        return <Info size={20} />;
     }
   };
 
-  const getBackgroundColor = () => {
+  const getColors = () => {
     switch (type) {
       case 'success':
-        return 'bg-green-50 border-green-200';
+        return {
+          bg: '#f0f9ff',
+          border: '#10b981',
+          icon: '#10b981',
+          text: '#065f46'
+        };
       case 'error':
-        return 'bg-red-50 border-red-200';
+        return {
+          bg: '#fef2f2',
+          border: '#ef4444',
+          icon: '#ef4444',
+          text: '#991b1b'
+        };
       case 'warning':
-        return 'bg-yellow-50 border-yellow-200';
+        return {
+          bg: '#fffbeb',
+          border: '#f59e0b',
+          icon: '#f59e0b',
+          text: '#92400e'
+        };
       case 'info':
-        return 'bg-blue-50 border-blue-200';
+        return {
+          bg: '#eff6ff',
+          border: '#3b82f6',
+          icon: '#3b82f6',
+          text: '#1e40af'
+        };
       default:
-        return 'bg-blue-50 border-blue-200';
+        return {
+          bg: '#f9fafb',
+          border: '#6b7280',
+          icon: '#6b7280',
+          text: '#374151'
+        };
     }
   };
+
+  const colors = getColors();
 
   return (
     <div
-      className={`${getBackgroundColor()} border rounded-lg p-4 shadow-lg transition-all duration-300 transform ${
-        isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
-      }`}
+      className={`toast ${isVisible ? 'toast-visible' : ''} ${isLeaving ? 'toast-leaving' : ''}`}
+      style={{
+        backgroundColor: colors.bg,
+        borderColor: colors.border,
+        color: colors.text
+      }}
     >
-      <div className="flex items-start">
-        <div className="flex-shrink-0">
+      <div className="toast-content">
+        <div className="toast-icon" style={{ color: colors.icon }}>
           {getIcon()}
         </div>
-        
-        <div className="ml-3 flex-1">
-          <h4 className="text-sm font-medium text-gray-900">
-            {title}
-          </h4>
-          {message && (
-            <p className="mt-1 text-sm text-gray-600">
-              {message}
-            </p>
+        <div className="toast-body">
+          <div className="toast-title">{title}</div>
+          {message && <div className="toast-message">{message}</div>}
+          {action && (
+            <button
+              className="toast-action"
+              onClick={action.onClick}
+              style={{ color: colors.icon }}
+            >
+              {action.label}
+            </button>
           )}
         </div>
-        
-        <div className="ml-4 flex-shrink-0">
-          <button
-            onClick={handleClose}
-            className="inline-flex text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
+        <button
+          className="toast-close"
+          onClick={handleClose}
+          aria-label="Close notification"
+        >
+          <X size={16} />
+        </button>
+      </div>
+      <div className="toast-progress">
+        <div
+          className="toast-progress-bar"
+          style={{
+            backgroundColor: colors.border,
+            animationDuration: `${duration}ms`
+          }}
+        />
       </div>
     </div>
   );
