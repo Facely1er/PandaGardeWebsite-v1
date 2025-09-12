@@ -94,7 +94,9 @@ const HeroSection: React.FC = () => {
           </div>
           <div className="hero-visual slide-in-right">
             <div className="hero-image floating">
-              <Logo />
+              <div className="hero-logo">
+                <Logo />
+              </div>
               <h3>Privacy Panda Family Hub</h3>
               <p>Interactive learning for ages 5-17</p>
             </div>

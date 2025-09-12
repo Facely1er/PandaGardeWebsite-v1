@@ -4,23 +4,23 @@ import { BookOpen, Book, ClipboardCheck as ChalkboardTeacher, School, Shield as 
 
 const Footer: React.FC = () => {
   const socialLinks = [
-    { icon: Facebook, href: '#', label: 'Facebook' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Instagram, href: '#', label: 'Instagram' },
-    { icon: Youtube, href: '#', label: 'YouTube' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' }
+    { icon: Facebook, href: 'https://facebook.com/pandagarde', label: 'Facebook' },
+    { icon: Twitter, href: 'https://twitter.com/pandagarde', label: 'Twitter' },
+    { icon: Instagram, href: 'https://instagram.com/pandagarde', label: 'Instagram' },
+    { icon: Youtube, href: 'https://youtube.com/@pandagarde', label: 'YouTube' },
+    { icon: Linkedin, href: 'https://linkedin.com/company/pandagarde', label: 'LinkedIn' }
   ];
 
   const resourceLinks = [
     { icon: BookOpen, href: '/activity-book', label: 'Activity Book' },
     { icon: Book, href: '/story', label: 'Privacy Panda Story' },
-    { icon: ChalkboardTeacher, href: '#parent-resources', label: 'Parent Guides' },
+    { icon: ChalkboardTeacher, href: '/#parent-resources', label: 'Parent Guides' },
     { icon: School, href: '/educator-tools', label: 'Educator Tools' }
   ];
 
   const ageGroupLinks = [
-    { icon: Child, href: '#age-5-8', label: 'Ages 5-8 Resources' },
-    { icon: User, href: '#age-9-12', label: 'Ages 9-12 Resources' },
+    { icon: Child, href: '/#age-groups', label: 'Ages 5-8 Resources' },
+    { icon: User, href: '/#age-groups', label: 'Ages 9-12 Resources' },
     { icon: UserCheck, href: '/teen-handbook', label: 'Teen Handbook' },
     { icon: Gamepad2, href: '/privacy-explorers', label: 'Privacy Explorers' }
   ];
@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
             <h3>
               <div className="logo-icon" style={{ width: '32px', height: '32px', marginRight: '8px' }}>
                 <img 
-                  src="/src/assets/LogoPandagarde.png" 
+                  src="/LogoPandagarde.png" 
                   alt="PandaGarde Logo" 
                   style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                 />
@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
             <p>Building privacy skills for tomorrow's world. Comprehensive digital privacy education for families with children ages 5-17.</p>
             <div className="social-links">
               {socialLinks.map((social, index) => (
-                <a key={index} href={social.href} className="social-link" aria-label={social.label}>
+                <a key={index} href={social.href} className="social-link" aria-label={social.label} target="_blank" rel="noopener noreferrer">
                   <social.icon size={16} />
                 </a>
               ))}
