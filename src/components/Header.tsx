@@ -22,9 +22,9 @@ const Header: React.FC = () => {
   const navItems = [
     { icon: Home, label: 'Home', href: '/', isExternal: false },
     { icon: BookOpen, label: 'Activity Book', href: '/activity-book', isExternal: false },
-    { icon: Users, label: 'Age Groups', href: '/#age-groups', isExternal: true },
-    { icon: Calendar, label: 'Implementation', href: '/#implementation', isExternal: true },
-    { icon: ChalkboardTeacher, label: 'For Parents', href: '/#parent-resources', isExternal: true },
+    { icon: Users, label: 'Age Groups', href: '/#age-groups', isExternal: false },
+    { icon: Calendar, label: 'Implementation', href: '/#implementation', isExternal: false },
+    { icon: ChalkboardTeacher, label: 'For Parents', href: '/#parent-resources', isExternal: false },
     { icon: Info, label: 'About', href: '/about', isExternal: false },
   ];
 
@@ -39,7 +39,7 @@ const Header: React.FC = () => {
           if (element) {
             element.scrollIntoView({ behavior: 'smooth' });
           }
-        }, 100);
+        }, 300); // Increased timeout for better reliability
       } else {
         const element = document.querySelector(href);
         if (element) {
@@ -53,6 +53,9 @@ const Header: React.FC = () => {
   const isActive = (href: string) => {
     if (href === '/') {
       return location.pathname === '/';
+    }
+    if (href.startsWith('#')) {
+      return location.pathname === '/' && location.hash === href;
     }
     return location.pathname.startsWith(href);
   };
@@ -76,7 +79,7 @@ const Header: React.FC = () => {
           <ul className={`nav-menu ${isMobileMenuOpen ? 'active' : ''}`}>
             {navItems.map((item) => (
               <li key={item.label}>
-                {item.isExternal ? (
+                {item.href.startsWith('#') ? (
                   <a
                     href={item.href}
                     className={`nav-link ${isActive(item.href) ? 'active' : ''}`}
