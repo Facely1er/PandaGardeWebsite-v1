@@ -158,13 +158,13 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
             </div>
             
             <div className="instructions-actions">
-              <button onClick={handleStart} className="start-button">
-                <Play size={20} />
-                Start Activity
-              </button>
-              <button onClick={onClose} className="cancel-button">
-                Cancel
-              </button>
+            <button onClick={handleStart} className="start-button" aria-label="Start the activity">
+              <Play size={20} />
+              Start Activity
+            </button>
+            <button onClick={onClose} className="cancel-button" aria-label="Cancel and close activity">
+              Cancel
+            </button>
             </div>
           </div>
         </div>
@@ -173,10 +173,10 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           <div className="activity-header">
             <h2 className="activity-title">{currentActivity?.title}</h2>
             <div className="activity-controls">
-              <button onClick={handleRestart} className="restart-button" title="Restart Activity">
+              <button onClick={handleRestart} className="restart-button" title="Restart Activity" aria-label="Restart the activity">
                 <RotateCcw size={20} />
               </button>
-              <button onClick={onClose} className="close-button">×</button>
+              <button onClick={onClose} className="close-button" aria-label="Close activity">×</button>
             </div>
           </div>
           {renderActivity()}

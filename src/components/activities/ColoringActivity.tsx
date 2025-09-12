@@ -176,6 +176,19 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
     setIsDrawing(false);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLCanvasElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      // Allow keyboard users to "draw" by pressing Enter or Space
+      const rect = canvasRef.current?.getBoundingClientRect();
+      if (rect) {
+        const x = rect.width / 2;
+        const y = rect.height / 2;
+        drawAt(x, y);
+      }
+    }
+  };
+
   const clearCanvas = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -290,8 +303,12 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
             onTouchStart={startDrawing}
             onTouchMove={draw}
             onTouchEnd={stopDrawing}
+            onKeyDown={handleKeyDown}
             className="coloring-canvas"
             style={{ touchAction: 'none' }}
+            role="img"
+            aria-label="Privacy Panda coloring page with panda and shield outline. Use mouse or touch to color, or press Enter or Space to add color."
+            tabIndex={0}
           />
           {isCompleted && (
             <div className="completion-overlay">
