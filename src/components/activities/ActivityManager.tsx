@@ -6,6 +6,8 @@ import MazeActivity from './MazeActivity';
 import WordSearchActivity from './WordSearchActivity';
 import ConnectDotsActivity from './ConnectDotsActivity';
 import MatchingActivity from './MatchingActivity';
+import { useProgress } from '../../hooks/useProgress';
+import { useToast } from '../../hooks/useToast';
 
 interface ActivityManagerProps {
   activityId: string;
@@ -15,6 +17,9 @@ interface ActivityManagerProps {
 
 const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, onComplete }) => {
   const [showInstructions, setShowInstructions] = useState(true);
+  const [startTime, setStartTime] = useState<Date | null>(null);
+  const { startActivity, completeActivity, getActivityProgress } = useProgress();
+  const { success, error } = useToast();
 
   const activityInstructions = {
     coloring: {
@@ -98,12 +103,29 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
     setShowInstructions(true);
   }, [activityId]);
 
-  const handleComplete = () => {
-    onComplete(activityId);
+  const handleComplete = (score?: number) => {
+    const timeSpent = startTime ? Math.round((Date.now() - startTime.getTime()) / 1000) : 0;
+    
+    // For demo purposes, use a default member ID
+    // In a real app, this would come from user authentication
+    const memberId = 'demo-user';
+    
+    try {
+      completeActivity(memberId, activityId, score, timeSpent);
+      success('Activity Completed!', 'Great job! Your progress has been saved.');
+      onComplete(activityId);
+    } catch (err) {
+      error('Error', 'Failed to save progress. Please try again.');
+    }
   };
 
   const handleStart = () => {
+    setStartTime(new Date());
     setShowInstructions(false);
+    
+    // Start tracking the activity
+    const memberId = 'demo-user';
+    startActivity(memberId, activityId);
   };
 
   const handleRestart = () => {

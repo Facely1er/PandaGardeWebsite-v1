@@ -13,6 +13,10 @@ import AboutPage from './pages/AboutPage';
 import FamilyHubPage from './pages/FamilyHubPage';
 import ContactPage from './pages/ContactPage';
 import PlaceholderPage from './pages/PlaceholderPage';
+import GetStartedPage from './pages/GetStartedPage';
+import TermsPage from './pages/TermsPage';
+import CookiesPage from './pages/CookiesPage';
+import AccessibilityPage from './pages/AccessibilityPage';
 import PrivacyExplorersPage from './pages/PrivacyExplorersPage';
 import PrivacyHandbookPage from './pages/PrivacyHandbookPage';
 import DigitalCitizenshipPage from './pages/DigitalCitizenshipPage';
@@ -72,14 +76,14 @@ function App() {
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/newsletter" element={<PlaceholderPage title="Newsletter" description="Stay updated with the latest privacy education news" />} />
             <Route path="/support" element={<PlaceholderPage title="Support" description="Help and support for using PandaGarde resources" />} />
-            <Route path="/get-started" element={<PlaceholderPage title="Get Started" description="Begin your family's privacy education journey" />} />
+            <Route path="/get-started" element={<GetStartedPage />} />
             <Route path="/implementation-guide" element={<PlaceholderPage title="Implementation Guide" description="Detailed timeline and instructions for implementing Privacy Panda curriculum" />} />
             
             {/* Legal Pages */}
             <Route path="/privacy" element={<PrivacyPolicyPage />} />
-            <Route path="/terms" element={<PlaceholderPage title="Terms of Service" description="Terms and conditions for using PandaGarde" />} />
-            <Route path="/cookies" element={<PlaceholderPage title="Cookie Policy" description="How we use cookies and tracking technologies" />} />
-            <Route path="/accessibility" element={<PlaceholderPage title="Accessibility" description="Our commitment to making PandaGarde accessible to everyone" />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/cookies" element={<CookiesPage />} />
+            <Route path="/accessibility" element={<AccessibilityPage />} />
             
             {/* Download Pages */}
             <Route path="/downloads/coloring-sheets" element={<DownloadGuidePage title="Privacy Panda Coloring Sheets" description="Downloadable coloring pages featuring Privacy Panda and privacy concepts" type="download" />} />
