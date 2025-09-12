@@ -13,6 +13,12 @@ import AboutPage from './pages/AboutPage';
 import FamilyHubPage from './pages/FamilyHubPage';
 import ContactPage from './pages/ContactPage';
 import PlaceholderPage from './pages/PlaceholderPage';
+import PrivacyExplorersPage from './pages/PrivacyExplorersPage';
+import PrivacyHandbookPage from './pages/PrivacyHandbookPage';
+import DigitalCitizenshipPage from './pages/DigitalCitizenshipPage';
+import TeenHandbookPage from './pages/TeenHandbookPage';
+import PrivacyToolsPage from './pages/PrivacyToolsPage';
+import DigitalRightsPage from './pages/DigitalRightsPage';
 import FAQPage from './pages/FAQPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import DownloadGuidePage from './pages/DownloadGuidePage';
@@ -53,12 +59,12 @@ function App() {
             <Route path="/family-hub" element={<FamilyHubPage />} />
             
             {/* Age Group Pages */}
-            <Route path="/privacy-explorers" element={<PlaceholderPage title="Privacy Explorers" description="Interactive privacy challenges and games for ages 9-12" />} />
-            <Route path="/privacy-handbook" element={<PlaceholderPage title="Privacy Protector's Guide" description="Hands-on projects and practical guides for tweens" />} />
-            <Route path="/digital-citizenship" element={<PlaceholderPage title="Digital Citizenship Academy" description="Interactive modules about responsible online behavior" />} />
-            <Route path="/teen-handbook" element={<PlaceholderPage title="Teen Privacy Handbook" description="Comprehensive privacy guide for teenagers" />} />
-            <Route path="/privacy-tools" element={<PlaceholderPage title="Privacy Tools Workshop" description="Hands-on tutorials for privacy tools and settings" />} />
-            <Route path="/digital-rights" element={<PlaceholderPage title="Digital Rights & Law" description="Understanding privacy legislation and digital rights" />} />
+            <Route path="/privacy-explorers" element={<PrivacyExplorersPage />} />
+            <Route path="/privacy-handbook" element={<PrivacyHandbookPage />} />
+            <Route path="/digital-citizenship" element={<DigitalCitizenshipPage />} />
+            <Route path="/teen-handbook" element={<TeenHandbookPage />} />
+            <Route path="/privacy-tools" element={<PrivacyToolsPage />} />
+            <Route path="/digital-rights" element={<DigitalRightsPage />} />
             
             {/* General Pages */}
             <Route path="/educator-tools" element={<PlaceholderPage title="Educator Tools" description="Resources and materials for teachers and educators" />} />
