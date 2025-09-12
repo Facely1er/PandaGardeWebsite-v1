@@ -1,0 +1,493 @@
+import React, { useRef, useEffect, useState } from 'react';
+import { Palette, RotateCcw, Download, CheckCircle } from 'lucide-react';
+
+interface ColoringActivityProps {
+  onComplete: () => void;
+  onClose: () => void;
+}
+
+const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [selectedColor, setSelectedColor] = useState('#FF6B6B');
+  const [brushSize, setBrushSize] = useState(10);
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  const colors = [
+    '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
+    '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9',
+    '#F8C471', '#82E0AA', '#F1948A', '#85C1E9', '#D2B4DE'
+  ];
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Set canvas size
+    canvas.width = 600;
+    canvas.height = 400;
+
+    // Draw the coloring page outline
+    drawColoringPage(ctx);
+  }, []);
+
+  const drawColoringPage = (ctx: CanvasRenderingContext2D) => {
+    // Clear canvas
+    ctx.clearRect(0, 0, 600, 400);
+    
+    // Set background
+    ctx.fillStyle = '#F8F9FA';
+    ctx.fillRect(0, 0, 600, 400);
+
+    // Draw Privacy Panda outline
+    ctx.strokeStyle = '#2C3E50';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    
+    // Panda head
+    ctx.arc(300, 150, 80, 0, 2 * Math.PI);
+    ctx.stroke();
+    
+    // Panda ears
+    ctx.beginPath();
+    ctx.arc(250, 100, 30, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(350, 100, 30, 0, 2 * Math.PI);
+    ctx.stroke();
+    
+    // Panda eyes
+    ctx.fillStyle = '#2C3E50';
+    ctx.beginPath();
+    ctx.arc(280, 140, 8, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(320, 140, 8, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    // Panda nose
+    ctx.beginPath();
+    ctx.arc(300, 160, 5, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    // Panda mouth
+    ctx.strokeStyle = '#2C3E50';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(300, 170, 15, 0, Math.PI);
+    ctx.stroke();
+    
+    // Shield outline
+    ctx.strokeStyle = '#2C3E50';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(200, 250);
+    ctx.lineTo(200, 350);
+    ctx.lineTo(300, 380);
+    ctx.lineTo(400, 350);
+    ctx.lineTo(400, 250);
+    ctx.lineTo(300, 220);
+    ctx.closePath();
+    ctx.stroke();
+    
+    // Lock symbol on shield
+    ctx.strokeStyle = '#2C3E50';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(300, 300, 20, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(280, 300);
+    ctx.lineTo(280, 280);
+    ctx.lineTo(320, 280);
+    ctx.lineTo(320, 300);
+    ctx.stroke();
+    
+    // Text
+    ctx.fillStyle = '#2C3E50';
+    ctx.font = 'bold 20px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('Privacy Panda', 300, 50);
+    ctx.font = '16px Arial';
+    ctx.fillText('Protect Your Digital Treasure!', 300, 75);
+  };
+
+  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    setIsDrawing(true);
+    draw(e);
+  };
+
+  const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!isDrawing) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.strokeStyle = selectedColor;
+    ctx.lineWidth = brushSize;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  };
+
+  const stopDrawing = () => {
+    setIsDrawing(false);
+  };
+
+  const clearCanvas = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    drawColoringPage(ctx);
+    setIsCompleted(false);
+  };
+
+  const downloadImage = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const link = document.createElement('a');
+    link.download = 'privacy-panda-coloring.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  };
+
+  const checkCompletion = () => {
+    // Simple completion check - if user has drawn significantly
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+    
+    let coloredPixels = 0;
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+      const a = data[i + 3];
+      
+      // Check if pixel is not background color and has some opacity
+      if (a > 0 && !(r === 248 && g === 249 && b === 250)) {
+        coloredPixels++;
+      }
+    }
+    
+    // If more than 1000 pixels are colored, consider it complete
+    if (coloredPixels > 1000) {
+      setIsCompleted(true);
+      onComplete();
+    }
+  };
+
+  return (
+    <div className="coloring-activity">
+      <div className="activity-header">
+        <h2 className="activity-title">Privacy Panda Coloring Activity</h2>
+        <button onClick={onClose} className="close-button">×</button>
+      </div>
+      
+      <div className="activity-content">
+        <div className="tools-panel">
+          <div className="color-palette">
+            <h3>Colors</h3>
+            <div className="colors-grid">
+              {colors.map((color) => (
+                <button
+                  key={color}
+                  className={`color-button ${selectedColor === color ? 'selected' : ''}`}
+                  style={{ backgroundColor: color }}
+                  onClick={() => setSelectedColor(color)}
+                />
+              ))}
+            </div>
+          </div>
+          
+          <div className="brush-controls">
+            <h3>Brush Size</h3>
+            <input
+              type="range"
+              min="5"
+              max="25"
+              value={brushSize}
+              onChange={(e) => setBrushSize(Number(e.target.value))}
+              className="brush-slider"
+            />
+            <span className="brush-size">{brushSize}px</span>
+          </div>
+          
+          <div className="action-buttons">
+            <button onClick={clearCanvas} className="action-button">
+              <RotateCcw size={16} />
+              Clear
+            </button>
+            <button onClick={downloadImage} className="action-button">
+              <Download size={16} />
+              Download
+            </button>
+            <button onClick={checkCompletion} className="action-button primary">
+              <CheckCircle size={16} />
+              Check Complete
+            </button>
+          </div>
+        </div>
+        
+        <div className="canvas-container">
+          <canvas
+            ref={canvasRef}
+            onMouseDown={startDrawing}
+            onMouseMove={draw}
+            onMouseUp={stopDrawing}
+            onMouseLeave={stopDrawing}
+            className="coloring-canvas"
+          />
+          {isCompleted && (
+            <div className="completion-overlay">
+              <div className="completion-message">
+                <CheckCircle size={48} className="success-icon" />
+                <h3>Great Job!</h3>
+                <p>You've completed the Privacy Panda coloring activity!</p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      
+      <style jsx>{`
+        .coloring-activity {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.8);
+          display: flex;
+          flex-direction: column;
+          z-index: 1000;
+        }
+        
+        .activity-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 20px;
+          background: white;
+          border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .activity-title {
+          margin: 0;
+          color: #2C3E50;
+          font-size: 24px;
+        }
+        
+        .close-button {
+          background: none;
+          border: none;
+          font-size: 24px;
+          cursor: pointer;
+          color: #666;
+        }
+        
+        .activity-content {
+          display: flex;
+          flex: 1;
+          background: white;
+        }
+        
+        .tools-panel {
+          width: 250px;
+          padding: 20px;
+          background: #f8f9fa;
+          border-right: 1px solid #e0e0e0;
+          overflow-y: auto;
+        }
+        
+        .color-palette h3,
+        .brush-controls h3 {
+          margin: 0 0 15px 0;
+          color: #2C3E50;
+          font-size: 16px;
+        }
+        
+        .colors-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+          margin-bottom: 30px;
+        }
+        
+        .color-button {
+          width: 40px;
+          height: 40px;
+          border: 2px solid transparent;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+        
+        .color-button:hover {
+          transform: scale(1.1);
+        }
+        
+        .color-button.selected {
+          border-color: #2C3E50;
+          transform: scale(1.1);
+        }
+        
+        .brush-controls {
+          margin-bottom: 30px;
+        }
+        
+        .brush-slider {
+          width: 100%;
+          margin: 10px 0;
+        }
+        
+        .brush-size {
+          display: block;
+          text-align: center;
+          color: #666;
+          font-size: 14px;
+        }
+        
+        .action-buttons {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+        
+        .action-button {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 12px 16px;
+          border: 1px solid #ddd;
+          background: white;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.2s;
+          font-size: 14px;
+        }
+        
+        .action-button:hover {
+          background: #f0f0f0;
+        }
+        
+        .action-button.primary {
+          background: #4CAF50;
+          color: white;
+          border-color: #4CAF50;
+        }
+        
+        .action-button.primary:hover {
+          background: #45a049;
+        }
+        
+        .canvas-container {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 20px;
+          position: relative;
+        }
+        
+        .coloring-canvas {
+          border: 2px solid #ddd;
+          border-radius: 8px;
+          cursor: crosshair;
+          background: white;
+        }
+        
+        .completion-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.8);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 10;
+        }
+        
+        .completion-message {
+          background: white;
+          padding: 40px;
+          border-radius: 12px;
+          text-align: center;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .success-icon {
+          color: #4CAF50;
+          margin-bottom: 20px;
+        }
+        
+        .completion-message h3 {
+          margin: 0 0 10px 0;
+          color: #2C3E50;
+          font-size: 24px;
+        }
+        
+        .completion-message p {
+          margin: 0;
+          color: #666;
+          font-size: 16px;
+        }
+        
+        @media (max-width: 768px) {
+          .activity-content {
+            flex-direction: column;
+          }
+          
+          .tools-panel {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+          }
+          
+          .colors-grid {
+            grid-template-columns: repeat(5, 1fr);
+          }
+          
+          .action-buttons {
+            flex-direction: row;
+            flex-wrap: wrap;
+          }
+          
+          .coloring-canvas {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+          }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default ColoringActivity;
