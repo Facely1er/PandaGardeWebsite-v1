@@ -13,6 +13,8 @@ import AboutPage from './pages/AboutPage';
 import FamilyHubPage from './pages/FamilyHubPage';
 import ContactPage from './pages/ContactPage';
 import PlaceholderPage from './pages/PlaceholderPage';
+import FAQPage from './pages/FAQPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import DownloadGuidePage from './pages/DownloadGuidePage';
 
 function App() {
@@ -41,14 +43,14 @@ function App() {
             {/* General Pages */}
             <Route path="/educator-tools" element={<PlaceholderPage title="Educator Tools" description="Resources and materials for teachers and educators" />} />
             <Route path="/contact" element={<ContactPage />} />
-            <Route path="/faq" element={<PlaceholderPage title="Frequently Asked Questions" description="Common questions about PandaGarde and privacy education" />} />
+            <Route path="/faq" element={<FAQPage />} />
             <Route path="/newsletter" element={<PlaceholderPage title="Newsletter" description="Stay updated with the latest privacy education news" />} />
             <Route path="/support" element={<PlaceholderPage title="Support" description="Help and support for using PandaGarde resources" />} />
             <Route path="/get-started" element={<PlaceholderPage title="Get Started" description="Begin your family's privacy education journey" />} />
             <Route path="/implementation-guide" element={<PlaceholderPage title="Implementation Guide" description="Detailed timeline and instructions for implementing Privacy Panda curriculum" />} />
             
             {/* Legal Pages */}
-            <Route path="/privacy" element={<PlaceholderPage title="Privacy Policy" description="How we protect your privacy and data" />} />
+            <Route path="/privacy" element={<PrivacyPolicyPage />} />
             <Route path="/terms" element={<PlaceholderPage title="Terms of Service" description="Terms and conditions for using PandaGarde" />} />
             <Route path="/cookies" element={<PlaceholderPage title="Cookie Policy" description="How we use cookies and tracking technologies" />} />
             <Route path="/accessibility" element={<PlaceholderPage title="Accessibility" description="Our commitment to making PandaGarde accessible to everyone" />} />
