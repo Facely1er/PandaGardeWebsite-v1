@@ -64,7 +64,7 @@ const Header: React.FC = () => {
           <Link to="/" className="logo">
             <div className="logo-icon">
               <img 
-                src="/src/assets/LogoPandagarde.png" 
+                src="/LogoPandagarde.png" 
                 alt="PandaGarde Logo" 
                 className="panda-logo"
                 style={{ width: '100%', height: '100%', objectFit: 'contain' }}
