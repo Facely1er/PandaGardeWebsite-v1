@@ -176,7 +176,7 @@ const DownloadGuidePage: React.FC<DownloadGuidePageProps> = ({
                 Activity Book
               </Link>
               <Link 
-                to="/#parent-resources"
+                to="/"
                 className="bg-green-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors inline-flex items-center gap-2"
               >
                 <Download size={20} />

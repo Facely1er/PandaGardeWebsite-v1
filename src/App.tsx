@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { ProgressProvider } from './contexts/ProgressContext';
@@ -17,6 +17,25 @@ import FAQPage from './pages/FAQPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import DownloadGuidePage from './pages/DownloadGuidePage';
 
+// Component to handle hash navigation
+const HashHandler: React.FC = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      // Wait for the page to render, then scroll to the element
+      setTimeout(() => {
+        const element = document.querySelector(location.hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [location]);
+
+  return null;
+};
+
 function App() {
   return (
     <ThemeProvider>
@@ -24,6 +43,7 @@ function App() {
         <ProgressProvider>
           <Router>
             <div className="App">
+              <HashHandler />
               <Header />
               <Routes>
             <Route path="/" element={<HomePage />} />

@@ -1,8 +1,32 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { BookOpen, Book, ClipboardCheck as ChalkboardTeacher, School, Shield as Child, User, UserCheck, Gamepad2, Mail, HelpCircle, Newspaper, Headphones, Facebook, Twitter, Instagram, Youtube, Linkedin } from 'lucide-react';
 
 const Footer: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const scrollToSection = (href: string) => {
+    if (href.startsWith('#')) {
+      // If we're not on the home page, navigate there first
+      if (location.pathname !== '/') {
+        navigate('/');
+        // Wait for navigation to complete, then scroll
+        setTimeout(() => {
+          const element = document.querySelector(href);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 300);
+      } else {
+        const element = document.querySelector(href);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  };
+
   const socialLinks = [
     { icon: Facebook, href: 'https://facebook.com/pandagarde', label: 'Facebook' },
     { icon: Twitter, href: 'https://twitter.com/pandagarde', label: 'Twitter' },
@@ -63,7 +87,13 @@ const Footer: React.FC = () => {
               {resourceLinks.map((link, index) => (
                 <li key={index}>
                   {link.href.startsWith('#') ? (
-                    <a href={link.href}>
+                    <a 
+                      href={link.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        scrollToSection(link.href);
+                      }}
+                    >
                       <link.icon size={16} />
                       {link.label}
                     </a>
@@ -84,7 +114,13 @@ const Footer: React.FC = () => {
               {ageGroupLinks.map((link, index) => (
                 <li key={index}>
                   {link.href.startsWith('#') ? (
-                    <a href={link.href}>
+                    <a 
+                      href={link.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        scrollToSection(link.href);
+                      }}
+                    >
                       <link.icon size={16} />
                       {link.label}
                     </a>
