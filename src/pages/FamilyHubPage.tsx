@@ -127,14 +127,6 @@ const FamilyHubPage: React.FC = () => {
       action: 'app-link',
       color: 'from-orange-500 to-orange-600',
       url: 'https://www.hub.pandagarde.com'
-    },
-    {
-      title: 'Main Website',
-      description: 'Visit the main PandaGarde website',
-      icon: BookOpen,
-      action: 'main-site',
-      color: 'from-blue-500 to-blue-600',
-      url: 'https://www.pandagarde.com'
     }
   ];
 
@@ -323,7 +315,7 @@ const FamilyHubPage: React.FC = () => {
                 Quick Actions
               </h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {quickActions.map((action, index) => {
                   const IconComponent = action.icon;
                   
@@ -559,7 +551,7 @@ const FamilyHubPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <a 
                 href="https://www.hub.pandagarde.com" 
                 target="_blank" 
@@ -578,27 +570,6 @@ const FamilyHubPage: React.FC = () => {
                 </p>
                 <div className="text-orange-600 font-semibold hover:text-orange-700 transition-colors">
                   Launch App →
-                </div>
-              </a>
-
-              <a 
-                href="https://www.pandagarde.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="bg-white rounded-xl p-6 hover:shadow-lg transition-all transform hover:scale-105 block"
-                style={{ backgroundColor: 'var(--card-color)' }}
-              >
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                  <BookOpen size={24} className="text-blue-600" />
-                </div>
-                <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
-                  Main Website
-                </h3>
-                <p className="mb-4" style={{ color: 'var(--gray-600)' }}>
-                  Visit the main PandaGarde website for comprehensive privacy education resources.
-                </p>
-                <div className="text-blue-600 font-semibold hover:text-blue-700 transition-colors">
-                  Visit Website →
                 </div>
               </a>
 
