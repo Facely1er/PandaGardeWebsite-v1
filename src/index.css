@@ -351,7 +351,7 @@ body {
 .hero-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  gap: 30px;
   align-items: center;
   position: relative;
   z-index: 2;
@@ -362,7 +362,7 @@ body {
   font-weight: 800;
   line-height: 1.1;
   color: white;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .hero-text .highlight {
@@ -375,14 +375,15 @@ body {
 .hero-text p {
   font-size: 20px;
   color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 32px;
+  margin-bottom: 20px;
   line-height: 1.6;
 }
 
 .hero-buttons {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
 .btn-primary {
@@ -468,27 +469,27 @@ body {
 
 /* Age Group Selector */
 .age-group-selector {
-  margin-top: 40px;
+  margin-top: 20px;
   text-align: center;
 }
 
 .age-group-selector h3 {
   color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   font-size: 18px;
 }
 
 .age-group-buttons {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 .age-group-button {
   display: inline-flex;
   align-items: center;
-  padding: 12px 24px;
+  padding: 10px 20px;
   background-color: rgba(255, 255, 255, 0.1);
   color: white;
   border: 2px solid rgba(255, 255, 255, 0.3);
@@ -497,7 +498,7 @@ body {
   font-weight: bold;
   transition: var(--transition);
   backdrop-filter: blur(10px);
-  gap: 8px;
+  gap: 6px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -1350,7 +1351,7 @@ body {
   
   .hero-content {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 25px;
     text-align: center;
   }
   
