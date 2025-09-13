@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { BookOpen, Book, ClipboardCheck as ChalkboardTeacher, ArrowRight } from 'lucide-react';
 
 const features = [
@@ -26,6 +27,21 @@ const features = [
 ];
 
 const FeaturedSection: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleCardClick = (link: string) => {
+    if (link.startsWith('#')) {
+      // Handle anchor links
+      const element = document.querySelector(link);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Handle route navigation
+      navigate(link);
+    }
+  };
+
   return (
     <section className="featured-section" id="featured">
       <div className="container">
@@ -37,16 +53,28 @@ const FeaturedSection: React.FC = () => {
         
         <div className="featured-grid">
           {features.map((feature, index) => (
-            <div key={index} className="feature-card fade-in">
+            <div 
+              key={index} 
+              className="feature-card fade-in"
+              onClick={() => handleCardClick(feature.link)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleCardClick(feature.link);
+                }
+              }}
+            >
               <div className="card-image">
                 <feature.icon size={80} />
               </div>
               <div className="card-content">
                 <h3><feature.icon size={20} /> {feature.title}</h3>
                 <p>{feature.description}</p>
-                <a href={feature.link} className="card-link">
+                <div className="card-link">
                   {feature.linkText} <ArrowRight size={16} />
-                </a>
+                </div>
               </div>
             </div>
           ))}
