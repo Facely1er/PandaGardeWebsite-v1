@@ -1667,6 +1667,43 @@ body {
     padding: 10px 20px;
     font-size: 13px;
   }
+
+  /* Enhanced mobile spacing for activity book page */
+  .activity-card {
+    text-align: center;
+  }
+
+  .activity-card .card-icon {
+    margin: 0 auto;
+  }
+
+  .activity-card .card-title {
+    text-align: center;
+  }
+
+  .activity-card .card-content {
+    text-align: center;
+  }
+
+  /* Better mobile touch targets */
+  .mobile-touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Improved mobile spacing */
+  .mobile-section-spacing {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .mobile-heading-spacing {
+    margin-bottom: 1.5rem;
+  }
+
+  .mobile-text-spacing {
+    margin-bottom: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1698,5 +1735,39 @@ body {
   /* Hide floating elements on mobile for better performance */
   .floating-element {
     display: none;
+  }
+
+  /* Extra small screen improvements */
+  .mobile-xs-spacing {
+    padding: 1rem;
+  }
+
+  .mobile-xs-text {
+    font-size: 0.875rem;
+  }
+
+  .mobile-xs-heading {
+    font-size: 1.5rem;
+  }
+
+  .mobile-xs-button {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  /* Better touch targets for very small screens */
+  .mobile-xs-touch-target {
+    min-height: 48px;
+    min-width: 48px;
+  }
+
+  /* Improved card spacing on very small screens */
+  .mobile-xs-card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .mobile-xs-grid {
+    gap: 1rem;
   }
 }
