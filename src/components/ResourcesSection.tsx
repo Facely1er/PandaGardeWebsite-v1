@@ -99,13 +99,23 @@ const ResourcesSection: React.FC = () => {
             <div className="resource-card">
               <h4>Privacy Panda Certificate</h4>
               <p>Celebrate learning with these printable certificates to award children after they complete privacy education activities.</p>
-              <Link to="/downloads/certificates" className="button">Download PDF</Link>
+              <button 
+                onClick={() => window.open('/downloads/certificates.html', '_blank')}
+                className="button"
+              >
+                Download PDF
+              </button>
             </div>
             
             <div className="resource-card">
               <h4>Family Internet Agreement</h4>
               <p>A customizable document to help families establish guidelines for internet use, with child-friendly language and signature spaces.</p>
-              <Link to="/downloads/family-agreement" className="button">Download PDF</Link>
+              <button 
+                onClick={() => window.open('/downloads/family-agreement.html', '_blank')}
+                className="button"
+              >
+                Download PDF
+              </button>
             </div>
           </div>
         </div>
