@@ -144,12 +144,14 @@ const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
               >
                 Privacy Panda Story
               </Link>
-              <Link 
-                to="/family-hub"
+              <a 
+                href="https://www.hub.pandagarde.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-yellow-500 text-green-900 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-400 transition-colors"
               >
                 Family Hub
-              </Link>
+              </a>
             </div>
           </div>
         </div>

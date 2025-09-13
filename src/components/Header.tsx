@@ -116,7 +116,7 @@ const Header: React.FC = () => {
             >
               {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
             </button>
-            <Link to="/family-hub" className="cta-button">Family Hub</Link>
+            <a href="https://www.hub.pandagarde.com" className="cta-button" target="_blank" rel="noopener noreferrer">Family Hub</a>
           </div>
           
           <button
