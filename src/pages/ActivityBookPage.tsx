@@ -263,7 +263,10 @@ const ActivityBookPage: React.FC = () => {
               <p style={{ color: 'var(--gray-700)' }}>
                 You've completed all activities and earned your Privacy Champion certificate!
               </p>
-              <button className="mt-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105">
+              <button 
+                onClick={() => window.open('/downloads/certificates.html', '_blank')}
+                className="mt-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105"
+              >
                 <Award size={20} className="inline mr-2" />
                 Get Certificate
               </button>
@@ -474,7 +477,10 @@ const ActivityBookPage: React.FC = () => {
               <p className="mb-4 text-sm md:text-base" style={{ color: 'var(--gray-600)' }}>
                 Download coloring sheets, certificates, and offline activities to continue learning away from screens.
               </p>
-              <button className="text-green-600 font-semibold hover:text-green-700 transition-colors text-sm md:text-base">
+              <button 
+                onClick={() => window.open('/downloads/coloring-sheets.html', '_blank')}
+                className="text-green-600 font-semibold hover:text-green-700 transition-colors text-sm md:text-base"
+              >
                 Download Resources →
               </button>
             </div>
