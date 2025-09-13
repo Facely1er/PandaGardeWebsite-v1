@@ -39,12 +39,15 @@ const Header: React.FC = () => {
           if (element) {
             element.scrollIntoView({ behavior: 'smooth' });
           }
-        }, 300); // Increased timeout for better reliability
+        }, 500); // Increased timeout for better reliability
       } else {
-        const element = document.querySelector(href);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
+        // Use requestAnimationFrame for smoother scrolling
+        requestAnimationFrame(() => {
+          const element = document.querySelector(href);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
       }
       setIsMobileMenuOpen(false);
     }

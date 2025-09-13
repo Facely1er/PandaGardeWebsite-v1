@@ -84,6 +84,11 @@ const AgeGroupSection: React.FC = () => {
     setActiveTab(ageId);
   };
 
+  const handleCardClick = (link: string) => {
+    // Navigate to the resource page
+    window.location.href = link;
+  };
+
   return (
     <section className="age-group-section" id="age-groups">
       <div className="container">
@@ -116,21 +121,33 @@ const AgeGroupSection: React.FC = () => {
               <p>{group.description}</p>
               <div className="featured-grid">
                 {group.resources.map((resource, index) => (
-                  <div key={index} className="feature-card">
+                  <div 
+                    key={index} 
+                    className="feature-card"
+                    onClick={() => handleCardClick(resource.link)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleCardClick(resource.link);
+                      }
+                    }}
+                  >
                     <div className="card-image">
                       <resource.icon size={80} />
                     </div>
                     <div className="card-content">
                       <h3><resource.icon size={20} /> {resource.title}</h3>
                       <p>{resource.description}</p>
-                     <Link to={resource.link} className="card-link">
+                      <div className="card-link">
                         {resource.title.includes('Explore') ? 'Explore' : 
                          resource.title.includes('Start') ? 'Start' : 
                          resource.title.includes('Enter') ? 'Enter' : 
                          resource.title.includes('Read') ? 'Read' : 
                          resource.title.includes('Access') ? 'Access' : 'Learn More'} 
                         <ArrowRight size={16} />
-                     </Link>
+                      </div>
                     </div>
                   </div>
                 ))}

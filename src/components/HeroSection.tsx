@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Book, Shield as Child, User, UserCheck } from 'lucide-react';
+import { BookOpen, Book, Shield as Child, User, UserCheck, Sparkles, Star } from 'lucide-react';
 import Logo from './Logo';
 
 interface AgeGroupButtonProps {
@@ -25,6 +25,19 @@ const AgeGroupButton: React.FC<AgeGroupButtonProps> = ({ ageGroup, label, icon, 
 );
 
 const HeroSection: React.FC = () => {
+  const [floatingElements, setFloatingElements] = useState<Array<{id: number, x: number, y: number, delay: number}>>([]);
+
+  useEffect(() => {
+    // Create floating elements for animation
+    const elements = Array.from({ length: 15 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      delay: Math.random() * 5
+    }));
+    setFloatingElements(elements);
+  }, []);
+
   const switchAgeTab = (ageGroup: string) => {
     const element = document.getElementById(`age-${ageGroup}`);
     if (element) {
@@ -52,6 +65,21 @@ const HeroSection: React.FC = () => {
 
   return (
     <section className="hero">
+      {/* Floating animated elements */}
+      {floatingElements.map((element) => (
+        <div
+          key={element.id}
+          className="floating-element"
+          style={{
+            left: `${element.x}%`,
+            top: `${element.y}%`,
+            animationDelay: `${element.delay}s`
+          }}
+        >
+          {element.id % 3 === 0 ? <Sparkles size={16} /> : <Star size={12} />}
+        </div>
+      ))}
+      
       <div className="container">
         <div className="hero-content">
           <div className="hero-text slide-in-left">

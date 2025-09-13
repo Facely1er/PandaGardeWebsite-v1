@@ -169,7 +169,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 0;
+  padding: 8px 0;
 }
 
 .logo {
@@ -301,9 +301,12 @@ body {
 /* ===== HERO SECTION ===== */
 .hero {
   background: var(--gradient-hero);
-  padding: 140px 0 100px;
+  padding: 120px 0 100px;
   position: relative;
   overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
 }
 
 .hero::before {
@@ -315,6 +318,34 @@ body {
   bottom: 0;
   background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
   opacity: 0.5;
+  animation: backgroundMove 20s ease-in-out infinite;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+  animation: floatingBubbles 15s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes backgroundMove {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  25% { transform: translateX(-10px) translateY(-5px); }
+  50% { transform: translateX(5px) translateY(-10px); }
+  75% { transform: translateX(-5px) translateY(5px); }
+}
+
+@keyframes floatingBubbles {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; }
+  33% { transform: translateY(-20px) scale(1.1); opacity: 0.9; }
+  66% { transform: translateY(10px) scale(0.9); opacity: 0.5; }
 }
 
 .hero-content {
@@ -467,13 +498,31 @@ body {
   transition: var(--transition);
   backdrop-filter: blur(10px);
   gap: 8px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.age-group-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.age-group-button:hover::before {
+  left: 100%;
 }
 
 .age-group-button:hover {
   background-color: rgba(255, 255, 255, 0.2);
   border-color: var(--warning);
   color: var(--warning);
-  transform: translateY(-3px);
+  transform: translateY(-3px) scale(1.05);
   box-shadow: var(--shadow-md);
 }
 
@@ -582,11 +631,86 @@ body {
   overflow: hidden;
   box-shadow: var(--shadow-md);
   transition: var(--transition);
+  cursor: pointer;
+  position: relative;
 }
 
 .feature-card:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-lg);
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(129, 199, 132, 0.1) 100%);
+  opacity: 0;
+  transition: var(--transition);
+  z-index: 1;
+}
+
+.feature-card:hover::before {
+  opacity: 1;
+}
+
+.feature-card .card-content {
+  position: relative;
+  z-index: 2;
+}
+
+.feature-card .card-image {
+  position: relative;
+  z-index: 2;
+}
+
+/* Enhanced card interactions */
+.feature-card:active {
+  transform: translateY(-2px) scale(0.98);
+}
+
+.feature-card:focus {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Loading state for navigation */
+.feature-card.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.feature-card.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid var(--primary);
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 10;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Improved button interactions */
+.btn-primary:active,
+.btn-secondary:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+.age-group-button:active {
+  transform: translateY(-1px) scale(0.95);
 }
 
 .card-image {
@@ -630,6 +754,8 @@ body {
   text-decoration: none;
   font-weight: 600;
   transition: var(--transition);
+  position: relative;
+  z-index: 3;
 }
 
 .card-link:hover {
@@ -1162,6 +1288,34 @@ body {
   animation: pulse 2s ease-in-out infinite;
 }
 
+/* Floating elements animation */
+.floating-element {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.6);
+  animation: floatAround 8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes floatAround {
+  0%, 100% { 
+    transform: translateY(0) rotate(0deg); 
+    opacity: 0.6; 
+  }
+  25% { 
+    transform: translateY(-20px) rotate(90deg); 
+    opacity: 0.8; 
+  }
+  50% { 
+    transform: translateY(-10px) rotate(180deg); 
+    opacity: 0.4; 
+  }
+  75% { 
+    transform: translateY(-30px) rotate(270deg); 
+    opacity: 0.7; 
+  }
+}
+
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   .mobile-menu-toggle {
@@ -1178,6 +1332,7 @@ body {
     flex-direction: column;
     padding: 20px;
     box-shadow: var(--shadow-lg);
+    z-index: 1001;
   }
   
   .nav-menu.active {
@@ -1189,7 +1344,8 @@ body {
   }
   
   .hero {
-    padding: 120px 0 80px;
+    padding: 100px 0 80px;
+    min-height: 90vh;
   }
   
   .hero-content {
@@ -1304,5 +1460,10 @@ body {
   
   .age-group-button {
     width: 100%;
+  }
+  
+  /* Hide floating elements on mobile for better performance */
+  .floating-element {
+    display: none;
   }
 }
