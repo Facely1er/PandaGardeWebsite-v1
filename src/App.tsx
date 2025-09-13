@@ -26,6 +26,7 @@ import DigitalRightsPage from './pages/DigitalRightsPage';
 import FAQPage from './pages/FAQPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import DownloadGuidePage from './pages/DownloadGuidePage';
+import ExternalRedirect from './components/ExternalRedirect';
 
 // Component to handle hash navigation
 const HashHandler: React.FC = () => {
@@ -60,7 +61,7 @@ function App() {
             <Route path="/story" element={<StoryPage />} />
             <Route path="/activity-book" element={<ActivityBookPage />} />
             <Route path="/about" element={<AboutPage />} />
-            <Route path="/family-hub" element={<FamilyHubPage />} />
+            <Route path="/family-hub" element={<ExternalRedirect url="https://www.hub.pandagarde.com" />} />
             
             {/* Age Group Pages */}
             <Route path="/privacy-explorers" element={<PrivacyExplorersPage />} />

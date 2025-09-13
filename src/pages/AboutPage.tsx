@@ -241,13 +241,15 @@ const AboutPage: React.FC = () => {
                 Ready to start building privacy skills with your family? Explore our platform and discover how 
                 PandaGarde can help your family navigate the digital world with confidence.
               </p>
-              <Link 
-                to="/family-hub"
+              <a 
+                href="https://www.hub.pandagarde.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 bg-white text-green-600 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg"
               >
                 <Rocket size={24} />
                 Start Your Journey
-              </Link>
+              </a>
             </div>
           </section>
         </div>

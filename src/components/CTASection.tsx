@@ -10,10 +10,10 @@ const CTASection: React.FC = () => {
           <h2>Start Your Family's Privacy Journey Today</h2>
           <p>Join families building essential privacy skills for a digital future. PandaGarde makes learning about online safety fun, engaging, and effective.</p>
           <div className="cta-buttons">
-            <Link to="/family-hub" className="btn-primary">
+            <a href="https://www.hub.pandagarde.com" className="btn-primary" target="_blank" rel="noopener noreferrer">
               <Rocket size={20} />
               Access Family Hub
-            </Link>
+            </a>
             <Link to="/get-started" className="btn-secondary">
               <UserPlus size={20} />
               Create Free Account
