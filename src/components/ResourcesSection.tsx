@@ -77,13 +77,23 @@ const ResourcesSection: React.FC = () => {
             <div className="resource-card">
               <h4>Privacy Panda Coloring Sheets</h4>
               <p>A set of 10 coloring pages featuring Privacy Panda and friends learning about online safety. Each page includes a simple privacy tip.</p>
-              <Link to="/downloads/coloring-sheets" className="button">Download PDF</Link>
+              <button 
+                onClick={() => window.open('/downloads/coloring-sheets.html', '_blank')}
+                className="button"
+              >
+                Download PDF
+              </button>
             </div>
             
             <div className="resource-card">
               <h4>Digital Safety Posters</h4>
               <p>Classroom-ready posters highlighting key privacy concepts. Print and display these colorful reminders about password safety and personal information.</p>
-              <Link to="/downloads/safety-posters" className="button">Download PDF</Link>
+              <button 
+                onClick={() => window.open('/downloads/safety-posters.html', '_blank')}
+                className="button"
+              >
+                Download PDF
+              </button>
             </div>
             
             <div className="resource-card">
