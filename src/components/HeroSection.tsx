@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Book, Shield as Child, User, UserCheck, Sparkles, Star } from 'lucide-react';
+import { BookOpen, Book, Shield as Child, User, UserCheck, Sparkles, Star, ArrowRight, Play, Download, Heart } from 'lucide-react';
 import Logo from './Logo';
 
 interface AgeGroupButtonProps {
@@ -26,6 +26,9 @@ const AgeGroupButton: React.FC<AgeGroupButtonProps> = ({ ageGroup, label, icon, 
 
 const HeroSection: React.FC = () => {
   const [floatingElements, setFloatingElements] = useState<Array<{id: number, x: number, y: number, delay: number}>>([]);
+  const [isHovered, setIsHovered] = useState<string | null>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const heroRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     // Create floating elements for animation
@@ -36,6 +39,24 @@ const HeroSection: React.FC = () => {
       delay: Math.random() * 5
     }));
     setFloatingElements(elements);
+  }, []);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (heroRef.current) {
+        const rect = heroRef.current.getBoundingClientRect();
+        setMousePosition({
+          x: ((e.clientX - rect.left) / rect.width) * 100,
+          y: ((e.clientY - rect.top) / rect.height) * 100
+        });
+      }
+    };
+
+    const heroElement = heroRef.current;
+    if (heroElement) {
+      heroElement.addEventListener('mousemove', handleMouseMove);
+      return () => heroElement.removeEventListener('mousemove', handleMouseMove);
+    }
   }, []);
 
   const switchAgeTab = (ageGroup: string) => {
@@ -64,7 +85,15 @@ const HeroSection: React.FC = () => {
   };
 
   return (
-    <section className="hero">
+    <section className="hero" ref={heroRef}>
+      {/* Interactive background gradient that follows mouse */}
+      <div 
+        className="hero-bg-interactive"
+        style={{
+          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)`
+        }}
+      />
+      
       {/* Floating animated elements */}
       {floatingElements.map((element) => (
         <div
@@ -85,15 +114,45 @@ const HeroSection: React.FC = () => {
           <div className="hero-text slide-in-left">
             <h1>Welcome to the <span className="highlight">Privacy Panda</span> Family Hub</h1>
             <p>Helping children ages 5-17 learn about digital privacy and online safety through fun, engaging activities and stories tailored for different age groups.</p>
+            
+            {/* Enhanced action buttons with hover effects */}
             <div className="hero-buttons">
-              <Link to="/activity-book" className="btn-primary">
+              <Link 
+                to="/activity-book" 
+                className="btn-primary"
+                onMouseEnter={() => setIsHovered('activity')}
+                onMouseLeave={() => setIsHovered(null)}
+              >
                 <BookOpen size={20} />
                 Explore Activity Book
+                <ArrowRight size={16} className={`btn-icon ${isHovered === 'activity' ? 'btn-icon-active' : ''}`} />
               </Link>
-              <Link to="/story" className="btn-secondary">
-                <Book size={20} />
-                Read Privacy Panda's Story
+              <Link 
+                to="/story" 
+                className="btn-secondary"
+                onMouseEnter={() => setIsHovered('story')}
+                onMouseLeave={() => setIsHovered(null)}
+              >
+                <Play size={20} />
+                Watch Privacy Panda's Story
+                <Heart size={16} className={`btn-icon ${isHovered === 'story' ? 'btn-icon-active' : ''}`} />
               </Link>
+            </div>
+
+            {/* Quick stats */}
+            <div className="hero-stats">
+              <div className="stat-item">
+                <span className="stat-number">3</span>
+                <span className="stat-label">Age Groups</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">50+</span>
+                <span className="stat-label">Activities</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">100%</span>
+                <span className="stat-label">Free</span>
+              </div>
             </div>
             
             <div className="age-group-selector">
@@ -120,6 +179,7 @@ const HeroSection: React.FC = () => {
               </div>
             </div>
           </div>
+          
           <div className="hero-visual slide-in-right">
             <div className="hero-image floating">
               <div className="hero-logo">
@@ -131,6 +191,18 @@ const HeroSection: React.FC = () => {
               </div>
               <h3>Privacy Panda Family Hub</h3>
               <p>Interactive learning for ages 5-17</p>
+              
+              {/* Interactive features in the visual */}
+              <div className="hero-visual-features">
+                <div className="feature-badge">
+                  <Download size={16} />
+                  <span>Downloadable Resources</span>
+                </div>
+                <div className="feature-badge">
+                  <Sparkles size={16} />
+                  <span>Interactive Activities</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

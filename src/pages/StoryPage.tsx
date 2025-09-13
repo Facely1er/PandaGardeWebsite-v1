@@ -1,14 +1,57 @@
-import React from 'react';
-import { Book, ArrowLeft, Heart, Star } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Book, ArrowLeft, Heart, Star, Play, Pause, Volume2, VolumeX, RotateCcw, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import Logo from '../components/Logo';
 
 const StoryPage: React.FC = () => {
   const { theme } = useTheme();
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [readingProgress, setReadingProgress] = useState(0);
+  const [showControls, setShowControls] = useState(false);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const togglePlay = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
+  };
+
+  const resetStory = () => {
+    setCurrentPage(0);
+    setReadingProgress(0);
+    setIsPlaying(false);
+    scrollToTop();
+  };
+
+  // Track reading progress
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      setReadingProgress(Math.min(progress, 100));
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Auto-scroll when playing
+  useEffect(() => {
+    if (isPlaying) {
+      const interval = setInterval(() => {
+        window.scrollBy(0, 1);
+      }, 50);
+      return () => clearInterval(interval);
+    }
+  }, [isPlaying]);
 
   return (
     <div className="min-h-screen bg-white" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
@@ -63,14 +106,56 @@ const StoryPage: React.FC = () => {
       {/* Navigation */}
       <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
         <div className="container mx-auto px-6 py-4">
-          <button 
-            onClick={() => window.history.back()}
-            className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
-            style={{ color: 'var(--primary-light)' }}
-          >
-            <ArrowLeft size={16} />
-            Back to Home
-          </button>
+          <div className="flex items-center justify-between">
+            <button 
+              onClick={() => window.history.back()}
+              className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
+              style={{ color: 'var(--primary-light)' }}
+            >
+              <ArrowLeft size={16} />
+              Back to Home
+            </button>
+            
+            {/* Interactive Controls */}
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-md">
+                <button
+                  onClick={togglePlay}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  title={isPlaying ? 'Pause' : 'Play'}
+                >
+                  {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+                </button>
+                <button
+                  onClick={toggleMute}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  title={isMuted ? 'Unmute' : 'Mute'}
+                >
+                  {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+                </button>
+                <button
+                  onClick={resetStory}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  title="Reset Story"
+                >
+                  <RotateCcw size={20} />
+                </button>
+              </div>
+              
+              {/* Reading Progress */}
+              <div className="flex items-center gap-2">
+                <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-green-500 transition-all duration-300"
+                    style={{ width: `${readingProgress}%` }}
+                  />
+                </div>
+                <span className="text-sm font-medium" style={{ color: 'var(--gray-600)' }}>
+                  {Math.round(readingProgress)}%
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -96,6 +181,33 @@ const StoryPage: React.FC = () => {
           {/* Story Text */}
           <article className="prose prose-lg max-w-none">
             <div className="story-content space-y-6 text-lg leading-relaxed" style={{ color: 'var(--gray-800)' }}>
+              {/* Interactive Story Elements */}
+              <div className="story-interactive-elements mb-8 p-6 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border-l-4 border-green-400" 
+                   style={{ 
+                     backgroundColor: 'var(--light)',
+                     borderLeftColor: 'var(--primary-light)'
+                   }}>
+                <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
+                  🎮 Interactive Story Features
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+                    <div className="text-2xl mb-2">🎵</div>
+                    <p className="text-sm font-medium">Audio Narration</p>
+                    <p className="text-xs text-gray-600">Click play to hear the story</p>
+                  </div>
+                  <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+                    <div className="text-2xl mb-2">📖</div>
+                    <p className="text-sm font-medium">Auto-Scroll</p>
+                    <p className="text-xs text-gray-600">Watch the story unfold</p>
+                  </div>
+                  <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+                    <div className="text-2xl mb-2">🎯</div>
+                    <p className="text-sm font-medium">Progress Tracking</p>
+                    <p className="text-xs text-gray-600">See how much you've read</p>
+                  </div>
+                </div>
+              </div>
               <p className="text-xl font-semibold text-green-700 italic" style={{ color: 'var(--primary-light)' }}>
                 Deep in the lush Bamboo Digital Forest lived a panda named Po. He was different from the other pandas because instead of munching on regular bamboo all day, he loved to play with digital bamboo tablets. These magical tablets could connect to all parts of the forest, letting animals share stories, photos, and messages.
               </p>
