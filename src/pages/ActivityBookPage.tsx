@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Book, 
@@ -14,7 +14,13 @@ import {
   Play,
   Download,
   CheckCircle,
-  Star
+  Star,
+  Filter,
+  SortAsc,
+  Clock,
+  TrendingUp,
+  Sparkles,
+  Zap
 } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useToast } from '../contexts/ToastContext';
@@ -39,6 +45,11 @@ const ActivityBookPage: React.FC = () => {
   const { progress, markActivityCompleted, getOverallProgress } = useProgress();
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
   const [showActivity, setShowActivity] = useState(false);
+  const [filter, setFilter] = useState<'all' | 'easy' | 'medium' | 'hard'>('all');
+  const [sortBy, setSortBy] = useState<'name' | 'difficulty' | 'duration'>('name');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
+  const [animatedStats, setAnimatedStats] = useState({ completed: 0, total: 0 });
 
   const activities: Activity[] = [
     {
@@ -117,6 +128,38 @@ const ActivityBookPage: React.FC = () => {
   };
 
   const overallProgress = getOverallProgress();
+
+  // Animate stats on load
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimatedStats({
+        completed: overallProgress.completedCount,
+        total: overallProgress.totalCount
+      });
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [overallProgress]);
+
+  // Filter and sort activities
+  const filteredActivities = activities
+    .filter(activity => {
+      const matchesFilter = filter === 'all' || activity.difficulty.toLowerCase() === filter;
+      const matchesSearch = activity.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           activity.description.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchesFilter && matchesSearch;
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case 'difficulty':
+          const difficultyOrder = { 'Easy': 1, 'Medium': 2, 'Hard': 3 };
+          return difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty];
+        case 'duration':
+          return parseInt(a.duration) - parseInt(b.duration);
+        case 'name':
+        default:
+          return a.title.localeCompare(b.title);
+      }
+    });
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -209,7 +252,7 @@ const ActivityBookPage: React.FC = () => {
               />
             </div>
             <p className="text-lg" style={{ color: 'var(--gray-600)' }}>
-              {overallProgress.completedCount} of {overallProgress.totalCount} activities completed
+              {animatedStats.completed} of {animatedStats.total} activities completed
             </p>
           </div>
 
@@ -237,17 +280,110 @@ const ActivityBookPage: React.FC = () => {
 
       {/* Activities Grid */}
       <section className="container mx-auto px-6 pb-16">
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
             Choose Your Activity
           </h2>
-          <p className="text-lg max-w-2xl mx-auto" style={{ color: 'var(--gray-600)' }}>
+          <p className="text-lg max-w-2xl mx-auto mb-8" style={{ color: 'var(--gray-600)' }}>
             Click on any activity to start learning about digital privacy through interactive games and exercises.
           </p>
+          
+          {/* Interactive Controls */}
+          <div className="bg-white rounded-xl shadow-lg p-6 mb-8" style={{ backgroundColor: 'var(--card-color)' }}>
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              {/* Search */}
+              <div className="flex-1 min-w-64">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                  <input
+                    type="text"
+                    placeholder="Search activities..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    style={{ backgroundColor: 'var(--white)' }}
+                  />
+                </div>
+              </div>
+              
+              {/* Filter and Sort */}
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                >
+                  <Filter size={16} />
+                  Filter
+                </button>
+                
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as 'name' | 'difficulty' | 'duration')}
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  style={{ backgroundColor: 'var(--white)' }}
+                >
+                  <option value="name">Sort by Name</option>
+                  <option value="difficulty">Sort by Difficulty</option>
+                  <option value="duration">Sort by Duration</option>
+                </select>
+              </div>
+            </div>
+            
+            {/* Filter Options */}
+            {showFilters && (
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => setFilter('all')}
+                    className={`px-4 py-2 rounded-lg transition-colors ${
+                      filter === 'all' ? 'bg-green-500 text-white' : 'bg-gray-100 hover:bg-gray-200'
+                    }`}
+                  >
+                    All Activities
+                  </button>
+                  <button
+                    onClick={() => setFilter('easy')}
+                    className={`px-4 py-2 rounded-lg transition-colors ${
+                      filter === 'easy' ? 'bg-green-500 text-white' : 'bg-gray-100 hover:bg-gray-200'
+                    }`}
+                  >
+                    Easy
+                  </button>
+                  <button
+                    onClick={() => setFilter('medium')}
+                    className={`px-4 py-2 rounded-lg transition-colors ${
+                      filter === 'medium' ? 'bg-green-500 text-white' : 'bg-gray-100 hover:bg-gray-200'
+                    }`}
+                  >
+                    Medium
+                  </button>
+                  <button
+                    onClick={() => setFilter('hard')}
+                    className={`px-4 py-2 rounded-lg transition-colors ${
+                      filter === 'hard' ? 'bg-green-500 text-white' : 'bg-gray-100 hover:bg-gray-200'
+                    }`}
+                  >
+                    Hard
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {activities.map((activity) => {
+          {filteredActivities.length === 0 ? (
+            <div className="col-span-full text-center py-12">
+              <div className="text-6xl mb-4">🔍</div>
+              <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--primary)' }}>
+                No activities found
+              </h3>
+              <p style={{ color: 'var(--gray-600)' }}>
+                Try adjusting your search or filter criteria
+              </p>
+            </div>
+          ) : (
+            filteredActivities.map((activity) => {
             const Icon = activity.icon;
             const isCompleted = progress.completedActivities.includes(activity.id);
             
@@ -307,7 +443,8 @@ const ActivityBookPage: React.FC = () => {
                 </div>
               </div>
             );
-          })}
+          })
+          )}
         </div>
       </section>
 
