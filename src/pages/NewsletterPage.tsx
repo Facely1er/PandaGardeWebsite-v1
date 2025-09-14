@@ -12,7 +12,7 @@ const NewsletterPage: React.FC = () => {
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email) {
       showError('Email Required', 'Please enter your email address.');
       return;
@@ -28,7 +28,7 @@ const NewsletterPage: React.FC = () => {
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
+
       setIsSubscribed(true);
       showSuccess('Successfully Subscribed!', 'Thank you for joining our privacy education newsletter.');
       setEmail('');
@@ -92,30 +92,30 @@ const NewsletterPage: React.FC = () => {
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
           }} />
         </div>
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex items-center justify-center mb-8">
             <div className="w-20 h-20 mr-4">
               <Logo />
             </div>
           </div>
-          
+
           <div className="text-center">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
               <Mail size={16} />
               <span className="text-sm font-semibold">NEWSLETTER</span>
             </div>
-            
+
             <h1 className="text-5xl font-bold mb-6 leading-tight">
               Privacy Education Newsletter
               <span className="block text-yellow-300">Stay Updated</span>
             </h1>
-            
+
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              Stay updated with the latest privacy education news, new activities, 
+              Stay updated with the latest privacy education news, new activities,
               and expert tips to help your family navigate the digital world safely.
             </p>
-            
+
             <div className="flex items-center justify-center gap-6 text-sm">
               <div className="flex items-center gap-2">
                 <Star size={16} />
@@ -137,7 +137,7 @@ const NewsletterPage: React.FC = () => {
       {/* Navigation */}
       <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
         <div className="container mx-auto px-6 py-4">
-          <Link 
+          <Link
             to="/"
             className="inline-flex items-center gap-2 text-pink-600 hover:text-pink-700 font-medium transition-colors"
             style={{ color: 'var(--primary-light)' }}
@@ -155,10 +155,10 @@ const NewsletterPage: React.FC = () => {
             Join Our Privacy Education Community
           </h2>
           <p className="text-lg mb-8" style={{ color: 'var(--gray-600)' }}>
-            Get monthly updates with the latest privacy education resources, activities, and expert tips 
+            Get monthly updates with the latest privacy education resources, activities, and expert tips
             delivered directly to your inbox. No spam, just valuable content for your family.
           </p>
-          
+
           {!isSubscribed ? (
             <form onSubmit={handleSubscribe} className="max-w-md mx-auto">
               <div className="flex gap-4">
@@ -316,14 +316,14 @@ const NewsletterPage: React.FC = () => {
             Join thousands of families who are already learning about digital privacy with our monthly newsletter.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link 
+            <Link
               to="/activity-book"
               className="bg-white text-pink-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
             >
               <BookOpen size={20} />
               Try Activities
             </Link>
-            <Link 
+            <Link
               to="/family-hub"
               className="bg-pink-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-pink-800 transition-colors inline-flex items-center gap-2"
             >

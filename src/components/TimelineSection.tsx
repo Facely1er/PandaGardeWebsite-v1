@@ -136,11 +136,11 @@ const TimelineSection: React.FC = () => {
           <h2><Calendar size={32} />Implementation Timeline</h2>
           <p>Flexible guides to implementing Privacy Panda education in various settings.</p>
         </div>
-        
+
         <div className="timeline-intro">
           <p>The Privacy Panda curriculum is designed to be flexible and adaptable to different educational settings and timeframes. Choose the implementation model that best fits your needs:</p>
         </div>
-        
+
         <div className="timeline-options">
           {Object.entries(timelines).map(([key, timeline]) => (
             <div
@@ -152,7 +152,7 @@ const TimelineSection: React.FC = () => {
             </div>
           ))}
         </div>
-        
+
         <div className="timeline-container fade-in">
           <div className="timeline-summary">
             <h3>{timelines[activeTimeline].title}</h3>
