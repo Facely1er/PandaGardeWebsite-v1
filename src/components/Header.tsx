@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun } from 'lucide-react';
+import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, User, LogOut } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAuth } from '../contexts/AuthContext';
+import AuthModal from './AuthModal';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -116,6 +120,29 @@ const Header: React.FC = () => {
             >
               {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
             </button>
+            
+            {user ? (
+              <div className="user-menu">
+                <span className="user-email">{user.email}</span>
+                <button
+                  onClick={signOut}
+                  className="sign-out-button"
+                  aria-label="Sign out"
+                >
+                  <LogOut size={16} />
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowAuthModal(true)}
+                className="sign-in-button"
+              >
+                <User size={16} />
+                Sign In
+              </button>
+            )}
+            
             <a href="https://www.hub.pandagarde.com" className="cta-button" target="_blank" rel="noopener noreferrer">Family Hub</a>
           </div>
           
@@ -128,8 +155,80 @@ const Header: React.FC = () => {
           </button>
         </nav>
       </div>
+      
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)} 
+      />
     </header>
   );
 };
+
+// Add CSS for authentication elements
+const authStyles = `
+  .user-menu {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-right: 16px;
+  }
+
+  .user-email {
+    font-size: 14px;
+    color: #666;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sign-in-button,
+  .sign-out-button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .sign-in-button:hover,
+  .sign-out-button:hover {
+    background: #45a049;
+  }
+
+  .sign-out-button {
+    background: #f44336;
+  }
+
+  .sign-out-button:hover {
+    background: #d32f2f;
+  }
+
+  @media (max-width: 768px) {
+    .user-menu {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .user-email {
+      max-width: 200px;
+    }
+  }
+`;
+
+// Inject styles
+if (typeof document !== 'undefined') {
+  const styleSheet = document.createElement('style');
+  styleSheet.textContent = authStyles;
+  document.head.appendChild(styleSheet);
+}
 
 export default Header;
