@@ -21,7 +21,7 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
   // Maze: 0 = path, 1 = wall, 2 = start, 3 = end
   const generateMaze = useCallback(() => {
     const newMaze = Array(mazeSize.height).fill(null).map(() => Array(mazeSize.width).fill(1));
-    
+
     // Create a simple maze pattern
     for (let y = 1; y < mazeSize.height - 1; y += 2) {
       for (let x = 1; x < mazeSize.width - 1; x += 2) {
@@ -30,7 +30,7 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
         if (y + 1 < mazeSize.height - 1) newMaze[y + 1][x] = 0;
       }
     }
-    
+
     // Add some random walls
     for (let i = 0; i < 20; i++) {
       const x = Math.floor(Math.random() * (mazeSize.width - 2)) + 1;
@@ -39,11 +39,11 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
         newMaze[y][x] = 1;
       }
     }
-    
+
     // Set start and end positions
     newMaze[1][1] = 2; // Start
     newMaze[mazeSize.height - 2][mazeSize.width - 2] = 3; // End
-    
+
     return newMaze;
   }, [mazeSize]);
 
@@ -102,12 +102,12 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
     // Draw player
     const playerX = playerPos.x * cellSize + cellSize / 2;
     const playerY = playerPos.y * cellSize + cellSize / 2;
-    
+
     ctx.fillStyle = '#FFD700';
     ctx.beginPath();
     ctx.arc(playerX, playerY, cellSize / 3, 0, 2 * Math.PI);
     ctx.fill();
-    
+
     // Draw player eyes
     ctx.fillStyle = '#2C3E50';
     ctx.beginPath();
@@ -142,7 +142,7 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
     // Check if the new position is valid (not a wall)
     if (maze[newY] && maze[newY][newX] !== 1) {
       setPlayerPos({ x: newX, y: newY });
-      
+
       // Check if reached the end
       if (maze[newY][newX] === 3) {
         setIsCompleted(true);
@@ -198,7 +198,7 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
         <h2 className="activity-title">Safe Online Journey Maze</h2>
         <button onClick={onClose} className="close-button">×</button>
       </div>
-      
+
       <div className="activity-content">
         <div className="instructions">
           <p>Help Privacy Panda navigate through the digital world safely! Use arrow keys or buttons to move.</p>
@@ -220,7 +220,7 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
 
         <div className="maze-container">
           <canvas ref={canvasRef} className="maze-canvas" />
-          
+
           {isCompleted && (
             <div className="completion-overlay">
               <div className="completion-message">
@@ -235,45 +235,45 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
 
         <div className="controls">
           <div className="movement-controls">
-            <button 
-              onClick={() => movePlayer('up')} 
+            <button
+              onClick={() => movePlayer('up')}
               className="control-button movement"
               disabled={isCompleted}
             >
               <ArrowUp size={20} />
             </button>
             <div className="horizontal-controls">
-              <button 
-                onClick={() => movePlayer('left')} 
+              <button
+                onClick={() => movePlayer('left')}
                 className="control-button movement"
                 disabled={isCompleted}
               >
                 <ArrowLeft size={20} />
               </button>
-              <button 
-                onClick={() => movePlayer('right')} 
+              <button
+                onClick={() => movePlayer('right')}
                 className="control-button movement"
                 disabled={isCompleted}
               >
                 <ArrowRight size={20} />
               </button>
             </div>
-            <button 
-              onClick={() => movePlayer('down')} 
+            <button
+              onClick={() => movePlayer('down')}
               className="control-button movement"
               disabled={isCompleted}
             >
               <ArrowDown size={20} />
             </button>
           </div>
-          
+
           <button onClick={resetMaze} className="control-button">
             <RotateCcw size={16} />
             Reset Maze
           </button>
         </div>
       </div>
-      
+
       <style jsx>{`
         .maze-activity {
           position: fixed;
@@ -286,7 +286,7 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
           flex-direction: column;
           z-index: 1000;
         }
-        
+
         .activity-header {
           display: flex;
           justify-content: space-between;
@@ -295,13 +295,13 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
           background: white;
           border-bottom: 1px solid #e0e0e0;
         }
-        
+
         .activity-title {
           margin: 0;
           color: #2C3E50;
           font-size: 24px;
         }
-        
+
         .close-button {
           background: none;
           border: none;
@@ -309,32 +309,32 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
           cursor: pointer;
           color: #666;
         }
-        
+
         .activity-content {
           flex: 1;
           background: white;
           display: flex;
           flex-direction: column;
         }
-        
+
         .instructions {
           padding: 20px;
           background: #f8f9fa;
           border-bottom: 1px solid #e0e0e0;
         }
-        
+
         .instructions p {
           margin: 0 0 15px 0;
           color: #2C3E50;
           font-size: 16px;
         }
-        
+
         .legend {
           display: flex;
           gap: 20px;
           flex-wrap: wrap;
         }
-        
+
         .legend-item {
           display: flex;
           align-items: center;
@@ -342,26 +342,26 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
           font-size: 14px;
           color: #666;
         }
-        
+
         .legend-color {
           width: 20px;
           height: 20px;
           border-radius: 4px;
           border: 1px solid #ccc;
         }
-        
+
         .legend-color.start {
           background: #4CAF50;
         }
-        
+
         .legend-color.end {
           background: #FF6B6B;
         }
-        
+
         .legend-color.wall {
           background: #2C3E50;
         }
-        
+
         .maze-container {
           flex: 1;
           display: flex;
@@ -371,14 +371,14 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
           position: relative;
           background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
-        
+
         .maze-canvas {
           border: 2px solid #ddd;
           border-radius: 8px;
           background: white;
           box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        
+
         .completion-overlay {
           position: absolute;
           top: 0;
@@ -391,7 +391,7 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
           align-items: center;
           z-index: 10;
         }
-        
+
         .completion-message {
           background: white;
           padding: 40px;
@@ -400,24 +400,24 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
           max-width: 400px;
         }
-        
+
         .success-icon {
           color: #4CAF50;
           margin-bottom: 20px;
         }
-        
+
         .completion-message h3 {
           margin: 0 0 15px 0;
           color: #2C3E50;
           font-size: 24px;
         }
-        
+
         .completion-message p {
           margin: 0 0 10px 0;
           color: #666;
           font-size: 16px;
         }
-        
+
         .controls {
           padding: 20px;
           background: #f8f9fa;
@@ -427,19 +427,19 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
           align-items: center;
           gap: 20px;
         }
-        
+
         .movement-controls {
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 5px;
         }
-        
+
         .horizontal-controls {
           display: flex;
           gap: 5px;
         }
-        
+
         .control-button {
           display: flex;
           align-items: center;
@@ -455,41 +455,41 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
           min-width: 50px;
           min-height: 50px;
         }
-        
+
         .control-button:hover:not(:disabled) {
           background: #f0f0f0;
         }
-        
+
         .control-button:disabled {
           opacity: 0.5;
           cursor: not-allowed;
         }
-        
+
         .control-button.movement {
           background: #4CAF50;
           color: white;
           border-color: #4CAF50;
         }
-        
+
         .control-button.movement:hover:not(:disabled) {
           background: #45a049;
         }
-        
+
         @media (max-width: 768px) {
           .maze-container {
             padding: 10px;
           }
-          
+
           .maze-canvas {
             max-width: 100%;
             height: auto;
           }
-          
+
           .controls {
             flex-direction: column;
             gap: 15px;
           }
-          
+
           .legend {
             flex-direction: column;
             gap: 10px;

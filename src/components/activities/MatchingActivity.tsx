@@ -45,7 +45,7 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
 
   const initializeCards = useCallback(() => {
     const newCards: Card[] = [];
-    
+
     cardPairs.forEach((pair, index) => {
       // Add symbol card
       newCards.push({
@@ -56,7 +56,7 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
         isFlipped: false,
         isMatched: false,
       });
-      
+
       // Add meaning card
       newCards.push({
         id: `meaning-${index}`,
@@ -82,7 +82,7 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
       return;
     }
 
-    setCards(prev => prev.map(card => 
+    setCards(prev => prev.map(card =>
       card.id === cardId ? { ...card, isFlipped: true } : card
     ));
 
@@ -96,13 +96,13 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
 
     if (firstCard && secondCard && firstCard.pairId === secondCard.pairId) {
       // Match found
-      setCards(prev => prev.map(card => 
-        card.id === firstId || card.id === secondId 
+      setCards(prev => prev.map(card =>
+        card.id === firstId || card.id === secondId
           ? { ...card, isMatched: true }
           : card
       ));
       setMatches(prev => prev + 1);
-      
+
       if (matches + 1 === cardPairs.length) {
         setTimeout(() => {
           setIsCompleted(true);
@@ -112,8 +112,8 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
     } else {
       // No match - flip cards back after delay
       setTimeout(() => {
-        setCards(prev => prev.map(card => 
-          card.id === firstId || card.id === secondId 
+        setCards(prev => prev.map(card =>
+          card.id === firstId || card.id === secondId
             ? { ...card, isFlipped: false }
             : card
         ));
@@ -146,7 +146,7 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
         <h2 className="activity-title">Privacy Symbol Matching</h2>
         <button onClick={onClose} className="close-button">×</button>
       </div>
-      
+
       <div className="activity-content">
         <div className="instructions">
           <p>Match each privacy symbol with its correct meaning! Click on cards to flip them.</p>
@@ -199,7 +199,7 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
           </div>
         )}
       </div>
-      
+
       <style jsx>{`
         .matching-activity {
           position: fixed;
@@ -212,7 +212,7 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
           flex-direction: column;
           z-index: 1000;
         }
-        
+
         .activity-header {
           display: flex;
           justify-content: space-between;
@@ -221,13 +221,13 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
           background: white;
           border-bottom: 1px solid #e0e0e0;
         }
-        
+
         .activity-title {
           margin: 0;
           color: #2C3E50;
           font-size: 24px;
         }
-        
+
         .close-button {
           background: none;
           border: none;
@@ -235,49 +235,49 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
           cursor: pointer;
           color: #666;
         }
-        
+
         .activity-content {
           flex: 1;
           background: white;
           display: flex;
           flex-direction: column;
         }
-        
+
         .instructions {
           padding: 20px;
           background: #f8f9fa;
           border-bottom: 1px solid #e0e0e0;
         }
-        
+
         .instructions p {
           margin: 0 0 15px 0;
           color: #2C3E50;
           font-size: 16px;
         }
-        
+
         .stats {
           display: flex;
           gap: 30px;
         }
-        
+
         .stat {
           display: flex;
           flex-direction: column;
           align-items: center;
         }
-        
+
         .stat-label {
           font-size: 14px;
           color: #666;
           margin-bottom: 5px;
         }
-        
+
         .stat-value {
           font-size: 18px;
           font-weight: bold;
           color: #4CAF50;
         }
-        
+
         .game-container {
           flex: 1;
           display: flex;
@@ -286,7 +286,7 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
           padding: 20px;
           background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
-        
+
         .matching-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
@@ -294,7 +294,7 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
           max-width: 600px;
           width: 100%;
         }
-        
+
         .matching-card {
           aspect-ratio: 1;
           position: relative;
@@ -302,16 +302,16 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
           transform-style: preserve-3d;
           transition: transform 0.6s;
         }
-        
+
         .matching-card.flipped {
           transform: rotateY(180deg);
         }
-        
+
         .matching-card.matched {
           transform: rotateY(180deg);
           opacity: 0.7;
         }
-        
+
         .card-content,
         .card-back {
           position: absolute;
@@ -326,13 +326,13 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
           box-shadow: 0 4px 12px rgba(0,0,0,0.1);
           transition: all 0.3s ease;
         }
-        
+
         .card-back {
           background: linear-gradient(135deg, #4CAF50, #45a049);
           color: white;
           transform: rotateY(180deg);
         }
-        
+
         .card-content {
           background: white;
           color: #2C3E50;
@@ -341,32 +341,32 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
           padding: 10px;
           border: 2px solid #e0e0e0;
         }
-        
+
         .symbol-card .card-content {
           font-size: 24px;
           background: #E8F5E8;
           border-color: #4CAF50;
         }
-        
+
         .meaning-card .card-content {
           background: #E3F2FD;
           border-color: #2196F3;
         }
-        
+
         .matching-card:hover .card-back {
           transform: rotateY(180deg) scale(1.05);
         }
-        
+
         .matching-card:hover .card-content {
           transform: scale(1.05);
         }
-        
+
         .matching-card.matched .card-content {
           background: #d4edda;
           border-color: #4CAF50;
           color: #155724;
         }
-        
+
         .controls {
           padding: 20px;
           background: #f8f9fa;
@@ -375,7 +375,7 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
           gap: 15px;
           justify-content: center;
         }
-        
+
         .control-button {
           display: flex;
           align-items: center;
@@ -389,11 +389,11 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
           font-size: 14px;
           font-weight: 500;
         }
-        
+
         .control-button:hover {
           background: #f0f0f0;
         }
-        
+
         .completion-overlay {
           position: absolute;
           top: 0;
@@ -406,7 +406,7 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
           align-items: center;
           z-index: 10;
         }
-        
+
         .completion-message {
           background: white;
           padding: 40px;
@@ -415,39 +415,39 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
           max-width: 400px;
         }
-        
+
         .success-icon {
           color: #4CAF50;
           margin-bottom: 20px;
         }
-        
+
         .completion-message h3 {
           margin: 0 0 15px 0;
           color: #2C3E50;
           font-size: 24px;
         }
-        
+
         .completion-message p {
           margin: 0 0 10px 0;
           color: #666;
           font-size: 16px;
         }
-        
+
         @media (max-width: 768px) {
           .matching-grid {
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
           }
-          
+
           .card-content {
             font-size: 12px;
             padding: 8px;
           }
-          
+
           .symbol-card .card-content {
             font-size: 20px;
           }
-          
+
           .stats {
             flex-direction: column;
             gap: 15px;

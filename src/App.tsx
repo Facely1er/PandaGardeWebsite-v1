@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { ToastProvider } from './contexts/ToastContext';
-import { ProgressProvider } from './contexts/ProgressContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { FamilyProvider } from './contexts/FamilyContext';
 import { SearchProvider } from './contexts/SearchContext';
+import { ProgressProvider } from './contexts/ProgressContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
@@ -80,7 +80,7 @@ function App() {
             <Route path="/teen-handbook" element={<TeenHandbookPage />} />
             <Route path="/privacy-tools" element={<PrivacyToolsPage />} />
             <Route path="/digital-rights" element={<DigitalRightsPage />} />
-            
+
             {/* General Pages */}
             <Route path="/educator-tools" element={<EducatorToolsPage />} />
             <Route path="/contact" element={<ContactPage />} />
@@ -89,19 +89,19 @@ function App() {
             <Route path="/support" element={<SupportPage />} />
             <Route path="/get-started" element={<GetStartedPage />} />
             <Route path="/implementation-guide" element={<ImplementationGuidePage />} />
-            
+
             {/* Legal Pages */}
             <Route path="/privacy" element={<PrivacyPolicyPage />} />
             <Route path="/terms" element={<TermsPage />} />
             <Route path="/cookies" element={<CookiesPage />} />
             <Route path="/accessibility" element={<AccessibilityPage />} />
-            
+
             {/* Download Pages */}
             <Route path="/downloads/coloring-sheets" element={<DownloadGuidePage title="Privacy Panda Coloring Sheets" description="Downloadable coloring pages featuring Privacy Panda and privacy concepts" type="download" />} />
             <Route path="/downloads/safety-posters" element={<DownloadGuidePage title="Digital Safety Posters" description="Classroom-ready posters highlighting key privacy concepts" type="download" />} />
             <Route path="/downloads/certificates" element={<DownloadGuidePage title="Privacy Champion Certificates" description="Printable certificates to celebrate privacy education milestones" type="download" />} />
             <Route path="/downloads/family-agreement" element={<DownloadGuidePage title="Family Internet Agreement" description="Customizable family guidelines for internet use" type="download" />} />
-            
+
             {/* Guide Pages */}
             <Route path="/guides/device-setup" element={<DownloadGuidePage title="Child-Friendly Device Setup" description="Step-by-step guide for configuring devices with appropriate controls" type="guide" />} />
             <Route path="/guides/app-selection" element={<DownloadGuidePage title="Choosing Child-Safe Apps" description="Guidelines for selecting appropriate digital content for children" type="guide" />} />

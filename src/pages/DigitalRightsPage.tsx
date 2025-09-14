@@ -231,8 +231,8 @@ const DigitalRightsPage: React.FC = () => {
     { id: 'future', label: 'Future Trends', icon: FileText }
   ];
 
-  const filteredModules = activeCategory === 'all' 
-    ? modules 
+  const filteredModules = activeCategory === 'all'
+    ? modules
     : modules.filter(module => module.category === activeCategory);
 
   useEffect(() => {
@@ -281,30 +281,30 @@ const DigitalRightsPage: React.FC = () => {
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
           }} />
         </div>
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex items-center justify-center mb-8">
             <div className="w-20 h-20 mr-4">
               <Logo />
             </div>
           </div>
-          
+
           <div className="text-center">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
               <Scale size={16} />
               <span className="text-sm font-semibold">DIGITAL RIGHTS & LAW</span>
             </div>
-            
+
             <h1 className="text-5xl font-bold mb-6 leading-tight">
               Digital Rights & Law
               <span className="block text-yellow-300">Ages 13-17</span>
             </h1>
-            
+
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              Understanding privacy legislation and digital rights. Learn about laws that protect your data 
+              Understanding privacy legislation and digital rights. Learn about laws that protect your data
               and how to exercise your rights as a digital citizen.
             </p>
-            
+
             <div className="flex items-center justify-center gap-6 text-sm">
               <div className="flex items-center gap-2">
                 <Star size={16} />
@@ -326,7 +326,7 @@ const DigitalRightsPage: React.FC = () => {
       {/* Navigation */}
       <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
         <div className="container mx-auto px-6 py-4">
-          <Link 
+          <Link
             to="/"
             className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-700 font-medium transition-colors"
             style={{ color: 'var(--primary-light)' }}
@@ -339,7 +339,7 @@ const DigitalRightsPage: React.FC = () => {
 
       {/* Progress Section */}
       <section className="container mx-auto px-6 py-12">
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-12" style={{ 
+        <div className="bg-white rounded-xl shadow-lg p-8 mb-12" style={{
           backgroundColor: 'var(--card-color)',
           boxShadow: 'var(--shadow-lg)'
         }}>
@@ -364,7 +364,7 @@ const DigitalRightsPage: React.FC = () => {
               </div>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-4">
-              <div 
+              <div
                 className="h-4 rounded-full transition-all duration-500 bg-gradient-to-r from-slate-500 to-gray-600"
                 style={{ width: `${Math.round((completedModules.length / modules.length) * 100)}%` }}
               />
@@ -412,14 +412,14 @@ const DigitalRightsPage: React.FC = () => {
             const Icon = module.icon;
             const CategoryIcon = getCategoryIcon(module.category);
             const isCompleted = completedModules.includes(module.id);
-            
+
             return (
               <div
                 key={module.id}
                 className={`bg-white rounded-xl shadow-md hover:shadow-lg transition-all transform hover:scale-105 cursor-pointer border-2 ${
                   isCompleted ? 'border-green-500' : 'border-transparent'
                 }`}
-                style={{ 
+                style={{
                   backgroundColor: 'var(--card-color)',
                   boxShadow: 'var(--shadow-md)'
                 }}
@@ -434,20 +434,20 @@ const DigitalRightsPage: React.FC = () => {
                       <CheckCircle size={24} className="text-green-500" />
                     )}
                   </div>
-                  
+
                   <div className="flex items-center gap-2 mb-2">
                     <CategoryIcon size={16} className="text-gray-500" />
                     <span className="text-sm text-gray-500 capitalize">{module.category.replace('-', ' ')}</span>
                   </div>
-                  
+
                   <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
                     {module.title}
                   </h3>
-                  
+
                   <p className="mb-4 leading-relaxed" style={{ color: 'var(--gray-600)' }}>
                     {module.description}
                   </p>
-                  
+
                   <div className="flex items-center justify-between mb-4">
                     <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getDifficultyColor(module.difficulty)}`}>
                       {module.difficulty}
@@ -456,8 +456,8 @@ const DigitalRightsPage: React.FC = () => {
                       {module.duration}
                     </span>
                   </div>
-                  
-                  <button 
+
+                  <button
                     className="w-full bg-gradient-to-r from-slate-500 to-gray-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-slate-600 hover:to-gray-700 transition-all"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -482,19 +482,19 @@ const DigitalRightsPage: React.FC = () => {
                 <h3 className="text-2xl font-bold" style={{ color: 'var(--primary)' }}>
                   {selectedModule.title}
                 </h3>
-                <button 
+                <button
                   onClick={() => setShowModule(false)}
                   className="text-gray-500 hover:text-gray-700 text-2xl"
                 >
                   ×
                 </button>
               </div>
-              
+
               <div className="mb-6">
                 <p className="text-lg mb-6" style={{ color: 'var(--gray-600)' }}>
                   {selectedModule.description}
                 </p>
-                
+
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
                     <h4 className="font-semibold mb-4" style={{ color: 'var(--primary)' }}>
@@ -506,7 +506,7 @@ const DigitalRightsPage: React.FC = () => {
                       ))}
                     </ul>
                   </div>
-                  
+
                   <div className="bg-green-50 border border-green-200 rounded-lg p-6">
                     <h4 className="font-semibold mb-4" style={{ color: 'var(--primary)' }}>
                       Real-World Examples:
@@ -517,7 +517,7 @@ const DigitalRightsPage: React.FC = () => {
                       ))}
                     </ul>
                   </div>
-                  
+
                   <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
                     <h4 className="font-semibold mb-4" style={{ color: 'var(--primary)' }}>
                       Your Rights:
@@ -529,7 +529,7 @@ const DigitalRightsPage: React.FC = () => {
                     </ul>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4 text-sm text-gray-600">
                     <span className="flex items-center gap-1">
@@ -540,7 +540,7 @@ const DigitalRightsPage: React.FC = () => {
                       {selectedModule.difficulty}
                     </span>
                   </div>
-                  
+
                   <button
                     onClick={() => handleModuleComplete(selectedModule.id)}
                     className="bg-gradient-to-r from-slate-500 to-gray-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-slate-600 hover:to-gray-700 transition-all"
@@ -564,14 +564,14 @@ const DigitalRightsPage: React.FC = () => {
             Start your journey to understanding privacy laws and digital rights. Learn how to protect yourself and exercise your rights as a digital citizen.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link 
+            <Link
               to="/teen-handbook"
               className="bg-white text-slate-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
             >
               <BookOpen size={20} />
               Teen Handbook
             </Link>
-            <Link 
+            <Link
               to="/family-hub"
               className="bg-slate-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-slate-800 transition-colors inline-flex items-center gap-2"
             >

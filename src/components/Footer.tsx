@@ -63,9 +63,9 @@ const Footer: React.FC = () => {
           <div className="footer-brand">
             <h3>
               <div className="logo-icon" style={{ width: '32px', height: '32px', marginRight: '5px' }}>
-                <img 
-                  src="/LogoPandagarde.png" 
-                  alt="PandaGarde Logo" 
+                <img
+                  src="/LogoPandagarde.png"
+                  alt="PandaGarde Logo"
                   style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                 />
               </div>
@@ -80,14 +80,14 @@ const Footer: React.FC = () => {
               ))}
             </div>
           </div>
-          
+
           <div className="footer-column">
             <h4>Resources</h4>
             <ul>
               {resourceLinks.map((link, index) => (
                 <li key={index}>
                   {link.href.startsWith('#') ? (
-                    <a 
+                    <a
                       href={link.href}
                       onClick={(e) => {
                         e.preventDefault();
@@ -107,14 +107,14 @@ const Footer: React.FC = () => {
               ))}
             </ul>
           </div>
-          
+
           <div className="footer-column">
             <h4>Age Groups</h4>
             <ul>
               {ageGroupLinks.map((link, index) => (
                 <li key={index}>
                   {link.href.startsWith('#') ? (
-                    <a 
+                    <a
                       href={link.href}
                       onClick={(e) => {
                         e.preventDefault();
@@ -134,7 +134,7 @@ const Footer: React.FC = () => {
               ))}
             </ul>
           </div>
-          
+
           <div className="footer-column">
             <h4>Connect</h4>
             <ul>
@@ -149,7 +149,7 @@ const Footer: React.FC = () => {
             </ul>
           </div>
         </div>
-        
+
         <div className="footer-bottom">
           <p>© 2025 PandaGarde. All rights reserved.</p>
           <div className="footer-links">
