@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { User } from '@supabase/supabase-js';
-import { supabase } from '../lib/supabase';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { userService } from '../lib/database';
 
 interface AuthContextType {
@@ -32,6 +32,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Initialize auth state
   useEffect(() => {
+    if (!isSupabaseConfigured || !supabase) {
+      setLoading(false);
+      return;
+    }
+
     // Get initial session
     const getInitialSession = async () => {
       try {
@@ -75,6 +80,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const signIn = useCallback(async (email: string, password: string) => {
+    if (!isSupabaseConfigured || !supabase) {
+      return { data: null, error: { message: 'Authentication not configured for demo mode' } };
+    }
+    
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -87,6 +96,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const signUp = useCallback(async (email: string, password: string) => {
+    if (!isSupabaseConfigured || !supabase) {
+      return { data: null, error: { message: 'Authentication not configured for demo mode' } };
+    }
+    
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -99,6 +112,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const signOut = useCallback(async () => {
+    if (!isSupabaseConfigured || !supabase) {
+      console.log('Sign out (demo mode)');
+      return;
+    }
+    
     try {
       await supabase.auth.signOut();
     } catch (error) {

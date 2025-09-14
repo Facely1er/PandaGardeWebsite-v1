@@ -5,12 +5,11 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 const schemaPrefix = import.meta.env.VITE_DB_SCHEMA_PREFIX || 'pandagarde_'
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables. Please check your .env.local file.')
-}
+// Check if Supabase is configured
+export const isSupabaseConfigured = !!(supabaseUrl && supabaseAnonKey)
 
-// Create Supabase client with schema differentiation
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+// Create Supabase client only if configured
+export const supabase = isSupabaseConfigured ? createClient(supabaseUrl, supabaseAnonKey, {
   db: {
     schema: 'public' // We'll use public schema but with prefixed table names
   },
@@ -19,7 +18,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     persistSession: true,
     detectSessionInUrl: true
   }
-})
+}) : null
 
 // Schema prefix for all database operations
 export const DB_SCHEMA_PREFIX = schemaPrefix
