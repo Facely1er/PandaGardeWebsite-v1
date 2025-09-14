@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { ToastProvider } from './contexts/ToastContext';
+import { AuthProvider } from './contexts/AuthContext';
 import { ProgressProvider } from './contexts/ProgressContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -53,12 +54,13 @@ function App() {
   return (
     <ThemeProvider>
       <ToastProvider>
-        <ProgressProvider>
-          <Router>
-            <div className="App">
-              <HashHandler />
-              <Header />
-              <Routes>
+        <AuthProvider>
+          <ProgressProvider>
+            <Router>
+              <div className="App">
+                <HashHandler />
+                <Header />
+                <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/story" element={<StoryPage />} />
             <Route path="/activity-book" element={<ActivityBookPage />} />
@@ -100,11 +102,12 @@ function App() {
             <Route path="/guides/modeling-behavior" element={<DownloadGuidePage title="Modeling Good Digital Citizenship" description="Tips for demonstrating healthy online behavior" type="guide" />} />
             <Route path="/guides/privacy-concerns" element={<DownloadGuidePage title="Responding to Privacy Concerns" description="What to do when privacy issues arise" type="guide" />} />
           </Routes>
-              <Footer />
-              <BackToTop />
-            </div>
-          </Router>
-        </ProgressProvider>
+                <Footer />
+                <BackToTop />
+              </div>
+            </Router>
+          </ProgressProvider>
+        </AuthProvider>
       </ToastProvider>
     </ThemeProvider>
   );

@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun } from 'lucide-react';
+import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, LogIn, LogOut, User } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAuth } from '../contexts/AuthContext';
+import AuthModal from './auth/AuthModal';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
   const { theme, toggleTheme } = useTheme();
+  const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -63,6 +68,16 @@ const Header: React.FC = () => {
     return location.pathname.startsWith(href);
   };
 
+  const handleAuthSuccess = () => {
+    setShowAuthModal(false);
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="container">
@@ -116,6 +131,44 @@ const Header: React.FC = () => {
             >
               {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
             </button>
+            
+            {user ? (
+              <div className="user-menu">
+                <span className="user-email">{user.email}</span>
+                <button
+                  onClick={handleSignOut}
+                  className="auth-button"
+                  title="Sign Out"
+                >
+                  <LogOut size={16} />
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <div className="auth-buttons">
+                <button
+                  onClick={() => {
+                    setAuthMode('login');
+                    setShowAuthModal(true);
+                  }}
+                  className="auth-button"
+                >
+                  <LogIn size={16} />
+                  Sign In
+                </button>
+                <button
+                  onClick={() => {
+                    setAuthMode('register');
+                    setShowAuthModal(true);
+                  }}
+                  className="cta-button"
+                >
+                  <User size={16} />
+                  Sign Up
+                </button>
+              </div>
+            )}
+            
             <a href="https://www.hub.pandagarde.com" className="cta-button" target="_blank" rel="noopener noreferrer">Family Hub</a>
           </div>
           
@@ -128,6 +181,13 @@ const Header: React.FC = () => {
           </button>
         </nav>
       </div>
+      
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={handleAuthSuccess}
+        initialMode={authMode}
+      />
     </header>
   );
 };

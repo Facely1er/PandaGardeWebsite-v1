@@ -330,11 +330,19 @@ export const authService = {
 
     // Create user profile after successful signup
     if (data.user) {
-      await userService.upsertUser({
-        id: data.user.id,
-        email: data.user.email!,
-        profile_data: {}
-      })
+      try {
+        await userService.upsertUser({
+          id: data.user.id,
+          email: data.user.email!,
+          profile_data: {
+            name: '',
+            avatar_url: '',
+            created_at: new Date().toISOString()
+          }
+        })
+      } catch (profileError) {
+        console.error('Error creating user profile:', profileError)
+      }
     }
 
     return { data, error: null }
