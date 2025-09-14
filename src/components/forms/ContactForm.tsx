@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Send, User, Mail, MessageSquare, Phone, MapPin, CheckCircle, AlertCircle } from 'lucide-react';
+import { contactService } from '../../lib/database';
+import { useToast } from '../../hooks/useToast';
 
 interface FormData {
   name: string;
@@ -37,6 +39,7 @@ const ContactForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const { showSuccess, showError } = useToast();
 
   // Load saved form data from localStorage
   useEffect(() => {
@@ -124,27 +127,49 @@ const ContactForm: React.FC = () => {
     setSubmitError('');
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Clear form data
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: '',
-        inquiryType: '',
-        ageGroup: '',
-        newsletter: false
+      // Submit to database
+      const submission = await contactService.submitContactForm({
+        name: formData.name,
+        email: formData.email,
+        message: `${formData.subject}\n\nInquiry Type: ${formData.inquiryType}\nAge Group: ${formData.ageGroup || 'Not specified'}\nPhone: ${formData.phone || 'Not provided'}\n\nMessage:\n${formData.message}`
       });
-      
-      // Clear localStorage
-      localStorage.removeItem('contactFormData');
-      
-      setIsSubmitted(true);
+
+      if (submission) {
+        // Handle newsletter subscription if requested
+        if (formData.newsletter) {
+          try {
+            const { newsletterService } = await import('../../lib/database');
+            await newsletterService.subscribe(formData.email);
+          } catch (newsletterError) {
+            console.warn('Newsletter subscription failed:', newsletterError);
+            // Don't fail the form submission for newsletter errors
+          }
+        }
+
+        // Clear form data
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: '',
+          inquiryType: '',
+          ageGroup: '',
+          newsletter: false
+        });
+        
+        // Clear localStorage
+        localStorage.removeItem('contactFormData');
+        
+        showSuccess('Message Sent!', 'Thank you for contacting us. We\'ll get back to you within 24 hours.');
+        setIsSubmitted(true);
+      } else {
+        throw new Error('Failed to submit form');
+      }
     } catch (error) {
+      console.error('Contact form submission error:', error);
       setSubmitError('Failed to send message. Please try again.');
+      showError('Submission Failed', 'There was an error sending your message. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

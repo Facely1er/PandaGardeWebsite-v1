@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { activityService, progressService } from '../lib/database';
+import { useAuth } from './AuthContext';
 
 interface ActivityProgress {
   activityId: string;
@@ -18,7 +20,8 @@ interface UserProgress {
 
 interface ProgressContextType {
   progress: UserProgress;
-  markActivityCompleted: (activityId: string, score?: number, timeSpent?: number) => void;
+  markActivityCompleted: (memberId: string, activityId: string, score?: number, timeSpent?: number) => void;
+  startActivity: (memberId: string, activityId: string) => void;
   getActivityProgress: (activityId: string) => ActivityProgress | undefined;
   getOverallProgress: () => {
     completedCount: number;
@@ -28,9 +31,10 @@ interface ProgressContextType {
   resetProgress: () => void;
   exportProgress: () => string;
   importProgress: (data: string) => boolean;
+  syncWithDatabase: (memberId: string) => Promise<void>;
 }
 
-const ProgressContext = createContext<ProgressContextType | undefined>(undefined);
+export const ProgressContext = createContext<ProgressContextType | undefined>(undefined);
 
 export const useProgress = () => {
   const context = useContext(ProgressContext);
@@ -54,40 +58,100 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
     achievements: [],
     lastUpdated: new Date()
   });
+  const { user } = useAuth();
 
-  // Load progress from localStorage on mount
+  // Load progress from localStorage on mount and sync with database
   useEffect(() => {
-    const savedProgress = localStorage.getItem(STORAGE_KEY);
-    if (savedProgress) {
-      try {
-        const parsed = JSON.parse(savedProgress);
-        // Convert date strings back to Date objects
-        const processedProgress = {
-          ...parsed,
-          activityDetails: Object.fromEntries(
-            Object.entries(parsed.activityDetails || {}).map(([key, value]: [string, ActivityProgress]) => [
-              key,
-              {
-                ...value,
-                completedAt: new Date(value.completedAt)
-              }
-            ])
-          ),
-          lastUpdated: new Date(parsed.lastUpdated)
-        };
-        setProgress(processedProgress);
-      } catch (error) {
-        console.error('Error loading progress from localStorage:', error);
+    const loadProgress = async () => {
+      // First load from localStorage for immediate UI update
+      const savedProgress = localStorage.getItem(STORAGE_KEY);
+      if (savedProgress) {
+        try {
+          const parsed = JSON.parse(savedProgress);
+          // Convert date strings back to Date objects
+          const processedProgress = {
+            ...parsed,
+            activityDetails: Object.fromEntries(
+              Object.entries(parsed.activityDetails || {}).map(([key, value]: [string, ActivityProgress]) => [
+                key,
+                {
+                  ...value,
+                  completedAt: new Date(value.completedAt)
+                }
+              ])
+            ),
+            lastUpdated: new Date(parsed.lastUpdated)
+          };
+          setProgress(processedProgress);
+        } catch (error) {
+          console.error('Error loading progress from localStorage:', error);
+        }
       }
-    }
-  }, []);
+
+      // Then sync with database if user is authenticated
+      if (user?.id) {
+        await syncWithDatabase(user.id);
+      }
+    };
+
+    loadProgress();
+  }, [user?.id]);
 
   // Save progress to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
   }, [progress]);
 
-  const markActivityCompleted = useCallback((activityId: string, score?: number, timeSpent?: number) => {
+  const syncWithDatabase = useCallback(async (memberId: string) => {
+    try {
+      // Load activities from database
+      const activities = await activityService.getUserActivities(memberId);
+      const progressData = await progressService.getUserProgress(memberId);
+
+      // Convert database data to local progress format
+      const completedActivities = activities
+        .filter(activity => activity.completed_at)
+        .map(activity => activity.activity_type);
+
+      const activityDetails: Record<string, ActivityProgress> = {};
+      activities.forEach(activity => {
+        if (activity.completed_at) {
+          activityDetails[activity.activity_type] = {
+            activityId: activity.activity_type,
+            completed: true,
+            score: activity.activity_data?.score,
+            completedAt: new Date(activity.completed_at),
+            timeSpent: activity.activity_data?.timeSpent
+          };
+        }
+      });
+
+      // Calculate achievements
+      const achievements: string[] = [];
+      if (completedActivities.length >= 1) achievements.push('first_activity');
+      if (completedActivities.length >= 3) achievements.push('getting_started');
+      if (completedActivities.length >= 6) achievements.push('privacy_champion');
+      
+      const totalTimeSpent = activities.reduce((total, activity) => 
+        total + (activity.activity_data?.timeSpent || 0), 0
+      );
+      if (totalTimeSpent >= 60) achievements.push('dedicated_learner');
+
+      const syncedProgress: UserProgress = {
+        completedActivities,
+        activityDetails,
+        totalTimeSpent,
+        achievements,
+        lastUpdated: new Date()
+      };
+
+      setProgress(syncedProgress);
+    } catch (error) {
+      console.error('Error syncing with database:', error);
+    }
+  }, []);
+
+  const markActivityCompleted = useCallback(async (memberId: string, activityId: string, score?: number, timeSpent?: number) => {
     setProgress(prev => {
       const isAlreadyCompleted = prev.completedActivities.includes(activityId);
       
@@ -135,6 +199,35 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
 
       return newProgress;
     });
+
+    // Save to database if user is authenticated
+    if (memberId !== 'demo-user') {
+      try {
+        await activityService.createActivity({
+          user_id: memberId,
+          activity_type: activityId,
+          activity_data: { score, timeSpent },
+          completed_at: new Date().toISOString()
+        });
+      } catch (error) {
+        console.error('Error saving activity to database:', error);
+      }
+    }
+  }, []);
+
+  const startActivity = useCallback(async (memberId: string, activityId: string) => {
+    // Save activity start to database if user is authenticated
+    if (memberId !== 'demo-user') {
+      try {
+        await activityService.createActivity({
+          user_id: memberId,
+          activity_type: activityId,
+          activity_data: { started: true }
+        });
+      } catch (error) {
+        console.error('Error saving activity start to database:', error);
+      }
+    }
   }, []);
 
   const getActivityProgress = useCallback((activityId: string) => {
@@ -195,11 +288,13 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
   const value: ProgressContextType = {
     progress,
     markActivityCompleted,
+    startActivity,
     getActivityProgress,
     getOverallProgress,
     resetProgress,
     exportProgress,
-    importProgress
+    importProgress,
+    syncWithDatabase
   };
 
   return (

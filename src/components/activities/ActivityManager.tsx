@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Play, RotateCcw } from 'lucide-react';
-import ColoringActivity from './ColoringActivity';
-import DragDropActivity from './DragDropActivity';
-import MazeActivity from './MazeActivity';
-import WordSearchActivity from './WordSearchActivity';
-import ConnectDotsActivity from './ConnectDotsActivity';
-import MatchingActivity from './MatchingActivity';
 import { useProgress } from '../../hooks/useProgress';
 import { useToast } from '../../hooks/useToast';
+import { useAuth } from '../../contexts/AuthContext';
+
+// Lazy load activity components
+const ColoringActivity = lazy(() => import('./ColoringActivity'));
+const DragDropActivity = lazy(() => import('./DragDropActivity'));
+const MazeActivity = lazy(() => import('./MazeActivity'));
+const WordSearchActivity = lazy(() => import('./WordSearchActivity'));
+const ConnectDotsActivity = lazy(() => import('./ConnectDotsActivity'));
+const MatchingActivity = lazy(() => import('./MatchingActivity'));
 
 interface ActivityManagerProps {
   activityId: string;
@@ -20,6 +23,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
   const [startTime, setStartTime] = useState<Date | null>(null);
   const { startActivity, completeActivity, getActivityProgress } = useProgress();
   const { success, error } = useToast();
+  const { user } = useAuth();
 
   const activityInstructions = {
     coloring: {
@@ -106,9 +110,8 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
   const handleComplete = (score?: number) => {
     const timeSpent = startTime ? Math.round((Date.now() - startTime.getTime()) / 1000) : 0;
     
-    // For demo purposes, use a default member ID
-    // In a real app, this would come from user authentication
-    const memberId = 'demo-user';
+    // Use authenticated user ID or fallback to demo user
+    const memberId = user?.id || 'demo-user';
     
     try {
       completeActivity(memberId, activityId, score, timeSpent);
@@ -124,7 +127,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
     setShowInstructions(false);
     
     // Start tracking the activity
-    const memberId = 'demo-user';
+    const memberId = user?.id || 'demo-user';
     startActivity(memberId, activityId);
   };
 
@@ -133,19 +136,45 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
   };
 
   const renderActivity = () => {
+    const activityProps = { onComplete: handleComplete, onClose: onClose };
+    
     switch (activityId) {
       case 'coloring':
-        return <ColoringActivity onComplete={handleComplete} onClose={onClose} />;
+        return (
+          <Suspense fallback={<div className="loading-spinner">Loading coloring activity...</div>}>
+            <ColoringActivity {...activityProps} />
+          </Suspense>
+        );
       case 'sorting':
-        return <DragDropActivity onComplete={handleComplete} onClose={onClose} />;
+        return (
+          <Suspense fallback={<div className="loading-spinner">Loading sorting activity...</div>}>
+            <DragDropActivity {...activityProps} />
+          </Suspense>
+        );
       case 'maze':
-        return <MazeActivity onComplete={handleComplete} onClose={onClose} />;
+        return (
+          <Suspense fallback={<div className="loading-spinner">Loading maze activity...</div>}>
+            <MazeActivity {...activityProps} />
+          </Suspense>
+        );
       case 'wordsearch':
-        return <WordSearchActivity onComplete={handleComplete} onClose={onClose} />;
+        return (
+          <Suspense fallback={<div className="loading-spinner">Loading word search activity...</div>}>
+            <WordSearchActivity {...activityProps} />
+          </Suspense>
+        );
       case 'connectdots':
-        return <ConnectDotsActivity onComplete={handleComplete} onClose={onClose} />;
+        return (
+          <Suspense fallback={<div className="loading-spinner">Loading connect dots activity...</div>}>
+            <ConnectDotsActivity {...activityProps} />
+          </Suspense>
+        );
       case 'matching':
-        return <MatchingActivity onComplete={handleComplete} onClose={onClose} />;
+        return (
+          <Suspense fallback={<div className="loading-spinner">Loading matching activity...</div>}>
+            <MatchingActivity {...activityProps} />
+          </Suspense>
+        );
       default:
         return <div>Activity not found</div>;
     }
@@ -387,6 +416,26 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           cursor: pointer;
           color: #666;
           padding: 4px;
+        }
+
+        .loading-spinner {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 200px;
+          font-size: 16px;
+          color: #666;
+        }
+
+        .loading-spinner::before {
+          content: '';
+          width: 20px;
+          height: 20px;
+          border: 2px solid #f3f3f3;
+          border-top: 2px solid #4CAF50;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin-right: 10px;
         }
         
         @media (max-width: 768px) {

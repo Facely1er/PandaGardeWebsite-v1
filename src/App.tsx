@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { ThemeProvider } from './contexts/ThemeContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { ProgressProvider } from './contexts/ProgressContext';
+import { AuthProvider } from './contexts/AuthContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
@@ -53,8 +54,9 @@ function App() {
   return (
     <ThemeProvider>
       <ToastProvider>
-        <ProgressProvider>
-          <Router>
+        <AuthProvider>
+          <ProgressProvider>
+            <Router>
             <div className="App">
               <HashHandler />
               <Header />
@@ -103,8 +105,9 @@ function App() {
               <Footer />
               <BackToTop />
             </div>
-          </Router>
-        </ProgressProvider>
+            </Router>
+          </ProgressProvider>
+        </AuthProvider>
       </ToastProvider>
     </ThemeProvider>
   );

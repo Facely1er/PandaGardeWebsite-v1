@@ -1,5 +1,27 @@
 import { supabase, TABLES, type Database } from './supabase'
 
+// Error handling wrapper
+const handleDatabaseError = (operation: string, error: any) => {
+  console.error(`Error in ${operation}:`, error)
+  if (error?.message) {
+    throw new Error(`${operation} failed: ${error.message}`)
+  }
+  throw new Error(`${operation} failed: Unknown error occurred`)
+}
+
+// Safe database operation wrapper
+const safeDbOperation = async <T>(
+  operation: () => Promise<T>,
+  operationName: string
+): Promise<T> => {
+  try {
+    return await operation()
+  } catch (error) {
+    handleDatabaseError(operationName, error)
+    throw error // This will never be reached due to handleDatabaseError throwing
+  }
+}
+
 // Type definitions for better type safety
 type Tables = Database['public']['Tables']
 type User = Tables[typeof TABLES.USERS]['Row']
@@ -14,37 +36,47 @@ type UserSession = Tables[typeof TABLES.USER_SESSIONS]['Row']
 export const userService = {
   // Get current user
   async getCurrentUser(): Promise<User | null> {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return null
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return null
 
-    const { data, error } = await supabase
-      .from(TABLES.USERS)
-      .select('*')
-      .eq('id', user.id)
-      .single()
+      const { data, error } = await supabase
+        .from(TABLES.USERS)
+        .select('*')
+        .eq('id', user.id)
+        .single()
 
-    if (error) {
-      console.error('Error fetching user:', error)
-      return null
+      if (error) {
+        console.error('Error fetching user:', error)
+        throw new Error(`Failed to fetch user: ${error.message}`)
+      }
+
+      return data
+    } catch (error) {
+      console.error('Error in getCurrentUser:', error)
+      throw error
     }
-
-    return data
   },
 
   // Create or update user profile
   async upsertUser(userData: Partial<User>): Promise<User | null> {
-    const { data, error } = await supabase
-      .from(TABLES.USERS)
-      .upsert(userData)
-      .select()
-      .single()
+    try {
+      const { data, error } = await supabase
+        .from(TABLES.USERS)
+        .upsert(userData)
+        .select()
+        .single()
 
-    if (error) {
-      console.error('Error upserting user:', error)
-      return null
+      if (error) {
+        console.error('Error upserting user:', error)
+        throw new Error(`Failed to upsert user: ${error.message}`)
+      }
+
+      return data
+    } catch (error) {
+      console.error('Error in upsertUser:', error)
+      throw error
     }
-
-    return data
   },
 
   // Update user profile
@@ -161,18 +193,19 @@ export const progressService = {
 export const contactService = {
   // Submit contact form
   async submitContactForm(submission: Omit<ContactSubmission, 'id' | 'created_at' | 'status'>): Promise<ContactSubmission | null> {
-    const { data, error } = await supabase
-      .from(TABLES.CONTACT_SUBMISSIONS)
-      .insert(submission)
-      .select()
-      .single()
+    return safeDbOperation(async () => {
+      const { data, error } = await supabase
+        .from(TABLES.CONTACT_SUBMISSIONS)
+        .insert(submission)
+        .select()
+        .single()
 
-    if (error) {
-      console.error('Error submitting contact form:', error)
-      return null
-    }
+      if (error) {
+        throw error
+      }
 
-    return data
+      return data
+    }, 'submitContactForm')
   },
 
   // Get contact submissions (admin only)
