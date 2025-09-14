@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { BookOpen, Book, ClipboardCheck as ChalkboardTeacher, ArrowRight } from 'lucide-react';
 
 const features = [

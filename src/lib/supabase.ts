@@ -10,11 +10,7 @@ const schemaPrefix = import.meta.env.VITE_DB_SCHEMA_PREFIX || 'pandagarde_'
 export const isSupabaseConfigured = !!(supabaseUrl && supabaseAnonKey)
  
 // Create Supabase client only if configured
-export const supabase = isSupabaseConfigured ? createClient(supabaseUrl, supabaseAnonKey, {
- 
-// Create Supabase client with schema differentiation
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
- 
+export const supabase = isSupabaseConfigured ? createClient<Database>(supabaseUrl, supabaseAnonKey, {
   db: {
     schema: 'public' // We'll use public schema but with prefixed table names
   },
