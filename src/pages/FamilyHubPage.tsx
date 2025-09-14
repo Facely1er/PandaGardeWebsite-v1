@@ -27,6 +27,7 @@ interface Activity {
 
 const FamilyHubPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'activities' | 'progress' | 'resources'>('dashboard');
+  const [selectedMember, setSelectedMember] = useState<string | null>(null);
 
   // Sample family data - in real app this would come from API/database
   const [familyMembers] = useState<FamilyMember[]>([
@@ -141,8 +142,8 @@ const FamilyHubPage: React.FC = () => {
   };
 
   const getOverallProgress = () => {
-    const totalCompleted = familyMembers.reduce((sum, member) => sum + member.completedActivities, 0);
-    const totalActivities = familyMembers.reduce((sum, member) => sum + member.totalActivities, 0);
+    const totalCompleted = familyMembers.reduce((sum: number, member: FamilyMember) => sum + member.completedActivities, 0);
+    const totalActivities = familyMembers.reduce((sum: number, member: FamilyMember) => sum + member.totalActivities, 0);
     return Math.round((totalCompleted / totalActivities) * 100);
   };
 
@@ -247,7 +248,7 @@ const FamilyHubPage: React.FC = () => {
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                {familyMembers.map((member) => {
+                {familyMembers.map((member: FamilyMember) => {
                   const AgeIcon = getAgeGroupIcon(member.ageGroup);
                   return (
                     <div
@@ -514,7 +515,7 @@ const FamilyHubPage: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {familyMembers.map((member) => (
+                {familyMembers.map((member: FamilyMember) => (
                   <div key={member.id} className="text-center">
                     <div className="text-2xl mb-2">{member.avatar}</div>
                     <h4 className="font-bold mb-2" style={{ color: 'var(--primary)' }}>
