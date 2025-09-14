@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { ThemeProvider } from './contexts/ThemeContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { ProgressProvider } from './contexts/ProgressContext';
+import { AuthProvider } from './contexts/AuthContext';
+import { FamilyProvider } from './contexts/FamilyContext';
+import { SearchProvider } from './contexts/SearchContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
@@ -29,6 +32,7 @@ import EducatorToolsPage from './pages/EducatorToolsPage';
 import NewsletterPage from './pages/NewsletterPage';
 import SupportPage from './pages/SupportPage';
 import ImplementationGuidePage from './pages/ImplementationGuidePage';
+import CertificatePage from './pages/CertificatePage';
 
 // Component to handle hash navigation
 const HashHandler: React.FC = () => {
@@ -53,17 +57,21 @@ function App() {
   return (
     <ThemeProvider>
       <ToastProvider>
-        <ProgressProvider>
-          <Router>
-            <div className="App">
-              <HashHandler />
-              <Header />
-              <Routes>
+        <SearchProvider>
+          <AuthProvider>
+            <FamilyProvider>
+              <ProgressProvider>
+                <Router>
+                  <div className="App">
+                    <HashHandler />
+                    <Header />
+                    <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/story" element={<StoryPage />} />
             <Route path="/activity-book" element={<ActivityBookPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/family-hub" element={<FamilyHubPage />} />
+            <Route path="/certificates" element={<CertificatePage />} />
             
             {/* Age Group Pages */}
             <Route path="/privacy-explorers" element={<PrivacyExplorersPage />} />
@@ -100,11 +108,14 @@ function App() {
             <Route path="/guides/modeling-behavior" element={<DownloadGuidePage title="Modeling Good Digital Citizenship" description="Tips for demonstrating healthy online behavior" type="guide" />} />
             <Route path="/guides/privacy-concerns" element={<DownloadGuidePage title="Responding to Privacy Concerns" description="What to do when privacy issues arise" type="guide" />} />
           </Routes>
-              <Footer />
-              <BackToTop />
-            </div>
-          </Router>
-        </ProgressProvider>
+                    <Footer />
+                    <BackToTop />
+                  </div>
+                </Router>
+              </ProgressProvider>
+            </FamilyProvider>
+          </AuthProvider>
+        </SearchProvider>
       </ToastProvider>
     </ThemeProvider>
   );

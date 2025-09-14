@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun } from 'lucide-react';
+import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, User, LogOut, Settings, Search } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAuth } from '../contexts/AuthContext';
+import AuthModal from './AuthModal';
+import SearchModal from './SearchModal';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const { isAuthenticated, user, profile, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -63,6 +70,21 @@ const Header: React.FC = () => {
     return location.pathname.startsWith(href);
   };
 
+  const handleSignOut = async () => {
+    await signOut();
+    setShowUserMenu(false);
+    navigate('/');
+  };
+
+  const handleAuthSuccess = () => {
+    setIsAuthModalOpen(false);
+    navigate('/family-hub');
+  };
+
+  const handleSearchResultClick = (result: any) => {
+    navigate(result.url);
+  };
+
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="container">
@@ -110,13 +132,68 @@ const Header: React.FC = () => {
           
           <div className="nav-actions">
             <button
+              onClick={() => setIsSearchModalOpen(true)}
+              className="search-toggle"
+              aria-label="Search"
+            >
+              <Search size={20} />
+            </button>
+            <button
               onClick={toggleTheme}
               className="theme-toggle"
               aria-label="Toggle theme"
             >
               {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
             </button>
-            <a href="https://www.hub.pandagarde.com" className="cta-button" target="_blank" rel="noopener noreferrer">Family Hub</a>
+            
+            {isAuthenticated ? (
+              <div className="relative">
+                <button
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex items-center space-x-2 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                >
+                  <User size={20} />
+                  <span className="hidden sm:block">
+                    {profile?.profile_data?.firstName || user?.email?.split('@')[0] || 'User'}
+                  </span>
+                </button>
+                
+                {showUserMenu && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50">
+                    <Link
+                      to="/family-hub"
+                      className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onClick={() => setShowUserMenu(false)}
+                    >
+                      <Users size={16} className="mr-3" />
+                      Family Hub
+                    </Link>
+                    <Link
+                      to="/profile"
+                      className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onClick={() => setShowUserMenu(false)}
+                    >
+                      <Settings size={16} className="mr-3" />
+                      Profile Settings
+                    </Link>
+                    <button
+                      onClick={handleSignOut}
+                      className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      <LogOut size={16} className="mr-3" />
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={() => setIsAuthModalOpen(true)}
+                className="cta-button"
+              >
+                Sign In
+              </button>
+            )}
           </div>
           
           <button
@@ -128,6 +205,20 @@ const Header: React.FC = () => {
           </button>
         </nav>
       </div>
+      
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onSuccess={handleAuthSuccess}
+      />
+      
+      {/* Search Modal */}
+      <SearchModal
+        isOpen={isSearchModalOpen}
+        onClose={() => setIsSearchModalOpen(false)}
+        onResultClick={handleSearchResultClick}
+      />
     </header>
   );
 };

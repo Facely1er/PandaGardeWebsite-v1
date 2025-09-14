@@ -38,6 +38,10 @@ export const TABLES = {
   NEWSLETTER_SUBSCRIBERS: getTableName('newsletter_subscribers'),
   DOWNLOAD_TRACKING: getTableName('download_tracking'),
   USER_SESSIONS: getTableName('user_sessions'),
+  FAMILIES: getTableName('families'),
+  FAMILY_MEMBERS: getTableName('family_members'),
+  FAMILY_INVITATIONS: getTableName('family_invitations'),
+  FAMILY_ACHIEVEMENTS: getTableName('family_achievements'),
 } as const
 
 // Database types will be generated here
