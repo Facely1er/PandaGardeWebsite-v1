@@ -12,7 +12,6 @@ import ActivityBookPage from './pages/ActivityBookPage';
 import AboutPage from './pages/AboutPage';
 import FamilyHubPage from './pages/FamilyHubPage';
 import ContactPage from './pages/ContactPage';
-import PlaceholderPage from './pages/PlaceholderPage';
 import GetStartedPage from './pages/GetStartedPage';
 import TermsPage from './pages/TermsPage';
 import CookiesPage from './pages/CookiesPage';
@@ -26,6 +25,10 @@ import DigitalRightsPage from './pages/DigitalRightsPage';
 import FAQPage from './pages/FAQPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import DownloadGuidePage from './pages/DownloadGuidePage';
+import EducatorToolsPage from './pages/EducatorToolsPage';
+import NewsletterPage from './pages/NewsletterPage';
+import SupportPage from './pages/SupportPage';
+import ImplementationGuidePage from './pages/ImplementationGuidePage';
 
 // Component to handle hash navigation
 const HashHandler: React.FC = () => {
@@ -71,13 +74,13 @@ function App() {
             <Route path="/digital-rights" element={<DigitalRightsPage />} />
             
             {/* General Pages */}
-            <Route path="/educator-tools" element={<PlaceholderPage title="Educator Tools" description="Resources and materials for teachers and educators" />} />
+            <Route path="/educator-tools" element={<EducatorToolsPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/faq" element={<FAQPage />} />
-            <Route path="/newsletter" element={<PlaceholderPage title="Newsletter" description="Stay updated with the latest privacy education news" />} />
-            <Route path="/support" element={<PlaceholderPage title="Support" description="Help and support for using PandaGarde resources" />} />
+            <Route path="/newsletter" element={<NewsletterPage />} />
+            <Route path="/support" element={<SupportPage />} />
             <Route path="/get-started" element={<GetStartedPage />} />
-            <Route path="/implementation-guide" element={<PlaceholderPage title="Implementation Guide" description="Detailed timeline and instructions for implementing Privacy Panda curriculum" />} />
+            <Route path="/implementation-guide" element={<ImplementationGuidePage />} />
             
             {/* Legal Pages */}
             <Route path="/privacy" element={<PrivacyPolicyPage />} />
