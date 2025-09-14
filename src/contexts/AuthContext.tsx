@@ -44,7 +44,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const initializeAuth = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
-        
+
         if (session?.user) {
           const userData = await userService.getCurrentUser();
           setUser(userData);
@@ -94,7 +94,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           email: data.user.email!,
           profile_data: {}
         });
-        
+
         showSuccess('Welcome Back!', 'You have successfully signed in.');
         return { success: true };
       }
@@ -130,7 +130,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           email: data.user.email!,
           profile_data: {}
         });
-        
+
         showSuccess('Account Created!', 'Please check your email to verify your account.');
         return { success: true };
       }
@@ -150,7 +150,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setLoading(true);
       const { error } = await supabase.auth.signOut();
-      
+
       if (error) {
         showError('Sign Out Failed', error.message);
         return;

@@ -97,7 +97,7 @@ const AgeGroupSection: React.FC = () => {
           <h2><User size={32} />Age-Appropriate Learning Paths</h2>
           <p>Tailored content and interactions designed specifically for different developmental stages.</p>
         </div>
-        
+
         <div className="age-group-tabs">
           {ageGroups.map((group) => (
             <button
@@ -110,7 +110,7 @@ const AgeGroupSection: React.FC = () => {
             </button>
           ))}
         </div>
-        
+
         <div className="age-group-content">
           {ageGroups.map((group) => (
             <div
@@ -121,8 +121,8 @@ const AgeGroupSection: React.FC = () => {
               <p>{group.description}</p>
               <div className="featured-grid">
                 {group.resources.map((resource, index) => (
-                  <div 
-                    key={index} 
+                  <div
+                    key={index}
                     className="feature-card"
                     onClick={() => handleCardClick(resource.link)}
                     role="button"
@@ -141,11 +141,11 @@ const AgeGroupSection: React.FC = () => {
                       <h3><resource.icon size={20} /> {resource.title}</h3>
                       <p>{resource.description}</p>
                       <div className="card-link">
-                        {resource.title.includes('Explore') ? 'Explore' : 
-                         resource.title.includes('Start') ? 'Start' : 
-                         resource.title.includes('Enter') ? 'Enter' : 
-                         resource.title.includes('Read') ? 'Read' : 
-                         resource.title.includes('Access') ? 'Access' : 'Learn More'} 
+                        {resource.title.includes('Explore') ? 'Explore' :
+                         resource.title.includes('Start') ? 'Start' :
+                         resource.title.includes('Enter') ? 'Enter' :
+                         resource.title.includes('Read') ? 'Read' :
+                         resource.title.includes('Access') ? 'Access' : 'Learn More'}
                         <ArrowRight size={16} />
                       </div>
                     </div>

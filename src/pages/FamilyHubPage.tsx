@@ -42,7 +42,7 @@ const FamilyHubPage: React.FC = () => {
       totalActivities: 6
     },
     {
-      id: '2', 
+      id: '2',
       name: 'Alex',
       age: 12,
       avatar: '🧒',
@@ -134,7 +134,7 @@ const FamilyHubPage: React.FC = () => {
   const getAgeGroupIcon = (ageGroup: string) => {
     switch (ageGroup) {
       case '5-8': return Child;
-      case '9-12': return User; 
+      case '9-12': return User;
       case '13-17': return UserCheck;
       default: return User;
     }
@@ -155,24 +155,24 @@ const FamilyHubPage: React.FC = () => {
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
           }} />
         </div>
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex items-center justify-center mb-8">
             <div className="w-20 h-20 mr-4">
               <Logo />
             </div>
           </div>
-          
+
           <div className="text-center">
             <h1 className="text-5xl font-bold mb-6 leading-tight">
               Privacy Panda
               <span className="block text-yellow-300">Family Hub</span>
             </h1>
-            
+
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
               Your central dashboard for family privacy education, progress tracking, and personalized learning paths.
             </p>
-            
+
             <div className="flex items-center justify-center gap-6 text-sm">
               <div className="flex items-center gap-2">
                 <Users size={16} />
@@ -195,7 +195,7 @@ const FamilyHubPage: React.FC = () => {
       <div className="bg-white border-b">
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between py-4">
-            <Link 
+            <Link
               to="/"
               className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
               style={{ color: 'var(--primary-light)' }}
@@ -203,7 +203,7 @@ const FamilyHubPage: React.FC = () => {
               <ArrowLeft size={16} />
               Back to Home
             </Link>
-            
+
             <nav className="flex items-center gap-8">
               {[
                 { key: 'dashboard', label: 'Dashboard', icon: Users },
@@ -215,8 +215,8 @@ const FamilyHubPage: React.FC = () => {
                   key={key}
                   onClick={() => setActiveTab(key as 'dashboard' | 'activities' | 'progress' | 'resources')}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
-                    activeTab === key 
-                      ? 'bg-green-100 text-green-700' 
+                    activeTab === key
+                      ? 'bg-green-100 text-green-700'
                       : 'text-gray-600 hover:text-green-600 hover:bg-gray-50'
                   }`}
                   style={{
@@ -235,22 +235,22 @@ const FamilyHubPage: React.FC = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-12">
-        
+
         {/* Dashboard Tab */}
         {activeTab === 'dashboard' && (
           <div className="space-y-12">
-            
+
             {/* Family Members Overview */}
             <section>
               <h2 className="text-3xl font-bold mb-8" style={{ color: 'var(--primary)' }}>
                 Family Progress Overview
               </h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 {familyMembers.map((member) => {
                   const AgeIcon = getAgeGroupIcon(member.ageGroup);
                   return (
-                    <div 
+                    <div
                       key={member.id}
                       className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all cursor-pointer"
                       style={{ backgroundColor: 'var(--card-color)' }}
@@ -270,7 +270,7 @@ const FamilyHubPage: React.FC = () => {
                           </div>
                         </div>
                       </div>
-                      
+
                       <div className="mb-4">
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-sm font-medium" style={{ color: 'var(--gray-600)' }}>
@@ -281,13 +281,13 @@ const FamilyHubPage: React.FC = () => {
                           </span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div 
+                          <div
                             className="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full transition-all duration-500"
                             style={{ width: `${member.progress}%` }}
                           />
                         </div>
                       </div>
-                      
+
                       <div className="text-sm" style={{ color: 'var(--gray-600)' }}>
                         <div className="flex items-center justify-between mb-1">
                           <span>Completed Activities</span>
@@ -311,11 +311,11 @@ const FamilyHubPage: React.FC = () => {
               <h2 className="text-3xl font-bold mb-8" style={{ color: 'var(--primary)' }}>
                 Quick Actions
               </h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {quickActions.map((action, index) => {
                   const IconComponent = action.icon;
-                  
+
                   if (action.url) {
                     return (
                       <a
@@ -338,7 +338,7 @@ const FamilyHubPage: React.FC = () => {
                       </a>
                     );
                   }
-                  
+
                   return (
                     <button
                       key={index}
@@ -365,12 +365,12 @@ const FamilyHubPage: React.FC = () => {
               <h2 className="text-3xl font-bold mb-8" style={{ color: 'var(--primary)' }}>
                 Continue Learning
               </h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {recentActivities.map((activity) => {
                   const IconComponent = activity.icon;
                   return (
-                    <div 
+                    <div
                       key={activity.id}
                       className="bg-white rounded-xl p-6 hover:shadow-lg transition-all cursor-pointer"
                       style={{ backgroundColor: 'var(--card-color)' }}
@@ -390,10 +390,10 @@ const FamilyHubPage: React.FC = () => {
                           </div>
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center gap-2 mb-3">
                         {activity.ageGroups.map((group) => (
-                          <span 
+                          <span
                             key={group}
                             className="px-2 py-1 bg-gray-100 rounded text-xs font-medium"
                             style={{ backgroundColor: 'var(--light)', color: 'var(--gray-600)' }}
@@ -402,7 +402,7 @@ const FamilyHubPage: React.FC = () => {
                           </span>
                         ))}
                       </div>
-                      
+
                       <button className="w-full py-2 px-4 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg font-medium hover:from-green-600 hover:to-green-700 transition-all">
                         {activity.completed ? 'Review' : 'Start Activity'}
                       </button>
@@ -512,7 +512,7 @@ const FamilyHubPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {familyMembers.map((member) => (
                   <div key={member.id} className="text-center">
@@ -521,7 +521,7 @@ const FamilyHubPage: React.FC = () => {
                       {member.name}
                     </h4>
                     <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
-                      <div 
+                      <div
                         className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full transition-all duration-500"
                         style={{ width: `${member.progress}%` }}
                       />
@@ -549,9 +549,9 @@ const FamilyHubPage: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <a 
-                href="https://www.hub.pandagarde.com" 
-                target="_blank" 
+              <a
+                href="https://www.hub.pandagarde.com"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="bg-white rounded-xl p-6 hover:shadow-lg transition-all transform hover:scale-105 block"
                 style={{ backgroundColor: 'var(--card-color)' }}

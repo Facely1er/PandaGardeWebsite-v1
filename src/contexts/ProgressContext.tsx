@@ -131,8 +131,8 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
       if (completedActivities.length >= 1) achievements.push('first_activity');
       if (completedActivities.length >= 3) achievements.push('getting_started');
       if (completedActivities.length >= 6) achievements.push('privacy_champion');
-      
-      const totalTimeSpent = activities.reduce((total, activity) => 
+
+      const totalTimeSpent = activities.reduce((total, activity) =>
         total + (activity.activity_data?.timeSpent || 0), 0
       );
       if (totalTimeSpent >= 60) achievements.push('dedicated_learner');
@@ -154,7 +154,7 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
   const markActivityCompleted = useCallback(async (memberId: string, activityId: string, score?: number, timeSpent?: number) => {
     setProgress(prev => {
       const isAlreadyCompleted = prev.completedActivities.includes(activityId);
-      
+
       if (isAlreadyCompleted) {
         return prev; // Don't update if already completed
       }
@@ -178,15 +178,15 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
 
       // Check for achievements
       const achievements = [...prev.achievements];
-      
+
       if (newProgress.completedActivities.length === 1) {
         achievements.push('first_activity');
       }
-      
+
       if (newProgress.completedActivities.length === 3) {
         achievements.push('getting_started');
       }
-      
+
       if (newProgress.completedActivities.length === 6) {
         achievements.push('privacy_champion');
       }
@@ -239,7 +239,7 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
     const totalCount = 6;
     const completedCount = progress.completedActivities.length;
     const percentage = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
-    
+
     return {
       completedCount,
       totalCount,

@@ -118,7 +118,7 @@ const ContactForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -157,10 +157,10 @@ const ContactForm: React.FC = () => {
           ageGroup: '',
           newsletter: false
         });
-        
+
         // Clear localStorage
         localStorage.removeItem('contactFormData');
-        
+
         showSuccess('Message Sent!', 'Thank you for contacting us. We\'ll get back to you within 24 hours.');
         setIsSubmitted(true);
       } else {

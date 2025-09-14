@@ -37,7 +37,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
   const drawColoringPage = (ctx: CanvasRenderingContext2D) => {
     // Clear canvas
     ctx.clearRect(0, 0, 600, 400);
-    
+
     // Set background
     ctx.fillStyle = '#F8F9FA';
     ctx.fillRect(0, 0, 600, 400);
@@ -46,11 +46,11 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
     ctx.strokeStyle = '#2C3E50';
     ctx.lineWidth = 3;
     ctx.beginPath();
-    
+
     // Panda head
     ctx.arc(300, 150, 80, 0, 2 * Math.PI);
     ctx.stroke();
-    
+
     // Panda ears
     ctx.beginPath();
     ctx.arc(250, 100, 30, 0, 2 * Math.PI);
@@ -58,7 +58,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
     ctx.beginPath();
     ctx.arc(350, 100, 30, 0, 2 * Math.PI);
     ctx.stroke();
-    
+
     // Panda eyes
     ctx.fillStyle = '#2C3E50';
     ctx.beginPath();
@@ -67,19 +67,19 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
     ctx.beginPath();
     ctx.arc(320, 140, 8, 0, 2 * Math.PI);
     ctx.fill();
-    
+
     // Panda nose
     ctx.beginPath();
     ctx.arc(300, 160, 5, 0, 2 * Math.PI);
     ctx.fill();
-    
+
     // Panda mouth
     ctx.strokeStyle = '#2C3E50';
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.arc(300, 170, 15, 0, Math.PI);
     ctx.stroke();
-    
+
     // Shield outline
     ctx.strokeStyle = '#2C3E50';
     ctx.lineWidth = 3;
@@ -92,7 +92,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
     ctx.lineTo(300, 220);
     ctx.closePath();
     ctx.stroke();
-    
+
     // Lock symbol on shield
     ctx.strokeStyle = '#2C3E50';
     ctx.lineWidth = 2;
@@ -105,7 +105,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
     ctx.lineTo(320, 280);
     ctx.lineTo(320, 300);
     ctx.stroke();
-    
+
     // Text
     ctx.fillStyle = '#2C3E50';
     ctx.font = 'bold 20px Arial';
@@ -220,20 +220,20 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
 
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const data = imageData.data;
-    
+
     let coloredPixels = 0;
     for (let i = 0; i < data.length; i += 4) {
       const r = data[i];
       const g = data[i + 1];
       const b = data[i + 2];
       const a = data[i + 3];
-      
+
       // Check if pixel is not background color and has some opacity
       if (a > 0 && !(r === 248 && g === 249 && b === 250)) {
         coloredPixels++;
       }
     }
-    
+
     // If more than 1000 pixels are colored, consider it complete
     if (coloredPixels > 1000) {
       setIsCompleted(true);
@@ -247,7 +247,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
         <h2 className="activity-title">Privacy Panda Coloring Activity</h2>
         <button onClick={onClose} className="close-button">×</button>
       </div>
-      
+
       <div className="activity-content">
         <div className="tools-panel">
           <div className="color-palette">
@@ -263,7 +263,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
               ))}
             </div>
           </div>
-          
+
           <div className="brush-controls">
             <h3>Brush Size</h3>
             <input
@@ -276,7 +276,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
             />
             <span className="brush-size">{brushSize}px</span>
           </div>
-          
+
           <div className="action-buttons">
             <button onClick={clearCanvas} className="action-button">
               <RotateCcw size={16} />
@@ -292,7 +292,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
             </button>
           </div>
         </div>
-        
+
         <div className="canvas-container">
           <canvas
             ref={canvasRef}
@@ -321,7 +321,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
           )}
         </div>
       </div>
-      
+
       <style jsx>{`
         .coloring-activity {
           position: fixed;
@@ -334,7 +334,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
           flex-direction: column;
           z-index: 1000;
         }
-        
+
         .activity-header {
           display: flex;
           justify-content: space-between;
@@ -343,13 +343,13 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
           background: white;
           border-bottom: 1px solid #e0e0e0;
         }
-        
+
         .activity-title {
           margin: 0;
           color: #2C3E50;
           font-size: 24px;
         }
-        
+
         .close-button {
           background: none;
           border: none;
@@ -357,13 +357,13 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
           cursor: pointer;
           color: #666;
         }
-        
+
         .activity-content {
           display: flex;
           flex: 1;
           background: white;
         }
-        
+
         .tools-panel {
           width: 250px;
           padding: 20px;
@@ -371,21 +371,21 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
           border-right: 1px solid #e0e0e0;
           overflow-y: auto;
         }
-        
+
         .color-palette h3,
         .brush-controls h3 {
           margin: 0 0 15px 0;
           color: #2C3E50;
           font-size: 16px;
         }
-        
+
         .colors-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 10px;
           margin-bottom: 30px;
         }
-        
+
         .color-button {
           width: 40px;
           height: 40px;
@@ -394,38 +394,38 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
           cursor: pointer;
           transition: all 0.2s;
         }
-        
+
         .color-button:hover {
           transform: scale(1.1);
         }
-        
+
         .color-button.selected {
           border-color: #2C3E50;
           transform: scale(1.1);
         }
-        
+
         .brush-controls {
           margin-bottom: 30px;
         }
-        
+
         .brush-slider {
           width: 100%;
           margin: 10px 0;
         }
-        
+
         .brush-size {
           display: block;
           text-align: center;
           color: #666;
           font-size: 14px;
         }
-        
+
         .action-buttons {
           display: flex;
           flex-direction: column;
           gap: 10px;
         }
-        
+
         .action-button {
           display: flex;
           align-items: center;
@@ -438,21 +438,21 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
           transition: all 0.2s;
           font-size: 14px;
         }
-        
+
         .action-button:hover {
           background: #f0f0f0;
         }
-        
+
         .action-button.primary {
           background: #4CAF50;
           color: white;
           border-color: #4CAF50;
         }
-        
+
         .action-button.primary:hover {
           background: #45a049;
         }
-        
+
         .canvas-container {
           flex: 1;
           display: flex;
@@ -461,14 +461,14 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
           padding: 20px;
           position: relative;
         }
-        
+
         .coloring-canvas {
           border: 2px solid #ddd;
           border-radius: 8px;
           cursor: crosshair;
           background: white;
         }
-        
+
         .completion-overlay {
           position: absolute;
           top: 0;
@@ -481,7 +481,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
           align-items: center;
           z-index: 10;
         }
-        
+
         .completion-message {
           background: white;
           padding: 40px;
@@ -489,29 +489,29 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
           text-align: center;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
-        
+
         .success-icon {
           color: #4CAF50;
           margin-bottom: 20px;
         }
-        
+
         .completion-message h3 {
           margin: 0 0 10px 0;
           color: #2C3E50;
           font-size: 24px;
         }
-        
+
         .completion-message p {
           margin: 0;
           color: #666;
           font-size: 16px;
         }
-        
+
         @media (max-width: 768px) {
           .activity-content {
             flex-direction: column;
           }
-          
+
           .tools-panel {
             width: 100%;
             height: auto;
@@ -519,72 +519,72 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
             overflow-y: auto;
             padding: 15px;
           }
-          
+
           .colors-grid {
             grid-template-columns: repeat(6, 1fr);
             gap: 8px;
           }
-          
+
           .color-button {
             width: 35px;
             height: 35px;
             min-width: 35px;
             min-height: 35px;
           }
-          
+
           .action-buttons {
             flex-direction: row;
             flex-wrap: wrap;
             gap: 8px;
           }
-          
+
           .action-button {
             flex: 1;
             min-width: 80px;
             padding: 10px 12px;
             font-size: 13px;
           }
-          
+
           .coloring-canvas {
             width: 100%;
             max-width: 350px;
             height: 250px;
             touch-action: none;
           }
-          
+
           .canvas-container {
             padding: 15px;
             min-height: 300px;
           }
         }
-        
+
         @media (max-width: 480px) {
           .tools-panel {
             max-height: 200px;
             padding: 10px;
           }
-          
+
           .colors-grid {
             grid-template-columns: repeat(5, 1fr);
             gap: 6px;
           }
-          
+
           .color-button {
             width: 30px;
             height: 30px;
             min-width: 30px;
             min-height: 30px;
           }
-          
+
           .action-buttons {
             flex-direction: column;
           }
-          
+
           .action-button {
             width: 100%;
             margin-bottom: 5px;
           }
-          
+
           .coloring-canvas {
             max-width: 300px;
             height: 200px;

@@ -73,16 +73,16 @@ const Header: React.FC = () => {
         <nav className="nav">
           <Link to="/" className="logo">
             <div className="logo-icon">
-              <img 
-                src="/LogoPandagarde.png" 
-                alt="PandaGarde Logo" 
+              <img
+                src="/LogoPandagarde.png"
+                alt="PandaGarde Logo"
                 className="panda-logo"
                 style={{ width: '100%', height: '100%', objectFit: 'contain' }}
               />
             </div>
             <span>Panda<span className="highlight">Garde</span></span>
           </Link>
-          
+
           <ul className={`nav-menu ${isMobileMenuOpen ? 'active' : ''}`}>
             {navItems.map((item) => (
               <li key={item.label}>
@@ -99,8 +99,8 @@ const Header: React.FC = () => {
                     {item.label}
                   </a>
                 ) : (
-                  <Link 
-                    to={item.href} 
+                  <Link
+                    to={item.href}
                     className={`nav-link ${isActive(item.href) ? 'active' : ''}`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -111,7 +111,7 @@ const Header: React.FC = () => {
               </li>
             ))}
           </ul>
-          
+
           <div className="nav-actions">
             <button
               onClick={toggleTheme}
@@ -120,7 +120,7 @@ const Header: React.FC = () => {
             >
               {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
             </button>
-            
+
             {user ? (
               <div className="user-menu">
                 <span className="user-email">{user.email}</span>
@@ -142,10 +142,10 @@ const Header: React.FC = () => {
                 Sign In
               </button>
             )}
-            
+
             <a href="https://www.hub.pandagarde.com" className="cta-button" target="_blank" rel="noopener noreferrer">Family Hub</a>
           </div>
-          
+
           <button
             className="mobile-menu-toggle"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -155,10 +155,10 @@ const Header: React.FC = () => {
           </button>
         </nav>
       </div>
-      
-      <AuthModal 
-        isOpen={showAuthModal} 
-        onClose={() => setShowAuthModal(false)} 
+
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
       />
     </header>
   );

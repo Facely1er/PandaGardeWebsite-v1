@@ -91,7 +91,7 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
     for (let i = 0; i < connectedDots.length - 1; i++) {
       const dot1 = dots.find(d => d.id === connectedDots[i]);
       const dot2 = dots.find(d => d.id === connectedDots[i + 1]);
-      
+
       if (dot1 && dot2) {
         if (i === 0) {
           ctx.moveTo(dot1.x, dot1.y);
@@ -105,18 +105,18 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
     dots.forEach((dot) => {
       const isConnected = connectedDots.includes(dot.id);
       const isCurrent = currentDot === dot.id;
-      
+
       // Dot circle
       ctx.beginPath();
       ctx.arc(dot.x, dot.y, isConnected ? 12 : 8, 0, 2 * Math.PI);
       ctx.fillStyle = isConnected ? '#4CAF50' : (isCurrent ? '#FFD700' : '#2C3E50');
       ctx.fill();
-      
+
       // Dot border
       ctx.strokeStyle = isConnected ? '#2E7D32' : '#2C3E50';
       ctx.lineWidth = 2;
       ctx.stroke();
-      
+
       // Dot number
       ctx.fillStyle = 'white';
       ctx.font = 'bold 12px Arial';
@@ -129,12 +129,12 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
     if (isCompleted) {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
+
       ctx.fillStyle = '#4CAF50';
       ctx.font = 'bold 32px Arial';
       ctx.textAlign = 'center';
       ctx.fillText('Shield Complete!', 300, 200);
-      
+
       ctx.fillStyle = 'white';
       ctx.font = '18px Arial';
       ctx.fillText('Privacy Panda\'s protection shield is now active!', 300, 240);
@@ -149,11 +149,11 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
 
     // Check if this is the next dot in sequence
     const expectedNext = connectedDots.length === 0 ? 1 : connectedDots[connectedDots.length - 1] + 1;
-    
+
     if (dotId === expectedNext || (connectedDots.length === 0 && dotId === 1)) {
       setConnectedDots(prev => [...prev, dotId]);
       setCurrentDot(dotId);
-      
+
       // Check if all dots are connected
       if (connectedDots.length + 1 === dots.length - 1) { // -1 because last dot is duplicate
         setTimeout(() => {
@@ -188,7 +188,7 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
         <h2 className="activity-title">Privacy Shield Connect the Dots</h2>
         <button onClick={onClose} className="close-button">×</button>
       </div>
-      
+
       <div className="activity-content">
         <div className="instructions">
           <p>Connect the dots in numerical order to reveal Privacy Panda's protection shield!</p>
@@ -203,25 +203,25 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
             className="connect-dots-canvas"
             onClick={(e) => {
               if (isCompleted) return;
-              
+
               const rect = canvasRef.current?.getBoundingClientRect();
               if (!rect) return;
-              
+
               const x = e.clientX - rect.left;
               const y = e.clientY - rect.top;
-              
+
               // Find clicked dot
               const clickedDot = dots.find(dot => {
                 const distance = Math.sqrt((x - dot.x) ** 2 + (y - dot.y) ** 2);
                 return distance <= 15;
               });
-              
+
               if (clickedDot) {
                 handleDotClick(clickedDot.id);
               }
             }}
           />
-          
+
           {isCompleted && (
             <div className="completion-overlay">
               <div className="completion-message">
@@ -245,7 +245,7 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
           </button>
         </div>
       </div>
-      
+
       <style jsx>{`
         .connect-dots-activity {
           position: fixed;
@@ -258,7 +258,7 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
           flex-direction: column;
           z-index: 1000;
         }
-        
+
         .activity-header {
           display: flex;
           justify-content: space-between;
@@ -267,13 +267,13 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
           background: white;
           border-bottom: 1px solid #e0e0e0;
         }
-        
+
         .activity-title {
           margin: 0;
           color: #2C3E50;
           font-size: 24px;
         }
-        
+
         .close-button {
           background: none;
           border: none;
@@ -281,32 +281,32 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
           cursor: pointer;
           color: #666;
         }
-        
+
         .activity-content {
           flex: 1;
           background: white;
           display: flex;
           flex-direction: column;
         }
-        
+
         .instructions {
           padding: 20px;
           background: #f8f9fa;
           border-bottom: 1px solid #e0e0e0;
         }
-        
+
         .instructions p {
           margin: 0 0 15px 0;
           color: #2C3E50;
           font-size: 16px;
         }
-        
+
         .progress {
           font-size: 16px;
           font-weight: bold;
           color: #4CAF50;
         }
-        
+
         .canvas-container {
           flex: 1;
           display: flex;
@@ -316,7 +316,7 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
           background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
           position: relative;
         }
-        
+
         .connect-dots-canvas {
           border: 2px solid #ddd;
           border-radius: 8px;
@@ -324,7 +324,7 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
           cursor: crosshair;
           box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        
+
         .completion-overlay {
           position: absolute;
           top: 0;
@@ -337,7 +337,7 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
           align-items: center;
           z-index: 10;
         }
-        
+
         .completion-message {
           background: white;
           padding: 40px;
@@ -346,24 +346,24 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
           max-width: 400px;
         }
-        
+
         .success-icon {
           color: #4CAF50;
           margin-bottom: 20px;
         }
-        
+
         .completion-message h3 {
           margin: 0 0 15px 0;
           color: #2C3E50;
           font-size: 24px;
         }
-        
+
         .completion-message p {
           margin: 0 0 10px 0;
           color: #666;
           font-size: 16px;
         }
-        
+
         .controls {
           padding: 20px;
           background: #f8f9fa;
@@ -372,7 +372,7 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
           gap: 15px;
           justify-content: center;
         }
-        
+
         .control-button {
           display: flex;
           align-items: center;
@@ -386,21 +386,21 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
           font-size: 14px;
           font-weight: 500;
         }
-        
+
         .control-button:hover {
           background: #f0f0f0;
         }
-        
+
         @media (max-width: 768px) {
           .canvas-container {
             padding: 10px;
           }
-          
+
           .connect-dots-canvas {
             max-width: 100%;
             height: auto;
           }
-          
+
           .controls {
             flex-direction: column;
             align-items: center;

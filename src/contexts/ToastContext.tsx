@@ -39,7 +39,7 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
       id,
       onClose: removeToast
     };
-    
+
     setToasts(prev => [...prev, newToast]);
   }, [removeToast]);
 

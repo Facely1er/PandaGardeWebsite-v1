@@ -109,10 +109,10 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
 
   const handleComplete = (score?: number) => {
     const timeSpent = startTime ? Math.round((Date.now() - startTime.getTime()) / 1000) : 0;
-    
+
     // Use authenticated user ID or fallback to demo user
     const memberId = user?.id || 'demo-user';
-    
+
     try {
       completeActivity(memberId, activityId, score, timeSpent);
       success('Activity Completed!', 'Great job! Your progress has been saved.');
@@ -125,7 +125,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
   const handleStart = () => {
     setStartTime(new Date());
     setShowInstructions(false);
-    
+
     // Start tracking the activity
     const memberId = user?.id || 'demo-user';
     startActivity(memberId, activityId);
@@ -137,7 +137,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
 
   const renderActivity = () => {
     const activityProps = { onComplete: handleComplete, onClose: onClose };
-    
+
     switch (activityId) {
       case 'coloring':
         return (
@@ -188,12 +188,12 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
             <h2 className="instructions-title">{currentActivity.title}</h2>
             <button onClick={onClose} className="close-button">×</button>
           </div>
-          
+
           <div className="instructions-content">
             <div className="instructions-description">
               <p>{currentActivity.description}</p>
             </div>
-            
+
             <div className="instructions-steps">
               <h3>How to Play:</h3>
               <ol>
@@ -202,12 +202,12 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
                 ))}
               </ol>
             </div>
-            
+
             <div className="instructions-tips">
               <h3>💡 Tip:</h3>
               <p>{currentActivity.tips}</p>
             </div>
-            
+
             <div className="instructions-actions">
             <button onClick={handleStart} className="start-button" aria-label="Start the activity">
               <Play size={20} />
@@ -233,7 +233,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           {renderActivity()}
         </div>
       )}
-      
+
       <style jsx>{`
         .activity-manager {
           position: fixed;
@@ -246,7 +246,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           flex-direction: column;
           z-index: 1000;
         }
-        
+
         .activity-instructions {
           background: white;
           margin: 20px;
@@ -257,7 +257,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           overflow-y: auto;
           margin: 20px auto;
         }
-        
+
         .instructions-header {
           display: flex;
           justify-content: space-between;
@@ -267,46 +267,46 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           background: #f8f9fa;
           border-radius: 12px 12px 0 0;
         }
-        
+
         .instructions-title {
           margin: 0;
           color: #2C3E50;
           font-size: 24px;
         }
-        
+
         .instructions-content {
           padding: 20px;
         }
-        
+
         .instructions-description {
           margin-bottom: 20px;
         }
-        
+
         .instructions-description p {
           font-size: 16px;
           color: #666;
           line-height: 1.6;
         }
-        
+
         .instructions-steps {
           margin-bottom: 20px;
         }
-        
+
         .instructions-steps h3 {
           color: #2C3E50;
           margin-bottom: 10px;
         }
-        
+
         .instructions-steps ol {
           padding-left: 20px;
         }
-        
+
         .instructions-steps li {
           margin-bottom: 8px;
           color: #666;
           line-height: 1.5;
         }
-        
+
         .instructions-tips {
           background: #fff3cd;
           border: 1px solid #ffeaa7;
@@ -314,25 +314,25 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           padding: 15px;
           margin-bottom: 20px;
         }
-        
+
         .instructions-tips h3 {
           margin: 0 0 8px 0;
           color: #856404;
           font-size: 16px;
         }
-        
+
         .instructions-tips p {
           margin: 0;
           color: #856404;
           font-style: italic;
         }
-        
+
         .instructions-actions {
           display: flex;
           gap: 12px;
           justify-content: center;
         }
-        
+
         .start-button {
           background: #4CAF50;
           color: white;
@@ -347,11 +347,11 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           gap: 8px;
           transition: background 0.2s;
         }
-        
+
         .start-button:hover {
           background: #45a049;
         }
-        
+
         .cancel-button {
           background: #f5f5f5;
           color: #666;
@@ -362,18 +362,18 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           cursor: pointer;
           transition: background 0.2s;
         }
-        
+
         .cancel-button:hover {
           background: #e0e0e0;
         }
-        
+
         .activity-container {
           background: white;
           height: 100%;
           display: flex;
           flex-direction: column;
         }
-        
+
         .activity-header {
           display: flex;
           justify-content: space-between;
@@ -382,19 +382,19 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           background: #f8f9fa;
           border-bottom: 1px solid #e0e0e0;
         }
-        
+
         .activity-title {
           margin: 0;
           color: #2C3E50;
           font-size: 20px;
         }
-        
+
         .activity-controls {
           display: flex;
           align-items: center;
           gap: 10px;
         }
-        
+
         .restart-button {
           background: #f5f5f5;
           border: 1px solid #ddd;
@@ -404,11 +404,11 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           color: #666;
           transition: background 0.2s;
         }
-        
+
         .restart-button:hover {
           background: #e0e0e0;
         }
-        
+
         .close-button {
           background: none;
           border: none;
@@ -437,29 +437,29 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           animation: spin 1s linear infinite;
           margin-right: 10px;
         }
-        
+
         @media (max-width: 768px) {
           .activity-instructions {
             margin: 10px;
             max-height: 90vh;
           }
-          
+
           .instructions-header {
             padding: 15px;
           }
-          
+
           .instructions-title {
             font-size: 20px;
           }
-          
+
           .instructions-content {
             padding: 15px;
           }
-          
+
           .instructions-actions {
             flex-direction: column;
           }
-          
+
           .start-button,
           .cancel-button {
             width: 100%;

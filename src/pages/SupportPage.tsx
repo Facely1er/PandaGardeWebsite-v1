@@ -119,7 +119,7 @@ const SupportPage: React.FC = () => {
 
   const filteredFAQs = faqItems.filter(item => {
     const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
-    const matchesSearch = searchQuery === '' || 
+    const matchesSearch = searchQuery === '' ||
       item.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.answer.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
@@ -138,30 +138,30 @@ const SupportPage: React.FC = () => {
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
           }} />
         </div>
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex items-center justify-center mb-8">
             <div className="w-20 h-20 mr-4">
               <Logo />
             </div>
           </div>
-          
+
           <div className="text-center">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
               <Headphones size={16} />
               <span className="text-sm font-semibold">SUPPORT CENTER</span>
             </div>
-            
+
             <h1 className="text-5xl font-bold mb-6 leading-tight">
               Help & Support
               <span className="block text-yellow-300">We're Here to Help</span>
             </h1>
-            
+
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              Get help and support for using PandaGarde resources. Find answers to common questions, 
+              Get help and support for using PandaGarde resources. Find answers to common questions,
               troubleshoot issues, and connect with our support team.
             </p>
-            
+
             <div className="flex items-center justify-center gap-6 text-sm">
               <div className="flex items-center gap-2">
                 <Star size={16} />
@@ -183,7 +183,7 @@ const SupportPage: React.FC = () => {
       {/* Navigation */}
       <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
         <div className="container mx-auto px-6 py-4">
-          <Link 
+          <Link
             to="/"
             className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 font-medium transition-colors"
             style={{ color: 'var(--primary-light)' }}
@@ -314,7 +314,7 @@ const SupportPage: React.FC = () => {
                     <span className="text-2xl text-gray-500">+</span>
                   )}
                 </button>
-                
+
                 {expandedFAQ === item.id && (
                   <div className="px-6 pb-4">
                     <p className="text-gray-700 leading-relaxed" style={{ color: 'var(--gray-600)' }}>
@@ -350,14 +350,14 @@ const SupportPage: React.FC = () => {
             Can't find what you're looking for? Our support team is here to help.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link 
+            <Link
               to="/contact"
               className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-indigo-600 hover:to-purple-700 transition-all inline-flex items-center gap-2"
             >
               <MessageCircle size={20} />
               Contact Support
             </Link>
-            <a 
+            <a
               href="mailto:support@pandagarde.com"
               className="bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2 border border-indigo-600"
             >
@@ -378,14 +378,14 @@ const SupportPage: React.FC = () => {
             Now that you know how to get help, explore our privacy education resources and start learning!
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link 
+            <Link
               to="/activity-book"
               className="bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
             >
               <BookOpen size={20} />
               Try Activities
             </Link>
-            <Link 
+            <Link
               to="/family-hub"
               className="bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-800 transition-colors inline-flex items-center gap-2"
             >

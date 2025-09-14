@@ -33,16 +33,16 @@ const Modal: React.FC<ModalProps> = ({
     if (isOpen) {
       // Store the currently focused element
       previousActiveElement.current = document.activeElement as HTMLElement;
-      
+
       // Focus the modal
       modalRef.current?.focus();
-      
+
       // Prevent body scroll
       document.body.style.overflow = 'hidden';
     } else {
       // Restore body scroll
       document.body.style.overflow = 'unset';
-      
+
       // Restore focus to the previously focused element
       if (previousActiveElement.current) {
         previousActiveElement.current.focus();
@@ -144,7 +144,7 @@ const Modal: React.FC<ModalProps> = ({
             )}
           </div>
         )}
-        
+
         <div className="modal-content">
           {children}
         </div>
