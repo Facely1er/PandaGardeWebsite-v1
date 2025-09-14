@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useAuth } from './AuthContext';
 import { activityService, progressService } from '../lib/database';
+import { isSupabaseConfigured } from '../lib/supabase';
 
 interface ActivityProgress {
   activityId: string;
@@ -63,8 +64,8 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
   // Load progress from database or localStorage
   useEffect(() => {
     const loadProgress = async () => {
-      if (user) {
-        // Load from database for authenticated users
+      if (user && isSupabaseConfigured) {
+        // Load from database for authenticated users (only if Supabase is configured)
         try {
           await syncWithDatabase();
         } catch (error) {
@@ -73,7 +74,7 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
           loadFromLocalStorage();
         }
       } else {
-        // Load from localStorage for anonymous users
+        // Load from localStorage for anonymous users or when Supabase is not configured
         loadFromLocalStorage();
       }
     };
@@ -113,8 +114,8 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
   }, [progress]);
 
   const markActivityCompleted = useCallback(async (activityId: string, score?: number, timeSpent?: number) => {
-    if (!user) {
-      // For anonymous users, just update local state
+    if (!user || !isSupabaseConfigured) {
+      // For anonymous users or when Supabase is not configured, just update local state
       setProgress(prev => {
         const isAlreadyCompleted = prev.completedActivities.includes(activityId);
         
@@ -165,7 +166,7 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
       return;
     }
 
-    // For authenticated users, update database
+    // For authenticated users with Supabase configured, update database
     try {
       // Create activity record
       const activity = await activityService.createActivity({
@@ -298,7 +299,7 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
   }, [progress]);
 
   const startActivity = useCallback(async (activityId: string) => {
-    if (!user) return;
+    if (!user || !isSupabaseConfigured) return;
 
     try {
       await activityService.createActivity({
@@ -313,7 +314,7 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
   }, [user]);
 
   const syncWithDatabase = useCallback(async () => {
-    if (!user) return;
+    if (!user || !isSupabaseConfigured) return;
 
     try {
       const activities = await activityService.getUserActivities(user.id);

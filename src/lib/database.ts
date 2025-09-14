@@ -1,4 +1,4 @@
-import { supabase, TABLES, type Database } from './supabase'
+import { supabase, TABLES, type Database, isSupabaseConfigured } from './supabase'
 
 // Error handling wrapper
 const handleDatabaseError = (operation: string, error: any) => {
@@ -36,6 +36,18 @@ type UserSession = Tables[typeof TABLES.USER_SESSIONS]['Row']
 export const userService = {
   // Get current user
   async getCurrentUser(): Promise<User | null> {
+ 
+    if (!isSupabaseConfigured || !supabase) return null
+    
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return null
+
+    const { data, error } = await supabase
+      .from(TABLES.USERS)
+      .select('*')
+      .eq('id', user.id)
+      .single()
+ 
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return null
@@ -50,6 +62,7 @@ export const userService = {
         console.error('Error fetching user:', error)
         throw new Error(`Failed to fetch user: ${error.message}`)
       }
+ 
 
       return data
     } catch (error) {
@@ -60,6 +73,15 @@ export const userService = {
 
   // Create or update user profile
   async upsertUser(userData: Partial<User>): Promise<User | null> {
+ 
+    if (!isSupabaseConfigured || !supabase) return null
+    
+    const { data, error } = await supabase
+      .from(TABLES.USERS)
+      .upsert(userData)
+      .select()
+      .single()
+ 
     try {
       const { data, error } = await supabase
         .from(TABLES.USERS)
@@ -71,6 +93,7 @@ export const userService = {
         console.error('Error upserting user:', error)
         throw new Error(`Failed to upsert user: ${error.message}`)
       }
+ 
 
       return data
     } catch (error) {
@@ -81,6 +104,8 @@ export const userService = {
 
   // Update user profile
   async updateUser(id: string, updates: Partial<User>): Promise<User | null> {
+    if (!isSupabaseConfigured || !supabase) return null
+    
     const { data, error } = await supabase
       .from(TABLES.USERS)
       .update(updates)
@@ -101,6 +126,8 @@ export const userService = {
 export const activityService = {
   // Get user activities
   async getUserActivities(userId: string): Promise<Activity[]> {
+    if (!isSupabaseConfigured || !supabase) return []
+    
     const { data, error } = await supabase
       .from(TABLES.ACTIVITIES)
       .select('*')
@@ -117,6 +144,8 @@ export const activityService = {
 
   // Create new activity
   async createActivity(activityData: Omit<Activity, 'id' | 'created_at'>): Promise<Activity | null> {
+    if (!isSupabaseConfigured || !supabase) return null
+    
     const { data, error } = await supabase
       .from(TABLES.ACTIVITIES)
       .insert(activityData)
@@ -133,6 +162,8 @@ export const activityService = {
 
   // Update activity
   async updateActivity(id: string, updates: Partial<Activity>): Promise<Activity | null> {
+    if (!isSupabaseConfigured || !supabase) return null
+    
     const { data, error } = await supabase
       .from(TABLES.ACTIVITIES)
       .update(updates)
@@ -150,6 +181,7 @@ export const activityService = {
 
   // Mark activity as completed
   async completeActivity(id: string): Promise<Activity | null> {
+    if (!isSupabaseConfigured || !supabase) return null
     return this.updateActivity(id, { completed_at: new Date().toISOString() })
   }
 }
@@ -158,6 +190,8 @@ export const activityService = {
 export const progressService = {
   // Get user progress
   async getUserProgress(userId: string): Promise<Progress[]> {
+    if (!isSupabaseConfigured || !supabase) return []
+    
     const { data, error } = await supabase
       .from(TABLES.PROGRESS)
       .select('*')
@@ -174,6 +208,8 @@ export const progressService = {
 
   // Save progress
   async saveProgress(progressData: Omit<Progress, 'id' | 'created_at' | 'updated_at'>): Promise<Progress | null> {
+    if (!isSupabaseConfigured || !supabase) return null
+    
     const { data, error } = await supabase
       .from(TABLES.PROGRESS)
       .upsert(progressData)
@@ -193,6 +229,24 @@ export const progressService = {
 export const contactService = {
   // Submit contact form
   async submitContactForm(submission: Omit<ContactSubmission, 'id' | 'created_at' | 'status'>): Promise<ContactSubmission | null> {
+ 
+    if (!isSupabaseConfigured || !supabase) {
+      // For demo purposes, just log the submission
+      console.log('Contact form submission (demo mode):', submission)
+      return null
+    }
+    
+    const { data, error } = await supabase
+      .from(TABLES.CONTACT_SUBMISSIONS)
+      .insert(submission)
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Error submitting contact form:', error)
+      return null
+    }
+ 
     return safeDbOperation(async () => {
       const { data, error } = await supabase
         .from(TABLES.CONTACT_SUBMISSIONS)
@@ -203,6 +257,7 @@ export const contactService = {
       if (error) {
         throw error
       }
+ 
 
       return data
     }, 'submitContactForm')
@@ -210,6 +265,8 @@ export const contactService = {
 
   // Get contact submissions (admin only)
   async getContactSubmissions(): Promise<ContactSubmission[]> {
+    if (!isSupabaseConfigured || !supabase) return []
+    
     const { data, error } = await supabase
       .from(TABLES.CONTACT_SUBMISSIONS)
       .select('*')
@@ -228,6 +285,12 @@ export const contactService = {
 export const newsletterService = {
   // Subscribe to newsletter
   async subscribe(email: string): Promise<NewsletterSubscriber | null> {
+    if (!isSupabaseConfigured || !supabase) {
+      // For demo purposes, just log the subscription
+      console.log('Newsletter subscription (demo mode):', email)
+      return null
+    }
+    
     const { data, error } = await supabase
       .from(TABLES.NEWSLETTER_SUBSCRIBERS)
       .upsert({ email, is_active: true })
@@ -244,6 +307,11 @@ export const newsletterService = {
 
   // Unsubscribe from newsletter
   async unsubscribe(email: string): Promise<boolean> {
+    if (!isSupabaseConfigured || !supabase) {
+      console.log('Newsletter unsubscription (demo mode):', email)
+      return true
+    }
+    
     const { error } = await supabase
       .from(TABLES.NEWSLETTER_SUBSCRIBERS)
       .update({ is_active: false })
@@ -262,6 +330,12 @@ export const newsletterService = {
 export const downloadService = {
   // Track download
   async trackDownload(downloadData: Omit<DownloadTracking, 'id' | 'downloaded_at'>): Promise<DownloadTracking | null> {
+    if (!isSupabaseConfigured || !supabase) {
+      // For demo purposes, just log the download
+      console.log('Download tracked (demo mode):', downloadData)
+      return null
+    }
+    
     const { data, error } = await supabase
       .from(TABLES.DOWNLOAD_TRACKING)
       .insert(downloadData)
@@ -278,6 +352,8 @@ export const downloadService = {
 
   // Get download statistics (admin only)
   async getDownloadStats(): Promise<DownloadTracking[]> {
+    if (!isSupabaseConfigured || !supabase) return []
+    
     const { data, error } = await supabase
       .from(TABLES.DOWNLOAD_TRACKING)
       .select('*')
@@ -296,6 +372,8 @@ export const downloadService = {
 export const sessionService = {
   // Create user session
   async createSession(userId: string, sessionData: any, expiresAt: Date): Promise<UserSession | null> {
+    if (!isSupabaseConfigured || !supabase) return null
+    
     const { data, error } = await supabase
       .from(TABLES.USER_SESSIONS)
       .insert({
@@ -316,6 +394,8 @@ export const sessionService = {
 
   // Get user sessions
   async getUserSessions(userId: string): Promise<UserSession[]> {
+    if (!isSupabaseConfigured || !supabase) return []
+    
     const { data, error } = await supabase
       .from(TABLES.USER_SESSIONS)
       .select('*')
@@ -333,6 +413,8 @@ export const sessionService = {
 
   // Clean up expired sessions
   async cleanupExpiredSessions(): Promise<boolean> {
+    if (!isSupabaseConfigured || !supabase) return true
+    
     const { error } = await supabase
       .from(TABLES.USER_SESSIONS)
       .delete()
@@ -351,6 +433,11 @@ export const sessionService = {
 export const authService = {
   // Sign up with email and password
   async signUp(email: string, password: string) {
+    if (!isSupabaseConfigured || !supabase) {
+      console.log('Sign up attempt (demo mode):', email)
+      return { data: null, error: { message: 'Authentication not configured for demo mode' } }
+    }
+    
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -383,6 +470,11 @@ export const authService = {
 
   // Sign in with email and password
   async signIn(email: string, password: string) {
+    if (!isSupabaseConfigured || !supabase) {
+      console.log('Sign in attempt (demo mode):', email)
+      return { data: null, error: { message: 'Authentication not configured for demo mode' } }
+    }
+    
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -398,6 +490,11 @@ export const authService = {
 
   // Sign out
   async signOut() {
+    if (!isSupabaseConfigured || !supabase) {
+      console.log('Sign out (demo mode)')
+      return { error: null }
+    }
+    
     const { error } = await supabase.auth.signOut()
     if (error) {
       console.error('Error signing out:', error)
@@ -407,6 +504,10 @@ export const authService = {
 
   // Get current session
   async getCurrentSession() {
+    if (!isSupabaseConfigured || !supabase) {
+      return { data: { session: null }, error: null }
+    }
+    
     const { data, error } = await supabase.auth.getSession()
     return { data, error }
   }
