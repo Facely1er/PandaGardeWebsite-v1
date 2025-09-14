@@ -1,10 +1,2 @@
-import { useContext } from 'react';
-import { ProgressContext } from '../contexts/ProgressContext';
-
-export const useProgress = () => {
-  const context = useContext(ProgressContext);
-  if (!context) {
-    throw new Error('useProgress must be used within a ProgressProvider');
-  }
-  return context;
-};
+// Re-export the useProgress hook from ProgressContext
+export { useProgress } from '../contexts/ProgressContext';

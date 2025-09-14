@@ -107,14 +107,13 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
     setShowInstructions(true);
   }, [activityId]);
 
-  const handleComplete = (score?: number) => {
+  const handleComplete = async (score?: number) => {
     const timeSpent = startTime ? Math.round((Date.now() - startTime.getTime()) / 1000) : 0;
-
+    
     // Use authenticated user ID or fallback to demo user
     const memberId = user?.id || 'demo-user';
-
     try {
-      completeActivity(memberId, activityId, score, timeSpent);
+      await completeActivity(activityId, score, timeSpent);
       success('Activity Completed!', 'Great job! Your progress has been saved.');
       onComplete(activityId);
     } catch (err) {
@@ -122,7 +121,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
     }
   };
 
-  const handleStart = () => {
+  const handleStart = async () => {
     setStartTime(new Date());
     setShowInstructions(false);
 
