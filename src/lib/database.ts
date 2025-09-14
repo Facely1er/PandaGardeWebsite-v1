@@ -1,5 +1,8 @@
 import { supabase, TABLES, type Database, isSupabaseConfigured } from './supabase'
 
+// Re-export supabase for convenience
+export { supabase }
+
 // Error handling wrapper
 const handleDatabaseError = (operation: string, error: any) => {
   console.error(`Error in ${operation}:`, error)

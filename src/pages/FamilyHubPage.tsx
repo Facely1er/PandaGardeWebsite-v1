@@ -189,7 +189,7 @@ const FamilyHubPage: React.FC = () => {
     }
   };
 
-  const getOverallProgress = () => {
+  const getOverallProgressPercentage = () => {
     const overall = getOverallProgress();
     return overall.percentage;
   };
@@ -228,7 +228,7 @@ const FamilyHubPage: React.FC = () => {
               </div>
               <div className="flex items-center gap-2">
                 <Award size={16} />
-                <span>{getOverallProgress()}% Overall Progress</span>
+                <span>{getOverallProgressPercentage()}% Overall Progress</span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock size={16} />
@@ -564,7 +564,7 @@ const FamilyHubPage: React.FC = () => {
                   <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center">
                     <div className="text-center">
                       <div className="text-3xl font-bold" style={{ color: 'var(--primary)' }}>
-                        {getOverallProgress()}%
+                        {getOverallProgressPercentage()}%
                       </div>
                       <div className="text-sm" style={{ color: 'var(--gray-600)' }}>
                         Complete
