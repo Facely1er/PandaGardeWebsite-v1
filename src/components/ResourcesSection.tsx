@@ -77,45 +77,45 @@ const ResourcesSection: React.FC = () => {
             <div className="resource-card">
               <h4>Privacy Panda Coloring Sheets</h4>
               <p>A set of 10 coloring pages featuring Privacy Panda and friends learning about online safety. Each page includes a simple privacy tip.</p>
-              <button 
-                onClick={() => window.open('/downloads/coloring-sheets.html', '_blank')}
+              <Link 
+                to="/downloads/coloring-sheets"
                 className="button"
               >
                 Download PDF
-              </button>
+              </Link>
             </div>
             
             <div className="resource-card">
               <h4>Digital Safety Posters</h4>
               <p>Classroom-ready posters highlighting key privacy concepts. Print and display these colorful reminders about password safety and personal information.</p>
-              <button 
-                onClick={() => window.open('/downloads/safety-posters.html', '_blank')}
+              <Link 
+                to="/downloads/safety-posters"
                 className="button"
               >
                 Download PDF
-              </button>
+              </Link>
             </div>
             
             <div className="resource-card">
               <h4>Privacy Panda Certificate</h4>
               <p>Celebrate learning with these printable certificates to award children after they complete privacy education activities.</p>
-              <button 
-                onClick={() => window.open('/downloads/certificates.html', '_blank')}
+              <Link 
+                to="/downloads/certificates"
                 className="button"
               >
                 Download PDF
-              </button>
+              </Link>
             </div>
             
             <div className="resource-card">
               <h4>Family Internet Agreement</h4>
               <p>A customizable document to help families establish guidelines for internet use, with child-friendly language and signature spaces.</p>
-              <button 
-                onClick={() => window.open('/downloads/family-agreement.html', '_blank')}
+              <Link 
+                to="/downloads/family-agreement"
                 className="button"
               >
                 Download PDF
-              </button>
+              </Link>
             </div>
           </div>
         </div>

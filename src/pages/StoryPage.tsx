@@ -436,13 +436,13 @@ const StoryPage: React.FC = () => {
                 Explore more activities, games, and resources to help children learn about digital privacy and online safety.
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
-                <a 
-                  href="/activity-book" 
+                <Link 
+                  to="/activity-book" 
                   className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
                 >
                   <Book size={20} />
                   Activity Book
-                </a>
+                </Link>
                 <button 
                   onClick={scrollToTop}
                   className="bg-green-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors inline-flex items-center gap-2"

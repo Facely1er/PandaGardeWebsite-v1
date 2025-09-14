@@ -264,7 +264,7 @@ const ActivityBookPage: React.FC = () => {
                 You've completed all activities and earned your Privacy Champion certificate!
               </p>
               <button 
-                onClick={() => window.open('/downloads/certificates.html', '_blank')}
+                onClick={() => window.location.href = '/downloads/certificates'}
                 className="mt-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105"
               >
                 <Award size={20} className="inline mr-2" />
@@ -478,7 +478,7 @@ const ActivityBookPage: React.FC = () => {
                 Download coloring sheets, certificates, and offline activities to continue learning away from screens.
               </p>
               <button 
-                onClick={() => window.open('/downloads/coloring-sheets.html', '_blank')}
+                onClick={() => window.location.href = '/downloads/coloring-sheets'}
                 className="text-green-600 font-semibold hover:text-green-700 transition-colors text-sm md:text-base"
               >
                 Download Resources →
