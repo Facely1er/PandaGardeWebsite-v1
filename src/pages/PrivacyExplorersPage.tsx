@@ -87,7 +87,7 @@ const PrivacyExplorersPage: React.FC = () => {
     // Load user progress from localStorage
     const savedPoints = localStorage.getItem('privacy_explorers_points');
     const savedCompleted = localStorage.getItem('privacy_explorers_completed');
-    
+
     if (savedPoints) {
       setUserPoints(parseInt(savedPoints));
     }
@@ -107,10 +107,10 @@ const PrivacyExplorersPage: React.FC = () => {
       if (challenge) {
         const newPoints = userPoints + challenge.points;
         const newCompleted = [...completedChallenges, challengeId];
-        
+
         setUserPoints(newPoints);
         setCompletedChallenges(newCompleted);
-        
+
         // Save to localStorage
         localStorage.setItem('privacy_explorers_points', newPoints.toString());
         localStorage.setItem('privacy_explorers_completed', JSON.stringify(newCompleted));
@@ -146,30 +146,30 @@ const PrivacyExplorersPage: React.FC = () => {
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
           }} />
         </div>
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex items-center justify-center mb-8">
             <div className="w-20 h-20 mr-4">
               <Logo />
             </div>
           </div>
-          
+
           <div className="text-center">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
               <Shield size={16} />
               <span className="text-sm font-semibold">PRIVACY EXPLORERS</span>
             </div>
-            
+
             <h1 className="text-5xl font-bold mb-6 leading-tight">
               Privacy Explorers
               <span className="block text-yellow-300">Ages 9-12</span>
             </h1>
-            
+
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              Interactive privacy challenges and games designed specifically for tweens. 
+              Interactive privacy challenges and games designed specifically for tweens.
               Learn digital safety through exciting quests and missions!
             </p>
-            
+
             <div className="flex items-center justify-center gap-6 text-sm">
               <div className="flex items-center gap-2">
                 <Star size={16} />
@@ -191,7 +191,7 @@ const PrivacyExplorersPage: React.FC = () => {
       {/* Navigation */}
       <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
         <div className="container mx-auto px-6 py-4">
-          <Link 
+          <Link
             to="/"
             className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors"
             style={{ color: 'var(--primary-light)' }}
@@ -204,7 +204,7 @@ const PrivacyExplorersPage: React.FC = () => {
 
       {/* Progress Section */}
       <section className="container mx-auto px-6 py-12">
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-12" style={{ 
+        <div className="bg-white rounded-xl shadow-lg p-8 mb-12" style={{
           backgroundColor: 'var(--card-color)',
           boxShadow: 'var(--shadow-lg)'
         }}>
@@ -227,7 +227,7 @@ const PrivacyExplorersPage: React.FC = () => {
               </div>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-4">
-              <div 
+              <div
                 className="h-4 rounded-full transition-all duration-500 bg-gradient-to-r from-blue-500 to-purple-600"
                 style={{ width: `${getCompletionPercentage()}%` }}
               />
@@ -235,8 +235,8 @@ const PrivacyExplorersPage: React.FC = () => {
           </div>
 
           {getCompletionPercentage() === 100 && (
-            <div className="text-center bg-yellow-50 border border-yellow-200 rounded-lg p-6" 
-                 style={{ 
+            <div className="text-center bg-yellow-50 border border-yellow-200 rounded-lg p-6"
+                 style={{
                    backgroundColor: 'var(--light)',
                    borderColor: 'var(--warning)'
                  }}>
@@ -267,14 +267,14 @@ const PrivacyExplorersPage: React.FC = () => {
           {challenges.map((challenge) => {
             const Icon = challenge.icon;
             const isCompleted = completedChallenges.includes(challenge.id);
-            
+
             return (
               <div
                 key={challenge.id}
                 className={`bg-white rounded-xl shadow-md hover:shadow-lg transition-all transform hover:scale-105 cursor-pointer border-2 ${
                   isCompleted ? 'border-green-500' : 'border-transparent'
                 }`}
-                style={{ 
+                style={{
                   backgroundColor: 'var(--card-color)',
                   boxShadow: 'var(--shadow-md)'
                 }}
@@ -289,15 +289,15 @@ const PrivacyExplorersPage: React.FC = () => {
                       <CheckCircle size={24} className="text-green-500" />
                     )}
                   </div>
-                  
+
                   <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
                     {challenge.title}
                   </h3>
-                  
+
                   <p className="mb-4 leading-relaxed" style={{ color: 'var(--gray-600)' }}>
                     {challenge.description}
                   </p>
-                  
+
                   <div className="flex items-center justify-between mb-4">
                     <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getDifficultyColor(challenge.difficulty)}`}>
                       {challenge.difficulty}
@@ -306,12 +306,12 @@ const PrivacyExplorersPage: React.FC = () => {
                       {challenge.duration}
                     </span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-bold text-purple-600">
                       {challenge.points} points
                     </span>
-                    <button 
+                    <button
                       className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all"
                       onClick={(e) => {
                         e.stopPropagation();
@@ -337,19 +337,19 @@ const PrivacyExplorersPage: React.FC = () => {
                 <h3 className="text-2xl font-bold" style={{ color: 'var(--primary)' }}>
                   {selectedChallenge.title}
                 </h3>
-                <button 
+                <button
                   onClick={() => setShowChallenge(false)}
                   className="text-gray-500 hover:text-gray-700 text-2xl"
                 >
                   ×
                 </button>
               </div>
-              
+
               <div className="mb-6">
                 <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
                   {selectedChallenge.description}
                 </p>
-                
+
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                   <h4 className="font-semibold mb-2" style={{ color: 'var(--primary)' }}>
                     Challenge Instructions:
@@ -361,7 +361,7 @@ const PrivacyExplorersPage: React.FC = () => {
                     <li>Complete all tasks to earn your points</li>
                   </ul>
                 </div>
-                
+
                 <div className="text-center">
                   <button
                     onClick={() => handleChallengeComplete(selectedChallenge.id)}
@@ -386,14 +386,14 @@ const PrivacyExplorersPage: React.FC = () => {
             Start your journey to becoming a digital privacy champion. Complete challenges, earn points, and unlock new skills!
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link 
+            <Link
               to="/activity-book"
               className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
             >
               <BookOpen size={20} />
               Try Activity Book
             </Link>
-            <Link 
+            <Link
               to="/family-hub"
               className="bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors inline-flex items-center gap-2"
             >

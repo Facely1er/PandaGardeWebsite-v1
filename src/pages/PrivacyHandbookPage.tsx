@@ -134,8 +134,8 @@ const PrivacyHandbookPage: React.FC = () => {
     { id: 'advanced', label: 'Advanced', icon: Shield }
   ];
 
-  const filteredGuides = activeCategory === 'all' 
-    ? guides 
+  const filteredGuides = activeCategory === 'all'
+    ? guides
     : guides.filter(guide => guide.category === activeCategory);
 
   useEffect(() => {
@@ -184,30 +184,30 @@ const PrivacyHandbookPage: React.FC = () => {
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
           }} />
         </div>
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex items-center justify-center mb-8">
             <div className="w-20 h-20 mr-4">
               <Logo />
             </div>
           </div>
-          
+
           <div className="text-center">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
               <Shield size={16} />
               <span className="text-sm font-semibold">PRIVACY PROTECTOR'S GUIDE</span>
             </div>
-            
+
             <h1 className="text-5xl font-bold mb-6 leading-tight">
               Privacy Protector's Guide
               <span className="block text-yellow-300">Ages 9-12</span>
             </h1>
-            
+
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              Hands-on projects and practical guides that teach tweens how to protect personal information 
+              Hands-on projects and practical guides that teach tweens how to protect personal information
               and navigate online spaces safely. Become a digital privacy expert!
             </p>
-            
+
             <div className="flex items-center justify-center gap-6 text-sm">
               <div className="flex items-center gap-2">
                 <Star size={16} />
@@ -229,7 +229,7 @@ const PrivacyHandbookPage: React.FC = () => {
       {/* Navigation */}
       <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
         <div className="container mx-auto px-6 py-4">
-          <Link 
+          <Link
             to="/"
             className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
             style={{ color: 'var(--primary-light)' }}
@@ -242,7 +242,7 @@ const PrivacyHandbookPage: React.FC = () => {
 
       {/* Progress Section */}
       <section className="container mx-auto px-6 py-12">
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-12" style={{ 
+        <div className="bg-white rounded-xl shadow-lg p-8 mb-12" style={{
           backgroundColor: 'var(--card-color)',
           boxShadow: 'var(--shadow-lg)'
         }}>
@@ -309,14 +309,14 @@ const PrivacyHandbookPage: React.FC = () => {
             const Icon = guide.icon;
             const CategoryIcon = getCategoryIcon(guide.category);
             const isCompleted = completedGuides.includes(guide.id);
-            
+
             return (
               <div
                 key={guide.id}
                 className={`bg-white rounded-xl shadow-md hover:shadow-lg transition-all transform hover:scale-105 cursor-pointer border-2 ${
                   isCompleted ? 'border-green-500' : 'border-transparent'
                 }`}
-                style={{ 
+                style={{
                   backgroundColor: 'var(--card-color)',
                   boxShadow: 'var(--shadow-md)'
                 }}
@@ -331,20 +331,20 @@ const PrivacyHandbookPage: React.FC = () => {
                       <CheckCircle size={24} className="text-green-500" />
                     )}
                   </div>
-                  
+
                   <div className="flex items-center gap-2 mb-2">
                     <CategoryIcon size={16} className="text-gray-500" />
                     <span className="text-sm text-gray-500 capitalize">{guide.category}</span>
                   </div>
-                  
+
                   <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
                     {guide.title}
                   </h3>
-                  
+
                   <p className="mb-4 leading-relaxed" style={{ color: 'var(--gray-600)' }}>
                     {guide.description}
                   </p>
-                  
+
                   <div className="flex items-center justify-between mb-4">
                     <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getDifficultyColor(guide.difficulty)}`}>
                       {guide.difficulty}
@@ -353,8 +353,8 @@ const PrivacyHandbookPage: React.FC = () => {
                       {guide.duration}
                     </span>
                   </div>
-                  
-                  <button 
+
+                  <button
                     className="w-full bg-gradient-to-r from-green-500 to-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-green-600 hover:to-blue-700 transition-all"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -379,19 +379,19 @@ const PrivacyHandbookPage: React.FC = () => {
                 <h3 className="text-2xl font-bold" style={{ color: 'var(--primary)' }}>
                   {selectedGuide.title}
                 </h3>
-                <button 
+                <button
                   onClick={() => setShowGuide(false)}
                   className="text-gray-500 hover:text-gray-700 text-2xl"
                 >
                   ×
                 </button>
               </div>
-              
+
               <div className="mb-6">
                 <p className="text-lg mb-6" style={{ color: 'var(--gray-600)' }}>
                   {selectedGuide.description}
                 </p>
-                
+
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
                   <h4 className="font-semibold mb-4" style={{ color: 'var(--primary)' }}>
                     What You'll Learn:
@@ -402,7 +402,7 @@ const PrivacyHandbookPage: React.FC = () => {
                     ))}
                   </ul>
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4 text-sm text-gray-600">
                     <span className="flex items-center gap-1">
@@ -413,7 +413,7 @@ const PrivacyHandbookPage: React.FC = () => {
                       {selectedGuide.difficulty}
                     </span>
                   </div>
-                  
+
                   <button
                     onClick={() => handleGuideComplete(selectedGuide.id)}
                     className="bg-gradient-to-r from-green-500 to-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-green-600 hover:to-blue-700 transition-all"
@@ -437,14 +437,14 @@ const PrivacyHandbookPage: React.FC = () => {
             Start your journey to becoming a digital privacy expert. Learn practical skills that will protect you and your family online.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link 
+            <Link
               to="/privacy-explorers"
               className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
             >
               <Shield size={20} />
               Try Privacy Explorers
             </Link>
-            <Link 
+            <Link
               to="/family-hub"
               className="bg-green-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors inline-flex items-center gap-2"
             >

@@ -21,9 +21,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
   const baseClasses = 'w-full px-3 py-2 border rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1';
   const errorClasses = error ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-green-500 focus:border-green-500';
   const iconClasses = leftIcon ? 'pl-10' : rightIcon ? 'pr-10' : '';
-  
+
   const classes = `${baseClasses} ${errorClasses} ${iconClasses} ${className}`;
-  
+
   return (
     <div className="w-full">
       {label && (
@@ -31,7 +31,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
           {label}
         </label>
       )}
-      
+
       <div className="relative">
         {leftIcon && (
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -40,13 +40,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
             </div>
           </div>
         )}
-        
+
         <input
           ref={ref}
           className={classes}
           {...props}
         />
-        
+
         {rightIcon && (
           <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
             <div className="text-gray-400">
@@ -55,14 +55,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
           </div>
         )}
       </div>
-      
+
       {error && (
         <div className="mt-1 flex items-center text-sm text-red-600">
           <AlertCircle className="w-4 h-4 mr-1" />
           {error}
         </div>
       )}
-      
+
       {helperText && !error && (
         <div className="mt-1 text-sm text-gray-500">
           {helperText}

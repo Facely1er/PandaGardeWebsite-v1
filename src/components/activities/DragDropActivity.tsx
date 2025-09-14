@@ -84,8 +84,8 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
 
     const { x, y } = getEventPos(e);
 
-    setItems(prev => prev.map(item => 
-      item.id === draggedItem.id 
+    setItems(prev => prev.map(item =>
+      item.id === draggedItem.id
         ? { ...item, x: Math.max(0, Math.min(x, rect.width - 100)), y: Math.max(0, Math.min(y, rect.height - 50)) }
         : item
     ));
@@ -94,8 +94,8 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
   const handleEnd = () => {
     if (!draggedItem) return;
 
-    setItems(prev => prev.map(item => 
-      item.id === draggedItem.id 
+    setItems(prev => prev.map(item =>
+      item.id === draggedItem.id
         ? { ...item, isDragging: false }
         : item
     ));
@@ -147,7 +147,7 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
   const getItemClassName = (item: Item) => {
     const safeZone = { x: 50, y: 300, width: 200, height: 100 };
     const privateZone = { x: 350, y: 300, width: 200, height: 100 };
-    
+
     const itemCenterX = item.x + 50;
     const itemCenterY = item.y + 25;
 
@@ -169,14 +169,14 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
         <h2 className="activity-title">Information Sorting Game</h2>
         <button onClick={onClose} className="close-button">×</button>
       </div>
-      
+
       <div className="activity-content">
         <div className="instructions">
           <p>Drag each item to the correct category: <strong>Safe to Share</strong> or <strong>Keep Private</strong></p>
           <div className="score">Score: {score}%</div>
         </div>
 
-        <div 
+        <div
           ref={containerRef}
           className="game-container"
           onMouseMove={handleMove}
@@ -191,7 +191,7 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
             <h3>Safe to Share</h3>
             <p>Things you can tell friends</p>
           </div>
-          
+
           <div className="drop-zone private-zone">
             <h3>Keep Private</h3>
             <p>Personal information to protect</p>
@@ -233,7 +233,7 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
           </div>
         )}
       </div>
-      
+
       <style jsx>{`
         .drag-drop-activity {
           position: fixed;
@@ -246,7 +246,7 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
           flex-direction: column;
           z-index: 1000;
         }
-        
+
         .activity-header {
           display: flex;
           justify-content: space-between;
@@ -255,13 +255,13 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
           background: white;
           border-bottom: 1px solid #e0e0e0;
         }
-        
+
         .activity-title {
           margin: 0;
           color: #2C3E50;
           font-size: 24px;
         }
-        
+
         .close-button {
           background: none;
           border: none;
@@ -269,14 +269,14 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
           cursor: pointer;
           color: #666;
         }
-        
+
         .activity-content {
           flex: 1;
           background: white;
           display: flex;
           flex-direction: column;
         }
-        
+
         .instructions {
           padding: 20px;
           background: #f8f9fa;
@@ -285,26 +285,26 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
           justify-content: space-between;
           align-items: center;
         }
-        
+
         .instructions p {
           margin: 0;
           color: #2C3E50;
           font-size: 16px;
         }
-        
+
         .score {
           font-size: 18px;
           font-weight: bold;
           color: #4CAF50;
         }
-        
+
         .game-container {
           flex: 1;
           position: relative;
           background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
           overflow: hidden;
         }
-        
+
         .drop-zone {
           position: absolute;
           width: 200px;
@@ -319,33 +319,33 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
           background: rgba(255, 255, 255, 0.8);
           transition: all 0.3s ease;
         }
-        
+
         .safe-zone {
           top: 300px;
           left: 50px;
           border-color: #4CAF50;
           background: rgba(76, 175, 80, 0.1);
         }
-        
+
         .private-zone {
           top: 300px;
           right: 50px;
           border-color: #f44336;
           background: rgba(244, 67, 54, 0.1);
         }
-        
+
         .drop-zone h3 {
           margin: 0 0 5px 0;
           font-size: 16px;
           color: #2C3E50;
         }
-        
+
         .drop-zone p {
           margin: 0;
           font-size: 12px;
           color: #666;
         }
-        
+
         .drag-item {
           position: absolute;
           width: 100px;
@@ -365,31 +365,31 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
           transition: all 0.2s ease;
           box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        
+
         .drag-item:hover {
           transform: scale(1.05);
         }
-        
+
         .drag-item:active {
           cursor: grabbing;
         }
-        
+
         .drag-item.safe {
           border-color: #4CAF50;
           background: #E8F5E8;
         }
-        
+
         .drag-item.private {
           border-color: #f44336;
           background: #FFEBEE;
         }
-        
+
         .drag-item.correct {
           border-color: #4CAF50;
           background: #C8E6C9;
           box-shadow: 0 0 0 2px #4CAF50;
         }
-        
+
         .controls {
           padding: 20px;
           background: #f8f9fa;
@@ -398,7 +398,7 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
           gap: 15px;
           justify-content: center;
         }
-        
+
         .control-button {
           display: flex;
           align-items: center;
@@ -412,21 +412,21 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
           font-size: 14px;
           font-weight: 500;
         }
-        
+
         .control-button:hover {
           background: #f0f0f0;
         }
-        
+
         .control-button.primary {
           background: #4CAF50;
           color: white;
           border-color: #4CAF50;
         }
-        
+
         .control-button.primary:hover {
           background: #45a049;
         }
-        
+
         .completion-overlay {
           position: absolute;
           top: 0;
@@ -439,7 +439,7 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
           align-items: center;
           z-index: 10;
         }
-        
+
         .completion-message {
           background: white;
           padding: 40px;
@@ -448,46 +448,46 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
           max-width: 400px;
         }
-        
+
         .success-icon {
           color: #4CAF50;
           margin-bottom: 20px;
         }
-        
+
         .completion-message h3 {
           margin: 0 0 15px 0;
           color: #2C3E50;
           font-size: 24px;
         }
-        
+
         .completion-message p {
           margin: 0 0 10px 0;
           color: #666;
           font-size: 16px;
         }
-        
+
         @media (max-width: 768px) {
           .game-container {
             padding: 15px;
             min-height: 400px;
           }
-          
+
           .drop-zone {
             width: 140px;
             height: 70px;
             font-size: 12px;
           }
-          
+
           .safe-zone {
             left: 15px;
             top: 250px;
           }
-          
+
           .private-zone {
             right: 15px;
             top: 250px;
           }
-          
+
           .drag-item {
             width: 90px;
             height: 45px;
@@ -497,64 +497,64 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
             touch-action: none;
             user-select: none;
           }
-          
+
           .controls {
             flex-direction: row;
             flex-wrap: wrap;
             gap: 10px;
             justify-content: center;
           }
-          
+
           .control-button {
             flex: 1;
             min-width: 120px;
             padding: 10px 16px;
             font-size: 13px;
           }
-          
+
           .instructions {
             padding: 15px;
             font-size: 14px;
           }
-          
+
           .score {
             font-size: 16px;
           }
         }
-        
+
         @media (max-width: 480px) {
           .game-container {
             padding: 10px;
             min-height: 350px;
           }
-          
+
           .drop-zone {
             width: 120px;
             height: 60px;
             font-size: 11px;
           }
-          
+
           .safe-zone {
             left: 10px;
             top: 200px;
           }
-          
+
           .private-zone {
             right: 10px;
             top: 200px;
           }
-          
+
           .drag-item {
             width: 80px;
             height: 40px;
             font-size: 10px;
             padding: 6px;
           }
-          
+
           .controls {
             flex-direction: column;
           }
-          
+
           .control-button {
             width: 100%;
             margin-bottom: 8px;

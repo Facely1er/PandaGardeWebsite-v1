@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Book, 
-  ArrowLeft, 
-  Palette, 
-  Puzzle, 
-  MapPin, 
-  Search, 
-  Target, 
+import {
+  Book,
+  ArrowLeft,
+  Palette,
+  Puzzle,
+  MapPin,
+  Search,
+  Target,
   Link as LinkIcon,
   Award,
   Users,
@@ -181,24 +181,24 @@ const ActivityBookPage: React.FC = () => {
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
           }} />
         </div>
-        
+
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="text-center">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 md:px-4 py-2 rounded-full mb-4 md:mb-6">
               <Book size={14} className="md:w-4 md:h-4" />
               <span className="text-xs md:text-sm font-semibold">INTERACTIVE ACTIVITY BOOK</span>
             </div>
-            
+
             <h1 className="text-3xl md:text-5xl font-bold mb-4 md:mb-6 leading-tight">
               Privacy Panda
               <span className="block text-yellow-300">Activity Book</span>
             </h1>
-            
+
             <p className="text-lg md:text-xl opacity-90 max-w-2xl mx-auto mb-6 md:mb-8 px-4">
-              Interactive privacy education activities designed for children ages 5-12. 
+              Interactive privacy education activities designed for children ages 5-12.
               Learn about digital safety through fun games, coloring, and puzzles!
             </p>
-            
+
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-6 text-xs md:text-sm">
               <div className="flex items-center gap-2">
                 <Star size={14} className="md:w-4 md:h-4" />
@@ -220,7 +220,7 @@ const ActivityBookPage: React.FC = () => {
       {/* Navigation */}
       <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
         <div className="container mx-auto px-4 md:px-6 py-3 md:py-4">
-          <button 
+          <button
             onClick={() => window.history.back()}
             className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors text-sm md:text-base"
             style={{ color: 'var(--primary-light)' }}
@@ -233,7 +233,7 @@ const ActivityBookPage: React.FC = () => {
 
       {/* Progress Section */}
       <section className="container mx-auto px-4 md:px-6 py-8 md:py-12">
-        <div className="bg-white rounded-xl shadow-lg p-4 md:p-8 mb-8 md:mb-12" style={{ 
+        <div className="bg-white rounded-xl shadow-lg p-4 md:p-8 mb-8 md:mb-12" style={{
           backgroundColor: 'var(--card-color)',
           boxShadow: 'var(--shadow-lg)'
         }}>
@@ -242,7 +242,7 @@ const ActivityBookPage: React.FC = () => {
               Your Progress
             </h2>
             <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
-              <div 
+              <div
                 className="h-4 rounded-full transition-all duration-500 bg-gradient-to-r from-green-500 to-green-600"
                 style={{ width: `${overallProgress.percentage}%` }}
               />
@@ -253,8 +253,8 @@ const ActivityBookPage: React.FC = () => {
           </div>
 
           {overallProgress.percentage === 100 && (
-            <div className="text-center bg-yellow-50 border border-yellow-200 rounded-lg p-6" 
-                 style={{ 
+            <div className="text-center bg-yellow-50 border border-yellow-200 rounded-lg p-6"
+                 style={{
                    backgroundColor: theme === 'dark' ? 'rgba(251, 191, 36, 0.1)' : '#FFFBEB',
                    borderColor: 'var(--warning)'
                  }}>
@@ -286,7 +286,7 @@ const ActivityBookPage: React.FC = () => {
           <p className="text-base md:text-lg max-w-2xl mx-auto mb-6 md:mb-8 px-4" style={{ color: 'var(--gray-600)' }}>
             Click on any activity to start learning about digital privacy through interactive games and exercises.
           </p>
-          
+
           {/* Interactive Controls */}
           <div className="bg-white rounded-xl shadow-lg p-4 md:p-6 mb-6 md:mb-8" style={{ backgroundColor: 'var(--card-color)' }}>
             <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
@@ -304,7 +304,7 @@ const ActivityBookPage: React.FC = () => {
                   />
                 </div>
               </div>
-              
+
               {/* Filter and Sort */}
               <div className="flex items-center gap-2 md:gap-4">
                 <button
@@ -314,7 +314,7 @@ const ActivityBookPage: React.FC = () => {
                   <Filter size={14} className="md:w-4 md:h-4" />
                   <span className="hidden sm:inline">Filter</span>
                 </button>
-                
+
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as 'name' | 'difficulty' | 'duration')}
@@ -327,7 +327,7 @@ const ActivityBookPage: React.FC = () => {
                 </select>
               </div>
             </div>
-            
+
             {/* Filter Options */}
             {showFilters && (
               <div className="mt-4 pt-4 border-t border-gray-200">
@@ -385,14 +385,14 @@ const ActivityBookPage: React.FC = () => {
             filteredActivities.map((activity) => {
             const Icon = activity.icon;
             const isCompleted = progress.completedActivities.includes(activity.id);
-            
+
             return (
               <div
                 key={activity.id}
                 className={`bg-white rounded-xl shadow-md hover:shadow-lg transition-all transform hover:scale-105 cursor-pointer border-2 ${
                   isCompleted ? 'border-green-500' : 'border-transparent'
                 }`}
-                style={{ 
+                style={{
                   backgroundColor: 'var(--card-color)',
                   boxShadow: 'var(--shadow-md)'
                 }}
@@ -407,15 +407,15 @@ const ActivityBookPage: React.FC = () => {
                       <CheckCircle size={20} className="text-green-500 absolute -top-1 -right-1 md:w-6 md:h-6" />
                     )}
                   </div>
-                  
+
                   <h3 className="text-lg md:text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
                     {activity.title}
                   </h3>
-                  
+
                   <p className="mb-4 leading-relaxed text-sm md:text-base" style={{ color: 'var(--gray-600)' }}>
                     {activity.description}
                   </p>
-                  
+
                   <div className="flex items-center justify-center gap-3 mb-4">
                     <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getDifficultyColor(activity.difficulty)}`}>
                       {activity.difficulty}
@@ -424,12 +424,12 @@ const ActivityBookPage: React.FC = () => {
                       {activity.duration}
                     </span>
                   </div>
-                  
+
                   <div className="flex flex-col items-center gap-3">
                     <span className="text-sm" style={{ color: 'var(--gray-500)' }}>
                       Ages {activity.ageGroup}
                     </span>
-                    <button 
+                    <button
                       className="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all text-sm md:text-base"
                       onClick={(e) => {
                         e.stopPropagation();
@@ -501,7 +501,7 @@ const ActivityBookPage: React.FC = () => {
               <p className="mb-4 text-sm md:text-base" style={{ color: 'var(--gray-600)' }}>
                 Download coloring sheets, certificates, and offline activities to continue learning away from screens.
               </p>
-              <button 
+              <button
                 onClick={() => window.location.href = '/downloads/coloring-sheets'}
                 className="text-green-600 font-semibold hover:text-green-700 transition-colors text-sm md:text-base"
               >
@@ -552,14 +552,14 @@ const ActivityBookPage: React.FC = () => {
             Explore more age-appropriate resources and activities designed to build strong privacy habits for life.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
-            <Link 
+            <Link
               to="/#age-groups"
               className="bg-white text-green-600 px-4 md:px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center gap-2 text-sm md:text-base"
             >
               <Users size={18} className="md:w-5 md:h-5" />
               Explore Age Groups
             </Link>
-            <Link 
+            <Link
               to="/story"
               className="bg-green-700 text-white px-4 md:px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors inline-flex items-center justify-center gap-2 text-sm md:text-base"
             >

@@ -12,29 +12,29 @@ const CookiesPage: React.FC = () => {
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
           }} />
         </div>
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex items-center justify-center mb-8">
             <div className="w-20 h-20 mr-4">
               <Logo />
             </div>
           </div>
-          
+
           <div className="text-center">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
               <Cookie size={16} />
               <span className="text-sm font-semibold">PRIVACY</span>
             </div>
-            
+
             <h1 className="text-5xl font-bold mb-6 leading-tight">
               Cookie Policy
               <span className="block text-yellow-300">Privacy-First Approach</span>
             </h1>
-            
+
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
               Learn about how we use cookies and similar technologies to enhance your experience while protecting your privacy.
             </p>
-            
+
             <div className="flex items-center justify-center gap-6 text-sm">
               <div className="flex items-center gap-2">
                 <Shield size={16} />
@@ -53,15 +53,15 @@ const CookiesPage: React.FC = () => {
       <div className="container mx-auto px-6 py-16">
         <div className="max-w-4xl mx-auto">
           <div className="prose prose-lg max-w-none">
-            
+
             {/* Introduction */}
             <section className="mb-12">
               <h2 className="text-3xl font-bold mb-6" style={{ color: 'var(--primary)' }}>
                 What Are Cookies?
               </h2>
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
-                Cookies are small text files that are stored on your device when you visit a website. They help 
-                websites remember information about your visit, such as your preferences and settings, to make 
+                Cookies are small text files that are stored on your device when you visit a website. They help
+                websites remember information about your visit, such as your preferences and settings, to make
                 your next visit easier and more personalized.
               </p>
               <div className="bg-blue-50 p-6 rounded-lg mb-6" style={{ backgroundColor: 'var(--light)' }}>
@@ -72,7 +72,7 @@ const CookiesPage: React.FC = () => {
                       Our Privacy-First Approach
                     </h3>
                     <p style={{ color: 'var(--gray-600)' }}>
-                      At PandaGarde, we believe in minimal data collection and maximum privacy protection. 
+                      At PandaGarde, we believe in minimal data collection and maximum privacy protection.
                       We only use cookies that are essential for the functioning of our educational platform.
                     </p>
                   </div>
@@ -85,7 +85,7 @@ const CookiesPage: React.FC = () => {
               <h2 className="text-3xl font-bold mb-6" style={{ color: 'var(--primary)' }}>
                 Types of Cookies We Use
               </h2>
-              
+
               <div className="space-y-6">
                 {/* Essential Cookies */}
                 <div className="bg-green-50 p-6 rounded-lg" style={{ backgroundColor: '#f0fdf4' }}>
@@ -140,7 +140,7 @@ const CookiesPage: React.FC = () => {
                         Analytics Cookies (Optional)
                       </h3>
                       <p className="text-yellow-700 mb-3">
-                        We use privacy-focused analytics to understand how our educational content is being used, 
+                        We use privacy-focused analytics to understand how our educational content is being used,
                         without collecting personal information.
                       </p>
                       <ul className="list-disc pl-6 text-yellow-700">
@@ -161,10 +161,10 @@ const CookiesPage: React.FC = () => {
                 Third-Party Services
               </h2>
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
-                We may use third-party services that set their own cookies. These services are carefully 
+                We may use third-party services that set their own cookies. These services are carefully
                 selected for their privacy-focused approach and educational value.
               </p>
-              
+
               <div className="bg-gray-50 p-6 rounded-lg" style={{ backgroundColor: 'var(--light)' }}>
                 <h3 className="font-semibold mb-3" style={{ color: 'var(--primary)' }}>
                   Services We May Use:
@@ -186,7 +186,7 @@ const CookiesPage: React.FC = () => {
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
                 You have control over which cookies you accept. Here's how you can manage your preferences:
               </p>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-white p-6 rounded-lg shadow-md" style={{ backgroundColor: 'var(--card-color)' }}>
                   <h3 className="font-semibold mb-3" style={{ color: 'var(--primary)' }}>
@@ -202,7 +202,7 @@ const CookiesPage: React.FC = () => {
                     <li>Set up cookie notifications</li>
                   </ul>
                 </div>
-                
+
                 <div className="bg-white p-6 rounded-lg shadow-md" style={{ backgroundColor: 'var(--card-color)' }}>
                   <h3 className="font-semibold mb-3" style={{ color: 'var(--primary)' }}>
                     Our Cookie Banner
@@ -233,14 +233,14 @@ const CookiesPage: React.FC = () => {
                       COPPA Compliance
                     </h3>
                     <p className="text-pink-700">
-                      We are committed to protecting children's privacy and comply with the Children's Online 
-                      Privacy Protection Act (COPPA). We do not knowingly collect personal information from 
+                      We are committed to protecting children's privacy and comply with the Children's Online
+                      Privacy Protection Act (COPPA). We do not knowingly collect personal information from
                       children under 13 without parental consent.
                     </p>
                   </div>
                 </div>
               </div>
-              
+
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
                 For children using our platform:
               </p>
@@ -274,8 +274,8 @@ const CookiesPage: React.FC = () => {
                 Updates to This Policy
               </h2>
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
-                We may update this Cookie Policy from time to time to reflect changes in our practices or 
-                for other operational, legal, or regulatory reasons. We will notify you of any material 
+                We may update this Cookie Policy from time to time to reflect changes in our practices or
+                for other operational, legal, or regulatory reasons. We will notify you of any material
                 changes by posting the updated policy on our website.
               </p>
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>

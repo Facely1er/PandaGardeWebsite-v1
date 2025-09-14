@@ -33,6 +33,11 @@ const Header: React.FC = () => {
     { icon: Info, label: 'About', href: '/about', isExternal: false },
   ];
 
+  const handleAuthSuccess = () => {
+    setShowAuthModal(false);
+    setAuthMode('login');
+  };
+
   const scrollToSection = (href: string) => {
     if (href.startsWith('#')) {
       // If we're not on the home page, navigate there first
@@ -68,11 +73,6 @@ const Header: React.FC = () => {
     return location.pathname.startsWith(href);
   };
 
-  const handleAuthSuccess = () => {
-    setShowAuthModal(false);
-    setIsMobileMenuOpen(false);
-  };
-
   const handleSignOut = async () => {
     await signOut();
     setIsMobileMenuOpen(false);
@@ -84,16 +84,16 @@ const Header: React.FC = () => {
         <nav className="nav">
           <Link to="/" className="logo">
             <div className="logo-icon">
-              <img 
-                src="/LogoPandagarde.png" 
-                alt="PandaGarde Logo" 
+              <img
+                src="/LogoPandagarde.png"
+                alt="PandaGarde Logo"
                 className="panda-logo"
                 style={{ width: '100%', height: '100%', objectFit: 'contain' }}
               />
             </div>
             <span>Panda<span className="highlight">Garde</span></span>
           </Link>
-          
+
           <ul className={`nav-menu ${isMobileMenuOpen ? 'active' : ''}`}>
             {navItems.map((item) => (
               <li key={item.label}>
@@ -110,8 +110,8 @@ const Header: React.FC = () => {
                     {item.label}
                   </a>
                 ) : (
-                  <Link 
-                    to={item.href} 
+                  <Link
+                    to={item.href}
                     className={`nav-link ${isActive(item.href) ? 'active' : ''}`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -122,7 +122,7 @@ const Header: React.FC = () => {
               </li>
             ))}
           </ul>
-          
+
           <div className="nav-actions">
             <button
               onClick={toggleTheme}
@@ -136,7 +136,7 @@ const Header: React.FC = () => {
               <div className="user-menu">
                 <span className="user-email">{user.email}</span>
                 <button
-                  onClick={handleSignOut}
+                  onClick={signOut}
                   className="auth-button"
                   title="Sign Out"
                 >
@@ -168,10 +168,9 @@ const Header: React.FC = () => {
                 </button>
               </div>
             )}
-            
             <a href="https://www.hub.pandagarde.com" className="cta-button" target="_blank" rel="noopener noreferrer">Family Hub</a>
           </div>
-          
+
           <button
             className="mobile-menu-toggle"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -191,5 +190,72 @@ const Header: React.FC = () => {
     </header>
   );
 };
+
+// Add CSS for authentication elements
+const authStyles = `
+  .user-menu {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-right: 16px;
+  }
+
+  .user-email {
+    font-size: 14px;
+    color: #666;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sign-in-button,
+  .sign-out-button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .sign-in-button:hover,
+  .sign-out-button:hover {
+    background: #45a049;
+  }
+
+  .sign-out-button {
+    background: #f44336;
+  }
+
+  .sign-out-button:hover {
+    background: #d32f2f;
+  }
+
+  @media (max-width: 768px) {
+    .user-menu {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .user-email {
+      max-width: 200px;
+    }
+  }
+`;
+
+// Inject styles
+if (typeof document !== 'undefined') {
+  const styleSheet = document.createElement('style');
+  styleSheet.textContent = authStyles;
+  document.head.appendChild(styleSheet);
+}
 
 export default Header;

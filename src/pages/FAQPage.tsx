@@ -99,13 +99,13 @@ const FAQPage: React.FC = () => {
     { id: 'technical', label: 'Technical', icon: Download }
   ];
 
-  const filteredItems = selectedCategory === 'all' 
-    ? faqItems 
+  const filteredItems = selectedCategory === 'all'
+    ? faqItems
     : faqItems.filter(item => item.category === selectedCategory);
 
   const toggleItem = (id: string) => {
-    setOpenItems(prev => 
-      prev.includes(id) 
+    setOpenItems(prev =>
+      prev.includes(id)
         ? prev.filter(item => item !== id)
         : [...prev, id]
     );
@@ -120,25 +120,25 @@ const FAQPage: React.FC = () => {
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
           }} />
         </div>
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex items-center justify-center mb-8">
             <div className="w-20 h-20 mr-4">
               <Logo />
             </div>
           </div>
-          
+
           <div className="text-center">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
               <HelpCircle size={16} />
               <span className="text-sm font-semibold">FREQUENTLY ASKED QUESTIONS</span>
             </div>
-            
+
             <h1 className="text-5xl font-bold mb-6 leading-tight">
               Frequently Asked
               <span className="block text-yellow-300">Questions</span>
             </h1>
-            
+
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
               Find answers to common questions about PandaGarde, our privacy education platform, and how to get the most out of your learning experience.
             </p>
@@ -149,7 +149,7 @@ const FAQPage: React.FC = () => {
       {/* Navigation */}
       <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
         <div className="container mx-auto px-6 py-4">
-          <Link 
+          <Link
             to="/"
             className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
             style={{ color: 'var(--primary-light)' }}
@@ -215,7 +215,7 @@ const FAQPage: React.FC = () => {
                     <ChevronDown size={20} className="text-gray-500 flex-shrink-0" />
                   )}
                 </button>
-                
+
                 {openItems.includes(item.id) && (
                   <div className="px-6 pb-4">
                     <p className="text-gray-700 leading-relaxed" style={{ color: 'var(--gray-600)' }}>
@@ -236,13 +236,13 @@ const FAQPage: React.FC = () => {
               Can't find what you're looking for? We're here to help!
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link 
+              <Link
                 to="/contact"
                 className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
               >
                 Contact Us
               </Link>
-              <Link 
+              <Link
                 to="/activity-book"
                 className="bg-green-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors"
               >
