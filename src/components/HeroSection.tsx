@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Book, Shield as Child, User, UserCheck, Sparkles, Star, ArrowRight, Play, Download, Heart } from 'lucide-react';
-import Logo from './Logo';
+import { BookOpen, Shield as Child, User, UserCheck, Sparkles, Star, ArrowRight, Play, Download, Heart } from 'lucide-react';
 
 interface AgeGroupButtonProps {
   ageGroup: string;
