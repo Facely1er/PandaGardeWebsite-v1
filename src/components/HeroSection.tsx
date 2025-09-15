@@ -175,27 +175,38 @@ const HeroSection: React.FC = () => {
           </div>
 
           <div className="hero-visual slide-in-right">
-            <div className="hero-image floating">
-              <div className="hero-logo">
-                <img
-                  src="/LogoPandagarde.png"
-                  alt="PandaGarde Logo"
-                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                />
-              </div>
-              <h3>PandaGarde</h3>
-              <p>Interactive learning for ages 5-17</p>
+            <div className="family-hub-banner">
+              <div className="banner-content">
+                <h3>Join Our Family Hub</h3>
+                <p>Connect with other families, share experiences, and access exclusive resources for digital safety education.</p>
+                
+                <div className="banner-features">
+                  <div className="feature-item">
+                    <Heart size={16} />
+                    <span>Community Support</span>
+                  </div>
+                  <div className="feature-item">
+                    <Sparkles size={16} />
+                    <span>Exclusive Resources</span>
+                  </div>
+                  <div className="feature-item">
+                    <UserCheck size={16} />
+                    <span>Parent Guidance</span>
+                  </div>
+                </div>
 
-              {/* Interactive features in the visual */}
-              <div className="hero-visual-features">
-                <div className="feature-badge">
-                  <Download size={16} />
-                  <span>Downloadable Resources</span>
-                </div>
-                <div className="feature-badge">
-                  <Sparkles size={16} />
-                  <span>Interactive Activities</span>
-                </div>
+                <a 
+                  href="https://www.hub.pandagarde.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="btn-hub"
+                  onMouseEnter={() => setIsHovered('hub')}
+                  onMouseLeave={() => setIsHovered(null)}
+                >
+                  <ArrowRight size={16} />
+                  Visit Family Hub
+                  <ArrowRight size={16} className={`btn-icon ${isHovered === 'hub' ? 'btn-icon-active' : ''}`} />
+                </a>
               </div>
             </div>
           </div>

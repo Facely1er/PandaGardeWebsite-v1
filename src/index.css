@@ -1081,6 +1081,124 @@ body {
   font-size: 16px;
 }
 
+/* Family Hub Banner */
+.family-hub-banner {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-xl);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 40px;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.family-hub-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(76, 175, 80, 0.1) 100%);
+  opacity: 0.5;
+  z-index: 1;
+}
+
+.banner-content {
+  position: relative;
+  z-index: 2;
+}
+
+.family-hub-banner h3 {
+  font-size: 24px;
+  margin-bottom: 12px;
+  font-weight: 700;
+  color: var(--warning);
+}
+
+.family-hub-banner p {
+  opacity: 0.9;
+  font-size: 16px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.banner-features {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: var(--transition);
+}
+
+.feature-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
+}
+
+.feature-item svg {
+  color: var(--warning);
+}
+
+.btn-hub {
+  background: linear-gradient(135deg, var(--warning), #FFB300);
+  color: var(--primary-dark);
+  padding: 16px 32px;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  transition: var(--transition);
+  box-shadow: var(--shadow-md);
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-hub::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.btn-hub:hover::before {
+  left: 100%;
+}
+
+.btn-hub:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  background: linear-gradient(135deg, #FFB300, var(--warning));
+}
+
 /* Age Group Selector */
 .age-group-selector {
   margin-top: 40px;
@@ -2205,6 +2323,35 @@ body {
   .feature-badge {
     font-size: 11px;
     padding: 6px 10px;
+  }
+
+  /* Family Hub Banner Mobile Styles */
+  .family-hub-banner {
+    padding: 30px 20px;
+    margin: 0 auto;
+  }
+
+  .family-hub-banner h3 {
+    font-size: 20px;
+  }
+
+  .family-hub-banner p {
+    font-size: 14px;
+  }
+
+  .banner-features {
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .feature-item {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+
+  .btn-hub {
+    padding: 12px 24px;
+    font-size: 14px;
   }
   
   .resource-tab {
