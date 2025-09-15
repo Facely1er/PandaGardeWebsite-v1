@@ -1,6 +1,6 @@
  
 import React, { useEffect, useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BookOpen, Shield as Child, User, UserCheck, Sparkles, Star, ArrowRight, Play, Download, Heart } from 'lucide-react';
 import Logo from './Logo';
  
@@ -9,30 +9,24 @@ interface AgeGroupButtonProps {
   ageGroup: string;
   label: string;
   icon: React.ReactNode;
-  onClick: () => void;
+  route: string;
 }
 
-const AgeGroupButton: React.FC<AgeGroupButtonProps> = ({ ageGroup, label, icon, onClick }) => (
-  <a
-    href={`#age-${ageGroup}`}
+const AgeGroupButton: React.FC<AgeGroupButtonProps> = ({ ageGroup, label, icon, route }) => (
+  <Link
+    to={route}
     className="age-group-button pulse-hover"
-    onClick={(e) => {
-      e.preventDefault();
-      onClick();
-    }}
   >
     {icon}
     {label}
-  </a>
+  </Link>
 );
 
 const HeroSection: React.FC = () => {
   const [floatingElements, setFloatingElements] = useState<Array<{id: number, x: number, y: number, delay: number}>>([]);
- 
   const [isHovered, setIsHovered] = useState<string | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const heroRef = useRef<HTMLElement>(null);
- 
 
   useEffect(() => {
     // Create floating elements for animation
@@ -45,7 +39,6 @@ const HeroSection: React.FC = () => {
     setFloatingElements(elements);
   }, []);
 
- 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (heroRef.current) {
@@ -63,32 +56,6 @@ const HeroSection: React.FC = () => {
       return () => heroElement.removeEventListener('mousemove', handleMouseMove);
     }
   }, []);
-
- 
-  const switchAgeTab = (ageGroup: string) => {
-    const element = document.getElementById(`age-${ageGroup}`);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // Update active tab
-    const tabs = document.querySelectorAll('.age-tab');
-    tabs.forEach(tab => tab.classList.remove('active'));
-
-    const selectedTab = document.querySelector(`.age-tab[data-age="${ageGroup}"]`);
-    if (selectedTab) {
-      selectedTab.classList.add('active');
-    }
-
-    // Update content
-    const contents = document.querySelectorAll('.age-content');
-    contents.forEach(content => content.classList.remove('active'));
-
-    const selectedContent = document.getElementById(`age-${ageGroup}`);
-    if (selectedContent) {
-      selectedContent.classList.add('active');
-    }
-  };
 
   return (
     <section className="hero" ref={heroRef}>
@@ -146,8 +113,23 @@ const HeroSection: React.FC = () => {
                 }}
               >
                 <Play size={20} />
-                Watch Privacy Panda's Interactive Story
+                Interactive Privacy Panda Story
                 <Heart size={16} className={`btn-icon ${isHovered === 'story' ? 'btn-icon-active' : ''}`} />
+              </Link>
+              <Link
+                to="/story-classic"
+                className="btn-primary pulse-hover"
+                onMouseEnter={() => setIsHovered('classic')}
+                onMouseLeave={() => setIsHovered(null)}
+                style={{ 
+                  background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
+                  border: 'none',
+                  color: 'white'
+                }}
+              >
+                <BookOpen size={20} />
+                Read Classic Story
+                <Star size={16} className={`btn-icon ${isHovered === 'classic' ? 'btn-icon-active' : ''}`} />
               </Link>
             </div>
 
@@ -174,19 +156,19 @@ const HeroSection: React.FC = () => {
                   ageGroup="5-8"
                   label="Ages 5-8"
                   icon={<Child size={20} />}
-                  onClick={() => switchAgeTab('5-8')}
+                  route="/activity-book"
                 />
                 <AgeGroupButton
                   ageGroup="9-12"
                   label="Ages 9-12"
                   icon={<User size={20} />}
-                  onClick={() => switchAgeTab('9-12')}
+                  route="/privacy-explorers"
                 />
                 <AgeGroupButton
                   ageGroup="13-17"
                   label="Ages 13-17"
                   icon={<UserCheck size={20} />}
-                  onClick={() => switchAgeTab('13-17')}
+                  route="/teen-handbook"
                 />
               </div>
             </div>
