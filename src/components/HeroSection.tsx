@@ -111,7 +111,7 @@ const HeroSection: React.FC = () => {
       <div className="container">
         <div className="hero-content">
           <div className="hero-text slide-in-left">
-            <h1>Welcome to the <span className="highlight">Privacy Panda</span> Family Hub</h1>
+            <h1>Welcome to <span className="highlight">PandaGarde</span></h1>
             <p>Helping children ages 5-17 learn about digital privacy and online safety through fun, engaging activities and stories tailored for different age groups.</p>
 
             {/* Enhanced action buttons with hover effects */}
@@ -140,21 +140,6 @@ const HeroSection: React.FC = () => {
                 <Play size={20} />
                 Watch Privacy Panda's Interactive Story
                 <Heart size={16} className={`btn-icon ${isHovered === 'story' ? 'btn-icon-active' : ''}`} />
-              </Link>
-              <Link
-                to="/family-hub"
-                className="btn-primary"
-                onMouseEnter={() => setIsHovered('family')}
-                onMouseLeave={() => setIsHovered(null)}
-                style={{ 
-                  background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
-                  border: 'none',
-                  color: 'white'
-                }}
-              >
-                <User size={20} />
-                Access Family Hub
-                <ArrowRight size={16} className={`btn-icon ${isHovered === 'family' ? 'btn-icon-active' : ''}`} />
               </Link>
             </div>
 
@@ -208,7 +193,7 @@ const HeroSection: React.FC = () => {
                   style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                 />
               </div>
-              <h3>Privacy Panda Family Hub</h3>
+              <h3>PandaGarde</h3>
               <p>Interactive learning for ages 5-17</p>
 
               {/* Interactive features in the visual */}
