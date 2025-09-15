@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { supabase, TABLES } from '../lib/supabase';
 
@@ -39,7 +39,7 @@ interface FamilyContextType {
   addFamilyMember: (email: string, role: 'parent' | 'child', firstName: string, lastName: string) => Promise<{ success: boolean; error: string | null }>;
   removeFamilyMember: (memberId: string) => Promise<{ success: boolean; error: string | null }>;
   updateFamilyMember: (memberId: string, updates: Partial<FamilyMember>) => Promise<{ success: boolean; error: string | null }>;
-  getFamilyProgress: () => Promise<any>;
+  getFamilyProgress: () => Promise<{ totalActivities: number; completedActivities: number; progressPercentage: number }>;
   isParent: boolean;
   isChild: boolean;
 }

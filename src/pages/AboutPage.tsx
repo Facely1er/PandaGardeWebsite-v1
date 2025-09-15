@@ -242,7 +242,7 @@ const AboutPage: React.FC = () => {
                 PandaGarde can help your family navigate the digital world with confidence.
               </p>
               <a
-                href="https://www.hub.pandagarde.com"
+                href="/family-hub"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 bg-white text-green-600 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg"

@@ -34,6 +34,7 @@ import NewsletterPage from './pages/NewsletterPage';
 import SupportPage from './pages/SupportPage';
 import ImplementationGuidePage from './pages/ImplementationGuidePage';
 import CertificatePage from './pages/CertificatePage';
+import ProfilePage from './pages/ProfilePage';
 
 // Component to handle hash navigation
 const HashHandler: React.FC = () => {
@@ -74,6 +75,7 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/family-hub" element={<FamilyHubPage />} />
             <Route path="/certificates" element={<CertificatePage />} />
+            <Route path="/profile" element={<ProfilePage />} />
             
             {/* Age Group Pages */}
             <Route path="/privacy-explorers" element={<PrivacyExplorersPage />} />

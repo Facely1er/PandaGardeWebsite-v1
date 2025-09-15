@@ -57,7 +57,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // Load user profile from database
-  const loadUserProfile = useCallback(async (userId: string) => {
+  const loadUserProfile = useCallback(async (_userId: string) => {
     try {
       const userProfile = await userService.getCurrentUser();
       if (userProfile) {
@@ -105,7 +105,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     initializeAuth();
 
     // Listen for auth changes only if supabase is configured
-    let subscription: any = null;
+    let subscription: { unsubscribe: () => void } | null = null;
     if (supabase) {
       const { data: { subscription: authSubscription } } = supabase.auth.onAuthStateChange(
         async (event, currentSession) => {
@@ -142,7 +142,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return { error: { message: 'Authentication not available in demo mode' } as AuthError };
       }
 
-      const { data, error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email,
         password,
       });
@@ -177,7 +177,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return { error: { message: 'Authentication not available in demo mode' } as AuthError };
       }
 
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Book,
   ArrowLeft,
@@ -16,16 +16,10 @@ import {
   CheckCircle,
   Star,
   Filter,
-  SortAsc,
-  Clock,
-  TrendingUp,
-  Sparkles,
-  Zap
 } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useToast } from '../contexts/ToastContext';
 import { useProgress } from '../contexts/ProgressContext';
-import Logo from '../components/Logo';
 import ActivityManager from '../components/activities/ActivityManager';
 import CertificateGenerator from '../components/CertificateGenerator';
 
@@ -41,6 +35,7 @@ interface Activity {
 }
 
 const ActivityBookPage: React.FC = () => {
+  const navigate = useNavigate();
   const { theme } = useTheme();
   const { showSuccess } = useToast();
   const { progress, markActivityCompleted, getOverallProgress } = useProgress();
@@ -152,14 +147,17 @@ const ActivityBookPage: React.FC = () => {
     })
     .sort((a, b) => {
       switch (sortBy) {
-        case 'difficulty':
+        case 'difficulty': {
           const difficultyOrder = { 'Easy': 1, 'Medium': 2, 'Hard': 3 };
           return difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty];
-        case 'duration':
+        }
+        case 'duration': {
           return parseInt(a.duration) - parseInt(b.duration);
+        }
         case 'name':
-        default:
+        default: {
           return a.title.localeCompare(b.title);
+        }
       }
     });
 
@@ -502,7 +500,7 @@ const ActivityBookPage: React.FC = () => {
                 Download coloring sheets, certificates, and offline activities to continue learning away from screens.
               </p>
               <button
-                onClick={() => window.location.href = '/downloads/coloring-sheets'}
+                onClick={() => navigate('/downloads/coloring-sheets')}
                 className="text-green-600 font-semibold hover:text-green-700 transition-colors text-sm md:text-base"
               >
                 Download Resources →

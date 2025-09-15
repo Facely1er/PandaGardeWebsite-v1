@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, CheckCircle, Star, Users, BookOpen, Shield, Clock, Play, Download, Award } from 'lucide-react';
 import Logo from '../components/Logo';
 
@@ -14,6 +14,7 @@ interface Step {
 }
 
 const GetStartedPage: React.FC = () => {
+  const navigate = useNavigate();
   const [completedSteps, setCompletedSteps] = useState<string[]>([]);
 
   const steps: Step[] = [
@@ -73,15 +74,31 @@ const GetStartedPage: React.FC = () => {
   const getStepAction = (step: Step) => {
     switch (step.id) {
       case 'welcome':
-        return () => window.location.href = '/story';
+        return () => navigate('/story');
       case 'age-group':
-        return () => window.location.href = '/#age-groups';
+        return () => {
+          navigate('/');
+          setTimeout(() => {
+            const element = document.querySelector('#age-groups');
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth' });
+            }
+          }, 100);
+        };
       case 'first-activity':
-        return () => window.location.href = '/activity-book';
+        return () => navigate('/activity-book');
       case 'family-hub':
-        return () => window.location.href = '/family-hub';
+        return () => navigate('/family-hub');
       case 'explore-resources':
-        return () => window.location.href = '/#parent-resources';
+        return () => {
+          navigate('/');
+          setTimeout(() => {
+            const element = document.querySelector('#parent-resources');
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth' });
+            }
+          }, 100);
+        };
       default:
         return () => {};
     }
