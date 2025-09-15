@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Users, BookOpen, Book, Settings, Award, TrendingUp, Clock, CheckCircle, ArrowLeft, User, Shield as Child, UserCheck, Star, Play, Download, Plus, UserPlus, LogOut } from 'lucide-react';
 import Logo from '../components/Logo';
 import { useAuth } from '../contexts/AuthContext';
@@ -29,6 +29,7 @@ interface Activity {
 }
 
 const FamilyHubPage: React.FC = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'dashboard' | 'activities' | 'progress' | 'resources' | 'family'>('dashboard');
   const [showCreateFamily, setShowCreateFamily] = useState(false);
   const [showJoinFamily, setShowJoinFamily] = useState(false);
@@ -55,9 +56,9 @@ const FamilyHubPage: React.FC = () => {
   // Redirect if not authenticated
   useEffect(() => {
     if (!isAuthenticated) {
-      window.location.href = '/';
+      navigate('/');
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate]);
 
   const recentActivities: Activity[] = [
     {
@@ -118,7 +119,7 @@ const FamilyHubPage: React.FC = () => {
       icon: Star,
       action: 'app-link',
       color: 'from-orange-500 to-orange-600',
-      url: 'https://www.hub.pandagarde.com'
+      url: '/family-hub'
     }
   ];
 
@@ -720,7 +721,7 @@ const FamilyHubPage: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <a 
-                href="https://www.hub.pandagarde.com" 
+                href="/family-hub" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="bg-white rounded-xl p-6 hover:shadow-lg transition-all transform hover:scale-105 block"

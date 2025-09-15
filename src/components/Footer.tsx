@@ -28,11 +28,11 @@ const Footer: React.FC = () => {
   };
 
   const socialLinks = [
-    { icon: Facebook, href: 'https://facebook.com/pandagarde', label: 'Facebook' },
-    { icon: Twitter, href: 'https://twitter.com/pandagarde', label: 'Twitter' },
-    { icon: Instagram, href: 'https://instagram.com/pandagarde', label: 'Instagram' },
-    { icon: Youtube, href: 'https://youtube.com/@pandagarde', label: 'YouTube' },
-    { icon: Linkedin, href: 'https://linkedin.com/company/pandagarde', label: 'LinkedIn' }
+    { icon: Facebook, href: '#', label: 'Facebook' },
+    { icon: Twitter, href: '#', label: 'Twitter' },
+    { icon: Instagram, href: '#', label: 'Instagram' },
+    { icon: Youtube, href: '#', label: 'YouTube' },
+    { icon: Linkedin, href: '#', label: 'LinkedIn' }
   ];
 
   const resourceLinks = [

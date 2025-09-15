@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Shield as Child, User, UserCheck, BookOpen, Palette, Puzzle, Shield, Globe, Smartphone, Wrench, Scale, ArrowRight } from 'lucide-react';
 
 const ageGroups = [
@@ -77,6 +78,7 @@ const ageGroups = [
 ];
 
 const AgeGroupSection: React.FC = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('5-8');
 
   const handleTabClick = (ageId: string) => {
@@ -84,8 +86,8 @@ const AgeGroupSection: React.FC = () => {
   };
 
   const handleCardClick = (link: string) => {
-    // Navigate to the resource page
-    window.location.href = link;
+    // Navigate to the resource page using React Router
+    navigate(link);
   };
 
   return (

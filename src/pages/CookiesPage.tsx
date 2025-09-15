@@ -296,7 +296,7 @@ const CookiesPage: React.FC = () => {
                   <strong>Email:</strong> privacy@pandagarde.com
                 </p>
                 <p className="mb-2" style={{ color: 'var(--gray-600)' }}>
-                  <strong>Website:</strong> https://pandagarde.com/contact
+                  <strong>Website:</strong> <a href="/contact" className="text-blue-600 hover:underline">pandagarde.com/contact</a>
                 </p>
                 <p style={{ color: 'var(--gray-600)' }}>
                   <strong>Subject Line:</strong> Cookie Policy Inquiry

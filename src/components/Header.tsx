@@ -81,7 +81,7 @@ const Header: React.FC = () => {
     navigate('/family-hub');
   };
 
-  const handleSearchResultClick = (result: any) => {
+  const handleSearchResultClick = (result: { url: string }) => {
     navigate(result.url);
   };
 

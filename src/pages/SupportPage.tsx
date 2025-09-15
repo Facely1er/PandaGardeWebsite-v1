@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Headphones, Mail, MessageCircle, HelpCircle, Search, Clock, CheckCircle, Star, Users, BookOpen, Shield } from 'lucide-react';
 import Logo from '../components/Logo';
 
@@ -20,6 +20,7 @@ interface SupportOption {
 }
 
 const SupportPage: React.FC = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [expandedFAQ, setExpandedFAQ] = useState<string | null>(null);
@@ -215,9 +216,9 @@ const SupportPage: React.FC = () => {
                 style={{ backgroundColor: 'var(--card-color)' }}
                 onClick={() => {
                   if (option.id === 'contact-form') {
-                    window.location.href = '/contact';
+                    navigate('/contact');
                   } else if (option.id === 'email') {
-                    window.location.href = 'mailto:support@pandagarde.com';
+                    window.open('mailto:support@pandagarde.com', '_blank');
                   }
                 }}
               >
