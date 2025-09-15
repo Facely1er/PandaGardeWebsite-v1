@@ -1,12 +1,8 @@
  
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { BookOpen, Book, Shield as Child, User, UserCheck, Sparkles, Star } from 'lucide-react';
-import Logo from './Logo';
- 
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Shield as Child, User, UserCheck, Sparkles, Star, ArrowRight, Play, Download, Heart } from 'lucide-react';
+import Logo from './Logo';
  
 
 interface AgeGroupButtonProps {
@@ -19,7 +15,7 @@ interface AgeGroupButtonProps {
 const AgeGroupButton: React.FC<AgeGroupButtonProps> = ({ ageGroup, label, icon, onClick }) => (
   <a
     href={`#age-${ageGroup}`}
-    className="age-group-button"
+    className="age-group-button pulse-hover"
     onClick={(e) => {
       e.preventDefault();
       onClick();
@@ -95,9 +91,6 @@ const HeroSection: React.FC = () => {
   };
 
   return (
- 
-    <section className="hero">
- 
     <section className="hero" ref={heroRef}>
       {/* Interactive background gradient that follows mouse */}
       <div
@@ -126,14 +119,14 @@ const HeroSection: React.FC = () => {
       <div className="container">
         <div className="hero-content">
           <div className="hero-text slide-in-left">
-            <h1>Welcome to <span className="highlight">PandaGarde</span></h1>
+            <h1>Welcome to <span className="highlight rainbow-text sparkle">PandaGarde</span> 🐼</h1>
             <p>Helping children ages 5-17 learn about digital privacy and online safety through fun, engaging activities and stories tailored for different age groups.</p>
 
             {/* Enhanced action buttons with hover effects */}
             <div className="hero-buttons">
               <Link
                 to="/activity-book"
-                className="btn-primary"
+                className="btn-primary bounce-hover"
                 onMouseEnter={() => setIsHovered('activity')}
                 onMouseLeave={() => setIsHovered(null)}
               >
@@ -143,7 +136,7 @@ const HeroSection: React.FC = () => {
               </Link>
               <Link
                 to="/story"
-                className="btn-primary"
+                className="btn-primary wiggle-hover"
                 onMouseEnter={() => setIsHovered('story')}
                 onMouseLeave={() => setIsHovered(null)}
                 style={{ 
@@ -175,7 +168,7 @@ const HeroSection: React.FC = () => {
             </div>
 
             <div className="age-group-selector">
-              <h3>Choose your age group:</h3>
+              <h3>Choose your age group: 🎯</h3>
               <div className="age-group-buttons">
                 <AgeGroupButton
                   ageGroup="5-8"

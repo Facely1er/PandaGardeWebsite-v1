@@ -72,112 +72,188 @@ export class CertificateService {
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
 
-    // Background gradient
-    pdf.setFillColor(16, 185, 129); // Green
+    // Child-friendly gradient background
+    pdf.setFillColor(46, 125, 50); // Darker green
     pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+    
+    // Add decorative border pattern
+    pdf.setFillColor(76, 175, 80); // Lighter green
+    pdf.rect(0, 0, pageWidth, 15, 'F'); // Top border
+    pdf.rect(0, pageHeight - 15, pageWidth, 15, 'F'); // Bottom border
+    pdf.rect(0, 0, 15, pageHeight, 'F'); // Left border
+    pdf.rect(pageWidth - 15, 0, 15, pageHeight, 'F'); // Right border
 
-    // White content area
+    // White content area with rounded corners
     pdf.setFillColor(255, 255, 255);
-    pdf.roundedRect(20, 20, pageWidth - 40, pageHeight - 40, 10, 10, 'F');
+    pdf.roundedRect(25, 25, pageWidth - 50, pageHeight - 50, 15, 15, 'F');
 
-    // Border
-    pdf.setDrawColor(16, 185, 129);
-    pdf.setLineWidth(3);
-    pdf.roundedRect(20, 20, pageWidth - 40, pageHeight - 40, 10, 10, 'S');
+    // Decorative border with child-friendly colors
+    pdf.setDrawColor(255, 193, 7); // Gold
+    pdf.setLineWidth(4);
+    pdf.roundedRect(25, 25, pageWidth - 50, pageHeight - 50, 15, 15, 'S');
+    
+    // Inner decorative border
+    pdf.setDrawColor(76, 175, 80); // Green
+    pdf.setLineWidth(2);
+    pdf.roundedRect(30, 30, pageWidth - 60, pageHeight - 60, 10, 10, 'S');
 
-    // Title
-    pdf.setFontSize(36);
-    pdf.setTextColor(16, 185, 129);
+    // Decorative elements - stars and sparkles
+    pdf.setFillColor(255, 193, 7); // Gold
+    pdf.circle(50, 50, 3, 'F'); // Top left star
+    pdf.circle(pageWidth - 50, 50, 3, 'F'); // Top right star
+    pdf.circle(50, pageHeight - 50, 3, 'F'); // Bottom left star
+    pdf.circle(pageWidth - 50, pageHeight - 50, 3, 'F'); // Bottom right star
+    
+    // Panda logo area
+    pdf.setFillColor(46, 125, 50);
+    pdf.circle(pageWidth / 2, 45, 8, 'F');
+    pdf.setFillColor(255, 255, 255);
+    pdf.circle(pageWidth / 2, 45, 6, 'F');
+    pdf.setTextColor(46, 125, 50);
+    pdf.setFontSize(16);
+    pdf.text('🐼', pageWidth / 2, 50, { align: 'center' });
+
+    // Title with child-friendly styling
+    pdf.setFontSize(32);
+    pdf.setTextColor(46, 125, 50); // Dark green
     pdf.setFont('helvetica', 'bold');
-    pdf.text('CERTIFICATE OF ACHIEVEMENT', pageWidth / 2, 60, { align: 'center' });
+    pdf.text('🌟 CERTIFICATE OF ACHIEVEMENT 🌟', pageWidth / 2, 70, { align: 'center' });
 
-    // Subtitle
-    pdf.setFontSize(18);
+    // Subtitle with emoji
+    pdf.setFontSize(16);
     pdf.setTextColor(75, 85, 99);
     pdf.setFont('helvetica', 'normal');
-    pdf.text('Privacy Education Excellence', pageWidth / 2, 80, { align: 'center' });
+    pdf.text('🎓 Privacy Education Excellence 🎓', pageWidth / 2, 85, { align: 'center' });
 
-    // Achievement icon and name
-    pdf.setFontSize(24);
-    pdf.setTextColor(16, 185, 129);
+    // Achievement icon and name with more visual appeal
+    pdf.setFontSize(28);
+    pdf.setTextColor(255, 193, 7); // Gold
     pdf.setFont('helvetica', 'bold');
     pdf.text('🏆', pageWidth / 2, 110, { align: 'center' });
     pdf.text(certificateData.achievement, pageWidth / 2, 130, { align: 'center' });
 
-    // This certifies that
+    // This certifies that with decorative line
+    pdf.setDrawColor(255, 193, 7); // Gold
+    pdf.setLineWidth(2);
+    pdf.line(pageWidth / 2 - 40, 155, pageWidth / 2 + 40, 155);
+    
     pdf.setFontSize(16);
     pdf.setTextColor(75, 85, 99);
     pdf.setFont('helvetica', 'normal');
-    pdf.text('This certifies that', pageWidth / 2, 160, { align: 'center' });
+    pdf.text('✨ This certifies that ✨', pageWidth / 2, 160, { align: 'center' });
 
-    // Recipient name
-    pdf.setFontSize(28);
-    pdf.setTextColor(16, 185, 129);
+    // Recipient name with special styling
+    pdf.setFontSize(32);
+    pdf.setTextColor(46, 125, 50); // Dark green
     pdf.setFont('helvetica', 'bold');
     pdf.text(certificateData.recipientName, pageWidth / 2, 185, { align: 'center' });
+    
+    // Decorative line under name
+    pdf.setDrawColor(255, 193, 7); // Gold
+    pdf.setLineWidth(2);
+    pdf.line(pageWidth / 2 - 60, 190, pageWidth / 2 + 60, 190);
 
-    // Achievement details
-    pdf.setFontSize(14);
+    // Achievement details with emojis
+    pdf.setFontSize(16);
     pdf.setTextColor(75, 85, 99);
     pdf.setFont('helvetica', 'normal');
     
-    let achievementText = 'has successfully completed privacy education activities';
+    let achievementText = '🎉 has successfully completed privacy education activities 🎉';
     if (certificateData.completedActivities && certificateData.totalActivities) {
-      achievementText = `has completed ${certificateData.completedActivities} out of ${certificateData.totalActivities} privacy education activities`;
+      achievementText = `🎯 has completed ${certificateData.completedActivities} out of ${certificateData.totalActivities} privacy education activities 🎯`;
     }
     if (certificateData.score) {
-      achievementText += ` with an average score of ${certificateData.score}%`;
+      achievementText += ` with an amazing score of ${certificateData.score}%! 🌟`;
     }
     
     pdf.text(achievementText, pageWidth / 2, 210, { align: 'center' });
 
-    // Date
-    pdf.setFontSize(12);
-    pdf.setTextColor(107, 114, 128);
-    pdf.text(`Awarded on ${certificateData.date}`, pageWidth / 2, 240, { align: 'center' });
+    // Decorative elements around achievement text
+    pdf.setFillColor(255, 193, 7); // Gold
+    pdf.circle(pageWidth / 2 - 80, 210, 2, 'F');
+    pdf.circle(pageWidth / 2 + 80, 210, 2, 'F');
+
+    // Date with special styling
+    pdf.setFontSize(14);
+    pdf.setTextColor(46, 125, 50); // Dark green
+    pdf.setFont('helvetica', 'bold');
+    pdf.text(`📅 Awarded on ${certificateData.date} 📅`, pageWidth / 2, 240, { align: 'center' });
 
     // Family name if provided
     if (certificateData.familyName) {
-      pdf.text(`Family: ${certificateData.familyName}`, pageWidth / 2, 255, { align: 'center' });
+      pdf.setFontSize(12);
+      pdf.setTextColor(75, 85, 99);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(`👨‍👩‍👧‍👦 Family: ${certificateData.familyName} 👨‍👩‍👧‍👦`, pageWidth / 2, 255, { align: 'center' });
     }
 
-    // Footer
-    pdf.setFontSize(10);
-    pdf.setTextColor(156, 163, 175);
-    pdf.text('PandaGarde Privacy Education Platform', pageWidth / 2, 270, { align: 'center' });
+    // Footer with panda branding
+    pdf.setFontSize(12);
+    pdf.setTextColor(46, 125, 50);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('🐼 PandaGarde Privacy Education Platform 🐼', pageWidth / 2, 270, { align: 'center' });
+    
+    // Bottom decorative stars
+    pdf.setFillColor(255, 193, 7); // Gold
+    for (let i = 0; i < 5; i++) {
+      const x = 60 + (i * 30);
+      pdf.circle(x, pageHeight - 30, 2, 'F');
+    }
 
     return pdf.output('blob');
   }
 
   static async generateAchievementBadge(achievement: Achievement, recipientName: string): Promise<Blob> {
-    const pdf = new jsPDF('portrait', 'mm', [80, 80]);
+    const pdf = new jsPDF('portrait', 'mm', [100, 100]);
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
 
-    // Background
+    // Child-friendly background with gradient effect
     pdf.setFillColor(achievement.color);
     pdf.rect(0, 0, pageWidth, pageHeight, 'F');
-
-    // White circle for content
+    
+    // Add decorative border
     pdf.setFillColor(255, 255, 255);
-    pdf.circle(pageWidth / 2, pageHeight / 2, 30, 'F');
+    pdf.rect(5, 5, pageWidth - 10, pageHeight - 10, 'F');
+    
+    // Inner colored border
+    pdf.setDrawColor(achievement.color);
+    pdf.setLineWidth(3);
+    pdf.rect(5, 5, pageWidth - 10, pageHeight - 10, 'S');
 
-    // Achievement icon
-    pdf.setFontSize(24);
+    // White circle for content with decorative elements
+    pdf.setFillColor(255, 255, 255);
+    pdf.circle(pageWidth / 2, pageHeight / 2, 35, 'F');
+    
+    // Decorative stars around the circle
+    pdf.setFillColor(255, 193, 7); // Gold
+    pdf.circle(pageWidth / 2 - 25, pageHeight / 2 - 25, 2, 'F'); // Top left
+    pdf.circle(pageWidth / 2 + 25, pageHeight / 2 - 25, 2, 'F'); // Top right
+    pdf.circle(pageWidth / 2 - 25, pageHeight / 2 + 25, 2, 'F'); // Bottom left
+    pdf.circle(pageWidth / 2 + 25, pageHeight / 2 + 25, 2, 'F'); // Bottom right
+
+    // Achievement icon with larger size
+    pdf.setFontSize(32);
     pdf.setTextColor(achievement.color);
-    pdf.text(achievement.icon, pageWidth / 2, pageHeight / 2 - 5, { align: 'center' });
+    pdf.text(achievement.icon, pageWidth / 2, pageHeight / 2 - 8, { align: 'center' });
 
-    // Achievement name
-    pdf.setFontSize(8);
+    // Achievement name with better styling
+    pdf.setFontSize(10);
     pdf.setTextColor(achievement.color);
     pdf.setFont('helvetica', 'bold');
-    pdf.text(achievement.name, pageWidth / 2, pageHeight / 2 + 10, { align: 'center' });
+    pdf.text(achievement.name, pageWidth / 2, pageHeight / 2 + 8, { align: 'center' });
 
-    // Recipient name
-    pdf.setFontSize(6);
+    // Recipient name with emoji
+    pdf.setFontSize(8);
     pdf.setTextColor(75, 85, 99);
     pdf.setFont('helvetica', 'normal');
-    pdf.text(recipientName, pageWidth / 2, pageHeight / 2 + 18, { align: 'center' });
+    pdf.text(`🌟 ${recipientName} 🌟`, pageWidth / 2, pageHeight / 2 + 18, { align: 'center' });
+    
+    // Bottom decorative text
+    pdf.setFontSize(6);
+    pdf.setTextColor(achievement.color);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('🏆 ACHIEVEMENT BADGE 🏆', pageWidth / 2, pageHeight / 2 + 28, { align: 'center' });
 
     return pdf.output('blob');
   }

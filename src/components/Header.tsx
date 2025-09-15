@@ -26,6 +26,30 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Keyboard navigation support
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Close mobile menu on Escape
+      if (e.key === 'Escape' && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+      
+      // Close user menu on Escape
+      if (e.key === 'Escape' && showUserMenu) {
+        setShowUserMenu(false);
+      }
+      
+      // Close modals on Escape
+      if (e.key === 'Escape' && (isAuthModalOpen || isSearchModalOpen)) {
+        setIsAuthModalOpen(false);
+        setIsSearchModalOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isMobileMenuOpen, showUserMenu, isAuthModalOpen, isSearchModalOpen]);
+
   const navItems = [
     { icon: Home, label: 'Home', href: '/', isExternal: false },
     { icon: BookOpen, label: 'Activity Book', href: '/activity-book', isExternal: false },
@@ -86,12 +110,30 @@ const Header: React.FC = () => {
     navigate(result.url);
   };
 
+  // Focus management for accessibility
+  const handleMobileMenuToggle = () => {
+    const newState = !isMobileMenuOpen;
+    setIsMobileMenuOpen(newState);
+    
+    // Focus first menu item when opening
+    if (newState) {
+      setTimeout(() => {
+        const firstMenuItem = document.querySelector('.nav-menu .nav-link') as HTMLElement;
+        firstMenuItem?.focus();
+      }, 100);
+    }
+  };
+
   return (
-    <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
+    <header className={`header ${isScrolled ? 'scrolled' : ''}`} role="banner">
       <div className="container">
-        <nav className="nav">
-          <Link to="/" className="logo">
-            <div className="logo-icon">
+        <nav className="nav" role="navigation" aria-label="Main navigation">
+          <Link 
+            to="/" 
+            className="logo"
+            aria-label="PandaGarde - Go to homepage"
+          >
+            <div className="logo-icon" aria-hidden="true">
               <img 
                 src="/LogoPandagarde.png" 
                 alt="PandaGarde Logo" 
@@ -102,9 +144,14 @@ const Header: React.FC = () => {
             <span>Panda<span className="highlight">Garde</span></span>
           </Link>
           
-          <ul className={`nav-menu ${isMobileMenuOpen ? 'active' : ''}`}>
+          <ul 
+            id="mobile-menu"
+            className={`nav-menu ${isMobileMenuOpen ? 'active' : ''}`}
+            role="menubar"
+            aria-label="Main navigation menu"
+          >
             {navItems.map((item) => (
-              <li key={item.label}>
+              <li key={item.label} role="none">
                 {item.href.startsWith('#') ? (
                   <a
                     href={item.href}
@@ -113,8 +160,10 @@ const Header: React.FC = () => {
                       e.preventDefault();
                       scrollToSection(item.href);
                     }}
+                    role="menuitem"
+                    aria-label={`Navigate to ${item.label} section`}
                   >
-                    <item.icon size={16} />
+                    <item.icon size={16} aria-hidden="true" />
                     {item.label}
                   </a>
                 ) : item.isExternal ? (
@@ -124,8 +173,10 @@ const Header: React.FC = () => {
                     rel="noopener noreferrer"
                     className="nav-link"
                     onClick={() => setIsMobileMenuOpen(false)}
+                    role="menuitem"
+                    aria-label={`${item.label} (opens in new tab)`}
                   >
-                    <item.icon size={16} />
+                    <item.icon size={16} aria-hidden="true" />
                     {item.label}
                   </a>
                 ) : (
@@ -133,8 +184,10 @@ const Header: React.FC = () => {
                     to={item.href} 
                     className={`nav-link ${isActive(item.href) ? 'active' : ''}`}
                     onClick={() => setIsMobileMenuOpen(false)}
+                    role="menuitem"
+                    aria-label={`Navigate to ${item.label} page`}
                   >
-                    <item.icon size={16} />
+                    <item.icon size={16} aria-hidden="true" />
                     {item.label}
                   </Link>
                 )}
@@ -142,20 +195,22 @@ const Header: React.FC = () => {
             ))}
           </ul>
           
-          <div className="nav-actions">
+          <div className="nav-actions" role="toolbar" aria-label="Navigation actions">
             <button
               onClick={() => setIsSearchModalOpen(true)}
               className="search-toggle"
-              aria-label="Search"
+              aria-label="Open search dialog"
+              title="Search the site"
             >
-              <Search size={20} />
+              <Search size={20} aria-hidden="true" />
             </button>
             <button
               onClick={toggleTheme}
               className="theme-toggle"
-              aria-label="Toggle theme"
+              aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+              title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
             >
-              {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+              {theme === 'light' ? <Moon size={20} aria-hidden="true" /> : <Sun size={20} aria-hidden="true" />}
             </button>
             
             {isAuthenticated ? (
@@ -163,38 +218,51 @@ const Header: React.FC = () => {
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
                   className="flex items-center space-x-2 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                  aria-label="Open user menu"
+                  aria-expanded={showUserMenu}
+                  aria-haspopup="menu"
                 >
-                  <User size={20} />
+                  <User size={20} aria-hidden="true" />
                   <span className="hidden sm:block">
                     {profile?.profile_data?.firstName || user?.email?.split('@')[0] || 'User'}
                   </span>
                 </button>
                 
                 {showUserMenu && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50">
+                  <div 
+                    className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50"
+                    role="menu"
+                    aria-label="User account menu"
+                  >
                     <a
                       href="https://www.hub.pandagarde.com"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       onClick={() => setShowUserMenu(false)}
+                      role="menuitem"
+                      aria-label="Open Family Hub (opens in new tab)"
                     >
-                      <Users size={16} className="mr-3" />
+                      <Users size={16} className="mr-3" aria-hidden="true" />
                       Family Hub
                     </a>
                     <Link
                       to="/profile"
                       className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       onClick={() => setShowUserMenu(false)}
+                      role="menuitem"
+                      aria-label="Go to profile settings"
                     >
-                      <Settings size={16} className="mr-3" />
+                      <Settings size={16} className="mr-3" aria-hidden="true" />
                       Profile Settings
                     </Link>
                     <button
                       onClick={handleSignOut}
                       className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      role="menuitem"
+                      aria-label="Sign out of your account"
                     >
-                      <LogOut size={16} className="mr-3" />
+                      <LogOut size={16} className="mr-3" aria-hidden="true" />
                       Sign Out
                     </button>
                   </div>
@@ -204,6 +272,8 @@ const Header: React.FC = () => {
               <button
                 onClick={() => setIsAuthModalOpen(true)}
                 className="cta-button"
+                aria-label="Open account login dialog"
+                title="Sign in or create account"
               >
                 Account
               </button>
@@ -212,10 +282,13 @@ const Header: React.FC = () => {
           
           <button
             className="mobile-menu-toggle"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle mobile menu"
+            onClick={handleMobileMenuToggle}
+            aria-label={isMobileMenuOpen ? "Close mobile menu" : "Open mobile menu"}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-menu"
+            title={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileMenuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
           </button>
         </nav>
       </div>
