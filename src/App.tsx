@@ -30,6 +30,7 @@ import FAQPage from './pages/FAQPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import DownloadGuidePage from './pages/DownloadGuidePage';
 import EducatorToolsPage from './pages/EducatorToolsPage';
+import ParentResourcesPage from './pages/ParentResourcesPage';
 import NewsletterPage from './pages/NewsletterPage';
 import SupportPage from './pages/SupportPage';
 import ImplementationGuidePage from './pages/ImplementationGuidePage';
@@ -87,6 +88,7 @@ function App() {
 
             {/* General Pages */}
             <Route path="/educator-tools" element={<EducatorToolsPage />} />
+            <Route path="/parent-resources" element={<ParentResourcesPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/newsletter" element={<NewsletterPage />} />
