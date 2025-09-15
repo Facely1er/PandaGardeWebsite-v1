@@ -369,10 +369,17 @@ body {
 .hero {
   background: var(--gradient-hero);
  
+  padding: 120px 0 20px;
+  position: relative;
+  overflow: hidden;
+  min-height: 60vh;
+ 
+ 
   padding: 120px 0 100px;
   position: relative;
   overflow: hidden;
   min-height: 100vh;
+ 
  
   display: flex;
   align-items: center;
@@ -1646,11 +1653,15 @@ body {
   
   .hero {
  
+    padding: 100px 0 15px;
+    min-height: 50vh;
+  
     padding: 100px 0 80px;
     min-height: 90vh;
  
     padding: 120px 0 20px;
     min-height: 70vh;
+ 
  
   }
   
