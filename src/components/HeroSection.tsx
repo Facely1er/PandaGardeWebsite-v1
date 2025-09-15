@@ -141,6 +141,21 @@ const HeroSection: React.FC = () => {
                 Watch Privacy Panda's Interactive Story
                 <Heart size={16} className={`btn-icon ${isHovered === 'story' ? 'btn-icon-active' : ''}`} />
               </Link>
+              <Link
+                to="/family-hub"
+                className="btn-primary"
+                onMouseEnter={() => setIsHovered('family')}
+                onMouseLeave={() => setIsHovered(null)}
+                style={{ 
+                  background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+                  border: 'none',
+                  color: 'white'
+                }}
+              >
+                <User size={20} />
+                Access Family Hub
+                <ArrowRight size={16} className={`btn-icon ${isHovered === 'family' ? 'btn-icon-active' : ''}`} />
+              </Link>
             </div>
 
             {/* Quick stats */}
