@@ -1,0 +1,379 @@
+import React, { useState, useEffect } from 'react';
+import { useTheme } from '../../contexts/ThemeContext';
+
+interface StoryCharacterProps {
+  character: 'panda' | 'turtle' | 'monkey' | 'beaver' | 'rabbit' | 'owl' | 'fox';
+  emotion?: 'happy' | 'sad' | 'worried' | 'excited' | 'confused' | 'proud' | 'shy';
+  animation?: 'bounce' | 'wave' | 'nod' | 'shake' | 'dance' | 'hide' | 'appear';
+  size?: 'small' | 'medium' | 'large';
+  isSpeaking?: boolean;
+  message?: string;
+  onAnimationComplete?: () => void;
+}
+
+const StoryCharacter: React.FC<StoryCharacterProps> = ({
+  character,
+  emotion = 'happy',
+  animation,
+  size = 'medium',
+  isSpeaking = false,
+  message,
+  onAnimationComplete
+}) => {
+  const { theme } = useTheme();
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+
+  const characterEmojis = {
+    panda: '🐼',
+    turtle: '🐢',
+    monkey: '🐵',
+    beaver: '🦫',
+    rabbit: '🐰',
+    owl: '🦉',
+    fox: '🦊'
+  };
+
+  const emotionStyles = {
+    happy: { transform: 'scale(1.1)', filter: 'brightness(1.2)' },
+    sad: { transform: 'scale(0.9)', filter: 'brightness(0.8) hue-rotate(180deg)' },
+    worried: { transform: 'scale(0.95)', filter: 'brightness(0.9) hue-rotate(30deg)' },
+    excited: { transform: 'scale(1.2)', filter: 'brightness(1.3) saturate(1.5)' },
+    confused: { transform: 'scale(1)', filter: 'brightness(1) hue-rotate(60deg)' },
+    proud: { transform: 'scale(1.15)', filter: 'brightness(1.2) saturate(1.3)' },
+    shy: { transform: 'scale(0.85)', filter: 'brightness(0.9) saturate(0.8)' }
+  };
+
+  const sizeStyles = {
+    small: { fontSize: '2rem' },
+    medium: { fontSize: '4rem' },
+    large: { fontSize: '6rem' }
+  };
+
+  const animationClasses = {
+    bounce: 'bounce-animation',
+    wave: 'wave-animation',
+    nod: 'nod-animation',
+    shake: 'shake-animation',
+    dance: 'dance-animation',
+    hide: 'hide-animation',
+    appear: 'appear-animation'
+  };
+
+  useEffect(() => {
+    if (animation) {
+      setIsAnimating(true);
+      const timer = setTimeout(() => {
+        setIsAnimating(false);
+        onAnimationComplete?.();
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [animation, onAnimationComplete]);
+
+  useEffect(() => {
+    if (isSpeaking && message) {
+      setShowMessage(true);
+      const timer = setTimeout(() => setShowMessage(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isSpeaking, message]);
+
+  const characterStyle = {
+    ...emotionStyles[emotion],
+    ...sizeStyles[size],
+    transition: 'all 0.3s ease'
+  };
+
+  return (
+    <div className="story-character-container">
+      <div
+        className={`character-wrapper ${isAnimating && animation ? animationClasses[animation] : ''}`}
+        style={characterStyle}
+      >
+        <div className="character-emoji">
+          {characterEmojis[character]}
+        </div>
+        
+        {isSpeaking && (
+          <div className="speaking-indicator">
+            <div className="speech-bubble">
+              <div className="bubble-dot"></div>
+              <div className="bubble-dot"></div>
+              <div className="bubble-dot"></div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {showMessage && message && (
+        <div className="character-message">
+          <div className="message-bubble">
+            <p>{message}</p>
+            <div className="message-arrow"></div>
+          </div>
+        </div>
+      )}
+
+      <style jsx>{`
+        .story-character-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          margin: 1rem 0;
+        }
+
+        .character-wrapper {
+          position: relative;
+          display: inline-block;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .character-wrapper:hover {
+          transform: scale(1.05);
+        }
+
+        .character-emoji {
+          display: inline-block;
+          line-height: 1;
+          user-select: none;
+        }
+
+        .speaking-indicator {
+          position: absolute;
+          top: -10px;
+          right: -10px;
+        }
+
+        .speech-bubble {
+          display: flex;
+          gap: 2px;
+          animation: pulse 1s infinite;
+        }
+
+        .bubble-dot {
+          width: 4px;
+          height: 4px;
+          background: var(--primary);
+          border-radius: 50%;
+          animation: wave 1.5s infinite;
+        }
+
+        .bubble-dot:nth-child(2) {
+          animation-delay: 0.2s;
+        }
+
+        .bubble-dot:nth-child(3) {
+          animation-delay: 0.4s;
+        }
+
+        .character-message {
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          transform: translateX(-50%);
+          margin-top: 1rem;
+          z-index: 10;
+        }
+
+        .message-bubble {
+          background: ${theme === 'dark' ? 'var(--gray-800)' : 'white'};
+          color: ${theme === 'dark' ? 'var(--gray-200)' : 'var(--gray-800)'};
+          padding: 0.75rem 1rem;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          border: 2px solid var(--primary-light);
+          position: relative;
+          max-width: 200px;
+          animation: messageAppear 0.3s ease-out;
+        }
+
+        .message-bubble p {
+          margin: 0;
+          font-size: 0.9rem;
+          line-height: 1.4;
+        }
+
+        .message-arrow {
+          position: absolute;
+          top: -8px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 0;
+          height: 0;
+          border-left: 8px solid transparent;
+          border-right: 8px solid transparent;
+          border-bottom: 8px solid var(--primary-light);
+        }
+
+        .message-arrow::after {
+          content: '';
+          position: absolute;
+          top: 2px;
+          left: -6px;
+          width: 0;
+          height: 0;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-bottom: 6px solid ${theme === 'dark' ? 'var(--gray-800)' : 'white'};
+        }
+
+        /* Animation classes */
+        .bounce-animation {
+          animation: bounce 0.6s ease-in-out;
+        }
+
+        .wave-animation {
+          animation: wave 0.8s ease-in-out;
+        }
+
+        .nod-animation {
+          animation: nod 0.5s ease-in-out;
+        }
+
+        .shake-animation {
+          animation: shake 0.5s ease-in-out;
+        }
+
+        .dance-animation {
+          animation: dance 1s ease-in-out;
+        }
+
+        .hide-animation {
+          animation: hide 0.5s ease-in-out forwards;
+        }
+
+        .appear-animation {
+          animation: appear 0.5s ease-in-out;
+        }
+
+        @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+          }
+          40% {
+            transform: translateY(-10px);
+          }
+          60% {
+            transform: translateY(-5px);
+          }
+        }
+
+        @keyframes wave {
+          0%, 100% {
+            transform: rotate(0deg);
+          }
+          25% {
+            transform: rotate(-10deg);
+          }
+          75% {
+            transform: rotate(10deg);
+          }
+        }
+
+        @keyframes nod {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-5px);
+          }
+        }
+
+        @keyframes shake {
+          0%, 100% {
+            transform: translateX(0);
+          }
+          25% {
+            transform: translateX(-5px);
+          }
+          75% {
+            transform: translateX(5px);
+          }
+        }
+
+        @keyframes dance {
+          0%, 100% {
+            transform: rotate(0deg) scale(1);
+          }
+          25% {
+            transform: rotate(-5deg) scale(1.1);
+          }
+          50% {
+            transform: rotate(0deg) scale(1.2);
+          }
+          75% {
+            transform: rotate(5deg) scale(1.1);
+          }
+        }
+
+        @keyframes hide {
+          0% {
+            opacity: 1;
+            transform: scale(1);
+          }
+          100% {
+            opacity: 0;
+            transform: scale(0);
+          }
+        }
+
+        @keyframes appear {
+          0% {
+            opacity: 0;
+            transform: scale(0);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.5;
+          }
+        }
+
+        @keyframes wave {
+          0%, 100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.2);
+          }
+        }
+
+        @keyframes messageAppear {
+          0% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(10px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+          }
+        }
+
+        @media (max-width: 768px) {
+          .character-emoji {
+            font-size: 3rem;
+          }
+
+          .message-bubble {
+            max-width: 150px;
+            font-size: 0.8rem;
+          }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default StoryCharacter;

@@ -128,12 +128,17 @@ const HeroSection: React.FC = () => {
               </Link>
               <Link
                 to="/story"
-                className="btn-secondary"
+                className="btn-primary"
                 onMouseEnter={() => setIsHovered('story')}
                 onMouseLeave={() => setIsHovered(null)}
+                style={{ 
+                  background: 'linear-gradient(135deg, #ff6b6b, #ee5a24)',
+                  border: 'none',
+                  color: 'white'
+                }}
               >
                 <Play size={20} />
-                Watch Privacy Panda's Story
+                Watch Privacy Panda's Interactive Story
                 <Heart size={16} className={`btn-icon ${isHovered === 'story' ? 'btn-icon-active' : ''}`} />
               </Link>
             </div>
