@@ -86,8 +86,13 @@ const AgeGroupSection: React.FC = () => {
   };
 
   const handleCardClick = (link: string) => {
+ 
+    // Navigate to the resource page
+    window.location.href = link;
+ 
     // Navigate to the resource page using React Router
     navigate(link);
+ 
   };
 
   return (
@@ -122,8 +127,10 @@ const AgeGroupSection: React.FC = () => {
               <p>{group.description}</p>
               <div className="featured-grid">
                 {group.resources.map((resource, index) => (
-                  <div
-                    key={index}
+ 
+                  <div 
+                    key={index} 
+ 
                     className="feature-card"
                     onClick={() => handleCardClick(resource.link)}
                     role="button"
@@ -142,11 +149,19 @@ const AgeGroupSection: React.FC = () => {
                       <h3><resource.icon size={20} /> {resource.title}</h3>
                       <p>{resource.description}</p>
                       <div className="card-link">
+ 
+                        {resource.title.includes('Explore') ? 'Explore' : 
+                         resource.title.includes('Start') ? 'Start' : 
+                         resource.title.includes('Enter') ? 'Enter' : 
+                         resource.title.includes('Read') ? 'Read' : 
+                         resource.title.includes('Access') ? 'Access' : 'Learn More'} 
+ 
                         {resource.title.includes('Explore') ? 'Explore' :
                          resource.title.includes('Start') ? 'Start' :
                          resource.title.includes('Enter') ? 'Enter' :
                          resource.title.includes('Read') ? 'Read' :
                          resource.title.includes('Access') ? 'Access' : 'Learn More'}
+ 
                         <ArrowRight size={16} />
                       </div>
                     </div>
