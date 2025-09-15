@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Users, BookOpen, Book, Settings, Award, TrendingUp, Clock, CheckCircle, ArrowLeft, User, Shield as Child, UserCheck, Star, Play, Download } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Users, BookOpen, Book, Settings, Award, TrendingUp, Clock, CheckCircle, ArrowLeft, User, Shield as Child, UserCheck, Star, Play, Download, Plus, UserPlus, LogOut } from 'lucide-react';
 import Logo from '../components/Logo';
+import { useAuth } from '../contexts/AuthContext';
+import { useFamily } from '../contexts/FamilyContext';
+import { useProgress } from '../contexts/ProgressContext';
 
 interface FamilyMember {
   id: string;
@@ -26,44 +29,36 @@ interface Activity {
 }
 
 const FamilyHubPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'activities' | 'progress' | 'resources'>('dashboard');
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'activities' | 'progress' | 'resources' | 'family'>('dashboard');
+  const [showCreateFamily, setShowCreateFamily] = useState(false);
+  const [showJoinFamily, setShowJoinFamily] = useState(false);
+  const [showAddMember, setShowAddMember] = useState(false);
+  const [newFamilyName, setNewFamilyName] = useState('');
+  const [joinFamilyId, setJoinFamilyId] = useState('');
+  const [newMemberEmail, setNewMemberEmail] = useState('');
+  const [newMemberFirstName, setNewMemberFirstName] = useState('');
+  const [newMemberLastName, setNewMemberLastName] = useState('');
+  const [newMemberRole, setNewMemberRole] = useState<'parent' | 'child'>('child');
 
-  // Sample family data - in real app this would come from API/database
-  const [familyMembers] = useState<FamilyMember[]>([
-    {
-      id: '1',
-      name: 'Emma',
-      age: 8,
-      avatar: '👧',
-      progress: 75,
-      ageGroup: '5-8',
-      currentActivity: 'Privacy Panda Coloring',
-      completedActivities: 4,
-      totalActivities: 6
-    },
-    {
-      id: '2', 
-      name: 'Alex',
-      age: 12,
-      avatar: '🧒',
-      progress: 60,
-      ageGroup: '9-12',
-      currentActivity: 'Digital Citizenship Academy',
-      completedActivities: 6,
-      totalActivities: 10
-    },
-    {
-      id: '3',
-      name: 'Jordan',
-      age: 15,
-      avatar: '👤',
-      progress: 40,
-      ageGroup: '13-17',
-      currentActivity: 'Teen Privacy Handbook',
-      completedActivities: 8,
-      totalActivities: 15
+  const { user, profile, isAuthenticated } = useAuth();
+  const { 
+    currentFamily, 
+    familyMembers, 
+    loading, 
+    createFamily, 
+    joinFamily, 
+    leaveFamily, 
+    addFamilyMember 
+  } = useFamily();
+  const { progress, getOverallProgress } = useProgress();
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/');
     }
-  ]);
+  }, [isAuthenticated, navigate]);
 
   const recentActivities: Activity[] = [
     {
@@ -111,11 +106,12 @@ const FamilyHubPage: React.FC = () => {
       color: 'from-blue-500 to-blue-600'
     },
     {
-      title: 'Download Resources',
-      description: 'Get printable activities and guides',
-      icon: Download,
-      action: 'download',
-      color: 'from-purple-500 to-purple-600'
+      title: 'Generate Certificates',
+      description: 'Create achievement certificates and badges',
+      icon: Award,
+      action: 'certificates',
+      color: 'from-purple-500 to-purple-600',
+      url: '/certificates'
     },
     {
       title: 'PrivacyPanda App',
@@ -123,7 +119,7 @@ const FamilyHubPage: React.FC = () => {
       icon: Star,
       action: 'app-link',
       color: 'from-orange-500 to-orange-600',
-      url: 'https://www.hub.pandagarde.com'
+      url: '/family-hub'
     }
   ];
 
@@ -140,10 +136,63 @@ const FamilyHubPage: React.FC = () => {
     }
   };
 
-  const getOverallProgress = () => {
-    const totalCompleted = familyMembers.reduce((sum, member) => sum + member.completedActivities, 0);
-    const totalActivities = familyMembers.reduce((sum, member) => sum + member.totalActivities, 0);
-    return Math.round((totalCompleted / totalActivities) * 100);
+  const handleCreateFamily = async () => {
+    if (!newFamilyName.trim()) return;
+    
+    const { family, error } = await createFamily(newFamilyName);
+    if (error) {
+      alert(`Error creating family: ${error}`);
+    } else {
+      setShowCreateFamily(false);
+      setNewFamilyName('');
+    }
+  };
+
+  const handleJoinFamily = async () => {
+    if (!joinFamilyId.trim()) return;
+    
+    const { success, error } = await joinFamily(joinFamilyId);
+    if (error) {
+      alert(`Error joining family: ${error}`);
+    } else {
+      setShowJoinFamily(false);
+      setJoinFamilyId('');
+    }
+  };
+
+  const handleAddMember = async () => {
+    if (!newMemberEmail.trim() || !newMemberFirstName.trim() || !newMemberLastName.trim()) return;
+    
+    const { success, error } = await addFamilyMember(
+      newMemberEmail,
+      newMemberRole,
+      newMemberFirstName,
+      newMemberLastName
+    );
+    
+    if (error) {
+      alert(`Error adding family member: ${error}`);
+    } else {
+      setShowAddMember(false);
+      setNewMemberEmail('');
+      setNewMemberFirstName('');
+      setNewMemberLastName('');
+      setNewMemberRole('child');
+    }
+  };
+
+  const handleLeaveFamily = async () => {
+    if (window.confirm('Are you sure you want to leave this family? This action cannot be undone.')) {
+      const { success, error } = await leaveFamily();
+      if (error) {
+        alert(`Error leaving family: ${error}`);
+      }
+    }
+  };
+
+  const getOverallProgressPercentage = () => {
+    const overall = getOverallProgress();
+    return overall.percentage;
   };
 
   return (
@@ -180,7 +229,7 @@ const FamilyHubPage: React.FC = () => {
               </div>
               <div className="flex items-center gap-2">
                 <Award size={16} />
-                <span>{getOverallProgress()}% Overall Progress</span>
+                <span>{getOverallProgressPercentage()}% Overall Progress</span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock size={16} />
@@ -209,11 +258,12 @@ const FamilyHubPage: React.FC = () => {
                 { key: 'dashboard', label: 'Dashboard', icon: Users },
                 { key: 'activities', label: 'Activities', icon: BookOpen },
                 { key: 'progress', label: 'Progress', icon: TrendingUp },
+                { key: 'family', label: 'Family', icon: UserPlus },
                 { key: 'resources', label: 'Resources', icon: Download }
               ].map(({ key, label, icon: Icon }) => (
                 <button
                   key={key}
-                  onClick={() => setActiveTab(key as 'dashboard' | 'activities' | 'progress' | 'resources')}
+                  onClick={() => setActiveTab(key as 'dashboard' | 'activities' | 'progress' | 'family' | 'resources')}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
                     activeTab === key 
                       ? 'bg-green-100 text-green-700' 
@@ -246,64 +296,76 @@ const FamilyHubPage: React.FC = () => {
                 Family Progress Overview
               </h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                {familyMembers.map((member) => {
-                  const AgeIcon = getAgeGroupIcon(member.ageGroup);
-                  return (
-                    <div 
-                      key={member.id}
-                      className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all cursor-pointer"
-                      style={{ backgroundColor: 'var(--card-color)' }}
-                      onClick={() => setSelectedMember(member.id)}
+              {!currentFamily ? (
+                <div className="text-center py-12">
+                  <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Users size={32} className="text-gray-400" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
+                    No Family Yet
+                  </h3>
+                  <p className="text-gray-600 mb-8 max-w-md mx-auto">
+                    Create a family or join an existing one to start tracking progress together.
+                  </p>
+                  <div className="flex gap-4 justify-center">
+                    <button
+                      onClick={() => setShowCreateFamily(true)}
+                      className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
                     >
-                      <div className="flex items-center gap-4 mb-4">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center text-white text-xl">
-                          {member.avatar}
-                        </div>
-                        <div>
-                          <h3 className="font-bold text-lg" style={{ color: 'var(--primary)' }}>
-                            {member.name}
-                          </h3>
-                          <div className="flex items-center gap-1 text-sm" style={{ color: 'var(--gray-500)' }}>
-                            <AgeIcon size={14} />
-                            <span>Age {member.age}</span>
+                      Create Family
+                    </button>
+                    <button
+                      onClick={() => setShowJoinFamily(true)}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                    >
+                      Join Family
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                  {familyMembers.map((member) => {
+                    const AgeIcon = getAgeGroupIcon(member.profile_data?.age ? 
+                      member.profile_data.age <= 8 ? '5-8' : 
+                      member.profile_data.age <= 12 ? '9-12' : '13-17' : '5-8');
+                    return (
+                      <div 
+                        key={member.id}
+                        className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all"
+                        style={{ backgroundColor: 'var(--card-color)' }}
+                      >
+                        <div className="flex items-center gap-4 mb-4">
+                          <div className="w-12 h-12 rounded-full bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center text-white text-xl">
+                            {member.first_name.charAt(0)}
+                          </div>
+                          <div>
+                            <h3 className="font-bold text-lg" style={{ color: 'var(--primary)' }}>
+                              {member.first_name} {member.last_name}
+                            </h3>
+                            <div className="flex items-center gap-1 text-sm" style={{ color: 'var(--gray-500)' }}>
+                              <AgeIcon size={14} />
+                              <span>{member.role === 'parent' ? 'Parent' : 'Child'}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      
-                      <div className="mb-4">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-medium" style={{ color: 'var(--gray-600)' }}>
-                            Progress
-                          </span>
-                          <span className="text-sm font-bold" style={{ color: 'var(--primary)' }}>
-                            {member.progress}%
-                          </span>
-                        </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div 
-                            className="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full transition-all duration-500"
-                            style={{ width: `${member.progress}%` }}
-                          />
-                        </div>
-                      </div>
-                      
-                      <div className="text-sm" style={{ color: 'var(--gray-600)' }}>
-                        <div className="flex items-center justify-between mb-1">
-                          <span>Completed Activities</span>
-                          <span className="font-medium">{member.completedActivities}/{member.totalActivities}</span>
-                        </div>
-                        {member.currentActivity && (
-                          <div className="flex items-center gap-1 text-green-600 mt-2">
-                            <Play size={12} />
-                            <span className="text-xs">{member.currentActivity}</span>
+                        
+                        <div className="text-sm" style={{ color: 'var(--gray-600)' }}>
+                          <div className="flex items-center justify-between mb-1">
+                            <span>Email</span>
+                            <span className="font-medium">{member.email}</span>
                           </div>
-                        )}
+                          {member.profile_data?.age && (
+                            <div className="flex items-center justify-between mb-1">
+                              <span>Age</span>
+                              <span className="font-medium">{member.profile_data.age}</span>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
             </section>
 
             {/* Quick Actions */}
@@ -503,7 +565,7 @@ const FamilyHubPage: React.FC = () => {
                   <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center">
                     <div className="text-center">
                       <div className="text-3xl font-bold" style={{ color: 'var(--primary)' }}>
-                        {getOverallProgress()}%
+                        {getOverallProgressPercentage()}%
                       </div>
                       <div className="text-sm" style={{ color: 'var(--gray-600)' }}>
                         Complete
@@ -536,6 +598,115 @@ const FamilyHubPage: React.FC = () => {
           </div>
         )}
 
+        {/* Family Tab */}
+        {activeTab === 'family' && (
+          <div className="space-y-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
+                Family Management
+              </h2>
+              <p className="text-lg max-w-2xl mx-auto" style={{ color: 'var(--gray-600)' }}>
+                Manage your family members and settings.
+              </p>
+            </div>
+
+            {!currentFamily ? (
+              <div className="text-center py-12">
+                <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Users size={32} className="text-gray-400" />
+                </div>
+                <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
+                  No Family Yet
+                </h3>
+                <p className="text-gray-600 mb-8 max-w-md mx-auto">
+                  Create a family or join an existing one to start managing family members.
+                </p>
+                <div className="flex gap-4 justify-center">
+                  <button
+                    onClick={() => setShowCreateFamily(true)}
+                    className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                  >
+                    Create Family
+                  </button>
+                  <button
+                    onClick={() => setShowJoinFamily(true)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                  >
+                    Join Family
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-8">
+                {/* Family Info */}
+                <div className="bg-white rounded-xl p-6" style={{ backgroundColor: 'var(--card-color)' }}>
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-xl font-bold" style={{ color: 'var(--primary)' }}>
+                      {currentFamily.name}
+                    </h3>
+                    <button
+                      onClick={handleLeaveFamily}
+                      className="text-red-600 hover:text-red-700 flex items-center gap-2"
+                    >
+                      <LogOut size={16} />
+                      Leave Family
+                    </button>
+                  </div>
+                  <p className="text-gray-600 mb-4">
+                    Family ID: {currentFamily.id}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    Created on {new Date(currentFamily.created_at).toLocaleDateString()}
+                  </p>
+                </div>
+
+                {/* Family Members */}
+                <div className="bg-white rounded-xl p-6" style={{ backgroundColor: 'var(--card-color)' }}>
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-xl font-bold" style={{ color: 'var(--primary)' }}>
+                      Family Members ({familyMembers.length})
+                    </h3>
+                    <button
+                      onClick={() => setShowAddMember(true)}
+                      className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
+                    >
+                      <Plus size={16} />
+                      Add Member
+                    </button>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    {familyMembers.map((member) => (
+                      <div key={member.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center text-white font-bold">
+                            {member.first_name.charAt(0)}
+                          </div>
+                          <div>
+                            <h4 className="font-medium" style={{ color: 'var(--primary)' }}>
+                              {member.first_name} {member.last_name}
+                            </h4>
+                            <p className="text-sm text-gray-600">{member.email}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className={`px-2 py-1 rounded text-xs font-medium ${
+                            member.role === 'parent' 
+                              ? 'bg-blue-100 text-blue-700' 
+                              : 'bg-green-100 text-green-700'
+                          }`}>
+                            {member.role === 'parent' ? 'Parent' : 'Child'}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Resources Tab */}
         {activeTab === 'resources' && (
           <div className="space-y-8">
@@ -550,7 +721,7 @@ const FamilyHubPage: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <a 
-                href="https://www.hub.pandagarde.com" 
+                href="/family-hub" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="bg-white rounded-xl p-6 hover:shadow-lg transition-all transform hover:scale-105 block"
@@ -618,6 +789,162 @@ const FamilyHubPage: React.FC = () => {
           </div>
         )}
       </main>
+
+      {/* Create Family Modal */}
+      {showCreateFamily && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex min-h-screen items-center justify-center p-4">
+            <div className="fixed inset-0 bg-black bg-opacity-50" onClick={() => setShowCreateFamily(false)} />
+            <div className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
+              <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
+                Create New Family
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Family Name</label>
+                  <input
+                    type="text"
+                    value={newFamilyName}
+                    onChange={(e) => setNewFamilyName(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                    placeholder="Enter family name"
+                  />
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleCreateFamily}
+                    disabled={!newFamilyName.trim() || loading}
+                    className="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-md font-medium transition-colors"
+                  >
+                    {loading ? 'Creating...' : 'Create Family'}
+                  </button>
+                  <button
+                    onClick={() => setShowCreateFamily(false)}
+                    className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md font-medium transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Join Family Modal */}
+      {showJoinFamily && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex min-h-screen items-center justify-center p-4">
+            <div className="fixed inset-0 bg-black bg-opacity-50" onClick={() => setShowJoinFamily(false)} />
+            <div className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
+              <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
+                Join Existing Family
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Family ID</label>
+                  <input
+                    type="text"
+                    value={joinFamilyId}
+                    onChange={(e) => setJoinFamilyId(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter family ID"
+                  />
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleJoinFamily}
+                    disabled={!joinFamilyId.trim() || loading}
+                    className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-md font-medium transition-colors"
+                  >
+                    {loading ? 'Joining...' : 'Join Family'}
+                  </button>
+                  <button
+                    onClick={() => setShowJoinFamily(false)}
+                    className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md font-medium transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Member Modal */}
+      {showAddMember && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex min-h-screen items-center justify-center p-4">
+            <div className="fixed inset-0 bg-black bg-opacity-50" onClick={() => setShowAddMember(false)} />
+            <div className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
+              <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
+                Add Family Member
+              </h3>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">First Name</label>
+                    <input
+                      type="text"
+                      value={newMemberFirstName}
+                      onChange={(e) => setNewMemberFirstName(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                      placeholder="First name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Last Name</label>
+                    <input
+                      type="text"
+                      value={newMemberLastName}
+                      onChange={(e) => setNewMemberLastName(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                      placeholder="Last name"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Email</label>
+                  <input
+                    type="email"
+                    value={newMemberEmail}
+                    onChange={(e) => setNewMemberEmail(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                    placeholder="Email address"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Role</label>
+                  <select
+                    value={newMemberRole}
+                    onChange={(e) => setNewMemberRole(e.target.value as 'parent' | 'child')}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  >
+                    <option value="child">Child</option>
+                    <option value="parent">Parent</option>
+                  </select>
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleAddMember}
+                    disabled={!newMemberEmail.trim() || !newMemberFirstName.trim() || !newMemberLastName.trim() || loading}
+                    className="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-md font-medium transition-colors"
+                  >
+                    {loading ? 'Adding...' : 'Add Member'}
+                  </button>
+                  <button
+                    onClick={() => setShowAddMember(false)}
+                    className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md font-medium transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

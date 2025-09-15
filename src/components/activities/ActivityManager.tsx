@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Play, RotateCcw } from 'lucide-react';
-import ColoringActivity from './ColoringActivity';
-import DragDropActivity from './DragDropActivity';
-import MazeActivity from './MazeActivity';
-import WordSearchActivity from './WordSearchActivity';
-import ConnectDotsActivity from './ConnectDotsActivity';
-import MatchingActivity from './MatchingActivity';
 import { useProgress } from '../../hooks/useProgress';
 import { useToast } from '../../hooks/useToast';
+import { useAuth } from '../../contexts/AuthContext';
+
+// Lazy load activity components
+const ColoringActivity = lazy(() => import('./ColoringActivity'));
+const DragDropActivity = lazy(() => import('./DragDropActivity'));
+const MazeActivity = lazy(() => import('./MazeActivity'));
+const WordSearchActivity = lazy(() => import('./WordSearchActivity'));
+const ConnectDotsActivity = lazy(() => import('./ConnectDotsActivity'));
+const MatchingActivity = lazy(() => import('./MatchingActivity'));
 
 interface ActivityManagerProps {
   activityId: string;
@@ -20,6 +23,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
   const [startTime, setStartTime] = useState<Date | null>(null);
   const { startActivity, completeActivity, getActivityProgress } = useProgress();
   const { success, error } = useToast();
+  const { user } = useAuth();
 
   const activityInstructions = {
     coloring: {
@@ -103,15 +107,13 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
     setShowInstructions(true);
   }, [activityId]);
 
-  const handleComplete = (score?: number) => {
+  const handleComplete = async (score?: number) => {
     const timeSpent = startTime ? Math.round((Date.now() - startTime.getTime()) / 1000) : 0;
     
-    // For demo purposes, use a default member ID
-    // In a real app, this would come from user authentication
-    const memberId = 'demo-user';
-    
+    // Use authenticated user ID or fallback to demo user
+    const memberId = user?.id || 'demo-user';
     try {
-      completeActivity(memberId, activityId, score, timeSpent);
+      await completeActivity(activityId, score, timeSpent);
       success('Activity Completed!', 'Great job! Your progress has been saved.');
       onComplete(activityId);
     } catch (err) {
@@ -119,12 +121,12 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
     }
   };
 
-  const handleStart = () => {
+  const handleStart = async () => {
     setStartTime(new Date());
     setShowInstructions(false);
-    
+
     // Start tracking the activity
-    const memberId = 'demo-user';
+    const memberId = user?.id || 'demo-user';
     startActivity(memberId, activityId);
   };
 
@@ -133,19 +135,45 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
   };
 
   const renderActivity = () => {
+    const activityProps = { onComplete: handleComplete, onClose: onClose };
+
     switch (activityId) {
       case 'coloring':
-        return <ColoringActivity onComplete={handleComplete} onClose={onClose} />;
+        return (
+          <Suspense fallback={<div className="loading-spinner">Loading coloring activity...</div>}>
+            <ColoringActivity {...activityProps} />
+          </Suspense>
+        );
       case 'sorting':
-        return <DragDropActivity onComplete={handleComplete} onClose={onClose} />;
+        return (
+          <Suspense fallback={<div className="loading-spinner">Loading sorting activity...</div>}>
+            <DragDropActivity {...activityProps} />
+          </Suspense>
+        );
       case 'maze':
-        return <MazeActivity onComplete={handleComplete} onClose={onClose} />;
+        return (
+          <Suspense fallback={<div className="loading-spinner">Loading maze activity...</div>}>
+            <MazeActivity {...activityProps} />
+          </Suspense>
+        );
       case 'wordsearch':
-        return <WordSearchActivity onComplete={handleComplete} onClose={onClose} />;
+        return (
+          <Suspense fallback={<div className="loading-spinner">Loading word search activity...</div>}>
+            <WordSearchActivity {...activityProps} />
+          </Suspense>
+        );
       case 'connectdots':
-        return <ConnectDotsActivity onComplete={handleComplete} onClose={onClose} />;
+        return (
+          <Suspense fallback={<div className="loading-spinner">Loading connect dots activity...</div>}>
+            <ConnectDotsActivity {...activityProps} />
+          </Suspense>
+        );
       case 'matching':
-        return <MatchingActivity onComplete={handleComplete} onClose={onClose} />;
+        return (
+          <Suspense fallback={<div className="loading-spinner">Loading matching activity...</div>}>
+            <MatchingActivity {...activityProps} />
+          </Suspense>
+        );
       default:
         return <div>Activity not found</div>;
     }
@@ -159,12 +187,12 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
             <h2 className="instructions-title">{currentActivity.title}</h2>
             <button onClick={onClose} className="close-button">×</button>
           </div>
-          
+
           <div className="instructions-content">
             <div className="instructions-description">
               <p>{currentActivity.description}</p>
             </div>
-            
+
             <div className="instructions-steps">
               <h3>How to Play:</h3>
               <ol>
@@ -173,12 +201,12 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
                 ))}
               </ol>
             </div>
-            
+
             <div className="instructions-tips">
               <h3>💡 Tip:</h3>
               <p>{currentActivity.tips}</p>
             </div>
-            
+
             <div className="instructions-actions">
             <button onClick={handleStart} className="start-button" aria-label="Start the activity">
               <Play size={20} />
@@ -204,7 +232,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           {renderActivity()}
         </div>
       )}
-      
+
       <style jsx>{`
         .activity-manager {
           position: fixed;
@@ -217,7 +245,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           flex-direction: column;
           z-index: 1000;
         }
-        
+
         .activity-instructions {
           background: white;
           margin: 20px;
@@ -228,7 +256,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           overflow-y: auto;
           margin: 20px auto;
         }
-        
+
         .instructions-header {
           display: flex;
           justify-content: space-between;
@@ -238,46 +266,46 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           background: #f8f9fa;
           border-radius: 12px 12px 0 0;
         }
-        
+
         .instructions-title {
           margin: 0;
           color: #2C3E50;
           font-size: 24px;
         }
-        
+
         .instructions-content {
           padding: 20px;
         }
-        
+
         .instructions-description {
           margin-bottom: 20px;
         }
-        
+
         .instructions-description p {
           font-size: 16px;
           color: #666;
           line-height: 1.6;
         }
-        
+
         .instructions-steps {
           margin-bottom: 20px;
         }
-        
+
         .instructions-steps h3 {
           color: #2C3E50;
           margin-bottom: 10px;
         }
-        
+
         .instructions-steps ol {
           padding-left: 20px;
         }
-        
+
         .instructions-steps li {
           margin-bottom: 8px;
           color: #666;
           line-height: 1.5;
         }
-        
+
         .instructions-tips {
           background: #fff3cd;
           border: 1px solid #ffeaa7;
@@ -285,25 +313,25 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           padding: 15px;
           margin-bottom: 20px;
         }
-        
+
         .instructions-tips h3 {
           margin: 0 0 8px 0;
           color: #856404;
           font-size: 16px;
         }
-        
+
         .instructions-tips p {
           margin: 0;
           color: #856404;
           font-style: italic;
         }
-        
+
         .instructions-actions {
           display: flex;
           gap: 12px;
           justify-content: center;
         }
-        
+
         .start-button {
           background: #4CAF50;
           color: white;
@@ -318,11 +346,11 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           gap: 8px;
           transition: background 0.2s;
         }
-        
+
         .start-button:hover {
           background: #45a049;
         }
-        
+
         .cancel-button {
           background: #f5f5f5;
           color: #666;
@@ -333,18 +361,18 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           cursor: pointer;
           transition: background 0.2s;
         }
-        
+
         .cancel-button:hover {
           background: #e0e0e0;
         }
-        
+
         .activity-container {
           background: white;
           height: 100%;
           display: flex;
           flex-direction: column;
         }
-        
+
         .activity-header {
           display: flex;
           justify-content: space-between;
@@ -353,19 +381,19 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           background: #f8f9fa;
           border-bottom: 1px solid #e0e0e0;
         }
-        
+
         .activity-title {
           margin: 0;
           color: #2C3E50;
           font-size: 20px;
         }
-        
+
         .activity-controls {
           display: flex;
           align-items: center;
           gap: 10px;
         }
-        
+
         .restart-button {
           background: #f5f5f5;
           border: 1px solid #ddd;
@@ -375,11 +403,11 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           color: #666;
           transition: background 0.2s;
         }
-        
+
         .restart-button:hover {
           background: #e0e0e0;
         }
-        
+
         .close-button {
           background: none;
           border: none;
@@ -388,29 +416,49 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           color: #666;
           padding: 4px;
         }
-        
+
+        .loading-spinner {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 200px;
+          font-size: 16px;
+          color: #666;
+        }
+
+        .loading-spinner::before {
+          content: '';
+          width: 20px;
+          height: 20px;
+          border: 2px solid #f3f3f3;
+          border-top: 2px solid #4CAF50;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin-right: 10px;
+        }
+
         @media (max-width: 768px) {
           .activity-instructions {
             margin: 10px;
             max-height: 90vh;
           }
-          
+
           .instructions-header {
             padding: 15px;
           }
-          
+
           .instructions-title {
             font-size: 20px;
           }
-          
+
           .instructions-content {
             padding: 15px;
           }
-          
+
           .instructions-actions {
             flex-direction: column;
           }
-          
+
           .start-button,
           .cancel-button {
             width: 100%;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, CheckCircle, Star, Users, BookOpen, Shield, Clock, Play, Download, Award } from 'lucide-react';
 import Logo from '../components/Logo';
 
@@ -14,6 +14,7 @@ interface Step {
 }
 
 const GetStartedPage: React.FC = () => {
+  const navigate = useNavigate();
   const [completedSteps, setCompletedSteps] = useState<string[]>([]);
 
   const steps: Step[] = [
@@ -73,15 +74,31 @@ const GetStartedPage: React.FC = () => {
   const getStepAction = (step: Step) => {
     switch (step.id) {
       case 'welcome':
-        return () => window.location.href = '/story';
+        return () => navigate('/story');
       case 'age-group':
-        return () => window.location.href = '/#age-groups';
+        return () => {
+          navigate('/');
+          setTimeout(() => {
+            const element = document.querySelector('#age-groups');
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth' });
+            }
+          }, 100);
+        };
       case 'first-activity':
-        return () => window.location.href = '/activity-book';
+        return () => navigate('/activity-book');
       case 'family-hub':
-        return () => window.location.href = '/family-hub';
+        return () => navigate('/family-hub');
       case 'explore-resources':
-        return () => window.location.href = '/#parent-resources';
+        return () => {
+          navigate('/');
+          setTimeout(() => {
+            const element = document.querySelector('#parent-resources');
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth' });
+            }
+          }, 100);
+        };
       default:
         return () => {};
     }
@@ -98,30 +115,30 @@ const GetStartedPage: React.FC = () => {
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
           }} />
         </div>
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex items-center justify-center mb-8">
             <div className="w-20 h-20 mr-4">
               <Logo />
             </div>
           </div>
-          
+
           <div className="text-center">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
               <Star size={16} />
               <span className="text-sm font-semibold">GET STARTED</span>
             </div>
-            
+
             <h1 className="text-5xl font-bold mb-6 leading-tight">
               Get Started with PandaGarde
               <span className="block text-yellow-300">Your Privacy Education Journey</span>
             </h1>
-            
+
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              Follow our step-by-step guide to begin your family's digital privacy education journey. 
+              Follow our step-by-step guide to begin your family's digital privacy education journey.
               We'll help you get set up and start learning together.
             </p>
-            
+
             <div className="flex items-center justify-center gap-6 text-sm">
               <div className="flex items-center gap-2">
                 <Clock size={16} />
@@ -143,7 +160,7 @@ const GetStartedPage: React.FC = () => {
       {/* Navigation */}
       <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
         <div className="container mx-auto px-6 py-4">
-          <Link 
+          <Link
             to="/"
             className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
             style={{ color: 'var(--primary-light)' }}
@@ -156,7 +173,7 @@ const GetStartedPage: React.FC = () => {
 
       {/* Progress Overview */}
       <section className="container mx-auto px-6 py-12">
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-12" style={{ 
+        <div className="bg-white rounded-xl shadow-lg p-8 mb-12" style={{
           backgroundColor: 'var(--card-color)',
           boxShadow: 'var(--shadow-lg)'
         }}>
@@ -165,7 +182,7 @@ const GetStartedPage: React.FC = () => {
               Your Progress
             </h2>
             <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
-              <div 
+              <div
                 className="h-4 rounded-full transition-all duration-500 bg-gradient-to-r from-green-500 to-blue-600"
                 style={{ width: `${completionPercentage}%` }}
               />
@@ -193,7 +210,7 @@ const GetStartedPage: React.FC = () => {
             {steps.map((step, index) => {
               const Icon = step.icon;
               const isCompleted = completedSteps.includes(step.id);
-              
+
               return (
                 <div
                   key={step.id}
@@ -206,8 +223,8 @@ const GetStartedPage: React.FC = () => {
                     <div className="flex items-start gap-6">
                       <div className="flex-shrink-0">
                         <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
-                          isCompleted 
-                            ? 'bg-green-500 text-white' 
+                          isCompleted
+                            ? 'bg-green-500 text-white'
                             : 'bg-gradient-to-r from-green-500 to-blue-600 text-white'
                         }`}>
                           {isCompleted ? (
@@ -217,7 +234,7 @@ const GetStartedPage: React.FC = () => {
                           )}
                         </div>
                       </div>
-                      
+
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
                           <h3 className="text-xl font-bold" style={{ color: 'var(--primary)' }}>
@@ -229,11 +246,11 @@ const GetStartedPage: React.FC = () => {
                             </span>
                           )}
                         </div>
-                        
+
                         <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
                           {step.description}
                         </p>
-                        
+
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-4 text-sm text-gray-500">
                             <span className="flex items-center gap-1">
@@ -245,7 +262,7 @@ const GetStartedPage: React.FC = () => {
                               Step {index + 1}
                             </span>
                           </div>
-                          
+
                           <button
                             onClick={() => {
                               getStepAction(step)();
@@ -284,7 +301,7 @@ const GetStartedPage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <Link 
+            <Link
               to="/activity-book"
               className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center"
               style={{ backgroundColor: 'var(--card-color)' }}
@@ -301,7 +318,7 @@ const GetStartedPage: React.FC = () => {
               <span className="text-green-600 font-semibold">Start Activities →</span>
             </Link>
 
-            <Link 
+            <Link
               to="/family-hub"
               className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center"
               style={{ backgroundColor: 'var(--card-color)' }}
@@ -318,7 +335,7 @@ const GetStartedPage: React.FC = () => {
               <span className="text-green-600 font-semibold">Set Up Family →</span>
             </Link>
 
-            <Link 
+            <Link
               to="/story"
               className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center"
               style={{ backgroundColor: 'var(--card-color)' }}
@@ -348,14 +365,14 @@ const GetStartedPage: React.FC = () => {
             Join thousands of families who are already learning about digital privacy with PandaGarde.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link 
+            <Link
               to="/activity-book"
               className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
             >
               <Play size={20} />
               Start Learning
             </Link>
-            <Link 
+            <Link
               to="/family-hub"
               className="bg-green-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors inline-flex items-center gap-2"
             >

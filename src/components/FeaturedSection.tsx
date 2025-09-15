@@ -1,5 +1,7 @@
 import React from 'react';
+ 
 import { Link, useNavigate } from 'react-router-dom';
+ 
 import { BookOpen, Book, ClipboardCheck as ChalkboardTeacher, ArrowRight } from 'lucide-react';
 
 const features = [
@@ -50,11 +52,14 @@ const FeaturedSection: React.FC = () => {
           <h2><ChalkboardTeacher size={32} />Educational Resources</h2>
           <p>Comprehensive tools and materials to support digital privacy education for all ages.</p>
         </div>
-        
+
         <div className="featured-grid">
           {features.map((feature, index) => (
-            <div 
-              key={index} 
+ 
+ 
+            <div
+              key={index}
+ 
               className="feature-card fade-in"
               onClick={() => handleCardClick(feature.link)}
               role="button"

@@ -16,28 +16,28 @@ const PrivacyPolicyPage: React.FC = () => {
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
           }} />
         </div>
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex items-center justify-center mb-8">
             <div className="w-20 h-20 mr-4">
               <Logo />
             </div>
           </div>
-          
+
           <div className="text-center">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
               <Shield size={16} />
               <span className="text-sm font-semibold">PRIVACY POLICY</span>
             </div>
-            
+
             <h1 className="text-5xl font-bold mb-6 leading-tight">
               Privacy Policy
             </h1>
-            
+
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
               How we protect your privacy and data while providing educational content about digital safety.
             </p>
-            
+
             <p className="text-sm opacity-75">
               Last updated: {new Date().toLocaleDateString()}
             </p>
@@ -48,7 +48,7 @@ const PrivacyPolicyPage: React.FC = () => {
       {/* Navigation */}
       <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
         <div className="container mx-auto px-6 py-4">
-          <Link 
+          <Link
             to="/"
             className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
             style={{ color: 'var(--primary-light)' }}
@@ -63,19 +63,19 @@ const PrivacyPolicyPage: React.FC = () => {
       <main className="container mx-auto px-6 py-16">
         <div className="max-w-4xl mx-auto">
           <div className="prose prose-lg max-w-none">
-            
+
             {/* Introduction */}
-            <div className="bg-green-50 border-l-4 border-green-500 p-6 mb-8 rounded-r-lg" 
-                 style={{ 
-                   backgroundColor: 'var(--light)', 
-                   borderLeftColor: 'var(--primary-light)' 
+            <div className="bg-green-50 border-l-4 border-green-500 p-6 mb-8 rounded-r-lg"
+                 style={{
+                   backgroundColor: 'var(--light)',
+                   borderLeftColor: 'var(--primary-light)'
                  }}>
               <h2 className="text-2xl font-bold text-green-800 mb-3" style={{ color: 'var(--primary)' }}>
                 Our Commitment to Privacy
               </h2>
               <p className="text-gray-700 leading-relaxed" style={{ color: 'var(--gray-600)' }}>
-                At PandaGarde, we believe that privacy education should be taught through example. 
-                We are committed to protecting your privacy and the privacy of your children while 
+                At PandaGarde, we believe that privacy education should be taught through example.
+                We are committed to protecting your privacy and the privacy of your children while
                 providing valuable educational content about digital safety.
               </p>
             </div>
@@ -86,7 +86,7 @@ const PrivacyPolicyPage: React.FC = () => {
                 <Database size={32} />
                 Information We Collect
               </h2>
-              
+
               <div className="bg-white rounded-lg p-6 shadow-md mb-6" style={{ backgroundColor: 'var(--card-color)' }}>
                 <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--primary)' }}>
                   Minimal Data Collection
@@ -101,16 +101,16 @@ const PrivacyPolicyPage: React.FC = () => {
                 </ul>
               </div>
 
-              <div className="bg-red-50 border border-red-200 p-6 rounded-lg" 
-                   style={{ 
+              <div className="bg-red-50 border border-red-200 p-6 rounded-lg"
+                   style={{
                      backgroundColor: theme === 'dark' ? 'rgba(239, 68, 68, 0.1)' : '#FEF2F2',
                      borderColor: theme === 'dark' ? 'rgba(239, 68, 68, 0.3)' : '#FECACA'
                    }}>
-                <h3 className="text-lg font-semibold mb-3 text-red-800" 
+                <h3 className="text-lg font-semibold mb-3 text-red-800"
                     style={{ color: theme === 'dark' ? '#F87171' : '#B91C1C' }}>
                   What We DON'T Collect
                 </h3>
-                <ul className="list-disc pl-6 space-y-1 text-red-700" 
+                <ul className="list-disc pl-6 space-y-1 text-red-700"
                     style={{ color: theme === 'dark' ? '#F87171' : '#B91C1C' }}>
                   <li>Personal information from children under 13</li>
                   <li>Names, addresses, or contact details of children</li>
@@ -127,7 +127,7 @@ const PrivacyPolicyPage: React.FC = () => {
                 <Eye size={32} />
                 How We Use Your Information
               </h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-white rounded-lg p-6 shadow-md" style={{ backgroundColor: 'var(--card-color)' }}>
                   <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--primary)' }}>
@@ -140,7 +140,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     <li>Improve our educational materials</li>
                   </ul>
                 </div>
-                
+
                 <div className="bg-white rounded-lg p-6 shadow-md" style={{ backgroundColor: 'var(--card-color)' }}>
                   <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--primary)' }}>
                     Service Improvement
@@ -161,9 +161,9 @@ const PrivacyPolicyPage: React.FC = () => {
                 <Lock size={32} />
                 How We Protect Your Data
               </h2>
-              
-              <div className="bg-green-100 border border-green-300 p-6 rounded-lg mb-6" 
-                   style={{ 
+
+              <div className="bg-green-100 border border-green-300 p-6 rounded-lg mb-6"
+                   style={{
                      backgroundColor: 'var(--tertiary)',
                      borderColor: 'var(--secondary)'
                    }}>
@@ -171,7 +171,7 @@ const PrivacyPolicyPage: React.FC = () => {
                   Local Storage First
                 </h3>
                 <p className="text-green-800 mb-4" style={{ color: 'var(--primary)' }}>
-                  All progress data is stored locally on your device using secure browser storage. 
+                  All progress data is stored locally on your device using secure browser storage.
                   This means your child's learning progress never leaves your device unless you choose to export it.
                 </p>
               </div>
@@ -186,7 +186,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     All data transmission uses HTTPS encryption
                   </p>
                 </div>
-                
+
                 <div className="text-center p-6">
                   <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Shield size={32} className="text-green-600" />
@@ -196,7 +196,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     We don't use tracking cookies or analytics
                   </p>
                 </div>
-                
+
                 <div className="text-center p-6">
                   <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Users size={32} className="text-purple-600" />
@@ -214,17 +214,17 @@ const PrivacyPolicyPage: React.FC = () => {
               <h2 className="text-3xl font-bold mb-6" style={{ color: 'var(--primary)' }}>
                 Children's Privacy (COPPA Compliance)
               </h2>
-              
-              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r-lg mb-6" 
-                   style={{ 
+
+              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r-lg mb-6"
+                   style={{
                      backgroundColor: theme === 'dark' ? 'rgba(251, 191, 36, 0.1)' : '#FFFBEB',
                      borderLeftColor: 'var(--warning)'
                    }}>
-                <h3 className="text-lg font-semibold mb-3 text-yellow-800" 
+                <h3 className="text-lg font-semibold mb-3 text-yellow-800"
                     style={{ color: theme === 'dark' ? '#FCD34D' : '#92400E' }}>
                   Special Protections for Children
                 </h3>
-                <ul className="list-disc pl-6 space-y-2 text-yellow-800" 
+                <ul className="list-disc pl-6 space-y-2 text-yellow-800"
                     style={{ color: theme === 'dark' ? '#FCD34D' : '#92400E' }}>
                   <li>We do not knowingly collect personal information from children under 13</li>
                   <li>All educational content is designed to be safe and appropriate for children</li>
@@ -239,7 +239,7 @@ const PrivacyPolicyPage: React.FC = () => {
               <h2 className="text-3xl font-bold mb-6" style={{ color: 'var(--primary)' }}>
                 Your Rights and Choices
               </h2>
-              
+
               <div className="space-y-4">
                 <div className="bg-white rounded-lg p-6 shadow-md" style={{ backgroundColor: 'var(--card-color)' }}>
                   <h3 className="text-xl font-semibold mb-3" style={{ color: 'var(--primary)' }}>
@@ -261,14 +261,14 @@ const PrivacyPolicyPage: React.FC = () => {
                 <Mail size={32} />
                 Questions About Privacy?
               </h2>
-              
-              <div className="bg-blue-50 border border-blue-200 p-6 rounded-lg" 
-                   style={{ 
+
+              <div className="bg-blue-50 border border-blue-200 p-6 rounded-lg"
+                   style={{
                      backgroundColor: theme === 'dark' ? 'rgba(59, 130, 246, 0.1)' : '#EFF6FF',
                      borderColor: theme === 'dark' ? 'rgba(59, 130, 246, 0.3)' : '#93C5FD'
                    }}>
                 <p className="text-blue-800 mb-4" style={{ color: theme === 'dark' ? '#93C5FD' : '#1E40AF' }}>
-                  If you have any questions about this Privacy Policy or our data practices, 
+                  If you have any questions about this Privacy Policy or our data practices,
                   please don't hesitate to contact us:
                 </p>
                 <div className="space-y-2 text-blue-800" style={{ color: theme === 'dark' ? '#93C5FD' : '#1E40AF' }}>
@@ -305,13 +305,13 @@ const PrivacyPolicyPage: React.FC = () => {
               Now that you know how we protect your privacy, explore our educational activities!
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link 
+              <Link
                 to="/activity-book"
                 className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
               >
                 Try Activities
               </Link>
-              <Link 
+              <Link
                 to="/story"
                 className="bg-green-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors"
               >

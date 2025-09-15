@@ -179,8 +179,8 @@ const EducatorToolsPage: React.FC = () => {
     { id: 'training', label: 'Training', icon: GraduationCap }
   ];
 
-  const filteredResources = activeCategory === 'all' 
-    ? resources 
+  const filteredResources = activeCategory === 'all'
+    ? resources
     : resources.filter(resource => resource.category === activeCategory);
 
   useEffect(() => {
@@ -230,30 +230,30 @@ const EducatorToolsPage: React.FC = () => {
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
           }} />
         </div>
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex items-center justify-center mb-8">
             <div className="w-20 h-20 mr-4">
               <Logo />
             </div>
           </div>
-          
+
           <div className="text-center">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
               <GraduationCap size={16} />
               <span className="text-sm font-semibold">EDUCATOR TOOLS</span>
             </div>
-            
+
             <h1 className="text-5xl font-bold mb-6 leading-tight">
               Educator Tools
               <span className="block text-yellow-300">For Teachers & Schools</span>
             </h1>
-            
+
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              Comprehensive resources and materials for teachers and educators to teach digital privacy 
+              Comprehensive resources and materials for teachers and educators to teach digital privacy
               and online safety in the classroom. Everything you need to educate the next generation!
             </p>
-            
+
             <div className="flex items-center justify-center gap-6 text-sm">
               <div className="flex items-center gap-2">
                 <Star size={16} />
@@ -275,7 +275,7 @@ const EducatorToolsPage: React.FC = () => {
       {/* Navigation */}
       <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
         <div className="container mx-auto px-6 py-4">
-          <Link 
+          <Link
             to="/"
             className="inline-flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
             style={{ color: 'var(--primary-light)' }}
@@ -288,7 +288,7 @@ const EducatorToolsPage: React.FC = () => {
 
       {/* Progress Section */}
       <section className="container mx-auto px-6 py-12">
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-12" style={{ 
+        <div className="bg-white rounded-xl shadow-lg p-8 mb-12" style={{
           backgroundColor: 'var(--card-color)',
           boxShadow: 'var(--shadow-lg)'
         }}>
@@ -355,14 +355,14 @@ const EducatorToolsPage: React.FC = () => {
             const Icon = resource.icon;
             const CategoryIcon = getCategoryIcon(resource.category);
             const isCompleted = completedResources.includes(resource.id);
-            
+
             return (
               <div
                 key={resource.id}
                 className={`bg-white rounded-xl shadow-md hover:shadow-lg transition-all transform hover:scale-105 cursor-pointer border-2 ${
                   isCompleted ? 'border-green-500' : 'border-transparent'
                 }`}
-                style={{ 
+                style={{
                   backgroundColor: 'var(--card-color)',
                   boxShadow: 'var(--shadow-md)'
                 }}
@@ -377,20 +377,20 @@ const EducatorToolsPage: React.FC = () => {
                       <CheckCircle size={24} className="text-green-500" />
                     )}
                   </div>
-                  
+
                   <div className="flex items-center gap-2 mb-2">
                     <CategoryIcon size={16} className="text-gray-500" />
                     <span className="text-sm text-gray-500 capitalize">{resource.category}</span>
                   </div>
-                  
+
                   <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
                     {resource.title}
                   </h3>
-                  
+
                   <p className="mb-4 leading-relaxed" style={{ color: 'var(--gray-600)' }}>
                     {resource.description}
                   </p>
-                  
+
                   <div className="flex items-center justify-between mb-4">
                     <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getGradeLevelColor(resource.gradeLevel)}`}>
                       {resource.gradeLevel}
@@ -399,9 +399,9 @@ const EducatorToolsPage: React.FC = () => {
                       {resource.duration}
                     </span>
                   </div>
-                  
+
                   <div className="flex gap-2">
-                    <button 
+                    <button
                       className="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-emerald-600 hover:to-teal-700 transition-all"
                       onClick={(e) => {
                         e.stopPropagation();
@@ -411,7 +411,7 @@ const EducatorToolsPage: React.FC = () => {
                       {isCompleted ? 'Review' : 'View Details'}
                     </button>
                     {resource.downloadUrl && (
-                      <button 
+                      <button
                         className="bg-gray-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-600 transition-all"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -439,19 +439,19 @@ const EducatorToolsPage: React.FC = () => {
                 <h3 className="text-2xl font-bold" style={{ color: 'var(--primary)' }}>
                   {selectedResource.title}
                 </h3>
-                <button 
+                <button
                   onClick={() => setShowResource(false)}
                   className="text-gray-500 hover:text-gray-700 text-2xl"
                 >
                   ×
                 </button>
               </div>
-              
+
               <div className="mb-6">
                 <p className="text-lg mb-6" style={{ color: 'var(--gray-600)' }}>
                   {selectedResource.description}
                 </p>
-                
+
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
                   <h4 className="font-semibold mb-4" style={{ color: 'var(--primary)' }}>
                     What's Included:
@@ -462,7 +462,7 @@ const EducatorToolsPage: React.FC = () => {
                     ))}
                   </ul>
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4 text-sm text-gray-600">
                     <span className="flex items-center gap-1">
@@ -473,7 +473,7 @@ const EducatorToolsPage: React.FC = () => {
                       {selectedResource.gradeLevel}
                     </span>
                   </div>
-                  
+
                   <div className="flex gap-3">
                     {selectedResource.downloadUrl && (
                       <button
@@ -508,14 +508,14 @@ const EducatorToolsPage: React.FC = () => {
             Access our comprehensive educator resources and start teaching digital privacy and online safety in your classroom today.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link 
+            <Link
               to="/family-hub"
               className="bg-white text-emerald-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
             >
               <Users size={20} />
               Family Hub
             </Link>
-            <Link 
+            <Link
               to="/contact"
               className="bg-emerald-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-800 transition-colors inline-flex items-center gap-2"
             >

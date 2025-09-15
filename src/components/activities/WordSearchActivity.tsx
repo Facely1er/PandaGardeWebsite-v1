@@ -31,10 +31,10 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
       'PRIVACY', 'PASSWORD', 'SECURE', 'SAFE', 'PROTECT',
       'ONLINE', 'DIGITAL', 'DATA', 'INFORMATION', 'SECURITY'
     ];
-    
+
     // Create empty grid
     const newGrid = Array(gridSize).fill(null).map(() => Array(gridSize).fill(''));
-    
+
     // Place words
     const newWords: Word[] = wordList.map(word => ({
       text: word,
@@ -46,12 +46,12 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
     newWords.forEach(word => {
       let placed = false;
       let attempts = 0;
-      
+
       while (!placed && attempts < 100) {
         const direction = Math.floor(Math.random() * 8); // 8 directions
         const row = Math.floor(Math.random() * gridSize);
         const col = Math.floor(Math.random() * gridSize);
-        
+
         if (canPlaceWord(newGrid, word.text, row, col, direction)) {
           placeWord(newGrid, word.text, row, col, direction, word);
           placed = true;
@@ -80,15 +80,15 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
     const directions = [
       [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]
     ];
-    
+
     const [dRow, dCol] = directions[direction];
     const endRow = row + (word.length - 1) * dRow;
     const endCol = col + (word.length - 1) * dCol;
-    
+
     if (endRow < 0 || endRow >= gridSize || endCol < 0 || endCol >= gridSize) {
       return false;
     }
-    
+
     for (let i = 0; i < word.length; i++) {
       const checkRow = row + i * dRow;
       const checkCol = col + i * dCol;
@@ -96,7 +96,7 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
         return false;
       }
     }
-    
+
     return true;
   };
 
@@ -104,17 +104,17 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
     const directions = [
       [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]
     ];
-    
+
     const [dRow, dCol] = directions[direction];
     const positions: { row: number; col: number }[] = [];
-    
+
     for (let i = 0; i < word.length; i++) {
       const placeRow = row + i * dRow;
       const placeCol = col + i * dCol;
       grid[placeRow][placeCol] = word[i];
       positions.push({ row: placeRow, col: placeCol });
     }
-    
+
     wordObj.positions = positions;
   };
 
@@ -127,7 +127,7 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
     } else {
       const newSelected = [...selectedCells, { row, col }];
       setSelectedCells(newSelected);
-      
+
       // Check if this forms a valid word
       checkWord(newSelected);
     }
@@ -146,20 +146,20 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
       .join('');
 
     // Check if it matches any word (forward or backward)
-    const foundWord = words.find(w => 
+    const foundWord = words.find(w =>
       !w.found && (w.text === word || w.text === word.split('').reverse().join(''))
     );
 
     if (foundWord) {
       // Mark word as found
-      const updatedWords = words.map(w => 
-        w.text === foundWord.text 
+      const updatedWords = words.map(w =>
+        w.text === foundWord.text
           ? { ...w, found: true }
           : w
       );
       setWords(updatedWords);
       setFoundWords(prev => prev + 1);
-      
+
       // Check if all words are found
       if (foundWords + 1 === words.length) {
         setIsCompleted(true);
@@ -173,14 +173,14 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
 
   const getCellClassName = (row: number, col: number) => {
     const isSelected = selectedCells.some(cell => cell.row === row && cell.col === col);
-    const isInFoundWord = words.some(word => 
+    const isInFoundWord = words.some(word =>
       word.found && word.positions.some(pos => pos.row === row && pos.col === col)
     );
-    
+
     let className = 'word-search-cell';
     if (isSelected) className += ' selected';
     if (isInFoundWord) className += ' found';
-    
+
     return className;
   };
 
@@ -190,7 +190,7 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
         <h2 className="activity-title">Privacy Word Search</h2>
         <button onClick={onClose} className="close-button">×</button>
       </div>
-      
+
       <div className="activity-content">
         <div className="instructions">
           <p>Find all the privacy-related words hidden in the grid! Click on letters to select them.</p>
@@ -198,8 +198,8 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
             <h3>Words to Find:</h3>
             <div className="words-grid">
               {words.map((word, index) => (
-                <span 
-                  key={index} 
+                <span
+                  key={index}
                   className={`word-item ${word.found ? 'found' : ''}`}
                 >
                   {word.text}
@@ -214,7 +214,7 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
 
         <div className="game-container">
           <div ref={gridRef} className="word-search-grid">
-            {grid.map((row, rowIndex) => 
+            {grid.map((row, rowIndex) =>
               row.map((cell, colIndex) => (
                 <div
                   key={`${rowIndex}-${colIndex}`}
@@ -233,11 +233,11 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
             <RotateCcw size={16} />
             New Puzzle
           </button>
-          <button 
+          <button
             onClick={() => {
               setSelectedCells([]);
               setIsSelecting(false);
-            }} 
+            }}
             className="control-button"
           >
             Clear Selection
@@ -255,7 +255,7 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
           </div>
         )}
       </div>
-      
+
       <style jsx>{`
         .word-search-activity {
           position: fixed;
@@ -268,7 +268,7 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
           flex-direction: column;
           z-index: 1000;
         }
-        
+
         .activity-header {
           display: flex;
           justify-content: space-between;
@@ -277,13 +277,13 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
           background: white;
           border-bottom: 1px solid #e0e0e0;
         }
-        
+
         .activity-title {
           margin: 0;
           color: #2C3E50;
           font-size: 24px;
         }
-        
+
         .close-button {
           background: none;
           border: none;
@@ -291,39 +291,39 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
           cursor: pointer;
           color: #666;
         }
-        
+
         .activity-content {
           flex: 1;
           background: white;
           display: flex;
           flex-direction: column;
         }
-        
+
         .instructions {
           padding: 20px;
           background: #f8f9fa;
           border-bottom: 1px solid #e0e0e0;
         }
-        
+
         .instructions p {
           margin: 0 0 15px 0;
           color: #2C3E50;
           font-size: 16px;
         }
-        
+
         .word-list h3 {
           margin: 0 0 10px 0;
           color: #2C3E50;
           font-size: 16px;
         }
-        
+
         .words-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
           gap: 8px;
           margin-bottom: 15px;
         }
-        
+
         .word-item {
           padding: 8px 12px;
           background: #e9ecef;
@@ -333,19 +333,19 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
           text-align: center;
           transition: all 0.3s ease;
         }
-        
+
         .word-item.found {
           background: #d4edda;
           color: #155724;
           text-decoration: line-through;
         }
-        
+
         .progress {
           font-size: 16px;
           font-weight: bold;
           color: #4CAF50;
         }
-        
+
         .game-container {
           flex: 1;
           display: flex;
@@ -354,7 +354,7 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
           padding: 20px;
           background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
-        
+
         .word-search-grid {
           display: grid;
           grid-template-columns: repeat(${gridSize}, 1fr);
@@ -364,7 +364,7 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
           border-radius: 8px;
           box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        
+
         .word-search-cell {
           width: 35px;
           height: 35px;
@@ -379,24 +379,24 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
           transition: all 0.2s ease;
           user-select: none;
         }
-        
+
         .word-search-cell:hover {
           background: #f0f0f0;
           transform: scale(1.05);
         }
-        
+
         .word-search-cell.selected {
           background: #4CAF50;
           color: white;
           transform: scale(1.1);
         }
-        
+
         .word-search-cell.found {
           background: #d4edda;
           color: #155724;
           border-color: #4CAF50;
         }
-        
+
         .controls {
           padding: 20px;
           background: #f8f9fa;
@@ -405,7 +405,7 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
           gap: 15px;
           justify-content: center;
         }
-        
+
         .control-button {
           display: flex;
           align-items: center;
@@ -419,11 +419,11 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
           font-size: 14px;
           font-weight: 500;
         }
-        
+
         .control-button:hover {
           background: #f0f0f0;
         }
-        
+
         .completion-overlay {
           position: absolute;
           top: 0;
@@ -436,7 +436,7 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
           align-items: center;
           z-index: 10;
         }
-        
+
         .completion-message {
           background: white;
           padding: 40px;
@@ -445,35 +445,35 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
           max-width: 400px;
         }
-        
+
         .success-icon {
           color: #4CAF50;
           margin-bottom: 20px;
         }
-        
+
         .completion-message h3 {
           margin: 0 0 15px 0;
           color: #2C3E50;
           font-size: 24px;
         }
-        
+
         .completion-message p {
           margin: 0 0 10px 0;
           color: #666;
           font-size: 16px;
         }
-        
+
         @media (max-width: 768px) {
           .word-search-cell {
             width: 28px;
             height: 28px;
             font-size: 14px;
           }
-          
+
           .words-grid {
             grid-template-columns: repeat(2, 1fr);
           }
-          
+
           .controls {
             flex-direction: column;
             align-items: center;

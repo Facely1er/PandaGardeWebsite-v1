@@ -1,0 +1,227 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { Search, X, Clock, ArrowRight, FileText, BookOpen, Download, Settings } from 'lucide-react';
+import { useSearch, SearchResult } from '../contexts/SearchContext';
+
+interface SearchModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onResultClick?: (result: SearchResult) => void;
+}
+
+const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onResultClick }) => {
+  const [inputValue, setInputValue] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { 
+    searchQuery, 
+    searchResults, 
+    isSearching, 
+    performSearch, 
+    clearSearch, 
+    getRecentSearches,
+    addToRecentSearches 
+  } = useSearch();
+
+  const recentSearches = getRecentSearches();
+
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (inputValue.trim()) {
+        performSearch(inputValue);
+      } else {
+        clearSearch();
+      }
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [inputValue, performSearch, clearSearch]);
+
+  const handleResultClick = (result: SearchResult) => {
+    addToRecentSearches(searchQuery);
+    onResultClick?.(result);
+    onClose();
+  };
+
+  const handleRecentSearchClick = (query: string) => {
+    setInputValue(query);
+    performSearch(query);
+  };
+
+  const getResultIcon = (type: SearchResult['type']) => {
+    switch (type) {
+      case 'page':
+        return FileText;
+      case 'activity':
+        return BookOpen;
+      case 'resource':
+        return Download;
+      case 'guide':
+        return Settings;
+      default:
+        return FileText;
+    }
+  };
+
+  const getResultColor = (type: SearchResult['type']) => {
+    switch (type) {
+      case 'page':
+        return 'text-blue-600';
+      case 'activity':
+        return 'text-green-600';
+      case 'resource':
+        return 'text-purple-600';
+      case 'guide':
+        return 'text-orange-600';
+      default:
+        return 'text-gray-600';
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 overflow-y-auto">
+      <div className="flex min-h-screen items-start justify-center p-4 pt-20">
+        {/* Backdrop */}
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50"
+          onClick={onClose}
+        />
+        
+        {/* Modal */}
+        <div className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
+          {/* Search Input */}
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <input
+                ref={inputRef}
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Search pages, activities, resources..."
+                className="w-full pl-10 pr-10 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
+              />
+              {inputValue && (
+                <button
+                  onClick={() => {
+                    setInputValue('');
+                    clearSearch();
+                  }}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  <X size={20} />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Results */}
+          <div className="max-h-96 overflow-y-auto">
+            {isSearching ? (
+              <div className="p-8 text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-2 border-green-500 border-t-transparent mx-auto mb-4"></div>
+                <p className="text-gray-600 dark:text-gray-400">Searching...</p>
+              </div>
+            ) : inputValue.trim() ? (
+              searchResults.length > 0 ? (
+                <div className="p-2">
+                  {searchResults.map((result) => {
+                    const IconComponent = getResultIcon(result.type);
+                    return (
+                      <button
+                        key={result.id}
+                        onClick={() => handleResultClick(result)}
+                        className="w-full p-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                      >
+                        <div className="flex items-start gap-3">
+                          <IconComponent 
+                            size={20} 
+                            className={`mt-1 ${getResultColor(result.type)}`} 
+                          />
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              <h3 className="font-medium text-gray-900 dark:text-white truncate">
+                                {result.title}
+                              </h3>
+                              <span className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300 rounded">
+                                {result.category}
+                              </span>
+                            </div>
+                            <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                              {result.description}
+                            </p>
+                            <div className="flex items-center gap-1 mt-2">
+                              <ArrowRight size={12} className="text-gray-400" />
+                              <span className="text-xs text-gray-500 dark:text-gray-400">
+                                {result.url}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="p-8 text-center">
+                  <Search size={32} className="mx-auto mb-4 text-gray-400" />
+                  <p className="text-gray-600 dark:text-gray-400 mb-2">No results found</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-500">
+                    Try different keywords or check your spelling
+                  </p>
+                </div>
+              )
+            ) : (
+              <div className="p-4">
+                {recentSearches.length > 0 && (
+                  <div className="mb-6">
+                    <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
+                      <Clock size={16} />
+                      Recent Searches
+                    </h3>
+                    <div className="space-y-1">
+                      {recentSearches.slice(0, 5).map((query: string, index: number) => (
+                        <button
+                          key={index}
+                          onClick={() => handleRecentSearchClick(query)}
+                          className="w-full p-2 text-left text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 rounded transition-colors"
+                        >
+                          {query}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                    Popular Searches
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {['privacy', 'activities', 'family', 'safety', 'certificates'].map((term) => (
+                      <button
+                        key={term}
+                        onClick={() => handleRecentSearchClick(term)}
+                        className="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                      >
+                        {term}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SearchModal;

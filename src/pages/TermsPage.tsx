@@ -12,29 +12,29 @@ const TermsPage: React.FC = () => {
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
           }} />
         </div>
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex items-center justify-center mb-8">
             <div className="w-20 h-20 mr-4">
               <Logo />
             </div>
           </div>
-          
+
           <div className="text-center">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
               <FileText size={16} />
               <span className="text-sm font-semibold">LEGAL</span>
             </div>
-            
+
             <h1 className="text-5xl font-bold mb-6 leading-tight">
               Terms of Service
               <span className="block text-yellow-300">PandaGarde Platform</span>
             </h1>
-            
+
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
               Please read these terms carefully before using our digital privacy education platform.
             </p>
-            
+
             <div className="flex items-center justify-center gap-6 text-sm">
               <div className="flex items-center gap-2">
                 <Calendar size={16} />
@@ -53,19 +53,19 @@ const TermsPage: React.FC = () => {
       <div className="container mx-auto px-6 py-16">
         <div className="max-w-4xl mx-auto">
           <div className="prose prose-lg max-w-none">
-            
+
             {/* Introduction */}
             <section className="mb-12">
               <h2 className="text-3xl font-bold mb-6" style={{ color: 'var(--primary)' }}>
                 Introduction
               </h2>
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
-                Welcome to PandaGarde, a digital privacy education platform designed to help families learn about 
-                online safety and digital citizenship together. These Terms of Service ("Terms") govern your use 
+                Welcome to PandaGarde, a digital privacy education platform designed to help families learn about
+                online safety and digital citizenship together. These Terms of Service ("Terms") govern your use
                 of our website, applications, and services (collectively, the "Service").
               </p>
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
-                By accessing or using our Service, you agree to be bound by these Terms. If you disagree with any 
+                By accessing or using our Service, you agree to be bound by these Terms. If you disagree with any
                 part of these terms, you may not access the Service.
               </p>
             </section>
@@ -83,7 +83,7 @@ const TermsPage: React.FC = () => {
                       Agreement to Terms
                     </h3>
                     <p style={{ color: 'var(--gray-600)' }}>
-                      By using PandaGarde, you confirm that you have read, understood, and agree to be bound by 
+                      By using PandaGarde, you confirm that you have read, understood, and agree to be bound by
                       these Terms and our Privacy Policy.
                     </p>
                   </div>
@@ -97,7 +97,7 @@ const TermsPage: React.FC = () => {
                 Description of Service
               </h2>
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
-                PandaGarde provides educational content, interactive activities, and resources focused on digital 
+                PandaGarde provides educational content, interactive activities, and resources focused on digital
                 privacy and online safety for children and families. Our Service includes:
               </p>
               <ul className="list-disc pl-6 mb-6" style={{ color: 'var(--gray-600)' }}>
@@ -120,19 +120,19 @@ const TermsPage: React.FC = () => {
                     Account Creation
                   </h3>
                   <p style={{ color: 'var(--gray-600)' }}>
-                    You may be required to create an account to access certain features. You are responsible for 
-                    maintaining the confidentiality of your account information and for all activities that occur 
+                    You may be required to create an account to access certain features. You are responsible for
+                    maintaining the confidentiality of your account information and for all activities that occur
                     under your account.
                   </p>
                 </div>
-                
+
                 <div className="bg-gray-50 p-6 rounded-lg" style={{ backgroundColor: 'var(--light)' }}>
                   <h3 className="font-semibold mb-2" style={{ color: 'var(--primary)' }}>
                     Age Requirements
                   </h3>
                   <p style={{ color: 'var(--gray-600)' }}>
-                    Our Service is designed for families with children ages 5-17. Users under 13 must have 
-                    parental consent and supervision. Parents are responsible for monitoring their children's 
+                    Our Service is designed for families with children ages 5-17. Users under 13 must have
+                    parental consent and supervision. Parents are responsible for monitoring their children's
                     use of the Service.
                   </p>
                 </div>
@@ -152,13 +152,13 @@ const TermsPage: React.FC = () => {
                       Prohibited Activities
                     </h3>
                     <p className="text-red-700">
-                      You agree not to use the Service for any unlawful purpose or in any way that could damage, 
+                      You agree not to use the Service for any unlawful purpose or in any way that could damage,
                       disable, overburden, or impair the Service.
                     </p>
                   </div>
                 </div>
               </div>
-              
+
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
                 You agree not to:
               </p>
@@ -186,16 +186,16 @@ const TermsPage: React.FC = () => {
                       Privacy First Approach
                     </h3>
                     <p className="text-green-700">
-                      We are committed to protecting your privacy and the privacy of children using our Service. 
+                      We are committed to protecting your privacy and the privacy of children using our Service.
                       Our data practices are designed to minimize data collection and maximize privacy protection.
                     </p>
                   </div>
                 </div>
               </div>
-              
+
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
-                Please review our Privacy Policy for detailed information about how we collect, use, and protect 
-                your information. We comply with applicable privacy laws including COPPA (Children's Online 
+                Please review our Privacy Policy for detailed information about how we collect, use, and protect
+                your information. We comply with applicable privacy laws including COPPA (Children's Online
                 Privacy Protection Act).
               </p>
             </section>
@@ -206,12 +206,12 @@ const TermsPage: React.FC = () => {
                 Intellectual Property
               </h2>
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
-                The Service and its original content, features, and functionality are owned by PandaGarde and are 
-                protected by international copyright, trademark, patent, trade secret, and other intellectual 
+                The Service and its original content, features, and functionality are owned by PandaGarde and are
+                protected by international copyright, trademark, patent, trade secret, and other intellectual
                 property laws.
               </p>
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
-                You may not copy, modify, distribute, sell, or lease any part of our Service or included software, 
+                You may not copy, modify, distribute, sell, or lease any part of our Service or included software,
                 nor may you reverse engineer or attempt to extract the source code of that software.
               </p>
             </section>
@@ -229,16 +229,16 @@ const TermsPage: React.FC = () => {
                       Educational Content Disclaimer
                     </h3>
                     <p className="text-yellow-700">
-                      The educational content provided through our Service is for informational purposes only. 
-                      While we strive for accuracy, we make no guarantees about the completeness or accuracy of 
+                      The educational content provided through our Service is for informational purposes only.
+                      While we strive for accuracy, we make no guarantees about the completeness or accuracy of
                       the information provided.
                     </p>
                   </div>
                 </div>
               </div>
-              
+
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
-                The Service is provided "as is" without warranties of any kind, either express or implied. 
+                The Service is provided "as is" without warranties of any kind, either express or implied.
                 We do not warrant that the Service will be uninterrupted, secure, or error-free.
               </p>
             </section>
@@ -249,9 +249,9 @@ const TermsPage: React.FC = () => {
                 Limitation of Liability
               </h2>
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
-                In no event shall PandaGarde, its directors, employees, partners, agents, suppliers, or affiliates 
-                be liable for any indirect, incidental, special, consequential, or punitive damages, including 
-                without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting 
+                In no event shall PandaGarde, its directors, employees, partners, agents, suppliers, or affiliates
+                be liable for any indirect, incidental, special, consequential, or punitive damages, including
+                without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting
                 from your use of the Service.
               </p>
             </section>
@@ -262,11 +262,11 @@ const TermsPage: React.FC = () => {
                 Termination
               </h2>
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
-                We may terminate or suspend your account and access to the Service immediately, without prior 
+                We may terminate or suspend your account and access to the Service immediately, without prior
                 notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.
               </p>
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
-                Upon termination, your right to use the Service will cease immediately. All provisions of the Terms 
+                Upon termination, your right to use the Service will cease immediately. All provisions of the Terms
                 which by their nature should survive termination shall survive termination.
               </p>
             </section>
@@ -277,12 +277,12 @@ const TermsPage: React.FC = () => {
                 Changes to Terms
               </h2>
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
-                We reserve the right, at our sole discretion, to modify or replace these Terms at any time. 
-                If a revision is material, we will try to provide at least 30 days notice prior to any new terms 
+                We reserve the right, at our sole discretion, to modify or replace these Terms at any time.
+                If a revision is material, we will try to provide at least 30 days notice prior to any new terms
                 taking effect.
               </p>
               <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
-                By continuing to access or use our Service after those revisions become effective, you agree to 
+                By continuing to access or use our Service after those revisions become effective, you agree to
                 be bound by the revised terms.
               </p>
             </section>
@@ -300,7 +300,7 @@ const TermsPage: React.FC = () => {
                   <strong>Email:</strong> legal@pandagarde.com
                 </p>
                 <p className="mb-2" style={{ color: 'var(--gray-600)' }}>
-                  <strong>Website:</strong> https://pandagarde.com/contact
+                  <strong>Website:</strong> <a href="/contact" className="text-blue-600 hover:underline">pandagarde.com/contact</a>
                 </p>
                 <p style={{ color: 'var(--gray-600)' }}>
                   <strong>Address:</strong> PandaGarde Legal Department, Privacy Education Center
