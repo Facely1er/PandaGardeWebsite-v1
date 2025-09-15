@@ -29,6 +29,7 @@ const Header: React.FC = () => {
   const navItems = [
     { icon: Home, label: 'Home', href: '/', isExternal: false },
     { icon: BookOpen, label: 'Activity Book', href: '/activity-book', isExternal: false },
+    { icon: Users, label: 'Family Hub', href: 'https://www.hub.pandagarde.com', isExternal: true },
     { icon: Users, label: 'Age Groups', href: '/#age-groups', isExternal: false },
     { icon: Calendar, label: 'Implementation', href: '/#implementation', isExternal: false },
     { icon: ChalkboardTeacher, label: 'For Parents', href: '/#parent-resources', isExternal: false },
@@ -116,6 +117,17 @@ const Header: React.FC = () => {
                     <item.icon size={16} />
                     {item.label}
                   </a>
+                ) : item.isExternal ? (
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="nav-link"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <item.icon size={16} />
+                    {item.label}
+                  </a>
                 ) : (
                   <Link 
                     to={item.href} 
@@ -160,14 +172,16 @@ const Header: React.FC = () => {
                 
                 {showUserMenu && (
                   <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50">
-                    <Link
-                      to="/family-hub"
+                    <a
+                      href="https://www.hub.pandagarde.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       onClick={() => setShowUserMenu(false)}
                     >
                       <Users size={16} className="mr-3" />
                       Family Hub
-                    </Link>
+                    </a>
                     <Link
                       to="/profile"
                       className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
