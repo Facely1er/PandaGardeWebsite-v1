@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ClipboardCheck as ChalkboardTeacher, MessageCircle, FileText, Shield } from 'lucide-react';
+import { ClipboardCheck as ChalkboardTeacher, MessageCircle, FileText, Shield, Download, Star, CheckCircle, Users, Award, Eye, Heart, Brain } from 'lucide-react';
 
 const ResourcesSection: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('discussion-guides');
+  const [activeTab, setActiveTab] = useState('comprehensive-guides');
 
   const openResourceTab = (tabName: string) => {
     setActiveTab(tabName);
@@ -15,10 +15,33 @@ const ResourcesSection: React.FC = () => {
         <div className="section-header fade-in">
           <span className="badge">SUPPORTING RESOURCES</span>
           <h2><ChalkboardTeacher size={32} />Parent & Educator Resources</h2>
-          <p>Supporting tools and guides to help adults facilitate privacy education for children.</p>
+          <p>Comprehensive tools, guides, and materials to help adults facilitate privacy education for children. Everything you need to create a safe digital environment for your family.</p>
+          
+          {/* Quick Stats */}
+          <div className="flex items-center justify-center gap-8 mt-8 mb-8">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-emerald-600">50+</div>
+              <div className="text-sm text-gray-600">Resources</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-blue-600">10</div>
+              <div className="text-sm text-gray-600">Categories</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-purple-600">100%</div>
+              <div className="text-sm text-gray-600">Free</div>
+            </div>
+          </div>
         </div>
 
         <div className="resources-tabs">
+          <div
+            className={`resource-tab ${activeTab === 'comprehensive-guides' ? 'active' : ''}`}
+            onClick={() => openResourceTab('comprehensive-guides')}
+          >
+            <BookOpen size={16} />
+            Comprehensive Guides
+          </div>
           <div
             className={`resource-tab ${activeTab === 'discussion-guides' ? 'active' : ''}`}
             onClick={() => openResourceTab('discussion-guides')}
@@ -39,6 +62,81 @@ const ResourcesSection: React.FC = () => {
           >
             <Shield size={16} />
             Digital Safety Tips
+          </div>
+          <div
+            className={`resource-tab ${activeTab === 'activities-tools' ? 'active' : ''}`}
+            onClick={() => openResourceTab('activities-tools')}
+          >
+            <Users size={16} />
+            Activities & Tools
+          </div>
+        </div>
+
+        {/* Comprehensive Guides Tab */}
+        <div className={`resource-content ${activeTab === 'comprehensive-guides' ? 'active' : ''}`}>
+          <h3>Comprehensive Privacy Education Guides</h3>
+          <p>In-depth guides covering all aspects of digital privacy education for families and educators. These comprehensive resources provide everything you need to teach children about online safety.</p>
+
+          <div className="resource-grid">
+            <div className="resource-card">
+              <div className="flex items-center gap-3 mb-3">
+                <Heart size={20} className="text-red-500" />
+                <h4>Complete Family Privacy Guide</h4>
+              </div>
+              <p>Everything parents need to know about teaching digital privacy to children of all ages. Includes age-specific strategies, conversation starters, and practical implementation tips.</p>
+              <div className="flex items-center gap-4 mt-4">
+                <Link to="/parent-resources" className="button">
+                  <Download size={16} />
+                  Download PDF
+                </Link>
+                <span className="text-sm text-gray-500">45 min read</span>
+              </div>
+            </div>
+
+            <div className="resource-card">
+              <div className="flex items-center gap-3 mb-3">
+                <Brain size={20} className="text-purple-500" />
+                <h4>Educator's Privacy Toolkit</h4>
+              </div>
+              <p>Comprehensive resources for teachers and educators, including curriculum guides, lesson plans, assessment tools, and professional development materials.</p>
+              <div className="flex items-center gap-4 mt-4">
+                <Link to="/educator-tools" className="button">
+                  <Download size={16} />
+                  View Toolkit
+                </Link>
+                <span className="text-sm text-gray-500">Full Year Curriculum</span>
+              </div>
+            </div>
+
+            <div className="resource-card">
+              <div className="flex items-center gap-3 mb-3">
+                <Shield size={20} className="text-green-500" />
+                <h4>Digital Safety Emergency Guide</h4>
+              </div>
+              <p>Step-by-step instructions for handling privacy breaches, cyberbullying, and other digital safety emergencies. Includes legal considerations and recovery strategies.</p>
+              <div className="flex items-center gap-4 mt-4">
+                <Link to="/parent-resources" className="button">
+                  <Download size={16} />
+                  Download PDF
+                </Link>
+                <span className="text-sm text-gray-500">25 min read</span>
+              </div>
+            </div>
+
+            <div className="resource-card">
+              <div className="flex items-center gap-3 mb-3">
+                <Users size={20} className="text-blue-500" />
+                <h4>Age-Specific Privacy Guides</h4>
+              </div>
+              <p>Tailored guides for different age groups (5-8, 9-12, 13-17), covering developmentally appropriate concepts and teaching strategies for each stage.</p>
+              <div className="flex items-center gap-4 mt-4">
+                <Link to="/parent-resources" className="button">
+                  <Download size={16} />
+                  Download PDF
+                </Link>
+                <span className="text-sm text-gray-500">35 min read</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -148,6 +246,104 @@ const ResourcesSection: React.FC = () => {
               <h4>Responding to Privacy Concerns</h4>
               <p>What to do if you encounter privacy issues or if your child accidentally shares sensitive information online.</p>
               <Link to="/guides/privacy-concerns" className="button">Read More</Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Activities & Tools Tab */}
+        <div className={`resource-content ${activeTab === 'activities-tools' ? 'active' : ''}`}>
+          <h3>Interactive Activities & Practical Tools</h3>
+          <p>Hands-on activities, games, and practical tools to make privacy education engaging and effective for children of all ages.</p>
+
+          <div className="resource-grid">
+            <div className="resource-card">
+              <div className="flex items-center gap-3 mb-3">
+                <Users size={20} className="text-green-500" />
+                <h4>Privacy Learning Activities Kit</h4>
+              </div>
+              <p>20 hands-on activities including games, crafts, role-playing scenarios, and interactive exercises to teach privacy concepts through play.</p>
+              <div className="flex items-center gap-4 mt-4">
+                <Link to="/parent-resources" className="button">
+                  <Download size={16} />
+                  Download Kit
+                </Link>
+                <span className="text-sm text-gray-500">Ages 5-12</span>
+              </div>
+            </div>
+
+            <div className="resource-card">
+              <div className="flex items-center gap-3 mb-3">
+                <FileText size={20} className="text-blue-500" />
+                <h4>Family Privacy Agreement Template</h4>
+              </div>
+              <p>Customizable template for creating family rules about digital privacy, device usage, and online behavior. Includes child-friendly language and signature spaces.</p>
+              <div className="flex items-center gap-4 mt-4">
+                <Link to="/parent-resources" className="button">
+                  <Download size={16} />
+                  Download Template
+                </Link>
+                <span className="text-sm text-gray-500">All Ages</span>
+              </div>
+            </div>
+
+            <div className="resource-card">
+              <div className="flex items-center gap-3 mb-3">
+                <Award size={20} className="text-yellow-500" />
+                <h4>Privacy Achievement Certificates</h4>
+              </div>
+              <p>Printable certificates and badges to celebrate children's privacy learning milestones. Includes Privacy Panda certificates, Digital Citizen awards, and more.</p>
+              <div className="flex items-center gap-4 mt-4">
+                <Link to="/certificates" className="button">
+                  <Download size={16} />
+                  Generate Certificates
+                </Link>
+                <span className="text-sm text-gray-500">All Ages</span>
+              </div>
+            </div>
+
+            <div className="resource-card">
+              <div className="flex items-center gap-3 mb-3">
+                <Eye size={20} className="text-purple-500" />
+                <h4>Privacy Education Posters</h4>
+              </div>
+              <p>Set of 12 colorful posters featuring key privacy concepts, safety rules, and reminders. Perfect for home or classroom display.</p>
+              <div className="flex items-center gap-4 mt-4">
+                <Link to="/parent-resources" className="button">
+                  <Download size={16} />
+                  Download Posters
+                </Link>
+                <span className="text-sm text-gray-500">Print & Display</span>
+              </div>
+            </div>
+
+            <div className="resource-card">
+              <div className="flex items-center gap-3 mb-3">
+                <FileText size={20} className="text-orange-500" />
+                <h4>Privacy Learning Worksheets</h4>
+              </div>
+              <p>Educational worksheets and activity sheets for reinforcing privacy concepts through writing, drawing, and reflection exercises.</p>
+              <div className="flex items-center gap-4 mt-4">
+                <Link to="/parent-resources" className="button">
+                  <Download size={16} />
+                  Download Worksheets
+                </Link>
+                <span className="text-sm text-gray-500">Ages 5-12</span>
+              </div>
+            </div>
+
+            <div className="resource-card">
+              <div className="flex items-center gap-3 mb-3">
+                <Shield size={20} className="text-red-500" />
+                <h4>Device Setup Checklists</h4>
+              </div>
+              <p>Step-by-step checklists for configuring child-safe settings on phones, tablets, computers, and gaming devices. Includes all major platforms.</p>
+              <div className="flex items-center gap-4 mt-4">
+                <Link to="/parent-resources" className="button">
+                  <Download size={16} />
+                  Download Checklists
+                </Link>
+                <span className="text-sm text-gray-500">All Devices</span>
+              </div>
             </div>
           </div>
         </div>
