@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
 import HomePage from './pages/HomePage';
 import StoryPage from './pages/StoryPage';
+import InteractiveStoryPage from './pages/InteractiveStoryPage';
 import ActivityBookPage from './pages/ActivityBookPage';
 import AboutPage from './pages/AboutPage';
 import FamilyHubPage from './pages/FamilyHubPage';
@@ -67,7 +68,8 @@ function App() {
                     <Header />
                     <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/story" element={<StoryPage />} />
+            <Route path="/story" element={<InteractiveStoryPage />} />
+            <Route path="/story-classic" element={<StoryPage />} />
             <Route path="/activity-book" element={<ActivityBookPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/family-hub" element={<FamilyHubPage />} />
