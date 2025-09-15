@@ -1,12 +1,8 @@
  
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { BookOpen, Book, Shield as Child, User, UserCheck, Sparkles, Star } from 'lucide-react';
-import Logo from './Logo';
- 
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Shield as Child, User, UserCheck, Sparkles, Star, ArrowRight, Play, Download, Heart } from 'lucide-react';
+import Logo from './Logo';
  
 
 interface AgeGroupButtonProps {
@@ -95,9 +91,6 @@ const HeroSection: React.FC = () => {
   };
 
   return (
- 
-    <section className="hero">
- 
     <section className="hero" ref={heroRef}>
       {/* Interactive background gradient that follows mouse */}
       <div
