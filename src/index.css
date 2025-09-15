@@ -368,10 +368,10 @@ body {
 /* ===== HERO SECTION ===== */
 .hero {
   background: var(--gradient-hero);
-  padding: 140px 0 30px;
+  padding: 120px 0 20px;
   position: relative;
   overflow: hidden;
-  min-height: 80vh;
+  min-height: 60vh;
   display: flex;
   align-items: center;
 }
@@ -1621,8 +1621,8 @@ body {
   }
   
   .hero {
-    padding: 120px 0 20px;
-    min-height: 70vh;
+    padding: 100px 0 15px;
+    min-height: 50vh;
   }
   
   .hero-content {
