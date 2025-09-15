@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Play, RotateCcw } from 'lucide-react';
-import { useProgress } from '../../hooks/useProgress';
-import { useToast } from '../../hooks/useToast';
+import { useProgress } from '../../contexts/ProgressContext';
+import { useToast } from '../../contexts/ToastContext';
 import { useAuth } from '../../contexts/AuthContext';
 
 // Lazy load activity components
@@ -21,8 +21,8 @@ interface ActivityManagerProps {
 const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, onComplete }) => {
   const [showInstructions, setShowInstructions] = useState(true);
   const [startTime, setStartTime] = useState<Date | null>(null);
-  const { startActivity, completeActivity, getActivityProgress } = useProgress();
-  const { success, error } = useToast();
+  const { markActivityCompleted, getActivityProgress } = useProgress();
+  const { showSuccess, showError } = useToast();
   const { user } = useAuth();
 
   const activityInstructions = {
@@ -110,24 +110,18 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
   const handleComplete = async (score?: number) => {
     const timeSpent = startTime ? Math.round((Date.now() - startTime.getTime()) / 1000) : 0;
     
-    // Use authenticated user ID or fallback to demo user
-    const memberId = user?.id || 'demo-user';
     try {
-      await completeActivity(activityId, score, timeSpent);
-      success('Activity Completed!', 'Great job! Your progress has been saved.');
+      await markActivityCompleted(activityId, score, timeSpent);
+      showSuccess('Activity Completed!', 'Great job! Your progress has been saved.');
       onComplete(activityId);
     } catch (err) {
-      error('Error', 'Failed to save progress. Please try again.');
+      showError('Error', 'Failed to save progress. Please try again.');
     }
   };
 
   const handleStart = async () => {
     setStartTime(new Date());
     setShowInstructions(false);
-
-    // Start tracking the activity
-    const memberId = user?.id || 'demo-user';
-    startActivity(memberId, activityId);
   };
 
   const handleRestart = () => {

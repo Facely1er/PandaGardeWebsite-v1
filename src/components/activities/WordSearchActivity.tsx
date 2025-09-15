@@ -123,7 +123,6 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
 
     if (selectedCells.length === 0) {
       setSelectedCells([{ row, col }]);
-      setIsSelecting(true);
     } else {
       const newSelected = [...selectedCells, { row, col }];
       setSelectedCells(newSelected);
@@ -168,7 +167,6 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
     }
 
     setSelectedCells([]);
-    setIsSelecting(false);
   };
 
   const getCellClassName = (row: number, col: number) => {
@@ -236,7 +234,6 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
           <button
             onClick={() => {
               setSelectedCells([]);
-              setIsSelecting(false);
             }}
             className="control-button"
           >
