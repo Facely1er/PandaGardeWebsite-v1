@@ -191,7 +191,7 @@ const Header: React.FC = () => {
                 onClick={() => setIsAuthModalOpen(true)}
                 className="cta-button"
               >
-                Sign In
+                Account
               </button>
             )}
           </div>
