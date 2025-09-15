@@ -1,6 +1,13 @@
+ 
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { BookOpen, Book, Shield as Child, User, UserCheck, Sparkles, Star } from 'lucide-react';
+import Logo from './Logo';
+ 
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Shield as Child, User, UserCheck, Sparkles, Star, ArrowRight, Play, Download, Heart } from 'lucide-react';
+ 
 
 interface AgeGroupButtonProps {
   ageGroup: string;
@@ -25,9 +32,11 @@ const AgeGroupButton: React.FC<AgeGroupButtonProps> = ({ ageGroup, label, icon, 
 
 const HeroSection: React.FC = () => {
   const [floatingElements, setFloatingElements] = useState<Array<{id: number, x: number, y: number, delay: number}>>([]);
+ 
   const [isHovered, setIsHovered] = useState<string | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const heroRef = useRef<HTMLElement>(null);
+ 
 
   useEffect(() => {
     // Create floating elements for animation
@@ -40,6 +49,7 @@ const HeroSection: React.FC = () => {
     setFloatingElements(elements);
   }, []);
 
+ 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (heroRef.current) {
@@ -58,6 +68,7 @@ const HeroSection: React.FC = () => {
     }
   }, []);
 
+ 
   const switchAgeTab = (ageGroup: string) => {
     const element = document.getElementById(`age-${ageGroup}`);
     if (element) {
@@ -84,6 +95,9 @@ const HeroSection: React.FC = () => {
   };
 
   return (
+ 
+    <section className="hero">
+ 
     <section className="hero" ref={heroRef}>
       {/* Interactive background gradient that follows mouse */}
       <div
@@ -93,6 +107,7 @@ const HeroSection: React.FC = () => {
         }}
       />
 
+ 
       {/* Floating animated elements */}
       {floatingElements.map((element) => (
         <div
@@ -107,7 +122,7 @@ const HeroSection: React.FC = () => {
           {element.id % 3 === 0 ? <Sparkles size={16} /> : <Star size={12} />}
         </div>
       ))}
-
+ 
       <div className="container">
         <div className="hero-content">
           <div className="hero-text slide-in-left">
