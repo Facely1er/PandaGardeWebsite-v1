@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { RotateCcw, CheckCircle, Eye } from 'lucide-react';
+import { RotateCcw, CheckCircle, Eye, Download } from 'lucide-react';
 
 interface MatchingActivityProps {
   onComplete: () => void;
@@ -66,6 +66,98 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
     setMoves(0);
     setMatches(0);
   }, [cardPairs]);
+
+  const downloadImage = () => {
+    // Create a canvas to capture the matching game
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Set canvas size
+    canvas.width = 600;
+    canvas.height = 500;
+
+    // Draw background
+    ctx.fillStyle = '#F8F9FA';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw title
+    ctx.fillStyle = '#2C3E50';
+    ctx.font = 'bold 24px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('Privacy Symbol Matching', canvas.width / 2, 40);
+
+    // Draw instructions
+    ctx.font = '16px Arial';
+    ctx.fillStyle = '#6C757D';
+    ctx.fillText('Match symbols with their meanings!', canvas.width / 2, 70);
+
+    // Draw cards in a grid
+    const cardWidth = 80;
+    const cardHeight = 60;
+    const spacing = 20;
+    const startX = (canvas.width - (4 * cardWidth + 3 * spacing)) / 2;
+    const startY = 120;
+
+    cards.forEach((card, index) => {
+      const row = Math.floor(index / 4);
+      const col = index % 4;
+      const x = startX + col * (cardWidth + spacing);
+      const y = startY + row * (cardHeight + spacing);
+
+      // Draw card background
+      ctx.fillStyle = card.isMatched ? '#4CAF50' : '#FFFFFF';
+      ctx.fillRect(x, y, cardWidth, cardHeight);
+
+      // Draw card border
+      ctx.strokeStyle = card.isMatched ? '#4CAF50' : '#DDD';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(x, y, cardWidth, cardHeight);
+
+      // Draw card content
+      ctx.fillStyle = card.isMatched ? '#FFFFFF' : '#2C3E50';
+      ctx.font = card.type === 'symbol' ? '24px Arial' : '12px Arial';
+      ctx.textAlign = 'center';
+      
+      if (card.type === 'symbol') {
+        ctx.fillText(card.content, x + cardWidth / 2, y + cardHeight / 2 + 8);
+      } else {
+        // Wrap text for meanings
+        const words = card.content.split(' ');
+        const lines = [];
+        let currentLine = '';
+        
+        for (const word of words) {
+          const testLine = currentLine + (currentLine ? ' ' : '') + word;
+          const metrics = ctx.measureText(testLine);
+          if (metrics.width > cardWidth - 10) {
+            lines.push(currentLine);
+            currentLine = word;
+          } else {
+            currentLine = testLine;
+          }
+        }
+        lines.push(currentLine);
+        
+        lines.forEach((line, lineIndex) => {
+          ctx.fillText(line, x + cardWidth / 2, y + cardHeight / 2 + (lineIndex - lines.length / 2) * 12);
+        });
+      }
+    });
+
+    // Draw stats
+    ctx.fillStyle = '#2C3E50';
+    ctx.font = 'bold 16px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillText(`Moves: ${moves}`, 50, 450);
+    ctx.fillText(`Matches: ${matches}/${cardPairs.length}`, 50, 470);
+
+    // Download
+    const link = document.createElement('a');
+    link.download = 'privacy-symbol-matching.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  };
 
   const handleCardClick = (cardId: string) => {
     if (flippedCards.length >= 2 || cards.find(c => c.id === cardId)?.isFlipped || cards.find(c => c.id === cardId)?.isMatched) {
@@ -185,6 +277,10 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
           <button onClick={initializeCards} className="control-button">
             <RotateCcw size={16} />
             New Game
+          </button>
+          <button onClick={downloadImage} className="control-button">
+            <Download size={16} />
+            Download
           </button>
         </div>
 

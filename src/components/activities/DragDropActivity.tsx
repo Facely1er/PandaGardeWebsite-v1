@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { Shuffle, CheckCircle } from 'lucide-react';
+import { Shuffle, CheckCircle, Download } from 'lucide-react';
 
 interface DragDropActivityProps {
   onComplete: () => void;
@@ -136,6 +136,64 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
     }
   };
 
+  const downloadImage = () => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Create a canvas to capture the activity
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Set canvas size
+    canvas.width = 600;
+    canvas.height = 500;
+
+    // Draw background
+    ctx.fillStyle = '#F8F9FA';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw title
+    ctx.fillStyle = '#2C3E50';
+    ctx.font = 'bold 24px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('Information Sorting Game', canvas.width / 2, 40);
+
+    // Draw instructions
+    ctx.font = '16px Arial';
+    ctx.fillStyle = '#6C757D';
+    ctx.fillText('Safe to Share vs Keep Private', canvas.width / 2, 70);
+
+    // Draw categories
+    ctx.fillStyle = '#28A745';
+    ctx.fillRect(50, 300, 200, 80);
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 18px Arial';
+    ctx.fillText('Safe to Share', 150, 345);
+
+    ctx.fillStyle = '#DC3545';
+    ctx.fillRect(350, 300, 200, 80);
+    ctx.fillStyle = 'white';
+    ctx.fillText('Keep Private', 450, 345);
+
+    // Draw items
+    ctx.fillStyle = '#2C3E50';
+    ctx.font = '14px Arial';
+    items.forEach(item => {
+      ctx.fillStyle = item.category === 'safe' ? '#28A745' : '#DC3545';
+      ctx.fillRect(item.x - 40, item.y - 15, 80, 30);
+      ctx.fillStyle = 'white';
+      ctx.textAlign = 'center';
+      ctx.fillText(item.text, item.x, item.y + 5);
+    });
+
+    // Download
+    const link = document.createElement('a');
+    link.download = 'privacy-sorting-game.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  };
+
   const getItemStyle = (item: Item) => ({
     left: `${item.x}px`,
     top: `${item.y}px`,
@@ -215,6 +273,10 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
           <button onClick={shuffleItems} className="control-button">
             <Shuffle size={16} />
             Shuffle
+          </button>
+          <button onClick={downloadImage} className="control-button">
+            <Download size={16} />
+            Download
           </button>
           <button onClick={checkCompletion} className="control-button primary">
             <CheckCircle size={16} />
