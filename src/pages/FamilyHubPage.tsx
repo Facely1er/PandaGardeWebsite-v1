@@ -546,8 +546,8 @@ const FamilyHubPage: React.FC = () => {
                 <p className="mb-4" style={{ color: 'var(--gray-600)' }}>
                   Advanced challenges and assessments for older children
                 </p>
-                <div className="text-gray-400 font-semibold">
-                  Coming Soon
+                <div className="text-green-600 font-semibold">
+                  Available Now
                 </div>
               </div>
             </div>
