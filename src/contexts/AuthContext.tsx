@@ -144,7 +144,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return { error: { message: 'Authentication not available in demo mode' } as AuthError };
       }
 
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
       });
@@ -196,7 +196,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return { error: { message: 'Authentication not available in demo mode' } as AuthError };
       }
 
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
