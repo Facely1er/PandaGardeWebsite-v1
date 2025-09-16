@@ -47,18 +47,6 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
     return newMaze;
   }, [mazeSize]);
 
-  useEffect(() => {
-    const newMaze = generateMaze();
-    setMaze(newMaze);
-    setPlayerPos({ x: 1, y: 1 });
-    setIsCompleted(false);
-  }, [generateMaze]);
-
-  useEffect(() => {
-    if (maze.length === 0) return;
-    drawMaze();
-  }, [maze, playerPos, drawMaze]);
-
   const drawMaze = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -117,6 +105,18 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
     ctx.arc(playerX + 5, playerY - 3, 2, 0, 2 * Math.PI);
     ctx.fill();
   }, [maze, playerPos, mazeSize]);
+
+  useEffect(() => {
+    const newMaze = generateMaze();
+    setMaze(newMaze);
+    setPlayerPos({ x: 1, y: 1 });
+    setIsCompleted(false);
+  }, [generateMaze]);
+
+  useEffect(() => {
+    if (maze.length === 0) return;
+    drawMaze();
+  }, [maze, playerPos, drawMaze]);
 
   const movePlayer = useCallback((direction: 'up' | 'down' | 'left' | 'right') => {
     if (isCompleted) return;
