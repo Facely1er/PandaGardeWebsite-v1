@@ -34,23 +34,15 @@ npm run build
 
 ## 🌐 **Deployment Options**
 
-### **1. GitHub Pages (Recommended)**
-- **Automatic Deployment**: Configured via GitHub Actions
-- **Branch**: `main` branch triggers deployment
-- **URL**: `https://facely1er.github.io/PandaGardeWebsite-v1/`
-
-### **2. Vercel**
+### **1. Vercel (Recommended)**
 - **Framework**: React + Vite
 - **Build Command**: `npm run build`
 - **Output Directory**: `dist`
 - **Environment Variables**: Configure Supabase credentials
+- **Automatic Deployment**: Deploys automatically on push to main branch
+- **Custom Domain**: Easy custom domain configuration
 
-### **3. Netlify**
-- **Build Command**: `npm run build`
-- **Publish Directory**: `dist`
-- **Redirects**: Configure for SPA routing
-
-### **4. Manual Deployment**
+### **2. Manual Deployment**
 ```bash
 # Build the application
 npm run build

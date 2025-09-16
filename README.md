@@ -200,11 +200,6 @@ npm run db:types         # Generate TypeScript types
 2. Set environment variables in Vercel dashboard
 3. Deploy automatically on push to main branch
 
-### Netlify
-1. Connect repository to Netlify
-2. Set build command: `npm run build`
-3. Set publish directory: `dist`
-4. Configure environment variables
 
 ### Manual Deployment
 1. Build the application: `npm run build`
