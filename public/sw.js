@@ -9,7 +9,7 @@ const STATIC_FILES = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/src/assets/LogoPandagarde.png',
+  '/LogoPandagarde.png',
   // Add other critical static assets
 ];
 
@@ -265,8 +265,8 @@ self.addEventListener('push', (event) => {
   
   const options = {
     body: event.data ? event.data.text() : 'New update available!',
-    icon: '/src/assets/LogoPandagarde.png',
-    badge: '/src/assets/LogoPandagarde.png',
+    icon: '/LogoPandagarde.png',
+    badge: '/LogoPandagarde.png',
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
@@ -276,12 +276,12 @@ self.addEventListener('push', (event) => {
       {
         action: 'explore',
         title: 'Explore',
-        icon: '/src/assets/LogoPandagarde.png'
+        icon: '/LogoPandagarde.png'
       },
       {
         action: 'close',
         title: 'Close',
-        icon: '/src/assets/LogoPandagarde.png'
+        icon: '/LogoPandagarde.png'
       }
     ]
   };
