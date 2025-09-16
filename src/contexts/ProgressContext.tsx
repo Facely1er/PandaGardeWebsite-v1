@@ -26,6 +26,7 @@ interface ProgressContextType {
     completedCount: number;
     totalCount: number;
     percentage: number;
+    averageScore: number;
   };
   resetProgress: () => void;
   exportProgress: () => string;
@@ -307,12 +308,22 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
     const completedCount = progress.completedActivities.length;
     const percentage = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
     
+    // Calculate average score
+    const scores = Object.values(progress.activityDetails)
+      .filter(activity => activity.score !== undefined)
+      .map(activity => activity.score!);
+    
+    const averageScore = scores.length > 0 
+      ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length)
+      : 0;
+    
     return {
       completedCount,
       totalCount,
-      percentage
+      percentage,
+      averageScore
     };
-  }, [progress.completedActivities]);
+  }, [progress.completedActivities, progress.activityDetails]);
 
   const resetProgress = useCallback(() => {
     setProgress({

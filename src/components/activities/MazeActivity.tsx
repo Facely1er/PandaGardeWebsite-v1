@@ -17,6 +17,8 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
   const [isCompleted, setIsCompleted] = useState(false);
   const [maze, setMaze] = useState<number[][]>([]);
   const [mazeSize] = useState({ width: 15, height: 15 });
+  const [moves, setMoves] = useState(0);
+  const [startTime, setStartTime] = useState<Date | null>(null);
 
   // Maze: 0 = path, 1 = wall, 2 = start, 3 = end
   const generateMaze = useCallback(() => {
@@ -111,6 +113,8 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
     setMaze(newMaze);
     setPlayerPos({ x: 1, y: 1 });
     setIsCompleted(false);
+    setMoves(0);
+    setStartTime(new Date());
   }, [generateMaze]);
 
   useEffect(() => {
@@ -142,20 +146,29 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
     // Check if the new position is valid (not a wall)
     if (maze[newY] && maze[newY][newX] !== 1) {
       setPlayerPos({ x: newX, y: newY });
+      setMoves(prev => prev + 1);
 
       // Check if reached the end
       if (maze[newY][newX] === 3) {
         setIsCompleted(true);
-        onComplete();
+        // Calculate score based on efficiency (fewer moves = higher score)
+        const timeSpent = startTime ? Math.round((Date.now() - startTime.getTime()) / 1000) : 0;
+        const maxPossibleMoves = mazeSize.width * mazeSize.height; // Theoretical maximum
+        const efficiency = Math.max(0, Math.round(((maxPossibleMoves - moves) / maxPossibleMoves) * 100));
+        const timeBonus = Math.max(0, Math.round((300 - timeSpent) / 300 * 50)); // Bonus for speed
+        const finalScore = Math.min(100, efficiency + timeBonus);
+        onComplete(finalScore);
       }
     }
-  }, [playerPos, maze, isCompleted, onComplete, mazeSize]);
+  }, [playerPos, maze, isCompleted, onComplete, mazeSize, moves, startTime]);
 
   const resetMaze = () => {
     const newMaze = generateMaze();
     setMaze(newMaze);
     setPlayerPos({ x: 1, y: 1 });
     setIsCompleted(false);
+    setMoves(0);
+    setStartTime(new Date());
   };
 
   const downloadImage = () => {

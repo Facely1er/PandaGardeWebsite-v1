@@ -142,7 +142,9 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
         setTimeLeft(30);
       } else {
         setIsCompleted(true);
-        onComplete();
+        // Calculate final score as percentage (including current question)
+        const finalScore = Math.round(((score + (selectedAnswer === questions[currentQuestion].correctAnswer ? 1 : 0)) / questions.length) * 100);
+        onComplete(finalScore);
       }
     }, 3000);
   };

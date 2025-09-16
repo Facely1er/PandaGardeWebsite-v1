@@ -323,7 +323,9 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
     // If more than 30% of the drawing area is colored, consider it complete
     if (completionPercentage > 30) {
       setIsCompleted(true);
-      onComplete();
+      // Calculate score based on completion percentage (capped at 100)
+      const finalScore = Math.min(100, Math.round(completionPercentage));
+      onComplete(finalScore);
       
       // Add celebration animation
       setTimeout(() => {
