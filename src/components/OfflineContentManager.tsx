@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Download, WifiOff, CheckCircle, AlertCircle, Trash2 } from 'lucide-react';
 import { cacheContentForOffline, getOfflineStorageUsage, clearOfflineData } from '../lib/offlineManager';
 import { useSearch } from '../contexts/SearchContext';
+import { searchContentService } from '../lib/searchContentService';
 
 interface OfflineContentManagerProps {
   className?: string;
@@ -43,23 +44,57 @@ const OfflineContentManager: React.FC<OfflineContentManagerProps> = ({ className
     setDownloadProgress(0);
 
     try {
-      // Simulate downloading different content types
+      // Fetch real content from Supabase
+      const [storiesData, activitiesData, resourcesData] = await Promise.all([
+        searchContentService.getSearchContentByType('page'),
+        searchContentService.getSearchContentByType('activity'),
+        searchContentService.getSearchContentByType('resource'),
+      ]);
+
+      // Fallback to search results if Supabase data is empty
       const contentTypes = [
-        { type: 'stories', data: searchResults.filter(r => r.type === 'page').slice(0, 5) },
-        { type: 'activities', data: searchResults.filter(r => r.type === 'activity').slice(0, 10) },
-        { type: 'resources', data: searchResults.filter(r => r.type === 'resource').slice(0, 8) },
+        { 
+          type: 'stories', 
+          data: storiesData.length > 0 ? storiesData : searchResults.filter(r => r.type === 'page').slice(0, 5) 
+        },
+        { 
+          type: 'activities', 
+          data: activitiesData.length > 0 ? activitiesData : searchResults.filter(r => r.type === 'activity').slice(0, 10) 
+        },
+        { 
+          type: 'resources', 
+          data: resourcesData.length > 0 ? resourcesData : searchResults.filter(r => r.type === 'resource').slice(0, 8) 
+        },
       ];
 
       for (let i = 0; i < contentTypes.length; i++) {
         const { type, data } = contentTypes[i];
-        await cacheContentForOffline(type as any, data);
+        
+        // Enhance content with additional metadata for offline use
+        const enhancedData = data.map(item => ({
+          ...item,
+          downloadedAt: new Date().toISOString(),
+          offlineId: `${type}_${item.id}_${Date.now()}`,
+          content: {
+            // Add actual content data here - this would be fetched from your content API
+            text: `This is the offline content for ${item.title}. In a real implementation, this would contain the actual story text, activity instructions, or resource content.`,
+            images: [], // Would contain image URLs or base64 data
+            metadata: {
+              estimatedReadTime: Math.ceil(Math.random() * 10) + 5, // minutes
+              difficulty: ['easy', 'medium', 'hard'][Math.floor(Math.random() * 3)],
+              ageGroup: item.category.includes('5-8') ? '5-8' : item.category.includes('9-12') ? '9-12' : item.category.includes('13-17') ? '13-17' : 'all',
+            }
+          }
+        }));
+        
+        await cacheContentForOffline(type as any, enhancedData);
         
         // Update progress
         const progress = ((i + 1) / contentTypes.length) * 100;
         setDownloadProgress(progress);
         
-        // Simulate download delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Small delay to show progress
+        await new Promise(resolve => setTimeout(resolve, 500));
       }
 
       updateStorageInfo();
