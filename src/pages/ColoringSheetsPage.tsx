@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Download, Palette, Printer, Share2, Star } from 'lucide-react';
 import Logo from '../components/Logo';
+import { pdfService } from '../lib/pdfService';
 
 const ColoringSheetsPage: React.FC = () => {
+  const [isDownloading, setIsDownloading] = useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -65,11 +68,22 @@ const ColoringSheetsPage: React.FC = () => {
     }
   ];
 
-  const handleDownload = (sheetId: string, title: string) => {
-    // In a real implementation, this would trigger the actual download
-    console.log(`Downloading ${title} (${sheetId})`);
-    // For now, we'll show a success message
-    alert(`Download started: ${title}\n\nIn a production environment, this would download a high-quality PDF file.`);
+  const handleDownload = async (sheetId: string, title: string) => {
+    if (sheetId === 'all-sheets') {
+      setIsDownloading(true);
+      try {
+        await pdfService.generateColoringSheetsPDF();
+      } catch (error) {
+        console.error('Error downloading coloring sheets:', error);
+        alert('Error downloading coloring sheets. Please try again.');
+      } finally {
+        setIsDownloading(false);
+      }
+    } else {
+      // For individual sheets, open the HTML version for now
+      const url = `/downloads/coloring-sheets.html`;
+      window.open(url, '_blank');
+    }
   };
 
   return (
@@ -212,7 +226,7 @@ const ColoringSheetsPage: React.FC = () => {
                     className="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
                   >
                     <Download size={16} />
-                    Download
+                    View & Print
                   </button>
                   <button
                     onClick={() => handleDownload(sheet.id, sheet.title)}
@@ -237,10 +251,11 @@ const ColoringSheetsPage: React.FC = () => {
           </p>
           <button
             onClick={() => handleDownload('all-sheets', 'All Privacy Panda Coloring Sheets')}
-            className="bg-white text-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
+            disabled={isDownloading}
+            className="bg-white text-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Download size={20} />
-            Download Complete Set
+            {isDownloading ? 'Generating PDF...' : 'Download Complete Set'}
           </button>
         </div>
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Download, FileText, Printer, Eye, CheckCircle } from 'lucide-react';
 import Logo from '../components/Logo';
+import { pdfService } from '../lib/pdfService';
 
 interface DownloadGuidePageProps {
   title: string;
@@ -29,11 +30,30 @@ const DownloadGuidePage: React.FC<DownloadGuidePageProps> = ({
   const handleDownload = async (resourceType: string) => {
     setIsDownloading(true);
     try {
-      // Open the HTML file in a new window for printing/downloading
-      const url = `/downloads/${resourceType}.html`;
-      window.open(url, '_blank');
+      // Generate and download PDF based on resource type
+      switch (resourceType) {
+        case 'coloring-sheets':
+          await pdfService.generateColoringSheetsPDF();
+          break;
+        case 'safety-posters':
+          await pdfService.generateSafetyPostersPDF();
+          break;
+        case 'certificates':
+          await pdfService.generateCertificatesPDF();
+          break;
+        case 'family-agreement':
+          await pdfService.generateFamilyAgreementPDF();
+          break;
+        default:
+          // Fallback to HTML view
+          const url = `/downloads/${resourceType}.html`;
+          window.open(url, '_blank');
+      }
     } catch (error) {
       console.error('Error downloading resource:', error);
+      // Fallback to HTML view if PDF generation fails
+      const url = `/downloads/${resourceType}.html`;
+      window.open(url, '_blank');
     } finally {
       setIsDownloading(false);
     }

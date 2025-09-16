@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Download, Shield, AlertTriangle, Users, Lock } from 'lucide-react';
 import Logo from '../components/Logo';
+import { pdfService } from '../lib/pdfService';
 
 const SafetyPostersPage: React.FC = () => {
+  const [isDownloading, setIsDownloading] = useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -65,9 +68,22 @@ const SafetyPostersPage: React.FC = () => {
     }
   ];
 
-  const handleDownload = (posterId: string, title: string) => {
-    console.log(`Downloading ${title} (${posterId})`);
-    alert(`Download started: ${title}\n\nThis would download a high-quality PDF poster ready for printing.`);
+  const handleDownload = async (posterId: string, title: string) => {
+    if (posterId === 'all-posters') {
+      setIsDownloading(true);
+      try {
+        await pdfService.generateSafetyPostersPDF();
+      } catch (error) {
+        console.error('Error downloading safety posters:', error);
+        alert('Error downloading safety posters. Please try again.');
+      } finally {
+        setIsDownloading(false);
+      }
+    } else {
+      // For individual posters, open the HTML version for now
+      const url = `/downloads/safety-posters.html`;
+      window.open(url, '_blank');
+    }
   };
 
   return (
@@ -207,7 +223,7 @@ const SafetyPostersPage: React.FC = () => {
                     className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
                   >
                     <Download size={16} />
-                    Download Poster
+                    View & Print
                   </button>
                 </div>
               </div>
@@ -225,10 +241,11 @@ const SafetyPostersPage: React.FC = () => {
           </p>
           <button
             onClick={() => handleDownload('all-posters', 'Complete Safety Poster Collection')}
-            className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
+            disabled={isDownloading}
+            className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Download size={20} />
-            Download Complete Set
+            {isDownloading ? 'Generating PDF...' : 'Download Complete Set'}
           </button>
         </div>
 
