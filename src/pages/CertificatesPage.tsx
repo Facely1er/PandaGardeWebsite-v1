@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Download, Award, Star, Trophy, Medal } from 'lucide-react';
 import Logo from '../components/Logo';
+import { pdfService } from '../lib/pdfService';
 
 const CertificatesPage: React.FC = () => {
+  const [isDownloading, setIsDownloading] = useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -59,9 +62,22 @@ const CertificatesPage: React.FC = () => {
     }
   ];
 
-  const handleDownload = (certId: string, title: string) => {
-    console.log(`Downloading ${title} (${certId})`);
-    alert(`Download started: ${title}\n\nThis would download a high-quality PDF certificate ready for printing and framing.`);
+  const handleDownload = async (certId: string, title: string) => {
+    if (certId === 'all-certificates') {
+      setIsDownloading(true);
+      try {
+        await pdfService.generateCertificatesPDF();
+      } catch (error) {
+        console.error('Error downloading certificates:', error);
+        alert('Error downloading certificates. Please try again.');
+      } finally {
+        setIsDownloading(false);
+      }
+    } else {
+      // For individual certificates, open the HTML version for now
+      const url = `/downloads/certificates.html`;
+      window.open(url, '_blank');
+    }
   };
 
   return (
@@ -204,7 +220,7 @@ const CertificatesPage: React.FC = () => {
                     className="w-full bg-yellow-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-yellow-700 transition-colors flex items-center justify-center gap-2"
                   >
                     <Download size={16} />
-                    Download Certificate
+                    View & Print
                   </button>
                 </div>
               </div>
@@ -239,10 +255,11 @@ const CertificatesPage: React.FC = () => {
           </p>
           <button
             onClick={() => handleDownload('all-certificates', 'Complete Certificate Collection')}
-            className="bg-white text-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
+            disabled={isDownloading}
+            className="bg-white text-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Download size={20} />
-            Download Complete Set
+            {isDownloading ? 'Generating PDF...' : 'Download Complete Set'}
           </button>
         </div>
 

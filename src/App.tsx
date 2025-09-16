@@ -127,10 +127,16 @@ function App() {
             <Route path="/accessibility" element={<AccessibilityPage />} />
 
             {/* Download Pages */}
-            <Route path="/downloads/coloring-sheets" element={<DownloadGuidePage title="Privacy Panda Coloring Sheets" description="Educational coloring pages that teach privacy concepts while having fun" type="download" resourceType="coloring-sheets" />} />
-            <Route path="/downloads/safety-posters" element={<DownloadGuidePage title="Digital Safety Posters" description="Visual reminders of important digital safety rules for home and classroom" type="download" resourceType="safety-posters" />} />
-            <Route path="/downloads/certificates" element={<DownloadGuidePage title="Privacy Champion Certificates" description="Printable certificates to celebrate your child's privacy learning achievements" type="download" resourceType="certificates" />} />
-            <Route path="/downloads/family-agreement" element={<DownloadGuidePage title="Family Internet Agreement" description="A comprehensive agreement to establish safe internet use rules for your family" type="download" resourceType="family-agreement" />} />
+            <Route path="/downloads/coloring-sheets" element={<ColoringSheetsPage />} />
+            <Route path="/downloads/safety-posters" element={<SafetyPostersPage />} />
+            <Route path="/downloads/certificates" element={<CertificatesPage />} />
+            <Route path="/downloads/family-agreement" element={<FamilyAgreementPage />} />
+            
+            {/* Alternative download routes using DownloadGuidePage */}
+            <Route path="/downloads/coloring-sheets/guide" element={<DownloadGuidePage title="Privacy Panda Coloring Sheets" description="Educational coloring pages that teach privacy concepts while having fun" type="download" resourceType="coloring-sheets" />} />
+            <Route path="/downloads/safety-posters/guide" element={<DownloadGuidePage title="Digital Safety Posters" description="Visual reminders of important digital safety rules for home and classroom" type="download" resourceType="safety-posters" />} />
+            <Route path="/downloads/certificates/guide" element={<DownloadGuidePage title="Privacy Champion Certificates" description="Printable certificates to celebrate your child's privacy learning achievements" type="download" resourceType="certificates" />} />
+            <Route path="/downloads/family-agreement/guide" element={<DownloadGuidePage title="Family Internet Agreement" description="A comprehensive agreement to establish safe internet use rules for your family" type="download" resourceType="family-agreement" />} />
 
             {/* Guide Pages */}
             <Route path="/guides/device-setup" element={<DeviceSetupGuidePage />} />
