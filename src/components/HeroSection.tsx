@@ -85,7 +85,7 @@ const HeroSection: React.FC = () => {
       <div className="container">
         <div className="hero-content">
           <div className="hero-text slide-in-left">
-            <h1>Welcome to <span className="highlight rainbow-text sparkle">PandaGarde</span> <Logo /></h1>
+            <h1>Welcome to <span className="highlight rainbow-text sparkle">PandaGarde</span></h1>
             <p>Helping children ages 5-17 learn about digital privacy and online safety through fun, engaging activities and stories tailored for different age groups.</p>
 
             {/* Enhanced action buttons with hover effects */}
