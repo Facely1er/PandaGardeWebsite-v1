@@ -78,10 +78,13 @@ const HashHandler: React.FC = () => {
   return null;
 };
 
-function App() {
-  // Track page views automatically
+// Component to handle page tracking inside Router context
+const PageTracker: React.FC = () => {
   usePageTracking();
-  
+  return null;
+};
+
+function App() {
   // Initialize onboarding
   const { isOpen, completeOnboarding, skipOnboarding } = useOnboarding();
 
@@ -96,6 +99,7 @@ function App() {
                   <SentryErrorBoundary fallback={<div>Something went wrong. Please refresh the page.</div>}>
                     <NavigationErrorBoundary>
                       <div className="App">
+                        <PageTracker />
                         <HashHandler />
                         <Header />
                         <Routes>
