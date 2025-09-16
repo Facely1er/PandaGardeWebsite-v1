@@ -137,6 +137,9 @@ function App() {
             <Route path="/guides/app-selection" element={<AppSelectionGuidePage />} />
             <Route path="/guides/modeling-behavior" element={<ModelingBehaviorGuidePage />} />
             <Route path="/guides/privacy-concerns" element={<PrivacyConcernsGuidePage />} />
+            
+            {/* 404 Fallback */}
+            <Route path="*" element={<HomePage />} />
           </Routes>
                         <Footer />
                         <BackToTop />
