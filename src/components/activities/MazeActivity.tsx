@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { RotateCcw, CheckCircle, ArrowUp, ArrowDown, ArrowLeft, ArrowRight } from 'lucide-react';
+import { RotateCcw, CheckCircle, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Download } from 'lucide-react';
 
 interface MazeActivityProps {
   onComplete: () => void;
@@ -158,6 +158,16 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
     setIsCompleted(false);
   };
 
+  const downloadImage = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const link = document.createElement('a');
+    link.download = 'privacy-maze-game.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  };
+
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
     switch (e.key) {
       case 'ArrowUp':
@@ -270,6 +280,10 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
           <button onClick={resetMaze} className="control-button">
             <RotateCcw size={16} />
             Reset Maze
+          </button>
+          <button onClick={downloadImage} className="control-button">
+            <Download size={16} />
+            Download
           </button>
         </div>
       </div>

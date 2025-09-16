@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, User, Mail, Calendar, Shield, Save, Edit3, X } from 'lucide-react';
+import { ArrowLeft, User, Mail, Calendar, Shield, Save, Edit3, X, Download } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../hooks/useToast';
+import ProgressExport from '../components/ProgressExport';
 
 const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const { user, profile, updateProfile } = useAuth();
   const { showToast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
+  const [showProgressExport, setShowProgressExport] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -107,6 +109,14 @@ const ProfilePage: React.FC = () => {
             </button>
             
             <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setShowProgressExport(true)}
+                className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              >
+                <Download size={16} className="mr-2" />
+                Export Progress
+              </button>
+              
               {!isEditing ? (
                 <button
                   onClick={() => setIsEditing(true)}
@@ -298,6 +308,15 @@ const ProfilePage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Progress Export Modal */}
+      {showProgressExport && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <ProgressExport onClose={() => setShowProgressExport(false)} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

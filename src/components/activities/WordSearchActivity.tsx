@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { RotateCcw, CheckCircle } from 'lucide-react';
+import { RotateCcw, CheckCircle, Download } from 'lucide-react';
 
 interface WordSearchActivityProps {
   onComplete: () => void;
@@ -75,6 +75,77 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
   useEffect(() => {
     generateWordSearch();
   }, [generateWordSearch]);
+
+  const downloadImage = () => {
+    const container = gridRef.current;
+    if (!container) return;
+
+    // Create a canvas to capture the word search
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Set canvas size
+    canvas.width = 600;
+    canvas.height = 500;
+
+    // Draw background
+    ctx.fillStyle = '#F8F9FA';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw title
+    ctx.fillStyle = '#2C3E50';
+    ctx.font = 'bold 24px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('Privacy Word Search', canvas.width / 2, 40);
+
+    // Draw instructions
+    ctx.font = '16px Arial';
+    ctx.fillStyle = '#6C757D';
+    ctx.fillText('Find all the privacy-related words!', canvas.width / 2, 70);
+
+    // Draw grid
+    const cellSize = 25;
+    const startX = (canvas.width - gridSize * cellSize) / 2;
+    const startY = 100;
+
+    for (let row = 0; row < gridSize; row++) {
+      for (let col = 0; col < gridSize; col++) {
+        const x = startX + col * cellSize;
+        const y = startY + row * cellSize;
+
+        // Draw cell border
+        ctx.strokeStyle = '#ddd';
+        ctx.strokeRect(x, y, cellSize, cellSize);
+
+        // Draw letter
+        ctx.fillStyle = '#2C3E50';
+        ctx.font = '16px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(grid[row][col], x + cellSize / 2, y + cellSize / 2 + 5);
+      }
+    }
+
+    // Draw word list
+    ctx.fillStyle = '#2C3E50';
+    ctx.font = 'bold 18px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillText('Words to Find:', 50, 450);
+
+    ctx.font = '14px Arial';
+    words.forEach((word, index) => {
+      const x = 50 + (index % 3) * 150;
+      const y = 470 + Math.floor(index / 3) * 20;
+      ctx.fillStyle = word.found ? '#4CAF50' : '#6C757D';
+      ctx.fillText(word.text, x, y);
+    });
+
+    // Download
+    const link = document.createElement('a');
+    link.download = 'privacy-word-search.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  };
 
   const canPlaceWord = (grid: string[][], word: string, row: number, col: number, direction: number): boolean => {
     const directions = [
@@ -230,6 +301,10 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
           <button onClick={generateWordSearch} className="control-button">
             <RotateCcw size={16} />
             New Puzzle
+          </button>
+          <button onClick={downloadImage} className="control-button">
+            <Download size={16} />
+            Download
           </button>
           <button
             onClick={() => {
