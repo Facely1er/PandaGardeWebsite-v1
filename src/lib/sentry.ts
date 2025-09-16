@@ -1,11 +1,56 @@
-import React from 'react';
 import * as Sentry from '@sentry/react';
 
 // Initialize Sentry
-export const initSentry = () => {
+export function initSentry() {
+  const dsn = import.meta.env.VITE_SENTRY_DSN;
+  const environment = import.meta.env.MODE;
+  const release = import.meta.env.VITE_SENTRY_RELEASE || 'unknown';
+
+  if (!dsn) {
+    console.warn('Sentry DSN not found. Error tracking disabled.');
+    return;
+  }
+
   Sentry.init({
-    dsn: import.meta.env.VITE_SENTRY_DSN || '',
-    environment: import.meta.env.MODE || 'development',
+    dsn,
+    environment,
+    release,
+    
+    // Performance Monitoring
+    tracesSampleRate: environment === 'production' ? 0.1 : 1.0,
+    
+    // Session Replay
+    replaysSessionSampleRate: environment === 'production' ? 0.1 : 1.0,
+    replaysOnErrorSampleRate: 1.0,
+    
+    // Error Filtering
+    beforeSend(event, hint) {
+      // Filter out non-critical errors
+      if (event.exception) {
+        const error = hint.originalException;
+        
+        // Filter out common non-critical errors
+        if (error instanceof Error) {
+          const message = error.message.toLowerCase();
+          
+          // Ignore network errors that are likely user-related
+          if (message.includes('network error') || 
+              message.includes('failed to fetch') ||
+              message.includes('load failed')) {
+            return null;
+          }
+          
+          // Ignore ResizeObserver errors (common and non-critical)
+          if (message.includes('resizeobserver')) {
+            return null;
+          }
+        }
+      }
+      
+      return event;
+    },
+    
+    // Integration configuration
     integrations: [
       Sentry.browserTracingIntegration(),
       Sentry.replayIntegration({
@@ -13,93 +58,79 @@ export const initSentry = () => {
         blockAllMedia: false,
       }),
     ],
-    // Performance Monitoring
-    tracesSampleRate: import.meta.env.MODE === 'production' ? 0.1 : 1.0,
-    // Session Replay
-    replaysSessionSampleRate: import.meta.env.MODE === 'production' ? 0.1 : 0.5,
-    replaysOnErrorSampleRate: 1.0,
     
-    // Filter out development noise
-    beforeSend(event) {
-      // Don't send events in development unless explicitly enabled
-      if (import.meta.env.MODE === 'development' && !import.meta.env.VITE_SENTRY_DEBUG) {
+    // Additional configuration
+    beforeBreadcrumb(breadcrumb) {
+      // Filter out sensitive data from breadcrumbs
+      if (breadcrumb.category === 'console') {
         return null;
       }
-      return event;
-    },
-    
-    // Custom tags for better error categorization
-    initialScope: {
-      tags: {
-        component: 'privacy-panda-app',
-      },
+      
+      return breadcrumb;
     },
   });
-};
-
-// Simple error boundary component for React (class component)
-export class SentryErrorBoundary extends React.Component<
-  { children: React.ReactNode; fallback?: React.ReactNode },
-  { hasError: boolean; error?: Error }
-> {
-  constructor(props: { children: React.ReactNode; fallback?: React.ReactNode }) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('Error caught by SentryErrorBoundary:', error, errorInfo);
-    // Report to Sentry if available
-    if (typeof Sentry !== 'undefined') {
-      Sentry.captureException(error);
-    }
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return this.props.fallback || React.createElement('div', null, 'Something went wrong.');
-    }
-
-    return this.props.children;
-  }
 }
 
+// Error boundary component
+export const SentryErrorBoundary = Sentry.withErrorBoundary;
+
 // Performance monitoring utilities
-export const trackPerformance = (name: string, fn: () => void) => {
-  return Sentry.startSpan({ name }, fn);
-};
+export const captureException = Sentry.captureException;
+export const captureMessage = Sentry.captureMessage;
+export const addBreadcrumb = Sentry.addBreadcrumb;
+export const setUser = Sentry.setUser;
+export const setTag = Sentry.setTag;
+export const setContext = Sentry.setContext;
 
-// Custom error reporting
-export const reportError = (error: Error, context?: Record<string, any>) => {
-  Sentry.withScope((scope) => {
-    if (context) {
-      Object.keys(context).forEach(key => {
-        scope.setContext(key, context[key]);
-      });
-    }
-    Sentry.captureException(error);
+// Performance monitoring for specific functions
+export function withSentryPerformance<T extends (...args: any[]) => any>(
+  fn: T,
+  name: string
+): T {
+  return Sentry.wrap(fn, {
+    mechanism: {
+      handled: true,
+      type: 'instrument',
+    },
   });
-};
+}
 
-// User context for better error tracking
-export const setUserContext = (user: { id: string; email?: string; name?: string }) => {
-  Sentry.setUser(user);
-};
+// Custom performance monitoring
+export function startTransaction(name: string, op: string) {
+  return Sentry.startTransaction({ name, op });
+}
 
-// Clear user context on logout
-export const clearUserContext = () => {
-  Sentry.setUser(null);
-};
+// User context helpers
+export function setUserContext(user: {
+  id?: string;
+  email?: string;
+  username?: string;
+  [key: string]: any;
+}) {
+  setUser(user);
+}
 
-// Track custom events
-export const trackEvent = (eventName: string, data?: Record<string, any>) => {
-  Sentry.addBreadcrumb({
-    message: eventName,
-    data,
-    level: 'info',
-  });
-};
+// Tag helpers
+export function setPageTag(page: string) {
+  setTag('page', page);
+}
+
+export function setFeatureTag(feature: string, enabled: boolean) {
+  setTag(`feature.${feature}`, enabled.toString());
+}
+
+// Context helpers
+export function setDeviceContext(device: {
+  type?: string;
+  brand?: string;
+  model?: string;
+}) {
+  setContext('device', device);
+}
+
+export function setBrowserContext(browser: {
+  name?: string;
+  version?: string;
+}) {
+  setContext('browser', browser);
+}

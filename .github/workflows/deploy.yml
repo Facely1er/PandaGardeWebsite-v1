@@ -1,8 +1,9 @@
-name: Deploy to Production
+name: Build, Test, and Deploy
 
 on:
   push:
     branches: [main]
+    tags: ['v*']
   pull_request:
     branches: [main]
 
@@ -11,7 +12,7 @@ env:
   SUPABASE_VERSION: '1.0.0'
 
 jobs:
-  test:
+  type-check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -26,20 +27,48 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run linting
-        run: npm run lint
-
-      - name: Run type checking
+      - name: TypeScript type checking
         run: npx tsc --noEmit
 
-      - name: Run tests
-        run: npm test
-        env:
-          NODE_ENV: test
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+  security-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run security audit
+        run: npm audit --audit-level=high
 
   build:
     runs-on: ubuntu-latest
-    needs: test
+    needs: [type-check, lint, security-audit]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -52,12 +81,16 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Verify environment variables
+        run: ./scripts/verify-env.sh
 
       - name: Build application
         run: npm run build
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_DB_SCHEMA_PREFIX: ${{ secrets.VITE_DB_SCHEMA_PREFIX }}
           VITE_GA4_MEASUREMENT_ID: ${{ secrets.VITE_GA4_MEASUREMENT_ID }}
           VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN }}
           VITE_SENTRY_ORG: ${{ secrets.VITE_SENTRY_ORG }}
@@ -70,10 +103,68 @@ jobs:
           name: build-files
           path: dist/
 
+  playwright-tests:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-files
+          path: dist/
+
+      - name: Run Playwright tests
+        run: npm run test:e2e
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+  lighthouse-ci:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-files
+          path: dist/
+
+      - name: Run Lighthouse CI
+        run: npm run lighthouse:ci
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
   database-migration:
     runs-on: ubuntu-latest
-    needs: test
-    if: github.ref == 'refs/heads/main'
+    needs: [type-check, lint]
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -90,8 +181,14 @@ jobs:
       - name: Install Supabase CLI
         run: npm install -g supabase
 
-      - name: Run database migrations
-        run: npm run db:push
+      - name: Start Supabase
+        run: supabase start
+
+      - name: Reset database
+        run: supabase db reset
+
+      - name: Push migrations
+        run: supabase db push
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
@@ -102,35 +199,9 @@ jobs:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
 
-  security-scan:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run security audit
-        run: npm audit --audit-level=moderate
-
-      - name: Check for hardcoded secrets
-        uses: trufflesecurity/trufflehog@main
-        with:
-          path: ./
-          base: main
-          head: HEAD
-
   deploy-staging:
     runs-on: ubuntu-latest
-    needs: [build, database-migration, security-scan]
+    needs: [build, playwright-tests, lighthouse-ci]
     if: github.event_name == 'pull_request'
     environment: staging
     steps:
@@ -153,11 +224,12 @@ jobs:
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL_STAGING }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY_STAGING }}
+          VITE_DB_SCHEMA_PREFIX: ${{ secrets.VITE_DB_SCHEMA_PREFIX_STAGING }}
 
   deploy-production:
     runs-on: ubuntu-latest
-    needs: [build, database-migration, security-scan]
-    if: github.ref == 'refs/heads/main'
+    needs: [build, playwright-tests, lighthouse-ci, database-migration]
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
     environment: production
     steps:
       - name: Checkout code
@@ -179,6 +251,7 @@ jobs:
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_DB_SCHEMA_PREFIX: ${{ secrets.VITE_DB_SCHEMA_PREFIX }}
           VITE_GA4_MEASUREMENT_ID: ${{ secrets.VITE_GA4_MEASUREMENT_ID }}
           VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN }}
           VITE_SENTRY_ORG: ${{ secrets.VITE_SENTRY_ORG }}

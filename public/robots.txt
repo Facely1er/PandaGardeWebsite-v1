@@ -1,0 +1,29 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://pandagarde.com/sitemap.xml
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_vercel/
+Disallow: /.well-known/
+
+# Allow important pages
+Allow: /
+Allow: /activity-book
+Allow: /story
+Allow: /family-hub
+Allow: /about
+Allow: /downloads/
+Allow: /privacy-explorers
+Allow: /privacy-handbook
+Allow: /digital-citizenship
+Allow: /teen-handbook
+Allow: /privacy-tools
+Allow: /digital-rights
+Allow: /guides/
+
+# Crawl delay (optional)
+Crawl-delay: 1
