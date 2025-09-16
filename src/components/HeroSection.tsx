@@ -177,7 +177,16 @@ const HeroSection: React.FC = () => {
             <div className="family-hub-banner">
               <div className="banner-content">
                 <div className="banner-logo">
-                  <Logo />
+                  <img 
+                    src="/LogoPandagarde.png" 
+                    alt="PandaGarde Logo" 
+                    style={{ 
+                      width: '100%', 
+                      height: 'auto', 
+                      maxWidth: '200px',
+                      objectFit: 'contain'
+                    }} 
+                  />
                 </div>
                 <h3>Join Our Family Hub</h3>
                 <p>Connect with other families, share experiences, and access exclusive resources for digital safety education.</p>
