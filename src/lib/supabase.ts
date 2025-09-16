@@ -1,6 +1,9 @@
 import { createClient } from '@supabase/supabase-js'
 import type { Database } from './database.types'
 
+// Re-export Database type for convenience
+export type { Database }
+
 // Get environment variables with fallbacks
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
