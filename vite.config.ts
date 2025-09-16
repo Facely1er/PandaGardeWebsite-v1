@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 
 // Helper function to safely get environment variables
 const getEnvVar = (key: string): string | undefined => {
@@ -27,8 +28,24 @@ export default defineConfig({
         telemetry: false,
       })
     ] : []),
-    // Note: Image optimization plugin temporarily disabled due to build issues
-    // Will be re-enabled with proper configuration in a future update
+    // Image optimization plugin - re-enabled with proper configuration
+    ViteImageOptimizer({
+      png: {
+        quality: 80,
+      },
+      jpeg: {
+        quality: 80,
+      },
+      jpg: {
+        quality: 80,
+      },
+      webp: {
+        quality: 80,
+      },
+      avif: {
+        quality: 80,
+      },
+    }),
   ],
   optimizeDeps: {
     exclude: ['lucide-react'],

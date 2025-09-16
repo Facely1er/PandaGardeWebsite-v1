@@ -30,13 +30,27 @@ export const useOnboarding = (): OnboardingState & OnboardingActions => {
     userPreferences: {},
   });
 
-  const { user, profile } = useAuth();
+  const { user, profile, updateProfile } = useAuth();
 
-  // Check if onboarding is completed on mount
+  // Check if onboarding is completed on mount and load preferences
   useEffect(() => {
     const isCompleted = localStorage.getItem('pandagarde_onboarding_completed') === 'true';
     setState(prev => ({ ...prev, isCompleted }));
   }, []);
+
+  // Load preferences from Supabase when user logs in
+  useEffect(() => {
+    if (user && profile?.profile_data?.preferences) {
+      const supabasePreferences = profile.profile_data.preferences;
+      setState(prev => ({
+        ...prev,
+        userPreferences: { ...prev.userPreferences, ...supabasePreferences }
+      }));
+      
+      // Update localStorage to sync with Supabase
+      localStorage.setItem('pandagarde_user_preferences', JSON.stringify(supabasePreferences));
+    }
+  }, [user, profile]);
 
   // Auto-open onboarding for new users
   useEffect(() => {
@@ -83,22 +97,37 @@ export const useOnboarding = (): OnboardingState & OnboardingActions => {
     trackEvent(AnalyticsEvents.USER_PROFILE_UPDATE, { onboarding_skipped: true });
   }, []);
 
-  const updatePreferences = useCallback((preferences: Partial<OnboardingState['userPreferences']>) => {
+  const updatePreferences = useCallback(async (preferences: Partial<OnboardingState['userPreferences']>) => {
     setState(prev => ({
       ...prev,
       userPreferences: { ...prev.userPreferences, ...preferences }
     }));
     
-    // Save to localStorage
+    // Save to localStorage for immediate access
     const savedPreferences = localStorage.getItem('pandagarde_user_preferences');
     const currentPreferences = savedPreferences ? JSON.parse(savedPreferences) : {};
     const updatedPreferences = { ...currentPreferences, ...preferences };
     localStorage.setItem('pandagarde_user_preferences', JSON.stringify(updatedPreferences));
     
+    // If user is authenticated, also save to Supabase profile
+    if (user && profile) {
+      try {
+        await updateProfile({
+          preferences: {
+            ...profile.profile_data?.preferences,
+            ...preferences
+          }
+        });
+      } catch (error) {
+        console.error('Failed to save preferences to Supabase:', error);
+        // Continue with localStorage fallback
+      }
+    }
+    
     trackEvent(AnalyticsEvents.USER_PROFILE_UPDATE, { 
       preferences_updated: Object.keys(preferences) 
     });
-  }, []);
+  }, [user, profile]);
 
   const resetOnboarding = useCallback(() => {
     setState({

@@ -45,4 +45,8 @@ export const TABLES = {
   FAMILY_MEMBERS: getTableName('family_members'),
   FAMILY_INVITATIONS: getTableName('family_invitations'),
   FAMILY_ACHIEVEMENTS: getTableName('family_achievements'),
+  SEARCH_CATEGORIES: getTableName('search_categories'),
+  SEARCH_CONTENT: getTableName('search_content'),
+  SEARCH_ANALYTICS: getTableName('search_analytics'),
+  SEARCH_SUGGESTIONS: getTableName('search_suggestions'),
 } as const
