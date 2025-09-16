@@ -185,7 +185,7 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
           achievements.push('getting_started');
         }
         
-        if (newProgress.completedActivities.length === 6) {
+        if (newProgress.completedActivities.length === 8) {
           achievements.push('privacy_champion');
         }
 
@@ -253,7 +253,7 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
           achievements.push('getting_started');
         }
         
-        if (newProgress.completedActivities.length === 6) {
+        if (newProgress.completedActivities.length === 8) {
           achievements.push('privacy_champion');
         }
 
@@ -300,8 +300,8 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
   }, [progress.activityDetails]);
 
   const getOverallProgress = useCallback(() => {
-    // Assuming there are 6 activities total
-    const totalCount = 6;
+    // Updated to include 8 activities total
+    const totalCount = 8;
     const completedCount = progress.completedActivities.length;
     const percentage = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
     

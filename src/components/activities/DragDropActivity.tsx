@@ -33,13 +33,15 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
     { id: '8', text: 'My favorite game', category: 'safe' },
     { id: '9', text: 'My social security number', category: 'private' },
     { id: '10', text: 'My favorite movie', category: 'safe' },
+    { id: '11', text: 'My password', category: 'private' },
+    { id: '12', text: 'My favorite book', category: 'safe' },
   ], []);
 
   const shuffleItems = useCallback(() => {
     const shuffled = initialItems.map((item, index) => ({
       ...item,
-      x: 50 + (index % 5) * 100,
-      y: 100 + Math.floor(index / 5) * 80,
+      x: 50 + (index % 4) * 120, // Adjusted for better mobile spacing
+      y: 100 + Math.floor(index / 4) * 80,
       isDragging: false,
     }));
     setItems(shuffled);
@@ -133,6 +135,79 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
     if (correctPlacements === totalItems) {
       setIsCompleted(true);
       onComplete();
+      
+      // Add celebration animation
+      setTimeout(() => {
+        const celebration = document.createElement('div');
+        celebration.innerHTML = '🎉✅🛡️';
+        celebration.style.cssText = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 48px;
+          z-index: 10000;
+          pointer-events: none;
+          animation: celebrate 2s ease-out forwards;
+        `;
+        
+        const style = document.createElement('style');
+        style.textContent = `
+          @keyframes celebrate {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1) translateY(-100px); }
+          }
+        `;
+        document.head.appendChild(style);
+        document.body.appendChild(celebration);
+        
+        setTimeout(() => {
+          document.body.removeChild(celebration);
+          document.head.removeChild(style);
+        }, 2000);
+      }, 100);
+    } else {
+      // Show progress feedback
+      const feedback = correctPlacements > 0 ? 
+        `Great progress! You've correctly placed ${correctPlacements} out of ${totalItems} items. Keep going!` :
+        `Try placing the items in the correct zones. Remember: Green = Safe to Share, Red = Keep Private!`;
+      
+      // Create a temporary feedback message
+      const feedbackDiv = document.createElement('div');
+      feedbackDiv.textContent = feedback;
+      feedbackDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #4CAF50;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: bold;
+        z-index: 10000;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        animation: slideDown 3s ease-out forwards;
+      `;
+      
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes slideDown {
+          0% { opacity: 0; transform: translateX(-50%) translateY(-50px); }
+          20% { opacity: 1; transform: translateX(-50%) translateY(0); }
+          80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+          100% { opacity: 0; transform: translateX(-50%) translateY(-50px); }
+        }
+      `;
+      document.head.appendChild(style);
+      document.body.appendChild(feedbackDiv);
+      
+      setTimeout(() => {
+        document.body.removeChild(feedbackDiv);
+        document.head.removeChild(style);
+      }, 3000);
     }
   };
 
