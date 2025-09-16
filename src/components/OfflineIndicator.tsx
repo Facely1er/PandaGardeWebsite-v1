@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Wifi, WifiOff, Sync, AlertCircle, CheckCircle } from 'lucide-react';
+import { Wifi, WifiOff, RefreshCw, AlertCircle, CheckCircle } from 'lucide-react';
 import { useOfflineStatus } from '../lib/offlineManager';
 
 interface OfflineIndicatorProps {
@@ -29,7 +29,7 @@ const OfflineIndicator: React.FC<OfflineIndicatorProps> = ({ className = '' }) =
 
   const getStatusIcon = () => {
     if (!syncStatus.isOnline) return WifiOff;
-    if (syncStatus.syncInProgress) return Sync;
+    if (syncStatus.syncInProgress) return RefreshCw;
     if (syncStatus.pendingActions.length > 0) return AlertCircle;
     return CheckCircle;
   };
@@ -91,7 +91,7 @@ const OfflineIndicator: React.FC<OfflineIndicatorProps> = ({ className = '' }) =
               {/* Last Sync */}
               {syncStatus.lastSync > 0 && (
                 <div className="flex items-center gap-3">
-                  <Sync className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                  <RefreshCw className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                   <div>
                     <p className="font-medium text-gray-900 dark:text-white">
                       Last Sync
