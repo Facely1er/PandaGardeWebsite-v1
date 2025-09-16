@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { searchAPI, createSearchQuery, EnhancedSearchResult } from '../lib/searchAPI';
+import { searchContentService } from '../lib/searchContentService';
 import { trackEvent, AnalyticsEvents } from '../lib/analytics';
 
 export interface SearchResult {
@@ -282,9 +283,33 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
   const [searchResults, setSearchResults] = useState<EnhancedSearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
-  // Initialize search index
+  // Initialize search index with dynamic content
   useEffect(() => {
-    searchAPI.initializeIndex(SEARCH_DATA);
+    const initializeSearchIndex = async () => {
+      try {
+        // Try to get dynamic content from Supabase first
+        const dynamicContent = await searchContentService.getAllSearchContent();
+        
+        if (dynamicContent.length > 0) {
+          // Use dynamic content from Supabase
+          searchAPI.initializeIndex(dynamicContent);
+          console.log('Search index initialized with dynamic content from Supabase');
+        } else {
+          // Fall back to static content
+          searchAPI.initializeIndex(SEARCH_DATA);
+          console.log('Search index initialized with static content');
+          
+          // Try to initialize default content in Supabase
+          await searchContentService.initializeDefaultSearchContent();
+        }
+      } catch (error) {
+        console.error('Error initializing search index:', error);
+        // Fall back to static content
+        searchAPI.initializeIndex(SEARCH_DATA);
+      }
+    };
+
+    initializeSearchIndex();
   }, []);
 
   const performSearch = useCallback(async (query: string, filters?: any) => {
@@ -338,8 +363,16 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     return searchAPI.getSuggestions(query);
   }, []);
 
-  const getPopularSearches = useCallback(() => {
-    return searchAPI.getPopularSearches();
+  const getPopularSearches = useCallback(async () => {
+    try {
+      // Try to get popular searches from Supabase
+      const popularSearches = await searchContentService.getPopularSearchTerms();
+      return popularSearches;
+    } catch (error) {
+      console.error('Error getting popular searches:', error);
+      // Fall back to static popular searches
+      return searchAPI.getPopularSearches();
+    }
   }, []);
 
   const value: SearchContextType = {

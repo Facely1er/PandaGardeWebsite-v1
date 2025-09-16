@@ -32,11 +32,27 @@ export const useOnboarding = (): OnboardingState & OnboardingActions => {
 
   const { user, profile } = useAuth();
 
-  // Check if onboarding is completed on mount
+  // Check if onboarding is completed on mount and load preferences
   useEffect(() => {
     const isCompleted = localStorage.getItem('pandagarde_onboarding_completed') === 'true';
     setState(prev => ({ ...prev, isCompleted }));
-  }, []);
+    
+    // Load preferences from Supabase if user is authenticated
+    if (user && profile?.profile_data?.preferences) {
+      const supabasePreferences = profile.profile_data.preferences;
+      const localPreferences = localStorage.getItem('pandagarde_user_preferences');
+      const localPrefs = localPreferences ? JSON.parse(localPreferences) : {};
+      
+      // Merge Supabase preferences with local preferences (Supabase takes precedence)
+      const mergedPreferences = { ...localPrefs, ...supabasePreferences };
+      localStorage.setItem('pandagarde_user_preferences', JSON.stringify(mergedPreferences));
+      
+      setState(prev => ({
+        ...prev,
+        userPreferences: mergedPreferences
+      }));
+    }
+  }, [user, profile]);
 
   // Auto-open onboarding for new users
   useEffect(() => {
@@ -83,22 +99,38 @@ export const useOnboarding = (): OnboardingState & OnboardingActions => {
     trackEvent(AnalyticsEvents.USER_PROFILE_UPDATE, { onboarding_skipped: true });
   }, []);
 
-  const updatePreferences = useCallback((preferences: Partial<OnboardingState['userPreferences']>) => {
+  const updatePreferences = useCallback(async (preferences: Partial<OnboardingState['userPreferences']>) => {
     setState(prev => ({
       ...prev,
       userPreferences: { ...prev.userPreferences, ...preferences }
     }));
     
-    // Save to localStorage
+    // Save to localStorage for immediate access
     const savedPreferences = localStorage.getItem('pandagarde_user_preferences');
     const currentPreferences = savedPreferences ? JSON.parse(savedPreferences) : {};
     const updatedPreferences = { ...currentPreferences, ...preferences };
     localStorage.setItem('pandagarde_user_preferences', JSON.stringify(updatedPreferences));
     
+    // Save to Supabase if user is authenticated
+    if (user && profile) {
+      try {
+        await updateProfile({
+          preferences: {
+            ...profile.profile_data?.preferences,
+            ...preferences
+          }
+        });
+        console.log('Preferences saved to Supabase');
+      } catch (error) {
+        console.error('Error saving preferences to Supabase:', error);
+        // Continue with localStorage fallback
+      }
+    }
+    
     trackEvent(AnalyticsEvents.USER_PROFILE_UPDATE, { 
       preferences_updated: Object.keys(preferences) 
     });
-  }, []);
+  }, [user, profile, updateProfile]);
 
   const resetOnboarding = useCallback(() => {
     setState({

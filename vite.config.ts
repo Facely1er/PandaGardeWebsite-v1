@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
+import viteImagemin from 'vite-plugin-imagemin';
 
 // Helper function to safely get environment variables
 const getEnvVar = (key: string): string | undefined => {
@@ -27,8 +28,35 @@ export default defineConfig({
         telemetry: false,
       })
     ] : []),
-    // Note: Image optimization plugin temporarily disabled due to build issues
-    // Will be re-enabled with proper configuration in a future update
+    // Image optimization plugin
+    viteImagemin({
+      gifsicle: {
+        optimizationLevel: 7,
+        interlaced: false,
+      },
+      optipng: {
+        optimizationLevel: 7,
+      },
+      mozjpeg: {
+        quality: 80,
+      },
+      pngquant: {
+        quality: [0.8, 0.9],
+        speed: 4,
+      },
+      svgo: {
+        plugins: [
+          {
+            name: 'removeViewBox',
+            active: false,
+          },
+          {
+            name: 'removeEmptyAttrs',
+            active: false,
+          },
+        ],
+      },
+    }),
   ],
   optimizeDeps: {
     exclude: ['lucide-react'],
