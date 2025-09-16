@@ -37,10 +37,36 @@ export const initSentry = () => {
   });
 };
 
-// Simple error boundary component for React
-export const SentryErrorBoundary: React.FC<{ children: React.ReactNode; fallback?: React.ReactNode }> = ({ children, fallback }) => {
-  return React.createElement('div', null, children);
-};
+// Simple error boundary component for React (class component)
+export class SentryErrorBoundary extends React.Component<
+  { children: React.ReactNode; fallback?: React.ReactNode },
+  { hasError: boolean; error?: Error }
+> {
+  constructor(props: { children: React.ReactNode; fallback?: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('Error caught by SentryErrorBoundary:', error, errorInfo);
+    // Report to Sentry if available
+    if (typeof Sentry !== 'undefined') {
+      Sentry.captureException(error);
+    }
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback || React.createElement('div', null, 'Something went wrong.');
+    }
+
+    return this.props.children;
+  }
+}
 
 // Performance monitoring utilities
 export const trackPerformance = (name: string, fn: () => void) => {
