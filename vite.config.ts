@@ -1,9 +1,51 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { sentryVitePlugin } from '@sentry/vite-plugin';
+import { viteImagemin } from 'vite-plugin-imagemin';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    sentryVitePlugin({
+      org: import.meta.env.VITE_SENTRY_ORG,
+      project: import.meta.env.VITE_SENTRY_PROJECT,
+      authToken: import.meta.env.VITE_SENTRY_AUTH_TOKEN,
+      sourcemaps: {
+        assets: './dist/**',
+      },
+      telemetry: false,
+    }),
+    // Image optimization plugin
+    viteImagemin({
+      gifsicle: {
+        optimizationLevel: 7,
+        interlaced: false,
+      },
+      optipng: {
+        optimizationLevel: 7,
+      },
+      mozjpeg: {
+        quality: 80,
+      },
+      pngquant: {
+        quality: [0.8, 0.9],
+        speed: 4,
+      },
+      svgo: {
+        plugins: [
+          {
+            name: 'removeViewBox',
+            active: false,
+          },
+          {
+            name: 'removeEmptyAttrs',
+            active: false,
+          },
+        ],
+      },
+    }),
+  ],
   optimizeDeps: {
     exclude: ['lucide-react'],
   },

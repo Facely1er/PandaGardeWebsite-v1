@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, X, Clock, ArrowRight, FileText, BookOpen, Download, Settings } from 'lucide-react';
+import { Search, X, Clock, ArrowRight, FileText, BookOpen, Download, Settings, Filter } from 'lucide-react';
 import { useSearch, SearchResult } from '../contexts/SearchContext';
+import { EnhancedSearchResult } from '../lib/searchAPI';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -10,6 +11,12 @@ interface SearchModalProps {
 
 const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onResultClick }) => {
   const [inputValue, setInputValue] = useState('');
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState({
+    type: [] as string[],
+    category: [] as string[],
+  });
   const inputRef = useRef<HTMLInputElement>(null);
   const { 
     searchQuery, 
@@ -18,7 +25,9 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onResultClic
     performSearch, 
     clearSearch, 
     getRecentSearches,
-    addToRecentSearches 
+    addToRecentSearches,
+    getSuggestions,
+    getPopularSearches
   } = useSearch();
 
   const recentSearches = getRecentSearches();
@@ -32,14 +41,18 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onResultClic
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (inputValue.trim()) {
-        performSearch(inputValue);
+        performSearch(inputValue, filters);
+        // Update suggestions
+        const newSuggestions = getSuggestions(inputValue);
+        setSuggestions(newSuggestions);
       } else {
         clearSearch();
+        setSuggestions([]);
       }
     }, 300);
 
     return () => clearTimeout(timeoutId);
-  }, [inputValue, performSearch, clearSearch]);
+  }, [inputValue, performSearch, clearSearch, filters, getSuggestions]);
 
   const handleResultClick = (result: SearchResult) => {
     addToRecentSearches(searchQuery);
@@ -105,20 +118,83 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onResultClic
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Search pages, activities, resources..."
-                className="w-full pl-10 pr-10 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
+                className="w-full pl-10 pr-20 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
               />
-              {inputValue && (
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center gap-2">
                 <button
-                  onClick={() => {
-                    setInputValue('');
-                    clearSearch();
-                  }}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  onClick={() => setShowFilters(!showFilters)}
+                  className={`p-1 rounded ${showFilters ? 'bg-green-100 text-green-600' : 'text-gray-400 hover:text-gray-600'}`}
+                  title="Toggle filters"
                 >
-                  <X size={20} />
+                  <Filter size={16} />
                 </button>
-              )}
+                {inputValue && (
+                  <button
+                    onClick={() => {
+                      setInputValue('');
+                      clearSearch();
+                    }}
+                    className="text-gray-400 hover:text-gray-600"
+                  >
+                    <X size={20} />
+                  </button>
+                )}
+              </div>
             </div>
+            
+            {/* Filters */}
+            {showFilters && (
+              <div className="mt-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Content Type
+                    </label>
+                    <div className="space-y-1">
+                      {['page', 'activity', 'resource', 'guide'].map(type => (
+                        <label key={type} className="flex items-center">
+                          <input
+                            type="checkbox"
+                            checked={filters.type.includes(type)}
+                            onChange={(e) => {
+                              const newTypes = e.target.checked
+                                ? [...filters.type, type]
+                                : filters.type.filter(t => t !== type);
+                              setFilters({ ...filters, type: newTypes });
+                            }}
+                            className="mr-2"
+                          />
+                          <span className="text-sm capitalize">{type}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Category
+                    </label>
+                    <div className="space-y-1">
+                      {['Pages', 'Activities', 'Resources', 'Guides', 'Age Groups'].map(category => (
+                        <label key={category} className="flex items-center">
+                          <input
+                            type="checkbox"
+                            checked={filters.category.includes(category)}
+                            onChange={(e) => {
+                              const newCategories = e.target.checked
+                                ? [...filters.category, category]
+                                : filters.category.filter(c => c !== category);
+                              setFilters({ ...filters, category: newCategories });
+                            }}
+                            className="mr-2"
+                          />
+                          <span className="text-sm">{category}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Results */}
@@ -146,16 +222,23 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onResultClic
                           />
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1">
-                              <h3 className="font-medium text-gray-900 dark:text-white truncate">
-                                {result.title}
-                              </h3>
+                              <h3 
+                                className="font-medium text-gray-900 dark:text-white truncate"
+                                dangerouslySetInnerHTML={{ __html: result.highlights.title }}
+                              />
                               <span className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300 rounded">
                                 {result.category}
                               </span>
+                              {result.score > 0 && (
+                                <span className="text-xs px-2 py-1 bg-green-100 text-green-600 rounded">
+                                  {Math.round(result.score * 100)}% match
+                                </span>
+                              )}
                             </div>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
-                              {result.description}
-                            </p>
+                            <p 
+                              className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2"
+                              dangerouslySetInnerHTML={{ __html: result.highlights.description }}
+                            />
                             <div className="flex items-center gap-1 mt-2">
                               <ArrowRight size={12} className="text-gray-400" />
                               <span className="text-xs text-gray-500 dark:text-gray-400">
@@ -204,7 +287,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onResultClic
                     Popular Searches
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    {['privacy', 'activities', 'family', 'safety', 'certificates'].map((term) => (
+                    {getPopularSearches().map((term) => (
                       <button
                         key={term}
                         onClick={() => handleRecentSearchClick(term)}
@@ -215,6 +298,26 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onResultClic
                     ))}
                   </div>
                 </div>
+                
+                {/* Suggestions */}
+                {suggestions.length > 0 && (
+                  <div className="mt-6">
+                    <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                      Suggestions
+                    </h3>
+                    <div className="space-y-1">
+                      {suggestions.slice(0, 5).map((suggestion, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleRecentSearchClick(suggestion)}
+                          className="w-full p-2 text-left text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 rounded transition-colors"
+                        >
+                          {suggestion}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>

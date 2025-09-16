@@ -5,6 +5,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import AuthModal from './AuthModal';
 import SearchModal from './SearchModal';
+import OfflineIndicator from './OfflineIndicator';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -282,6 +283,9 @@ const Header: React.FC = () => {
             >
               {theme === 'light' ? <Moon size={20} aria-hidden="true" /> : <Sun size={20} aria-hidden="true" />}
             </button>
+            
+            {/* Offline Indicator */}
+            <OfflineIndicator className="hidden md:block" />
             
             {/* Family Hub Button - Prominent */}
             <a

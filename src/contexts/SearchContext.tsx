@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { searchAPI, createSearchQuery, EnhancedSearchResult } from '../lib/searchAPI';
+import { trackEvent, AnalyticsEvents } from '../lib/analytics';
 
 export interface SearchResult {
   id: string;
@@ -13,12 +15,14 @@ export interface SearchResult {
 interface SearchContextType {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
-  searchResults: SearchResult[];
+  searchResults: EnhancedSearchResult[];
   isSearching: boolean;
-  performSearch: (query: string) => void;
+  performSearch: (query: string, filters?: any) => Promise<void>;
   clearSearch: () => void;
   getRecentSearches: () => string[];
   addToRecentSearches: (query: string) => void;
+  getSuggestions: (query: string) => string[];
+  getPopularSearches: () => string[];
 }
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
@@ -275,10 +279,15 @@ const SEARCH_DATA: SearchResult[] = [
 
 export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [searchResults, setSearchResults] = useState<EnhancedSearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
-  const performSearch = useCallback((query: string) => {
+  // Initialize search index
+  useEffect(() => {
+    searchAPI.initializeIndex(SEARCH_DATA);
+  }, []);
+
+  const performSearch = useCallback(async (query: string, filters?: any) => {
     if (!query.trim()) {
       setSearchResults([]);
       return;
@@ -287,21 +296,24 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     setIsSearching(true);
     setSearchQuery(query);
 
-    // Simulate API delay
-    setTimeout(() => {
-      const results = SEARCH_DATA.filter(item => {
-        const searchTerms = query.toLowerCase().split(' ');
-        return searchTerms.every(term => 
-          item.title.toLowerCase().includes(term) ||
-          item.description.toLowerCase().includes(term) ||
-          item.tags.some(tag => tag.toLowerCase().includes(term)) ||
-          item.category.toLowerCase().includes(term)
-        );
-      });
-
+    try {
+      const searchQuery = createSearchQuery(query, { filters });
+      const results = await searchAPI.search(searchQuery);
+      
       setSearchResults(results);
+      
+      // Track search analytics
+      trackEvent(AnalyticsEvents.SEARCH_PERFORMED, {
+        search_query: query,
+        results_count: results.length,
+        filters_applied: filters ? Object.keys(filters).length : 0,
+      });
+    } catch (error) {
+      console.error('Search failed:', error);
+      setSearchResults([]);
+    } finally {
       setIsSearching(false);
-    }, 300);
+    }
   }, []);
 
   const clearSearch = useCallback(() => {
@@ -322,6 +334,14 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     localStorage.setItem('pandagarde_recent_searches', JSON.stringify(updated));
   }, [getRecentSearches]);
 
+  const getSuggestions = useCallback((query: string) => {
+    return searchAPI.getSuggestions(query);
+  }, []);
+
+  const getPopularSearches = useCallback(() => {
+    return searchAPI.getPopularSearches();
+  }, []);
+
   const value: SearchContextType = {
     searchQuery,
     setSearchQuery,
@@ -330,7 +350,9 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     performSearch,
     clearSearch,
     getRecentSearches,
-    addToRecentSearches
+    addToRecentSearches,
+    getSuggestions,
+    getPopularSearches
   };
 
   return (
