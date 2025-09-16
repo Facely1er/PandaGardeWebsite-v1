@@ -84,10 +84,20 @@ const PageTracker: React.FC = () => {
   return null;
 };
 
-function App() {
-  // Initialize onboarding
+// Component to handle onboarding inside AuthProvider context
+const OnboardingHandler: React.FC = () => {
   const { isOpen, completeOnboarding, skipOnboarding } = useOnboarding();
 
+  return (
+    <OnboardingFlow
+      isOpen={isOpen}
+      onComplete={completeOnboarding}
+      onSkip={skipOnboarding}
+    />
+  );
+};
+
+function App() {
   return (
     <ThemeProvider>
       <ToastProvider>
@@ -156,11 +166,7 @@ function App() {
                 </Router>
                 
                 {/* Onboarding Flow */}
-                <OnboardingFlow
-                  isOpen={isOpen}
-                  onComplete={completeOnboarding}
-                  onSkip={skipOnboarding}
-                />
+                <OnboardingHandler />
               </ProgressProvider>
             </FamilyProvider>
           </AuthProvider>
