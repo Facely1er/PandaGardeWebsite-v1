@@ -115,21 +115,6 @@ const HeroSection: React.FC = () => {
                 Interactive Privacy Panda Story
                 <Heart size={16} className={`btn-icon ${isHovered === 'story' ? 'btn-icon-active' : ''}`} />
               </Link>
-              <Link
-                to="/story-classic"
-                className="btn-primary pulse-hover"
-                onMouseEnter={() => setIsHovered('classic')}
-                onMouseLeave={() => setIsHovered(null)}
-                style={{ 
-                  background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
-                  border: 'none',
-                  color: 'white'
-                }}
-              >
-                <BookOpen size={20} />
-                Read Classic Story
-                <Star size={16} className={`btn-icon ${isHovered === 'classic' ? 'btn-icon-active' : ''}`} />
-              </Link>
             </div>
 
             {/* Quick stats */}
