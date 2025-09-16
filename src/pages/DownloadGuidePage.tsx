@@ -242,7 +242,7 @@ const DownloadGuidePage: React.FC<DownloadGuidePageProps> = ({
               </div>
 
               <h2 className="text-3xl font-bold mb-6 text-gray-900">
-                {type === 'download' ? 'Download Coming Soon' : 'Guide Coming Soon'}
+                {type === 'download' ? 'Download Available' : 'Guide Available'}
               </h2>
 
               <p className="text-xl mb-8 leading-relaxed text-gray-600">

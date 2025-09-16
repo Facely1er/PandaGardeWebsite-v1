@@ -104,7 +104,7 @@ const SupportPage: React.FC = () => {
     {
       id: 'community',
       title: 'Community Forum',
-      description: 'Connect with other families and share experiences (coming soon).',
+      description: 'Connect with other families and share experiences through our Family Hub.',
       icon: Users,
       responseTime: 'Variable',
       availability: '24/7'

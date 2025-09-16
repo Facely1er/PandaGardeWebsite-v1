@@ -18,8 +18,8 @@ const ColoringSheetsPage: React.FC = () => {
       description: 'Simple outline of Privacy Panda for younger children',
       ageGroup: 'Ages 5-7',
       difficulty: 'Easy',
-      image: '/api/placeholder/400/300',
-      downloadUrl: '#'
+      image: '/images/coloring/privacy-panda-basic.svg',
+      downloadUrl: '/images/coloring/privacy-panda-basic.svg'
     },
     {
       id: 'privacy-shield',
@@ -27,8 +27,8 @@ const ColoringSheetsPage: React.FC = () => {
       description: 'Design your own privacy protection shield',
       ageGroup: 'Ages 6-9',
       difficulty: 'Easy',
-      image: '/api/placeholder/400/300',
-      downloadUrl: '#'
+      image: '/images/coloring/privacy-shield.svg',
+      downloadUrl: '/images/coloring/privacy-shield.svg'
     },
     {
       id: 'password-treasure',
@@ -36,8 +36,8 @@ const ColoringSheetsPage: React.FC = () => {
       description: 'Color the treasure chest that keeps passwords safe',
       ageGroup: 'Ages 7-10',
       difficulty: 'Medium',
-      image: '/api/placeholder/400/300',
-      downloadUrl: '#'
+      image: '/images/coloring/password-treasure.svg',
+      downloadUrl: '/images/coloring/password-treasure.svg'
     },
     {
       id: 'digital-footprint',
@@ -45,8 +45,8 @@ const ColoringSheetsPage: React.FC = () => {
       description: 'Trace your digital journey and learn about online privacy',
       ageGroup: 'Ages 8-12',
       difficulty: 'Medium',
-      image: '/api/placeholder/400/300',
-      downloadUrl: '#'
+      image: '/images/coloring/digital-footprint.svg',
+      downloadUrl: '/images/coloring/digital-footprint.svg'
     },
     {
       id: 'privacy-garden',
@@ -54,8 +54,8 @@ const ColoringSheetsPage: React.FC = () => {
       description: 'Beautiful garden scene with privacy-themed elements',
       ageGroup: 'Ages 6-11',
       difficulty: 'Easy',
-      image: '/api/placeholder/400/300',
-      downloadUrl: '#'
+      image: '/images/coloring/privacy-garden.svg',
+      downloadUrl: '/images/coloring/privacy-garden.svg'
     },
     {
       id: 'cyber-safety-scene',
@@ -63,8 +63,8 @@ const ColoringSheetsPage: React.FC = () => {
       description: 'Complete scene showing safe and unsafe online behaviors',
       ageGroup: 'Ages 9-12',
       difficulty: 'Hard',
-      image: '/api/placeholder/400/300',
-      downloadUrl: '#'
+      image: '/images/coloring/cyber-safety-scene.svg',
+      downloadUrl: '/images/coloring/cyber-safety-scene.svg'
     }
   ];
 
@@ -72,7 +72,18 @@ const ColoringSheetsPage: React.FC = () => {
     if (sheetId === 'all-sheets') {
       setIsDownloading(true);
       try {
-        await pdfService.generateColoringSheetsPDF();
+        // Download all sheets as individual SVG files
+        for (const sheet of coloringSheets) {
+          const link = document.createElement('a');
+          link.href = sheet.downloadUrl;
+          link.download = `${sheet.title.replace(/\s+/g, '-').toLowerCase()}.svg`;
+          link.target = '_blank';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          // Small delay between downloads
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
       } catch (error) {
         console.error('Error downloading coloring sheets:', error);
         alert('Error downloading coloring sheets. Please try again.');
@@ -80,9 +91,22 @@ const ColoringSheetsPage: React.FC = () => {
         setIsDownloading(false);
       }
     } else {
-      // For individual sheets, open the HTML version for now
-      const url = `/downloads/coloring-sheets.html`;
-      window.open(url, '_blank');
+      // Individual sheet download
+      const sheet = coloringSheets.find(s => s.id === sheetId);
+      if (sheet) {
+        try {
+          const link = document.createElement('a');
+          link.href = sheet.downloadUrl;
+          link.download = `${title.replace(/\s+/g, '-').toLowerCase()}.svg`;
+          link.target = '_blank';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } catch (error) {
+          console.error('Error downloading coloring sheet:', error);
+          alert('Error downloading coloring sheet. Please try again.');
+        }
+      }
     }
   };
 
