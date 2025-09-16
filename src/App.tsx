@@ -5,6 +5,7 @@ import { ToastProvider } from './contexts/ToastContext';
 import { FamilyProvider } from './contexts/FamilyContext';
 import { SearchProvider } from './contexts/SearchContext';
 import { ProgressProvider } from './contexts/ProgressContext';
+import { AgeVerificationProvider } from './contexts/AgeVerificationContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
@@ -13,6 +14,9 @@ import StoryPage from './pages/StoryPage';
 import InteractiveStoryPage from './pages/InteractiveStoryPage';
 import ActivityBookPage from './pages/ActivityBookPage';
 import AboutPage from './pages/AboutPage';
+import AgeGroupsPage from './pages/AgeGroupsPage';
+import ImplementationPage from './pages/ImplementationPage';
+import ParentResourcesPage from './pages/ParentResourcesPage';
 import FamilyHubWrapper from './pages/family-hub/FamilyHubWrapper';
 import ContactPage from './pages/ContactPage';
 import GetStartedPage from './pages/GetStartedPage';
@@ -42,6 +46,7 @@ import NewsletterPage from './pages/NewsletterPage';
 import SupportPage from './pages/SupportPage';
 import ImplementationGuidePage from './pages/ImplementationGuidePage';
 import NavigationErrorBoundary from './components/NavigationErrorBoundary';
+import AgeVerificationModal from './components/AgeVerificationModal';
 import { SentryErrorBoundary } from './lib/sentry';
 import { usePageTracking } from './hooks/useAnalytics';
 
@@ -87,6 +92,7 @@ function App() {
         <SearchProvider>
           <FamilyProvider>
             <ProgressProvider>
+              <AgeVerificationProvider>
                 <Router>
                   <SentryErrorBoundary fallback={<div>Something went wrong. Please refresh the page.</div>}>
                     <NavigationErrorBoundary>
@@ -94,12 +100,16 @@ function App() {
                         <PageTracker />
                         <HashHandler />
                         <Header />
+                        <AgeVerificationModal />
                         <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/story" element={<InteractiveStoryPage />} />
             <Route path="/story-classic" element={<StoryPage />} />
             <Route path="/activity-book" element={<ActivityBookPage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/age-groups" element={<AgeGroupsPage />} />
+            <Route path="/implementation" element={<ImplementationPage />} />
+            <Route path="/parent-resources" element={<ParentResourcesPage />} />
             <Route path="/family-hub/*" element={<FamilyHubWrapper />} />
             
             {/* Age Group Pages */}
@@ -153,8 +163,9 @@ function App() {
                     </NavigationErrorBoundary>
                   </SentryErrorBoundary>
                 </Router>
-              </ProgressProvider>
-            </FamilyProvider>
+              </AgeVerificationProvider>
+            </ProgressProvider>
+          </FamilyProvider>
         </SearchProvider>
       </ToastProvider>
     </ThemeProvider>
