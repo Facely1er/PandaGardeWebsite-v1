@@ -44,7 +44,7 @@ export const searchContentService = {
         type: item.type,
         url: item.url,
         category: item.category,
-        tags: item.tags,
+        tags: item.tags || [],
       }));
     } catch (error) {
       console.error('Error in getAllSearchContent:', error);
@@ -78,7 +78,7 @@ export const searchContentService = {
         type: item.type,
         url: item.url,
         category: item.category,
-        tags: item.tags,
+        tags: item.tags || [],
       }));
     } catch (error) {
       console.error('Error in getSearchContentByType:', error);
@@ -112,7 +112,7 @@ export const searchContentService = {
         type: item.type,
         url: item.url,
         category: item.category,
-        tags: item.tags,
+        tags: item.tags || [],
       }));
     } catch (error) {
       console.error('Error in getSearchContentByCategory:', error);
@@ -146,7 +146,7 @@ export const searchContentService = {
         type: item.type,
         url: item.url,
         category: item.category,
-        tags: item.tags,
+        tags: item.tags || [],
       }));
     } catch (error) {
       console.error('Error in searchContent:', error);

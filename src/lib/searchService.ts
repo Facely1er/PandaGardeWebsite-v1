@@ -142,7 +142,7 @@ class SearchService {
       let score = 0;
       const title = item.title.toLowerCase();
       const description = item.description.toLowerCase();
-      const tags = item.tags.map(tag => tag.toLowerCase());
+      const tags = (item.tags || []).map(tag => tag.toLowerCase());
 
       // Title matches (highest priority)
       if (title.includes(normalizedQuery)) {
@@ -166,7 +166,7 @@ class SearchService {
         if (filters.category_id && item.category_id !== filters.category_id) {
           continue;
         }
-        if (filters.tags && !filters.tags.some(tag => item.tags.includes(tag))) {
+        if (filters.tags && !filters.tags.some(tag => (item.tags || []).includes(tag))) {
           continue;
         }
       }
@@ -180,7 +180,7 @@ class SearchService {
           type: item.content_type,
           url: item.url,
           category: category?.display_name || 'Uncategorized',
-          tags: item.tags,
+          tags: item.tags || [],
           metadata: item.metadata,
           score
         });
