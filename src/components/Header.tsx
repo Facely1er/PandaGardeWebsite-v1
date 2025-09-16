@@ -29,6 +29,13 @@ const Header: React.FC = () => {
   // Keyboard navigation support
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Open search with Ctrl+K or Cmd+K
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsSearchModalOpen(true);
+        return;
+      }
+      
       // Close mobile menu on Escape
       if (e.key === 'Escape' && isMobileMenuOpen) {
         setIsMobileMenuOpen(false);
@@ -67,19 +74,33 @@ const Header: React.FC = () => {
         navigate('/');
         // Wait for navigation to complete, then scroll
         setTimeout(() => {
-          const element = document.querySelector(href);
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-          }
-        }, 500); // Increased timeout for better reliability
+          const scrollToElement = () => {
+            const element = document.querySelector(href);
+            if (element) {
+              requestAnimationFrame(() => {
+                element.scrollIntoView({ behavior: 'smooth' });
+              });
+            } else {
+              // Retry if element not found
+              setTimeout(scrollToElement, 100);
+            }
+          };
+          scrollToElement();
+        }, 300); // Reduced timeout for better responsiveness
       } else {
         // Use requestAnimationFrame for smoother scrolling
-        requestAnimationFrame(() => {
+        const scrollToElement = () => {
           const element = document.querySelector(href);
           if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
+            requestAnimationFrame(() => {
+              element.scrollIntoView({ behavior: 'smooth' });
+            });
+          } else {
+            // Retry if element not found
+            setTimeout(scrollToElement, 100);
           }
-        });
+        };
+        scrollToElement();
       }
       setIsMobileMenuOpen(false);
     }
@@ -115,19 +136,66 @@ const Header: React.FC = () => {
     const newState = !isMobileMenuOpen;
     setIsMobileMenuOpen(newState);
     
-    // Focus first menu item when opening
+    // Focus management
     if (newState) {
+      // Focus first menu item when opening
       setTimeout(() => {
         const firstMenuItem = document.querySelector('.nav-menu .nav-link') as HTMLElement;
         firstMenuItem?.focus();
       }, 100);
+    } else {
+      // Return focus to menu toggle button when closing
+      setTimeout(() => {
+        const menuToggle = document.querySelector('.mobile-menu-toggle') as HTMLElement;
+        menuToggle?.focus();
+      }, 100);
+    }
+  };
+
+  // Handle keyboard navigation in mobile menu
+  const handleMobileMenuKeyDown = (e: React.KeyboardEvent) => {
+    if (!isMobileMenuOpen) return;
+    
+    const menuItems = Array.from(document.querySelectorAll('.nav-menu .nav-link')) as HTMLElement[];
+    const currentIndex = menuItems.findIndex(item => item === document.activeElement);
+    
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        const nextIndex = currentIndex < menuItems.length - 1 ? currentIndex + 1 : 0;
+        menuItems[nextIndex]?.focus();
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        const prevIndex = currentIndex > 0 ? currentIndex - 1 : menuItems.length - 1;
+        menuItems[prevIndex]?.focus();
+        break;
+      case 'Home':
+        e.preventDefault();
+        menuItems[0]?.focus();
+        break;
+      case 'End':
+        e.preventDefault();
+        menuItems[menuItems.length - 1]?.focus();
+        break;
     }
   };
 
   return (
-    <header className={`header ${isScrolled ? 'scrolled' : ''}`} role="banner">
-      <div className="container">
-        <nav className="nav" role="navigation" aria-label="Main navigation">
+    <>
+      {/* Skip Links for Accessibility */}
+      <div className="skip-links">
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
+        <a href="#navigation" className="skip-link">
+          Skip to navigation
+        </a>
+      </div>
+      
+      <header className={`header ${isScrolled ? 'scrolled' : ''}`} role="banner">
+        <div className="container">
+        <nav className="nav" role="navigation" aria-label="Main navigation" id="navigation">
           <Link 
             to="/" 
             className="logo"
@@ -149,6 +217,7 @@ const Header: React.FC = () => {
             className={`nav-menu ${isMobileMenuOpen ? 'active' : ''}`}
             role="menubar"
             aria-label="Main navigation menu"
+            onKeyDown={handleMobileMenuKeyDown}
           >
             {navItems.map((item) => (
               <li key={item.label} role="none">
@@ -200,10 +269,12 @@ const Header: React.FC = () => {
               onClick={() => setIsSearchModalOpen(true)}
               className="search-toggle"
               aria-label="Open search dialog"
-              title="Search the site"
+              title="Search the site (Ctrl+K)"
+              aria-describedby="search-help"
             >
               <Search size={20} aria-hidden="true" />
             </button>
+            <span id="search-help" className="sr-only">Press Ctrl+K to open search</span>
             <button
               onClick={toggleTheme}
               className="theme-toggle"
@@ -306,7 +377,8 @@ const Header: React.FC = () => {
         onClose={() => setIsSearchModalOpen(false)}
         onResultClick={handleSearchResultClick}
       />
-    </header>
+      </header>
+    </>
   );
 };
 

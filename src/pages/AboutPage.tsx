@@ -89,7 +89,7 @@ const AboutPage: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <main className="py-20">
+      <main id="main-content" className="py-20">
         <div className="container mx-auto px-6">
 
           {/* Mission Section */}

@@ -171,7 +171,7 @@ const ActivityBookPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
+    <main id="main-content" className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
       {/* Header */}
       <header className="bg-gradient-to-r from-green-600 to-green-500 text-white py-12 md:py-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
@@ -567,7 +567,7 @@ const ActivityBookPage: React.FC = () => {
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 };
 

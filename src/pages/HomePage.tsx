@@ -31,7 +31,7 @@ const HomePage: React.FC = () => {
   }, []);
 
   return (
-    <main>
+    <main id="main-content">
       <HeroSection />
       <StatsSection />
       <FeaturedSection />

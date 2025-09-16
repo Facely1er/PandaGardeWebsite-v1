@@ -36,6 +36,7 @@ import SupportPage from './pages/SupportPage';
 import ImplementationGuidePage from './pages/ImplementationGuidePage';
 import CertificatePage from './pages/CertificatePage';
 import ProfilePage from './pages/ProfilePage';
+import NavigationErrorBoundary from './components/NavigationErrorBoundary';
 
 // Component to handle hash navigation
 const HashHandler: React.FC = () => {
@@ -44,12 +45,21 @@ const HashHandler: React.FC = () => {
   useEffect(() => {
     if (location.hash) {
       // Wait for the page to render, then scroll to the element
-      setTimeout(() => {
+      const scrollToElement = () => {
         const element = document.querySelector(location.hash);
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
+          // Use requestAnimationFrame for better timing
+          requestAnimationFrame(() => {
+            element.scrollIntoView({ behavior: 'smooth' });
+          });
+        } else {
+          // If element not found, try again after a short delay
+          setTimeout(scrollToElement, 100);
         }
-      }, 100);
+      };
+      
+      // Initial attempt
+      setTimeout(scrollToElement, 100);
     }
   }, [location]);
 
@@ -65,10 +75,11 @@ function App() {
             <FamilyProvider>
               <ProgressProvider>
                 <Router>
-                  <div className="App">
-                    <HashHandler />
-                    <Header />
-                    <Routes>
+                  <NavigationErrorBoundary>
+                    <div className="App">
+                      <HashHandler />
+                      <Header />
+                      <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/story" element={<InteractiveStoryPage />} />
             <Route path="/story-classic" element={<StoryPage />} />
@@ -114,9 +125,10 @@ function App() {
             <Route path="/guides/modeling-behavior" element={<DownloadGuidePage title="Modeling Good Digital Citizenship" description="Tips for demonstrating healthy online behavior" type="guide" />} />
             <Route path="/guides/privacy-concerns" element={<DownloadGuidePage title="Responding to Privacy Concerns" description="What to do when privacy issues arise" type="guide" />} />
           </Routes>
-                    <Footer />
-                    <BackToTop />
-                  </div>
+                      <Footer />
+                      <BackToTop />
+                    </div>
+                  </NavigationErrorBoundary>
                 </Router>
               </ProgressProvider>
             </FamilyProvider>
