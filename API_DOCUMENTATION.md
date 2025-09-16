@@ -646,7 +646,6 @@ VITE_APP_VERSION=1.0.0
 
 3. **Deployment Options**
    - Vercel (recommended)
-   - Netlify
    - AWS S3 + CloudFront
    - Traditional web hosting
 

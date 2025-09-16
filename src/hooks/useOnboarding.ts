@@ -36,7 +36,23 @@ export const useOnboarding = (): OnboardingState & OnboardingActions => {
   useEffect(() => {
     const isCompleted = localStorage.getItem('pandagarde_onboarding_completed') === 'true';
     setState(prev => ({ ...prev, isCompleted }));
-  }, []);
+    
+    // Load preferences from Supabase if user is authenticated
+    if (user && profile?.profile_data?.preferences) {
+      const supabasePreferences = profile.profile_data.preferences;
+      const localPreferences = localStorage.getItem('pandagarde_user_preferences');
+      const localPrefs = localPreferences ? JSON.parse(localPreferences) : {};
+      
+      // Merge Supabase preferences with local preferences (Supabase takes precedence)
+      const mergedPreferences = { ...localPrefs, ...supabasePreferences };
+      localStorage.setItem('pandagarde_user_preferences', JSON.stringify(mergedPreferences));
+      
+      setState(prev => ({
+        ...prev,
+        userPreferences: mergedPreferences
+      }));
+    }
+  }, [user, profile]);
 
   // Load preferences from Supabase when user logs in
   useEffect(() => {
@@ -127,7 +143,7 @@ export const useOnboarding = (): OnboardingState & OnboardingActions => {
     trackEvent(AnalyticsEvents.USER_PROFILE_UPDATE, { 
       preferences_updated: Object.keys(preferences) 
     });
-  }, [user, profile]);
+  }, [user, profile, updateProfile]);
 
   const resetOnboarding = useCallback(() => {
     setState({
