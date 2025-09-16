@@ -85,7 +85,7 @@ const HeroSection: React.FC = () => {
       <div className="container">
         <div className="hero-content">
           <div className="hero-text slide-in-left">
-            <h1>Welcome to <span className="highlight rainbow-text sparkle">PandaGarde</span> <Logo /></h1>
+            <h1>Welcome to <span className="highlight rainbow-text sparkle">PandaGarde</span></h1>
             <p>Helping children ages 5-17 learn about digital privacy and online safety through fun, engaging activities and stories tailored for different age groups.</p>
 
             {/* Enhanced action buttons with hover effects */}
@@ -114,21 +114,6 @@ const HeroSection: React.FC = () => {
                 <Play size={20} />
                 Interactive Privacy Panda Story
                 <Heart size={16} className={`btn-icon ${isHovered === 'story' ? 'btn-icon-active' : ''}`} />
-              </Link>
-              <Link
-                to="/story-classic"
-                className="btn-primary pulse-hover"
-                onMouseEnter={() => setIsHovered('classic')}
-                onMouseLeave={() => setIsHovered(null)}
-                style={{ 
-                  background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
-                  border: 'none',
-                  color: 'white'
-                }}
-              >
-                <BookOpen size={20} />
-                Read Classic Story
-                <Star size={16} className={`btn-icon ${isHovered === 'classic' ? 'btn-icon-active' : ''}`} />
               </Link>
             </div>
 
@@ -177,11 +162,15 @@ const HeroSection: React.FC = () => {
             <div className="family-hub-banner">
               <div className="banner-content">
                 <div className="banner-logo">
-                  <img
-                    src="/LogoPandagarde.png"
-                    alt="PandaGarde Logo"
-                    className="logo-icon"
-                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  <img 
+                    src="/LogoPandagarde.png" 
+                    alt="PandaGarde Logo" 
+                    style={{ 
+                      width: '100%', 
+                      height: 'auto', 
+                      maxWidth: '200px',
+                      objectFit: 'contain'
+                    }} 
                   />
                 </div>
                 <h3>Join Our Family Hub</h3>
