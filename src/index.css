@@ -804,6 +804,47 @@ body {
   box-shadow: var(--shadow-md);
 }
 
+.family-hub-button {
+  background: var(--secondary);
+  color: white;
+  padding: 12px 20px;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.family-hub-button:hover {
+  background: #4A90E2;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.user-icon-button {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 10px;
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.user-icon-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
 .mobile-menu-toggle {
   display: none;
   background: none;
@@ -2389,6 +2430,15 @@ body {
   .cta-button {
     padding: 10px 20px;
     font-size: 13px;
+  }
+  
+  .family-hub-button {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  
+  .user-icon-button {
+    padding: 8px;
   }
 
   /* Enhanced mobile spacing for activity book page */
