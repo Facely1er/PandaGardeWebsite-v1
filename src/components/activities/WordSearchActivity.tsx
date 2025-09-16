@@ -157,13 +157,15 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
           : w
       );
       setWords(updatedWords);
-      setFoundWords(prev => prev + 1);
-
-      // Check if all words are found
-      if (foundWords + 1 === words.length) {
-        setIsCompleted(true);
-        onComplete();
-      }
+      setFoundWords(prev => {
+        const newFoundWords = prev + 1;
+        // Check if all words are found
+        if (newFoundWords === words.length) {
+          setIsCompleted(true);
+          onComplete();
+        }
+        return newFoundWords;
+      });
     }
 
     setSelectedCells([]);

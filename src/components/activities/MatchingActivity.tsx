@@ -80,6 +80,8 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
   };
 
   const checkForMatch = useCallback(() => {
+    if (flippedCards.length !== 2) return;
+    
     const [firstId, secondId] = flippedCards;
     const firstCard = cards.find(c => c.id === firstId);
     const secondCard = cards.find(c => c.id === secondId);
@@ -91,14 +93,16 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
           ? { ...card, isMatched: true }
           : card
       ));
-      setMatches(prev => prev + 1);
-
-      if (matches + 1 === cardPairs.length) {
-        setTimeout(() => {
-          setIsCompleted(true);
-          onComplete();
-        }, 500);
-      }
+      setMatches(prev => {
+        const newMatches = prev + 1;
+        if (newMatches === cardPairs.length) {
+          setTimeout(() => {
+            setIsCompleted(true);
+            onComplete();
+          }, 500);
+        }
+        return newMatches;
+      });
     } else {
       // No match - flip cards back after delay
       setTimeout(() => {
@@ -112,7 +116,7 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
 
     setFlippedCards([]);
     setMoves(prev => prev + 1);
-  }, [flippedCards, cards, matches, onComplete, cardPairs.length]);
+  }, [flippedCards, cards, onComplete, cardPairs.length]);
 
   useEffect(() => {
     initializeCards();
