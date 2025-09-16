@@ -804,6 +804,47 @@ body {
   box-shadow: var(--shadow-md);
 }
 
+.family-hub-button {
+  background: var(--secondary);
+  color: white;
+  padding: 12px 20px;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.family-hub-button:hover {
+  background: #4A90E2;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.user-icon-button {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 10px;
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.user-icon-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
 .mobile-menu-toggle {
   display: none;
   background: none;
@@ -817,16 +858,10 @@ body {
 .hero {
   background: var(--gradient-hero);
  
-  padding: 120px 0 20px;
+  padding: 108px 0 18px;
   position: relative;
   overflow: hidden;
-  min-height: 60vh;
- 
- 
-  padding: 120px 0 100px;
-  position: relative;
-  overflow: hidden;
-  min-height: 100vh;
+  min-height: 54vh;
  
  
   display: flex;
@@ -901,6 +936,16 @@ body {
   line-height: 1.1;
   color: white;
   margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hero-text h1 .logo-icon {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
 }
 
 .hero-text .highlight {
@@ -1113,6 +1158,17 @@ body {
 .banner-content {
   position: relative;
   z-index: 2;
+}
+
+.banner-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.banner-logo .logo-icon {
+  width: 80px;
+  height: 80px;
 }
 
 .family-hub-banner h3 {
@@ -2219,14 +2275,8 @@ body {
   
   .hero {
  
-    padding: 100px 0 15px;
-    min-height: 50vh;
-  
-    padding: 100px 0 80px;
-    min-height: 90vh;
- 
-    padding: 120px 0 20px;
-    min-height: 70vh;
+    padding: 90px 0 14px;
+    min-height: 45vh;
  
  
   }
@@ -2239,6 +2289,11 @@ body {
   
   .hero-text h1 {
     font-size: 40px;
+  }
+  
+  .hero-text h1 .logo-icon {
+    width: 45px;
+    height: 45px;
   }
   
   .hero-text p {
@@ -2331,6 +2386,11 @@ body {
     margin: 0 auto;
   }
 
+  .banner-logo .logo-icon {
+    width: 60px;
+    height: 60px;
+  }
+
   .family-hub-banner h3 {
     font-size: 20px;
   }
@@ -2370,6 +2430,15 @@ body {
   .cta-button {
     padding: 10px 20px;
     font-size: 13px;
+  }
+  
+  .family-hub-button {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  
+  .user-icon-button {
+    padding: 8px;
   }
 
   /* Enhanced mobile spacing for activity book page */
@@ -2417,6 +2486,11 @@ body {
   
   .hero-text h1 {
     font-size: 32px;
+  }
+  
+  .hero-text h1 .logo-icon {
+    width: 35px;
+    height: 35px;
   }
   
   .section-header h2 {

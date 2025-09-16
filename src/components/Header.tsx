@@ -60,7 +60,6 @@ const Header: React.FC = () => {
   const navItems = [
     { icon: Home, label: 'Home', href: '/', isExternal: false },
     { icon: BookOpen, label: 'Activity Book', href: '/activity-book', isExternal: false },
-    { icon: Users, label: 'Family Hub', href: 'https://www.hub.pandagarde.com', isExternal: true },
     { icon: Users, label: 'Age Groups', href: '/#age-groups', isExternal: false },
     { icon: Calendar, label: 'Implementation', href: '/#implementation', isExternal: false },
     { icon: ChalkboardTeacher, label: 'For Parents', href: '/#parent-resources', isExternal: false },
@@ -284,19 +283,30 @@ const Header: React.FC = () => {
               {theme === 'light' ? <Moon size={20} aria-hidden="true" /> : <Sun size={20} aria-hidden="true" />}
             </button>
             
+            {/* Family Hub Button - Prominent */}
+            <a
+              href="https://www.hub.pandagarde.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="family-hub-button"
+              aria-label="Visit Family Hub (opens in new tab)"
+              title="Connect with other families and access exclusive resources"
+            >
+              <Users size={16} aria-hidden="true" />
+              Family Hub
+            </a>
+            
             {isAuthenticated ? (
               <div className="relative">
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center space-x-2 px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                  className="user-icon-button"
                   aria-label="Open user menu"
                   aria-expanded={showUserMenu}
                   aria-haspopup="menu"
+                  title="User account menu"
                 >
                   <User size={20} aria-hidden="true" />
-                  <span className="hidden sm:block">
-                    {profile?.profile_data?.firstName || user?.email?.split('@')[0] || 'User'}
-                  </span>
                 </button>
                 
                 {showUserMenu && (
@@ -305,18 +315,9 @@ const Header: React.FC = () => {
                     role="menu"
                     aria-label="User account menu"
                   >
-                    <a
-                      href="https://www.hub.pandagarde.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      onClick={() => setShowUserMenu(false)}
-                      role="menuitem"
-                      aria-label="Open Family Hub (opens in new tab)"
-                    >
-                      <Users size={16} className="mr-3" aria-hidden="true" />
-                      Family Hub
-                    </a>
+                    <div className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
+                      {profile?.profile_data?.firstName || user?.email?.split('@')[0] || 'User'}
+                    </div>
                     <Link
                       to="/profile"
                       className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -342,11 +343,11 @@ const Header: React.FC = () => {
             ) : (
               <button
                 onClick={() => setIsAuthModalOpen(true)}
-                className="cta-button"
+                className="user-icon-button"
                 aria-label="Open account login dialog"
                 title="Sign in or create account"
               >
-                Account
+                <User size={20} aria-hidden="true" />
               </button>
             )}
           </div>
