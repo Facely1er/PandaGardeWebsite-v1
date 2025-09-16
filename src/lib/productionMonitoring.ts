@@ -34,14 +34,14 @@ interface Alert {
 
 // Production Monitoring Service
 export const productionMonitoringService = {
-  private alerts: Alert[] = [],
-  private metrics: PerformanceMetrics = {
+  alerts: [] as Alert[],
+  metrics: {
     pageLoadTime: 0,
     apiResponseTime: 0,
     memoryUsage: 0,
     errorRate: 0,
     userEngagement: 0,
-  },
+  } as PerformanceMetrics,
 
   // Initialize monitoring
   initialize(): void {
@@ -63,7 +63,7 @@ export const productionMonitoringService = {
   },
 
   // Setup performance monitoring
-  private setupPerformanceMonitoring(): void {
+  setupPerformanceMonitoring(): void {
     // Monitor page load times
     if (typeof window !== 'undefined' && 'performance' in window) {
       window.addEventListener('load', () => {
@@ -112,7 +112,7 @@ export const productionMonitoringService = {
   },
 
   // Setup error monitoring
-  private setupErrorMonitoring(): void {
+  setupErrorMonitoring(): void {
     // Global error handler
     window.addEventListener('error', (event) => {
       this.metrics.errorRate += 1;
@@ -154,7 +154,7 @@ export const productionMonitoringService = {
   },
 
   // Setup health checks
-  private setupHealthChecks(): void {
+  setupHealthChecks(): void {
     // Run health checks every 5 minutes
     setInterval(() => {
       this.runHealthChecks();
@@ -165,7 +165,7 @@ export const productionMonitoringService = {
   },
 
   // Run health checks
-  private async runHealthChecks(): Promise<void> {
+  async runHealthChecks(): Promise<void> {
     const healthCheck: HealthCheck = {
       status: 'healthy',
       timestamp: Date.now(),
@@ -225,7 +225,7 @@ export const productionMonitoringService = {
   },
 
   // Check database health
-  private async checkDatabaseHealth(): Promise<boolean> {
+  async checkDatabaseHealth(): Promise<boolean> {
     try {
       // This would check your actual database connection
       // For now, we'll simulate a check
@@ -237,7 +237,7 @@ export const productionMonitoringService = {
   },
 
   // Check authentication health
-  private async checkAuthenticationHealth(): Promise<boolean> {
+  async checkAuthenticationHealth(): Promise<boolean> {
     try {
       // This would check your authentication service
       // For now, we'll simulate a check
@@ -249,7 +249,7 @@ export const productionMonitoringService = {
   },
 
   // Check search health
-  private async checkSearchHealth(): Promise<boolean> {
+  async checkSearchHealth(): Promise<boolean> {
     try {
       // This would check your search functionality
       // For now, we'll simulate a check
@@ -261,7 +261,7 @@ export const productionMonitoringService = {
   },
 
   // Check offline health
-  private async checkOfflineHealth(): Promise<boolean> {
+  async checkOfflineHealth(): Promise<boolean> {
     try {
       // This would check your offline functionality
       // For now, we'll simulate a check
@@ -273,7 +273,7 @@ export const productionMonitoringService = {
   },
 
   // Setup engagement tracking
-  private setupEngagementTracking(): void {
+  setupEngagementTracking(): void {
     let engagementScore = 0;
     let lastActivity = Date.now();
     
@@ -312,7 +312,7 @@ export const productionMonitoringService = {
   },
 
   // Create alert
-  private createAlert(alert: Omit<Alert, 'id' | 'timestamp' | 'resolved'>): void {
+  createAlert(alert: Omit<Alert, 'id' | 'timestamp' | 'resolved'>): void {
     const newAlert: Alert = {
       ...alert,
       id: Math.random().toString(36).substr(2, 9),

@@ -41,6 +41,8 @@ export const AnalyticsEvents = {
   // Performance
   ERROR_OCCURRED: 'error_occurred',
   PERFORMANCE_METRIC: 'performance_metric',
+  ALERT_CREATED: 'alert_created',
+  ALERT_RESOLVED: 'alert_resolved',
 } as const;
 
 // Initialize analytics
