@@ -134,7 +134,7 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
 
     if (correctPlacements === totalItems) {
       setIsCompleted(true);
-      onComplete();
+      onComplete(newScore);
       
       // Add celebration animation
       setTimeout(() => {

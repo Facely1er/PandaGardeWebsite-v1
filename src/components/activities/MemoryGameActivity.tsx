@@ -148,7 +148,10 @@ const MemoryGameActivity: React.FC<MemoryGameActivityProps> = ({ onComplete, onC
       if (matches + 1 === cardPairs.length) {
         setTimeout(() => {
           setIsCompleted(true);
-          onComplete();
+          // Calculate score based on efficiency (fewer moves = higher score)
+          const maxPossibleMoves = cardPairs.length * 2; // Worst case: flip every card twice
+          const efficiency = Math.max(0, Math.round(((maxPossibleMoves - moves) / maxPossibleMoves) * 100));
+          onComplete(efficiency);
         }, 500);
       }
     } else {

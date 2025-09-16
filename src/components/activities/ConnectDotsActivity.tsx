@@ -20,6 +20,8 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
   const [connectedDots, setConnectedDots] = useState<number[]>([]);
   const [isCompleted, setIsCompleted] = useState(false);
   const [currentDot, setCurrentDot] = useState<number | null>(null);
+  const [moves, setMoves] = useState(0);
+  const [startTime, setStartTime] = useState<Date | null>(null);
 
   const generateDots = () => {
     // Create a shield shape with dots
@@ -45,6 +47,8 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
     setConnectedDots([]);
     setIsCompleted(false);
     setCurrentDot(null);
+    setMoves(0);
+    setStartTime(new Date());
   };
 
   const drawCanvas = useCallback(() => {
@@ -147,6 +151,8 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
     const dot = dots.find(d => d.id === dotId);
     if (!dot) return;
 
+    setMoves(prev => prev + 1);
+
     // Check if this is the next dot in sequence
     const expectedNext = connectedDots.length === 0 ? 1 : connectedDots[connectedDots.length - 1] + 1;
 
@@ -158,7 +164,13 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
       if (connectedDots.length + 1 === dots.length - 1) { // -1 because last dot is duplicate
         setTimeout(() => {
           setIsCompleted(true);
-          onComplete();
+          // Calculate score based on efficiency and accuracy
+          const timeSpent = startTime ? Math.round((Date.now() - startTime.getTime()) / 1000) : 0;
+          const totalDots = dots.length - 1; // Exclude duplicate
+          const accuracy = Math.round((totalDots / moves) * 100);
+          const timeBonus = Math.max(0, Math.round((60 - timeSpent) / 60 * 30)); // Bonus for speed
+          const finalScore = Math.min(100, Math.max(0, accuracy + timeBonus));
+          onComplete(finalScore);
         }, 500);
       }
     } else {

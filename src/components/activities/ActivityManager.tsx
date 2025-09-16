@@ -17,7 +17,7 @@ const QuizActivity = lazy(() => import('./QuizActivity'));
 interface ActivityManagerProps {
   activityId: string;
   onClose: () => void;
-  onComplete: (activityId: string) => void;
+  onComplete: (activityId: string, score?: number) => void;
 }
 
 const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, onComplete }) => {
@@ -139,8 +139,9 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
     
     try {
       await markActivityCompleted(activityId, score, timeSpent);
-      showSuccess('Activity Completed!', 'Great job! Your progress has been saved.');
-      onComplete(activityId);
+      const scoreMessage = score !== undefined ? ` You scored ${score}%!` : '';
+      showSuccess('Activity Completed!', `Great job! Your progress has been saved.${scoreMessage}`);
+      onComplete(activityId, score);
     } catch (err) {
       showError('Error', 'Failed to save progress. Please try again.');
     }

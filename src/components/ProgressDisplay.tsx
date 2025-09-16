@@ -7,6 +7,7 @@ interface ProgressDisplayProps {
   totalCount: number;
   achievements: string[];
   totalTimeSpent: number;
+  averageScore?: number;
   showDetails?: boolean;
 }
 
@@ -15,6 +16,7 @@ const ProgressDisplay: React.FC<ProgressDisplayProps> = ({
   totalCount, 
   achievements, 
   totalTimeSpent,
+  averageScore = 0,
   showDetails = true 
 }) => {
   const percentage = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
@@ -87,6 +89,18 @@ const ProgressDisplay: React.FC<ProgressDisplayProps> = ({
             <div className="stat-label">Achievements</div>
           </div>
         </div>
+
+        {averageScore > 0 && (
+          <div className="stat-item">
+            <div className="stat-icon">
+              <Star size={20} />
+            </div>
+            <div className="stat-content">
+              <div className="stat-value">{averageScore}%</div>
+              <div className="stat-label">Avg Score</div>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="progress-bar-container">

@@ -233,7 +233,9 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
       // Check if all words are found
       if (foundWords + 1 === words.length) {
         setIsCompleted(true);
-        onComplete();
+        // Calculate score based on completion percentage
+        const completionScore = Math.round(((foundWords + 1) / words.length) * 100);
+        onComplete(completionScore);
       }
     }
 

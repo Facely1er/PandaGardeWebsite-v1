@@ -137,8 +137,8 @@ const ActivityBookPage: React.FC = () => {
     setSelectedActivity(null);
   };
 
-  const handleActivityComplete = (activityId: string) => {
-    markActivityCompleted(activityId);
+  const handleActivityComplete = (activityId: string, score?: number) => {
+    markActivityCompleted(activityId, score);
     const activity = activities.find(a => a.id === activityId);
     
     // Add celebration animation
@@ -173,7 +173,8 @@ const ActivityBookPage: React.FC = () => {
       }, 2000);
     }, 100);
     
-    showSuccess('Activity Completed!', `Great job completing "${activity?.title}"! Keep up the great work!`);
+    const scoreMessage = score !== undefined ? ` You scored ${score}%!` : '';
+    showSuccess('Activity Completed!', `Great job completing "${activity?.title}"!${scoreMessage} Keep up the great work!`);
     setShowActivity(false);
     setSelectedActivity(null);
   };
@@ -301,6 +302,7 @@ const ActivityBookPage: React.FC = () => {
             totalCount={overallProgress.totalCount}
             achievements={progress.achievements}
             totalTimeSpent={progress.totalTimeSpent}
+            averageScore={overallProgress.averageScore}
             showDetails={true}
           />
         </div>
