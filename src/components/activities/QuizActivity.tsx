@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { RotateCcw, CheckCircle, ArrowRight, ArrowLeft, Star } from 'lucide-react';
+import { RotateCcw, CheckCircle, ArrowRight, ArrowLeft, Star, Clock } from 'lucide-react';
 
 interface QuizActivityProps {
   onComplete: () => void;
