@@ -50,57 +50,16 @@ const Header: React.FC = () => {
   const navItems = [
     { icon: Home, label: 'Home', href: '/', isExternal: false },
     { icon: BookOpen, label: 'Activity Book', href: '/activity-book', isExternal: false },
-    { icon: Users, label: 'Age Groups', href: '/#age-groups', isExternal: false },
-    { icon: Calendar, label: 'Implementation', href: '/#implementation', isExternal: false },
-    { icon: ChalkboardTeacher, label: 'For Parents', href: '/#parent-resources', isExternal: false },
+    { icon: Users, label: 'Age Groups', href: '/age-groups', isExternal: false },
+    { icon: Calendar, label: 'Implementation', href: '/implementation', isExternal: false },
+    { icon: ChalkboardTeacher, label: 'For Parents', href: '/parent-resources', isExternal: false },
     { icon: Info, label: 'About', href: '/about', isExternal: false },
   ];
 
-  const scrollToSection = (href: string) => {
-    if (href.startsWith('#')) {
-      // If we're not on the home page, navigate there first
-      if (location.pathname !== '/') {
-        navigate('/');
-        // Wait for navigation to complete, then scroll
-        setTimeout(() => {
-          const scrollToElement = () => {
-            const element = document.querySelector(href);
-            if (element) {
-              requestAnimationFrame(() => {
-                element.scrollIntoView({ behavior: 'smooth' });
-              });
-            } else {
-              // Retry if element not found
-              setTimeout(scrollToElement, 100);
-            }
-          };
-          scrollToElement();
-        }, 300); // Reduced timeout for better responsiveness
-      } else {
-        // Use requestAnimationFrame for smoother scrolling
-        const scrollToElement = () => {
-          const element = document.querySelector(href);
-          if (element) {
-            requestAnimationFrame(() => {
-              element.scrollIntoView({ behavior: 'smooth' });
-            });
-          } else {
-            // Retry if element not found
-            setTimeout(scrollToElement, 100);
-          }
-        };
-        scrollToElement();
-      }
-      setIsMobileMenuOpen(false);
-    }
-  };
 
   const isActive = (href: string) => {
     if (href === '/') {
       return location.pathname === '/';
-    }
-    if (href.startsWith('#')) {
-      return location.pathname === '/' && location.hash === href;
     }
     return location.pathname.startsWith(href);
   };
