@@ -51,7 +51,7 @@ const STORAGE_KEY = 'pandagarde_progress';
 export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) => {
   // const { isAuthenticated, user } = useAuth();
   const isAuthenticated = false;
-  const user = null; // Progress works without authentication
+  const user = null; // Progress works without authentication for main site
   const [progress, setProgress] = useState<UserProgress>({
     completedActivities: [],
     activityDetails: {},

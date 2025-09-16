@@ -21,7 +21,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { useToast } from '../contexts/ToastContext';
 import { useProgress } from '../contexts/ProgressContext';
 import ActivityManager from '../components/activities/ActivityManager';
-import CertificateGenerator from '../components/CertificateGenerator';
+// import CertificateGenerator from '../components/CertificateGenerator'; // Moved to Family Hub
 import ProgressDisplay from '../components/ProgressDisplay';
 import ParentDashboard from '../components/ParentDashboard';
 
@@ -48,7 +48,7 @@ const ActivityBookPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const [animatedStats, setAnimatedStats] = useState({ completed: 0, total: 0 });
-  const [showCertificates, setShowCertificates] = useState(false);
+  // const [showCertificates, setShowCertificates] = useState(false); // Moved to Family Hub
   const [showParentDashboard, setShowParentDashboard] = useState(false);
 
   const activities: Activity[] = [
@@ -319,7 +319,7 @@ const ActivityBookPage: React.FC = () => {
               You've completed all activities and earned your Privacy Champion certificate!
             </p>
             <button 
-              onClick={() => setShowCertificates(true)}
+              onClick={() => window.open('https://www.hub.pandagarde.com', '_blank')}
               className="mt-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105"
             >
               <Award size={20} className="inline mr-2" />
@@ -509,26 +509,7 @@ const ActivityBookPage: React.FC = () => {
       )}
 
       {/* Certificate Generator Modal */}
-      {showCertificates && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center p-6 border-b">
-              <h2 className="text-2xl font-bold" style={{ color: 'var(--primary)' }}>
-                Generate Certificates
-              </h2>
-              <button
-                onClick={() => setShowCertificates(false)}
-                className="text-gray-400 hover:text-gray-600 text-2xl"
-              >
-                ×
-              </button>
-            </div>
-            <div className="p-6">
-              <CertificateGenerator onClose={() => setShowCertificates(false)} />
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Certificate Generation moved to Family Hub */}
 
       {/* Parent Dashboard Modal */}
       {showParentDashboard && (

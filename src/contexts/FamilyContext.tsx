@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useAuth } from '../pages/family-hub/AuthWrapper';
+// import { useAuth } from '../pages/family-hub/AuthWrapper';
 import { supabase, TABLES } from '../lib/supabase';
 
 interface FamilyMember {
@@ -59,7 +59,10 @@ interface FamilyProviderProps {
 }
 
 export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
-  const { user, profile, isAuthenticated } = useAuth();
+  // const { user, profile, isAuthenticated } = useAuth();
+  const user = null;
+  const profile = null;
+  const isAuthenticated = false; // Main site works without authentication
   const [currentFamily, setCurrentFamily] = useState<Family | null>(null);
   const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
   const [loading, setLoading] = useState(false);
