@@ -23,51 +23,84 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
     // Clear canvas
     ctx.clearRect(0, 0, 600, 400);
 
-    // Set background
-    ctx.fillStyle = '#F8F9FA';
+    // Set background with gradient
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, '#E8F5E8');
+    gradient.addColorStop(1, '#F8F9FA');
+    ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 600, 400);
 
-    // Draw Privacy Panda outline
+    // Draw decorative border
+    ctx.strokeStyle = '#4CAF50';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(10, 10, 580, 380);
+
+    // Draw Privacy Panda outline with thicker, more child-friendly lines
     ctx.strokeStyle = '#2C3E50';
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 4;
     ctx.beginPath();
 
-    // Panda head
-    ctx.arc(300, 150, 80, 0, 2 * Math.PI);
+    // Panda head (larger and more rounded)
+    ctx.arc(300, 150, 90, 0, 2 * Math.PI);
     ctx.stroke();
 
-    // Panda ears
+    // Panda ears (larger)
     ctx.beginPath();
-    ctx.arc(250, 100, 30, 0, 2 * Math.PI);
+    ctx.arc(250, 100, 35, 0, 2 * Math.PI);
     ctx.stroke();
     ctx.beginPath();
-    ctx.arc(350, 100, 30, 0, 2 * Math.PI);
+    ctx.arc(350, 100, 35, 0, 2 * Math.PI);
     ctx.stroke();
 
-    // Panda eyes
+    // Panda eyes (larger and more expressive)
     ctx.fillStyle = '#2C3E50';
     ctx.beginPath();
-    ctx.arc(280, 140, 8, 0, 2 * Math.PI);
+    ctx.arc(280, 140, 10, 0, 2 * Math.PI);
     ctx.fill();
     ctx.beginPath();
-    ctx.arc(320, 140, 8, 0, 2 * Math.PI);
+    ctx.arc(320, 140, 10, 0, 2 * Math.PI);
     ctx.fill();
 
-    // Panda nose
+    // Eye highlights
+    ctx.fillStyle = '#FFFFFF';
     ctx.beginPath();
-    ctx.arc(300, 160, 5, 0, 2 * Math.PI);
+    ctx.arc(282, 138, 3, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(322, 138, 3, 0, 2 * Math.PI);
     ctx.fill();
 
-    // Panda mouth
-    ctx.strokeStyle = '#2C3E50';
-    ctx.lineWidth = 2;
+    // Panda nose (larger)
+    ctx.fillStyle = '#2C3E50';
     ctx.beginPath();
-    ctx.arc(300, 170, 15, 0, Math.PI);
-    ctx.stroke();
+    ctx.arc(300, 160, 6, 0, 2 * Math.PI);
+    ctx.fill();
 
-    // Shield outline
+    // Panda mouth (more expressive)
     ctx.strokeStyle = '#2C3E50';
     ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(300, 170, 18, 0, Math.PI);
+    ctx.stroke();
+
+    // Panda body
+    ctx.strokeStyle = '#2C3E50';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.arc(300, 200, 60, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    // Panda arms
+    ctx.beginPath();
+    ctx.arc(250, 220, 25, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(350, 220, 25, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    // Shield outline (more detailed)
+    ctx.strokeStyle = '#2C3E50';
+    ctx.lineWidth = 4;
     ctx.beginPath();
     ctx.moveTo(200, 250);
     ctx.lineTo(200, 350);
@@ -78,26 +111,59 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
     ctx.closePath();
     ctx.stroke();
 
-    // Lock symbol on shield
+    // Shield decoration lines
     ctx.strokeStyle = '#2C3E50';
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.arc(300, 300, 20, 0, 2 * Math.PI);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(280, 300);
-    ctx.lineTo(280, 280);
-    ctx.lineTo(320, 280);
-    ctx.lineTo(320, 300);
+    ctx.moveTo(250, 250);
+    ctx.lineTo(250, 350);
+    ctx.moveTo(300, 250);
+    ctx.lineTo(300, 350);
+    ctx.moveTo(350, 250);
+    ctx.lineTo(350, 350);
     ctx.stroke();
 
-    // Text
+    // Lock symbol on shield (more detailed)
+    ctx.strokeStyle = '#2C3E50';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(300, 300, 25, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(275, 300);
+    ctx.lineTo(275, 275);
+    ctx.lineTo(325, 275);
+    ctx.lineTo(325, 300);
+    ctx.stroke();
+
+    // Lock keyhole
     ctx.fillStyle = '#2C3E50';
-    ctx.font = 'bold 20px Arial';
+    ctx.beginPath();
+    ctx.arc(300, 300, 8, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // Add some decorative elements
+    ctx.fillStyle = '#4CAF50';
+    ctx.font = 'bold 16px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('🔒', 300, 320);
+
+    // Text with better styling
+    ctx.fillStyle = '#2C3E50';
+    ctx.font = 'bold 24px Arial';
     ctx.textAlign = 'center';
     ctx.fillText('Privacy Panda', 300, 50);
-    ctx.font = '16px Arial';
+    ctx.font = '18px Arial';
+    ctx.fillStyle = '#4CAF50';
     ctx.fillText('Protect Your Digital Treasure!', 300, 75);
+
+    // Add some stars for decoration
+    ctx.fillStyle = '#FFD700';
+    ctx.font = '20px Arial';
+    ctx.fillText('⭐', 50, 50);
+    ctx.fillText('⭐', 550, 50);
+    ctx.fillText('⭐', 50, 350);
+    ctx.fillText('⭐', 550, 350);
   };
 
   useEffect(() => {
@@ -186,6 +252,12 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
         const y = rect.height / 2;
         drawAt(x, y);
       }
+    } else if (e.key === 'c' || e.key === 'C') {
+      e.preventDefault();
+      checkCompletion();
+    } else if (e.key === 'r' || e.key === 'R') {
+      e.preventDefault();
+      clearCanvas();
     }
   };
 
@@ -211,7 +283,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
   };
 
   const checkCompletion = () => {
-    // Simple completion check - if user has drawn significantly
+    // Enhanced completion check - if user has drawn significantly
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -222,22 +294,72 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
     const data = imageData.data;
 
     let coloredPixels = 0;
-    for (let i = 0; i < data.length; i += 4) {
-      const r = data[i];
-      const g = data[i + 1];
-      const b = data[i + 2];
-      const a = data[i + 3];
+    let totalPixels = 0;
+    
+    // Check only the main drawing areas (panda and shield)
+    for (let y = 50; y < 350; y++) {
+      for (let x = 100; x < 500; x++) {
+        const i = (y * canvas.width + x) * 4;
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+        const a = data[i + 3];
 
-      // Check if pixel is not background color and has some opacity
-      if (a > 0 && !(r === 248 && g === 249 && b === 250)) {
-        coloredPixels++;
+        // Skip background colors
+        if (!(r === 232 && g === 245 && b === 232) && // Light green background
+            !(r === 248 && g === 249 && b === 250) && // Light gray background
+            !(r === 44 && g === 62 && b === 80)) {    // Dark outline
+          totalPixels++;
+          if (a > 0) {
+            coloredPixels++;
+          }
+        }
       }
     }
 
-    // If more than 1000 pixels are colored, consider it complete
-    if (coloredPixels > 1000) {
+    // Calculate completion percentage
+    const completionPercentage = totalPixels > 0 ? (coloredPixels / totalPixels) * 100 : 0;
+    
+    // If more than 30% of the drawing area is colored, consider it complete
+    if (completionPercentage > 30) {
       setIsCompleted(true);
       onComplete();
+      
+      // Add celebration animation
+      setTimeout(() => {
+        const celebration = document.createElement('div');
+        celebration.innerHTML = '🎉🎨✨';
+        celebration.style.cssText = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 48px;
+          z-index: 10000;
+          pointer-events: none;
+          animation: celebrate 2s ease-out forwards;
+        `;
+        
+        const style = document.createElement('style');
+        style.textContent = `
+          @keyframes celebrate {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1) translateY(-100px); }
+          }
+        `;
+        document.head.appendChild(style);
+        document.body.appendChild(celebration);
+        
+        setTimeout(() => {
+          document.body.removeChild(celebration);
+          document.head.removeChild(style);
+        }, 2000);
+      }, 100);
+    } else {
+      // Show progress feedback
+      const progressMessage = `Keep coloring! You've filled ${Math.round(completionPercentage)}% of the drawing area.`;
+      alert(progressMessage);
     }
   };
 
@@ -307,7 +429,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
             className="coloring-canvas"
             style={{ touchAction: 'none' }}
             role="img"
-            aria-label="Privacy Panda coloring page with panda and shield outline. Use mouse or touch to color, or press Enter or Space to add color."
+            aria-label="Privacy Panda coloring page with panda and shield outline. Use mouse or touch to color, or press Enter or Space to add color. Press C to check completion, R to reset."
             tabIndex={0}
           />
           {isCompleted && (

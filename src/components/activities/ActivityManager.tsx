@@ -11,6 +11,8 @@ const MazeActivity = lazy(() => import('./MazeActivity'));
 const WordSearchActivity = lazy(() => import('./WordSearchActivity'));
 const ConnectDotsActivity = lazy(() => import('./ConnectDotsActivity'));
 const MatchingActivity = lazy(() => import('./MatchingActivity'));
+const MemoryGameActivity = lazy(() => import('./MemoryGameActivity'));
+const QuizActivity = lazy(() => import('./QuizActivity'));
 
 interface ActivityManagerProps {
   activityId: string;
@@ -28,7 +30,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
   const activityInstructions = {
     coloring: {
       title: "Privacy Panda Coloring Activity",
-      description: "Color the Privacy Panda and learn about protecting your digital treasure!",
+      description: "Color the Privacy Panda and learn about protecting your digital treasure! This activity teaches you about the importance of keeping your personal information safe online.",
       instructions: [
         "Choose a color from the palette",
         "Click and drag to color the panda and shield",
@@ -36,11 +38,11 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
         "Click 'Check Complete' when you're done coloring",
         "Download your artwork to save it!"
       ],
-      tips: "Take your time and be creative! The more you color, the better you'll understand privacy protection."
+      tips: "Take your time and be creative! The more you color, the better you'll understand privacy protection. The shield represents how we protect our personal information online."
     },
     sorting: {
       title: "Information Sorting Game",
-      description: "Learn what information is safe to share and what should be kept private.",
+      description: "Learn what information is safe to share and what should be kept private. This activity helps you understand the difference between public and private information.",
       instructions: [
         "Drag each item to the correct category",
         "Green zone: Safe to Share (things you can tell friends)",
@@ -48,23 +50,23 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
         "Click 'Check Answer' when you're done sorting",
         "Try to get 100% correct!"
       ],
-      tips: "Think about what information strangers could use to find you or pretend to be you."
+      tips: "Think about what information strangers could use to find you or pretend to be you. Personal details like your full name, address, and phone number should always be kept private."
     },
     maze: {
       title: "Safe Online Journey Maze",
-      description: "Help Privacy Panda navigate safely through the digital world.",
+      description: "Help Privacy Panda navigate safely through the digital world. Learn to identify online dangers and make safe choices.",
       instructions: [
         "Use arrow keys or touch to move the panda",
-        "Avoid the red danger zones",
-        "Collect green privacy shields",
+        "Avoid the red danger zones (like suspicious websites)",
+        "Collect green privacy shields (safe practices)",
         "Reach the finish line safely",
         "Try to collect all shields for bonus points!"
       ],
-      tips: "Move carefully and plan your path. Real online safety requires thinking ahead!"
+      tips: "Move carefully and plan your path. Real online safety requires thinking ahead! The red zones represent dangerous websites or situations you should avoid."
     },
     wordsearch: {
       title: "Privacy Word Search",
-      description: "Find important privacy words hidden in the puzzle.",
+      description: "Find important privacy words hidden in the puzzle. Learn key vocabulary that helps you understand online safety.",
       instructions: [
         "Look for the words listed below the puzzle",
         "Click and drag to highlight words",
@@ -72,11 +74,11 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
         "Find all words to complete the activity",
         "Take your time - there's no rush!"
       ],
-      tips: "These words are important for understanding digital privacy. Remember them!"
+      tips: "These words are important for understanding digital privacy. Words like 'password', 'secure', and 'privacy' help you stay safe online!"
     },
     connectdots: {
       title: "Privacy Shield Connect-the-Dots",
-      description: "Connect the dots to reveal Privacy Panda's protection shield.",
+      description: "Connect the dots to reveal Privacy Panda's protection shield. Learn about the importance of protecting your personal information.",
       instructions: [
         "Click on the dots in numerical order",
         "Start with dot 1 and work your way up",
@@ -84,11 +86,11 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
         "Color the shield when you're done",
         "The shield represents your privacy protection!"
       ],
-      tips: "Take your time and follow the numbers carefully. The shield protects your information!"
+      tips: "Take your time and follow the numbers carefully. The shield represents how we protect our personal information from strangers online!"
     },
     matching: {
       title: "Privacy Symbol Matching",
-      description: "Match privacy symbols with their meanings to learn digital safety signs.",
+      description: "Match privacy symbols with their meanings to learn digital safety signs. These symbols help you identify safe and secure websites.",
       instructions: [
         "Click on a symbol card to flip it",
         "Click on another card to see if they match",
@@ -96,7 +98,31 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
         "Remember what each symbol means",
         "Try to complete it in as few moves as possible!"
       ],
-      tips: "These symbols appear on websites and apps. Knowing them helps you stay safe online!"
+      tips: "These symbols appear on websites and apps. The lock symbol means a website is secure, and the warning symbol means you should be careful!"
+    },
+    memory: {
+      title: "Privacy Memory Game",
+      description: "Test your memory by matching privacy symbols with their meanings! This game helps you remember important online safety concepts.",
+      instructions: [
+        "Click on cards to flip them and see what's underneath",
+        "Find matching pairs of symbols and meanings",
+        "Remember where cards are located",
+        "Complete all pairs to win the game",
+        "Try to finish in as few moves as possible!"
+      ],
+      tips: "This game helps you remember important privacy symbols and what they mean. The better you remember these symbols, the safer you'll be online!"
+    },
+    quiz: {
+      title: "Privacy Knowledge Quiz",
+      description: "Test your knowledge about online privacy and safety! This quiz helps you learn important concepts about staying safe online.",
+      instructions: [
+        "Read each question carefully",
+        "Choose the best answer from the options",
+        "You have 30 seconds per question",
+        "Learn from the explanations after each answer",
+        "Try to get as many correct as possible!"
+      ],
+      tips: "This quiz helps you learn important privacy concepts. Don't worry if you get some wrong - you'll learn from the explanations and become safer online!"
     }
   };
 
@@ -166,6 +192,18 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
         return (
           <Suspense fallback={<div className="loading-spinner">Loading matching activity...</div>}>
             <MatchingActivity {...activityProps} />
+          </Suspense>
+        );
+      case 'memory':
+        return (
+          <Suspense fallback={<div className="loading-spinner">Loading memory game...</div>}>
+            <MemoryGameActivity {...activityProps} />
+          </Suspense>
+        );
+      case 'quiz':
+        return (
+          <Suspense fallback={<div className="loading-spinner">Loading quiz...</div>}>
+            <QuizActivity {...activityProps} />
           </Suspense>
         );
       default:

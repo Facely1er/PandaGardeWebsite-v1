@@ -22,6 +22,8 @@ import { useToast } from '../contexts/ToastContext';
 import { useProgress } from '../contexts/ProgressContext';
 import ActivityManager from '../components/activities/ActivityManager';
 import CertificateGenerator from '../components/CertificateGenerator';
+import ProgressDisplay from '../components/ProgressDisplay';
+import ParentDashboard from '../components/ParentDashboard';
 
 interface Activity {
   id: string;
@@ -47,12 +49,13 @@ const ActivityBookPage: React.FC = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [animatedStats, setAnimatedStats] = useState({ completed: 0, total: 0 });
   const [showCertificates, setShowCertificates] = useState(false);
+  const [showParentDashboard, setShowParentDashboard] = useState(false);
 
   const activities: Activity[] = [
     {
       id: 'coloring',
-      title: 'Privacy Password Coloring',
-      description: 'Color Privacy Panda guarding the treasure chest with a password lock! Learn about keeping passwords safe.',
+      title: 'Privacy Panda Coloring',
+      description: 'Color Privacy Panda and learn about protecting your digital treasure! Express your creativity while learning about privacy.',
       icon: Palette,
       ageGroup: '5-8',
       difficulty: 'Easy',
@@ -103,6 +106,24 @@ const ActivityBookPage: React.FC = () => {
       difficulty: 'Medium',
       duration: '8 mins',
     },
+    {
+      id: 'memory',
+      title: 'Privacy Memory Game',
+      description: 'Test your memory by matching privacy symbols with their meanings! Challenge yourself to remember important privacy concepts.',
+      icon: Award,
+      ageGroup: '6-12',
+      difficulty: 'Medium',
+      duration: '10 mins',
+    },
+    {
+      id: 'quiz',
+      title: 'Privacy Knowledge Quiz',
+      description: 'Test your knowledge about online privacy and safety! Answer questions and learn from detailed explanations.',
+      icon: CheckCircle,
+      ageGroup: '8-12',
+      difficulty: 'Hard',
+      duration: '15 mins',
+    },
   ];
 
 
@@ -119,6 +140,39 @@ const ActivityBookPage: React.FC = () => {
   const handleActivityComplete = (activityId: string) => {
     markActivityCompleted(activityId);
     const activity = activities.find(a => a.id === activityId);
+    
+    // Add celebration animation
+    setTimeout(() => {
+      const celebration = document.createElement('div');
+      celebration.innerHTML = '🎉✨🌟';
+      celebration.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 48px;
+        z-index: 10000;
+        pointer-events: none;
+        animation: celebrate 2s ease-out forwards;
+      `;
+      
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes celebrate {
+          0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+          50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+          100% { opacity: 0; transform: translate(-50%, -50%) scale(1) translateY(-100px); }
+        }
+      `;
+      document.head.appendChild(style);
+      document.body.appendChild(celebration);
+      
+      setTimeout(() => {
+        document.body.removeChild(celebration);
+        document.head.removeChild(style);
+      }, 2000);
+    }, 100);
+    
     showSuccess('Activity Completed!', `Great job completing "${activity?.title}"! Keep up the great work!`);
     setShowActivity(false);
     setSelectedActivity(null);
@@ -204,7 +258,7 @@ const ActivityBookPage: React.FC = () => {
               </div>
               <div className="flex items-center gap-2">
                 <Play size={14} className="md:w-4 md:h-4" />
-                <span>6 Interactive Activities</span>
+                <span>8 Interactive Activities</span>
               </div>
               <div className="flex items-center gap-2">
                 <Users size={14} className="md:w-4 md:h-4" />
@@ -218,61 +272,61 @@ const ActivityBookPage: React.FC = () => {
       {/* Navigation */}
       <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
         <div className="container mx-auto px-4 md:px-6 py-3 md:py-4">
-          <button
-            onClick={() => window.history.back()}
-            className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors text-sm md:text-base"
-            style={{ color: 'var(--primary-light)' }}
-          >
-            <ArrowLeft size={14} className="md:w-4 md:h-4" />
-            Back to Home
-          </button>
+          <div className="flex justify-between items-center">
+            <button
+              onClick={() => window.history.back()}
+              className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors text-sm md:text-base"
+              style={{ color: 'var(--primary-light)' }}
+            >
+              <ArrowLeft size={14} className="md:w-4 md:h-4" />
+              Back to Home
+            </button>
+            
+            <button
+              onClick={() => setShowParentDashboard(true)}
+              className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm md:text-base"
+            >
+              <Users size={14} className="md:w-4 md:h-4" />
+              Parent Dashboard
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Progress Section */}
       <section className="container mx-auto px-4 md:px-6 py-8 md:py-12">
-        <div className="bg-white rounded-xl shadow-lg p-4 md:p-8 mb-8 md:mb-12" style={{
-          backgroundColor: 'var(--card-color)',
-          boxShadow: 'var(--shadow-lg)'
-        }}>
-          <div className="text-center mb-4 md:mb-6">
-            <h2 className="text-xl md:text-2xl font-bold mb-3 md:mb-4" style={{ color: 'var(--primary)' }}>
-              Your Progress
-            </h2>
-            <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
-              <div
-                className="h-4 rounded-full transition-all duration-500 bg-gradient-to-r from-green-500 to-green-600"
-                style={{ width: `${overallProgress.percentage}%` }}
-              />
-            </div>
-            <p className="text-lg" style={{ color: 'var(--gray-600)' }}>
-              {animatedStats.completed} of {animatedStats.total} activities completed
-            </p>
-          </div>
-
-          {overallProgress.percentage === 100 && (
-            <div className="text-center bg-yellow-50 border border-yellow-200 rounded-lg p-6"
-                 style={{
-                   backgroundColor: theme === 'dark' ? 'rgba(251, 191, 36, 0.1)' : '#FFFBEB',
-                   borderColor: 'var(--warning)'
-                 }}>
-              <Award className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--warning)' }} />
-              <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--primary)' }}>
-                Congratulations! 🎉
-              </h3>
-              <p style={{ color: 'var(--gray-700)' }}>
-                You've completed all activities and earned your Privacy Champion certificate!
-              </p>
-              <button 
-                onClick={() => setShowCertificates(true)}
-                className="mt-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105"
-              >
-                <Award size={20} className="inline mr-2" />
-                Generate Certificate
-              </button>
-            </div>
-          )}
+        <div className="mb-8 md:mb-12">
+          <ProgressDisplay
+            completedCount={overallProgress.completedCount}
+            totalCount={overallProgress.totalCount}
+            achievements={progress.achievements}
+            totalTimeSpent={progress.totalTimeSpent}
+            showDetails={true}
+          />
         </div>
+
+        {overallProgress.percentage === 100 && (
+          <div className="text-center bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-8"
+               style={{
+                 backgroundColor: theme === 'dark' ? 'rgba(251, 191, 36, 0.1)' : '#FFFBEB',
+                 borderColor: 'var(--warning)'
+               }}>
+            <Award className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--warning)' }} />
+            <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--primary)' }}>
+              Congratulations! 🎉
+            </h3>
+            <p style={{ color: 'var(--gray-700)' }}>
+              You've completed all activities and earned your Privacy Champion certificate!
+            </p>
+            <button 
+              onClick={() => setShowCertificates(true)}
+              className="mt-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105"
+            >
+              <Award size={20} className="inline mr-2" />
+              Generate Certificate
+            </button>
+          </div>
+        )}
       </section>
 
       {/* Activities Grid */}
@@ -474,6 +528,14 @@ const ActivityBookPage: React.FC = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Parent Dashboard Modal */}
+      {showParentDashboard && (
+        <ParentDashboard
+          progress={progress}
+          onClose={() => setShowParentDashboard(false)}
+        />
       )}
 
       {/* Parent Resources Section */}
