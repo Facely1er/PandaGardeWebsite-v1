@@ -13,6 +13,9 @@
     "test": "echo 'No unit tests configured yet'",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
+    "test:e2e:install": "playwright install --with-deps",
+    "test:e2e:ci": "npm run test:e2e:install && npm run test:e2e",
+    "test:setup": "npm run test:e2e:install",
     "lighthouse:ci": "lhci autorun",
     "audit": "npm audit --audit-level=high",
     "audit:fix": "npm audit fix",
@@ -23,7 +26,7 @@
     "db:stop": "supabase stop",
     "db:types": "supabase gen types typescript --local > src/lib/database.types.ts",
     "verify:env": "./scripts/verify-env.sh",
-    "postinstall": "playwright install --with-deps"
+    "verify:build": "node scripts/verify-build.js"
   },
   "dependencies": {
     "@sentry/react": "^10.12.0",
@@ -54,6 +57,7 @@
     "postcss": "^8.4.35",
     "sharp": "^0.34.3",
     "supabase": "^2.40.7",
+    "svgo": "^3.0.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.3.0",

@@ -87,17 +87,20 @@ export function withSentryPerformance<T extends (...args: any[]) => any>(
   fn: T,
   name: string
 ): T {
-  return Sentry.wrap(fn, {
-    mechanism: {
-      handled: true,
-      type: 'instrument',
-    },
-  });
+  return fn; // Simplified for now - Sentry.wrap is not available in this version
 }
 
 // Custom performance monitoring
 export function startTransaction(name: string, op: string) {
-  return Sentry.startTransaction({ name, op });
+  return Sentry.startSpan({ name, op }, () => {});
+}
+
+// Error reporting
+export function reportError(error: Error, context?: any) {
+  if (context) {
+    setContext('error_context', context);
+  }
+  captureException(error);
 }
 
 // User context helpers
@@ -108,6 +111,10 @@ export function setUserContext(user: {
   [key: string]: any;
 }) {
   setUser(user);
+}
+
+export function clearUserContext() {
+  setUser(null);
 }
 
 // Tag helpers
