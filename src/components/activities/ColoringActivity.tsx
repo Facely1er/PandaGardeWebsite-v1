@@ -19,21 +19,6 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
     '#F8C471', '#82E0AA', '#F1948A', '#85C1E9', '#D2B4DE'
   ];
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    // Set canvas size
-    canvas.width = 600;
-    canvas.height = 400;
-
-    // Draw the coloring page outline
-    drawColoringPage(ctx);
-  }, []);
-
   const drawColoringPage = (ctx: CanvasRenderingContext2D) => {
     // Clear canvas
     ctx.clearRect(0, 0, 600, 400);
@@ -114,6 +99,21 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
     ctx.font = '16px Arial';
     ctx.fillText('Protect Your Digital Treasure!', 300, 75);
   };
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Set canvas size
+    canvas.width = 600;
+    canvas.height = 400;
+
+    // Draw the coloring page outline
+    drawColoringPage(ctx);
+  }, []);
 
   const getEventPos = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;

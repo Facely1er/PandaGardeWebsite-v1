@@ -22,10 +22,6 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
 
   const gridSize = 12;
 
-  useEffect(() => {
-    generateWordSearch();
-  }, [generateWordSearch]);
-
   const generateWordSearch = useCallback(() => {
     const wordList = [
       'PRIVACY', 'PASSWORD', 'SECURE', 'SAFE', 'PROTECT',
@@ -75,6 +71,10 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
     setIsCompleted(false);
     setFoundWords(0);
   }, [gridSize]);
+
+  useEffect(() => {
+    generateWordSearch();
+  }, [generateWordSearch]);
 
   const canPlaceWord = (grid: string[][], word: string, row: number, col: number, direction: number): boolean => {
     const directions = [

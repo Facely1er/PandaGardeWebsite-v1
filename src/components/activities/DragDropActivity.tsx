@@ -35,10 +35,6 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
     { id: '10', text: 'My favorite movie', category: 'safe' },
   ], []);
 
-  useEffect(() => {
-    shuffleItems();
-  }, [shuffleItems]);
-
   const shuffleItems = useCallback(() => {
     const shuffled = initialItems.map((item, index) => ({
       ...item,
@@ -50,6 +46,10 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
     setIsCompleted(false);
     setScore(0);
   }, [initialItems]);
+
+  useEffect(() => {
+    shuffleItems();
+  }, [shuffleItems]);
 
   const getEventPos = (e: React.MouseEvent | React.TouchEvent) => {
     const rect = containerRef.current?.getBoundingClientRect();
