@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useAuth } from './AuthContext';
+import { useAuth } from '../pages/family-hub/AuthWrapper';
 import { supabase, TABLES } from '../lib/supabase';
 
 interface FamilyMember {

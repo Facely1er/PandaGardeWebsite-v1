@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, User, Mail, Calendar, Shield, Save, Edit3, X, Download } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from './family-hub/AuthWrapper';
 import { useToast } from '../hooks/useToast';
 import ProgressExport from '../components/ProgressExport';
 
@@ -101,11 +101,11 @@ const ProfilePage: React.FC = () => {
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <button
-              onClick={() => navigate(-1)}
+              onClick={() => navigate('/family-hub')}
               className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
             >
               <ArrowLeft size={20} className="mr-2" />
-              Back
+              Back to Family Hub
             </button>
             
             <div className="flex items-center space-x-4">

@@ -2,7 +2,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Play, RotateCcw } from 'lucide-react';
 import { useProgress } from '../../contexts/ProgressContext';
 import { useToast } from '../../contexts/ToastContext';
-import { useAuth } from '../../contexts/AuthContext';
+// import { useAuth } from '../../contexts/AuthContext';
 
 // Lazy load activity components
 const ColoringActivity = lazy(() => import('./ColoringActivity'));
@@ -25,7 +25,8 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
   const [startTime, setStartTime] = useState<Date | null>(null);
   const { markActivityCompleted, getActivityProgress } = useProgress();
   const { showSuccess, showError } = useToast();
-  const { user } = useAuth();
+  // const { user } = useAuth();
+  const user = null; // Activities work without authentication
 
   const activityInstructions = {
     coloring: {

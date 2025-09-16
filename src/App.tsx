@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { ToastProvider } from './contexts/ToastContext';
-import { AuthProvider } from './contexts/AuthContext';
 import { FamilyProvider } from './contexts/FamilyContext';
 import { SearchProvider } from './contexts/SearchContext';
 import { ProgressProvider } from './contexts/ProgressContext';
@@ -14,7 +13,7 @@ import StoryPage from './pages/StoryPage';
 import InteractiveStoryPage from './pages/InteractiveStoryPage';
 import ActivityBookPage from './pages/ActivityBookPage';
 import AboutPage from './pages/AboutPage';
-import FamilyHubPage from './pages/FamilyHubPage';
+import FamilyHubWrapper from './pages/family-hub/FamilyHubWrapper';
 import ContactPage from './pages/ContactPage';
 import GetStartedPage from './pages/GetStartedPage';
 import TermsPage from './pages/TermsPage';
@@ -42,13 +41,9 @@ import ParentResourcesPage from './pages/ParentResourcesPage';
 import NewsletterPage from './pages/NewsletterPage';
 import SupportPage from './pages/SupportPage';
 import ImplementationGuidePage from './pages/ImplementationGuidePage';
-import CertificatePage from './pages/CertificatePage';
-import ProfilePage from './pages/ProfilePage';
 import NavigationErrorBoundary from './components/NavigationErrorBoundary';
 import { SentryErrorBoundary } from './lib/sentry';
 import { usePageTracking } from './hooks/useAnalytics';
-import OnboardingFlow from './components/onboarding/OnboardingFlow';
-import { useOnboarding } from './hooks/useOnboarding';
 
 // Component to handle hash navigation
 const HashHandler: React.FC = () => {
@@ -84,27 +79,14 @@ const PageTracker: React.FC = () => {
   return null;
 };
 
-// Component to handle onboarding inside AuthProvider context
-const OnboardingHandler: React.FC = () => {
-  const { isOpen, completeOnboarding, skipOnboarding } = useOnboarding();
-
-  return (
-    <OnboardingFlow
-      isOpen={isOpen}
-      onComplete={completeOnboarding}
-      onSkip={skipOnboarding}
-    />
-  );
-};
 
 function App() {
   return (
     <ThemeProvider>
       <ToastProvider>
         <SearchProvider>
-          <AuthProvider>
-            <FamilyProvider>
-              <ProgressProvider>
+          <FamilyProvider>
+            <ProgressProvider>
                 <Router>
                   <SentryErrorBoundary fallback={<div>Something went wrong. Please refresh the page.</div>}>
                     <NavigationErrorBoundary>
@@ -118,9 +100,7 @@ function App() {
             <Route path="/story-classic" element={<StoryPage />} />
             <Route path="/activity-book" element={<ActivityBookPage />} />
             <Route path="/about" element={<AboutPage />} />
-            <Route path="/family-hub" element={<FamilyHubPage />} />
-            <Route path="/certificates" element={<CertificatePage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/family-hub/*" element={<FamilyHubWrapper />} />
             
             {/* Age Group Pages */}
             <Route path="/privacy-explorers" element={<PrivacyExplorersPage />} />
@@ -164,12 +144,8 @@ function App() {
                     </NavigationErrorBoundary>
                   </SentryErrorBoundary>
                 </Router>
-                
-                {/* Onboarding Flow */}
-                <OnboardingHandler />
               </ProgressProvider>
             </FamilyProvider>
-          </AuthProvider>
         </SearchProvider>
       </ToastProvider>
     </ThemeProvider>

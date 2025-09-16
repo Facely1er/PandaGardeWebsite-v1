@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, User, LogOut, Settings, Search } from 'lucide-react';
+import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
-import { useAuth } from '../contexts/AuthContext';
-import AuthModal from './AuthModal';
 import SearchModal from './SearchModal';
 import OfflineIndicator from './OfflineIndicator';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [showUserMenu, setShowUserMenu] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const { isAuthenticated, user, profile, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -42,21 +37,15 @@ const Header: React.FC = () => {
         setIsMobileMenuOpen(false);
       }
       
-      // Close user menu on Escape
-      if (e.key === 'Escape' && showUserMenu) {
-        setShowUserMenu(false);
-      }
-      
       // Close modals on Escape
-      if (e.key === 'Escape' && (isAuthModalOpen || isSearchModalOpen)) {
-        setIsAuthModalOpen(false);
+      if (e.key === 'Escape' && isSearchModalOpen) {
         setIsSearchModalOpen(false);
       }
     };
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isMobileMenuOpen, showUserMenu, isAuthModalOpen, isSearchModalOpen]);
+  }, [isMobileMenuOpen, isSearchModalOpen]);
 
   const navItems = [
     { icon: Home, label: 'Home', href: '/', isExternal: false },
@@ -116,16 +105,6 @@ const Header: React.FC = () => {
     return location.pathname.startsWith(href);
   };
 
-  const handleSignOut = async () => {
-    await signOut();
-    setShowUserMenu(false);
-    navigate('/');
-  };
-
-  const handleAuthSuccess = () => {
-    setIsAuthModalOpen(false);
-    navigate('/family-hub');
-  };
 
   const handleSearchResultClick = (result: { url: string }) => {
     navigate(result.url);
@@ -299,61 +278,6 @@ const Header: React.FC = () => {
               <Users size={16} aria-hidden="true" />
               Family Hub
             </a>
-            
-            {isAuthenticated ? (
-              <div className="relative">
-                <button
-                  onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="user-icon-button"
-                  aria-label="Open user menu"
-                  aria-expanded={showUserMenu}
-                  aria-haspopup="menu"
-                  title="User account menu"
-                >
-                  <User size={20} aria-hidden="true" />
-                </button>
-                
-                {showUserMenu && (
-                  <div 
-                    className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50"
-                    role="menu"
-                    aria-label="User account menu"
-                  >
-                    <div className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
-                      {profile?.profile_data?.firstName || user?.email?.split('@')[0] || 'User'}
-                    </div>
-                    <Link
-                      to="/profile"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      onClick={() => setShowUserMenu(false)}
-                      role="menuitem"
-                      aria-label="Go to profile settings"
-                    >
-                      <Settings size={16} className="mr-3" aria-hidden="true" />
-                      Profile Settings
-                    </Link>
-                    <button
-                      onClick={handleSignOut}
-                      className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      role="menuitem"
-                      aria-label="Sign out of your account"
-                    >
-                      <LogOut size={16} className="mr-3" aria-hidden="true" />
-                      Sign Out
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <button
-                onClick={() => setIsAuthModalOpen(true)}
-                className="user-icon-button"
-                aria-label="Open account login dialog"
-                title="Sign in or create account"
-              >
-                <User size={20} aria-hidden="true" />
-              </button>
-            )}
           </div>
           
           <button
@@ -368,13 +292,6 @@ const Header: React.FC = () => {
           </button>
         </nav>
       </div>
-      
-      {/* Auth Modal */}
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        onSuccess={handleAuthSuccess}
-      />
       
       {/* Search Modal */}
       <SearchModal

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Users, BookOpen, Book, Settings, Award, TrendingUp, Clock, CheckCircle, ArrowLeft, User, Shield as Child, UserCheck, Star, Play, Download, Plus, UserPlus, LogOut } from 'lucide-react';
 import Logo from '../components/Logo';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from './family-hub/AuthWrapper';
 import { useFamily } from '../contexts/FamilyContext';
 import { useProgress } from '../contexts/ProgressContext';
 
@@ -56,7 +56,7 @@ const FamilyHubPage: React.FC = () => {
   // Redirect if not authenticated
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/');
+      navigate('/family-hub/login');
     }
   }, [isAuthenticated, navigate]);
 
@@ -111,7 +111,7 @@ const FamilyHubPage: React.FC = () => {
       icon: Award,
       action: 'certificates',
       color: 'from-purple-500 to-purple-600',
-      url: '/certificates'
+      url: '/family-hub/certificates'
     },
     {
       title: 'PrivacyPanda App',
@@ -244,14 +244,24 @@ const FamilyHubPage: React.FC = () => {
       <div className="bg-white border-b">
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between py-4">
-            <Link 
-              to="/"
-              className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
-              style={{ color: 'var(--primary-light)' }}
-            >
-              <ArrowLeft size={16} />
-              Back to Home
-            </Link>
+            <div className="flex items-center gap-4">
+              <Link 
+                to="/"
+                className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
+                style={{ color: 'var(--primary-light)' }}
+              >
+                <ArrowLeft size={16} />
+                Back to Main Site
+              </Link>
+              
+              <Link
+                to="/family-hub/profile"
+                className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 font-medium transition-colors"
+              >
+                <User size={16} />
+                Profile
+              </Link>
+            </div>
             
             <nav className="flex items-center gap-8">
               {[

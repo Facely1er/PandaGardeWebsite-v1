@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Download, Award, FileText, Star, CheckCircle } from 'lucide-react';
 import { CertificateService, CertificateData, Achievement, ACHIEVEMENTS } from '../lib/certificateService';
 import { useProgress } from '../contexts/ProgressContext';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../pages/family-hub/AuthWrapper';
 import { useFamily } from '../contexts/FamilyContext';
 
 interface CertificateGeneratorProps {

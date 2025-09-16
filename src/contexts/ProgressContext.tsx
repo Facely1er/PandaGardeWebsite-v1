@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { useAuth } from './AuthContext';
+// import { useAuth } from './AuthContext';
 import { progressService, activityService } from '../lib/database';
 
 interface ActivityProgress {
@@ -49,7 +49,9 @@ interface ProgressProviderProps {
 const STORAGE_KEY = 'pandagarde_progress';
 
 export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) => {
-  const { isAuthenticated, user } = useAuth();
+  // const { isAuthenticated, user } = useAuth();
+  const isAuthenticated = false;
+  const user = null; // Progress works without authentication
   const [progress, setProgress] = useState<UserProgress>({
     completedActivities: [],
     activityDetails: {},
