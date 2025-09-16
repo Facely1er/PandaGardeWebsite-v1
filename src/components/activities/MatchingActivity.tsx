@@ -33,16 +33,6 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
     { symbol: '🌐', meaning: 'Internet/Online' },
   ], []);
 
-  useEffect(() => {
-    initializeCards();
-  }, [initializeCards]);
-
-  useEffect(() => {
-    if (flippedCards.length === 2) {
-      checkForMatch();
-    }
-  }, [flippedCards, checkForMatch]);
-
   const initializeCards = useCallback(() => {
     const newCards: Card[] = [];
 
@@ -123,6 +113,16 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
     setFlippedCards([]);
     setMoves(prev => prev + 1);
   }, [flippedCards, cards, matches, onComplete, cardPairs.length]);
+
+  useEffect(() => {
+    initializeCards();
+  }, [initializeCards]);
+
+  useEffect(() => {
+    if (flippedCards.length === 2) {
+      checkForMatch();
+    }
+  }, [flippedCards, checkForMatch]);
 
   const getCardContent = (card: Card) => {
     if (card.isFlipped || card.isMatched) {

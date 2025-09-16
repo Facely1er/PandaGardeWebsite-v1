@@ -21,14 +21,6 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
   const [isCompleted, setIsCompleted] = useState(false);
   const [currentDot, setCurrentDot] = useState<number | null>(null);
 
-  useEffect(() => {
-    generateDots();
-  }, []);
-
-  useEffect(() => {
-    drawCanvas();
-  }, [drawCanvas]);
-
   const generateDots = () => {
     // Create a shield shape with dots
     const newDots: Dot[] = [
@@ -140,6 +132,14 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
       ctx.fillText('Privacy Panda\'s protection shield is now active!', 300, 240);
     }
   }, [dots, connectedDots, currentDot, isCompleted]);
+
+  useEffect(() => {
+    generateDots();
+  }, []);
+
+  useEffect(() => {
+    drawCanvas();
+  }, [drawCanvas]);
 
   const handleDotClick = (dotId: number) => {
     if (isCompleted) return;
