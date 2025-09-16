@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { User, Session, AuthError } from '@supabase/supabase-js';
 import { supabase, userService } from '../lib/database';
+import { setUserContext, clearUserContext, reportError } from '../lib/sentry';
+import { trackEvent, AnalyticsEvents, setUserId } from '../lib/analytics';
 
 interface UserProfile {
   id: string;
@@ -152,7 +154,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       // Create user profile
-      if (data.user) {
+      if (data?.user) {
         const userProfile = await userService.upsertUser({
           id: data.user.id,
           email: data.user.email!,
@@ -161,12 +163,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         if (userProfile) {
           setProfile(userProfile as UserProfile);
+          // Set user context in Sentry
+          setUserContext({
+            id: data.user.id,
+            email: data.user.email!,
+            name: profileData?.firstName ? `${profileData.firstName} ${profileData.lastName || ''}`.trim() : undefined
+          });
+          // Track signup event
+          trackEvent(AnalyticsEvents.USER_SIGNUP, {
+            user_id: data.user.id,
+            user_role: profileData?.role,
+            signup_method: 'email'
+          });
+          setUserId(data.user.id);
+          
+          // Set signup time for onboarding
+          localStorage.setItem('pandagarde_signup_time', Date.now().toString());
         }
       }
 
       return { error: null };
     } catch (error) {
       console.error('Sign up error:', error);
+      reportError(error as Error, { action: 'signUp', email });
       return { error: error as AuthError };
     }
   }, []);
@@ -187,13 +206,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       // Load user profile
-      if (data.user) {
+      if (data?.user) {
         await loadUserProfile(data.user.id);
+        // Set user context in Sentry
+        setUserContext({
+          id: data.user.id,
+          email: data.user.email!,
+        });
+        // Track login event
+        trackEvent(AnalyticsEvents.USER_LOGIN, {
+          user_id: data.user.id,
+          login_method: 'email'
+        });
+        setUserId(data.user.id);
       }
 
       return { error: null };
     } catch (error) {
       console.error('Sign in error:', error);
+      reportError(error as Error, { action: 'signIn', email });
       return { error: error as AuthError };
     }
   }, [loadUserProfile]);
@@ -214,6 +245,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setUser(null);
         setProfile(null);
         setSession(null);
+        // Clear user context in Sentry
+        clearUserContext();
+        // Track logout event
+        trackEvent(AnalyticsEvents.USER_LOGOUT);
       }
 
       return { error };

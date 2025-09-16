@@ -45,6 +45,10 @@ import ImplementationGuidePage from './pages/ImplementationGuidePage';
 import CertificatePage from './pages/CertificatePage';
 import ProfilePage from './pages/ProfilePage';
 import NavigationErrorBoundary from './components/NavigationErrorBoundary';
+import { SentryErrorBoundary } from './lib/sentry';
+import { usePageTracking } from './hooks/useAnalytics';
+import OnboardingFlow from './components/onboarding/OnboardingFlow';
+import { useOnboarding } from './hooks/useOnboarding';
 
 // Component to handle hash navigation
 const HashHandler: React.FC = () => {
@@ -75,6 +79,12 @@ const HashHandler: React.FC = () => {
 };
 
 function App() {
+  // Track page views automatically
+  usePageTracking();
+  
+  // Initialize onboarding
+  const { isOpen, completeOnboarding, skipOnboarding } = useOnboarding();
+
   return (
     <ThemeProvider>
       <ToastProvider>
@@ -83,11 +93,12 @@ function App() {
             <FamilyProvider>
               <ProgressProvider>
                 <Router>
-                  <NavigationErrorBoundary>
-                    <div className="App">
-                      <HashHandler />
-                      <Header />
-                      <Routes>
+                  <SentryErrorBoundary fallback={<div>Something went wrong. Please refresh the page.</div>}>
+                    <NavigationErrorBoundary>
+                      <div className="App">
+                        <HashHandler />
+                        <Header />
+                        <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/story" element={<InteractiveStoryPage />} />
             <Route path="/story-classic" element={<StoryPage />} />
@@ -133,11 +144,19 @@ function App() {
             <Route path="/guides/modeling-behavior" element={<ModelingBehaviorGuidePage />} />
             <Route path="/guides/privacy-concerns" element={<PrivacyConcernsGuidePage />} />
           </Routes>
-                      <Footer />
-                      <BackToTop />
-                    </div>
-                  </NavigationErrorBoundary>
+                        <Footer />
+                        <BackToTop />
+                      </div>
+                    </NavigationErrorBoundary>
+                  </SentryErrorBoundary>
                 </Router>
+                
+                {/* Onboarding Flow */}
+                <OnboardingFlow
+                  isOpen={isOpen}
+                  onComplete={completeOnboarding}
+                  onSkip={skipOnboarding}
+                />
               </ProgressProvider>
             </FamilyProvider>
           </AuthProvider>
