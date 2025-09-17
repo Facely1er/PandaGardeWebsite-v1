@@ -49,25 +49,24 @@ VITE_ENABLE_FAMILY_MANAGEMENT=true
 
 ## Deployment Platforms
 
-### Vercel Deployment
+### Manual Deployment
 
-1. **Connect Repository**
+1. **Build Application**
    ```bash
-   # Install Vercel CLI
-   npm i -g vercel
+   # Build the application
+   npm run build
    
-   # Deploy
-   vercel --prod
+   # Output will be in dist/ directory
    ```
 
 2. **Environment Variables Setup**
-   - Go to Vercel Dashboard → Project Settings → Environment Variables
+   - Configure environment variables on your web server
    - Add all required environment variables
-   - Ensure variables are available for Production, Preview, and Development
+   - Ensure variables are available for production environment
 
-3. **Build Configuration**
+3. **Web Server Configuration**
    ```json
-   // vercel.json
+   // web server configuration
    {
      "buildCommand": "npm run build",
      "outputDirectory": "dist",
@@ -383,7 +382,7 @@ npm run build
 
 - [Supabase Documentation](https://supabase.com/docs)
 - [Vite Environment Variables](https://vitejs.dev/guide/env-and-mode.html)
-- [Vercel Environment Variables](https://vercel.com/docs/concepts/projects/environment-variables)
+- [Environment Variables Documentation](https://docs.example.com/environment-variables)
 - [Netlify Environment Variables](https://docs.netlify.com/environment-variables/overview/)
 
 ## Checklist for Production Deployment

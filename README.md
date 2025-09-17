@@ -195,12 +195,6 @@ npm run db:types         # Generate TypeScript types
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
-1. Connect your GitHub repository to Vercel
-2. Set environment variables in Vercel dashboard
-3. Deploy automatically on push to main branch
-
-
 ### Manual Deployment
 1. Build the application: `npm run build`
 2. Upload `dist` folder to your web server

@@ -645,7 +645,7 @@ VITE_APP_VERSION=1.0.0
    - Code splitting enabled
 
 3. **Deployment Options**
-   - Vercel (recommended)
+   - Manual deployment
    - AWS S3 + CloudFront
    - Traditional web hosting
 
