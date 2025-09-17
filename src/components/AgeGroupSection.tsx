@@ -5,56 +5,62 @@ import { Shield as Child, User, UserCheck, BookOpen, Palette, Puzzle, Shield, Gl
 const ageGroups = [
   {
     id: '5-8',
-    label: 'Ages 5-8',
+    label: 'Little Explorers (5-8)',
     icon: Child,
-    description: 'Our resources for younger children focus on basic concepts through colorful activities and simple stories:',
+    description: 'Perfect for young children just starting their digital journey. Follow Po the Panda as he learns about privacy shields in simple, colorful adventures:',
     resources: [
       {
-        icon: BookOpen,
-        title: "Beginner's Privacy Activity Book",
-        description: "Colorful activities that introduce privacy concepts with fun characters and simple exercises. Features Privacy Panda guiding children through basic online safety.",
-        link: '/activity-book'
+        icon: Book,
+        title: "Privacy Panda's First Adventure",
+        description: "Join Po the Panda in the Digital Bamboo Forest as he discovers the importance of protecting his personal information. A gentle introduction to privacy concepts.",
+        link: '/story'
       },
       {
         icon: Palette,
-        title: "Privacy Panda Tales",
-        description: "Illustrated stories that teach privacy lessons through Panda's adventures in the Digital Bamboo Forest. Age-appropriate language and concepts.",
-        link: '/story'
+        title: "Coloring & Fun Activities",
+        description: "Extend the story with coloring pages, simple puzzles, and interactive games that reinforce privacy lessons through play.",
+        link: '/activity-book'
       }
     ]
   },
   {
     id: '9-12',
-    label: 'Ages 9-12',
+    label: 'Privacy Champions (9-12)',
     icon: User,
-    description: 'Our resources for older children include more advanced concepts and interactive challenges:',
+    description: 'For children ready to become privacy champions! Watch Po grow into the expert Privacy Panda and learn advanced concepts:',
     resources: [
       {
+        icon: Book,
+        title: "Privacy Panda's Growing Wisdom",
+        description: "Follow Po as he becomes the forest's Privacy Panda expert, teaching other animals about digital safety and helping them protect their information.",
+        link: '/story'
+      },
+      {
         icon: Puzzle,
-        title: "Digital Privacy Challenge",
-        description: "Interactive puzzles, quizzes and games that help tweens understand social media privacy, digital footprints, and online safety concepts.",
-        link: '/privacy-explorers'
+        title: "Advanced Privacy Challenges",
+        description: "Interactive puzzles, quizzes, and games that help children understand social media privacy, digital footprints, and online safety concepts.",
+        link: '/activity-book'
       },
       {
         icon: Shield,
         title: "Privacy Protector's Guide",
-        description: "Hands-on projects and practical guides that teach tweens how to protect personal information and navigate online spaces safely.",
+        description: "Hands-on projects and practical guides that teach children how to protect personal information and navigate online spaces safely.",
         link: '/privacy-handbook'
-      },
-      {
-        icon: Globe,
-        title: "Digital Citizenship Academy",
-        description: "Interactive modules that teach tweens about responsible online behavior, critical thinking, and evaluating digital information.",
-        link: '/digital-citizenship'
       }
     ]
   },
   {
     id: '13-17',
-    label: 'Ages 13-17',
+    label: 'Digital Citizens (13-17)',
     icon: UserCheck,
-    description: 'Advanced privacy education for teenagers focusing on real-world applications and digital rights:',
+    description: 'For teens ready to become digital citizens! Learn from Privacy Panda\'s wisdom and apply advanced privacy concepts in real-world scenarios:',
     resources: [
+      {
+        icon: Book,
+        title: "Privacy Panda's Legacy",
+        description: "Discover how Po's journey continues as he mentors new animals in the Digital Bamboo Forest, teaching advanced privacy concepts and digital citizenship.",
+        link: '/story'
+      },
       {
         icon: Smartphone,
         title: "Teen Privacy Handbook",
@@ -66,12 +72,6 @@ const ageGroups = [
         title: "Privacy Tools Workshop",
         description: "Hands-on tutorials for setting up VPNs, password managers, encrypted messaging, and other real privacy tools that teens can use.",
         link: '/privacy-tools'
-      },
-      {
-        icon: Scale,
-        title: "Digital Rights & Law",
-        description: "Understanding privacy legislation, digital rights, data protection laws, and how they affect teenagers in the digital world.",
-        link: '/digital-rights'
       }
     ]
   }
@@ -94,9 +94,9 @@ const AgeGroupSection: React.FC = () => {
     <section className="age-group-section" id="age-groups">
       <div className="container">
         <div className="section-header fade-in">
-          <span className="badge">AGE-APPROPRIATE LEARNING</span>
-          <h2><User size={32} />Age-Appropriate Learning Paths</h2>
-          <p>Tailored content and interactions designed specifically for different developmental stages.</p>
+          <span className="badge">PRIVACY PANDA'S JOURNEY</span>
+          <h2>🌟 Follow Po's Growth Through the Forest</h2>
+          <p>Watch Privacy Panda grow from a shy animal to the forest's expert teacher. Each age group experiences Po's journey differently, with content tailored to their developmental stage.</p>
         </div>
 
         <div className="age-group-tabs">
