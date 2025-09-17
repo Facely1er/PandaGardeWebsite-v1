@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { BookOpen, Shield as Child, User, UserCheck, Sparkles, Star, ArrowRight, Play, Download, Heart, Shield, Book, Users } from 'lucide-react';
+import { BookOpen, Shield as Child, User, UserCheck, Sparkles, Star, ArrowRight, Play, Download, Heart, Shield, Users } from 'lucide-react';
 import Logo from './Logo';
 
 
@@ -184,7 +184,7 @@ const HeroSection: React.FC = () => {
                   
                   <div className="story-features">
                     <div className="feature-item">
-                      <Book size={16} />
+                      <BookOpen size={16} />
                       <span>Interactive Story</span>
                     </div>
                     <div className="feature-item">
