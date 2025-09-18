@@ -34,15 +34,7 @@ npm run build
 
 ## 🌐 **Deployment Options**
 
-### **1. Vercel (Recommended)**
-- **Framework**: React + Vite
-- **Build Command**: `npm run build`
-- **Output Directory**: `dist`
-- **Environment Variables**: Configure Supabase credentials
-- **Automatic Deployment**: Deploys automatically on push to main branch
-- **Custom Domain**: Easy custom domain configuration
-
-### **2. Manual Deployment**
+### **1. Manual Deployment**
 ```bash
 # Build the application
 npm run build

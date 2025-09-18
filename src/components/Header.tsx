@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search } from 'lucide-react';
+import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search, Book, Heart } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import SearchModal from './SearchModal';
 import OfflineIndicator from './OfflineIndicator';
@@ -49,10 +49,10 @@ const Header: React.FC = () => {
 
   const navItems = [
     { icon: Home, label: 'Home', href: '/', isExternal: false },
-    { icon: BookOpen, label: 'Activity Book', href: '/activity-book', isExternal: false },
-    { icon: Users, label: 'Age Groups', href: '/age-groups', isExternal: false },
-    { icon: Calendar, label: 'Implementation', href: '/implementation', isExternal: false },
-    { icon: ChalkboardTeacher, label: 'For Parents', href: '/parent-resources', isExternal: false },
+    { icon: Book, label: 'Privacy Panda Story', href: '/story', isExternal: false },
+    { icon: BookOpen, label: 'Activities', href: '/activity-book', isExternal: false },
+    { icon: Users, label: 'Family Hub', href: '/family-hub', isExternal: false },
+    { icon: Heart, label: 'Age Groups', href: '/age-groups', isExternal: false },
     { icon: Info, label: 'About', href: '/about', isExternal: false },
   ];
 

@@ -6,6 +6,7 @@ import AgeGroupSection from '../components/AgeGroupSection';
 import TimelineSection from '../components/TimelineSection';
 import ResourcesSection from '../components/ResourcesSection';
 import CTASection from '../components/CTASection';
+import StoryTimeline from '../components/StoryTimeline';
 
 const HomePage: React.FC = () => {
   useEffect(() => {
@@ -35,6 +36,7 @@ const HomePage: React.FC = () => {
       <HeroSection />
       <StatsSection />
       <FeaturedSection />
+      <StoryTimeline />
       <AgeGroupSection />
       <TimelineSection />
       <ResourcesSection />

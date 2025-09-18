@@ -2,29 +2,31 @@ import React from 'react';
  
 import { Link, useNavigate } from 'react-router-dom';
  
-import { BookOpen, Book, ClipboardCheck as ChalkboardTeacher, ArrowRight } from 'lucide-react';
+import { BookOpen, Book, ClipboardCheck as ChalkboardTeacher, ArrowRight, Users, Heart, Shield } from 'lucide-react';
 
 const features = [
   {
-    icon: BookOpen,
-    title: 'Privacy Panda Activity Book',
-    description: 'Interactive activities and printable worksheets that teach essential privacy concepts through play. Available in both interactive and printable formats.',
-    link: '/activity-book',
-    linkText: 'Explore Activity Book'
-  },
-  {
     icon: Book,
-    title: 'The Digital Bamboo Forest',
-    description: 'Join Privacy Panda on an adventure through the Digital Bamboo Forest and learn about online safety through engaging storytelling.',
+    title: 'Privacy Panda\'s Story',
+    description: 'Follow Po the Panda\'s heartwarming journey through the Digital Bamboo Forest. Watch as the shyest animal in the forest learns about privacy shields and becomes the expert Privacy Panda.',
     link: '/story',
-    linkText: 'Read the Story'
+    linkText: 'Start the Adventure',
+    highlight: true
   },
   {
-    icon: ChalkboardTeacher,
-    title: 'Parent & Educator Resources',
-    description: 'Discussion guides, articles, and supplementary materials to support privacy education at home and school.',
-    link: '#parent-resources',
-    linkText: 'Browse Resources'
+    icon: Users,
+    title: 'Family Hub Community',
+    description: 'Join our supportive community of families learning about digital privacy together. Share experiences, track progress, and access exclusive resources.',
+    link: '/family-hub',
+    linkText: 'Join Family Hub',
+    highlight: true
+  },
+  {
+    icon: BookOpen,
+    title: 'Interactive Activities',
+    description: 'Extend the story with fun, educational activities that reinforce privacy concepts. Coloring, puzzles, and games that make learning memorable.',
+    link: '/activity-book',
+    linkText: 'Play & Learn'
   }
 ];
 
@@ -48,9 +50,9 @@ const FeaturedSection: React.FC = () => {
     <section className="featured-section" id="featured">
       <div className="container">
         <div className="section-header fade-in">
-          <span className="badge">PRIVACY EDUCATION RESOURCES</span>
-          <h2><ChalkboardTeacher size={32} />Educational Resources</h2>
-          <p>Comprehensive tools and materials to support digital privacy education for all ages.</p>
+          <span className="badge">PRIVACY PANDA'S WORLD</span>
+          <h2>🌲 Explore the Digital Bamboo Forest</h2>
+          <p>Discover Po the Panda's world through interactive storytelling, family community, and engaging activities that make privacy education fun and memorable.</p>
         </div>
 
         <div className="featured-grid">
@@ -59,8 +61,7 @@ const FeaturedSection: React.FC = () => {
  
             <div
               key={index}
- 
-              className="feature-card fade-in"
+              className={`feature-card fade-in ${feature.highlight ? 'feature-highlight' : ''}`}
               onClick={() => handleCardClick(feature.link)}
               role="button"
               tabIndex={0}
@@ -71,6 +72,12 @@ const FeaturedSection: React.FC = () => {
                 }
               }}
             >
+              {feature.highlight && (
+                <div className="highlight-badge">
+                  <Heart size={16} />
+                  <span>Featured</span>
+                </div>
+              )}
               <div className="card-image">
                 <feature.icon size={80} />
               </div>

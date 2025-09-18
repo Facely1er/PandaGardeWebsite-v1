@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Book, ArrowLeft, Heart, Star, Play, Pause, Volume2, VolumeX, RotateCcw, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Book, ArrowLeft, Heart, Star, Play, Pause, Volume2, VolumeX, RotateCcw, ChevronLeft, ChevronRight, Users, Sparkles } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { Link } from 'react-router-dom';
 import Logo from '../components/Logo';
 
 const StoryPage: React.FC = () => {
@@ -84,6 +85,24 @@ const StoryPage: React.FC = () => {
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
               Join Po the Panda on an adventure through the Digital Bamboo Forest as he learns about privacy, sharing, and staying safe online.
             </p>
+
+            {/* Interactive Story CTA */}
+            <div className="bg-white/20 backdrop-blur-md rounded-xl p-6 mb-8 max-w-2xl mx-auto">
+              <div className="flex items-center gap-3 mb-4">
+                <Sparkles size={24} className="text-yellow-300" />
+                <h3 className="text-xl font-bold">Experience the Interactive Story!</h3>
+              </div>
+              <p className="text-sm opacity-90 mb-4">
+                Choose Po's path, make decisions, and unlock achievements as you follow his journey from shy panda to Privacy Panda expert.
+              </p>
+              <Link
+                to="/story"
+                className="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-6 py-3 rounded-lg font-semibold transition-colors"
+              >
+                <Play size={20} />
+                Start Interactive Adventure
+              </Link>
+            </div>
 
             <div className="flex items-center justify-center gap-6 text-sm">
               <div className="flex items-center gap-2">
@@ -428,6 +447,52 @@ const StoryPage: React.FC = () => {
             </div>
           </div>
 
+          {/* Family Hub Integration */}
+          <div className="mt-16 bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-lg p-8" style={{
+            backgroundColor: theme === 'dark' ? 'rgba(59, 130, 246, 0.1)' : '#F0F9FF',
+            borderColor: theme === 'dark' ? 'rgba(59, 130, 246, 0.3)' : '#BFDBFE'
+          }}>
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Users size={32} className="text-blue-600" />
+              </div>
+              <h3 className="text-2xl font-bold mb-3" style={{ color: theme === 'dark' ? '#93C5FD' : '#1E40AF' }}>
+                Join Our Family Hub Community
+              </h3>
+              <p className="text-lg max-w-2xl mx-auto" style={{ color: theme === 'dark' ? '#93C5FD' : '#1E40AF' }}>
+                Connect with other families learning about digital privacy together. Share experiences, track progress, and access exclusive resources.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+                <Heart size={24} className="text-red-500 mx-auto mb-2" />
+                <h4 className="font-semibold mb-2">Community Support</h4>
+                <p className="text-sm text-gray-600">Connect with other families on the same journey</p>
+              </div>
+              <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+                <Sparkles size={24} className="text-purple-500 mx-auto mb-2" />
+                <h4 className="font-semibold mb-2">Exclusive Resources</h4>
+                <p className="text-sm text-gray-600">Access special content and activities</p>
+              </div>
+              <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+                <Star size={24} className="text-yellow-500 mx-auto mb-2" />
+                <h4 className="font-semibold mb-2">Progress Tracking</h4>
+                <p className="text-sm text-gray-600">Monitor your family's learning journey</p>
+              </div>
+            </div>
+            
+            <div className="text-center">
+              <Link
+                to="/family-hub"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center gap-2"
+              >
+                <Users size={20} />
+                Join Family Hub
+              </Link>
+            </div>
+          </div>
+
           {/* Call to Action */}
           <div className="mt-16 text-center">
             <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-8 rounded-lg">
@@ -442,6 +507,13 @@ const StoryPage: React.FC = () => {
                 >
                   <Book size={20} />
                   Activity Book
+                </Link>
+                <Link
+                  to="/story"
+                  className="bg-green-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors inline-flex items-center gap-2"
+                >
+                  <Play size={20} />
+                  Interactive Story
                 </Link>
                 <button
                   onClick={scrollToTop}
