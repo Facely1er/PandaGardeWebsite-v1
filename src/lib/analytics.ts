@@ -75,7 +75,7 @@ export const initAnalytics = () => {
     document.head.appendChild(script);
 
     window.dataLayer = window.dataLayer || [];
-    function gtag(...args: any[]) {
+    function gtag(...args: unknown[]) {
       window.dataLayer.push(args);
     }
     gtag('js', new Date());
@@ -103,7 +103,7 @@ export const trackPageView = (path: string, title?: string) => {
 };
 
 // Track custom events
-export const trackEvent = (eventName: string, parameters?: Record<string, any>) => {
+export const trackEvent = (eventName: string, parameters?: Record<string, unknown>) => {
   if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) return;
 
   ReactGA.event({
@@ -115,8 +115,8 @@ export const trackEvent = (eventName: string, parameters?: Record<string, any>) 
   });
 
   // Also send to GTM if available
-  if (typeof window !== 'undefined' && (window as any).dataLayer) {
-    (window as any).dataLayer.push({
+  if (typeof window !== 'undefined' && (window as unknown as { dataLayer?: unknown[] }).dataLayer) {
+    (window as unknown as { dataLayer: unknown[] }).dataLayer.push({
       event: eventName,
       ...parameters,
     });
@@ -124,7 +124,7 @@ export const trackEvent = (eventName: string, parameters?: Record<string, any>) 
 };
 
 // Track user actions
-export const trackUserAction = (action: string, details?: Record<string, any>) => {
+export const trackUserAction = (action: string, details?: Record<string, unknown>) => {
   trackEvent(action, {
     category: 'user_action',
     timestamp: new Date().toISOString(),
@@ -137,7 +137,7 @@ export const trackContentEngagement = (
   contentType: 'story' | 'activity' | 'resource' | 'guide',
   action: 'view' | 'start' | 'complete' | 'download',
   contentId?: string,
-  details?: Record<string, any>
+  details?: Record<string, unknown>
 ) => {
   trackEvent(`${contentType}_${action}`, {
     category: 'content_engagement',
@@ -159,7 +159,7 @@ export const trackPerformance = (metricName: string, value: number, unit: string
 };
 
 // Track errors
-export const trackError = (error: Error, context?: Record<string, any>) => {
+export const trackError = (error: Error, context?: Record<string, unknown>) => {
   trackEvent(AnalyticsEvents.ERROR_OCCURRED, {
     category: 'error',
     error_message: error.message,
@@ -169,7 +169,7 @@ export const trackError = (error: Error, context?: Record<string, any>) => {
 };
 
 // Track user properties
-export const setUserProperties = (properties: Record<string, any>) => {
+export const setUserProperties = (properties: Record<string, unknown>) => {
   if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) return;
 
   ReactGA.set(properties);
@@ -210,7 +210,7 @@ export const optOutAnalytics = () => {
   localStorage.setItem('analytics_opt_out', 'true');
   // Disable GA tracking
   if (typeof window !== 'undefined') {
-    (window as any)[`ga-disable-${import.meta.env.VITE_GOOGLE_ANALYTICS_ID}`] = true;
+    (window as unknown as Record<string, unknown>)[`ga-disable-${import.meta.env.VITE_GOOGLE_ANALYTICS_ID}`] = true;
   }
 };
 
@@ -219,6 +219,6 @@ export const optInAnalytics = () => {
   localStorage.removeItem('analytics_opt_out');
   // Re-enable GA tracking
   if (typeof window !== 'undefined') {
-    (window as any)[`ga-disable-${import.meta.env.VITE_GOOGLE_ANALYTICS_ID}`] = false;
+    (window as unknown as Record<string, unknown>)[`ga-disable-${import.meta.env.VITE_GOOGLE_ANALYTICS_ID}`] = false;
   }
 };

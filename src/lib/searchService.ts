@@ -9,7 +9,7 @@ export interface SearchContentItem {
   url: string;
   category_id: string;
   tags: string[];
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
   is_active: boolean;
   sort_order: number;
   created_at: string;
@@ -43,7 +43,7 @@ export interface SearchAnalytics {
   results_count: number;
   user_id?: string;
   session_id?: string;
-  filters_applied: Record<string, any>;
+  filters_applied: Record<string, unknown>;
   searched_at: string;
 }
 
@@ -61,7 +61,7 @@ export interface SearchResult {
   url: string;
   category: string;
   tags: string[];
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   score?: number;
 }
 

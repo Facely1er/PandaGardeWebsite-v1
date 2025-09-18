@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Book, ArrowLeft, Heart, Star, Play, Pause, Volume2, VolumeX, RotateCcw, ChevronLeft, ChevronRight, Users, Sparkles } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
+import { Book, ArrowLeft, Heart, Star, Play, Pause, Volume2, VolumeX, RotateCcw, Users, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Logo from '../components/Logo';
 
 const StoryPage: React.FC = () => {
-  const { theme } = useTheme();
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
   const [readingProgress, setReadingProgress] = useState(0);
-  const [showControls, setShowControls] = useState(false);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });

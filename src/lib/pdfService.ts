@@ -25,7 +25,7 @@ export class PDFService {
   /**
    * Generate a PDF from HTML content
    */
-  async generatePDF(htmlContent: string, filename: string): Promise<void> {
+  async generatePDF(htmlContent: string): Promise<void> {
     try {
       // Create a new window with the HTML content
       const printWindow = window.open('', '_blank');

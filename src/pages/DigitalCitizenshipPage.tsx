@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Globe, Users, Shield, Heart, Brain, CheckCircle, Star, Trophy, Clock, BookOpen, MessageCircle } from 'lucide-react';
+import { ArrowLeft, Globe, Users, Shield, Heart, Brain, CheckCircle, Star, Trophy, Clock, BookOpen } from 'lucide-react';
 import Logo from '../components/Logo';
 
 interface Module {

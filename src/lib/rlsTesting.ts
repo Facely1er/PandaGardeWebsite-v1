@@ -5,7 +5,7 @@ interface RLSTestResult {
   testName: string;
   passed: boolean;
   error?: string;
-  details?: any;
+  details?: Record<string, unknown>;
 }
 
 interface RLSTestSuite {

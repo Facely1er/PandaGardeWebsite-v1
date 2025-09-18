@@ -16,7 +16,7 @@ interface FamilyMember {
   profile_data?: {
     age?: number;
     grade?: string;
-    preferences?: any;
+    preferences?: Record<string, unknown>;
   };
 }
 
@@ -75,7 +75,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
       // Check if user is already part of a family
       checkExistingFamily();
     }
-  }, [isAuthenticated, user, profile]);
+  }, [isAuthenticated, user, profile, checkExistingFamily, loadFamilyData]);
 
   const checkExistingFamily = async () => {
     if (!user) return;

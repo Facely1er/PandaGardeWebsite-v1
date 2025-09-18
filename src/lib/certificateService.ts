@@ -1,5 +1,4 @@
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 
 export interface CertificateData {
   recipientName: string;
@@ -284,7 +283,7 @@ export class CertificateService {
     });
   }
 
-  static checkAchievements(progress: any): Achievement[] {
+  static checkAchievements(progress: { completedActivities: number; activityDetails: Record<string, { score?: number }> }): Achievement[] {
     const earnedAchievements: Achievement[] = [];
     
     for (const achievement of ACHIEVEMENTS) {
@@ -296,9 +295,9 @@ export class CertificateService {
           break;
         case 'score': {
           const avgScore = Object.values(progress.activityDetails)
-            .filter((activity: any) => activity.score !== undefined)
-            .reduce((sum: number, activity: any) => sum + activity.score, 0) / 
-            Object.values(progress.activityDetails).filter((activity: any) => activity.score !== undefined).length;
+            .filter((activity) => activity.score !== undefined)
+            .reduce((sum: number, activity) => sum + (activity.score || 0), 0) / 
+            Object.values(progress.activityDetails).filter((activity) => activity.score !== undefined).length;
           earned = avgScore >= achievement.requirements.value;
           break;
         }

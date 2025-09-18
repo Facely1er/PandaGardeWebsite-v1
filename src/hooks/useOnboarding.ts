@@ -80,7 +80,7 @@ export const useOnboarding = (): OnboardingState & OnboardingActions => {
         }
       }
     }
-  }, [user, state.isCompleted, state.isOpen]);
+  }, [user, state.isCompleted, state.isOpen, openOnboarding]);
 
   const openOnboarding = useCallback(() => {
     setState(prev => ({ ...prev, isOpen: true }));
@@ -173,7 +173,7 @@ export const useOnboarding = (): OnboardingState & OnboardingActions => {
 
 // Hook for onboarding progress tracking
 export const useOnboardingProgress = () => {
-  const trackProgress = useCallback((step: string, action: string, data?: any) => {
+  const trackProgress = useCallback((step: string, action: string, data?: Record<string, unknown>) => {
     trackEvent(AnalyticsEvents.USER_PROFILE_UPDATE, {
       onboarding_step: step,
       onboarding_action: action,
@@ -278,7 +278,7 @@ export const usePersonalizedContent = () => {
     const preferences = localStorage.getItem('pandagarde_user_preferences');
     if (!preferences) return 'Welcome to Privacy Panda!';
 
-    const { role, ageGroup } = JSON.parse(preferences);
+    const { role } = JSON.parse(preferences);
     
     if (role === 'parent') {
       return `Welcome! We've prepared content to help you teach your children about privacy and digital safety.`;

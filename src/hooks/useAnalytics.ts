@@ -23,7 +23,7 @@ export const usePageTracking = () => {
 };
 
 // Hook for user-specific analytics
-export const useUserAnalytics = (userId?: string, userProperties?: Record<string, any>) => {
+export const useUserAnalytics = (userId?: string, userProperties?: Record<string, unknown>) => {
   useEffect(() => {
     if (isAnalyticsEnabled() && userId) {
       setUserId(userId);
@@ -42,7 +42,7 @@ export const useContentTracking = () => {
   const trackStoryEngagement = useCallback((
     action: 'start' | 'complete',
     storyId?: string,
-    details?: Record<string, any>
+    details?: Record<string, unknown>
   ) => {
     trackContentEngagement('story', action, storyId, details);
   }, []);
@@ -50,7 +50,7 @@ export const useContentTracking = () => {
   const trackActivityEngagement = useCallback((
     action: 'start' | 'complete',
     activityId?: string,
-    details?: Record<string, any>
+    details?: Record<string, unknown>
   ) => {
     trackContentEngagement('activity', action, activityId, details);
   }, []);
@@ -58,7 +58,7 @@ export const useContentTracking = () => {
   const trackResourceEngagement = useCallback((
     action: 'view' | 'download',
     resourceId?: string,
-    details?: Record<string, any>
+    details?: Record<string, unknown>
   ) => {
     trackContentEngagement('resource', action, resourceId, details);
   }, []);
@@ -66,7 +66,7 @@ export const useContentTracking = () => {
   const trackGuideEngagement = useCallback((
     action: 'view',
     guideId?: string,
-    details?: Record<string, any>
+    details?: Record<string, unknown>
   ) => {
     trackContentEngagement('guide', action, guideId, details);
   }, []);
@@ -102,7 +102,7 @@ export const usePerformanceTracking = () => {
 
 // Hook for error tracking
 export const useErrorTracking = () => {
-  const trackError = useCallback((error: Error, context?: Record<string, any>) => {
+  const trackError = useCallback((error: Error, context?: Record<string, unknown>) => {
     trackError(error, context);
   }, []);
 
@@ -111,11 +111,11 @@ export const useErrorTracking = () => {
 
 // Hook for general analytics actions
 export const useAnalytics = () => {
-  const trackUserAction = useCallback((action: string, details?: Record<string, any>) => {
+  const trackUserAction = useCallback((action: string, details?: Record<string, unknown>) => {
     trackUserAction(action, details);
   }, []);
 
-  const trackCustomEvent = useCallback((eventName: string, parameters?: Record<string, any>) => {
+  const trackCustomEvent = useCallback((eventName: string, parameters?: Record<string, unknown>) => {
     trackEvent(eventName, parameters);
   }, []);
 

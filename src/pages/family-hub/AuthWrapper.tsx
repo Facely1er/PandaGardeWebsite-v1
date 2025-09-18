@@ -59,7 +59,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // Load user profile from database
-  const loadUserProfile = useCallback(async (_userId: string) => {
+  const loadUserProfile = useCallback(async () => {
     try {
       const userProfile = await userService.getCurrentUser();
       if (userProfile) {

@@ -1,19 +1,18 @@
 // Advanced Offline Manager for Privacy Panda
 import React from 'react';
-import { serviceWorkerManager } from './serviceWorker';
 
 interface OfflineData {
-  stories: any[];
-  activities: any[];
-  resources: any[];
-  userProgress: any[];
+  stories: unknown[];
+  activities: unknown[];
+  resources: unknown[];
+  userProgress: unknown[];
   lastSync: number;
 }
 
 interface SyncStatus {
   isOnline: boolean;
   lastSync: number;
-  pendingActions: any[];
+  pendingActions: unknown[];
   syncInProgress: boolean;
 }
 
@@ -111,7 +110,7 @@ class OfflineManager {
   }
 
   // Cache content for offline use
-  async cacheContent(type: 'stories' | 'activities' | 'resources', content: any[]) {
+  async cacheContent(type: 'stories' | 'activities' | 'resources', content: unknown[]) {
     this.data[type] = content;
     await this.saveOfflineData();
     
@@ -119,12 +118,12 @@ class OfflineManager {
   }
 
   // Get cached content
-  getCachedContent(type: 'stories' | 'activities' | 'resources'): any[] {
+  getCachedContent(type: 'stories' | 'activities' | 'resources'): unknown[] {
     return this.data[type] || [];
   }
 
   // Save user progress offline
-  async saveProgressOffline(progress: any) {
+  async saveProgressOffline(progress: Record<string, unknown>) {
     this.data.userProgress.push({
       ...progress,
       timestamp: Date.now(),
@@ -142,7 +141,7 @@ class OfflineManager {
   // Queue action for later sync
   async queueAction(action: {
     type: string;
-    data: any;
+    data: unknown;
     timestamp?: number;
   }) {
     const queuedAction = {
@@ -201,7 +200,7 @@ class OfflineManager {
   }
 
   // Sync individual action
-  private async syncAction(action: any) {
+  private async syncAction(action: { type: string; data: unknown }) {
     // This would integrate with your actual API
     // For now, we'll simulate API calls
     
@@ -256,8 +255,8 @@ class OfflineManager {
 
   // Check if content is available offline
   isContentAvailableOffline(type: string, id: string): boolean {
-    const cachedContent = this.getCachedContent(type as any);
-    return cachedContent.some(item => item.id === id);
+    const cachedContent = this.getCachedContent(type as 'stories' | 'activities' | 'resources');
+    return cachedContent.some((item: unknown) => (item as { id?: string }).id === id);
   }
 
   // Get offline storage usage
@@ -270,7 +269,7 @@ class OfflineManager {
       const available = 5 * 1024 * 1024 - used;
       
       return { used, available };
-    } catch (error) {
+    } catch {
       return { used: 0, available: 0 };
     }
   }
@@ -319,15 +318,15 @@ export const useOfflineStatus = () => {
 };
 
 // Utility functions
-export const cacheContentForOffline = (type: 'stories' | 'activities' | 'resources', content: any[]) => {
+export const cacheContentForOffline = (type: 'stories' | 'activities' | 'resources', content: unknown[]) => {
   return offlineManager.cacheContent(type, content);
 };
 
-export const saveProgressOffline = (progress: any) => {
+export const saveProgressOffline = (progress: Record<string, unknown>) => {
   return offlineManager.saveProgressOffline(progress);
 };
 
-export const queueActionForSync = (action: any) => {
+export const queueActionForSync = (action: { type: string; data: unknown }) => {
   return offlineManager.queueAction(action);
 };
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Book, ArrowLeft, Heart, Star, Play, Pause, Volume2, VolumeX, RotateCcw, ChevronLeft, ChevronRight, Settings } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
+import { Book, ArrowLeft, Heart, Star, Play, Pause, Volume2, VolumeX, RotateCcw } from 'lucide-react';
 import Logo from '../components/Logo';
 import InteractiveStoryPlayer from '../components/story/InteractiveStoryPlayer';
 import StoryCharacter from '../components/story/StoryCharacter';
@@ -28,11 +27,9 @@ interface StorySceneData {
 }
 
 const InteractiveStoryPage: React.FC = () => {
-  const { theme } = useTheme();
   const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-  const [showControls, setShowControls] = useState(false);
   const [points, setPoints] = useState(0);
   const [achievements, setAchievements] = useState([
     {
@@ -243,7 +240,7 @@ const InteractiveStoryPage: React.FC = () => {
     }
   };
 
-  const handleChoiceSelect = (choice: any) => {
+  const handleChoiceSelect = () => {
     setPoints(prev => prev + 10);
     
     // Check for achievements

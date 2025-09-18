@@ -4,7 +4,7 @@ import { supabase, TABLES, type Database, isSupabaseConfigured } from './supabas
 export { supabase }
 
 // Error handling wrapper
-const handleDatabaseError = (operation: string, error: any) => {
+const handleDatabaseError = (operation: string, error: unknown) => {
   console.error(`Error in ${operation}:`, error)
   if (error?.message) {
     throw new Error(`${operation} failed: ${error.message}`)
@@ -342,7 +342,7 @@ export const downloadService = {
 // Session management functions
 export const sessionService = {
   // Create user session
-  async createSession(userId: string, sessionData: any, expiresAt: Date): Promise<UserSession | null> {
+  async createSession(userId: string, sessionData: Record<string, unknown>, expiresAt: Date): Promise<UserSession | null> {
     if (!isSupabaseConfigured || !supabase) return null
     
     const { data, error } = await supabase

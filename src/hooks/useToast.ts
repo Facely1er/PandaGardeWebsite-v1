@@ -25,7 +25,7 @@ export const useToast = () => {
 
     setToasts(prev => [...prev, newToast]);
     return id;
-  }, []);
+  }, [removeToast]);
 
   const removeToast = useCallback((id: string) => {
     setToasts(prev => prev.filter(toast => toast.id !== id));

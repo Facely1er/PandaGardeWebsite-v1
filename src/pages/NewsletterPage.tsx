@@ -32,7 +32,7 @@ const NewsletterPage: React.FC = () => {
       setIsSubscribed(true);
       showSuccess('Successfully Subscribed!', 'Thank you for joining our privacy education newsletter.');
       setEmail('');
-    } catch (error) {
+    } catch {
       showError('Subscription Failed', 'There was an error subscribing. Please try again.');
     } finally {
       setIsSubscribing(false);

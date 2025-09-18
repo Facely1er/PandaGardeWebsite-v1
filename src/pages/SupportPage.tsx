@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Headphones, Mail, MessageCircle, HelpCircle, Search, Clock, CheckCircle, Star, Users, BookOpen, Shield } from 'lucide-react';
-import Logo from '../components/Logo';
+import { ArrowLeft, Headphones, Mail, MessageCircle, HelpCircle, Search, Clock, Star, Users, BookOpen, Shield } from 'lucide-react';
 
 interface FAQItem {
   id: string;
