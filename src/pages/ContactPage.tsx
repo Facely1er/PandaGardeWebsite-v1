@@ -2,7 +2,6 @@ import React from 'react';
 import { ArrowLeft, Mail, MessageCircle, HelpCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ContactForm from '../components/forms/ContactForm';
-import Logo from '../components/Logo';
 
 const ContactPage: React.FC = () => {
   return (

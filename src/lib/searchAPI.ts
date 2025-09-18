@@ -314,7 +314,7 @@ export class SearchAPI {
   }
 
   // Sort results
-  private sortResults(a: EnhancedSearchResult, b: EnhancedSearchResult, sortBy: string, query: string): number {
+  private sortResults(a: EnhancedSearchResult, b: EnhancedSearchResult, sortBy: string): number {
     switch (sortBy) {
       case 'relevance':
         return b.score - a.score;

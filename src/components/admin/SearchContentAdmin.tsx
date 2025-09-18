@@ -307,7 +307,7 @@ const SearchContentAdmin: React.FC<SearchContentAdminProps> = ({ className = '' 
                   </label>
                   <select
                     value={formData.type}
-                    onChange={(e) => setFormData(prev => ({ ...prev, type: e.target.value as any }))}
+                    onChange={(e) => setFormData(prev => ({ ...prev, type: e.target.value as 'page' | 'activity' | 'resource' | 'guide' }))}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   >
                     <option value="page">Page</option>

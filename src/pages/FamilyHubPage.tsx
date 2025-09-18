@@ -6,17 +6,6 @@ import { useAuth } from './family-hub/AuthWrapper';
 import { useFamily } from '../contexts/FamilyContext';
 import { useProgress } from '../contexts/ProgressContext';
 
-interface FamilyMember {
-  id: string;
-  name: string;
-  age: number;
-  avatar: string;
-  progress: number;
-  ageGroup: '5-8' | '9-12' | '13-17';
-  currentActivity?: string;
-  completedActivities: number;
-  totalActivities: number;
-}
 
 interface Activity {
   id: string;
@@ -41,7 +30,7 @@ const FamilyHubPage: React.FC = () => {
   const [newMemberLastName, setNewMemberLastName] = useState('');
   const [newMemberRole, setNewMemberRole] = useState<'parent' | 'child'>('child');
 
-  const { user, profile, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
   const { 
     currentFamily, 
     familyMembers, 
@@ -51,7 +40,7 @@ const FamilyHubPage: React.FC = () => {
     leaveFamily, 
     addFamilyMember 
   } = useFamily();
-  const { progress, getOverallProgress } = useProgress();
+  const { getOverallProgress } = useProgress();
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -139,7 +128,7 @@ const FamilyHubPage: React.FC = () => {
   const handleCreateFamily = async () => {
     if (!newFamilyName.trim()) {return;}
     
-    const { family, error } = await createFamily(newFamilyName);
+    const { error } = await createFamily(newFamilyName);
     if (error) {
       alert(`Error creating family: ${error}`);
     } else {
@@ -151,7 +140,7 @@ const FamilyHubPage: React.FC = () => {
   const handleJoinFamily = async () => {
     if (!joinFamilyId.trim()) {return;}
     
-    const { success, error } = await joinFamily(joinFamilyId);
+    const { error } = await joinFamily(joinFamilyId);
     if (error) {
       alert(`Error joining family: ${error}`);
     } else {
@@ -163,7 +152,7 @@ const FamilyHubPage: React.FC = () => {
   const handleAddMember = async () => {
     if (!newMemberEmail.trim() || !newMemberFirstName.trim() || !newMemberLastName.trim()) {return;}
     
-    const { success, error } = await addFamilyMember(
+    const { error } = await addFamilyMember(
       newMemberEmail,
       newMemberRole,
       newMemberFirstName,
@@ -183,7 +172,7 @@ const FamilyHubPage: React.FC = () => {
 
   const handleLeaveFamily = async () => {
     if (window.confirm('Are you sure you want to leave this family? This action cannot be undone.')) {
-      const { success, error } = await leaveFamily();
+      const { error } = await leaveFamily();
       if (error) {
         alert(`Error leaving family: ${error}`);
       }

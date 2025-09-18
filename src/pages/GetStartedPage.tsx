@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, CheckCircle, Star, Users, BookOpen, Shield, Clock, Play, Download, Award } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Star, Users, BookOpen, Shield, Clock, Play } from 'lucide-react';
 import Logo from '../components/Logo';
 
 interface Step {

@@ -63,7 +63,7 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     } finally {
       setIsSearching(false);
     }
-  }, []);
+  }, [addToRecentSearches]);
 
   const clearSearch = useCallback(() => {
     setSearchQuery('');

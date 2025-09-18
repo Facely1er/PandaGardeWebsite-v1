@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Play, Pause, Volume2, VolumeX, RotateCcw, ChevronLeft, ChevronRight, Settings } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -52,7 +52,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
       }, currentScene.duration * 1000 / readingSpeed);
       return () => clearTimeout(timer);
     }
-  }, [isPlaying, autoAdvance, currentScene.duration, readingSpeed]);
+  }, [isPlaying, autoAdvance, currentScene.duration, readingSpeed, nextScene]);
 
   // Audio playback
   useEffect(() => {
@@ -99,7 +99,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
     }
   };
 
-  const nextScene = () => {
+  const nextScene = useCallback(() => {
     if (currentSceneIndex < scenes.length - 1) {
       setCurrentSceneIndex(currentSceneIndex + 1);
       setSelectedChoice(null);
@@ -107,7 +107,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
     } else {
       onStoryComplete?.();
     }
-  };
+  }, [currentSceneIndex, scenes, onSceneChange, onStoryComplete]);
 
   const prevScene = () => {
     if (currentSceneIndex > 0) {

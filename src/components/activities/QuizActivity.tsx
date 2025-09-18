@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { RotateCcw, CheckCircle, ArrowRight, ArrowLeft, Star, Clock } from 'lucide-react';
 
 interface QuizActivityProps {
@@ -24,7 +24,7 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
   const [timeLeft, setTimeLeft] = useState(30);
   const [quizStarted, setQuizStarted] = useState(false);
 
-  const questions: Question[] = [
+  const questions: Question[] = useMemo(() => [
     {
       id: '1',
       question: 'What should you do if someone online asks for your password?',
@@ -73,7 +73,7 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
       explanation: 'If someone makes you uncomfortable online, ignore them, tell them to stop, and always tell a trusted adult like your parents or teacher.',
       difficulty: 'medium'
     }
-  ];
+  ], []);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -92,7 +92,7 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
     setSelectedAnswer(answerIndex);
   };
 
-  const handleAnswerSubmit = () => {
+  const handleAnswerSubmit = useCallback(() => {
     if (selectedAnswer === null) {return;}
     
     setShowResult(true);
@@ -147,7 +147,7 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
         onComplete(finalScore);
       }
     }, 3000);
-  };
+  }, [selectedAnswer, questions, currentQuestion, score, onComplete]);
 
   const handleNext = () => {
     if (currentQuestion < questions.length - 1) {

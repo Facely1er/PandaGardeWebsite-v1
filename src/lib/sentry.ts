@@ -74,7 +74,7 @@ export const trackPerformance = (name: string, fn: () => void) => {
 };
 
 // Custom error reporting
-export const reportError = (error: Error, context?: Record<string, any>) => {
+export const reportError = (error: Error, context?: Record<string, unknown>) => {
   Sentry.withScope((scope) => {
     if (context) {
       Object.keys(context).forEach(key => {
@@ -96,7 +96,7 @@ export const clearUserContext = () => {
 };
 
 // Track custom events
-export const trackEvent = (eventName: string, data?: Record<string, any>) => {
+export const trackEvent = (eventName: string, data?: Record<string, unknown>) => {
   Sentry.addBreadcrumb({
     message: eventName,
     data,

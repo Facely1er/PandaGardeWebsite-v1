@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Shield, Lock, Eye, AlertTriangle, CheckCircle, Star, Trophy, Clock, Users, BookOpen, Gamepad2 } from 'lucide-react';
+import { ArrowLeft, Shield, Lock, Eye, AlertTriangle, CheckCircle, Star, Trophy, Users, BookOpen, Gamepad2 } from 'lucide-react';
 import Logo from '../components/Logo';
 
 interface Challenge {
@@ -127,10 +127,6 @@ const PrivacyExplorersPage: React.FC = () => {
       case 'Hard': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
     }
-  };
-
-  const getTotalPoints = () => {
-    return challenges.reduce((total, challenge) => total + challenge.points, 0);
   };
 
   const getCompletionPercentage = () => {

@@ -1,4 +1,4 @@
-import { supabase, TABLES, isSupabaseConfigured } from './supabase';
+import { supabase, isSupabaseConfigured } from './supabase';
 import { SearchResult } from '../contexts/SearchContext';
 
 // Search content interface for database
@@ -10,7 +10,7 @@ interface SearchContent {
   url: string;
   category: string;
   tags: string[];
-  content_data?: any;
+  content_data?: Record<string, unknown>;
   is_active: boolean;
   created_at: string;
   updated_at: string;

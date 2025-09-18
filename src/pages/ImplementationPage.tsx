@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, Clock, Users, BookOpen, CheckCircle, ArrowRight } from 'lucide-react';
+import { Clock, Users, BookOpen, CheckCircle, ArrowRight } from 'lucide-react';
 
 const timelines = {
   classroom: {

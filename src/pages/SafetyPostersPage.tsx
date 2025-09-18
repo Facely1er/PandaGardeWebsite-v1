@@ -68,7 +68,7 @@ const SafetyPostersPage: React.FC = () => {
     }
   ];
 
-  const handleDownload = async (posterId: string, title: string) => {
+  const handleDownload = async (posterId: string) => {
     if (posterId === 'all-posters') {
       setIsDownloading(true);
       try {

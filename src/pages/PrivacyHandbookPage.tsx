@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Shield, Lock, Eye, AlertTriangle, CheckCircle, BookOpen, Download, Star, Users, Smartphone, Globe } from 'lucide-react';
+import { ArrowLeft, Shield, Lock, Eye, CheckCircle, BookOpen, Star, Users, Smartphone, Globe } from 'lucide-react';
 import Logo from '../components/Logo';
 
 interface Guide {

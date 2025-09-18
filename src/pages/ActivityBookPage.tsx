@@ -47,7 +47,6 @@ const ActivityBookPage: React.FC = () => {
   const [sortBy, setSortBy] = useState<'name' | 'difficulty' | 'duration'>('name');
   const [searchTerm, setSearchTerm] = useState('');
   const [showFilters, setShowFilters] = useState(false);
-  const [animatedStats, setAnimatedStats] = useState({ completed: 0, total: 0 });
   // const [showCertificates, setShowCertificates] = useState(false); // Moved to Family Hub
   const [showParentDashboard, setShowParentDashboard] = useState(false);
 

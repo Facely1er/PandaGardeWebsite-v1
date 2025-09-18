@@ -75,7 +75,7 @@ export const initAnalytics = () => {
     document.head.appendChild(script);
 
     window.dataLayer = window.dataLayer || [];
-    function gtag(...args: any[]) {
+    function gtag(...args: unknown[]) {
       window.dataLayer.push(args);
     }
     gtag('js', new Date());
@@ -115,8 +115,8 @@ export const trackEvent = (eventName: string, parameters?: Record<string, unknow
   });
 
   // Also send to GTM if available
-  if (typeof window !== 'undefined' && (window as any).dataLayer) {
-    (window as any).dataLayer.push({
+  if (typeof window !== 'undefined' && (window as unknown as { dataLayer?: unknown[] }).dataLayer) {
+    (window as unknown as { dataLayer: unknown[] }).dataLayer.push({
       event: eventName,
       ...parameters,
     });
@@ -210,7 +210,7 @@ export const optOutAnalytics = () => {
   localStorage.setItem('analytics_opt_out', 'true');
   // Disable GA tracking
   if (typeof window !== 'undefined') {
-    (window as any)[`ga-disable-${import.meta.env.VITE_GOOGLE_ANALYTICS_ID}`] = true;
+    (window as unknown as Record<string, unknown>)[`ga-disable-${import.meta.env.VITE_GOOGLE_ANALYTICS_ID}`] = true;
   }
 };
 
@@ -219,6 +219,6 @@ export const optInAnalytics = () => {
   localStorage.removeItem('analytics_opt_out');
   // Re-enable GA tracking
   if (typeof window !== 'undefined') {
-    (window as any)[`ga-disable-${import.meta.env.VITE_GOOGLE_ANALYTICS_ID}`] = false;
+    (window as unknown as Record<string, unknown>)[`ga-disable-${import.meta.env.VITE_GOOGLE_ANALYTICS_ID}`] = false;
   }
 };

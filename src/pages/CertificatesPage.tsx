@@ -62,7 +62,7 @@ const CertificatesPage: React.FC = () => {
     }
   ];
 
-  const handleDownload = async (certId: string, title: string) => {
+  const handleDownload = async (certId: string) => {
     if (certId === 'all-certificates') {
       setIsDownloading(true);
       try {

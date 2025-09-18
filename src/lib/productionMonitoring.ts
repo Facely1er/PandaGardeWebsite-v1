@@ -29,7 +29,7 @@ interface Alert {
   message: string;
   timestamp: number;
   resolved: boolean;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 
 // Production Monitoring Service
@@ -93,7 +93,7 @@ export const productionMonitoringService = {
     // Monitor memory usage
     if ('memory' in performance) {
       setInterval(() => {
-        const memory = (performance as any).memory;
+        const memory = (performance as unknown as { memory?: { usedJSHeapSize: number; jsHeapSizeLimit: number } }).memory;
         const memoryUsage = memory.usedJSHeapSize / memory.jsHeapSizeLimit;
         
         this.metrics.memoryUsage = memoryUsage;
@@ -436,7 +436,7 @@ ${criticalAlerts.length > 0 ? `
   },
 
   // Export monitoring data
-  exportData(): any {
+  exportData(): { metrics: PerformanceMetrics; alerts: Alert[]; timestamp: number; version: string } {
     return {
       metrics: this.getMetrics(),
       alerts: this.getAllAlerts(),

@@ -177,7 +177,7 @@ class ServiceWorkerManager {
   }
 
   // Send message to service worker
-  async sendMessage(message: any): Promise<any> {
+  async sendMessage(message: unknown): Promise<unknown> {
     if (!this.registration || !this.registration.active) {
       throw new Error('No active service worker');
     }
@@ -206,7 +206,7 @@ class ServiceWorkerManager {
   // Check if app is running in PWA mode
   static isPWA(): boolean {
     return window.matchMedia('(display-mode: standalone)').matches ||
-           (window.navigator as any).standalone === true;
+           (window.navigator as unknown as { standalone?: boolean }).standalone === true;
   }
 
   // Get service worker status
@@ -246,7 +246,7 @@ export const initServiceWorker = async (): Promise<void> => {
 export const clearAllCaches = () => serviceWorkerManager.clearCaches();
 export const getCacheInfo = () => serviceWorkerManager.getCacheInfo();
 export const requestBackgroundSync = (tag: string) => serviceWorkerManager.requestBackgroundSync(tag);
-export const sendMessageToSW = (message: any) => serviceWorkerManager.sendMessage(message);
+export const sendMessageToSW = (message: unknown) => serviceWorkerManager.sendMessage(message);
 
 // Export types
 export type { ServiceWorkerConfig };
