@@ -46,7 +46,7 @@ const StoryChoices: React.FC<StoryChoicesProps> = ({
   };
 
   const handleChoiceClick = (choice: Choice) => {
-    if (isDisabled) return;
+    if (isDisabled) {return;}
     
     onChoiceSelect(choice);
     setShowFeedback(true);

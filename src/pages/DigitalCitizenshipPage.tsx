@@ -199,7 +199,7 @@ const DigitalCitizenshipPage: React.FC = () => {
   };
 
   const getQuizScore = () => {
-    if (!selectedModule) return 0;
+    if (!selectedModule) {return 0;}
     let correct = 0;
     selectedModule.quiz.forEach((question, index) => {
       if (quizAnswers[index] === question.correct) {

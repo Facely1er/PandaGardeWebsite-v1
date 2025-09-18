@@ -21,23 +21,23 @@ const OfflineIndicator: React.FC<OfflineIndicatorProps> = ({ className = '' }) =
   }, [syncStatus.isOnline, syncStatus.pendingActions.length]);
 
   const getStatusColor = () => {
-    if (!syncStatus.isOnline) return 'text-red-600 bg-red-50 dark:bg-red-900/20';
-    if (syncStatus.syncInProgress) return 'text-blue-600 bg-blue-50 dark:bg-blue-900/20';
-    if (syncStatus.pendingActions.length > 0) return 'text-yellow-600 bg-yellow-50 dark:bg-yellow-900/20';
+    if (!syncStatus.isOnline) {return 'text-red-600 bg-red-50 dark:bg-red-900/20';}
+    if (syncStatus.syncInProgress) {return 'text-blue-600 bg-blue-50 dark:bg-blue-900/20';}
+    if (syncStatus.pendingActions.length > 0) {return 'text-yellow-600 bg-yellow-50 dark:bg-yellow-900/20';}
     return 'text-green-600 bg-green-50 dark:bg-green-900/20';
   };
 
   const getStatusIcon = () => {
-    if (!syncStatus.isOnline) return WifiOff;
-    if (syncStatus.syncInProgress) return RefreshCw;
-    if (syncStatus.pendingActions.length > 0) return AlertCircle;
+    if (!syncStatus.isOnline) {return WifiOff;}
+    if (syncStatus.syncInProgress) {return RefreshCw;}
+    if (syncStatus.pendingActions.length > 0) {return AlertCircle;}
     return CheckCircle;
   };
 
   const getStatusText = () => {
-    if (!syncStatus.isOnline) return 'Offline';
-    if (syncStatus.syncInProgress) return 'Syncing...';
-    if (syncStatus.pendingActions.length > 0) return `${syncStatus.pendingActions.length} pending`;
+    if (!syncStatus.isOnline) {return 'Offline';}
+    if (syncStatus.syncInProgress) {return 'Syncing...';}
+    if (syncStatus.pendingActions.length > 0) {return `${syncStatus.pendingActions.length} pending`;}
     return 'Online';
   };
 

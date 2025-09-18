@@ -94,7 +94,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onResultClic
     }
   };
 
-  if (!isOpen) return null;
+  if (!isOpen) {return null;}
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">

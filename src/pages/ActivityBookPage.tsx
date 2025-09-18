@@ -207,7 +207,7 @@ const ActivityBookPage: React.FC = () => {
           return difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty];
         }
         case 'duration': {
-          return parseInt(a.duration) - parseInt(b.duration);
+          return parseInt(a.duration, 10) - parseInt(b.duration, 10);
         }
         case 'name':
         default: {

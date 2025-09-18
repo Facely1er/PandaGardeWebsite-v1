@@ -4,10 +4,10 @@ import { supabase, TABLES, type Database, isSupabaseConfigured } from './supabas
 export { supabase }
 
 // Error handling wrapper
-const handleDatabaseError = (operation: string, error: any) => {
+const handleDatabaseError = (operation: string, error: unknown) => {
   console.error(`Error in ${operation}:`, error)
-  if (error?.message) {
-    throw new Error(`${operation} failed: ${error.message}`)
+  if (error && typeof error === 'object' && 'message' in error) {
+    throw new Error(`${operation} failed: ${(error as Error).message}`)
   }
   throw new Error(`${operation} failed: Unknown error occurred`)
 }
@@ -39,11 +39,11 @@ type UserSession = Tables['pandagarde_user_sessions']['Row']
 export const userService = {
   // Get current user
   async getCurrentUser(): Promise<User | null> {
-    if (!isSupabaseConfigured || !supabase) return null
+    if (!isSupabaseConfigured || !supabase) {return null}
     
     try {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return null
+      if (!user) {return null}
 
       const { data, error } = await supabase
         .from(TABLES.USERS)
@@ -65,7 +65,7 @@ export const userService = {
 
   // Create or update user profile
   async upsertUser(userData: Partial<User>): Promise<User | null> {
-    if (!isSupabaseConfigured || !supabase) return null
+    if (!isSupabaseConfigured || !supabase) {return null}
     
     try {
       const { data, error } = await supabase
@@ -88,7 +88,7 @@ export const userService = {
 
   // Update user profile
   async updateUser(id: string, updates: Partial<User>): Promise<User | null> {
-    if (!isSupabaseConfigured || !supabase) return null
+    if (!isSupabaseConfigured || !supabase) {return null}
     
     const { data, error } = await supabase
       .from(TABLES.USERS)
@@ -110,7 +110,7 @@ export const userService = {
 export const activityService = {
   // Get user activities
   async getUserActivities(userId: string): Promise<Activity[]> {
-    if (!isSupabaseConfigured || !supabase) return []
+    if (!isSupabaseConfigured || !supabase) {return []}
     
     const { data, error } = await supabase
       .from(TABLES.ACTIVITIES)
@@ -128,7 +128,7 @@ export const activityService = {
 
   // Create new activity
   async createActivity(activityData: Omit<Activity, 'id' | 'created_at'>): Promise<Activity | null> {
-    if (!isSupabaseConfigured || !supabase) return null
+    if (!isSupabaseConfigured || !supabase) {return null}
     
     const { data, error } = await supabase
       .from(TABLES.ACTIVITIES)
@@ -146,7 +146,7 @@ export const activityService = {
 
   // Update activity
   async updateActivity(id: string, updates: Partial<Activity>): Promise<Activity | null> {
-    if (!isSupabaseConfigured || !supabase) return null
+    if (!isSupabaseConfigured || !supabase) {return null}
     
     const { data, error } = await supabase
       .from(TABLES.ACTIVITIES)
@@ -165,7 +165,7 @@ export const activityService = {
 
   // Mark activity as completed
   async completeActivity(id: string): Promise<Activity | null> {
-    if (!isSupabaseConfigured || !supabase) return null
+    if (!isSupabaseConfigured || !supabase) {return null}
     return this.updateActivity(id, { completed_at: new Date().toISOString() })
   }
 }
@@ -174,7 +174,7 @@ export const activityService = {
 export const progressService = {
   // Get user progress
   async getUserProgress(userId: string): Promise<Progress[]> {
-    if (!isSupabaseConfigured || !supabase) return []
+    if (!isSupabaseConfigured || !supabase) {return []}
     
     const { data, error } = await supabase
       .from(TABLES.PROGRESS)
@@ -192,7 +192,7 @@ export const progressService = {
 
   // Save progress
   async saveProgress(progressData: Omit<Progress, 'id' | 'created_at' | 'updated_at'>): Promise<Progress | null> {
-    if (!isSupabaseConfigured || !supabase) return null
+    if (!isSupabaseConfigured || !supabase) {return null}
     
     const { data, error } = await supabase
       .from(TABLES.PROGRESS)
@@ -236,7 +236,7 @@ export const contactService = {
 
   // Get contact submissions (admin only)
   async getContactSubmissions(): Promise<ContactSubmission[]> {
-    if (!isSupabaseConfigured || !supabase) return []
+    if (!isSupabaseConfigured || !supabase) {return []}
     
     const { data, error } = await supabase
       .from(TABLES.CONTACT_SUBMISSIONS)
@@ -323,7 +323,7 @@ export const downloadService = {
 
   // Get download statistics (admin only)
   async getDownloadStats(): Promise<DownloadTracking[]> {
-    if (!isSupabaseConfigured || !supabase) return []
+    if (!isSupabaseConfigured || !supabase) {return []}
     
     const { data, error } = await supabase
       .from(TABLES.DOWNLOAD_TRACKING)
@@ -342,8 +342,8 @@ export const downloadService = {
 // Session management functions
 export const sessionService = {
   // Create user session
-  async createSession(userId: string, sessionData: any, expiresAt: Date): Promise<UserSession | null> {
-    if (!isSupabaseConfigured || !supabase) return null
+  async createSession(userId: string, sessionData: Record<string, unknown>, expiresAt: Date): Promise<UserSession | null> {
+    if (!isSupabaseConfigured || !supabase) {return null}
     
     const { data, error } = await supabase
       .from(TABLES.USER_SESSIONS)
@@ -365,7 +365,7 @@ export const sessionService = {
 
   // Get user sessions
   async getUserSessions(userId: string): Promise<UserSession[]> {
-    if (!isSupabaseConfigured || !supabase) return []
+    if (!isSupabaseConfigured || !supabase) {return []}
     
     const { data, error } = await supabase
       .from(TABLES.USER_SESSIONS)
@@ -384,7 +384,7 @@ export const sessionService = {
 
   // Clean up expired sessions
   async cleanupExpiredSessions(): Promise<boolean> {
-    if (!isSupabaseConfigured || !supabase) return true
+    if (!isSupabaseConfigured || !supabase) {return true}
     
     const { error } = await supabase
       .from(TABLES.USER_SESSIONS)

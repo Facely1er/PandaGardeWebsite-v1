@@ -238,7 +238,7 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ isOpen, onComplete, onS
     onSkip();
   };
 
-  if (!isOpen) return null;
+  if (!isOpen) {return null;}
 
   const currentStepData = steps[currentStep];
   const IconComponent = currentStepData.icon;

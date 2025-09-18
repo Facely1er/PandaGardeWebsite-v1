@@ -45,10 +45,10 @@ class ServiceWorkerManager {
 
   // Handle service worker updates
   private handleUpdate() {
-    if (!this.registration) return;
+    if (!this.registration) {return;}
 
     const newWorker = this.registration.installing;
-    if (!newWorker) return;
+    if (!newWorker) {return;}
 
     newWorker.addEventListener('statechange', () => {
       if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
@@ -71,7 +71,7 @@ class ServiceWorkerManager {
 
   // Update service worker
   private async updateServiceWorker() {
-    if (!this.registration) return;
+    if (!this.registration) {return;}
 
     try {
       const newWorker = this.registration.waiting;
@@ -99,7 +99,7 @@ class ServiceWorkerManager {
 
   // Check for service worker updates
   private async checkForUpdates() {
-    if (!this.registration) return;
+    if (!this.registration) {return;}
 
     try {
       await this.registration.update();
@@ -110,7 +110,7 @@ class ServiceWorkerManager {
 
   // Unregister service worker
   async unregister(): Promise<boolean> {
-    if (!this.registration) return false;
+    if (!this.registration) {return false;}
 
     try {
       const result = await this.registration.unregister();
@@ -166,7 +166,7 @@ class ServiceWorkerManager {
 
   // Request background sync
   async requestBackgroundSync(tag: string): Promise<void> {
-    if (!this.registration) return;
+    if (!this.registration) {return;}
 
     try {
       await this.registration.sync.register(tag);

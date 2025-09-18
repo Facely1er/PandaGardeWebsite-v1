@@ -87,7 +87,7 @@ export const initAnalytics = () => {
 
 // Track page views
 export const trackPageView = (path: string, title?: string) => {
-  if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) return;
+  if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) {return;}
 
   ReactGA.send({
     hitType: 'pageview',
@@ -103,8 +103,8 @@ export const trackPageView = (path: string, title?: string) => {
 };
 
 // Track custom events
-export const trackEvent = (eventName: string, parameters?: Record<string, any>) => {
-  if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) return;
+export const trackEvent = (eventName: string, parameters?: Record<string, unknown>) => {
+  if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) {return;}
 
   ReactGA.event({
     action: eventName,
@@ -124,7 +124,7 @@ export const trackEvent = (eventName: string, parameters?: Record<string, any>) 
 };
 
 // Track user actions
-export const trackUserAction = (action: string, details?: Record<string, any>) => {
+export const trackUserAction = (action: string, details?: Record<string, unknown>) => {
   trackEvent(action, {
     category: 'user_action',
     timestamp: new Date().toISOString(),
@@ -137,7 +137,7 @@ export const trackContentEngagement = (
   contentType: 'story' | 'activity' | 'resource' | 'guide',
   action: 'view' | 'start' | 'complete' | 'download',
   contentId?: string,
-  details?: Record<string, any>
+  details?: Record<string, unknown>
 ) => {
   trackEvent(`${contentType}_${action}`, {
     category: 'content_engagement',
@@ -159,7 +159,7 @@ export const trackPerformance = (metricName: string, value: number, unit: string
 };
 
 // Track errors
-export const trackError = (error: Error, context?: Record<string, any>) => {
+export const trackError = (error: Error, context?: Record<string, unknown>) => {
   trackEvent(AnalyticsEvents.ERROR_OCCURRED, {
     category: 'error',
     error_message: error.message,
@@ -169,15 +169,15 @@ export const trackError = (error: Error, context?: Record<string, any>) => {
 };
 
 // Track user properties
-export const setUserProperties = (properties: Record<string, any>) => {
-  if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) return;
+export const setUserProperties = (properties: Record<string, unknown>) => {
+  if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) {return;}
 
   ReactGA.set(properties);
 };
 
 // Track user ID
 export const setUserId = (userId: string) => {
-  if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) return;
+  if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) {return;}
 
   ReactGA.set({ user_id: userId });
 };

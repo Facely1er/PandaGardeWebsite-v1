@@ -88,12 +88,12 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
   }, [timeLeft, quizStarted, showResult, isCompleted, handleAnswerSubmit]);
 
   const handleAnswerSelect = (answerIndex: number) => {
-    if (showResult) return;
+    if (showResult) {return;}
     setSelectedAnswer(answerIndex);
   };
 
   const handleAnswerSubmit = () => {
-    if (selectedAnswer === null) return;
+    if (selectedAnswer === null) {return;}
     
     setShowResult(true);
     
@@ -195,9 +195,9 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
 
   const getScoreMessage = () => {
     const percentage = (score / questions.length) * 100;
-    if (percentage >= 80) return 'Privacy Expert! 🌟';
-    if (percentage >= 60) return 'Great Job! 👍';
-    if (percentage >= 40) return 'Good Try! 💪';
+    if (percentage >= 80) {return 'Privacy Expert! 🌟';}
+    if (percentage >= 60) {return 'Great Job! 👍';}
+    if (percentage >= 40) {return 'Good Try! 💪';}
     return 'Keep Learning! 📚';
   };
 

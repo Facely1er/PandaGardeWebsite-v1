@@ -33,7 +33,7 @@ const StoryProgress: React.FC<StoryProgressProps> = ({
   const [recentAchievement, setRecentAchievement] = useState<string | null>(null);
 
   const progress = (currentScene / totalScenes) * 100;
-  const chapterProgress = totalChapters ? ((currentChapter ? parseInt(currentChapter) : 1) / totalChapters) * 100 : 0;
+  const chapterProgress = totalChapters ? ((currentChapter ? parseInt(currentChapter, 10) : 1) / totalChapters) * 100 : 0;
 
   useEffect(() => {
     // Check for newly unlocked achievements

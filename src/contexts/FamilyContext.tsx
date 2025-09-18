@@ -16,7 +16,7 @@ interface FamilyMember {
   profile_data?: {
     age?: number;
     grade?: string;
-    preferences?: any;
+    preferences?: Record<string, unknown>;
   };
 }
 
@@ -78,7 +78,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
   }, [isAuthenticated, user, profile]);
 
   const checkExistingFamily = async () => {
-    if (!user) return;
+    if (!user) {return;}
 
     try {
       const { data, error } = await supabase

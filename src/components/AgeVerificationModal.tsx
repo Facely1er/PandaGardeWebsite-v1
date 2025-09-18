@@ -36,7 +36,7 @@ const AgeVerificationModal: React.FC = () => {
     setError('');
   };
 
-  if (!showAgeModal) return null;
+  if (!showAgeModal) {return null;}
 
   return (
     <div className="age-verification-overlay">

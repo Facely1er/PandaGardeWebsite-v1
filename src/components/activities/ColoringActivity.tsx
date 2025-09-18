@@ -168,10 +168,10 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) {return;}
 
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) {return;}
 
     // Set canvas size
     canvas.width = 600;
@@ -183,7 +183,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
 
   const getEventPos = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
-    if (!canvas) return { x: 0, y: 0 };
+    if (!canvas) {return { x: 0, y: 0 };}
 
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.width;
@@ -213,7 +213,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
   };
 
   const draw = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
-    if (!isDrawing) return;
+    if (!isDrawing) {return;}
     e.preventDefault();
     const pos = getEventPos(e);
     drawAt(pos.x, pos.y);
@@ -221,10 +221,10 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
 
   const drawAt = (x: number, y: number) => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) {return;}
 
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) {return;}
 
     ctx.globalCompositeOperation = 'source-over';
     ctx.strokeStyle = selectedColor;
@@ -263,10 +263,10 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
 
   const clearCanvas = () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) {return;}
 
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) {return;}
 
     drawColoringPage(ctx);
     setIsCompleted(false);
@@ -274,7 +274,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
 
   const downloadImage = () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) {return;}
 
     const link = document.createElement('a');
     link.download = 'privacy-panda-coloring.png';
@@ -285,10 +285,10 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
   const checkCompletion = () => {
     // Enhanced completion check - if user has drawn significantly
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) {return;}
 
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) {return;}
 
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const data = imageData.data;

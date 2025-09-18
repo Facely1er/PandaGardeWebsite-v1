@@ -74,7 +74,7 @@ const ProgressExport: React.FC<ProgressExportProps> = ({ onClose }) => {
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file) return;
+    if (!file) {return;}
 
     const reader = new FileReader();
     reader.onload = (e) => {

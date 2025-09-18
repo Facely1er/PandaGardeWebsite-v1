@@ -78,12 +78,12 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
 
   const downloadImage = () => {
     const container = gridRef.current;
-    if (!container) return;
+    if (!container) {return;}
 
     // Create a canvas to capture the word search
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) {return;}
 
     // Set canvas size
     canvas.width = 600;
@@ -190,7 +190,7 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
   };
 
   const handleCellClick = (row: number, col: number) => {
-    if (isCompleted) return;
+    if (isCompleted) {return;}
 
     if (selectedCells.length === 0) {
       setSelectedCells([{ row, col }]);
@@ -204,12 +204,12 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
   };
 
   const checkWord = (selected: { row: number; col: number }[]) => {
-    if (selected.length < 3) return;
+    if (selected.length < 3) {return;}
 
     // Get the word from selected cells
     const word = selected
       .sort((a, b) => {
-        if (a.row !== b.row) return a.row - b.row;
+        if (a.row !== b.row) {return a.row - b.row;}
         return a.col - b.col;
       })
       .map(cell => grid[cell.row][cell.col])
@@ -249,8 +249,8 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
     );
 
     let className = 'word-search-cell';
-    if (isSelected) className += ' selected';
-    if (isInFoundWord) className += ' found';
+    if (isSelected) {className += ' selected';}
+    if (isInFoundWord) {className += ' found';}
 
     return className;
   };

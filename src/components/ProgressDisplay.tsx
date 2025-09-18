@@ -22,22 +22,22 @@ const ProgressDisplay: React.FC<ProgressDisplayProps> = ({
   const percentage = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
   
   const getProgressMessage = () => {
-    if (percentage === 100) return 'Privacy Champion! 🏆';
-    if (percentage >= 75) return 'Almost there! 🌟';
-    if (percentage >= 50) return 'Great progress! 👍';
-    if (percentage >= 25) return 'Keep going! 💪';
+    if (percentage === 100) {return 'Privacy Champion! 🏆';}
+    if (percentage >= 75) {return 'Almost there! 🌟';}
+    if (percentage >= 50) {return 'Great progress! 👍';}
+    if (percentage >= 25) {return 'Keep going! 💪';}
     return 'Let\'s get started! 🚀';
   };
 
   const getProgressColor = () => {
-    if (percentage >= 80) return '#4CAF50';
-    if (percentage >= 60) return '#FF9800';
-    if (percentage >= 40) return '#2196F3';
+    if (percentage >= 80) {return '#4CAF50';}
+    if (percentage >= 60) {return '#FF9800';}
+    if (percentage >= 40) {return '#2196F3';}
     return '#9E9E9E';
   };
 
   const formatTime = (minutes: number) => {
-    if (minutes < 60) return `${minutes}m`;
+    if (minutes < 60) {return `${minutes}m`;}
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
     return `${hours}h ${remainingMinutes}m`;

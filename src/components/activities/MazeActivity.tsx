@@ -28,8 +28,8 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
     for (let y = 1; y < mazeSize.height - 1; y += 2) {
       for (let x = 1; x < mazeSize.width - 1; x += 2) {
         newMaze[y][x] = 0; // Create paths
-        if (x + 1 < mazeSize.width - 1) newMaze[y][x + 1] = 0;
-        if (y + 1 < mazeSize.height - 1) newMaze[y + 1][x] = 0;
+        if (x + 1 < mazeSize.width - 1) {newMaze[y][x + 1] = 0;}
+        if (y + 1 < mazeSize.height - 1) {newMaze[y + 1][x] = 0;}
       }
     }
 
@@ -51,10 +51,10 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
 
   const drawMaze = useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) {return;}
 
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) {return;}
 
     const cellSize = 30;
     canvas.width = mazeSize.width * cellSize;
@@ -118,12 +118,12 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
   }, [generateMaze]);
 
   useEffect(() => {
-    if (maze.length === 0) return;
+    if (maze.length === 0) {return;}
     drawMaze();
   }, [maze, playerPos, drawMaze]);
 
   const movePlayer = useCallback((direction: 'up' | 'down' | 'left' | 'right') => {
-    if (isCompleted) return;
+    if (isCompleted) {return;}
 
     let newX = playerPos.x;
     let newY = playerPos.y;
@@ -173,7 +173,7 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
 
   const downloadImage = () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) {return;}
 
     const link = document.createElement('a');
     link.download = 'privacy-maze-game.png';

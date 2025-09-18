@@ -115,8 +115,8 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   // Generate optimized image URL with parameters
   const generateOptimizedSrc = (baseSrc: string, targetWidth?: number, targetFormat?: string) => {
     const url = new URL(baseSrc, window.location.origin);
-    if (targetWidth) url.searchParams.set('w', targetWidth.toString());
-    if (targetFormat) url.searchParams.set('f', targetFormat);
+    if (targetWidth) {url.searchParams.set('w', targetWidth.toString());}
+    if (targetFormat) {url.searchParams.set('f', targetFormat);}
     url.searchParams.set('q', quality.toString());
     return url.toString();
   };
@@ -199,10 +199,10 @@ export const generateImageUrl = (
   const { width, height, quality = 80, format = 'webp' } = options;
   const url = new URL(src, window.location.origin);
   
-  if (width) url.searchParams.set('w', width.toString());
-  if (height) url.searchParams.set('h', height.toString());
-  if (quality) url.searchParams.set('q', quality.toString());
-  if (format) url.searchParams.set('f', format);
+  if (width) {url.searchParams.set('w', width.toString());}
+  if (height) {url.searchParams.set('h', height.toString());}
+  if (quality) {url.searchParams.set('q', quality.toString());}
+  if (format) {url.searchParams.set('f', format);}
   
   return url.toString();
 };
