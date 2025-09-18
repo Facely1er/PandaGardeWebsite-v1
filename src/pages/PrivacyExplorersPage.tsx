@@ -89,7 +89,7 @@ const PrivacyExplorersPage: React.FC = () => {
     const savedCompleted = localStorage.getItem('privacy_explorers_completed');
 
     if (savedPoints) {
-      setUserPoints(parseInt(savedPoints));
+      setUserPoints(parseInt(savedPoints, 10));
     }
     if (savedCompleted) {
       setCompletedChallenges(JSON.parse(savedCompleted));

@@ -113,7 +113,7 @@ const Header: React.FC = () => {
 
   // Handle keyboard navigation in mobile menu
   const handleMobileMenuKeyDown = (e: React.KeyboardEvent) => {
-    if (!isMobileMenuOpen) return;
+    if (!isMobileMenuOpen) {return;}
     
     const menuItems = Array.from(document.querySelectorAll('.nav-menu .nav-link')) as HTMLElement[];
     const currentIndex = menuItems.findIndex(item => item === document.activeElement);

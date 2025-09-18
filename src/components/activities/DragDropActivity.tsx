@@ -55,7 +55,7 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
 
   const getEventPos = (e: React.MouseEvent | React.TouchEvent) => {
     const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return { x: 0, y: 0 };
+    if (!rect) {return { x: 0, y: 0 };}
 
     if ('touches' in e) {
       // Touch event
@@ -79,10 +79,10 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
   };
 
   const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!draggedItem) return;
+    if (!draggedItem) {return;}
 
     const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return;
+    if (!rect) {return;}
 
     const { x, y } = getEventPos(e);
 
@@ -94,7 +94,7 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
   };
 
   const handleEnd = () => {
-    if (!draggedItem) return;
+    if (!draggedItem) {return;}
 
     setItems(prev => prev.map(item =>
       item.id === draggedItem.id
@@ -213,12 +213,12 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
 
   const downloadImage = () => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container) {return;}
 
     // Create a canvas to capture the activity
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) {return;}
 
     // Set canvas size
     canvas.width = 600;

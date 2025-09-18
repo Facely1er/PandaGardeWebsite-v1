@@ -41,7 +41,6 @@ import AppSelectionGuidePage from './pages/AppSelectionGuidePage';
 import ModelingBehaviorGuidePage from './pages/ModelingBehaviorGuidePage';
 import PrivacyConcernsGuidePage from './pages/PrivacyConcernsGuidePage';
 import EducatorToolsPage from './pages/EducatorToolsPage';
-import ParentResourcesPage from './pages/ParentResourcesPage';
 import NewsletterPage from './pages/NewsletterPage';
 import SupportPage from './pages/SupportPage';
 import ImplementationGuidePage from './pages/ImplementationGuidePage';

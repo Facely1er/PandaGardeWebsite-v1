@@ -37,7 +37,7 @@ const LoginPage: React.FC = () => {
       if (mode === 'signin') {
         const { error } = await signIn(formData.email, formData.password);
         if (error) {
-          showToast('Sign in failed: ' + error.message, 'error');
+          showToast(`Sign in failed: ${  error.message}`, 'error');
         } else {
           showToast('Welcome back!', 'success');
           navigate('/family-hub');
@@ -55,7 +55,7 @@ const LoginPage: React.FC = () => {
         });
         
         if (error) {
-          showToast('Sign up failed: ' + error.message, 'error');
+          showToast(`Sign up failed: ${  error.message}`, 'error');
         } else {
           showToast('Account created successfully!', 'success');
           navigate('/family-hub');

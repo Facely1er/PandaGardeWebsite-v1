@@ -21,7 +21,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
 }) => {
   const [mode, setMode] = useState<AuthMode>(initialMode);
 
-  if (!isOpen) return null;
+  if (!isOpen) {return null;}
 
   const handleSuccess = () => {
     onSuccess?.();

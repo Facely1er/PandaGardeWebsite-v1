@@ -76,7 +76,7 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
   }, []);
 
   const addToRecentSearches = useCallback((query: string) => {
-    if (!query.trim()) return;
+    if (!query.trim()) {return;}
     
     const recent = getRecentSearches();
     const updated = [query, ...recent.filter((item: string) => item !== query)].slice(0, 10);
