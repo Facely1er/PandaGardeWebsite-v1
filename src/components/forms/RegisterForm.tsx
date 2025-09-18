@@ -113,7 +113,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
         showToast('Account created successfully! Please check your email to verify your account.', 'success');
         onSuccess?.();
       }
-    } catch (error) {
+    } catch {
       setErrors({ general: 'An unexpected error occurred. Please try again.' });
     } finally {
       setLoading(false);

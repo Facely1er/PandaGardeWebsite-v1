@@ -1,8 +1,8 @@
 import React from 'react';
  
-import { Link, useNavigate } from 'react-router-dom';
- 
-import { BookOpen, Book, ClipboardCheck as ChalkboardTeacher, ArrowRight, Users, Heart, Shield } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
+import { BookOpen, Book, ArrowRight, Users, Heart } from 'lucide-react';
 
 const features = [
   {

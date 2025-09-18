@@ -3,10 +3,8 @@ import { useLocation } from 'react-router-dom';
 import { 
   trackPageView, 
   trackEvent, 
-  trackUserAction, 
   trackContentEngagement,
   trackPerformance,
-  trackError,
   setUserId,
   setUserProperties,
   AnalyticsEvents,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
 
 interface Choice {
@@ -96,7 +96,7 @@ const StoryChoices: React.FC<StoryChoicesProps> = ({
       </div>
 
       <div className="choices-grid">
-        {choices.map((choice, index) => (
+        {choices.map((choice) => (
           <div
             key={choice.id}
             className={`choice-card ${selectedChoice === choice.id ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}`}

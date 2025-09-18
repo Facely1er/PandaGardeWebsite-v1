@@ -76,7 +76,7 @@ const StoryTimeline: React.FC = () => {
             {/* Timeline line */}
             <div className="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-green-500 to-blue-500 rounded-full"></div>
             
-            {timelineEvents.map((event, index) => {
+            {timelineEvents.map((event) => {
               const IconComponent = event.icon;
               return (
                 <div key={event.id} className="relative flex items-start mb-12 last:mb-0">

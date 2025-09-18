@@ -37,6 +37,7 @@ const StoryScene: React.FC<StorySceneProps> = ({
     }, 300);
 
     return () => {
+      clearTimeout(timer);
       onSceneExit?.();
     };
   }, [sceneId, onSceneEnter, onSceneExit]);

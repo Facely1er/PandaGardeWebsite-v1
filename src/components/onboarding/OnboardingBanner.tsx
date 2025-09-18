@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, ArrowRight, X, Users, BookOpen, Target } from 'lucide-react';
+import { Star, ArrowRight, Users, BookOpen, Target } from 'lucide-react';
 import { useOnboarding, usePersonalizedContent } from '../../hooks/useOnboarding';
 
 interface OnboardingBannerProps {
@@ -7,13 +7,12 @@ interface OnboardingBannerProps {
 }
 
 const OnboardingBanner: React.FC<OnboardingBannerProps> = ({ onStartOnboarding }) => {
-  const { isCompleted, userPreferences } = useOnboarding();
-  const { getWelcomeMessage, getRecommendations } = usePersonalizedContent();
+  const { isCompleted } = useOnboarding();
+  const { getWelcomeMessage } = usePersonalizedContent();
 
   // Don't show banner if onboarding is completed
   if (isCompleted) return null;
 
-  const recommendations = getRecommendations();
   const welcomeMessage = getWelcomeMessage();
 
   return (

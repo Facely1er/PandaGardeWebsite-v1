@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { BookOpen, Book, ClipboardCheck as ChalkboardTeacher, School, Shield as Child, User, UserCheck, Gamepad2, Mail, HelpCircle, Newspaper, Headphones, Facebook, Twitter, Instagram, Youtube, Linkedin } from 'lucide-react';
+import { Shield as Child, User, UserCheck, Mail, HelpCircle, Newspaper, Headphones, Facebook, Twitter, Instagram, Youtube, Linkedin, Users, Shield, Wrench } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const navigate = useNavigate();

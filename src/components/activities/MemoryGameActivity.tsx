@@ -167,7 +167,7 @@ const MemoryGameActivity: React.FC<MemoryGameActivityProps> = ({ onComplete, onC
 
     setFlippedCards([]);
     setMoves(prev => prev + 1);
-  }, [flippedCards, cards, matches, onComplete, cardPairs.length]);
+  }, [flippedCards, cards, matches, onComplete, cardPairs.length, moves]);
 
   useEffect(() => {
     if (flippedCards.length === 2) {

@@ -24,7 +24,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister }) 
     setIsLoading(true);
 
     try {
-      const { data, error } = await authService.signIn(formData.email, formData.password);
+      const { error } = await authService.signIn(formData.email, formData.password);
       
       if (error) {
         showError('Login Failed', error.message);
@@ -33,7 +33,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister }) 
 
       showSuccess('Welcome Back!', 'You have successfully logged in.');
       onSuccess();
-    } catch (error) {
+    } catch {
       showError('Login Error', 'An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
