@@ -2998,3 +2998,803 @@ body {
     justify-content: center;
   }
 }
+
+/* New Page Styles */
+
+/* Hero Simple */
+.hero-simple {
+  padding: 80px 0;
+  background: linear-gradient(135deg, var(--light) 0%, var(--white) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-simple .hero-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-simple .hero-text {
+  z-index: 2;
+}
+
+.hero-simple .hero-description {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--gray-700);
+  margin: 24px 0 32px;
+}
+
+.hero-simple .hero-buttons {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.hero-simple .hero-stats {
+  display: flex;
+  gap: 32px;
+}
+
+.hero-simple .stat-item {
+  text-align: center;
+}
+
+.hero-simple .stat-number {
+  display: block;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1;
+}
+
+.hero-simple .stat-label {
+  display: block;
+  font-size: 14px;
+  color: var(--gray-600);
+  margin-top: 4px;
+}
+
+/* Quick Actions */
+.quick-actions {
+  padding: 80px 0;
+  background: var(--white);
+}
+
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.quick-action-card {
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--border-radius-lg);
+  padding: 32px;
+  text-align: center;
+  transition: var(--transition);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.quick-action-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.quick-action-card .action-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+
+.quick-action-card .action-content h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 12px;
+}
+
+.quick-action-card .action-content p {
+  color: var(--gray-600);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary);
+  color: var(--white);
+  padding: 12px 24px;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.action-button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+/* Age Groups Simple */
+.age-groups-simple {
+  padding: 80px 0;
+  background: var(--gray-50);
+}
+
+.age-groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.age-group-card {
+  background: var(--white);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  text-decoration: none;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.age-group-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-xl);
+}
+
+.age-group-card .group-header {
+  padding: 32px 24px;
+  text-align: center;
+  color: var(--white);
+}
+
+.age-group-card .group-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.age-group-card .group-header h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.age-group-card .group-content {
+  padding: 24px;
+  text-align: center;
+}
+
+.age-group-card .group-content p {
+  color: var(--gray-600);
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.group-arrow {
+  color: var(--primary);
+  transition: var(--transition);
+}
+
+.age-group-card:hover .group-arrow {
+  transform: translateX(4px);
+}
+
+/* Key Features */
+.key-features {
+  padding: 80px 0;
+  background: var(--white);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.feature-card {
+  text-align: center;
+  padding: 32px 24px;
+}
+
+.feature-card .feature-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+
+.feature-card h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 16px;
+}
+
+.feature-card p {
+  color: var(--gray-600);
+  line-height: 1.6;
+}
+
+/* Learn More */
+.learn-more {
+  padding: 80px 0;
+  background: var(--gray-50);
+}
+
+.learn-more-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.learn-more-card {
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--border-radius-lg);
+  padding: 32px;
+  text-decoration: none;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.learn-more-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.learn-more-card .card-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.learn-more-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 12px;
+}
+
+.learn-more-card p {
+  color: var(--gray-600);
+  margin-bottom: 24px;
+  flex-grow: 1;
+}
+
+.card-arrow {
+  color: var(--primary);
+  transition: var(--transition);
+}
+
+.learn-more-card:hover .card-arrow {
+  transform: translateX(4px);
+}
+
+/* Overview Page Styles */
+.curriculum-section,
+.products-section {
+  padding: 80px 0;
+}
+
+.curriculum-section {
+  background: var(--white);
+}
+
+.products-section {
+  background: var(--gray-50);
+}
+
+.curriculum-grid,
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.curriculum-card,
+.product-card {
+  background: var(--white);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.curriculum-card:hover,
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.curriculum-card .card-header,
+.product-card .card-header {
+  padding: 32px 24px;
+  color: var(--white);
+  text-align: center;
+}
+
+.curriculum-card .card-icon,
+.product-card .card-icon {
+  margin-bottom: 16px;
+}
+
+.curriculum-card h3,
+.product-card h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.curriculum-card .card-content,
+.product-card .card-content {
+  padding: 32px 24px;
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.check-icon {
+  color: var(--success);
+  flex-shrink: 0;
+}
+
+.product-description {
+  color: var(--gray-600);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.product-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary);
+  color: var(--white);
+  padding: 12px 24px;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.product-cta:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.features-highlight {
+  padding: 80px 0;
+  background: var(--white);
+}
+
+/* Resources Page Styles */
+.resources-section {
+  padding: 80px 0;
+  background: var(--white);
+}
+
+.resources-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.resource-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: var(--gray-100);
+  border: 2px solid transparent;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 600;
+  color: var(--gray-700);
+}
+
+.resource-tab:hover {
+  background: var(--gray-200);
+}
+
+.resource-tab.active {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+.resource-content {
+  display: none;
+}
+
+.resource-content.active {
+  display: block;
+}
+
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  margin-top: 32px;
+}
+
+.resource-card {
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--border-radius-lg);
+  padding: 24px;
+  transition: var(--transition);
+}
+
+.resource-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.resource-card h4 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 12px;
+}
+
+.resource-card p {
+  color: var(--gray-600);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.discussion-guide {
+  background: var(--gray-50);
+  border-radius: var(--border-radius-lg);
+  padding: 32px;
+  margin-bottom: 32px;
+}
+
+.discussion-guide h4 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 16px;
+}
+
+.discussion-guide p {
+  color: var(--gray-600);
+  margin-bottom: 16px;
+}
+
+.discussion-guide ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.discussion-guide li {
+  margin-bottom: 12px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.discussion-guide li::before {
+  content: "•";
+  color: var(--primary);
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+/* Quick Start Page Styles */
+.quick-actions,
+.age-paths,
+.parent-steps,
+.success-tips {
+  padding: 80px 0;
+}
+
+.quick-actions,
+.parent-steps {
+  background: var(--white);
+}
+
+.age-paths,
+.success-tips {
+  background: var(--gray-50);
+}
+
+.age-paths-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.age-path-card {
+  background: var(--white);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  text-decoration: none;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.age-path-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-xl);
+}
+
+.age-path-card .path-header {
+  padding: 32px 24px;
+  text-align: center;
+  color: var(--white);
+}
+
+.age-path-card .path-icon {
+  margin-bottom: 16px;
+}
+
+.age-path-card .path-header h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.age-path-card .path-content {
+  padding: 24px;
+}
+
+.path-description {
+  color: var(--gray-600);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.path-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+}
+
+.path-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--gray-700);
+}
+
+.path-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary);
+  color: var(--white);
+  padding: 12px 24px;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  font-weight: 600;
+  transition: var(--transition);
+  width: 100%;
+  justify-content: center;
+}
+
+.path-button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.parent-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.parent-step-card {
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--border-radius-lg);
+  padding: 32px 24px;
+  text-align: center;
+  transition: var(--transition);
+  position: relative;
+}
+
+.parent-step-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.step-number {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  background: var(--primary);
+  color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.step-content {
+  margin-top: 20px;
+}
+
+.step-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  color: var(--primary);
+}
+
+.step-content h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 12px;
+}
+
+.step-content p {
+  color: var(--gray-600);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.step-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.step-link:hover {
+  color: var(--primary-dark);
+}
+
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.tip-card {
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--border-radius-lg);
+  padding: 32px 24px;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.tip-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.tip-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+
+.tip-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 12px;
+}
+
+.tip-card p {
+  color: var(--gray-600);
+  line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-simple .hero-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+  
+  .hero-simple .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .hero-simple .hero-stats {
+    justify-content: center;
+  }
+  
+  .quick-actions-grid,
+  .age-groups-grid,
+  .features-grid,
+  .learn-more-grid,
+  .curriculum-grid,
+  .products-grid,
+  .resource-grid,
+  .age-paths-grid,
+  .parent-steps-grid,
+  .tips-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .resources-tabs {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .resource-tab {
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+  }
+}
