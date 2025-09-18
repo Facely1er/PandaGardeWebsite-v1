@@ -45,7 +45,7 @@ const ProfilePage: React.FC = () => {
         firstName: formData.firstName,
         lastName: formData.lastName,
         role: formData.role,
-        age: formData.age ? parseInt(formData.age) : undefined,
+        age: formData.age ? parseInt(formData.age, 10) : undefined,
         bio: formData.bio
       };
 

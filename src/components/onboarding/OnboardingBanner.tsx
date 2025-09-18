@@ -11,7 +11,7 @@ const OnboardingBanner: React.FC<OnboardingBannerProps> = ({ onStartOnboarding }
   const { getWelcomeMessage } = usePersonalizedContent();
 
   // Don't show banner if onboarding is completed
-  if (isCompleted) return null;
+  if (isCompleted) {return null;}
 
   const welcomeMessage = getWelcomeMessage();
 

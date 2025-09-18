@@ -84,7 +84,7 @@ class FuzzyMatcher {
 // Text highlighting utility
 class TextHighlighter {
   static highlight(text: string, query: string): string {
-    if (!query.trim()) return text;
+    if (!query.trim()) {return text;}
     
     const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
     return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">$1</mark>');
@@ -147,7 +147,7 @@ class SearchIndex {
     const words = this.tokenize(query);
     const docSets = words.map(word => this.index.get(word) || new Set());
     
-    if (docSets.length === 0) return [];
+    if (docSets.length === 0) {return [];}
     
     // Intersection of all word sets
     let result = docSets[0];
@@ -296,7 +296,7 @@ export class SearchAPI {
 
   // Apply filters to results
   private applyFilters(result: EnhancedSearchResult, filters?: SearchQuery['filters']): boolean {
-    if (!filters) return true;
+    if (!filters) {return true;}
 
     if (filters.type && !filters.type.includes(result.type)) {
       return false;
@@ -347,7 +347,7 @@ export class SearchAPI {
 
   // Get search suggestions
   getSuggestions(query: string, limit: number = 5): string[] {
-    if (!query.trim()) return [];
+    if (!query.trim()) {return [];}
 
     const allDocs = this.index.getAllDocuments();
     const suggestions = new Set<string>();

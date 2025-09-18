@@ -74,7 +74,7 @@ export const useOnboarding = (): OnboardingState & OnboardingActions => {
       // Check if user just signed up (within last 5 minutes)
       const signupTime = localStorage.getItem('pandagarde_signup_time');
       if (signupTime) {
-        const timeDiff = Date.now() - parseInt(signupTime);
+        const timeDiff = Date.now() - parseInt(signupTime, 10);
         if (timeDiff < 5 * 60 * 1000) { // 5 minutes
           openOnboarding();
         }
@@ -196,7 +196,7 @@ export const useOnboardingProgress = () => {
 export const usePersonalizedContent = () => {
   const getRecommendations = useCallback(() => {
     const preferences = localStorage.getItem('pandagarde_user_preferences');
-    if (!preferences) return [];
+    if (!preferences) {return [];}
 
     const { role, ageGroup, goals } = JSON.parse(preferences);
     const recommendations = [];
@@ -276,7 +276,7 @@ export const usePersonalizedContent = () => {
 
   const getWelcomeMessage = useCallback(() => {
     const preferences = localStorage.getItem('pandagarde_user_preferences');
-    if (!preferences) return 'Welcome to Privacy Panda!';
+    if (!preferences) {return 'Welcome to Privacy Panda!';}
 
     const { role } = JSON.parse(preferences);
     

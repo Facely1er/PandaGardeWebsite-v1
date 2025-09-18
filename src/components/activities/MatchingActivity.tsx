@@ -71,7 +71,7 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
     // Create a canvas to capture the matching game
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) {return;}
 
     // Set canvas size
     canvas.width = 600;
@@ -228,10 +228,10 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
 
   const getCardClassName = (card: Card) => {
     let className = 'matching-card';
-    if (card.isFlipped || card.isMatched) className += ' flipped';
-    if (card.isMatched) className += ' matched';
-    if (card.type === 'symbol') className += ' symbol-card';
-    if (card.type === 'meaning') className += ' meaning-card';
+    if (card.isFlipped || card.isMatched) {className += ' flipped';}
+    if (card.isMatched) {className += ' matched';}
+    if (card.type === 'symbol') {className += ' symbol-card';}
+    if (card.type === 'meaning') {className += ' meaning-card';}
     return className;
   };
 

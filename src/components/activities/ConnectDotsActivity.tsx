@@ -53,10 +53,10 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
 
   const drawCanvas = useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) {return;}
 
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) {return;}
 
     canvas.width = 600;
     canvas.height = 500;
@@ -146,10 +146,10 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
   }, [drawCanvas]);
 
   const handleDotClick = (dotId: number) => {
-    if (isCompleted) return;
+    if (isCompleted) {return;}
 
     const dot = dots.find(d => d.id === dotId);
-    if (!dot) return;
+    if (!dot) {return;}
 
     setMoves(prev => prev + 1);
 
@@ -186,7 +186,7 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
 
   const downloadImage = () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) {return;}
 
     const link = document.createElement('a');
     link.download = 'privacy-shield-connect-dots.png';
@@ -214,10 +214,10 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
             ref={canvasRef}
             className="connect-dots-canvas"
             onClick={(e) => {
-              if (isCompleted) return;
+              if (isCompleted) {return;}
 
               const rect = canvasRef.current?.getBoundingClientRect();
-              if (!rect) return;
+              if (!rect) {return;}
 
               const x = e.clientX - rect.left;
               const y = e.clientY - rect.top;

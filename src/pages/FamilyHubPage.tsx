@@ -126,7 +126,7 @@ const FamilyHubPage: React.FC = () => {
   };
 
   const handleCreateFamily = async () => {
-    if (!newFamilyName.trim()) return;
+    if (!newFamilyName.trim()) {return;}
     
     const { error } = await createFamily(newFamilyName);
     if (error) {
@@ -138,7 +138,7 @@ const FamilyHubPage: React.FC = () => {
   };
 
   const handleJoinFamily = async () => {
-    if (!joinFamilyId.trim()) return;
+    if (!joinFamilyId.trim()) {return;}
     
     const { error } = await joinFamily(joinFamilyId);
     if (error) {
@@ -150,7 +150,7 @@ const FamilyHubPage: React.FC = () => {
   };
 
   const handleAddMember = async () => {
-    if (!newMemberEmail.trim() || !newMemberFirstName.trim() || !newMemberLastName.trim()) return;
+    if (!newMemberEmail.trim() || !newMemberFirstName.trim() || !newMemberLastName.trim()) {return;}
     
     const { error } = await addFamilyMember(
       newMemberEmail,

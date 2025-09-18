@@ -81,7 +81,7 @@ class SearchService {
   }
 
   private async loadSearchContent(): Promise<void> {
-    if (!supabase) return;
+    if (!supabase) {return;}
 
     const { data, error } = await supabase
       .from(TABLES.SEARCH_CONTENT)
@@ -98,7 +98,7 @@ class SearchService {
   }
 
   private async loadCategories(): Promise<void> {
-    if (!supabase) return;
+    if (!supabase) {return;}
 
     const { data, error } = await supabase
       .from(TABLES.SEARCH_CATEGORIES)
@@ -115,7 +115,7 @@ class SearchService {
   }
 
   private async loadSuggestions(): Promise<void> {
-    if (!supabase) return;
+    if (!supabase) {return;}
 
     const { data, error } = await supabase
       .from(TABLES.SEARCH_SUGGESTIONS)
@@ -132,7 +132,7 @@ class SearchService {
   }
 
   async search(query: string, filters?: SearchFilters): Promise<SearchResult[]> {
-    if (!query.trim()) return [];
+    if (!query.trim()) {return [];}
 
     const normalizedQuery = query.toLowerCase().trim();
     const results: SearchResult[] = [];
@@ -197,7 +197,7 @@ class SearchService {
   }
 
   async getSuggestions(query: string): Promise<string[]> {
-    if (!query.trim()) return [];
+    if (!query.trim()) {return [];}
 
     const normalizedQuery = query.toLowerCase();
     const suggestions: string[] = [];
@@ -232,7 +232,7 @@ class SearchService {
   }
 
   async addSearchContent(content: Omit<SearchContentItem, 'id' | 'created_at' | 'updated_at'>): Promise<SearchContentItem | null> {
-    if (!supabase) return null;
+    if (!supabase) {return null;}
 
     const { data, error } = await supabase
       .from(TABLES.SEARCH_CONTENT)
@@ -251,7 +251,7 @@ class SearchService {
   }
 
   async updateSearchContent(id: string, updates: Partial<SearchContentItem>): Promise<SearchContentItem | null> {
-    if (!supabase) return null;
+    if (!supabase) {return null;}
 
     const { data, error } = await supabase
       .from(TABLES.SEARCH_CONTENT)
@@ -271,7 +271,7 @@ class SearchService {
   }
 
   async deleteSearchContent(id: string): Promise<boolean> {
-    if (!supabase) return false;
+    if (!supabase) {return false;}
 
     const { error } = await supabase
       .from(TABLES.SEARCH_CONTENT)
@@ -289,7 +289,7 @@ class SearchService {
   }
 
   private async trackSearchAnalytics(query: string, resultsCount: number, filters?: SearchFilters): Promise<void> {
-    if (!supabase) return;
+    if (!supabase) {return;}
 
     try {
       const { data: { user } } = await supabase.auth.getUser();

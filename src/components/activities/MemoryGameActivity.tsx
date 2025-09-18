@@ -184,10 +184,10 @@ const MemoryGameActivity: React.FC<MemoryGameActivityProps> = ({ onComplete, onC
 
   const getCardClassName = (card: Card) => {
     let className = 'memory-card';
-    if (card.isFlipped || card.isMatched) className += ' flipped';
-    if (card.isMatched) className += ' matched';
-    if (card.content.length === 1) className += ' symbol-card';
-    if (card.content.length > 1) className += ' meaning-card';
+    if (card.isFlipped || card.isMatched) {className += ' flipped';}
+    if (card.isMatched) {className += ' matched';}
+    if (card.content.length === 1) {className += ' symbol-card';}
+    if (card.content.length > 1) {className += ' meaning-card';}
     return className;
   };
 

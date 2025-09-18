@@ -55,22 +55,56 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          supabase: ['@supabase/supabase-js'],
-          icons: ['lucide-react'],
-          activities: [
-            './src/components/activities/ColoringActivity',
-            './src/components/activities/DragDropActivity',
-            './src/components/activities/MazeActivity',
-            './src/components/activities/WordSearchActivity',
-            './src/components/activities/ConnectDotsActivity',
-            './src/components/activities/MatchingActivity'
-          ]
+        manualChunks: (id) => {
+          // Vendor chunks
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'react-vendor';
+            }
+            if (id.includes('react-router')) {
+              return 'router-vendor';
+            }
+            if (id.includes('@supabase')) {
+              return 'supabase-vendor';
+            }
+            if (id.includes('lucide-react')) {
+              return 'icons-vendor';
+            }
+            if (id.includes('html2canvas') || id.includes('jspdf')) {
+              return 'pdf-vendor';
+            }
+            if (id.includes('@sentry')) {
+              return 'monitoring-vendor';
+            }
+            // Other vendor libraries
+            return 'vendor';
+          }
+          
+          // Activity components chunk
+          if (id.includes('/src/components/activities/')) {
+            return 'activities';
+          }
+          
+          // Page components chunk
+          if (id.includes('/src/pages/')) {
+            return 'pages';
+          }
+          
+          // Context and hooks chunk
+          if (id.includes('/src/contexts/') || id.includes('/src/hooks/')) {
+            return 'state-management';
+          }
+          
+          // Library utilities chunk
+          if (id.includes('/src/lib/')) {
+            return 'utilities';
+          }
         }
       }
     },
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 1000,
+    target: 'esnext',
+    minify: 'esbuild',
+    sourcemap: true
   }
 });
