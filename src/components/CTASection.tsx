@@ -1,27 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Book, Users, Heart } from 'lucide-react';
+import { Rocket, UserPlus } from 'lucide-react';
 
 const CTASection: React.FC = () => {
   return (
     <section className="cta-section">
       <div className="container">
         <div className="fade-in">
-          <h2>🌲 Join Privacy Panda in the Digital Bamboo Forest</h2>
-          <p>Follow Po the Panda's heartwarming journey from a shy animal to the forest's expert Privacy Panda. Learn about digital safety through storytelling, interactive activities, and family community.</p>
+          <h2>Ready to Protect Your Family?</h2>
+          <p>Join thousands of families who are already building essential digital privacy skills. Start your family's privacy education journey today with our comprehensive, age-appropriate curriculum and tools.</p>
           <div className="cta-buttons">
-            <Link to="/story" className="btn-primary">
-              <Book size={20} />
-              Start Privacy Panda's Story
+            <a href="https://www.hub.pandagarde.com" className="button primary" target="_blank" rel="noopener noreferrer">
+              <Rocket size={20} />
+              Launch Family Hub
+            </a>
+            <Link to="/privacy-panda" className="button secondary">
+              <UserPlus size={20} />
+              Try PrivacyPanda
             </Link>
-            <Link to="/family-hub" className="btn-secondary">
-              <Users size={20} />
-              Join Family Hub
-            </Link>
-          </div>
-          <div className="story-highlight">
-            <Heart size={16} />
-            <span>Free for families • No registration required to start the story</span>
           </div>
         </div>
       </div>

@@ -35,18 +35,17 @@ const Footer: React.FC = () => {
     { icon: Linkedin, href: '#', label: 'LinkedIn' }
   ];
 
-  const resourceLinks = [
-    { icon: BookOpen, href: '/activity-book', label: 'Activity Book' },
-    { icon: Book, href: '/story', label: 'Privacy Panda Story' },
-    { icon: ChalkboardTeacher, href: '/#parent-resources', label: 'Parent Guides' },
-    { icon: School, href: '/educator-tools', label: 'Educator Tools' }
+  const productLinks = [
+    { icon: Users, href: '/family-hub', label: 'Family Hub' },
+    { icon: Shield, href: '/privacy-panda', label: 'PrivacyPanda' },
+    { icon: Wrench, href: '/parent-toolkit', label: 'Parent Toolkit' }
   ];
 
-  const ageGroupLinks = [
-    { icon: Child, href: '/#age-groups', label: 'Ages 5-8 Resources' },
-    { icon: User, href: '/#age-groups', label: 'Ages 9-12 Resources' },
-    { icon: UserCheck, href: '/teen-handbook', label: 'Teen Handbook' },
-    { icon: Gamepad2, href: '/privacy-explorers', label: 'Privacy Explorers' }
+  const curriculumLinks = [
+    { icon: Child, href: '/#curriculum', label: 'Ages 5-8' },
+    { icon: User, href: '/#curriculum', label: 'Ages 9-12' },
+    { icon: UserCheck, href: '/#curriculum', label: 'Ages 13-17' },
+    { icon: Users, href: '/#curriculum', label: 'Parents' }
   ];
 
   const connectLinks = [
@@ -82,9 +81,23 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="footer-column">
-            <h4>Resources</h4>
+            <h4>Products</h4>
             <ul>
-              {resourceLinks.map((link, index) => (
+              {productLinks.map((link, index) => (
+                <li key={index}>
+                  <Link to={link.href}>
+                    <link.icon size={16} />
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="footer-column">
+            <h4>Curriculum</h4>
+            <ul>
+              {curriculumLinks.map((link, index) => (
                 <li key={index}>
                   {link.href.startsWith('#') ? (
                     <a
@@ -109,34 +122,7 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="footer-column">
-            <h4>Age Groups</h4>
-            <ul>
-              {ageGroupLinks.map((link, index) => (
-                <li key={index}>
-                  {link.href.startsWith('#') ? (
-                    <a
-                      href={link.href}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        scrollToSection(link.href);
-                      }}
-                    >
-                      <link.icon size={16} />
-                      {link.label}
-                    </a>
-                  ) : (
-                    <Link to={link.href}>
-                      <link.icon size={16} />
-                      {link.label}
-                    </Link>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="footer-column">
-            <h4>Connect</h4>
+            <h4>Support</h4>
             <ul>
               {connectLinks.map((link, index) => (
                 <li key={index}>

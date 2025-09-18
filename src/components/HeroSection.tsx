@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { BookOpen, Shield as Child, User, UserCheck, Sparkles, Star, ArrowRight, Play, Download, Heart, Shield, Users } from 'lucide-react';
+import { BookOpen, Shield as Child, User, UserCheck, Sparkles, Star, ArrowRight, Play, Download, Heart } from 'lucide-react';
 import Logo from './Logo';
 
 
@@ -85,134 +85,120 @@ const HeroSection: React.FC = () => {
       <div className="container">
         <div className="hero-content">
           <div className="hero-text slide-in-left">
-            <h1>Meet <span className="highlight rainbow-text sparkle">Privacy Panda</span></h1>
-            <p className="hero-subtitle">Join Po the Panda on an adventure through the Digital Bamboo Forest, where he learns about protecting personal information and staying safe online. A heartwarming story that teaches children ages 5-12 about digital privacy through engaging storytelling.</p>
+            <span className="badge">DIGITAL PRIVACY EDUCATION</span>
+            <h1>Protecting Families in the <span className="highlight rainbow-text sparkle">Digital Age</span></h1>
+            <p>Comprehensive digital privacy education platform designed specifically for families with children ages 5-17. Our interactive curriculum combines engaging activities, age-appropriate content, and practical tools to help families navigate the digital world safely and confidently. From basic privacy concepts for young children to advanced digital citizenship skills for teens, PandaGarde provides everything families need to build essential privacy skills for tomorrow's world.</p>
 
-            {/* Story-focused action buttons */}
+            {/* Enhanced action buttons with hover effects */}
             <div className="hero-buttons">
               <Link
-                to="/story"
-                className="btn-primary bounce-hover"
-                onMouseEnter={() => setIsHovered('story')}
-                onMouseLeave={() => setIsHovered(null)}
-                style={{ 
-                  background: 'linear-gradient(135deg, #10b981, #059669)',
-                  border: 'none',
-                  color: 'white',
-                  fontSize: '1.1rem',
-                  padding: '1rem 2rem'
-                }}
-              >
-                <Play size={20} />
-                Start Privacy Panda's Story
-                <Heart size={16} className={`btn-icon ${isHovered === 'story' ? 'btn-icon-active' : ''}`} />
-              </Link>
-              <Link
                 to="/family-hub"
-                className="btn-primary wiggle-hover"
+                className="button primary bounce-hover"
                 onMouseEnter={() => setIsHovered('hub')}
                 onMouseLeave={() => setIsHovered(null)}
-                style={{ 
-                  background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
-                  border: 'none',
-                  color: 'white',
-                  fontSize: '1rem',
-                  padding: '0.8rem 1.5rem'
-                }}
               >
-                <Users size={20} />
-                Join Family Hub
+                <BookOpen size={20} />
+                Launch Family Hub
                 <ArrowRight size={16} className={`btn-icon ${isHovered === 'hub' ? 'btn-icon-active' : ''}`} />
+              </Link>
+              <Link
+                to="/privacy-panda"
+                className="button secondary wiggle-hover"
+                onMouseEnter={() => setIsHovered('panda')}
+                onMouseLeave={() => setIsHovered(null)}
+              >
+                <Play size={20} />
+                Try PrivacyPanda
+                <Heart size={16} className={`btn-icon ${isHovered === 'panda' ? 'btn-icon-active' : ''}`} />
               </Link>
             </div>
 
-            {/* Story highlights */}
+            {/* Quick stats */}
             <div className="hero-stats">
               <div className="stat-item">
-                <span className="stat-number">🐼</span>
-                <span className="stat-label">Privacy Panda</span>
+                <span className="stat-number">3</span>
+                <span className="stat-label">Age Groups</span>
               </div>
               <div className="stat-item">
-                <span className="stat-number">🌲</span>
-                <span className="stat-label">Digital Bamboo Forest</span>
+                <span className="stat-number">50+</span>
+                <span className="stat-label">Activities</span>
               </div>
               <div className="stat-item">
-                <span className="stat-number">🛡️</span>
-                <span className="stat-label">Privacy Shield</span>
+                <span className="stat-number">100%</span>
+                <span className="stat-label">Free</span>
               </div>
             </div>
 
             <div className="age-group-selector">
-              <h3>Join Privacy Panda's Adventure: 🌟</h3>
+              <h3>Choose your age group: 🎯</h3>
               <div className="age-group-buttons">
                 <AgeGroupButton
                   ageGroup="5-8"
-                  label="Little Explorers (5-8)"
+                  label="Ages 5-8"
                   icon={<Child size={20} />}
-                  route="/story"
+                  route="/activity-book"
                 />
                 <AgeGroupButton
                   ageGroup="9-12"
-                  label="Privacy Champions (9-12)"
+                  label="Ages 9-12"
                   icon={<User size={20} />}
-                  route="/story"
+                  route="/privacy-explorers"
                 />
                 <AgeGroupButton
                   ageGroup="13-17"
-                  label="Digital Citizens (13-17)"
+                  label="Ages 13-17"
                   icon={<UserCheck size={20} />}
-                  route="/story"
+                  route="/teen-handbook"
                 />
               </div>
             </div>
           </div>
 
           <div className="hero-visual slide-in-right">
-            <div className="story-preview-card">
-              <div className="card-content">
-                <div className="story-character">
-                  <div className="panda-avatar">🐼</div>
-                  <div className="character-info">
-                    <h4>Meet Po the Panda</h4>
-                    <p>The shyest animal in the Digital Bamboo Forest</p>
-                  </div>
+            <div className="family-hub-banner">
+              <div className="banner-content">
+                <div className="banner-logo">
+                  <img 
+                    src="/LogoPandagarde.png" 
+                    alt="PandaGarde Logo" 
+                    style={{ 
+                      width: '100%', 
+                      height: 'auto', 
+                      maxWidth: '200px',
+                      objectFit: 'contain'
+                    }} 
+                  />
                 </div>
+                <h3>Join Our Family Hub</h3>
+                <p>Connect with other families, share experiences, and access exclusive resources for digital safety education.</p>
                 
-                <div className="story-teaser">
-                  <h3>🌲 The Digital Bamboo Forest</h3>
-                  <p>Follow Po's journey as he learns about privacy shields, protecting personal information, and becoming the forest's Privacy Panda expert.</p>
-                  
-                  <div className="story-features">
-                    <div className="feature-item">
-                      <BookOpen size={16} />
-                      <span>Interactive Story</span>
-                    </div>
-                    <div className="feature-item">
-                      <Shield size={16} />
-                      <span>Privacy Lessons</span>
-                    </div>
-                    <div className="feature-item">
-                      <Heart size={16} />
-                      <span>Family Friendly</span>
-                    </div>
+                <div className="banner-features">
+                  <div className="feature-item">
+                    <Heart size={16} />
+                    <span>Community Support</span>
+                  </div>
+                  <div className="feature-item">
+                    <Sparkles size={16} />
+                    <span>Exclusive Resources</span>
+                  </div>
+                  <div className="feature-item">
+                    <UserCheck size={16} />
+                    <span>Parent Guidance</span>
                   </div>
                 </div>
 
-                <div className="family-hub-cta">
-                  <h4>🏠 Join Our Family Hub</h4>
-                  <p>Connect with other families learning about digital privacy together</p>
-                  
-                  <Link 
-                    to="/family-hub"
-                    className="btn-hub"
-                    onMouseEnter={() => setIsHovered('hub')}
-                    onMouseLeave={() => setIsHovered(null)}
-                  >
-                    <Users size={16} />
-                    Start Family Journey
-                    <ArrowRight size={16} className={`btn-icon ${isHovered === 'hub' ? 'btn-icon-active' : ''}`} />
-                  </Link>
-                </div>
+                <a 
+                  href="https://www.hub.pandagarde.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="btn-hub"
+                  onMouseEnter={() => setIsHovered('hub')}
+                  onMouseLeave={() => setIsHovered(null)}
+                >
+                  <ArrowRight size={16} />
+                  Visit Family Hub
+                  <ArrowRight size={16} className={`btn-icon ${isHovered === 'hub' ? 'btn-icon-active' : ''}`} />
+                </a>
               </div>
             </div>
           </div>
