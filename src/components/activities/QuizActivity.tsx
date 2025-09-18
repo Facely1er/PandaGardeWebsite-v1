@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RotateCcw, CheckCircle, ArrowRight, ArrowLeft, Star, Clock } from 'lucide-react';
 
 interface QuizActivityProps {
@@ -85,7 +85,7 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
       handleAnswerSubmit();
     }
     return () => clearInterval(interval);
-  }, [timeLeft, quizStarted, showResult, isCompleted]);
+  }, [timeLeft, quizStarted, showResult, isCompleted, handleAnswerSubmit]);
 
   const handleAnswerSelect = (answerIndex: number) => {
     if (showResult) return;

@@ -65,7 +65,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         showToast('Welcome back!', 'success');
         onSuccess?.();
       }
-    } catch (error) {
+    } catch {
       setErrors({ general: 'An unexpected error occurred. Please try again.' });
     } finally {
       setLoading(false);

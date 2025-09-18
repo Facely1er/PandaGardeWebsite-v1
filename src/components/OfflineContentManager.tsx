@@ -87,7 +87,7 @@ const OfflineContentManager: React.FC<OfflineContentManagerProps> = ({ className
           }
         }));
         
-        await cacheContentForOffline(type as any, enhancedData);
+        await cacheContentForOffline(type as 'stories' | 'activities' | 'resources', enhancedData);
         
         // Update progress
         const progress = ((i + 1) / contentTypes.length) * 100;

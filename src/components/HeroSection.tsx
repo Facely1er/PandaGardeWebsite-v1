@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { BookOpen, Shield as Child, User, UserCheck, Sparkles, Star, ArrowRight, Play, Download, Heart } from 'lucide-react';
-import Logo from './Logo';
+import { Link } from 'react-router-dom';
+import { BookOpen, Shield as Child, User, UserCheck, Sparkles, Star, ArrowRight, Play, Heart } from 'lucide-react';
 
 
 interface AgeGroupButtonProps {
@@ -11,7 +10,7 @@ interface AgeGroupButtonProps {
   route: string;
 }
 
-const AgeGroupButton: React.FC<AgeGroupButtonProps> = ({ ageGroup, label, icon, route }) => (
+const AgeGroupButton: React.FC<AgeGroupButtonProps> = ({ label, icon, route }) => (
   <Link
     to={route}
     className="age-group-button pulse-hover"

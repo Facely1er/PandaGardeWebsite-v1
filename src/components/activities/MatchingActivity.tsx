@@ -207,7 +207,7 @@ const MatchingActivity: React.FC<MatchingActivityProps> = ({ onComplete, onClose
 
     setFlippedCards([]);
     setMoves(prev => prev + 1);
-  }, [flippedCards, cards, matches, onComplete, cardPairs.length]);
+  }, [flippedCards, cards, matches, onComplete, cardPairs.length, moves]);
 
   useEffect(() => {
     initializeCards();

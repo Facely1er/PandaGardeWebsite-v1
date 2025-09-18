@@ -294,13 +294,14 @@ export class CertificateService {
         case 'activities':
           earned = progress.completedActivities >= achievement.requirements.value;
           break;
-        case 'score':
+        case 'score': {
           const avgScore = Object.values(progress.activityDetails)
             .filter((activity: any) => activity.score !== undefined)
             .reduce((sum: number, activity: any) => sum + activity.score, 0) / 
             Object.values(progress.activityDetails).filter((activity: any) => activity.score !== undefined).length;
           earned = avgScore >= achievement.requirements.value;
           break;
+        }
         case 'time':
           earned = progress.totalTimeSpent >= achievement.requirements.value;
           break;

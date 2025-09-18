@@ -45,7 +45,6 @@ const StoryProgress: React.FC<StoryProgressProps> = ({
   }, [achievements]);
 
   const unlockedAchievements = achievements.filter(a => a.unlocked);
-  const lockedAchievements = achievements.filter(a => !a.unlocked);
 
   return (
     <div className="story-progress-container">

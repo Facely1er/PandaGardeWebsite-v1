@@ -23,10 +23,8 @@ interface ActivityManagerProps {
 const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, onComplete }) => {
   const [showInstructions, setShowInstructions] = useState(true);
   const [startTime, setStartTime] = useState<Date | null>(null);
-  const { markActivityCompleted, getActivityProgress } = useProgress();
+  const { markActivityCompleted } = useProgress();
   const { showSuccess, showError } = useToast();
-  // const { user } = useAuth();
-  const user = null; // Activities work without authentication
 
   const activityInstructions = {
     coloring: {
@@ -142,7 +140,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
       const scoreMessage = score !== undefined ? ` You scored ${score}%!` : '';
       showSuccess('Activity Completed!', `Great job! Your progress has been saved.${scoreMessage}`);
       onComplete(activityId, score);
-    } catch (err) {
+    } catch {
       showError('Error', 'Failed to save progress. Please try again.');
     }
   };

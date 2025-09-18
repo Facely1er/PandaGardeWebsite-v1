@@ -42,7 +42,7 @@ const PersonalizedDashboard: React.FC<PersonalizedDashboardProps> = ({ className
     }
   };
 
-  const handleRecommendationClick = (recommendation: any) => {
+  const handleRecommendationClick = (recommendation: { id: string; title: string; type: string }) => {
     // Navigate to the recommended content
     performSearch(recommendation.id);
   };
@@ -83,7 +83,7 @@ const PersonalizedDashboard: React.FC<PersonalizedDashboardProps> = ({ className
       </div>
 
       <div className="space-y-4">
-        {recommendations.slice(0, 6).map((recommendation, index) => {
+        {recommendations.slice(0, 6).map((recommendation) => {
           const IconComponent = getIcon(recommendation.type);
           const priorityColor = getPriorityColor(recommendation.priority);
           

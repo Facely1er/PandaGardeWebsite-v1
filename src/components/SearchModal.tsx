@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, X, Clock, ArrowRight, FileText, BookOpen, Download, Settings, Filter } from 'lucide-react';
 import { useSearch, SearchResult } from '../contexts/SearchContext';
-import { EnhancedSearchResult } from '../lib/searchAPI';
 
 interface SearchModalProps {
   isOpen: boolean;
