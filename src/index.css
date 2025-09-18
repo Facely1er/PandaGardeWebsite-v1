@@ -1337,6 +1337,40 @@ body {
   background: linear-gradient(135deg, #FFB300, var(--warning));
 }
 
+/* Light theme styles for family hub banner */
+[data-theme="light"] .family-hub-banner {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: var(--gray-800);
+}
+
+[data-theme="light"] .family-hub-banner::before {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.2) 0%, rgba(76, 175, 80, 0.2) 100%);
+}
+
+[data-theme="light"] .family-hub-banner h3 {
+  color: var(--primary-dark);
+}
+
+[data-theme="light"] .family-hub-banner p {
+  color: var(--gray-700);
+  opacity: 1;
+}
+
+[data-theme="light"] .feature-item {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--gray-700);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .feature-item:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .feature-item svg {
+  color: var(--primary);
+}
+
 /* Age Group Selector */
 .age-group-selector {
   margin-top: 40px;
@@ -2518,6 +2552,21 @@ body {
 
   .family-hub-banner p {
     font-size: 14px;
+  }
+
+  /* Light theme mobile styles for family hub banner */
+  [data-theme="light"] .family-hub-banner {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+  }
+
+  [data-theme="light"] .family-hub-banner h3 {
+    color: var(--primary-dark);
+  }
+
+  [data-theme="light"] .family-hub-banner p {
+    color: var(--gray-700);
+    opacity: 1;
   }
 
   .banner-features {
