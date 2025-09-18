@@ -3,7 +3,9 @@ import HeroSection from '../components/HeroSection';
 import StatsSection from '../components/StatsSection';
 import FeaturedSection from '../components/FeaturedSection';
 import AgeGroupSection from '../components/AgeGroupSection';
-import TimelineSection from '../components/TimelineSection';
+import FeaturesSection from '../components/FeaturesSection';
+import CurriculumSection from '../components/CurriculumSection';
+import ProductsSection from '../components/ProductsSection';
 import ResourcesSection from '../components/ResourcesSection';
 import CTASection from '../components/CTASection';
 
@@ -36,7 +38,9 @@ const HomePage: React.FC = () => {
       <StatsSection />
       <FeaturedSection />
       <AgeGroupSection />
-      <TimelineSection />
+      <FeaturesSection />
+      <CurriculumSection />
+      <ProductsSection />
       <ResourcesSection />
       <CTASection />
     </main>

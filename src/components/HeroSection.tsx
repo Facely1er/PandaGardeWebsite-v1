@@ -85,35 +85,31 @@ const HeroSection: React.FC = () => {
       <div className="container">
         <div className="hero-content">
           <div className="hero-text slide-in-left">
-            <h1>Welcome to <span className="highlight rainbow-text sparkle">PandaGarde</span></h1>
-            <p>Helping children ages 5-17 learn about digital privacy and online safety through fun, engaging activities and stories tailored for different age groups.</p>
+            <span className="badge">DIGITAL PRIVACY EDUCATION</span>
+            <h1>Protecting Families in the <span className="highlight rainbow-text sparkle">Digital Age</span></h1>
+            <p>Comprehensive digital privacy education platform designed specifically for families with children ages 5-17. Our interactive curriculum combines engaging activities, age-appropriate content, and practical tools to help families navigate the digital world safely and confidently. From basic privacy concepts for young children to advanced digital citizenship skills for teens, PandaGarde provides everything families need to build essential privacy skills for tomorrow's world.</p>
 
             {/* Enhanced action buttons with hover effects */}
             <div className="hero-buttons">
               <Link
-                to="/activity-book"
-                className="btn-primary bounce-hover"
-                onMouseEnter={() => setIsHovered('activity')}
+                to="/family-hub"
+                className="button primary bounce-hover"
+                onMouseEnter={() => setIsHovered('hub')}
                 onMouseLeave={() => setIsHovered(null)}
               >
                 <BookOpen size={20} />
-                Explore Activity Book
-                <ArrowRight size={16} className={`btn-icon ${isHovered === 'activity' ? 'btn-icon-active' : ''}`} />
+                Launch Family Hub
+                <ArrowRight size={16} className={`btn-icon ${isHovered === 'hub' ? 'btn-icon-active' : ''}`} />
               </Link>
               <Link
-                to="/story"
-                className="btn-primary wiggle-hover"
-                onMouseEnter={() => setIsHovered('story')}
+                to="/privacy-panda"
+                className="button secondary wiggle-hover"
+                onMouseEnter={() => setIsHovered('panda')}
                 onMouseLeave={() => setIsHovered(null)}
-                style={{ 
-                  background: 'linear-gradient(135deg, #ff6b6b, #ee5a24)',
-                  border: 'none',
-                  color: 'white'
-                }}
               >
                 <Play size={20} />
-                Interactive Privacy Panda Story
-                <Heart size={16} className={`btn-icon ${isHovered === 'story' ? 'btn-icon-active' : ''}`} />
+                Try PrivacyPanda
+                <Heart size={16} className={`btn-icon ${isHovered === 'panda' ? 'btn-icon-active' : ''}`} />
               </Link>
             </div>
 

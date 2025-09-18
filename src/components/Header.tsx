@@ -49,9 +49,9 @@ const Header: React.FC = () => {
 
   const navItems = [
     { icon: Home, label: 'Home', href: '/', isExternal: false },
-    { icon: BookOpen, label: 'Activity Book', href: '/activity-book', isExternal: false },
-    { icon: Users, label: 'Age Groups', href: '/age-groups', isExternal: false },
-    { icon: Calendar, label: 'Implementation', href: '/implementation', isExternal: false },
+    { icon: BookOpen, label: 'Features', href: '/#features', isExternal: false },
+    { icon: Users, label: 'Curriculum', href: '/#curriculum', isExternal: false },
+    { icon: Calendar, label: 'Products', href: '/#products', isExternal: false },
     { icon: ChalkboardTeacher, label: 'For Parents', href: '/parent-resources', isExternal: false },
     { icon: Info, label: 'About', href: '/about', isExternal: false },
   ];
@@ -62,6 +62,27 @@ const Header: React.FC = () => {
       return location.pathname === '/';
     }
     return location.pathname.startsWith(href);
+  };
+
+  const scrollToSection = (href: string) => {
+    if (href.startsWith('#')) {
+      // If we're not on the home page, navigate there first
+      if (location.pathname !== '/') {
+        navigate('/');
+        // Wait for navigation to complete, then scroll
+        setTimeout(() => {
+          const element = document.querySelector(href);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 300);
+      } else {
+        const element = document.querySelector(href);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
   };
 
 
