@@ -1,234 +1,183 @@
-# 🐼 PandaGarde - Digital Privacy Education Platform
+# Supabase CLI
 
-A comprehensive digital privacy education platform designed for families, educators, and children to learn about online safety and digital citizenship through interactive activities and engaging content.
+[![Coverage Status](https://coveralls.io/repos/github/supabase/cli/badge.svg?branch=main)](https://coveralls.io/github/supabase/cli?branch=main) [![Bitbucket Pipelines](https://img.shields.io/bitbucket/pipelines/supabase-cli/setup-cli/master?style=flat-square&label=Bitbucket%20Canary)](https://bitbucket.org/supabase-cli/setup-cli/pipelines) [![Gitlab Pipeline Status](https://img.shields.io/gitlab/pipeline-status/sweatybridge%2Fsetup-cli?label=Gitlab%20Canary)
+](https://gitlab.com/sweatybridge/setup-cli/-/pipelines)
 
-## 🚀 Quick Start (Demo Mode)
+[Supabase](https://supabase.io) is an open source Firebase alternative. We're building the features of Firebase using enterprise-grade open source tools.
 
-The easiest way to get started is in demo mode - no database setup required!
+This repository contains all the functionality for Supabase CLI.
 
-```bash
-# Clone the repository
-git clone <repository-url>
-cd pandagarde
+- [x] Running Supabase locally
+- [x] Managing database migrations
+- [x] Creating and deploying Supabase Functions
+- [x] Generating types directly from your database schema
+- [x] Making authenticated HTTP requests to [Management API](https://supabase.com/docs/reference/api/introduction)
 
-# Install dependencies
-npm install
+## Getting started
 
-# Start development server
-npm run dev
-```
+### Install the CLI
 
-The application will run with full functionality using localStorage for progress tracking. See [DEMO_MODE.md](./DEMO_MODE.md) for details.
-
-## 📋 Features
-
-### 🎯 Interactive Learning Activities
-- **6 Interactive Activities**: Coloring, Drag & Drop, Maze, Word Search, Connect Dots, and Matching games
-- **Real-time Progress Tracking**: Track completion, scores, and time spent
-- **Download Functionality**: Save completed activities as images
-- **Mobile-Optimized**: Touch-friendly controls and responsive design
-
-### 🏆 Achievement System
-- **5 Achievement Types**: Privacy Explorer, Privacy Learner, Privacy Champion, Dedicated Learner, Perfect Score Master
-- **Certificate Generation**: Create and download personalized certificates
-- **Progress Export/Import**: Backup and restore learning progress
-
-### 📚 Educational Resources
-- **Downloadable Materials**: Certificates, coloring sheets, family agreements, safety posters
-- **Age-Appropriate Content**: Tailored for different learning levels
-- **Family-Friendly Design**: Safe, educational, and engaging
-
-### 🔒 Privacy-First Design
-- **Local Data Storage**: All progress stored locally by default
-- **No External Tracking**: Privacy-focused design principles
-- **Secure Authentication**: Optional Supabase integration for multi-user support
-
-## 🛠 Technology Stack
-
-- **Frontend**: React 18 with TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS
-- **Backend**: Supabase (optional)
-- **Storage**: localStorage for offline functionality
-- **PDF Generation**: jsPDF for certificates
-- **Canvas**: HTML5 Canvas for interactive activities
-
-## 📖 Setup Instructions
-
-### Option 1: Demo Mode (Recommended for Testing)
-
-1. **Clone and Install**
-   ```bash
-   git clone <repository-url>
-   cd pandagarde
-   npm install
-   ```
-
-2. **Start Development Server**
-   ```bash
-   npm run dev
-   ```
-
-3. **Access the Application**
-   - Open http://localhost:5173 in your browser
-   - All features work with localStorage
-   - No database setup required
-
-### Option 2: Full Setup with Supabase
-
-1. **Create Supabase Project**
-   - Go to [supabase.com](https://supabase.com)
-   - Create a new project
-   - Note your project URL and anon key
-
-2. **Configure Environment**
-   ```bash
-   # Create environment file
-   cp .env.example .env.local
-   
-   # Add your Supabase credentials
-   VITE_SUPABASE_URL=your_project_url
-   VITE_SUPABASE_ANON_KEY=your_anon_key
-   ```
-
-3. **Setup Database**
-   ```bash
-   # Install Supabase CLI
-   npm install -g supabase
-   
-   # Start local Supabase
-   supabase start
-   
-   # Run migrations
-   npm run db:setup
-   ```
-
-4. **Start Application**
-   ```bash
-   npm run dev
-   ```
-
-## 🎮 Usage Guide
-
-### For Parents and Educators
-
-1. **Getting Started**
-   - Visit the homepage to explore available resources
-   - Check out the Activity Book for interactive learning
-   - Download printable materials from the Downloads section
-
-2. **Tracking Progress**
-   - Activities automatically save progress locally
-   - Export progress data from the Profile page
-   - Import progress when switching devices
-
-3. **Certificates and Achievements**
-   - Complete activities to earn achievements
-   - Generate personalized certificates
-   - Download achievement badges
-
-### For Children
-
-1. **Interactive Activities**
-   - Choose from 6 different privacy-themed games
-   - Complete activities to earn achievements
-   - Download your completed work
-
-2. **Learning Resources**
-   - Use coloring sheets to learn privacy concepts
-   - Print safety posters for your room
-   - Complete family internet agreements
-
-## 📁 Project Structure
-
-```
-pandagarde/
-├── src/
-│   ├── components/          # Reusable UI components
-│   │   ├── activities/     # Interactive learning activities
-│   │   ├── auth/           # Authentication components
-│   │   └── ui/             # Basic UI components
-│   ├── contexts/           # React contexts for state management
-│   ├── hooks/              # Custom React hooks
-│   ├── lib/                # Utility libraries and services
-│   ├── pages/              # Page components
-│   └── assets/             # Static assets
-├── public/
-│   └── downloads/          # Printable resources
-├── supabase/               # Database migrations and config
-└── scripts/                # Setup and utility scripts
-```
-
-## 🔧 Development Commands
+Available via [NPM](https://www.npmjs.com) as dev dependency. To install:
 
 ```bash
-# Development
-npm run dev              # Start development server
-npm run build            # Build for production
-npm run preview          # Preview production build
-npm run lint             # Run ESLint
-
-# Database (with Supabase)
-npm run db:setup         # Setup database
-npm run db:push          # Push schema changes
-npm run db:reset         # Reset database
-npm run db:start         # Start local Supabase
-npm run db:stop          # Stop local Supabase
-npm run db:types         # Generate TypeScript types
+npm i supabase --save-dev
 ```
 
-## 📦 Available Resources
+To install the beta release channel:
 
-### Interactive Activities
-- **Privacy Panda Coloring**: Learn about password protection through coloring
-- **Information Sorting Game**: Categorize safe vs private information
-- **Safe Online Journey Maze**: Navigate through privacy scenarios
-- **Privacy Word Search**: Find privacy-related vocabulary
-- **Privacy Shield Connect Dots**: Create protective symbols
-- **Privacy Symbol Matching**: Match symbols with their meanings
+```bash
+npm i supabase@beta --save-dev
+```
 
-### Downloadable Materials
-- **Certificates**: Printable achievement certificates
-- **Coloring Sheets**: Educational coloring pages
-- **Family Agreement**: Internet safety contract template
-- **Safety Posters**: Visual reminders of privacy rules
+When installing with yarn 4, you need to disable experimental fetch with the following nodejs config.
 
-## 🚀 Deployment
+```
+NODE_OPTIONS=--no-experimental-fetch yarn add supabase
+```
 
-### Manual Deployment
-1. Build the application: `npm run build`
-2. Upload `dist` folder to your web server
-3. Configure server to serve SPA routes
+> **Note**
+For Bun versions below v1.0.17, you must add `supabase` as a [trusted dependency](https://bun.sh/guides/install/trusted) before running `bun add -D supabase`.
 
-## 🤝 Contributing
+<details>
+  <summary><b>macOS</b></summary>
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Make your changes
-4. Run tests: `npm run lint`
-5. Commit changes: `git commit -m 'Add feature'`
-6. Push to branch: `git push origin feature-name`
-7. Submit a pull request
+  Available via [Homebrew](https://brew.sh). To install:
 
-## 📄 License
+  ```sh
+  brew install supabase/tap/supabase
+  ```
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+  To install the beta release channel:
+  
+  ```sh
+  brew install supabase/tap/supabase-beta
+  brew link --overwrite supabase-beta
+  ```
+  
+  To upgrade:
 
-## 🆘 Support
+  ```sh
+  brew upgrade supabase
+  ```
+</details>
 
-- **Documentation**: Check the [FEATURES_IMPLEMENTED.md](./FEATURES_IMPLEMENTED.md) for detailed feature information
-- **Issues**: Report bugs and request features via GitHub Issues
-- **Contact**: Reach out through the contact form on the website
+<details>
+  <summary><b>Windows</b></summary>
 
-## 🎯 Roadmap
+  Available via [Scoop](https://scoop.sh). To install:
 
-- [ ] Multi-language support
-- [ ] Advanced analytics dashboard
-- [ ] Integration with learning management systems
-- [ ] Mobile app development
-- [ ] Advanced parental controls
-- [ ] Community features
+  ```powershell
+  scoop bucket add supabase https://github.com/supabase/scoop-bucket.git
+  scoop install supabase
+  ```
 
----
+  To upgrade:
 
-**Made with ❤️ for digital privacy education**
+  ```powershell
+  scoop update supabase
+  ```
+</details>
+
+<details>
+  <summary><b>Linux</b></summary>
+
+  Available via [Homebrew](https://brew.sh) and Linux packages.
+
+  #### via Homebrew
+
+  To install:
+
+  ```sh
+  brew install supabase/tap/supabase
+  ```
+
+  To upgrade:
+
+  ```sh
+  brew upgrade supabase
+  ```
+
+  #### via Linux packages
+
+  Linux packages are provided in [Releases](https://github.com/supabase/cli/releases). To install, download the `.apk`/`.deb`/`.rpm`/`.pkg.tar.zst` file depending on your package manager and run the respective commands.
+
+  ```sh
+  sudo apk add --allow-untrusted <...>.apk
+  ```
+
+  ```sh
+  sudo dpkg -i <...>.deb
+  ```
+
+  ```sh
+  sudo rpm -i <...>.rpm
+  ```
+
+  ```sh
+  sudo pacman -U <...>.pkg.tar.zst
+  ```
+</details>
+
+<details>
+  <summary><b>Other Platforms</b></summary>
+
+  You can also install the CLI via [go modules](https://go.dev/ref/mod#go-install) without the help of package managers.
+
+  ```sh
+  go install github.com/supabase/cli@latest
+  ```
+
+  Add a symlink to the binary in `$PATH` for easier access:
+
+  ```sh
+  ln -s "$(go env GOPATH)/bin/cli" /usr/bin/supabase
+  ```
+
+  This works on other non-standard Linux distros.
+</details>
+
+<details>
+  <summary><b>Community Maintained Packages</b></summary>
+
+  Available via [pkgx](https://pkgx.sh/). Package script [here](https://github.com/pkgxdev/pantry/blob/main/projects/supabase.com/cli/package.yml).
+  To install in your working directory:
+
+  ```bash
+  pkgx install supabase
+  ```
+
+  Available via [Nixpkgs](https://nixos.org/). Package script [here](https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/tools/supabase-cli/default.nix).
+</details>
+
+### Run the CLI
+
+```bash
+supabase bootstrap
+```
+
+Or using npx:
+
+```bash
+npx supabase bootstrap
+```
+
+The bootstrap command will guide you through the process of setting up a Supabase project using one of the [starter](https://github.com/supabase-community/supabase-samples/blob/main/samples.json) templates.
+
+## Docs
+
+Command & config reference can be found [here](https://supabase.com/docs/reference/cli/about).
+
+## Breaking changes
+
+We follow semantic versioning for changes that directly impact CLI commands, flags, and configurations.
+
+However, due to dependencies on other service images, we cannot guarantee that schema migrations, seed.sql, and generated types will always work for the same CLI major version. If you need such guarantees, we encourage you to pin a specific version of CLI in package.json.
+
+## Developing
+
+To run from source:
+
+```sh
+# Go >= 1.22
+go run . help
+```
