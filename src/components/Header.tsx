@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search, Book, Heart } from 'lucide-react';
+import { Menu, X, Home, BookOpen, Users, Info, Moon, Sun, Search, Book, Heart } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import SearchModal from './SearchModal';
 import OfflineIndicator from './OfflineIndicator';
@@ -98,16 +98,18 @@ const Header: React.FC = () => {
     const currentIndex = menuItems.findIndex(item => item === document.activeElement);
     
     switch (e.key) {
-      case 'ArrowDown':
+      case 'ArrowDown': {
         e.preventDefault();
         const nextIndex = currentIndex < menuItems.length - 1 ? currentIndex + 1 : 0;
         menuItems[nextIndex]?.focus();
         break;
-      case 'ArrowUp':
+      }
+      case 'ArrowUp': {
         e.preventDefault();
         const prevIndex = currentIndex > 0 ? currentIndex - 1 : menuItems.length - 1;
         menuItems[prevIndex]?.focus();
         break;
+      }
       case 'Home':
         e.preventDefault();
         menuItems[0]?.focus();

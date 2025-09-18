@@ -80,7 +80,7 @@ export const useOnboarding = (): OnboardingState & OnboardingActions => {
         }
       }
     }
-  }, [user, state.isCompleted, state.isOpen]);
+  }, [user, state.isCompleted, state.isOpen, openOnboarding]);
 
   const openOnboarding = useCallback(() => {
     setState(prev => ({ ...prev, isOpen: true }));

@@ -60,7 +60,7 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
     achievements: [],
     lastUpdated: new Date()
   });
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   // Load progress from database or localStorage
   useEffect(() => {

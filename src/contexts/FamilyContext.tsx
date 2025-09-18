@@ -16,7 +16,7 @@ interface FamilyMember {
   profile_data?: {
     age?: number;
     grade?: string;
-    preferences?: any;
+    preferences?: Record<string, unknown>;
   };
 }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Wifi, WifiOff, RefreshCw, AlertCircle, CheckCircle } from 'lucide-react';
+import { WifiOff, RefreshCw, AlertCircle, CheckCircle } from 'lucide-react';
 import { useOfflineStatus } from '../lib/offlineManager';
 
 interface OfflineIndicatorProps {

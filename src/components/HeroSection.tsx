@@ -1,17 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { BookOpen, Shield as Child, User, UserCheck, Sparkles, Star, ArrowRight, Play, Download, Heart, Shield, Users } from 'lucide-react';
-import Logo from './Logo';
+import { Link } from 'react-router-dom';
+import { BookOpen, Shield as Child, User, UserCheck, Sparkles, Star, ArrowRight, Play, Heart, Shield, Users } from 'lucide-react';
 
 
 interface AgeGroupButtonProps {
-  ageGroup: string;
   label: string;
   icon: React.ReactNode;
   route: string;
 }
 
-const AgeGroupButton: React.FC<AgeGroupButtonProps> = ({ ageGroup, label, icon, route }) => (
+const AgeGroupButton: React.FC<AgeGroupButtonProps> = ({ label, icon, route }) => (
   <Link
     to={route}
     className="age-group-button pulse-hover"
@@ -146,19 +144,16 @@ const HeroSection: React.FC = () => {
               <h3>Join Privacy Panda's Adventure: 🌟</h3>
               <div className="age-group-buttons">
                 <AgeGroupButton
-                  ageGroup="5-8"
                   label="Little Explorers (5-8)"
                   icon={<Child size={20} />}
                   route="/story"
                 />
                 <AgeGroupButton
-                  ageGroup="9-12"
                   label="Privacy Champions (9-12)"
                   icon={<User size={20} />}
                   route="/story"
                 />
                 <AgeGroupButton
-                  ageGroup="13-17"
                   label="Digital Citizens (13-17)"
                   icon={<UserCheck size={20} />}
                   route="/story"

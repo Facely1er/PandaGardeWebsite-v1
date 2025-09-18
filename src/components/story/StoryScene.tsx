@@ -30,7 +30,7 @@ const StoryScene: React.FC<StorySceneProps> = ({
 
   useEffect(() => {
     setIsTransitioning(true);
-    const timer = setTimeout(() => {
+    setTimeout(() => {
       setIsVisible(true);
       setIsTransitioning(false);
       onSceneEnter?.();

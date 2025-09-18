@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { trackPerformance } from '../lib/analytics';
 
 interface OptimizedImageProps {
@@ -89,13 +89,13 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
     onError?.();
   };
 
-  const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+  const handleIntersection = useCallback((entries: IntersectionObserverEntry[]) => {
     const entry = entries[0];
     if (entry.isIntersecting && !isLoaded && !hasError) {
       loadStartTime.current = performance.now();
       setImageSrc(src);
     }
-  };
+  }, [isLoaded, hasError, src]);
 
   useEffect(() => {
     if (loading === 'lazy' && !priority) {
@@ -110,7 +110,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
       return () => observer.disconnect();
     }
-  }, [loading, priority]);
+  }, [loading, priority, handleIntersection]);
 
   // Generate optimized image URL with parameters
   const generateOptimizedSrc = (baseSrc: string, targetWidth?: number, targetFormat?: string) => {

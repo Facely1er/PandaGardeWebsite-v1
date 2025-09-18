@@ -56,7 +56,7 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = ({
         showToast('Password reset email sent! Check your inbox.', 'success');
         onSuccess?.();
       }
-    } catch (error) {
+    } catch {
       setErrors({ general: 'An unexpected error occurred. Please try again.' });
     } finally {
       setLoading(false);

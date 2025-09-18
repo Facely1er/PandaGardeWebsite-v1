@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Users, Clock, Award, TrendingUp, Download, Share2, Settings } from 'lucide-react';
+import { Users, Clock, Award, TrendingUp, Download, Share2 } from 'lucide-react';
 import ProgressDisplay from './ProgressDisplay';
 
 interface ParentDashboardProps {
   progress: {
     completedActivities: string[];
-    activityDetails: Record<string, any>;
+    activityDetails: Record<string, { score?: number; timeSpent?: number; completedAt: Date }>;
     totalTimeSpent: number;
     achievements: string[];
     lastUpdated: Date;

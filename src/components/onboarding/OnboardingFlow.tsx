@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronRight, ChevronLeft, X, Check, Star, Users, BookOpen, Shield, Target } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
+import React, { useState } from 'react';
+import { ChevronRight, ChevronLeft, X, Check, Star, Users, BookOpen, Target } from 'lucide-react';
+// import { useAuth } from '../../contexts/AuthContext';
 import { trackEvent, AnalyticsEvents } from '../../lib/analytics';
 
 interface OnboardingStep {
   id: string;
   title: string;
   description: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
   content: React.ReactNode;
   actionText?: string;
   skipText?: string;
@@ -21,8 +21,8 @@ interface OnboardingFlowProps {
 
 const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ isOpen, onComplete, onSkip }) => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set());
-  const { user, profile } = useAuth();
+  // const [completedSteps] = useState<Set<string>>(new Set());
+  // const { user, profile } = useAuth();
 
   const steps: OnboardingStep[] = [
     {

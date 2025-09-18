@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, Star, Trophy, Target, Clock, Brain, TrendingUp } from 'lucide-react';
+import { Award, Star, Target, Clock } from 'lucide-react';
 import AchievementBadge from './AchievementBadge';
 
 interface ProgressDisplayProps {

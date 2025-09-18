@@ -52,7 +52,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
       }, currentScene.duration * 1000 / readingSpeed);
       return () => clearTimeout(timer);
     }
-  }, [isPlaying, autoAdvance, currentScene.duration, readingSpeed]);
+  }, [isPlaying, autoAdvance, currentScene.duration, readingSpeed, nextScene]);
 
   // Audio playback
   useEffect(() => {

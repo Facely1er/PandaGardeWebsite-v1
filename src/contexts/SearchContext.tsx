@@ -1,7 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { searchAPI, createSearchQuery, EnhancedSearchResult } from '../lib/searchAPI';
 import { searchService, SearchResult, SearchFilters } from '../lib/searchService';
-import { trackEvent, AnalyticsEvents } from '../lib/analytics';
 
 // SearchResult interface is now imported from searchService
 

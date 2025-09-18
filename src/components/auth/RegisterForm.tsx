@@ -38,7 +38,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin 
     setIsLoading(true);
 
     try {
-      const { data, error } = await authService.signUp(formData.email, formData.password);
+      const { error } = await authService.signUp(formData.email, formData.password);
       
       if (error) {
         showError('Registration Failed', error.message);
@@ -47,7 +47,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin 
 
       showSuccess('Account Created!', 'Please check your email to verify your account.');
       onSuccess();
-    } catch (error) {
+    } catch {
       showError('Registration Error', 'An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);

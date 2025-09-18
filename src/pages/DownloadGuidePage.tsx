@@ -44,10 +44,12 @@ const DownloadGuidePage: React.FC<DownloadGuidePageProps> = ({
         case 'family-agreement':
           await pdfService.generateFamilyAgreementPDF();
           break;
-        default:
+        default: {
           // Fallback to HTML view
           const url = `/downloads/${resourceType}.html`;
           window.open(url, '_blank');
+          break;
+        }
       }
     } catch (error) {
       console.error('Error downloading resource:', error);
