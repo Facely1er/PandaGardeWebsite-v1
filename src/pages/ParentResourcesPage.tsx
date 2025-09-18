@@ -92,9 +92,9 @@ const ParentResourcesPage: React.FC = () => {
                 <div className="flex items-center gap-4 mt-4">
                   <Link to="/parent-resources" className="button">
                     <Download size={16} />
-                    Download PDF
+                    View Guide
                   </Link>
-                  <span className="text-sm text-gray-500">45 min read</span>
+                  <span className="text-sm text-gray-500">Coming Soon</span>
                 </div>
               </div>
 
@@ -109,7 +109,7 @@ const ParentResourcesPage: React.FC = () => {
                     <Download size={16} />
                     View Toolkit
                   </Link>
-                  <span className="text-sm text-gray-500">Full Year Curriculum</span>
+                  <span className="text-sm text-gray-500">Available Now</span>
                 </div>
               </div>
 
@@ -122,9 +122,9 @@ const ParentResourcesPage: React.FC = () => {
                 <div className="flex items-center gap-4 mt-4">
                   <Link to="/parent-resources" className="button">
                     <Download size={16} />
-                    Download PDF
+                    View Guide
                   </Link>
-                  <span className="text-sm text-gray-500">25 min read</span>
+                  <span className="text-sm text-gray-500">Coming Soon</span>
                 </div>
               </div>
 
@@ -137,9 +137,9 @@ const ParentResourcesPage: React.FC = () => {
                 <div className="flex items-center gap-4 mt-4">
                   <Link to="/parent-resources" className="button">
                     <Download size={16} />
-                    Download PDF
+                    View Guide
                   </Link>
-                  <span className="text-sm text-gray-500">35 min read</span>
+                  <span className="text-sm text-gray-500">Coming Soon</span>
                 </div>
               </div>
             </div>
@@ -194,7 +194,7 @@ const ParentResourcesPage: React.FC = () => {
                   to="/downloads/coloring-sheets"
                   className="button"
                 >
-                  Download PDF
+                  View & Download
                 </Link>
               </div>
 
@@ -205,7 +205,7 @@ const ParentResourcesPage: React.FC = () => {
                   to="/downloads/safety-posters"
                   className="button"
                 >
-                  Download PDF
+                  View & Download
                 </Link>
               </div>
 
@@ -216,7 +216,7 @@ const ParentResourcesPage: React.FC = () => {
                   to="/downloads/certificates"
                   className="button"
                 >
-                  Download PDF
+                  View & Download
                 </Link>
               </div>
 
@@ -227,7 +227,7 @@ const ParentResourcesPage: React.FC = () => {
                   to="/downloads/family-agreement"
                   className="button"
                 >
-                  Download PDF
+                  View & Download
                 </Link>
               </div>
             </div>
@@ -280,9 +280,9 @@ const ParentResourcesPage: React.FC = () => {
                 <div className="flex items-center gap-4 mt-4">
                   <Link to="/parent-resources" className="button">
                     <Download size={16} />
-                    Download Kit
+                    View Activities
                   </Link>
-                  <span className="text-sm text-gray-500">Ages 5-12</span>
+                  <span className="text-sm text-gray-500">Coming Soon</span>
                 </div>
               </div>
 
@@ -293,11 +293,11 @@ const ParentResourcesPage: React.FC = () => {
                 </div>
                 <p>Customizable template for creating family rules about digital privacy, device usage, and online behavior. Includes child-friendly language and signature spaces.</p>
                 <div className="flex items-center gap-4 mt-4">
-                  <Link to="/parent-resources" className="button">
+                  <Link to="/downloads/family-agreement" className="button">
                     <Download size={16} />
-                    Download Template
+                    View Template
                   </Link>
-                  <span className="text-sm text-gray-500">All Ages</span>
+                  <span className="text-sm text-gray-500">Available Now</span>
                 </div>
               </div>
 
@@ -308,7 +308,7 @@ const ParentResourcesPage: React.FC = () => {
                 </div>
                 <p>Printable certificates and badges to celebrate children's privacy learning milestones. Includes Privacy Panda certificates, Digital Citizen awards, and more.</p>
                 <div className="flex items-center gap-4 mt-4">
-                  <Link to="/certificates" className="button">
+                  <Link to="/downloads/certificates" className="button">
                     <Download size={16} />
                     Generate Certificates
                   </Link>
@@ -323,11 +323,11 @@ const ParentResourcesPage: React.FC = () => {
                 </div>
                 <p>Set of 12 colorful posters featuring key privacy concepts, safety rules, and reminders. Perfect for home or classroom display.</p>
                 <div className="flex items-center gap-4 mt-4">
-                  <Link to="/parent-resources" className="button">
+                  <Link to="/downloads/safety-posters" className="button">
                     <Download size={16} />
-                    Download Posters
+                    View Posters
                   </Link>
-                  <span className="text-sm text-gray-500">Print & Display</span>
+                  <span className="text-sm text-gray-500">Available Now</span>
                 </div>
               </div>
 
@@ -340,9 +340,9 @@ const ParentResourcesPage: React.FC = () => {
                 <div className="flex items-center gap-4 mt-4">
                   <Link to="/parent-resources" className="button">
                     <Download size={16} />
-                    Download Worksheets
+                    View Worksheets
                   </Link>
-                  <span className="text-sm text-gray-500">Ages 5-12</span>
+                  <span className="text-sm text-gray-500">Coming Soon</span>
                 </div>
               </div>
 
@@ -353,11 +353,11 @@ const ParentResourcesPage: React.FC = () => {
                 </div>
                 <p>Step-by-step checklists for configuring child-safe settings on phones, tablets, computers, and gaming devices. Includes all major platforms.</p>
                 <div className="flex items-center gap-4 mt-4">
-                  <Link to="/parent-resources" className="button">
+                  <Link to="/guides/device-setup" className="button">
                     <Download size={16} />
-                    Download Checklists
+                    View Checklists
                   </Link>
-                  <span className="text-sm text-gray-500">All Devices</span>
+                  <span className="text-sm text-gray-500">Available Now</span>
                 </div>
               </div>
             </div>
