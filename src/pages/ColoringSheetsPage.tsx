@@ -72,29 +72,36 @@ const ColoringSheetsPage: React.FC = () => {
     if (sheetId === 'all-sheets') {
       setIsDownloading(true);
       try {
-        // Download all sheets as individual SVG files
-        for (const sheet of coloringSheets) {
-          const link = document.createElement('a');
-          link.href = sheet.downloadUrl;
-          link.download = `${sheet.title.replace(/\s+/g, '-').toLowerCase()}.svg`;
-          link.target = '_blank';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          // Small delay between downloads
-          await new Promise(resolve => setTimeout(resolve, 500));
-        }
+        // Generate and download PDF with all coloring sheets
+        await pdfService.generateColoringSheetsPDF();
       } catch (error) {
-        console.error('Error downloading coloring sheets:', error);
-        alert('Error downloading coloring sheets. Please try again.');
+        console.error('Error generating PDF:', error);
+        // Fallback to individual SVG downloads
+        try {
+          for (const sheet of coloringSheets) {
+            const link = document.createElement('a');
+            link.href = sheet.downloadUrl;
+            link.download = `${sheet.title.replace(/\s+/g, '-').toLowerCase()}.svg`;
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            // Small delay between downloads
+            await new Promise(resolve => setTimeout(resolve, 500));
+          }
+        } catch (fallbackError) {
+          console.error('Error downloading coloring sheets:', fallbackError);
+          alert('Error downloading coloring sheets. Please try again.');
+        }
       } finally {
         setIsDownloading(false);
       }
     } else {
-      // Individual sheet download
+      // Individual sheet download - try SVG first, then fallback to PDF
       const sheet = coloringSheets.find(s => s.id === sheetId);
       if (sheet) {
         try {
+          // Try to download SVG directly
           const link = document.createElement('a');
           link.href = sheet.downloadUrl;
           link.download = `${title.replace(/\s+/g, '-').toLowerCase()}.svg`;
@@ -103,8 +110,14 @@ const ColoringSheetsPage: React.FC = () => {
           link.click();
           document.body.removeChild(link);
         } catch (error) {
-          console.error('Error downloading coloring sheet:', error);
-          alert('Error downloading coloring sheet. Please try again.');
+          console.error('Error downloading SVG, trying PDF fallback:', error);
+          // Fallback to PDF generation
+          try {
+            await pdfService.generateColoringSheetsPDF();
+          } catch (pdfError) {
+            console.error('Error generating PDF:', pdfError);
+            alert('Error downloading coloring sheet. Please try again.');
+          }
         }
       }
     }
@@ -215,8 +228,20 @@ const ColoringSheetsPage: React.FC = () => {
               style={{ backgroundColor: 'var(--card-color)' }}
             >
               <div className="aspect-w-4 aspect-h-3 bg-gray-100">
-                <div className="w-full h-48 bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
-                  <Palette size={48} className="text-green-600" />
+                <div className="w-full h-48 bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center relative overflow-hidden">
+                  <img 
+                    src={sheet.image} 
+                    alt={sheet.title}
+                    className="w-full h-full object-contain p-4"
+                    onError={(e) => {
+                      // Fallback to icon if image fails to load
+                      e.currentTarget.style.display = 'none';
+                      e.currentTarget.nextElementSibling.style.display = 'flex';
+                    }}
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center" style={{ display: 'none' }}>
+                    <Palette size={48} className="text-green-600" />
+                  </div>
                 </div>
               </div>
               
