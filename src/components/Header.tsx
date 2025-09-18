@@ -49,10 +49,9 @@ const Header: React.FC = () => {
 
   const navItems = [
     { icon: Home, label: 'Home', href: '/', isExternal: false },
-    { icon: BookOpen, label: 'Features', href: '/#features', isExternal: false },
-    { icon: Users, label: 'Curriculum', href: '/#curriculum', isExternal: false },
-    { icon: Calendar, label: 'Products', href: '/#products', isExternal: false },
-    { icon: ChalkboardTeacher, label: 'For Parents', href: '/parent-resources', isExternal: false },
+    { icon: BookOpen, label: 'Overview', href: '/overview', isExternal: false },
+    { icon: Users, label: 'Quick Start', href: '/quick-start', isExternal: false },
+    { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
     { icon: Info, label: 'About', href: '/about', isExternal: false },
   ];
 

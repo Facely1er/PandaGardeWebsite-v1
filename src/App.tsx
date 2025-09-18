@@ -44,6 +44,9 @@ import EducatorToolsPage from './pages/EducatorToolsPage';
 import NewsletterPage from './pages/NewsletterPage';
 import SupportPage from './pages/SupportPage';
 import ImplementationGuidePage from './pages/ImplementationGuidePage';
+import OverviewPage from './pages/OverviewPage';
+import ResourcesPage from './pages/ResourcesPage';
+import QuickStartPage from './pages/QuickStartPage';
 import NavigationErrorBoundary from './components/NavigationErrorBoundary';
 import AgeVerificationModal from './components/AgeVerificationModal';
 import { SentryErrorBoundary } from './lib/sentry';
@@ -120,6 +123,9 @@ function App() {
             <Route path="/digital-rights" element={<DigitalRightsPage />} />
 
             {/* General Pages */}
+            <Route path="/overview" element={<OverviewPage />} />
+            <Route path="/resources" element={<ResourcesPage />} />
+            <Route path="/quick-start" element={<QuickStartPage />} />
             <Route path="/educator-tools" element={<EducatorToolsPage />} />
             <Route path="/parent-resources" element={<ParentResourcesPage />} />
             <Route path="/contact" element={<ContactPage />} />
