@@ -197,7 +197,7 @@ VITE_SENTRY_DSN=your_sentry_dsn
 ```
 
 #### Deployment Platforms
-- **Vercel**: ✅ Recommended (React + Vite)
+- **Manual Deployment**: ✅ Recommended (React + Vite)
 - **Netlify**: ✅ Supported
 - **AWS Amplify**: ✅ Supported
 - **Manual Deployment**: ✅ Supported

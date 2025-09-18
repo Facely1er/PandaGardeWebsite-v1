@@ -243,13 +243,13 @@ const ActivityBookPage: React.FC = () => {
             </div>
 
             <h1 className="text-3xl md:text-5xl font-bold mb-4 md:mb-6 leading-tight">
-              Privacy Panda
-              <span className="block text-yellow-300">Activity Book</span>
+              Privacy Panda's
+              <span className="block text-yellow-300">Activity Adventures</span>
             </h1>
 
             <p className="text-lg md:text-xl opacity-90 max-w-2xl mx-auto mb-6 md:mb-8 px-4">
-              Interactive privacy education activities designed for children ages 5-12.
-              Learn about digital safety through fun games, coloring, and puzzles!
+              Continue Po the Panda's journey with interactive activities that reinforce the privacy lessons from the Digital Bamboo Forest story.
+              Learn through fun games, coloring, and puzzles!
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-6 text-xs md:text-sm">
@@ -283,19 +283,61 @@ const ActivityBookPage: React.FC = () => {
               Back to Home
             </button>
             
-            <button
-              onClick={() => setShowParentDashboard(true)}
-              className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm md:text-base"
+            <Link
+              to="/family-hub"
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm md:text-base"
             >
               <Users size={14} className="md:w-4 md:h-4" />
-              Parent Dashboard
-            </button>
+              Family Hub
+            </Link>
           </div>
         </div>
       </div>
 
-      {/* Progress Section */}
+      {/* Story Connection Section */}
       <section className="container mx-auto px-4 md:px-6 py-8 md:py-12">
+        <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6 md:p-8 mb-8 md:mb-12" style={{
+          backgroundColor: theme === 'dark' ? 'rgba(16, 185, 129, 0.1)' : '#F0FDF4',
+          borderColor: theme === 'dark' ? 'rgba(16, 185, 129, 0.3)' : '#BBF7D0'
+        }}>
+          <div className="text-center mb-6">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-3xl">🐼</span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold mb-3" style={{ color: theme === 'dark' ? '#6EE7B7' : '#059669' }}>
+              Continue Po's Journey
+            </h2>
+            <p className="text-lg max-w-2xl mx-auto" style={{ color: theme === 'dark' ? '#6EE7B7' : '#059669' }}>
+              These activities extend the story of Privacy Panda. Practice the privacy concepts Po learned in the Digital Bamboo Forest through hands-on games and exercises.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className="bg-white rounded-lg p-4 shadow-sm">
+              <h3 className="font-semibold mb-2" style={{ color: 'var(--primary)' }}>📖 Story Connection</h3>
+              <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
+                Each activity relates to a part of Po's adventure, reinforcing the privacy lessons he learned.
+              </p>
+            </div>
+            <div className="bg-white rounded-lg p-4 shadow-sm">
+              <h3 className="font-semibold mb-2" style={{ color: 'var(--primary)' }}>🎯 Learning Goals</h3>
+              <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
+                Develop practical skills for protecting personal information and staying safe online.
+              </p>
+            </div>
+          </div>
+          
+          <div className="text-center">
+            <Link
+              to="/story"
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-flex items-center gap-2"
+            >
+              <Book size={20} />
+              Read Privacy Panda's Story First
+            </Link>
+          </div>
+        </div>
+
         <div className="mb-8 md:mb-12">
           <ProgressDisplay
             completedCount={overallProgress.completedCount}
@@ -596,18 +638,18 @@ const ActivityBookPage: React.FC = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
             <Link
-              to="/#age-groups"
+              to="/story"
               className="bg-white text-green-600 px-4 md:px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center gap-2 text-sm md:text-base"
             >
-              <Users size={18} className="md:w-5 md:h-5" />
-              Explore Age Groups
+              <Book size={18} className="md:w-5 md:h-5" />
+              Read Privacy Panda's Story
             </Link>
             <Link
-              to="/story"
-              className="bg-green-700 text-white px-4 md:px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors inline-flex items-center justify-center gap-2 text-sm md:text-base"
+              to="/family-hub"
+              className="bg-blue-600 text-white px-4 md:px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors inline-flex items-center justify-center gap-2 text-sm md:text-base"
             >
-              <Book size={18} className="md:w-5 md:h-5" />
-              Read More Stories
+              <Users size={18} className="md:w-5 md:h-5" />
+              Join Family Hub
             </Link>
           </div>
         </div>
