@@ -934,6 +934,66 @@ body {
   background: linear-gradient(135deg, #0D4A0F 0%, #1B5E20 50%, #2E7D32 100%);
 }
 
+/* Light theme styles for hero section */
+[data-theme="light"] .hero {
+  background: linear-gradient(135deg, #E8F5E8 0%, #F1F8E9 50%, #F9FBE7 100%);
+}
+
+[data-theme="light"] .hero-text h1 {
+  color: var(--primary-dark);
+}
+
+[data-theme="light"] .hero-text p {
+  color: var(--gray-700);
+}
+
+[data-theme="light"] .hero-text .badge {
+  background: var(--primary);
+  color: white;
+}
+
+[data-theme="light"] .hero-text .highlight {
+  color: var(--primary);
+}
+
+[data-theme="light"] .hero-stats .stat-number {
+  color: var(--primary-dark);
+}
+
+[data-theme="light"] .hero-stats .stat-label {
+  color: var(--gray-600);
+}
+
+[data-theme="light"] .age-group-selector h3 {
+  color: var(--primary-dark);
+}
+
+/* Light theme styles for hero-simple section */
+[data-theme="light"] .hero-simple h1 {
+  color: var(--primary-dark);
+}
+
+[data-theme="light"] .hero-simple .badge {
+  background: var(--primary);
+  color: white;
+}
+
+[data-theme="light"] .hero-simple .highlight {
+  color: var(--primary);
+}
+
+/* Light theme overrides for rainbow text effects */
+[data-theme="light"] .rainbow-text {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="light"] .sparkle {
+  color: var(--primary);
+}
+
 .hero::before {
   content: '';
   position: absolute;
