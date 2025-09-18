@@ -104,7 +104,7 @@ export const trackPageView = (path: string, title?: string) => {
 
 // Track custom events
 export const trackEvent = (eventName: string, parameters?: Record<string, unknown>) => {
-  if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) return;
+  if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) {return;}
 
   ReactGA.event({
     action: eventName,
@@ -170,7 +170,7 @@ export const trackError = (error: Error, context?: Record<string, unknown>) => {
 
 // Track user properties
 export const setUserProperties = (properties: Record<string, unknown>) => {
-  if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) return;
+  if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) {return;}
 
   ReactGA.set(properties);
 };

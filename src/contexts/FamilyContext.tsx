@@ -78,7 +78,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
   }, [isAuthenticated, user, profile, checkExistingFamily, loadFamilyData]);
 
   const checkExistingFamily = useCallback(async () => {
-    if (!user) return;
+    if (!user) {return;}
 
     try {
       const { data, error } = await supabase

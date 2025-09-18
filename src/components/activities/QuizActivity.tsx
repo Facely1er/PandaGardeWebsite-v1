@@ -93,7 +93,7 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
   };
 
   const handleAnswerSubmit = useCallback(() => {
-    if (selectedAnswer === null) return;
+    if (selectedAnswer === null) {return;}
     
     setShowResult(true);
     

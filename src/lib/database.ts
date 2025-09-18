@@ -343,7 +343,7 @@ export const downloadService = {
 export const sessionService = {
   // Create user session
   async createSession(userId: string, sessionData: Record<string, unknown>, expiresAt: Date): Promise<UserSession | null> {
-    if (!isSupabaseConfigured || !supabase) return null
+    if (!isSupabaseConfigured || !supabase) {return null}
     
     const { data, error } = await supabase
       .from(TABLES.USER_SESSIONS)
