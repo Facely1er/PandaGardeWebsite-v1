@@ -42,6 +42,19 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     searchService.initialize();
   }, []);
 
+  const getRecentSearches = useCallback(() => {
+    const recent = localStorage.getItem('pandagarde_recent_searches');
+    return recent ? JSON.parse(recent) : [];
+  }, []);
+
+  const addToRecentSearches = useCallback((query: string) => {
+    if (!query.trim()) {return;}
+    
+    const recent = getRecentSearches();
+    const updated = [query, ...recent.filter((item: string) => item !== query)].slice(0, 10);
+    localStorage.setItem('pandagarde_recent_searches', JSON.stringify(updated));
+  }, [getRecentSearches]);
+
   const performSearch = useCallback(async (query: string, filters?: SearchFilters) => {
     if (!query.trim()) {
       setSearchResults([]);
@@ -69,19 +82,6 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     setSearchQuery('');
     setSearchResults([]);
   }, []);
-
-  const getRecentSearches = useCallback(() => {
-    const recent = localStorage.getItem('pandagarde_recent_searches');
-    return recent ? JSON.parse(recent) : [];
-  }, []);
-
-  const addToRecentSearches = useCallback((query: string) => {
-    if (!query.trim()) {return;}
-    
-    const recent = getRecentSearches();
-    const updated = [query, ...recent.filter((item: string) => item !== query)].slice(0, 10);
-    localStorage.setItem('pandagarde_recent_searches', JSON.stringify(updated));
-  }, [getRecentSearches]);
 
   const getSuggestions = useCallback(async (query: string) => {
     try {
