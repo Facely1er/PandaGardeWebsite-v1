@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 // import { useAuth } from '../pages/family-hub/AuthWrapper';
 import { supabase, TABLES } from '../lib/supabase';
 
@@ -77,7 +77,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     }
   }, [isAuthenticated, user, profile, checkExistingFamily, loadFamilyData]);
 
-  const checkExistingFamily = async () => {
+  const checkExistingFamily = useCallback(async () => {
     if (!user) return;
 
     try {
@@ -109,9 +109,9 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     } catch (error) {
       console.error('Error checking existing family:', error);
     }
-  };
+  }, [user]);
 
-  const loadFamilyData = async (familyId: string) => {
+  const loadFamilyData = useCallback(async (familyId: string) => {
     setLoading(true);
     try {
       // Load family info
@@ -133,7 +133,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const loadFamilyMembers = async (familyId: string) => {
     try {

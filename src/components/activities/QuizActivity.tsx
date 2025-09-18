@@ -73,7 +73,7 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
       explanation: 'If someone makes you uncomfortable online, ignore them, tell them to stop, and always tell a trusted adult like your parents or teacher.',
       difficulty: 'medium'
     }
-  ];
+  ], []);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
