@@ -67,15 +67,48 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
   const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Load family data when user changes
-  useEffect(() => {
-    if (isAuthenticated && user && profile?.profile_data?.familyId) {
-      loadFamilyData(profile.profile_data.familyId);
-    } else if (isAuthenticated && user) {
-      // Check if user is already part of a family
-      checkExistingFamily();
+  const loadFamilyMembers = useCallback(async (familyId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from(TABLES.FAMILY_MEMBERS)
+        .select('*')
+        .eq('family_id', familyId)
+        .order('created_at', { ascending: true });
+
+      if (error) {
+        console.error('Error loading family members:', error);
+        return;
+      }
+
+      setFamilyMembers(data || []);
+    } catch (error) {
+      console.error('Error loading family members:', error);
     }
-  }, [isAuthenticated, user, profile, checkExistingFamily, loadFamilyData]);
+  }, []);
+
+  const loadFamilyData = useCallback(async (familyId: string) => {
+    setLoading(true);
+    try {
+      // Load family info
+      const { data: familyData, error: familyError } = await supabase
+        .from(TABLES.FAMILIES)
+        .select('*')
+        .eq('id', familyId)
+        .single();
+
+      if (familyError) {
+        console.error('Error loading family:', familyError);
+        return;
+      }
+
+      setCurrentFamily(familyData);
+      await loadFamilyMembers(familyId);
+    } catch (error) {
+      console.error('Error loading family data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [loadFamilyMembers]);
 
   const checkExistingFamily = useCallback(async () => {
     if (!user) {return;}
@@ -109,50 +142,17 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     } catch (error) {
       console.error('Error checking existing family:', error);
     }
-  }, [user]);
+  }, [user, loadFamilyMembers]);
 
-  const loadFamilyData = useCallback(async (familyId: string) => {
-    setLoading(true);
-    try {
-      // Load family info
-      const { data: familyData, error: familyError } = await supabase
-        .from(TABLES.FAMILIES)
-        .select('*')
-        .eq('id', familyId)
-        .single();
-
-      if (familyError) {
-        console.error('Error loading family:', familyError);
-        return;
-      }
-
-      setCurrentFamily(familyData);
-      await loadFamilyMembers(familyId);
-    } catch (error) {
-      console.error('Error loading family data:', error);
-    } finally {
-      setLoading(false);
+  // Load family data when user changes
+  useEffect(() => {
+    if (isAuthenticated && user && profile?.profile_data?.familyId) {
+      loadFamilyData(profile.profile_data.familyId);
+    } else if (isAuthenticated && user) {
+      // Check if user is already part of a family
+      checkExistingFamily();
     }
-  }, []);
-
-  const loadFamilyMembers = async (familyId: string) => {
-    try {
-      const { data, error } = await supabase
-        .from(TABLES.FAMILY_MEMBERS)
-        .select('*')
-        .eq('family_id', familyId)
-        .order('created_at', { ascending: true });
-
-      if (error) {
-        console.error('Error loading family members:', error);
-        return;
-      }
-
-      setFamilyMembers(data || []);
-    } catch (error) {
-      console.error('Error loading family members:', error);
-    }
-  };
+  }, [isAuthenticated, user, profile]);
 
   const createFamily = async (name: string) => {
     if (!user) {
