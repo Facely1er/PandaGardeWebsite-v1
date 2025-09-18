@@ -152,7 +152,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
       // Check if user is already part of a family
       checkExistingFamily();
     }
-  }, [isAuthenticated, user, profile, loadFamilyData, checkExistingFamily]);
+  }, [isAuthenticated, user, profile]);
 
   const createFamily = async (name: string) => {
     if (!user) {
