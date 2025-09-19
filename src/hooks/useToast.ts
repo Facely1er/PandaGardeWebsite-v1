@@ -16,7 +16,11 @@ export const useToast = () => {
   const [toasts, setToasts] = useState<ToastProps[]>([]);
 
   const removeToast = useCallback((id: string) => {
+
     setToasts((prev: ToastProps[]) => prev.filter((toast: ToastProps) => toast.id !== id));
+ 
+    setToasts(prev => prev.filter(toast => toast.id !== id));
+ 
   }, []);
 
   const addToast = useCallback((options: ToastOptions) => {
