@@ -8,7 +8,7 @@ import Logo from '../../components/Logo';
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { signIn, signUp } = useAuth();
-  const { success, error } = useToast();
+  const { success, error: showError } = useToast();
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [formData, setFormData] = useState({
     email: '',
@@ -23,7 +23,7 @@ const LoginPage: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev: any) => ({
       ...prev,
       [name]: value
     }));
@@ -37,14 +37,14 @@ const LoginPage: React.FC = () => {
       if (mode === 'signin') {
         const { error } = await signIn(formData.email, formData.password);
         if (error) {
-          error(`Sign in failed: ${  error.message}`);
+          showError(`Sign in failed: ${  error.message}`);
         } else {
           success('Welcome back!');
           navigate('/family-hub');
         }
       } else {
         if (formData.password !== formData.confirmPassword) {
-          error('Passwords do not match');
+          showError('Passwords do not match');
           return;
         }
         
@@ -55,15 +55,15 @@ const LoginPage: React.FC = () => {
         });
         
         if (error) {
-          error(`Sign up failed: ${  error.message}`);
+          showError(`Sign up failed: ${  error.message}`);
         } else {
           success('Account created successfully!');
           navigate('/family-hub');
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Auth error:', error);
-      error('An unexpected error occurred');
+      showError('An unexpected error occurred');
     } finally {
       setIsLoading(false);
     }
