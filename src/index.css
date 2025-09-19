@@ -3191,6 +3191,9 @@ body {
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  display: block;
+  text-decoration: none;
+  color: inherit;
 }
 
 .quick-action-card:hover {
@@ -3233,6 +3236,7 @@ body {
   text-decoration: none;
   font-weight: 600;
   transition: var(--transition);
+  pointer-events: none;
 }
 
 .action-button:hover {

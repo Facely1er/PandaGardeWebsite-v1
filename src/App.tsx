@@ -109,6 +109,7 @@ function App() {
                         <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/story" element={<InteractiveStoryPage />} />
+            <Route path="/privacy-panda" element={<InteractiveStoryPage />} />
             <Route path="/story-classic" element={<StoryPage />} />
             <Route path="/activity-book" element={<ActivityBookPage />} />
             <Route path="/about" element={<AboutPage />} />

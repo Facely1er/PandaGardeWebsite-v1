@@ -180,19 +180,19 @@ const HomePage: React.FC = () => {
 
           <div className="quick-actions-grid">
             {quickActions.map((action, index) => (
-              <div key={index} className="quick-action-card fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+              <Link key={index} to={action.link} className="quick-action-card fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
                 <div className={`action-icon ${action.bgColor}`}>
                   <action.icon size={32} className={action.color} />
                 </div>
                 <div className="action-content">
                   <h3>{action.title}</h3>
                   <p>{action.description}</p>
-                  <Link to={action.link} className="action-button">
+                  <div className="action-button">
                     Get Started
                     <ArrowRight size={16} />
-                  </Link>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
