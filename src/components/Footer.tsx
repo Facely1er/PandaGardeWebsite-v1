@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Shield as Child, User, UserCheck, Mail, HelpCircle, Newspaper, Headphones, Facebook, Twitter, Instagram, Youtube, Linkedin, Users, Shield, Wrench } from 'lucide-react';
+import { Shield as Child, User, UserCheck, Mail, HelpCircle, Newspaper, Headphones, Users, Shield, Wrench } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const navigate = useNavigate();
@@ -27,18 +27,12 @@ const Footer: React.FC = () => {
     }
   };
 
-  const socialLinks = [
-    { icon: Facebook, href: '#', label: 'Facebook' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Instagram, href: '#', label: 'Instagram' },
-    { icon: Youtube, href: '#', label: 'YouTube' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' }
-  ];
+  // Social media links removed - no active social media accounts
 
   const productLinks = [
     { icon: Users, href: '/family-hub', label: 'Family Hub' },
-    { icon: Shield, href: '/privacy-panda', label: 'PrivacyPanda' },
-    { icon: Wrench, href: '/parent-toolkit', label: 'Parent Toolkit' }
+    { icon: Shield, href: '/story', label: 'PrivacyPanda' },
+    { icon: Wrench, href: '/parent-resources', label: 'Parent Toolkit' }
   ];
 
   const curriculumLinks = [
@@ -71,13 +65,6 @@ const Footer: React.FC = () => {
               PandaGarde
             </h3>
             <p>Building privacy skills for tomorrow's world. Comprehensive digital privacy education for families with children ages 5-17.</p>
-            <div className="social-links">
-              {socialLinks.map((social, index) => (
-                <a key={index} href={social.href} className="social-link" aria-label={social.label} target="_blank" rel="noopener noreferrer">
-                  <social.icon size={16} />
-                </a>
-              ))}
-            </div>
           </div>
 
           <div className="footer-column">
