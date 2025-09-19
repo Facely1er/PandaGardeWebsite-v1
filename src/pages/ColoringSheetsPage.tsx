@@ -72,36 +72,29 @@ const ColoringSheetsPage: React.FC = () => {
     if (sheetId === 'all-sheets') {
       setIsDownloading(true);
       try {
-        // Generate and download PDF with all coloring sheets
-        await pdfService.generateColoringSheetsPDF();
-      } catch (error) {
-        console.error('Error generating PDF:', error);
-        // Fallback to individual SVG downloads
-        try {
-          for (const sheet of coloringSheets) {
-            const link = document.createElement('a');
-            link.href = sheet.downloadUrl;
-            link.download = `${sheet.title.replace(/\s+/g, '-').toLowerCase()}.svg`;
-            link.target = '_blank';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            // Small delay between downloads
-            await new Promise(resolve => setTimeout(resolve, 500));
-          }
-        } catch (fallbackError) {
-          console.error('Error downloading coloring sheets:', fallbackError);
-          alert('Error downloading coloring sheets. Please try again.');
+        // Download all individual SVG files
+        for (const sheet of coloringSheets) {
+          const link = document.createElement('a');
+          link.href = sheet.downloadUrl;
+          link.download = `${sheet.title.replace(/\s+/g, '-').toLowerCase()}.svg`;
+          link.target = '_blank';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          // Small delay between downloads
+          await new Promise(resolve => setTimeout(resolve, 500));
         }
+      } catch (error) {
+        console.error('Error downloading coloring sheets:', error);
+        alert('Error downloading coloring sheets. Please try again.');
       } finally {
         setIsDownloading(false);
       }
     } else {
-      // Individual sheet download - try SVG first, then fallback to PDF
+      // Individual sheet download
       const sheet = coloringSheets.find(s => s.id === sheetId);
       if (sheet) {
         try {
-          // Try to download SVG directly
           const link = document.createElement('a');
           link.href = sheet.downloadUrl;
           link.download = `${title.replace(/\s+/g, '-').toLowerCase()}.svg`;
@@ -110,14 +103,8 @@ const ColoringSheetsPage: React.FC = () => {
           link.click();
           document.body.removeChild(link);
         } catch (error) {
-          console.error('Error downloading SVG, trying PDF fallback:', error);
-          // Fallback to PDF generation
-          try {
-            await pdfService.generateColoringSheetsPDF();
-          } catch (pdfError) {
-            console.error('Error generating PDF:', pdfError);
-            alert('Error downloading coloring sheet. Please try again.');
-          }
+          console.error('Error downloading SVG:', error);
+          alert('Error downloading coloring sheet. Please try again.');
         }
       }
     }
@@ -236,11 +223,17 @@ const ColoringSheetsPage: React.FC = () => {
                     onError={(e) => {
                       // Fallback to icon if image fails to load
                       e.currentTarget.style.display = 'none';
-                      e.currentTarget.nextElementSibling.style.display = 'flex';
+                      const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                      if (fallback) {
+                        fallback.style.display = 'flex';
+                      }
                     }}
                   />
                   <div className="absolute inset-0 flex items-center justify-center" style={{ display: 'none' }}>
-                    <Palette size={48} className="text-green-600" />
+                    <div className="text-center">
+                      <Palette size={48} className="text-green-600 mx-auto mb-2" />
+                      <p className="text-sm text-gray-600">Preview not available</p>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -102,7 +102,7 @@ const SupportPage: React.FC = () => {
     },
     {
       id: 'community',
-      title: 'Community Forum',
+      title: 'Family Hub Community',
       description: 'Connect with other families and share experiences through our Family Hub.',
       icon: Users,
       responseTime: 'Variable',
@@ -212,6 +212,8 @@ const SupportPage: React.FC = () => {
                     navigate('/contact');
                   } else if (option.id === 'email') {
                     window.open('mailto:support@pandagarde.com', '_blank');
+                  } else if (option.id === 'community') {
+                    navigate('/family-hub');
                   }
                 }}
               >

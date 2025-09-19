@@ -524,21 +524,23 @@ const FamilyHubPage: React.FC = () => {
                 </div>
               </Link>
 
-              <div className="bg-white rounded-xl p-8 text-center"
-                   style={{ backgroundColor: 'var(--card-color)' }}>
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center text-white mx-auto mb-6">
-                  <Award size={32} />
+              <Link to="/privacy-tools" className="block">
+                <div className="bg-white rounded-xl p-8 text-center hover:shadow-lg transition-all transform hover:scale-105"
+                     style={{ backgroundColor: 'var(--card-color)' }}>
+                  <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center text-white mx-auto mb-6">
+                    <Award size={32} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
+                    Privacy Tools & Challenges
+                  </h3>
+                  <p className="mb-4" style={{ color: 'var(--gray-600)' }}>
+                    Advanced privacy tools and challenges for older children
+                  </p>
+                  <div className="text-purple-600 font-semibold">
+                    Explore Tools →
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
-                  Privacy Challenges
-                </h3>
-                <p className="mb-4" style={{ color: 'var(--gray-600)' }}>
-                  Advanced challenges and assessments for older children
-                </p>
-                <div className="text-green-600 font-semibold">
-                  Available Now
-                </div>
-              </div>
+              </Link>
             </div>
           </div>
         )}
