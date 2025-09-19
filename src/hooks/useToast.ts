@@ -16,7 +16,11 @@ export const useToast = () => {
   const [toasts, setToasts] = useState<ToastProps[]>([]);
 
   const removeToast = useCallback((id: string) => {
+
+    setToasts((prev: ToastProps[]) => prev.filter((toast: ToastProps) => toast.id !== id));
+ 
     setToasts(prev => prev.filter(toast => toast.id !== id));
+ 
   }, []);
 
   const addToast = useCallback((options: ToastOptions) => {
@@ -27,7 +31,7 @@ export const useToast = () => {
       onClose: () => removeToast(id)
     };
 
-    setToasts(prev => [...prev, newToast]);
+    setToasts((prev: ToastProps[]) => [...prev, newToast]);
     return id;
   }, [removeToast]);
 
@@ -39,7 +43,7 @@ export const useToast = () => {
     return addToast({
       type: 'success',
       title,
-      message,
+      ...(message && { message }),
       duration: 4000,
       ...options
     });
@@ -49,7 +53,7 @@ export const useToast = () => {
     return addToast({
       type: 'error',
       title,
-      message,
+      ...(message && { message }),
       duration: 6000,
       ...options
     });
@@ -59,7 +63,7 @@ export const useToast = () => {
     return addToast({
       type: 'warning',
       title,
-      message,
+      ...(message && { message }),
       duration: 5000,
       ...options
     });
@@ -69,7 +73,7 @@ export const useToast = () => {
     return addToast({
       type: 'info',
       title,
-      message,
+      ...(message && { message }),
       duration: 4000,
       ...options
     });

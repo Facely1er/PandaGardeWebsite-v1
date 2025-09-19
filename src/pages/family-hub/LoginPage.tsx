@@ -8,7 +8,9 @@ import Logo from '../../components/Logo';
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { signIn, signUp } = useAuth();
-  const { error: showError, success: showSuccess } = useToast();
+ 
+  const { success, error: showError } = useToast();
+ 
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [formData, setFormData] = useState({
     email: '',
@@ -23,7 +25,7 @@ const LoginPage: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev: any) => ({
       ...prev,
       [name]: value
     }));
@@ -39,7 +41,7 @@ const LoginPage: React.FC = () => {
         if (error) {
           showError(`Sign in failed: ${error.message}`);
         } else {
-          showSuccess('Welcome back!');
+          success('Welcome back!');
           navigate('/family-hub');
         }
       } else {
@@ -57,11 +59,11 @@ const LoginPage: React.FC = () => {
         if (error) {
           showError(`Sign up failed: ${error.message}`);
         } else {
-          showSuccess('Account created successfully!');
+          success('Account created successfully!');
           navigate('/family-hub');
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Auth error:', error);
       showError('An unexpected error occurred');
     } finally {
