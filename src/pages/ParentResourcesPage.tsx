@@ -90,11 +90,11 @@ const ParentResourcesPage: React.FC = () => {
                 </div>
                 <p>Everything parents need to know about teaching digital privacy to children of all ages. Includes age-specific strategies, conversation starters, and practical implementation tips.</p>
                 <div className="flex items-center gap-4 mt-4">
-                  <Link to="/parent-resources" className="button">
+                  <Link to="/guides/family-privacy" className="button">
                     <Download size={16} />
                     View Guide
                   </Link>
-                  <span className="text-sm text-gray-500">Coming Soon</span>
+                  <span className="text-sm text-green-600 font-medium">Available Now</span>
                 </div>
               </div>
 
@@ -120,11 +120,11 @@ const ParentResourcesPage: React.FC = () => {
                 </div>
                 <p>Step-by-step instructions for handling privacy breaches, cyberbullying, and other digital safety emergencies. Includes legal considerations and recovery strategies.</p>
                 <div className="flex items-center gap-4 mt-4">
-                  <Link to="/parent-resources" className="button">
+                  <Link to="/guides/emergency-safety" className="button">
                     <Download size={16} />
                     View Guide
                   </Link>
-                  <span className="text-sm text-gray-500">Coming Soon</span>
+                  <span className="text-sm text-green-600 font-medium">Available Now</span>
                 </div>
               </div>
 
@@ -135,11 +135,11 @@ const ParentResourcesPage: React.FC = () => {
                 </div>
                 <p>Tailored guides for different age groups (5-8, 9-12, 13-17), covering developmentally appropriate concepts and teaching strategies for each stage.</p>
                 <div className="flex items-center gap-4 mt-4">
-                  <Link to="/parent-resources" className="button">
+                  <Link to="/guides/age-specific" className="button">
                     <Download size={16} />
                     View Guide
                   </Link>
-                  <span className="text-sm text-gray-500">Coming Soon</span>
+                  <span className="text-sm text-green-600 font-medium">Available Now</span>
                 </div>
               </div>
             </div>
@@ -278,11 +278,11 @@ const ParentResourcesPage: React.FC = () => {
                 </div>
                 <p>20 hands-on activities including games, crafts, role-playing scenarios, and interactive exercises to teach privacy concepts through play.</p>
                 <div className="flex items-center gap-4 mt-4">
-                  <Link to="/parent-resources" className="button">
+                  <Link to="/activities/privacy-learning-kit" className="button">
                     <Download size={16} />
                     View Activities
                   </Link>
-                  <span className="text-sm text-gray-500">Coming Soon</span>
+                  <span className="text-sm text-green-600 font-medium">Available Now</span>
                 </div>
               </div>
 
@@ -338,11 +338,11 @@ const ParentResourcesPage: React.FC = () => {
                 </div>
                 <p>Educational worksheets and activity sheets for reinforcing privacy concepts through writing, drawing, and reflection exercises.</p>
                 <div className="flex items-center gap-4 mt-4">
-                  <Link to="/parent-resources" className="button">
+                  <Link to="/downloads/worksheets" className="button">
                     <Download size={16} />
                     View Worksheets
                   </Link>
-                  <span className="text-sm text-gray-500">Coming Soon</span>
+                  <span className="text-sm text-green-600 font-medium">Available Now</span>
                 </div>
               </div>
 

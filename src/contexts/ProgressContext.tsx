@@ -150,6 +150,85 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
   }, [progress]);
 
+  // Autosave to database for authenticated users
+  useEffect(() => {
+    if (!user) return;
+
+    const autosaveToDatabase = async () => {
+      try {
+        await progressService.saveProgress({
+          user_id: user.id,
+          completed_activities: progress.completedActivities,
+          activity_details: progress.activityDetails,
+          total_score: progress.totalScore,
+          achievements: progress.achievements,
+          preferences: progress.preferences,
+          last_activity: new Date().toISOString()
+        });
+      } catch (error) {
+        console.warn('Autosave to database failed:', error);
+        // Continue with localStorage fallback
+      }
+    };
+
+    // Debounce autosave to avoid too frequent database calls
+    const timeoutId = setTimeout(autosaveToDatabase, 2000);
+    return () => clearTimeout(timeoutId);
+  }, [progress, user]);
+
+  // Periodic autosave every 30 seconds for authenticated users
+  useEffect(() => {
+    if (!user) return;
+
+    const intervalId = setInterval(async () => {
+      try {
+        await progressService.saveProgress({
+          user_id: user.id,
+          completed_activities: progress.completedActivities,
+          activity_details: progress.activityDetails,
+          total_score: progress.totalScore,
+          achievements: progress.achievements,
+          preferences: progress.preferences,
+          last_activity: new Date().toISOString()
+        });
+      } catch (error) {
+        console.warn('Periodic autosave failed:', error);
+      }
+    }, 30000); // 30 seconds
+
+    return () => clearInterval(intervalId);
+  }, [user, progress]);
+
+  // Save on page unload
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (user) {
+        // Use sendBeacon for reliable saving on page unload
+        const progressData = JSON.stringify({
+          user_id: user.id,
+          completed_activities: progress.completedActivities,
+          activity_details: progress.activityDetails,
+          total_score: progress.totalScore,
+          achievements: progress.achievements,
+          preferences: progress.preferences,
+          last_activity: new Date().toISOString()
+        });
+
+        // Try to save via sendBeacon if available
+        if (navigator.sendBeacon) {
+          try {
+            navigator.sendBeacon('/api/save-progress', progressData);
+          } catch (error) {
+            console.warn('SendBeacon failed, using localStorage fallback');
+          }
+        }
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [progress, user]);
+
   const markActivityCompleted = useCallback(async (activityId: string, score?: number, timeSpent?: number) => {
     if (!user) {
       // For non-authenticated users, just update local state
