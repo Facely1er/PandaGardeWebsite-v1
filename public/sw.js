@@ -90,7 +90,7 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(handleImageRequest(request));
   } else if (isStaticAsset(request)) {
     event.respondWith(handleStaticAsset(request));
-  } else if (isAPIRequest(request)) {
+  } else if (isAPIRequest(request, url)) {
     event.respondWith(handleAPIRequest(request));
   } else {
     event.respondWith(handlePageRequest(request));
@@ -112,7 +112,7 @@ function isStaticAsset(request) {
 }
 
 // Check if request is for API
-function isAPIRequest(request) {
+function isAPIRequest(request, url) {
   return url.pathname.startsWith('/api/') ||
          url.hostname.includes('supabase') ||
          url.hostname.includes('sentry');

@@ -44,6 +44,16 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
 
   const currentScene = scenes[currentSceneIndex];
 
+  const nextScene = useCallback(() => {
+    if (currentSceneIndex < scenes.length - 1) {
+      setCurrentSceneIndex(currentSceneIndex + 1);
+      setSelectedChoice(null);
+      onSceneChange?.(scenes[currentSceneIndex + 1].id);
+    } else {
+      onStoryComplete?.();
+    }
+  }, [currentSceneIndex, scenes, onSceneChange, onStoryComplete]);
+
   // Auto-advance functionality
   useEffect(() => {
     if (isPlaying && autoAdvance && currentScene.duration) {
@@ -98,16 +108,6 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
       audioRef.current.currentTime = 0;
     }
   };
-
-  const nextScene = useCallback(() => {
-    if (currentSceneIndex < scenes.length - 1) {
-      setCurrentSceneIndex(currentSceneIndex + 1);
-      setSelectedChoice(null);
-      onSceneChange?.(scenes[currentSceneIndex + 1].id);
-    } else {
-      onStoryComplete?.();
-    }
-  }, [currentSceneIndex, scenes, onSceneChange, onStoryComplete]);
 
   const prevScene = () => {
     if (currentSceneIndex > 0) {
