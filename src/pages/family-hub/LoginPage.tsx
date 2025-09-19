@@ -8,7 +8,7 @@ import Logo from '../../components/Logo';
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { signIn, signUp } = useAuth();
-  const { showToast } = useToast();
+  const { success, error } = useToast();
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [formData, setFormData] = useState({
     email: '',
@@ -37,14 +37,14 @@ const LoginPage: React.FC = () => {
       if (mode === 'signin') {
         const { error } = await signIn(formData.email, formData.password);
         if (error) {
-          showToast(`Sign in failed: ${  error.message}`, 'error');
+          error(`Sign in failed: ${  error.message}`);
         } else {
-          showToast('Welcome back!', 'success');
+          success('Welcome back!');
           navigate('/family-hub');
         }
       } else {
         if (formData.password !== formData.confirmPassword) {
-          showToast('Passwords do not match', 'error');
+          error('Passwords do not match');
           return;
         }
         
@@ -55,15 +55,15 @@ const LoginPage: React.FC = () => {
         });
         
         if (error) {
-          showToast(`Sign up failed: ${  error.message}`, 'error');
+          error(`Sign up failed: ${  error.message}`);
         } else {
-          showToast('Account created successfully!', 'success');
+          success('Account created successfully!');
           navigate('/family-hub');
         }
       }
     } catch (error) {
       console.error('Auth error:', error);
-      showToast('An unexpected error occurred', 'error');
+      error('An unexpected error occurred');
     } finally {
       setIsLoading(false);
     }
