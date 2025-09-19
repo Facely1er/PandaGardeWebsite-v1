@@ -152,7 +152,9 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
 
   // Autosave to database for authenticated users
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      return;
+    }
 
     const autosaveToDatabase = async () => {
       try {
@@ -178,7 +180,9 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
 
   // Periodic autosave every 30 seconds for authenticated users
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      return;
+    }
 
     const intervalId = setInterval(async () => {
       try {
