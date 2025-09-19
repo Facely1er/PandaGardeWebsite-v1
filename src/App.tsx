@@ -50,6 +50,7 @@ import ImplementationGuidePage from './pages/ImplementationGuidePage';
 import OverviewPage from './pages/OverviewPage';
 import ResourcesPage from './pages/ResourcesPage';
 import QuickStartPage from './pages/QuickStartPage';
+import PlaceholderPage from './pages/PlaceholderPage';
 import NavigationErrorBoundary from './components/NavigationErrorBoundary';
 import AgeVerificationModal from './components/AgeVerificationModal';
 import { SentryErrorBoundary } from './lib/sentry';
@@ -110,6 +111,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/story" element={<InteractiveStoryPage />} />
             <Route path="/story-classic" element={<StoryPage />} />
+            <Route path="/privacy-panda" element={<InteractiveStoryPage />} />
             <Route path="/activity-book" element={<ActivityBookPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/age-groups" element={<AgeGroupsPage />} />
@@ -130,7 +132,6 @@ function App() {
             <Route path="/resources" element={<ResourcesPage />} />
             <Route path="/quick-start" element={<QuickStartPage />} />
             <Route path="/educator-tools" element={<EducatorToolsPage />} />
-            <Route path="/parent-resources" element={<ParentResourcesPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/newsletter" element={<NewsletterPage />} />
@@ -164,6 +165,12 @@ function App() {
             <Route path="/guides/family-privacy" element={<FamilyPrivacyGuidePage />} />
             <Route path="/guides/emergency-safety" element={<EmergencySafetyGuidePage />} />
             <Route path="/guides/age-specific" element={<AgeSpecificGuidePage />} />
+
+            {/* Activity Pages */}
+            <Route path="/activities/privacy-learning-kit" element={<PlaceholderPage title="Privacy Learning Kit" description="Interactive activities and games to reinforce privacy concepts" />} />
+            
+            {/* Additional Download Pages */}
+            <Route path="/downloads/worksheets" element={<PlaceholderPage title="Privacy Worksheets" description="Printable worksheets and activities for hands-on learning" />} />
             
             {/* 404 Fallback */}
             <Route path="*" element={<HomePage />} />
