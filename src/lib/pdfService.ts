@@ -1,6 +1,9 @@
 // PDF Generation Service for Downloadable Resources
 // This service handles generating PDFs for various downloadable resources
 
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 export interface PDFResource {
   type: 'coloring-sheets' | 'safety-posters' | 'certificates' | 'family-agreement';
   title: string;
@@ -23,9 +26,67 @@ export class PDFService {
   }
 
   /**
-   * Generate a PDF from HTML content
+   * Generate a PDF from HTML content using jsPDF and html2canvas
    */
-  async generatePDF(htmlContent: string): Promise<void> {
+  async generatePDF(htmlContent: string, filename: string = 'document.pdf'): Promise<void> {
+    try {
+      // Create a temporary container
+      const tempContainer = document.createElement('div');
+      tempContainer.innerHTML = htmlContent;
+      tempContainer.style.position = 'absolute';
+      tempContainer.style.left = '-9999px';
+      tempContainer.style.top = '-9999px';
+      tempContainer.style.width = '210mm'; // A4 width
+      tempContainer.style.backgroundColor = 'white';
+      document.body.appendChild(tempContainer);
+
+      // Generate canvas from HTML
+      const canvas = await html2canvas(tempContainer, {
+        scale: 2, // Higher quality
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff'
+      });
+
+      // Remove temporary container
+      document.body.removeChild(tempContainer);
+
+      // Create PDF
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 295; // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+
+      let position = 0;
+
+      // Add first page
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      // Add additional pages if needed
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      // Download the PDF
+      pdf.save(filename);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      // Fallback to print dialog
+      await this.generatePDFFallback(htmlContent, filename);
+    }
+  }
+
+  /**
+   * Fallback PDF generation using print dialog
+   */
+  async generatePDFFallback(htmlContent: string, filename: string): Promise<void> {
     try {
       // Create a new window with the HTML content
       const printWindow = window.open('', '_blank');
@@ -47,7 +108,7 @@ export class PDFService {
         }, 1000);
       };
     } catch (error) {
-      console.error('Error generating PDF:', error);
+      console.error('Error generating PDF fallback:', error);
       throw new Error('Failed to generate PDF. Please try again.');
     }
   }
@@ -105,6 +166,23 @@ export class PDFService {
   async generateFamilyAgreementPDF(): Promise<void> {
     const htmlContent = await this.getFamilyAgreementHTML();
     await this.generatePDF(htmlContent, 'family-internet-agreement.pdf');
+  }
+
+  /**
+   * Generate a custom PDF with user data
+   */
+  async generateCustomPDF(htmlContent: string, filename: string, metadata?: PDFResource['metadata']): Promise<void> {
+    // Add metadata to HTML if provided
+    if (metadata) {
+      const metaTags = `
+        <meta name="author" content="${metadata.author || 'PandaGarde'}">
+        <meta name="subject" content="${metadata.subject || 'Digital Privacy Education'}">
+        <meta name="keywords" content="${metadata.keywords?.join(', ') || 'privacy, digital safety, education'}">
+      `;
+      htmlContent = htmlContent.replace('<head>', `<head>${metaTags}`);
+    }
+    
+    await this.generatePDF(htmlContent, filename);
   }
 
   /**

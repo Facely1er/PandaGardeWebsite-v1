@@ -40,6 +40,9 @@ import DeviceSetupGuidePage from './pages/DeviceSetupGuidePage';
 import AppSelectionGuidePage from './pages/AppSelectionGuidePage';
 import ModelingBehaviorGuidePage from './pages/ModelingBehaviorGuidePage';
 import PrivacyConcernsGuidePage from './pages/PrivacyConcernsGuidePage';
+import FamilyPrivacyGuidePage from './pages/guides/FamilyPrivacyGuidePage';
+import EmergencySafetyGuidePage from './pages/guides/EmergencySafetyGuidePage';
+import AgeSpecificGuidePage from './pages/guides/AgeSpecificGuidePage';
 import EducatorToolsPage from './pages/EducatorToolsPage';
 import NewsletterPage from './pages/NewsletterPage';
 import SupportPage from './pages/SupportPage';
@@ -158,6 +161,9 @@ function App() {
             <Route path="/guides/app-selection" element={<AppSelectionGuidePage />} />
             <Route path="/guides/modeling-behavior" element={<ModelingBehaviorGuidePage />} />
             <Route path="/guides/privacy-concerns" element={<PrivacyConcernsGuidePage />} />
+            <Route path="/guides/family-privacy" element={<FamilyPrivacyGuidePage />} />
+            <Route path="/guides/emergency-safety" element={<EmergencySafetyGuidePage />} />
+            <Route path="/guides/age-specific" element={<AgeSpecificGuidePage />} />
             
             {/* 404 Fallback */}
             <Route path="*" element={<HomePage />} />

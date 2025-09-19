@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, Download, Shield, AlertTriangle, Users, Lock } from 'lucide-react';
 import Logo from '../components/Logo';
 import { pdfService } from '../lib/pdfService';
+import { downloadService } from '../lib/database';
 
 const SafetyPostersPage: React.FC = () => {
   const [isDownloading, setIsDownloading] = useState(false);
@@ -19,7 +20,7 @@ const SafetyPostersPage: React.FC = () => {
       ageGroup: 'Ages 5-8',
       size: '11" x 17"',
       icon: Shield,
-      downloadUrl: '#'
+      downloadUrl: '/downloads/safety-posters.html#privacy-basics'
     },
     {
       id: 'online-safety-rules',
@@ -28,7 +29,7 @@ const SafetyPostersPage: React.FC = () => {
       ageGroup: 'Ages 6-10',
       size: '11" x 17"',
       icon: AlertTriangle,
-      downloadUrl: '#'
+      downloadUrl: '/downloads/safety-posters.html#online-safety-rules'
     },
     {
       id: 'password-protection',
@@ -37,7 +38,7 @@ const SafetyPostersPage: React.FC = () => {
       ageGroup: 'Ages 8-12',
       size: '11" x 17"',
       icon: Lock,
-      downloadUrl: '#'
+      downloadUrl: '/downloads/safety-posters.html#password-protection'
     },
     {
       id: 'family-privacy-agreement',
@@ -46,7 +47,7 @@ const SafetyPostersPage: React.FC = () => {
       ageGroup: 'All Ages',
       size: '8.5" x 11"',
       icon: Users,
-      downloadUrl: '#'
+      downloadUrl: '/downloads/family-agreement.html'
     },
     {
       id: 'cyberbullying-prevention',
@@ -55,7 +56,7 @@ const SafetyPostersPage: React.FC = () => {
       ageGroup: 'Ages 9-13',
       size: '11" x 17"',
       icon: AlertTriangle,
-      downloadUrl: '#'
+      downloadUrl: '/downloads/safety-posters.html#cyberbullying-prevention'
     },
     {
       id: 'digital-footprint-awareness',
@@ -64,11 +65,11 @@ const SafetyPostersPage: React.FC = () => {
       ageGroup: 'Ages 10-14',
       size: '11" x 17"',
       icon: Shield,
-      downloadUrl: '#'
+      downloadUrl: '/downloads/safety-posters.html#digital-footprint-awareness'
     }
   ];
 
-  const handleDownload = async (posterId: string) => {
+  const handleDownload = async (posterId: string, posterTitle?: string) => {
     if (posterId === 'all-posters') {
       setIsDownloading(true);
       try {
@@ -80,9 +81,26 @@ const SafetyPostersPage: React.FC = () => {
         setIsDownloading(false);
       }
     } else {
-      // For individual posters, open the HTML version for now
-      const url = `/downloads/safety-posters.html`;
-      window.open(url, '_blank');
+      // Find the poster and use its download URL
+      const poster = safetyPosters.find(p => p.id === posterId);
+      if (poster) {
+        // Track the download
+        try {
+          await downloadService.trackDownload({
+            user_id: null, // Anonymous download
+            download_type: `safety-poster-${posterId}`,
+            resource_name: posterTitle || poster.title
+          });
+        } catch (error) {
+          console.log('Download tracking failed (demo mode):', error);
+        }
+        
+        // Open the download URL
+        window.open(poster.downloadUrl, '_blank');
+      } else {
+        // Fallback to general safety posters page
+        window.open('/downloads/safety-posters.html', '_blank');
+      }
     }
   };
 

@@ -301,10 +301,24 @@ export const newsletterService = {
 export const downloadService = {
   // Track download
   async trackDownload(downloadData: Omit<DownloadTracking, 'id' | 'downloaded_at'>): Promise<DownloadTracking | null> {
+    const downloadRecord = {
+      ...downloadData,
+      id: crypto.randomUUID(),
+      downloaded_at: new Date().toISOString()
+    };
+
     if (!isSupabaseConfigured || !supabase) {
-      // For demo purposes, just log the download
-      console.log('Download tracked (demo mode):', downloadData)
-      return null
+      // Store in localStorage for demo mode
+      try {
+        const existingDownloads = JSON.parse(localStorage.getItem('pandagarde_downloads') || '[]');
+        existingDownloads.push(downloadRecord);
+        localStorage.setItem('pandagarde_downloads', JSON.stringify(existingDownloads));
+        console.log('Download tracked (localStorage):', downloadRecord);
+        return downloadRecord;
+      } catch (error) {
+        console.error('Error storing download in localStorage:', error);
+        return null;
+      }
     }
     
     const { data, error } = await supabase
@@ -315,7 +329,17 @@ export const downloadService = {
 
     if (error) {
       console.error('Error tracking download:', error)
-      return null
+      // Fallback to localStorage
+      try {
+        const existingDownloads = JSON.parse(localStorage.getItem('pandagarde_downloads') || '[]');
+        existingDownloads.push(downloadRecord);
+        localStorage.setItem('pandagarde_downloads', JSON.stringify(existingDownloads));
+        console.log('Download tracked (localStorage fallback):', downloadRecord);
+        return downloadRecord;
+      } catch (fallbackError) {
+        console.error('Error storing download in localStorage fallback:', fallbackError);
+        return null;
+      }
     }
 
     return data
@@ -323,7 +347,18 @@ export const downloadService = {
 
   // Get download statistics (admin only)
   async getDownloadStats(): Promise<DownloadTracking[]> {
-    if (!isSupabaseConfigured || !supabase) {return []}
+    if (!isSupabaseConfigured || !supabase) {
+      // Return localStorage data in demo mode
+      try {
+        const localDownloads = JSON.parse(localStorage.getItem('pandagarde_downloads') || '[]');
+        return localDownloads.sort((a: DownloadTracking, b: DownloadTracking) => 
+          new Date(b.downloaded_at).getTime() - new Date(a.downloaded_at).getTime()
+        );
+      } catch (error) {
+        console.error('Error fetching local download stats:', error);
+        return [];
+      }
+    }
     
     const { data, error } = await supabase
       .from(TABLES.DOWNLOAD_TRACKING)
@@ -332,7 +367,16 @@ export const downloadService = {
 
     if (error) {
       console.error('Error fetching download stats:', error)
-      return []
+      // Fallback to localStorage
+      try {
+        const localDownloads = JSON.parse(localStorage.getItem('pandagarde_downloads') || '[]');
+        return localDownloads.sort((a: DownloadTracking, b: DownloadTracking) => 
+          new Date(b.downloaded_at).getTime() - new Date(a.downloaded_at).getTime()
+        );
+      } catch (fallbackError) {
+        console.error('Error fetching local download stats fallback:', fallbackError);
+        return [];
+      }
     }
 
     return data || []
