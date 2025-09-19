@@ -81,54 +81,84 @@ class SearchService {
   }
 
   private async loadSearchContent(): Promise<void> {
-    if (!supabase) {return;}
-
-    const { data, error } = await supabase
-      .from(TABLES.SEARCH_CONTENT)
-      .select('*')
-      .eq('is_active', true)
-      .order('sort_order', { ascending: true });
-
-    if (error) {
-      console.error('Error loading search content:', error);
+    if (!supabase) {
+      console.log('Supabase not configured - using empty search index');
+      this.searchIndex = [];
       return;
     }
 
-    this.searchIndex = data || [];
+    try {
+      const { data, error } = await supabase
+        .from(TABLES.SEARCH_CONTENT)
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order', { ascending: true });
+
+      if (error) {
+        console.error('Error loading search content:', error);
+        this.searchIndex = [];
+        return;
+      }
+
+      this.searchIndex = data || [];
+    } catch (error) {
+      console.error('Error loading search content:', error);
+      this.searchIndex = [];
+    }
   }
 
   private async loadCategories(): Promise<void> {
-    if (!supabase) {return;}
-
-    const { data, error } = await supabase
-      .from(TABLES.SEARCH_CATEGORIES)
-      .select('*')
-      .eq('is_active', true)
-      .order('sort_order', { ascending: true });
-
-    if (error) {
-      console.error('Error loading search categories:', error);
+    if (!supabase) {
+      console.log('Supabase not configured - using empty categories');
+      this.categories = [];
       return;
     }
 
-    this.categories = data || [];
+    try {
+      const { data, error } = await supabase
+        .from(TABLES.SEARCH_CATEGORIES)
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order', { ascending: true });
+
+      if (error) {
+        console.error('Error loading search categories:', error);
+        this.categories = [];
+        return;
+      }
+
+      this.categories = data || [];
+    } catch (error) {
+      console.error('Error loading search categories:', error);
+      this.categories = [];
+    }
   }
 
   private async loadSuggestions(): Promise<void> {
-    if (!supabase) {return;}
-
-    const { data, error } = await supabase
-      .from(TABLES.SEARCH_SUGGESTIONS)
-      .select('*')
-      .eq('is_active', true)
-      .order('usage_count', { ascending: false });
-
-    if (error) {
-      console.error('Error loading search suggestions:', error);
+    if (!supabase) {
+      console.log('Supabase not configured - using empty suggestions');
+      this.suggestions = [];
       return;
     }
 
-    this.suggestions = data || [];
+    try {
+      const { data, error } = await supabase
+        .from(TABLES.SEARCH_SUGGESTIONS)
+        .select('*')
+        .eq('is_active', true)
+        .order('usage_count', { ascending: false });
+
+      if (error) {
+        console.error('Error loading search suggestions:', error);
+        this.suggestions = [];
+        return;
+      }
+
+      this.suggestions = data || [];
+    } catch (error) {
+      console.error('Error loading search suggestions:', error);
+      this.suggestions = [];
+    }
   }
 
   async search(query: string, filters?: SearchFilters): Promise<SearchResult[]> {
@@ -232,64 +262,91 @@ class SearchService {
   }
 
   async addSearchContent(content: Omit<SearchContentItem, 'id' | 'created_at' | 'updated_at'>): Promise<SearchContentItem | null> {
-    if (!supabase) {return null;}
+    if (!supabase) {
+      console.log('Supabase not configured - cannot add search content');
+      return null;
+    }
 
-    const { data, error } = await supabase
-      .from(TABLES.SEARCH_CONTENT)
-      .insert([content])
-      .select()
-      .single();
+    try {
+      const { data, error } = await supabase
+        .from(TABLES.SEARCH_CONTENT)
+        .insert([content])
+        .select()
+        .single();
 
-    if (error) {
+      if (error) {
+        console.error('Error adding search content:', error);
+        return null;
+      }
+
+      // Reload search content
+      await this.loadSearchContent();
+      return data;
+    } catch (error) {
       console.error('Error adding search content:', error);
       return null;
     }
-
-    // Reload search content
-    await this.loadSearchContent();
-    return data;
   }
 
   async updateSearchContent(id: string, updates: Partial<SearchContentItem>): Promise<SearchContentItem | null> {
-    if (!supabase) {return null;}
-
-    const { data, error } = await supabase
-      .from(TABLES.SEARCH_CONTENT)
-      .update(updates)
-      .eq('id', id)
-      .select()
-      .single();
-
-    if (error) {
-      console.error('Error updating search content:', error);
+    if (!supabase) {
+      console.log('Supabase not configured - cannot update search content');
       return null;
     }
 
-    // Reload search content
-    await this.loadSearchContent();
-    return data;
+    try {
+      const { data, error } = await supabase
+        .from(TABLES.SEARCH_CONTENT)
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error updating search content:', error);
+        return null;
+      }
+
+      // Reload search content
+      await this.loadSearchContent();
+      return data;
+    } catch (error) {
+      console.error('Error updating search content:', error);
+      return null;
+    }
   }
 
   async deleteSearchContent(id: string): Promise<boolean> {
-    if (!supabase) {return false;}
-
-    const { error } = await supabase
-      .from(TABLES.SEARCH_CONTENT)
-      .delete()
-      .eq('id', id);
-
-    if (error) {
-      console.error('Error deleting search content:', error);
+    if (!supabase) {
+      console.log('Supabase not configured - cannot delete search content');
       return false;
     }
 
-    // Reload search content
-    await this.loadSearchContent();
-    return true;
+    try {
+      const { error } = await supabase
+        .from(TABLES.SEARCH_CONTENT)
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        console.error('Error deleting search content:', error);
+        return false;
+      }
+
+      // Reload search content
+      await this.loadSearchContent();
+      return true;
+    } catch (error) {
+      console.error('Error deleting search content:', error);
+      return false;
+    }
   }
 
   private async trackSearchAnalytics(query: string, resultsCount: number, filters?: SearchFilters): Promise<void> {
-    if (!supabase) {return;}
+    if (!supabase) {
+      console.log('Supabase not configured - skipping search analytics tracking');
+      return;
+    }
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
