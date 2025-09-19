@@ -1,31 +1,9 @@
 import React from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Shield as Child, User, UserCheck, Mail, HelpCircle, Newspaper, Headphones, Users, Shield, Wrench } from 'lucide-react';
 
 const Footer: React.FC = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const scrollToSection = (href: string) => {
-    if (href.startsWith('#')) {
-      // If we're not on the home page, navigate there first
-      if (location.pathname !== '/') {
-        navigate('/');
-        // Wait for navigation to complete, then scroll
-        setTimeout(() => {
-          const element = document.querySelector(href);
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-          }
-        }, 300);
-      } else {
-        const element = document.querySelector(href);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    }
-  };
+  // scrollToSection function removed - no longer needed since all links are now regular routes
 
   // Social media links removed - no active social media accounts
 
@@ -36,10 +14,10 @@ const Footer: React.FC = () => {
   ];
 
   const curriculumLinks = [
-    { icon: Child, href: '/#curriculum', label: 'Ages 5-8' },
-    { icon: User, href: '/#curriculum', label: 'Ages 9-12' },
-    { icon: UserCheck, href: '/#curriculum', label: 'Ages 13-17' },
-    { icon: Users, href: '/#curriculum', label: 'Parents' }
+    { icon: Child, href: '/activity-book', label: 'Ages 5-8' },
+    { icon: User, href: '/privacy-explorers', label: 'Ages 9-12' },
+    { icon: UserCheck, href: '/teen-handbook', label: 'Ages 13-17' },
+    { icon: Users, href: '/parent-resources', label: 'Parents' }
   ];
 
   const connectLinks = [
@@ -86,23 +64,10 @@ const Footer: React.FC = () => {
             <ul>
               {curriculumLinks.map((link, index) => (
                 <li key={index}>
-                  {link.href.startsWith('#') ? (
-                    <a
-                      href={link.href}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        scrollToSection(link.href);
-                      }}
-                    >
-                      <link.icon size={16} />
-                      {link.label}
-                    </a>
-                  ) : (
-                    <Link to={link.href}>
-                      <link.icon size={16} />
-                      {link.label}
-                    </Link>
-                  )}
+                  <Link to={link.href}>
+                    <link.icon size={16} />
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
