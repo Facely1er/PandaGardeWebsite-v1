@@ -124,7 +124,9 @@ const AgeSpecificGuidePage: React.FC = () => {
 
   const content = getAgeGroupContent(selectedAgeGroup);
 
-  if (!content) return null;
+  if (!content) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
