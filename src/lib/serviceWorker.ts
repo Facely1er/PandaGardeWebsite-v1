@@ -176,6 +176,44 @@ class ServiceWorkerManager {
     }
   }
 
+  // Cache tool assets for offline use
+  async cacheToolAssets(toolId: string): Promise<void> {
+    try {
+      await this.sendMessage({
+        type: 'CACHE_TOOL_ASSETS',
+        toolId
+      });
+      console.log(`Tool assets cached for: ${toolId}`);
+    } catch (error) {
+      console.error('Tool asset caching failed:', error);
+    }
+  }
+
+  // Cache mission content for offline use
+  async cacheMissionContent(missionId: string): Promise<void> {
+    try {
+      await this.sendMessage({
+        type: 'CACHE_MISSION_CONTENT',
+        missionId
+      });
+      console.log(`Mission content cached for: ${missionId}`);
+    } catch (error) {
+      console.error('Mission content caching failed:', error);
+    }
+  }
+
+  // Show update notification
+  async showUpdateNotification(message?: string): Promise<void> {
+    try {
+      await this.sendMessage({
+        type: 'SHOW_UPDATE_NOTIFICATION',
+        message
+      });
+    } catch (error) {
+      console.error('Update notification failed:', error);
+    }
+  }
+
   // Send message to service worker
   async sendMessage(message: unknown): Promise<unknown> {
     if (!this.registration || !this.registration.active) {
@@ -247,6 +285,9 @@ export const clearAllCaches = () => serviceWorkerManager.clearCaches();
 export const getCacheInfo = () => serviceWorkerManager.getCacheInfo();
 export const requestBackgroundSync = (tag: string) => serviceWorkerManager.requestBackgroundSync(tag);
 export const sendMessageToSW = (message: unknown) => serviceWorkerManager.sendMessage(message);
+export const cacheToolAssets = (toolId: string) => serviceWorkerManager.cacheToolAssets(toolId);
+export const cacheMissionContent = (missionId: string) => serviceWorkerManager.cacheMissionContent(missionId);
+export const showUpdateNotification = (message?: string) => serviceWorkerManager.showUpdateNotification(message);
 
 // Export types
 export type { ServiceWorkerConfig };

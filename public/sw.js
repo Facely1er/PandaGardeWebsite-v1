@@ -1,8 +1,10 @@
 // Service Worker for Privacy Panda App
-const CACHE_NAME = 'privacy-panda-v1';
-const STATIC_CACHE = 'static-cache-v1';
-const DYNAMIC_CACHE = 'dynamic-cache-v1';
-const IMAGE_CACHE = 'image-cache-v1';
+const CACHE_NAME = 'privacy-panda-v2';
+const STATIC_CACHE = 'static-cache-v2';
+const DYNAMIC_CACHE = 'dynamic-cache-v2';
+const IMAGE_CACHE = 'image-cache-v2';
+const TOOL_CACHE = 'tool-cache-v2';
+const MISSION_CACHE = 'mission-cache-v2';
 
 // Files to cache for offline functionality
 const STATIC_FILES = [
@@ -10,6 +12,20 @@ const STATIC_FILES = [
   '/index.html',
   '/manifest.json',
   '/LogoPandagarde.png',
+  '/offline.html',
+  // Critical app assets
+  '/src/main.tsx',
+  '/src/App.tsx',
+  // Tool assets
+  '/src/tools/',
+  '/src/components/tools/',
+  // Mission content
+  '/src/pages/InteractiveStoryPage.tsx',
+  '/src/pages/ActivityBookPage.tsx',
+  '/src/pages/MissionHub.tsx',
+  // Shared components
+  '/src/components/story/',
+  '/src/components/activities/',
   // Add other critical static assets
 ];
 
@@ -245,17 +261,104 @@ self.addEventListener('sync', (event) => {
   
   if (event.tag === 'background-sync') {
     event.waitUntil(doBackgroundSync());
+  } else if (event.tag === 'progress-sync') {
+    event.waitUntil(syncProgressData());
+  } else if (event.tag === 'achievement-sync') {
+    event.waitUntil(syncAchievementData());
   }
 });
 
-// Handle background sync
+// Handle background sync for general data
 async function doBackgroundSync() {
   try {
-    // Sync any pending offline actions
     console.log('Performing background sync...');
-    // Implement your background sync logic here
+    
+    // Sync offline progress data
+    await syncProgressData();
+    
+    // Sync achievement data
+    await syncAchievementData();
+    
+    // Sync story bookmarks
+    await syncStoryBookmarks();
+    
+    console.log('Background sync completed successfully');
   } catch (error) {
     console.error('Background sync failed:', error);
+  }
+}
+
+// Sync progress data
+async function syncProgressData() {
+  try {
+    // Get progress data from IndexedDB or localStorage
+    const progressData = await getStoredData('story-progress');
+    if (progressData) {
+      // Here you would typically send to your backend
+      console.log('Syncing progress data:', progressData);
+      // For now, just log it
+    }
+  } catch (error) {
+    console.error('Progress sync failed:', error);
+  }
+}
+
+// Sync achievement data
+async function syncAchievementData() {
+  try {
+    const achievementData = await getStoredData('achievements');
+    if (achievementData) {
+      console.log('Syncing achievement data:', achievementData);
+    }
+  } catch (error) {
+    console.error('Achievement sync failed:', error);
+  }
+}
+
+// Sync story bookmarks
+async function syncStoryBookmarks() {
+  try {
+    const bookmarkData = await getStoredData('story-bookmarks');
+    if (bookmarkData) {
+      console.log('Syncing bookmark data:', bookmarkData);
+    }
+  } catch (error) {
+    console.error('Bookmark sync failed:', error);
+  }
+}
+
+// Helper function to get stored data
+async function getStoredData(key) {
+  try {
+    // Try to get from IndexedDB first, then localStorage
+    return new Promise((resolve) => {
+      const request = indexedDB.open('PrivacyPandaDB', 1);
+      request.onsuccess = () => {
+        const db = request.result;
+        const transaction = db.transaction(['userData'], 'readonly');
+        const store = transaction.objectStore('userData');
+        const getRequest = store.get(key);
+        
+        getRequest.onsuccess = () => {
+          resolve(getRequest.result || null);
+        };
+        
+        getRequest.onerror = () => {
+          // Fallback to localStorage
+          const data = localStorage.getItem(key);
+          resolve(data ? JSON.parse(data) : null);
+        };
+      };
+      
+      request.onerror = () => {
+        // Fallback to localStorage
+        const data = localStorage.getItem(key);
+        resolve(data ? JSON.parse(data) : null);
+      };
+    });
+  } catch (error) {
+    console.error('Error getting stored data:', error);
+    return null;
   }
 }
 
@@ -263,19 +366,40 @@ async function doBackgroundSync() {
 self.addEventListener('push', (event) => {
   console.log('Push notification received:', event);
   
-  const options = {
-    body: event.data ? event.data.text() : 'New update available!',
+  let notificationData = {
+    title: 'Privacy Panda Update',
+    body: 'New content and features available!',
     icon: '/LogoPandagarde.png',
     badge: '/LogoPandagarde.png',
-    vibrate: [100, 50, 100],
+    tag: 'privacy-panda-update',
     data: {
       dateOfArrival: Date.now(),
-      primaryKey: 1
-    },
+      primaryKey: 1,
+      url: '/'
+    }
+  };
+
+  if (event.data) {
+    try {
+      const data = event.data.json();
+      notificationData = { ...notificationData, ...data };
+    } catch (error) {
+      notificationData.body = event.data.text();
+    }
+  }
+
+  const options = {
+    ...notificationData,
+    vibrate: [100, 50, 100],
     actions: [
       {
         action: 'explore',
-        title: 'Explore',
+        title: 'Explore New Features',
+        icon: '/LogoPandagarde.png'
+      },
+      {
+        action: 'update',
+        title: 'Update Now',
         icon: '/LogoPandagarde.png'
       },
       {
@@ -287,7 +411,7 @@ self.addEventListener('push', (event) => {
   };
 
   event.waitUntil(
-    self.registration.showNotification('Privacy Panda', options)
+    self.registration.showNotification(notificationData.title, options)
   );
 });
 
@@ -298,6 +422,18 @@ self.addEventListener('notificationclick', (event) => {
   event.notification.close();
 
   if (event.action === 'explore') {
+    event.waitUntil(
+      clients.openWindow(event.notification.data?.url || '/')
+    );
+  } else if (event.action === 'update') {
+    event.waitUntil(
+      clients.openWindow('/?update=true')
+    );
+  } else if (event.action === 'close') {
+    // Just close the notification
+    return;
+  } else {
+    // Default action - open the app
     event.waitUntil(
       clients.openWindow('/')
     );
@@ -315,4 +451,110 @@ self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'GET_VERSION') {
     event.ports[0].postMessage({ version: CACHE_NAME });
   }
+  
+  if (event.data && event.data.type === 'CACHE_TOOL_ASSETS') {
+    event.waitUntil(cacheToolAssets(event.data.toolId));
+  }
+  
+  if (event.data && event.data.type === 'CACHE_MISSION_CONTENT') {
+    event.waitUntil(cacheMissionContent(event.data.missionId));
+  }
+  
+  if (event.data && event.data.type === 'REQUEST_BACKGROUND_SYNC') {
+    event.waitUntil(requestBackgroundSync(event.data.tag));
+  }
+  
+  if (event.data && event.data.type === 'SHOW_UPDATE_NOTIFICATION') {
+    event.waitUntil(showUpdateNotification(event.data.message));
+  }
 });
+
+// Cache tool assets for offline use
+async function cacheToolAssets(toolId) {
+  try {
+    const cache = await caches.open(TOOL_CACHE);
+    const toolUrls = [
+      `/src/tools/${toolId}/`,
+      `/src/components/tools/${toolId}.tsx`,
+      `/public/images/tools/${toolId}/`
+    ];
+    
+    for (const url of toolUrls) {
+      try {
+        const response = await fetch(url);
+        if (response.ok) {
+          await cache.put(url, response);
+        }
+      } catch (error) {
+        console.log(`Could not cache ${url}:`, error);
+      }
+    }
+    
+    console.log(`Cached assets for tool: ${toolId}`);
+  } catch (error) {
+    console.error('Error caching tool assets:', error);
+  }
+}
+
+// Cache mission content for offline use
+async function cacheMissionContent(missionId) {
+  try {
+    const cache = await caches.open(MISSION_CACHE);
+    const missionUrls = [
+      `/src/pages/${missionId}.tsx`,
+      `/src/components/story/`,
+      `/src/components/activities/`,
+      `/public/images/missions/${missionId}/`
+    ];
+    
+    for (const url of missionUrls) {
+      try {
+        const response = await fetch(url);
+        if (response.ok) {
+          await cache.put(url, response);
+        }
+      } catch (error) {
+        console.log(`Could not cache ${url}:`, error);
+      }
+    }
+    
+    console.log(`Cached content for mission: ${missionId}`);
+  } catch (error) {
+    console.error('Error caching mission content:', error);
+  }
+}
+
+// Request background sync
+async function requestBackgroundSync(tag) {
+  try {
+    await self.registration.sync.register(tag);
+    console.log(`Background sync registered: ${tag}`);
+  } catch (error) {
+    console.error('Background sync registration failed:', error);
+  }
+}
+
+// Show update notification
+async function showUpdateNotification(message) {
+  const options = {
+    body: message || 'A new version of Privacy Panda is available!',
+    icon: '/LogoPandagarde.png',
+    badge: '/LogoPandagarde.png',
+    tag: 'app-update',
+    vibrate: [100, 50, 100],
+    actions: [
+      {
+        action: 'update',
+        title: 'Update Now',
+        icon: '/LogoPandagarde.png'
+      },
+      {
+        action: 'later',
+        title: 'Later',
+        icon: '/LogoPandagarde.png'
+      }
+    ]
+  };
+
+  await self.registration.showNotification('Privacy Panda Update', options);
+}

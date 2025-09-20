@@ -42,6 +42,7 @@ const InteractiveStoryPage: React.FC = () => {
   const [showKeyboardHelp, setShowKeyboardHelp] = useState(false);
   const [bookmarks, setBookmarks] = useState<Set<string>>(new Set());
   const [showBookmarks, setShowBookmarks] = useState(false);
+  const [userAgeGroup, setUserAgeGroup] = useState<'ages-5-8' | 'ages-9-12' | 'ages-13-17' | null>(null);
   const [achievements, setAchievements] = useState([
     {
       id: 'first-scene',
@@ -251,12 +252,41 @@ const InteractiveStoryPage: React.FC = () => {
     }
   };
 
-  const handleChoiceSelect = () => {
+  const handleChoiceSelect = (choiceIndex: number, consequence?: string) => {
     setPoints((prev: number) => prev + 10);
     
-    // Check for achievements
-    const choiceCount = achievements.find((a: Achievement) => a.id === 'wise-choices');
-    if (choiceCount && !choiceCount.unlocked) {
+    // Track choice for privacy learning
+    const choiceData = {
+      sceneId: currentScene.id,
+      choiceIndex,
+      consequence,
+      timestamp: Date.now()
+    };
+    
+    // Save choice to localStorage for analytics
+    const savedChoices = JSON.parse(localStorage.getItem('story-choices') || '[]');
+    savedChoices.push(choiceData);
+    localStorage.setItem('story-choices', JSON.stringify(savedChoices));
+    
+    // Check for achievements based on choices
+    checkChoiceAchievements(choiceIndex, consequence);
+  };
+
+  const checkChoiceAchievements = (choiceIndex: number, consequence?: string) => {
+    const savedChoices = JSON.parse(localStorage.getItem('story-choices') || '[]');
+    const privacyChoices = savedChoices.filter((choice: any) => 
+      choice.consequence && choice.consequence.includes('privacy')
+    );
+    
+    // Unlock privacy learner achievement
+    if (privacyChoices.length >= 2) {
+      setAchievements((prev: Achievement[]) => prev.map((a: Achievement) => 
+        a.id === 'privacy-learner' ? { ...a, unlocked: true } : a
+      ));
+    }
+    
+    // Unlock wise choices achievement
+    if (savedChoices.length >= 3) {
       setAchievements((prev: Achievement[]) => prev.map((a: Achievement) => 
         a.id === 'wise-choices' ? { ...a, unlocked: true } : a
       ));
@@ -268,6 +298,40 @@ const InteractiveStoryPage: React.FC = () => {
       a.id === 'story-complete' ? { ...a, unlocked: true } : a
     ));
     setPoints((prev: number) => prev + 50);
+  };
+
+  // Get age-appropriate story content
+  const getAgeAppropriateContent = (content: string, ageGroup: string | null): string => {
+    if (!ageGroup) return content;
+    
+    // Simple content adaptation based on age group
+    const adaptations = {
+      'ages-5-8': {
+        'digital tablet': 'magic tablet',
+        'privacy settings': 'special buttons',
+        'personal information': 'secrets',
+        'online safety': 'staying safe'
+      },
+      'ages-9-12': {
+        'magic tablet': 'digital tablet',
+        'special buttons': 'privacy settings',
+        'secrets': 'personal information'
+      },
+      'ages-13-17': {
+        // Keep original content for teens
+      }
+    };
+    
+    let adaptedContent = content;
+    const ageAdaptations = adaptations[ageGroup as keyof typeof adaptations];
+    
+    if (ageAdaptations) {
+      Object.entries(ageAdaptations).forEach(([original, adapted]) => {
+        adaptedContent = adaptedContent.replace(new RegExp(original, 'gi'), adapted);
+      });
+    }
+    
+    return adaptedContent;
   };
 
   const currentScene = storyScenes[currentSceneIndex];
@@ -307,6 +371,25 @@ const InteractiveStoryPage: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('story-bookmarks', JSON.stringify(Array.from(bookmarks)));
   }, [bookmarks]);
+
+  // Determine user age group
+  useEffect(() => {
+    const savedVerification = localStorage.getItem('pandagarde-age-verification');
+    if (savedVerification) {
+      try {
+        const { age } = JSON.parse(savedVerification);
+        if (age >= 5 && age <= 8) {
+          setUserAgeGroup('ages-5-8');
+        } else if (age >= 9 && age <= 12) {
+          setUserAgeGroup('ages-9-12');
+        } else if (age >= 13 && age <= 17) {
+          setUserAgeGroup('ages-13-17');
+        }
+      } catch (error) {
+        console.error('Error parsing age verification:', error);
+      }
+    }
+  }, []);
 
   // Load progress from localStorage
   useEffect(() => {
@@ -671,7 +754,7 @@ const InteractiveStoryPage: React.FC = () => {
                       </span>
                     </button>
                     <p className="text-lg leading-relaxed text-center max-w-4xl mx-auto pr-12">
-                      {currentScene.content}
+                      {getAgeAppropriateContent(currentScene.content, userAgeGroup)}
                     </p>
                   </div>
 
@@ -687,7 +770,10 @@ const InteractiveStoryPage: React.FC = () => {
                           difficulty: 'medium' as const,
                           points: 10
                         }))}
-                        onChoiceSelect={handleChoiceSelect}
+                        onChoiceSelect={(choiceIndex: number, consequence?: string) => {
+                          handleChoiceSelect(choiceIndex, consequence);
+                          handleSceneChange(currentScene.choices![choiceIndex].nextScene);
+                        }}
                         showConsequences={true}
                         showPoints={true}
                       />
