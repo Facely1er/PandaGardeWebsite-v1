@@ -53,13 +53,13 @@ class ServiceWorkerManager {
     newWorker.addEventListener('statechange', () => {
       if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
         // New service worker is available
-        this.showUpdateNotification();
+        this.showUpdateConfirmation();
       }
     });
   }
 
   // Show update notification to user
-  private showUpdateNotification() {
+  private showUpdateConfirmation() {
     const shouldUpdate = confirm(
       'A new version of Privacy Panda is available. Would you like to update now?'
     );
