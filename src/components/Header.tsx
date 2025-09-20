@@ -55,6 +55,15 @@ const Header: React.FC = () => {
     { icon: Info, label: 'About', href: '/about', isExternal: false },
   ];
 
+  const mobileNavItems = [
+    { icon: Home, label: 'Home', href: '/', isExternal: false },
+    { icon: BookOpen, label: 'Overview', href: '/overview', isExternal: false },
+    { icon: Users, label: 'Quick Start', href: '/quick-start', isExternal: false },
+    { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
+    { icon: Info, label: 'About', href: '/about', isExternal: false },
+    { icon: Users, label: 'Family Hub', href: 'https://www.hub.pandagarde.com', isExternal: true },
+  ];
+
 
   const isActive = (href: string) => {
     if (href === '/') {
@@ -98,7 +107,7 @@ const Header: React.FC = () => {
     if (newState) {
       // Focus first menu item when opening
       setTimeout(() => {
-        const firstMenuItem = document.querySelector('.nav-menu .nav-link') as HTMLElement;
+        const firstMenuItem = document.querySelector('.mobile-nav .nav-link') as HTMLElement;
         firstMenuItem?.focus();
       }, 100);
     } else {
@@ -114,7 +123,7 @@ const Header: React.FC = () => {
   const handleMobileMenuKeyDown = (e: React.KeyboardEvent) => {
     if (!isMobileMenuOpen) {return;}
     
-    const menuItems = Array.from(document.querySelectorAll('.nav-menu .nav-link')) as HTMLElement[];
+    const menuItems = Array.from(document.querySelectorAll('.mobile-nav .nav-link')) as HTMLElement[];
     const currentIndex = menuItems.findIndex(item => item === document.activeElement);
     
     switch (e.key) {
@@ -172,14 +181,52 @@ const Header: React.FC = () => {
             <span>Panda<span className="highlight">Garde</span></span>
           </Link>
           
+          {/* Desktop Navigation Menu */}
+          <ul 
+            className="nav-menu desktop-nav"
+            role="menubar"
+            aria-label="Main navigation menu"
+          >
+            {navItems.map((item) => (
+              <li key={item.label} role="none">
+                {item.href.startsWith('#') ? (
+                  <a
+                    href={item.href}
+                    className={`nav-link ${isActive(item.href) ? 'active' : ''}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(item.href);
+                    }}
+                    role="menuitem"
+                    aria-label={`Navigate to ${item.label} section`}
+                  >
+                    <item.icon size={16} aria-hidden="true" />
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link 
+                    to={item.href} 
+                    className={`nav-link ${isActive(item.href) ? 'active' : ''}`}
+                    role="menuitem"
+                    aria-label={`Navigate to ${item.label} page`}
+                  >
+                    <item.icon size={16} aria-hidden="true" />
+                    {item.label}
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ul>
+          
+          {/* Mobile Navigation Menu */}
           <ul 
             id="mobile-menu"
-            className={`nav-menu ${isMobileMenuOpen ? 'active' : ''}`}
+            className={`nav-menu mobile-nav ${isMobileMenuOpen ? 'active' : ''}`}
             role="menubar"
             aria-label="Main navigation menu"
             onKeyDown={handleMobileMenuKeyDown}
           >
-            {navItems.map((item) => (
+            {mobileNavItems.map((item) => (
               <li key={item.label} role="none">
                 {item.href.startsWith('#') ? (
                   <a
@@ -222,6 +269,22 @@ const Header: React.FC = () => {
                 )}
               </li>
             ))}
+            
+            {/* Mobile Search Button */}
+            <li role="none" className="mobile-search-item">
+              <button
+                onClick={() => {
+                  setIsSearchModalOpen(true);
+                  setIsMobileMenuOpen(false);
+                }}
+                className="nav-link mobile-search-button"
+                role="menuitem"
+                aria-label="Open search dialog"
+              >
+                <Search size={16} aria-hidden="true" />
+                Search
+              </button>
+            </li>
           </ul>
           
           <div className="nav-actions" role="toolbar" aria-label="Navigation actions">

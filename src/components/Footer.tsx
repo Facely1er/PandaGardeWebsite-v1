@@ -30,16 +30,16 @@ const Footer: React.FC = () => {
   // Social media links removed - no active social media accounts
 
   const productLinks = [
-    { icon: Users, href: '/family-hub', label: 'Family Hub' },
+    { icon: Users, href: 'https://www.hub.pandagarde.com', label: 'Family Hub', isExternal: true },
     { icon: Shield, href: '/story', label: 'PrivacyPanda' },
     { icon: Wrench, href: '/parent-resources', label: 'Parent Toolkit' }
   ];
 
   const curriculumLinks = [
-    { icon: Child, href: '/#curriculum', label: 'Ages 5-8' },
-    { icon: User, href: '/#curriculum', label: 'Ages 9-12' },
-    { icon: UserCheck, href: '/#curriculum', label: 'Ages 13-17' },
-    { icon: Users, href: '/#curriculum', label: 'Parents' }
+    { icon: Child, href: '/privacy-explorers', label: 'Ages 5-8' },
+    { icon: User, href: '/privacy-handbook', label: 'Ages 9-12' },
+    { icon: UserCheck, href: '/teen-handbook', label: 'Ages 13-17' },
+    { icon: Users, href: '/parent-resources', label: 'Parents' }
   ];
 
   const connectLinks = [
@@ -47,6 +47,13 @@ const Footer: React.FC = () => {
     { icon: HelpCircle, href: '/faq', label: 'FAQ' },
     { icon: Newspaper, href: '/newsletter', label: 'Newsletter' },
     { icon: Headphones, href: '/support', label: 'Support' }
+  ];
+
+  const quickLinks = [
+    { icon: BookOpen, href: '/overview', label: 'Overview' },
+    { icon: Users, href: '/quick-start', label: 'Quick Start' },
+    { icon: ChalkboardTeacher, href: '/resources', label: 'Resources' },
+    { icon: Info, href: '/about', label: 'About' }
   ];
 
   return (
@@ -68,9 +75,9 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="footer-column">
-            <h4>Products</h4>
+            <h4>Quick Links</h4>
             <ul>
-              {productLinks.map((link, index) => (
+              {quickLinks.map((link, index) => (
                 <li key={index}>
                   <Link to={link.href}>
                     <link.icon size={16} />
@@ -82,18 +89,12 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="footer-column">
-            <h4>Curriculum</h4>
+            <h4>Products</h4>
             <ul>
-              {curriculumLinks.map((link, index) => (
+              {productLinks.map((link, index) => (
                 <li key={index}>
-                  {link.href.startsWith('#') ? (
-                    <a
-                      href={link.href}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        scrollToSection(link.href);
-                      }}
-                    >
+                  {link.isExternal ? (
+                    <a href={link.href} target="_blank" rel="noopener noreferrer">
                       <link.icon size={16} />
                       {link.label}
                     </a>
@@ -103,6 +104,20 @@ const Footer: React.FC = () => {
                       {link.label}
                     </Link>
                   )}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="footer-column">
+            <h4>Curriculum</h4>
+            <ul>
+              {curriculumLinks.map((link, index) => (
+                <li key={index}>
+                  <Link to={link.href}>
+                    <link.icon size={16} />
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
