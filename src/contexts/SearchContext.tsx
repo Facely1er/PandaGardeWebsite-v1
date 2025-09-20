@@ -30,7 +30,7 @@ interface SearchProviderProps {
   children: React.ReactNode;
 }
 
-// Search data is now dynamically loaded from Supabase database
+// Search data is now dynamically loaded from local content
 
 export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState('');

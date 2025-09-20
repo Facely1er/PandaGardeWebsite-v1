@@ -1,4 +1,4 @@
-import { supabase, TABLES } from './supabase';
+// Frontend-only mode - no database dependencies
 import { trackEvent, AnalyticsEvents } from './analytics';
 
 export interface SearchContentItem {
@@ -81,84 +81,121 @@ class SearchService {
   }
 
   private async loadSearchContent(): Promise<void> {
-    if (!supabase) {
-      console.log('Supabase not configured - using empty search index');
-      this.searchIndex = [];
-      return;
-    }
-
-    try {
-      const { data, error } = await supabase
-        .from(TABLES.SEARCH_CONTENT)
-        .select('*')
-        .eq('is_active', true)
-        .order('sort_order', { ascending: true });
-
-      if (error) {
-        console.error('Error loading search content:', error);
-        this.searchIndex = [];
-        return;
+    console.log('Frontend-only mode: Using static search content');
+    // Static search content for frontend-only mode
+    this.searchIndex = [
+      {
+        id: 'privacy-basics',
+        title: 'Privacy Basics',
+        description: 'Learn the fundamentals of online privacy and data protection',
+        content_type: 'guide',
+        url: '/guides/privacy-basics',
+        category_id: 'privacy',
+        tags: ['privacy', 'basics', 'data-protection'],
+        metadata: { age_groups: ['5-8', '9-12'] },
+        is_active: true,
+        sort_order: 1,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      },
+      {
+        id: 'password-safety',
+        title: 'Password Safety',
+        description: 'How to create and manage secure passwords',
+        content_type: 'activity',
+        url: '/activities/password-safety',
+        category_id: 'security',
+        tags: ['passwords', 'security', 'authentication'],
+        metadata: { age_groups: ['9-12', '13-17'] },
+        is_active: true,
+        sort_order: 2,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      },
+      {
+        id: 'social-media-privacy',
+        title: 'Social Media Privacy',
+        description: 'Understanding privacy settings on social media platforms',
+        content_type: 'guide',
+        url: '/guides/social-media-privacy',
+        category_id: 'privacy',
+        tags: ['social-media', 'privacy-settings', 'online-safety'],
+        metadata: { age_groups: ['13-17'] },
+        is_active: true,
+        sort_order: 3,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       }
-
-      this.searchIndex = data || [];
-    } catch (error) {
-      console.error('Error loading search content:', error);
-      this.searchIndex = [];
-    }
+    ];
   }
 
   private async loadCategories(): Promise<void> {
-    if (!supabase) {
-      console.log('Supabase not configured - using empty categories');
-      this.categories = [];
-      return;
-    }
-
-    try {
-      const { data, error } = await supabase
-        .from(TABLES.SEARCH_CATEGORIES)
-        .select('*')
-        .eq('is_active', true)
-        .order('sort_order', { ascending: true });
-
-      if (error) {
-        console.error('Error loading search categories:', error);
-        this.categories = [];
-        return;
+    console.log('Frontend-only mode: Using static categories');
+    this.categories = [
+      {
+        id: 'privacy',
+        name: 'privacy',
+        display_name: 'Privacy',
+        description: 'Privacy and data protection topics',
+        sort_order: 1,
+        is_active: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      },
+      {
+        id: 'security',
+        name: 'security',
+        display_name: 'Security',
+        description: 'Online security and safety topics',
+        sort_order: 2,
+        is_active: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      },
+      {
+        id: 'digital-citizenship',
+        name: 'digital-citizenship',
+        display_name: 'Digital Citizenship',
+        description: 'Digital citizenship and responsible online behavior',
+        sort_order: 3,
+        is_active: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       }
-
-      this.categories = data || [];
-    } catch (error) {
-      console.error('Error loading search categories:', error);
-      this.categories = [];
-    }
+    ];
   }
 
   private async loadSuggestions(): Promise<void> {
-    if (!supabase) {
-      console.log('Supabase not configured - using empty suggestions');
-      this.suggestions = [];
-      return;
-    }
-
-    try {
-      const { data, error } = await supabase
-        .from(TABLES.SEARCH_SUGGESTIONS)
-        .select('*')
-        .eq('is_active', true)
-        .order('usage_count', { ascending: false });
-
-      if (error) {
-        console.error('Error loading search suggestions:', error);
-        this.suggestions = [];
-        return;
+    console.log('Frontend-only mode: Using static suggestions');
+    this.suggestions = [
+      {
+        id: 'privacy-settings',
+        suggestion: 'privacy settings',
+        suggestion_type: 'popular',
+        usage_count: 15,
+        is_active: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      },
+      {
+        id: 'password-safety',
+        suggestion: 'password safety',
+        suggestion_type: 'popular',
+        usage_count: 12,
+        is_active: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      },
+      {
+        id: 'online-safety',
+        suggestion: 'online safety',
+        suggestion_type: 'popular',
+        usage_count: 10,
+        is_active: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       }
-
-      this.suggestions = data || [];
-    } catch (error) {
-      console.error('Error loading search suggestions:', error);
-      this.suggestions = [];
-    }
+    ];
   }
 
   async search(query: string, filters?: SearchFilters): Promise<SearchResult[]> {
@@ -262,105 +299,24 @@ class SearchService {
   }
 
   async addSearchContent(content: Omit<SearchContentItem, 'id' | 'created_at' | 'updated_at'>): Promise<SearchContentItem | null> {
-    if (!supabase) {
-      console.log('Supabase not configured - cannot add search content');
-      return null;
-    }
-
-    try {
-      const { data, error } = await supabase
-        .from(TABLES.SEARCH_CONTENT)
-        .insert([content])
-        .select()
-        .single();
-
-      if (error) {
-        console.error('Error adding search content:', error);
-        return null;
-      }
-
-      // Reload search content
-      await this.loadSearchContent();
-      return data;
-    } catch (error) {
-      console.error('Error adding search content:', error);
-      return null;
-    }
+    console.log('Frontend-only mode: Cannot add search content to database');
+    return null;
   }
 
   async updateSearchContent(id: string, updates: Partial<SearchContentItem>): Promise<SearchContentItem | null> {
-    if (!supabase) {
-      console.log('Supabase not configured - cannot update search content');
-      return null;
-    }
-
-    try {
-      const { data, error } = await supabase
-        .from(TABLES.SEARCH_CONTENT)
-        .update(updates)
-        .eq('id', id)
-        .select()
-        .single();
-
-      if (error) {
-        console.error('Error updating search content:', error);
-        return null;
-      }
-
-      // Reload search content
-      await this.loadSearchContent();
-      return data;
-    } catch (error) {
-      console.error('Error updating search content:', error);
-      return null;
-    }
+    console.log('Frontend-only mode: Cannot update search content in database');
+    return null;
   }
 
   async deleteSearchContent(id: string): Promise<boolean> {
-    if (!supabase) {
-      console.log('Supabase not configured - cannot delete search content');
-      return false;
-    }
-
-    try {
-      const { error } = await supabase
-        .from(TABLES.SEARCH_CONTENT)
-        .delete()
-        .eq('id', id);
-
-      if (error) {
-        console.error('Error deleting search content:', error);
-        return false;
-      }
-
-      // Reload search content
-      await this.loadSearchContent();
-      return true;
-    } catch (error) {
-      console.error('Error deleting search content:', error);
-      return false;
-    }
+    console.log('Frontend-only mode: Cannot delete search content from database');
+    return false;
   }
 
   private async trackSearchAnalytics(query: string, resultsCount: number, filters?: SearchFilters): Promise<void> {
-    if (!supabase) {
-      console.log('Supabase not configured - skipping search analytics tracking');
-      return;
-    }
-
+    console.log('Frontend-only mode: Tracking search analytics locally');
+    
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      await supabase
-        .from(TABLES.SEARCH_ANALYTICS)
-        .insert([{
-          search_query: query,
-          results_count: resultsCount,
-          user_id: user?.id,
-          session_id: this.generateSessionId(),
-          filters_applied: filters || {}
-        }]);
-
       // Track in analytics
       trackEvent(AnalyticsEvents.SEARCH_PERFORMED, {
         search_query: query,

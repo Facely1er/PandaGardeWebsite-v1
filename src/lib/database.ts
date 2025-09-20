@@ -1,7 +1,6 @@
-import { supabase, TABLES, type Database, isSupabaseConfigured } from './supabase'
-
-// Re-export supabase for convenience
-export { supabase }
+// Frontend-only mode - no database dependencies
+// Mock types for compatibility
+type Database = any
 
 // Frontend-only mode - all database operations are disabled
 console.log('Running in frontend-only mode - database operations disabled')
