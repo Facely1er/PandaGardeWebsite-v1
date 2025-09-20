@@ -169,7 +169,9 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
   };
 
   const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
+    if (!touchStart || !touchEnd) {
+      return;
+    }
     
     const deltaX = touchEnd.x - touchStart.x;
     const deltaY = touchEnd.y - touchStart.y;
@@ -200,7 +202,9 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
   // Keyboard navigation
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
-      if (isLoading) return;
+      if (isLoading) {
+        return;
+      }
       
       switch (event.key) {
         case 'ArrowRight':

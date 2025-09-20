@@ -103,7 +103,7 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
       // Show correct answer celebration
       setTimeout(() => {
         const celebration = document.createElement('div');
-        celebration.innerHTML = '🎉✅';
+        celebration.textContent = '🎉✅';
         celebration.style.cssText = `
           position: fixed;
           top: 50%;

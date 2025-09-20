@@ -26,6 +26,14 @@ interface StorySceneData {
   duration?: number;
 }
 
+interface Achievement {
+  id: string;
+  title: string;
+  description: string;
+  unlocked: boolean;
+  icon: string;
+}
+
 const InteractiveStoryPage: React.FC = () => {
   const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -247,16 +255,16 @@ const InteractiveStoryPage: React.FC = () => {
     setPoints((prev: number) => prev + 10);
     
     // Check for achievements
-    const choiceCount = achievements.find((a: any) => a.id === 'wise-choices');
+    const choiceCount = achievements.find((a: Achievement) => a.id === 'wise-choices');
     if (choiceCount && !choiceCount.unlocked) {
-      setAchievements((prev: any[]) => prev.map((a: any) => 
+      setAchievements((prev: Achievement[]) => prev.map((a: Achievement) => 
         a.id === 'wise-choices' ? { ...a, unlocked: true } : a
       ));
     }
   };
 
   const handleStoryComplete = () => {
-    setAchievements((prev: any[]) => prev.map((a: any) => 
+    setAchievements((prev: Achievement[]) => prev.map((a: Achievement) => 
       a.id === 'story-complete' ? { ...a, unlocked: true } : a
     ));
     setPoints((prev: number) => prev + 50);

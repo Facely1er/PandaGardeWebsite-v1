@@ -1,4 +1,5 @@
 import { supabase, TABLES, type Database, isSupabaseConfigured } from './supabase'
+import { logger } from './logger'
 
 // Re-export supabase for convenience
 export { supabase }
@@ -215,7 +216,7 @@ export const contactService = {
   async submitContactForm(submission: Omit<ContactSubmission, 'id' | 'created_at' | 'status'>): Promise<ContactSubmission | null> {
     if (!isSupabaseConfigured || !supabase) {
       // For demo purposes, just log the submission
-      console.log('Contact form submission (demo mode):', submission)
+      logger.info('Contact form submission (demo mode)', submission, 'DATABASE')
       return null
     }
     
@@ -258,7 +259,7 @@ export const newsletterService = {
   async subscribe(email: string): Promise<NewsletterSubscriber | null> {
     if (!isSupabaseConfigured || !supabase) {
       // For demo purposes, just log the subscription
-      console.log('Newsletter subscription (demo mode):', email)
+      logger.info('Newsletter subscription (demo mode)', { email }, 'DATABASE')
       return null
     }
     
@@ -279,7 +280,7 @@ export const newsletterService = {
   // Unsubscribe from newsletter
   async unsubscribe(email: string): Promise<boolean> {
     if (!isSupabaseConfigured || !supabase) {
-      console.log('Newsletter unsubscription (demo mode):', email)
+      logger.info('Newsletter unsubscription (demo mode)', { email }, 'DATABASE')
       return true
     }
     

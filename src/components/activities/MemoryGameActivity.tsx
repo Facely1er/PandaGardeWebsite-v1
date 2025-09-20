@@ -116,7 +116,7 @@ const MemoryGameActivity: React.FC<MemoryGameActivityProps> = ({ onComplete, onC
       // Add match celebration
       setTimeout(() => {
         const celebration = document.createElement('div');
-        celebration.innerHTML = '🎉✨';
+        celebration.textContent = '🎉✨';
         celebration.style.cssText = `
           position: fixed;
           top: 50%;

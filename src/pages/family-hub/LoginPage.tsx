@@ -5,6 +5,15 @@ import { useAuth } from './AuthWrapper';
 import { useToast } from '../../hooks/useToast';
 import Logo from '../../components/Logo';
 
+interface FormData {
+  email: string;
+  password: string;
+  confirmPassword?: string;
+  firstName?: string;
+  lastName?: string;
+  role?: 'parent' | 'child' | 'educator';
+}
+
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { signIn, signUp } = useAuth();
@@ -25,7 +34,7 @@ const LoginPage: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev: any) => ({
+    setFormData((prev: FormData) => ({
       ...prev,
       [name]: value
     }));
@@ -63,7 +72,7 @@ const LoginPage: React.FC = () => {
           navigate('/family-hub');
         }
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Auth error:', error);
       showError('An unexpected error occurred');
     } finally {

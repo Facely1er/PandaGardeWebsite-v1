@@ -89,7 +89,9 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
 
   const getSuggestions = useCallback(async (query: string) => {
     try {
-      if (!query.trim()) return [];
+      if (!query.trim()) {
+        return [];
+      }
       return await searchService.getSuggestions(query);
     } catch (error) {
       console.error('Error getting suggestions:', error);
