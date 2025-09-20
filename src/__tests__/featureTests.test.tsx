@@ -548,7 +548,7 @@ describe('Feature Tests Suite', () => {
         };
 
         const validator = validators[platform as keyof typeof validators];
-        if (!validator) return { valid: false, errors: ['Unknown platform'] };
+        if (!validator) {return { valid: false, errors: ['Unknown platform'] };}
 
         const errors = [];
         for (const [key, validate] of Object.entries(validator)) {
@@ -760,7 +760,7 @@ describe('Feature Tests Suite', () => {
         
         getIncidentStatus: function(incidentId: string) {
           const incident = this.incidents.find(i => i.id === incidentId);
-          if (!incident) return null;
+          if (!incident) {return null;}
           
           const completedActions = incident.actions.filter(a => a.completed).length;
           const totalActions = incident.actions.length;

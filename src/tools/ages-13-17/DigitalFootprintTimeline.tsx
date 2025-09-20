@@ -66,7 +66,7 @@ const DigitalFootprintTimeline: React.FC = () => {
 
   const analyzeActivity = (activityId: string) => {
     const activity = activities.find(a => a.id === activityId);
-    if (!activity) return;
+    if (!activity) {return;}
 
     let points = 0;
 
@@ -144,8 +144,8 @@ const DigitalFootprintTimeline: React.FC = () => {
   };
 
   const getScoreColor = () => {
-    if (score >= 20) return 'text-green-600';
-    if (score >= 0) return 'text-yellow-600';
+    if (score >= 20) {return 'text-green-600';}
+    if (score >= 0) {return 'text-yellow-600';}
     return 'text-red-600';
   };
 
