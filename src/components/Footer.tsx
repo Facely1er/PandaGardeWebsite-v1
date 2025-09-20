@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Shield as Child, User, UserCheck, Mail, HelpCircle, Newspaper, Headphones, Users, Shield, Wrench } from 'lucide-react';
+import Logo from './Logo';
 
 const Footer: React.FC = () => {
   const navigate = useNavigate();
@@ -54,16 +55,12 @@ const Footer: React.FC = () => {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand">
-            <h3>
-              <div className="logo-icon" style={{ width: '32px', height: '32px', marginRight: '5px' }}>
-                <img
-                  src="/LogoPandagarde.png"
-                  alt="PandaGarde Logo"
-                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                />
-              </div>
-              PandaGarde
-            </h3>
+            <Logo 
+              size="small" 
+              showText={true} 
+              linkTo="/"
+              className="mb-2"
+            />
             <p>Building privacy skills for tomorrow's world. Comprehensive digital privacy education for families with children ages 5-17.</p>
           </div>
 

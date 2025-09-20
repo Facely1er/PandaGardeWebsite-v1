@@ -4,6 +4,7 @@ import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardT
 import { useTheme } from '../contexts/ThemeContext';
 import SearchModal from './SearchModal';
 import OfflineIndicator from './OfflineIndicator';
+import Logo from './Logo';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -156,21 +157,12 @@ const Header: React.FC = () => {
       <header className={`header ${isScrolled ? 'scrolled' : ''}`} role="banner">
         <div className="container">
         <nav className="nav" role="navigation" aria-label="Main navigation" id="navigation">
-          <Link 
-            to="/" 
+          <Logo 
+            size="medium" 
+            showText={true} 
+            linkTo="/"
             className="logo"
-            aria-label="PandaGarde - Go to homepage"
-          >
-            <div className="logo-icon" aria-hidden="true">
-              <img 
-                src="/LogoPandagarde.png" 
-                alt="PandaGarde Logo" 
-                className="panda-logo"
-                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-              />
-            </div>
-            <span>Panda<span className="highlight">Garde</span></span>
-          </Link>
+          />
           
           <ul 
             id="mobile-menu"
