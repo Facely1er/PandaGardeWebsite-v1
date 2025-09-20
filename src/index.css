@@ -267,26 +267,6 @@
   }
   
   /* Mobile navigation improvements */
-  .nav-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: var(--white);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    padding: 20px;
-  }
-  
-  .nav-menu.active {
-    transform: translateX(0);
-  }
-  
   .nav-link {
     font-size: 18px;
     padding: 16px 24px;
@@ -807,6 +787,16 @@ body {
   gap: 30px;
 }
 
+/* Desktop Navigation */
+.desktop-nav {
+  display: flex;
+}
+
+/* Mobile Navigation */
+.mobile-nav {
+  display: none;
+}
+
 .nav-link {
   text-decoration: none;
   color: white;
@@ -936,6 +926,13 @@ body {
   color: white;
   font-size: 24px;
   cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.mobile-menu-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 /* ===== HERO SECTION ===== */
@@ -2707,25 +2704,58 @@ body {
     display: block;
   }
   
-  .nav-menu {
+  .desktop-nav {
     display: none;
-    position: absolute;
-    top: 100%;
+  }
+  
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    top: 0;
     left: 0;
     right: 0;
-    background: var(--primary-light);
+    bottom: 0;
+    background: var(--white);
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
     padding: 20px;
-    box-shadow: var(--shadow-lg);
-    z-index: 1001;
   }
   
-  .nav-menu.active {
+  .mobile-nav.active {
     display: flex;
+    transform: translateX(0);
   }
   
-  .nav-menu li {
+  .mobile-nav li {
     margin: 10px 0;
+  }
+  
+  .mobile-nav .nav-link {
+    color: var(--gray-800);
+    font-size: 18px;
+    padding: 16px 24px;
+    margin: 8px 0;
+    border-radius: 12px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .mobile-nav .nav-link:hover {
+    background: var(--gray-100);
+    color: var(--primary);
+  }
+  
+  .mobile-nav .nav-link.active {
+    background: var(--primary);
+    color: white;
   }
   
   .hero {

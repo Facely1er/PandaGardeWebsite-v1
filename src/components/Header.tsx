@@ -107,7 +107,7 @@ const Header: React.FC = () => {
     if (newState) {
       // Focus first menu item when opening
       setTimeout(() => {
-        const firstMenuItem = document.querySelector('.nav-menu .nav-link') as HTMLElement;
+        const firstMenuItem = document.querySelector('.mobile-nav .nav-link') as HTMLElement;
         firstMenuItem?.focus();
       }, 100);
     } else {
@@ -123,7 +123,7 @@ const Header: React.FC = () => {
   const handleMobileMenuKeyDown = (e: React.KeyboardEvent) => {
     if (!isMobileMenuOpen) {return;}
     
-    const menuItems = Array.from(document.querySelectorAll('.nav-menu .nav-link')) as HTMLElement[];
+    const menuItems = Array.from(document.querySelectorAll('.mobile-nav .nav-link')) as HTMLElement[];
     const currentIndex = menuItems.findIndex(item => item === document.activeElement);
     
     switch (e.key) {
@@ -181,9 +181,47 @@ const Header: React.FC = () => {
             <span>Panda<span className="highlight">Garde</span></span>
           </Link>
           
+          {/* Desktop Navigation Menu */}
+          <ul 
+            className="nav-menu desktop-nav"
+            role="menubar"
+            aria-label="Main navigation menu"
+          >
+            {navItems.map((item) => (
+              <li key={item.label} role="none">
+                {item.href.startsWith('#') ? (
+                  <a
+                    href={item.href}
+                    className={`nav-link ${isActive(item.href) ? 'active' : ''}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(item.href);
+                    }}
+                    role="menuitem"
+                    aria-label={`Navigate to ${item.label} section`}
+                  >
+                    <item.icon size={16} aria-hidden="true" />
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link 
+                    to={item.href} 
+                    className={`nav-link ${isActive(item.href) ? 'active' : ''}`}
+                    role="menuitem"
+                    aria-label={`Navigate to ${item.label} page`}
+                  >
+                    <item.icon size={16} aria-hidden="true" />
+                    {item.label}
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ul>
+          
+          {/* Mobile Navigation Menu */}
           <ul 
             id="mobile-menu"
-            className={`nav-menu ${isMobileMenuOpen ? 'active' : ''}`}
+            className={`nav-menu mobile-nav ${isMobileMenuOpen ? 'active' : ''}`}
             role="menubar"
             aria-label="Main navigation menu"
             onKeyDown={handleMobileMenuKeyDown}

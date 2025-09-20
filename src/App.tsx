@@ -112,7 +112,6 @@ function App() {
             <Route path="/story" element={<InteractiveStoryPage />} />
             <Route path="/privacy-panda" element={<InteractiveStoryPage />} />
             <Route path="/story-classic" element={<StoryPage />} />
-            <Route path="/privacy-panda" element={<InteractiveStoryPage />} />
             <Route path="/activity-book" element={<ActivityBookPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/age-groups" element={<AgeGroupsPage />} />
