@@ -1,38 +1,22 @@
-import { createClient } from '@supabase/supabase-js'
-import type { Database } from './database.types'
+// Frontend-only mode - no database or authentication
+// This file is kept for compatibility but all functionality is disabled
 
-// Re-export Database type for convenience
-export type { Database }
+// Mock types for compatibility
+export type Database = any
 
-// Get environment variables with fallbacks
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
-const schemaPrefix = import.meta.env.VITE_DB_SCHEMA_PREFIX || 'pandagarde_'
+// Supabase is disabled for frontend-only mode
+export const isSupabaseConfigured = false
+export const supabase = null
 
-// Check if Supabase is configured
-export const isSupabaseConfigured = !!(supabaseUrl && supabaseAnonKey)
- 
-// Create Supabase client only if configured
-export const supabase = isSupabaseConfigured ? createClient<Database>(supabaseUrl, supabaseAnonKey, {
-  db: {
-    schema: 'public' // We'll use public schema but with prefixed table names
-  },
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true
-  }
-}) : null
+// Schema prefix for compatibility
+export const DB_SCHEMA_PREFIX = 'pandagarde_'
 
-// Schema prefix for all database operations
-export const DB_SCHEMA_PREFIX = schemaPrefix
-
-// Helper function to get prefixed table name
+// Helper function to get prefixed table name (for compatibility)
 export const getTableName = (tableName: string): string => {
   return `${DB_SCHEMA_PREFIX}${tableName}`
 }
 
-// Common table names with prefix
+// Common table names with prefix (for compatibility)
 export const TABLES = {
   USERS: getTableName('users'),
   ACTIVITIES: getTableName('activities'),
