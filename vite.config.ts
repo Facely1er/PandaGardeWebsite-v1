@@ -64,9 +64,6 @@ export default defineConfig({
             if (id.includes('react-router')) {
               return 'router-vendor';
             }
-            if (id.includes('@supabase')) {
-              return 'supabase-vendor';
-            }
             if (id.includes('lucide-react')) {
               return 'icons-vendor';
             }
@@ -80,9 +77,28 @@ export default defineConfig({
             return 'vendor';
           }
           
+          // Age-specific tool chunks for better caching
+          if (id.includes('/src/tools/ages-5-8/')) {
+            return 'tools-ages-5-8';
+          }
+          if (id.includes('/src/tools/ages-9-12/')) {
+            return 'tools-ages-9-12';
+          }
+          if (id.includes('/src/tools/ages-13-17/')) {
+            return 'tools-ages-13-17';
+          }
+          if (id.includes('/src/tools/shared/')) {
+            return 'tools-shared';
+          }
+          
           // Activity components chunk
           if (id.includes('/src/components/activities/')) {
             return 'activities';
+          }
+          
+          // Story components chunk
+          if (id.includes('/src/components/story/')) {
+            return 'story-components';
           }
           
           // Page components chunk
@@ -99,12 +115,29 @@ export default defineConfig({
           if (id.includes('/src/lib/')) {
             return 'utilities';
           }
+        },
+        // Optimize chunk naming for PWA caching
+        chunkFileNames: 'js/[name]-[hash].js',
+        entryFileNames: 'js/[name]-[hash].js',
+        assetFileNames: (assetInfo) => {
+          const extType = assetInfo.name?.split('.').pop();
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType || '')) {
+            return 'images/[name]-[hash][extname]';
+          }
+          if (/woff2?|eot|ttf|otf/i.test(extType || '')) {
+            return 'fonts/[name]-[hash][extname]';
+          }
+          return 'assets/[name]-[hash][extname]';
         }
       }
     },
     chunkSizeWarningLimit: 1000,
     target: 'esnext',
     minify: 'esbuild',
-    sourcemap: true
+    sourcemap: true,
+    // PWA optimization settings
+    assetsInlineLimit: 4096, // Inline small assets
+    cssCodeSplit: true, // Split CSS for better caching
+    reportCompressedSize: false // Disable compressed size reporting for faster builds
   }
 });
