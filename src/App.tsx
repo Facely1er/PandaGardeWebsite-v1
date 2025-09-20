@@ -98,8 +98,8 @@ function App() {
         <SearchProvider>
           <FamilyProvider>
             <ProgressProvider>
-              <AgeVerificationProvider>
-                <Router>
+              <Router>
+                <AgeVerificationProvider>
                   <SentryErrorBoundary fallback={<div>Something went wrong. Please refresh the page.</div>}>
                     <NavigationErrorBoundary>
                       <div className="App">
@@ -180,8 +180,8 @@ function App() {
                       </div>
                     </NavigationErrorBoundary>
                   </SentryErrorBoundary>
-                </Router>
-              </AgeVerificationProvider>
+                </AgeVerificationProvider>
+              </Router>
             </ProgressProvider>
           </FamilyProvider>
         </SearchProvider>
