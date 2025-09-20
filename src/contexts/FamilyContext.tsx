@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-// import { useAuth } from '../pages/family-hub/AuthWrapper';
-import { supabase, TABLES } from '../lib/supabase';
+import { localStorageManager, UserProgress } from '../utils/localStorageManager';
 
 interface FamilyMember {
   id: string;
@@ -18,6 +17,9 @@ interface FamilyMember {
     grade?: string;
     preferences?: Record<string, unknown>;
   };
+  // Local storage specific fields
+  progress?: UserProgress;
+  privacyScore?: number;
 }
 
 interface Family {
@@ -39,9 +41,15 @@ interface FamilyContextType {
   addFamilyMember: (email: string, role: 'parent' | 'child', firstName: string, lastName: string) => Promise<{ success: boolean; error: string | null }>;
   removeFamilyMember: (memberId: string) => Promise<{ success: boolean; error: string | null }>;
   updateFamilyMember: (memberId: string, updates: Partial<FamilyMember>) => Promise<{ success: boolean; error: string | null }>;
-  getFamilyProgress: () => Promise<{ totalActivities: number; completedActivities: number; progressPercentage: number }>;
+  getFamilyProgress: () => Promise<{ totalActivities: number; completedActivities: number; progressPercentage: number } | null>;
   isParent: boolean;
   isChild: boolean;
+  // New methods for localStorage and privacy
+  calculateFamilyPrivacyScore: () => number;
+  exportFamilyData: () => string;
+  importFamilyData: (jsonData: string) => boolean;
+  getFamilyStorageUsage: () => number;
+  clearFamilyData: () => void;
 }
 
 const FamilyContext = createContext<FamilyContextType | undefined>(undefined);
@@ -59,151 +67,138 @@ interface FamilyProviderProps {
 }
 
 export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
-  // const { user, profile, isAuthenticated } = useAuth();
-  const user = null;
-  const profile = null;
-  const isAuthenticated = false; // Main site works without authentication
   const [currentFamily, setCurrentFamily] = useState<Family | null>(null);
   const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
   const [loading, setLoading] = useState(false);
 
+  // Generate a simple user ID for demo purposes
+  const getCurrentUserId = () => {
+    let userId = localStorage.getItem('pandagarde_current_user_id');
+    if (!userId) {
+      userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      localStorage.setItem('pandagarde_current_user_id', userId);
+    }
+    return userId;
+  };
+
+  // Calculate privacy score for a family member
+  const calculateMemberPrivacyScore = (member: FamilyMember, progress?: UserProgress): number => {
+    let score = 100; // Start with perfect score
+
+    // Deduct points for incomplete profile
+    if (!member.first_name || !member.last_name) score -= 10;
+    if (!member.email) score -= 15;
+    if (!member.profile_data?.age) score -= 5;
+
+    // Deduct points for lack of progress data
+    if (!progress) score -= 20;
+    else {
+      // Deduct points for inactive users
+      const lastActive = new Date(progress.lastActive);
+      const daysSinceActive = (Date.now() - lastActive.getTime()) / (1000 * 60 * 60 * 24);
+      if (daysSinceActive > 7) score -= 10;
+      if (daysSinceActive > 30) score -= 20;
+
+      // Bonus points for active users
+      if (progress.currentStreak > 0) score += Math.min(progress.currentStreak * 2, 20);
+      if (progress.completedMissions.length > 0) score += Math.min(progress.completedMissions.length * 3, 15);
+    }
+
+    return Math.max(0, Math.min(100, score));
+  };
+
   const loadFamilyMembers = useCallback(async (familyId: string) => {
     try {
-      const { data, error } = await supabase
-        .from(TABLES.FAMILY_MEMBERS)
-        .select('*')
-        .eq('family_id', familyId)
-        .order('created_at', { ascending: true });
-
-      if (error) {
-        console.error('Error loading family members:', error);
-        return;
+      const familyData = localStorageManager.getFamilyData();
+      if (familyData && familyData.id === familyId) {
+        const members = familyData.members || [];
+        
+        // Load progress data for each member
+        const membersWithProgress = members.map((member: FamilyMember) => {
+          const progress = localStorageManager.getUserProgress(member.user_id);
+          return {
+            ...member,
+            progress: progress || undefined,
+            privacyScore: calculateMemberPrivacyScore(member, progress || undefined)
+          };
+        });
+        
+        setFamilyMembers(membersWithProgress);
+      } else {
+        setFamilyMembers([]);
       }
-
-      setFamilyMembers(data || []);
     } catch (error) {
       console.error('Error loading family members:', error);
+      setFamilyMembers([]);
     }
   }, []);
 
-  const loadFamilyData = useCallback(async (familyId: string) => {
-    setLoading(true);
-    try {
-      // Load family info
-      const { data: familyData, error: familyError } = await supabase
-        .from(TABLES.FAMILIES)
-        .select('*')
-        .eq('id', familyId)
-        .single();
-
-      if (familyError) {
-        console.error('Error loading family:', familyError);
-        return;
-      }
-
-      setCurrentFamily(familyData);
-      await loadFamilyMembers(familyId);
-    } catch (error) {
-      console.error('Error loading family data:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, [loadFamilyMembers]);
 
   const checkExistingFamily = useCallback(async () => {
-    if (!user) {return;}
-
     try {
-      const { data, error } = await supabase
-        .from(TABLES.FAMILY_MEMBERS)
-        .select(`
-          *,
-          families (
-            id,
-            name,
-            created_by,
-            created_at,
-            updated_at
-          )
-        `)
-        .eq('user_id', user.id)
-        .single();
-
-      if (error && error.code !== 'PGRST116') {
-        console.error('Error checking existing family:', error);
-        return;
-      }
-
-      if (data) {
-        const family = data.families;
-        setCurrentFamily(family);
-        await loadFamilyMembers(family.id);
+      const currentUserId = getCurrentUserId();
+      const familyData = localStorageManager.getFamilyData();
+      
+      if (familyData && familyData.members) {
+        const userMember = familyData.members.find((member: FamilyMember) => member.user_id === currentUserId);
+        if (userMember) {
+          setCurrentFamily(familyData);
+          await loadFamilyMembers(familyData.id);
+        }
       }
     } catch (error) {
       console.error('Error checking existing family:', error);
     }
-  }, [user, loadFamilyMembers]);
+  }, [loadFamilyMembers]);
 
-  // Load family data when user changes
+  // Load family data when component mounts
   useEffect(() => {
-    if (isAuthenticated && user && profile?.profile_data?.familyId) {
-      loadFamilyData(profile.profile_data.familyId);
-    } else if (isAuthenticated && user) {
-      // Check if user is already part of a family
-      checkExistingFamily();
-    }
-  }, [isAuthenticated, user, profile]);
+    checkExistingFamily();
+  }, [checkExistingFamily]);
 
   const createFamily = async (name: string) => {
-    if (!user) {
-      return { family: null, error: 'User not authenticated' };
-    }
-
     setLoading(true);
     try {
-      // Create family
-      const { data: familyData, error: familyError } = await supabase
-        .from(TABLES.FAMILIES)
-        .insert({
-          name,
-          created_by: user.id
-        })
-        .select()
-        .single();
+      const currentUserId = getCurrentUserId();
+      const familyId = `family_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      const now = new Date().toISOString();
 
-      if (familyError) {
-        return { family: null, error: familyError.message };
+      // Create family data
+      const familyData: Family = {
+        id: familyId,
+        name,
+        created_by: currentUserId,
+        created_at: now,
+        updated_at: now,
+        members: []
+      };
+
+      // Create creator as parent member
+      const creatorMember: FamilyMember = {
+        id: `member_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        user_id: currentUserId,
+        family_id: familyId,
+        role: 'parent',
+        first_name: 'Parent',
+        last_name: 'User',
+        email: 'parent@example.com',
+        created_at: now,
+        updated_at: now
+      };
+
+      familyData.members = [creatorMember];
+
+      // Save family data
+      localStorageManager.saveFamilyData(familyData);
+
+      // Create user progress if it doesn't exist
+      let progress = localStorageManager.getUserProgress(currentUserId);
+      if (!progress) {
+        progress = localStorageManager.createUserProgress(currentUserId, 'Parent User', '13-17');
       }
-
-      // Add creator as parent member
-      const { error: memberError } = await supabase
-        .from(TABLES.FAMILY_MEMBERS)
-        .insert({
-          user_id: user.id,
-          family_id: familyData.id,
-          role: 'parent',
-          first_name: profile?.profile_data?.firstName || user.email?.split('@')[0] || 'User',
-          last_name: profile?.profile_data?.lastName || '',
-          email: user.email!
-        });
-
-      if (memberError) {
-        return { family: null, error: memberError.message };
-      }
-
-      // Update user profile with family ID
-      await supabase
-        .from(TABLES.USERS)
-        .update({
-          profile_data: {
-            ...profile?.profile_data,
-            familyId: familyData.id
-          }
-        })
-        .eq('id', user.id);
 
       setCurrentFamily(familyData);
-      await loadFamilyMembers(familyData.id);
+      await loadFamilyMembers(familyId);
 
       return { family: familyData, error: null };
     } catch (error) {
@@ -215,49 +210,45 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
   };
 
   const joinFamily = async (familyId: string) => {
-    if (!user) {
-      return { success: false, error: 'User not authenticated' };
-    }
-
     setLoading(true);
     try {
-      // Check if family exists
-      const { data: familyData, error: familyError } = await supabase
-        .from(TABLES.FAMILIES)
-        .select('*')
-        .eq('id', familyId)
-        .single();
+      const currentUserId = getCurrentUserId();
+      const familyData = localStorageManager.getFamilyData();
 
-      if (familyError || !familyData) {
+      if (!familyData || familyData.id !== familyId) {
         return { success: false, error: 'Family not found' };
       }
 
-      // Add user as family member
-      const { error: memberError } = await supabase
-        .from(TABLES.FAMILY_MEMBERS)
-        .insert({
-          user_id: user.id,
-          family_id: familyId,
-          role: 'child', // Default to child, can be changed by parent
-          first_name: profile?.profile_data?.firstName || user.email?.split('@')[0] || 'User',
-          last_name: profile?.profile_data?.lastName || '',
-          email: user.email!
-        });
-
-      if (memberError) {
-        return { success: false, error: memberError.message };
+      // Check if user is already a member
+      const existingMember = familyData.members.find((member: FamilyMember) => member.user_id === currentUserId);
+      if (existingMember) {
+        return { success: false, error: 'Already a member of this family' };
       }
 
-      // Update user profile with family ID
-      await supabase
-        .from(TABLES.USERS)
-        .update({
-          profile_data: {
-            ...profile?.profile_data,
-            familyId: familyId
-          }
-        })
-        .eq('id', user.id);
+      // Add user as family member
+      const newMember: FamilyMember = {
+        id: `member_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        user_id: currentUserId,
+        family_id: familyId,
+        role: 'child', // Default to child, can be changed by parent
+        first_name: 'Child',
+        last_name: 'User',
+        email: 'child@example.com',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+
+      familyData.members.push(newMember);
+      familyData.updated_at = new Date().toISOString();
+
+      // Save updated family data
+      localStorageManager.saveFamilyData(familyData);
+
+      // Create user progress if it doesn't exist
+      let progress = localStorageManager.getUserProgress(currentUserId);
+      if (!progress) {
+        progress = localStorageManager.createUserProgress(currentUserId, 'Child User', '9-12');
+      }
 
       setCurrentFamily(familyData);
       await loadFamilyMembers(familyId);
@@ -272,36 +263,34 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
   };
 
   const leaveFamily = async () => {
-    if (!user || !currentFamily) {
+    if (!currentFamily) {
       return { success: false, error: 'No family to leave' };
     }
 
     setLoading(true);
     try {
-      // Remove user from family members
-      const { error: memberError } = await supabase
-        .from(TABLES.FAMILY_MEMBERS)
-        .delete()
-        .eq('user_id', user.id)
-        .eq('family_id', currentFamily.id);
+      const currentUserId = getCurrentUserId();
+      const familyData = localStorageManager.getFamilyData();
 
-      if (memberError) {
-        return { success: false, error: memberError.message };
+      if (!familyData || familyData.id !== currentFamily.id) {
+        return { success: false, error: 'Family not found' };
       }
 
-      // Update user profile to remove family ID
-      await supabase
-        .from(TABLES.USERS)
-        .update({
-          profile_data: {
-            ...profile?.profile_data,
-            familyId: null
-          }
-        })
-        .eq('id', user.id);
+      // Remove user from family members
+      familyData.members = familyData.members.filter((member: FamilyMember) => member.user_id !== currentUserId);
+      familyData.updated_at = new Date().toISOString();
 
-      setCurrentFamily(null);
-      setFamilyMembers([]);
+      // If no members left, delete the family
+      if (familyData.members.length === 0) {
+        localStorageManager.clearAllData();
+        setCurrentFamily(null);
+        setFamilyMembers([]);
+      } else {
+        // Save updated family data
+        localStorageManager.saveFamilyData(familyData);
+        setCurrentFamily(null);
+        setFamilyMembers([]);
+      }
 
       return { success: true, error: null };
     } catch (error) {
@@ -319,32 +308,40 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
 
     setLoading(true);
     try {
-      // Check if user exists
-      const { data: userData, error: userError } = await supabase
-        .from(TABLES.USERS)
-        .select('id')
-        .eq('email', email)
-        .single();
+      const familyData = localStorageManager.getFamilyData();
 
-      if (userError || !userData) {
-        return { success: false, error: 'User not found. They need to create an account first.' };
+      if (!familyData || familyData.id !== currentFamily.id) {
+        return { success: false, error: 'Family not found' };
       }
 
-      // Add as family member
-      const { error: memberError } = await supabase
-        .from(TABLES.FAMILY_MEMBERS)
-        .insert({
-          user_id: userData.id,
-          family_id: currentFamily.id,
-          role,
-          first_name: firstName,
-          last_name: lastName,
-          email
-        });
-
-      if (memberError) {
-        return { success: false, error: memberError.message };
+      // Check if user already exists
+      const existingMember = familyData.members.find((member: FamilyMember) => member.email === email);
+      if (existingMember) {
+        return { success: false, error: 'User is already a member of this family' };
       }
+
+      // Create new member
+      const newMember: FamilyMember = {
+        id: `member_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        user_id: `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        family_id: currentFamily.id,
+        role,
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+
+      familyData.members.push(newMember);
+      familyData.updated_at = new Date().toISOString();
+
+      // Save updated family data
+      localStorageManager.saveFamilyData(familyData);
+
+      // Create user progress for the new member
+      const ageGroup = role === 'child' ? '9-12' : '13-17';
+      localStorageManager.createUserProgress(newMember.user_id, `${firstName} ${lastName}`, ageGroup);
 
       await loadFamilyMembers(currentFamily.id);
       return { success: true, error: null };
@@ -363,15 +360,27 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
 
     setLoading(true);
     try {
-      const { error } = await supabase
-        .from(TABLES.FAMILY_MEMBERS)
-        .delete()
-        .eq('id', memberId)
-        .eq('family_id', currentFamily.id);
+      const familyData = localStorageManager.getFamilyData();
 
-      if (error) {
-        return { success: false, error: error.message };
+      if (!familyData || familyData.id !== currentFamily.id) {
+        return { success: false, error: 'Family not found' };
       }
+
+      // Find the member to remove
+      const memberToRemove = familyData.members.find((member: FamilyMember) => member.id === memberId);
+      if (!memberToRemove) {
+        return { success: false, error: 'Member not found' };
+      }
+
+      // Remove member from family
+      familyData.members = familyData.members.filter((member: FamilyMember) => member.id !== memberId);
+      familyData.updated_at = new Date().toISOString();
+
+      // Save updated family data
+      localStorageManager.saveFamilyData(familyData);
+
+      // Delete user progress data
+      localStorageManager.deleteUser(memberToRemove.user_id);
 
       await loadFamilyMembers(currentFamily.id);
       return { success: true, error: null };
@@ -390,15 +399,28 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
 
     setLoading(true);
     try {
-      const { error } = await supabase
-        .from(TABLES.FAMILY_MEMBERS)
-        .update(updates)
-        .eq('id', memberId)
-        .eq('family_id', currentFamily.id);
+      const familyData = localStorageManager.getFamilyData();
 
-      if (error) {
-        return { success: false, error: error.message };
+      if (!familyData || familyData.id !== currentFamily.id) {
+        return { success: false, error: 'Family not found' };
       }
+
+      // Find and update the member
+      const memberIndex = familyData.members.findIndex((member: FamilyMember) => member.id === memberId);
+      if (memberIndex === -1) {
+        return { success: false, error: 'Member not found' };
+      }
+
+      familyData.members[memberIndex] = {
+        ...familyData.members[memberIndex],
+        ...updates,
+        updated_at: new Date().toISOString()
+      };
+
+      familyData.updated_at = new Date().toISOString();
+
+      // Save updated family data
+      localStorageManager.saveFamilyData(familyData);
 
       await loadFamilyMembers(currentFamily.id);
       return { success: true, error: null };
@@ -416,33 +438,69 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     }
 
     try {
-      // Get progress for all family members
-      const { data, error } = await supabase
-        .from(TABLES.PROGRESS)
-        .select(`
-          *,
-          users (
-            id,
-            email,
-            profile_data
-          )
-        `)
-        .in('user_id', familyMembers.map(member => member.user_id));
+      // Calculate family progress from localStorage data
+      const totalActivities = familyMembers.length * 10; // Assume 10 activities per member
+      let completedActivities = 0;
 
-      if (error) {
-        console.error('Error loading family progress:', error);
-        return null;
-      }
+      familyMembers.forEach((member: FamilyMember) => {
+        if (member.progress) {
+          completedActivities += member.progress.completedMissions.length;
+        }
+      });
 
-      return data;
+      const progressPercentage = totalActivities > 0 ? (completedActivities / totalActivities) * 100 : 0;
+
+      return {
+        totalActivities,
+        completedActivities,
+        progressPercentage
+      };
     } catch (error) {
       console.error('Error loading family progress:', error);
       return null;
     }
   };
 
-  const isParent = familyMembers.find(member => member.user_id === user?.id)?.role === 'parent';
-  const isChild = familyMembers.find(member => member.user_id === user?.id)?.role === 'child';
+  const isParent = familyMembers.find((member: FamilyMember) => member.user_id === getCurrentUserId())?.role === 'parent';
+  const isChild = familyMembers.find((member: FamilyMember) => member.user_id === getCurrentUserId())?.role === 'child';
+
+  // Calculate family privacy score
+  const calculateFamilyPrivacyScore = (): number => {
+    if (familyMembers.length === 0) return 0;
+    
+    const totalScore = familyMembers.reduce((sum: number, member: FamilyMember) => {
+      return sum + (member.privacyScore || 0);
+    }, 0);
+    
+    return Math.round(totalScore / familyMembers.length);
+  };
+
+  // Export family data
+  const exportFamilyData = (): string => {
+    return localStorageManager.exportData();
+  };
+
+  // Import family data
+  const importFamilyData = (jsonData: string): boolean => {
+    const success = localStorageManager.importData(jsonData);
+    if (success) {
+      // Reload family data after import
+      checkExistingFamily();
+    }
+    return success;
+  };
+
+  // Get family storage usage
+  const getFamilyStorageUsage = (): number => {
+    return localStorageManager.getStorageUsage();
+  };
+
+  // Clear family data
+  const clearFamilyData = (): void => {
+    localStorageManager.clearAllData();
+    setCurrentFamily(null);
+    setFamilyMembers([]);
+  };
 
   const value: FamilyContextType = {
     currentFamily,
@@ -456,7 +514,12 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     updateFamilyMember,
     getFamilyProgress,
     isParent,
-    isChild
+    isChild,
+    calculateFamilyPrivacyScore,
+    exportFamilyData,
+    importFamilyData,
+    getFamilyStorageUsage,
+    clearFamilyData
   };
 
   return (
