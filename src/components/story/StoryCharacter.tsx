@@ -23,6 +23,8 @@ const StoryCharacter: React.FC<StoryCharacterProps> = ({
   const { theme } = useTheme();
   const [isAnimating, setIsAnimating] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
+  const [animationPhase, setAnimationPhase] = useState(0);
+  const [isIdle, setIsIdle] = useState(true);
 
   const characterEmojis = {
     panda: '🐼',
@@ -63,13 +65,25 @@ const StoryCharacter: React.FC<StoryCharacterProps> = ({
   useEffect(() => {
     if (animation) {
       setIsAnimating(true);
+      setIsIdle(false);
       const timer = setTimeout(() => {
         setIsAnimating(false);
+        setIsIdle(true);
         onAnimationComplete?.();
       }, 2000);
       return () => clearTimeout(timer);
     }
   }, [animation, onAnimationComplete]);
+
+  // Idle animation cycle
+  useEffect(() => {
+    if (isIdle && !isAnimating) {
+      const idleTimer = setTimeout(() => {
+        setAnimationPhase(prev => (prev + 1) % 4);
+      }, 3000 + Math.random() * 2000); // Random interval between 3-5 seconds
+      return () => clearTimeout(idleTimer);
+    }
+  }, [isIdle, isAnimating, animationPhase]);
 
   useEffect(() => {
     if (isSpeaking && message) {
@@ -88,7 +102,7 @@ const StoryCharacter: React.FC<StoryCharacterProps> = ({
   return (
     <div className="story-character-container">
       <div
-        className={`character-wrapper ${isAnimating && animation ? animationClasses[animation] : ''}`}
+        className={`character-wrapper ${isAnimating && animation ? animationClasses[animation] : ''} ${isIdle ? `idle-phase-${animationPhase}` : ''}`}
         style={characterStyle}
       >
         <div className="character-emoji">
@@ -250,6 +264,23 @@ const StoryCharacter: React.FC<StoryCharacterProps> = ({
           animation: appear 0.5s ease-in-out;
         }
 
+        /* Idle animations */
+        .idle-phase-0 {
+          animation: idleBlink 4s ease-in-out infinite;
+        }
+
+        .idle-phase-1 {
+          animation: idleSway 6s ease-in-out infinite;
+        }
+
+        .idle-phase-2 {
+          animation: idleBreathe 3s ease-in-out infinite;
+        }
+
+        .idle-phase-3 {
+          animation: idleLook 5s ease-in-out infinite;
+        }
+
         @keyframes bounce {
           0%, 20%, 50%, 80%, 100% {
             transform: translateY(0);
@@ -358,6 +389,54 @@ const StoryCharacter: React.FC<StoryCharacterProps> = ({
           100% {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
+          }
+        }
+
+        @keyframes idleBlink {
+          0%, 90%, 100% {
+            transform: scaleY(1);
+          }
+          95% {
+            transform: scaleY(0.1);
+          }
+        }
+
+        @keyframes idleSway {
+          0%, 100% {
+            transform: rotate(0deg);
+          }
+          25% {
+            transform: rotate(2deg);
+          }
+          75% {
+            transform: rotate(-2deg);
+          }
+        }
+
+        @keyframes idleBreathe {
+          0%, 100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.05);
+          }
+        }
+
+        @keyframes idleLook {
+          0%, 100% {
+            transform: translateX(0);
+          }
+          20% {
+            transform: translateX(5px);
+          }
+          40% {
+            transform: translateX(-3px);
+          }
+          60% {
+            transform: translateX(3px);
+          }
+          80% {
+            transform: translateX(-2px);
           }
         }
 

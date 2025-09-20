@@ -32,6 +32,8 @@ const StoryChoices: React.FC<StoryChoicesProps> = ({
   const { theme } = useTheme();
   const [hoveredChoice, setHoveredChoice] = useState<string | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [selectedChoiceId, setSelectedChoiceId] = useState<string | null>(null);
+  const [showConsequence, setShowConsequence] = useState(false);
 
   const difficultyColors = {
     easy: '#4CAF50',
@@ -48,15 +50,29 @@ const StoryChoices: React.FC<StoryChoicesProps> = ({
   const handleChoiceClick = (choice: Choice) => {
     if (isDisabled) {return;}
     
-    onChoiceSelect(choice);
+    setSelectedChoiceId(choice.id);
     setShowFeedback(true);
     
-    setTimeout(() => setShowFeedback(false), 2000);
+    // Show consequence if available
+    if (choice.consequence) {
+      setShowConsequence(true);
+      setTimeout(() => setShowConsequence(false), 3000);
+    }
+    
+    // Call the parent handler
+    onChoiceSelect(choice);
+    
+    // Reset feedback after delay
+    setTimeout(() => {
+      setShowFeedback(false);
+      setSelectedChoiceId(null);
+    }, 2000);
   };
 
   const getChoiceStyle = (choice: Choice) => {
-    const isSelected = selectedChoice === choice.id;
+    const isSelected = selectedChoice === choice.id || selectedChoiceId === choice.id;
     const isHovered = hoveredChoice === choice.id;
+    const isRecentlySelected = selectedChoiceId === choice.id;
     
     return {
       background: isSelected 
@@ -76,10 +92,15 @@ const StoryChoices: React.FC<StoryChoicesProps> = ({
         : difficultyColors[choice.difficulty || 'easy'],
       transform: isHovered && !isDisabled 
         ? 'translateY(-4px) scale(1.02)' 
-        : 'translateY(0) scale(1)',
+        : isRecentlySelected
+          ? 'translateY(-2px) scale(1.05)'
+          : 'translateY(0) scale(1)',
       boxShadow: isHovered && !isDisabled 
         ? '0 8px 25px rgba(0, 0, 0, 0.15)' 
-        : '0 2px 8px rgba(0, 0, 0, 0.1)'
+        : isRecentlySelected
+          ? '0 6px 20px rgba(0, 0, 0, 0.2)'
+          : '0 2px 8px rgba(0, 0, 0, 0.1)',
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
     };
   };
 
@@ -151,11 +172,20 @@ const StoryChoices: React.FC<StoryChoicesProps> = ({
         ))}
       </div>
 
-      {showFeedback && selectedChoice && (
+      {showFeedback && selectedChoiceId && (
         <div className="choice-feedback">
           <div className="feedback-message">
             <span className="feedback-icon">✨</span>
             <span>Great choice! Let's see what happens next...</span>
+          </div>
+        </div>
+      )}
+
+      {showConsequence && selectedChoiceId && (
+        <div className="consequence-display">
+          <div className="consequence-message">
+            <span className="consequence-icon">💭</span>
+            <span>This choice will have consequences...</span>
           </div>
         </div>
       )}
@@ -351,6 +381,42 @@ const StoryChoices: React.FC<StoryChoicesProps> = ({
 
         .feedback-icon {
           font-size: 1.2rem;
+        }
+
+        .consequence-display {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 1000;
+          animation: consequenceAppear 0.5s ease-out;
+        }
+
+        .consequence-message {
+          background: var(--warning);
+          color: white;
+          padding: 1rem 2rem;
+          border-radius: 25px;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-weight: 500;
+        }
+
+        .consequence-icon {
+          font-size: 1.2rem;
+        }
+
+        @keyframes consequenceAppear {
+          0% {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+          }
+          100% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+          }
         }
 
         @keyframes feedbackAppear {
