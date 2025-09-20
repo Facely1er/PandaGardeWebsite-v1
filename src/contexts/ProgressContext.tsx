@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-// import { useAuth } from './AuthContext';
-import { progressService, activityService } from '../lib/database';
+// Frontend-only mode - no authentication or database dependencies
 
 interface ActivityProgress {
   activityId: string;
@@ -50,9 +49,9 @@ interface ProgressProviderProps {
 const STORAGE_KEY = 'pandagarde_progress';
 
 export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) => {
-  // const { isAuthenticated, user } = useAuth();
+  // Frontend-only mode - no authentication
   const isAuthenticated = false;
-  const user = null; // Progress works without authentication for main site
+  const user = null;
   const [progress, setProgress] = useState<UserProgress>({
     completedActivities: [],
     activityDetails: {},
@@ -62,59 +61,12 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
   });
   const [, setLoading] = useState(false);
 
-  // Load progress from database or localStorage
+  // Load progress from localStorage - Frontend-only mode
   useEffect(() => {
     const loadProgress = async () => {
-      if (isAuthenticated && user) {
-        setLoading(true);
-        try {
-          // Load from database
-          const dbProgress = await progressService.getUserProgress(user.id);
-          const dbActivities = await activityService.getUserActivities(user.id);
-          
-          // Convert database progress to local format
-          const completedActivities = dbActivities
-            .filter(activity => activity.completed_at)
-            .map(activity => activity.id);
-          
-          const activityDetails = Object.fromEntries(
-            dbProgress.map(progress => [
-              progress.activity_id,
-              {
-                activityId: progress.activity_id,
-                completed: true,
-                score: progress.progress_data?.score,
-                completedAt: new Date(progress.created_at),
-                timeSpent: progress.progress_data?.timeSpent
-              }
-            ])
-          );
-
-          const totalTimeSpent = Object.values(activityDetails)
-            .reduce((total, activity) => total + (activity.timeSpent || 0), 0);
-
-          const achievements = dbProgress
-            .filter(p => p.progress_data?.achievements)
-            .flatMap(p => p.progress_data.achievements || []);
-
-          setProgress({
-            completedActivities,
-            activityDetails,
-            totalTimeSpent,
-            achievements: [...new Set(achievements)],
-            lastUpdated: new Date()
-          });
-        } catch (error) {
-          console.error('Error loading progress from database:', error);
-          // Fallback to localStorage
-          loadFromLocalStorage();
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        // Load from localStorage for non-authenticated users
-        loadFromLocalStorage();
-      }
+      console.log('Frontend-only mode: Loading progress from localStorage only');
+      // In frontend-only mode, always load from localStorage
+      loadFromLocalStorage();
     };
 
     const loadFromLocalStorage = () => {
@@ -150,236 +102,82 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
   }, [progress]);
 
-  // Autosave to database for authenticated users
+  // Autosave to database - Frontend-only mode (disabled)
   useEffect(() => {
-    if (!user) {
-      return;
-    }
+    console.log('Frontend-only mode: Database autosave disabled');
+    // In frontend-only mode, no database autosave is needed
+  }, [progress]);
 
-    const autosaveToDatabase = async () => {
-      try {
-        await progressService.saveProgress({
-          user_id: user.id,
-          completed_activities: progress.completedActivities,
-          activity_details: progress.activityDetails,
-          total_score: progress.totalScore,
-          achievements: progress.achievements,
-          preferences: progress.preferences,
-          last_activity: new Date().toISOString()
-        });
-      } catch (error) {
-        console.warn('Autosave to database failed:', error);
-        // Continue with localStorage fallback
-      }
-    };
-
-    // Debounce autosave to avoid too frequent database calls
-    const timeoutId = setTimeout(autosaveToDatabase, 2000);
-    return () => clearTimeout(timeoutId);
-  }, [progress, user]);
-
-  // Periodic autosave every 30 seconds for authenticated users
+  // Periodic autosave - Frontend-only mode (disabled)
   useEffect(() => {
-    if (!user) {
-      return;
-    }
+    console.log('Frontend-only mode: Periodic database autosave disabled');
+    // In frontend-only mode, no periodic database autosave is needed
+  }, [progress]);
 
-    const intervalId = setInterval(async () => {
-      try {
-        await progressService.saveProgress({
-          user_id: user.id,
-          completed_activities: progress.completedActivities,
-          activity_details: progress.activityDetails,
-          total_score: progress.totalScore,
-          achievements: progress.achievements,
-          preferences: progress.preferences,
-          last_activity: new Date().toISOString()
-        });
-      } catch (error) {
-        console.warn('Periodic autosave failed:', error);
-      }
-    }, 30000); // 30 seconds
-
-    return () => clearInterval(intervalId);
-  }, [user, progress]);
-
-  // Save on page unload
+  // Save on page unload - Frontend-only mode (localStorage only)
   useEffect(() => {
     const handleBeforeUnload = () => {
-      if (user) {
-        // Use sendBeacon for reliable saving on page unload
-        const progressData = JSON.stringify({
-          user_id: user.id,
-          completed_activities: progress.completedActivities,
-          activity_details: progress.activityDetails,
-          total_score: progress.totalScore,
-          achievements: progress.achievements,
-          preferences: progress.preferences,
-          last_activity: new Date().toISOString()
-        });
-
-        // Try to save via sendBeacon if available
-        if (navigator.sendBeacon) {
-          try {
-            navigator.sendBeacon('/api/save-progress', progressData);
-          } catch (error) {
-            console.warn('SendBeacon failed, using localStorage fallback');
-          }
-        }
-      }
+      console.log('Frontend-only mode: Progress already saved to localStorage');
+      // In frontend-only mode, progress is automatically saved to localStorage
+      // No additional action needed on page unload
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-  }, [progress, user]);
+  }, [progress]);
 
   const markActivityCompleted = useCallback(async (activityId: string, score?: number, timeSpent?: number) => {
-    if (!user) {
-      // For non-authenticated users, just update local state
-      setProgress(prev => {
-        const isAlreadyCompleted = prev.completedActivities.includes(activityId);
-        
-        if (isAlreadyCompleted) {
-          return prev; // Don't update if already completed
-        }
+    console.log('Frontend-only mode: markActivityCompleted() - saving to localStorage only', { activityId, score, timeSpent });
+    
+    // In frontend-only mode, just update local state (which automatically saves to localStorage)
+    setProgress(prev => {
+      const isAlreadyCompleted = prev.completedActivities.includes(activityId);
+      
+      if (isAlreadyCompleted) {
+        return prev; // Don't update if already completed
+      }
 
-        const newProgress: UserProgress = {
-          ...prev,
-          completedActivities: [...prev.completedActivities, activityId],
-          activityDetails: {
-            ...prev.activityDetails,
-            [activityId]: {
-              activityId,
-              completed: true,
-              score,
-              completedAt: new Date(),
-              timeSpent
-            }
-          },
-          totalTimeSpent: prev.totalTimeSpent + (timeSpent || 0),
-          lastUpdated: new Date()
-        };
+      const newProgress: UserProgress = {
+        ...prev,
+        completedActivities: [...prev.completedActivities, activityId],
+        activityDetails: {
+          ...prev.activityDetails,
+          [activityId]: {
+            activityId,
+            completed: true,
+            score,
+            completedAt: new Date(),
+            timeSpent
+          }
+        },
+        totalTimeSpent: prev.totalTimeSpent + (timeSpent || 0),
+        lastUpdated: new Date()
+      };
 
-        // Check for achievements
-        const achievements = [...prev.achievements];
-        
-        if (newProgress.completedActivities.length === 1) {
-          achievements.push('first_activity');
-        }
-        
-        if (newProgress.completedActivities.length === 3) {
-          achievements.push('getting_started');
-        }
-        
-        if (newProgress.completedActivities.length === 8) {
-          achievements.push('privacy_champion');
-        }
+      // Check for achievements
+      const achievements = [...prev.achievements];
+      
+      if (newProgress.completedActivities.length === 1) {
+        achievements.push('first_activity');
+      }
+      
+      if (newProgress.completedActivities.length === 3) {
+        achievements.push('getting_started');
+      }
+      
+      if (newProgress.completedActivities.length === 8) {
+        achievements.push('privacy_champion');
+      }
 
-        if (newProgress.totalTimeSpent >= 60) {
-          achievements.push('dedicated_learner');
-        }
+      if (newProgress.totalTimeSpent >= 60) {
+        achievements.push('dedicated_learner');
+      }
 
-        newProgress.achievements = [...new Set(achievements)]; // Remove duplicates
+      newProgress.achievements = [...new Set(achievements)]; // Remove duplicates
 
-        return newProgress;
-      });
-      return;
-    }
-
-    // For authenticated users, save to database
-    try {
-      // Create activity record
-      await activityService.createActivity({
-        user_id: user.id,
-        activity_type: 'interactive',
-        activity_data: { activityId, score, timeSpent },
-        completed_at: new Date().toISOString()
-      });
-
-      // Save progress
-      await progressService.saveProgress({
-        user_id: user.id,
-        activity_id: activityId,
-        progress_data: { score, timeSpent, completedAt: new Date().toISOString() }
-      });
-
-      // Update local state
-      setProgress(prev => {
-        const isAlreadyCompleted = prev.completedActivities.includes(activityId);
-        
-        if (isAlreadyCompleted) {
-          return prev;
-        }
-
-        const newProgress: UserProgress = {
-          ...prev,
-          completedActivities: [...prev.completedActivities, activityId],
-          activityDetails: {
-            ...prev.activityDetails,
-            [activityId]: {
-              activityId,
-              completed: true,
-              score,
-              completedAt: new Date(),
-              timeSpent
-            }
-          },
-          totalTimeSpent: prev.totalTimeSpent + (timeSpent || 0),
-          lastUpdated: new Date()
-        };
-
-        // Check for achievements
-        const achievements = [...prev.achievements];
-        
-        if (newProgress.completedActivities.length === 1) {
-          achievements.push('first_activity');
-        }
-        
-        if (newProgress.completedActivities.length === 3) {
-          achievements.push('getting_started');
-        }
-        
-        if (newProgress.completedActivities.length === 8) {
-          achievements.push('privacy_champion');
-        }
-
-        if (newProgress.totalTimeSpent >= 60) {
-          achievements.push('dedicated_learner');
-        }
-
-        newProgress.achievements = [...new Set(achievements)];
-
-        return newProgress;
-      });
-    } catch (error) {
-      console.error('Error saving progress to database:', error);
-      // Still update local state even if database save fails
-      setProgress(prev => {
-        const isAlreadyCompleted = prev.completedActivities.includes(activityId);
-        
-        if (isAlreadyCompleted) {
-          return prev;
-        }
-
-        return {
-          ...prev,
-          completedActivities: [...prev.completedActivities, activityId],
-          activityDetails: {
-            ...prev.activityDetails,
-            [activityId]: {
-              activityId,
-              completed: true,
-              score,
-              completedAt: new Date(),
-              timeSpent
-            }
-          },
-          totalTimeSpent: prev.totalTimeSpent + (timeSpent || 0),
-          lastUpdated: new Date()
-        };
-      });
-    }
-  }, [user]);
+      return newProgress;
+    });
+  }, []);
 
   const getActivityProgress = useCallback((activityId: string) => {
     return progress.activityDetails[activityId];

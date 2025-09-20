@@ -1,29 +1,24 @@
 import { supabase, TABLES, type Database, isSupabaseConfigured } from './supabase'
-import { logger } from './logger'
 
 // Re-export supabase for convenience
 export { supabase }
 
-// Error handling wrapper
+// Frontend-only mode - all database operations are disabled
+console.log('Running in frontend-only mode - database operations disabled')
+
+// Mock error handling for compatibility
 const handleDatabaseError = (operation: string, error: unknown) => {
-  console.error(`Error in ${operation}:`, error)
-  if (error && typeof error === 'object' && 'message' in error) {
-    throw new Error(`${operation} failed: ${(error as Error).message}`)
-  }
-  throw new Error(`${operation} failed: Unknown error occurred`)
+  console.log(`Frontend-only mode: ${operation} would have failed:`, error)
+  return null
 }
 
-// Safe database operation wrapper
+// Mock database operation wrapper for compatibility
 const safeDbOperation = async <T>(
   operation: () => Promise<T>,
   operationName: string
-): Promise<T> => {
-  try {
-    return await operation()
-  } catch (error) {
-    handleDatabaseError(operationName, error)
-    throw error // This will never be reached due to handleDatabaseError throwing
-  }
+): Promise<T | null> => {
+  console.log(`Frontend-only mode: ${operationName} operation skipped`)
+  return null
 }
 
 // Type definitions for better type safety
@@ -36,271 +31,105 @@ type NewsletterSubscriber = Tables['pandagarde_newsletter_subscribers']['Row']
 type DownloadTracking = Tables['pandagarde_download_tracking']['Row']
 type UserSession = Tables['pandagarde_user_sessions']['Row']
 
-// User management functions
+// User management functions - Frontend-only mode
 export const userService = {
-  // Get current user
+  // Get current user - always returns null in frontend-only mode
   async getCurrentUser(): Promise<User | null> {
-    if (!isSupabaseConfigured || !supabase) {return null}
-    
-    try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {return null}
-
-      const { data, error } = await supabase
-        .from(TABLES.USERS)
-        .select('*')
-        .eq('id', user.id)
-        .single()
-
-      if (error) {
-        console.error('Error fetching user:', error)
-        throw new Error(`Failed to fetch user: ${error.message}`)
-      }
-
-      return data
-    } catch (error) {
-      console.error('Error in getCurrentUser:', error)
-      throw error
-    }
+    console.log('Frontend-only mode: getCurrentUser() - returning null')
+    return null
   },
 
-  // Create or update user profile
+  // Create or update user profile - disabled in frontend-only mode
   async upsertUser(userData: Partial<User>): Promise<User | null> {
-    if (!isSupabaseConfigured || !supabase) {return null}
-    
-    try {
-      const { data, error } = await supabase
-        .from(TABLES.USERS)
-        .upsert(userData)
-        .select()
-        .single()
-
-      if (error) {
-        console.error('Error upserting user:', error)
-        throw new Error(`Failed to upsert user: ${error.message}`)
-      }
-
-      return data
-    } catch (error) {
-      console.error('Error in upsertUser:', error)
-      throw error
-    }
+    console.log('Frontend-only mode: upsertUser() - operation skipped', userData)
+    return null
   },
 
-  // Update user profile
+  // Update user profile - disabled in frontend-only mode
   async updateUser(id: string, updates: Partial<User>): Promise<User | null> {
-    if (!isSupabaseConfigured || !supabase) {return null}
-    
-    const { data, error } = await supabase
-      .from(TABLES.USERS)
-      .update(updates)
-      .eq('id', id)
-      .select()
-      .single()
-
-    if (error) {
-      console.error('Error updating user:', error)
-      return null
-    }
-
-    return data
+    console.log('Frontend-only mode: updateUser() - operation skipped', { id, updates })
+    return null
   }
 }
 
-// Activity management functions
+// Activity management functions - Frontend-only mode
 export const activityService = {
-  // Get user activities
+  // Get user activities - returns empty array in frontend-only mode
   async getUserActivities(userId: string): Promise<Activity[]> {
-    if (!isSupabaseConfigured || !supabase) {return []}
-    
-    const { data, error } = await supabase
-      .from(TABLES.ACTIVITIES)
-      .select('*')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-
-    if (error) {
-      console.error('Error fetching activities:', error)
-      return []
-    }
-
-    return data || []
+    console.log('Frontend-only mode: getUserActivities() - returning empty array', userId)
+    return []
   },
 
-  // Create new activity
+  // Create new activity - disabled in frontend-only mode
   async createActivity(activityData: Omit<Activity, 'id' | 'created_at'>): Promise<Activity | null> {
-    if (!isSupabaseConfigured || !supabase) {return null}
-    
-    const { data, error } = await supabase
-      .from(TABLES.ACTIVITIES)
-      .insert(activityData)
-      .select()
-      .single()
-
-    if (error) {
-      console.error('Error creating activity:', error)
-      return null
-    }
-
-    return data
+    console.log('Frontend-only mode: createActivity() - operation skipped', activityData)
+    return null
   },
 
-  // Update activity
+  // Update activity - disabled in frontend-only mode
   async updateActivity(id: string, updates: Partial<Activity>): Promise<Activity | null> {
-    if (!isSupabaseConfigured || !supabase) {return null}
-    
-    const { data, error } = await supabase
-      .from(TABLES.ACTIVITIES)
-      .update(updates)
-      .eq('id', id)
-      .select()
-      .single()
-
-    if (error) {
-      console.error('Error updating activity:', error)
-      return null
-    }
-
-    return data
+    console.log('Frontend-only mode: updateActivity() - operation skipped', { id, updates })
+    return null
   },
 
-  // Mark activity as completed
+  // Mark activity as completed - disabled in frontend-only mode
   async completeActivity(id: string): Promise<Activity | null> {
-    if (!isSupabaseConfigured || !supabase) {return null}
-    return this.updateActivity(id, { completed_at: new Date().toISOString() })
+    console.log('Frontend-only mode: completeActivity() - operation skipped', id)
+    return null
   }
 }
 
-// Progress tracking functions
+// Progress tracking functions - Frontend-only mode
 export const progressService = {
-  // Get user progress
+  // Get user progress - returns empty array in frontend-only mode
   async getUserProgress(userId: string): Promise<Progress[]> {
-    if (!isSupabaseConfigured || !supabase) {return []}
-    
-    const { data, error } = await supabase
-      .from(TABLES.PROGRESS)
-      .select('*')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-
-    if (error) {
-      console.error('Error fetching progress:', error)
-      return []
-    }
-
-    return data || []
+    console.log('Frontend-only mode: getUserProgress() - returning empty array', userId)
+    return []
   },
 
-  // Save progress
+  // Save progress - disabled in frontend-only mode
   async saveProgress(progressData: Omit<Progress, 'id' | 'created_at' | 'updated_at'>): Promise<Progress | null> {
-    if (!isSupabaseConfigured || !supabase) {return null}
-    
-    const { data, error } = await supabase
-      .from(TABLES.PROGRESS)
-      .upsert(progressData)
-      .select()
-      .single()
-
-    if (error) {
-      console.error('Error saving progress:', error)
-      return null
-    }
-
-    return data
+    console.log('Frontend-only mode: saveProgress() - operation skipped', progressData)
+    return null
   }
 }
 
-// Contact form functions
+// Contact form functions - Frontend-only mode
 export const contactService = {
-  // Submit contact form
+  // Submit contact form - logs submission in frontend-only mode
   async submitContactForm(submission: Omit<ContactSubmission, 'id' | 'created_at' | 'status'>): Promise<ContactSubmission | null> {
-    if (!isSupabaseConfigured || !supabase) {
-      // For demo purposes, just log the submission
-      logger.info('Contact form submission (demo mode)', submission, 'DATABASE')
-      return null
-    }
-    
-    return safeDbOperation(async () => {
-      const { data, error } = await supabase
-        .from(TABLES.CONTACT_SUBMISSIONS)
-        .insert(submission)
-        .select()
-        .single()
-
-      if (error) {
-        throw error
-      }
-
-      return data
-    }, 'submitContactForm')
+    console.log('Frontend-only mode: Contact form submission logged:', submission)
+    // In a real frontend-only setup, you might want to send this to an external service
+    // For now, we just log it
+    return null
   },
 
-  // Get contact submissions (admin only)
+  // Get contact submissions - returns empty array in frontend-only mode
   async getContactSubmissions(): Promise<ContactSubmission[]> {
-    if (!isSupabaseConfigured || !supabase) {return []}
-    
-    const { data, error } = await supabase
-      .from(TABLES.CONTACT_SUBMISSIONS)
-      .select('*')
-      .order('created_at', { ascending: false })
-
-    if (error) {
-      console.error('Error fetching contact submissions:', error)
-      return []
-    }
-
-    return data || []
+    console.log('Frontend-only mode: getContactSubmissions() - returning empty array')
+    return []
   }
 }
 
-// Newsletter functions
+// Newsletter functions - Frontend-only mode
 export const newsletterService = {
-  // Subscribe to newsletter
+  // Subscribe to newsletter - logs subscription in frontend-only mode
   async subscribe(email: string): Promise<NewsletterSubscriber | null> {
-    if (!isSupabaseConfigured || !supabase) {
-      // For demo purposes, just log the subscription
-      logger.info('Newsletter subscription (demo mode)', { email }, 'DATABASE')
-      return null
-    }
-    
-    const { data, error } = await supabase
-      .from(TABLES.NEWSLETTER_SUBSCRIBERS)
-      .upsert({ email, is_active: true })
-      .select()
-      .single()
-
-    if (error) {
-      console.error('Error subscribing to newsletter:', error)
-      return null
-    }
-
-    return data
+    console.log('Frontend-only mode: Newsletter subscription logged:', email)
+    // In a real frontend-only setup, you might want to send this to an external service
+    return null
   },
 
-  // Unsubscribe from newsletter
+  // Unsubscribe from newsletter - logs unsubscription in frontend-only mode
   async unsubscribe(email: string): Promise<boolean> {
-    if (!isSupabaseConfigured || !supabase) {
-      logger.info('Newsletter unsubscription (demo mode)', { email }, 'DATABASE')
-      return true
-    }
-    
-    const { error } = await supabase
-      .from(TABLES.NEWSLETTER_SUBSCRIBERS)
-      .update({ is_active: false })
-      .eq('email', email)
-
-    if (error) {
-      console.error('Error unsubscribing from newsletter:', error)
-      return false
-    }
-
+    console.log('Frontend-only mode: Newsletter unsubscription logged:', email)
     return true
   }
 }
 
-// Download tracking functions
+// Download tracking functions - Frontend-only mode
 export const downloadService = {
-  // Track download
+  // Track download - uses localStorage in frontend-only mode
   async trackDownload(downloadData: Omit<DownloadTracking, 'id' | 'downloaded_at'>): Promise<DownloadTracking | null> {
     const downloadRecord = {
       ...downloadData,
@@ -308,223 +137,77 @@ export const downloadService = {
       downloaded_at: new Date().toISOString()
     };
 
-    if (!isSupabaseConfigured || !supabase) {
-      // Store in localStorage for demo mode
-      try {
-        const existingDownloads = JSON.parse(localStorage.getItem('pandagarde_downloads') || '[]');
-        existingDownloads.push(downloadRecord);
-        localStorage.setItem('pandagarde_downloads', JSON.stringify(existingDownloads));
-        console.log('Download tracked (localStorage):', downloadRecord);
-        return downloadRecord;
-      } catch (error) {
-        console.error('Error storing download in localStorage:', error);
-        return null;
-      }
+    // Store in localStorage for frontend-only mode
+    try {
+      const existingDownloads = JSON.parse(localStorage.getItem('pandagarde_downloads') || '[]');
+      existingDownloads.push(downloadRecord);
+      localStorage.setItem('pandagarde_downloads', JSON.stringify(existingDownloads));
+      console.log('Frontend-only mode: Download tracked (localStorage):', downloadRecord);
+      return downloadRecord;
+    } catch (error) {
+      console.error('Error storing download in localStorage:', error);
+      return null;
     }
-    
-    const { data, error } = await supabase
-      .from(TABLES.DOWNLOAD_TRACKING)
-      .insert(downloadData)
-      .select()
-      .single()
-
-    if (error) {
-      console.error('Error tracking download:', error)
-      // Fallback to localStorage
-      try {
-        const existingDownloads = JSON.parse(localStorage.getItem('pandagarde_downloads') || '[]');
-        existingDownloads.push(downloadRecord);
-        localStorage.setItem('pandagarde_downloads', JSON.stringify(existingDownloads));
-        console.log('Download tracked (localStorage fallback):', downloadRecord);
-        return downloadRecord;
-      } catch (fallbackError) {
-        console.error('Error storing download in localStorage fallback:', fallbackError);
-        return null;
-      }
-    }
-
-    return data
   },
 
-  // Get download statistics (admin only)
+  // Get download statistics - returns localStorage data in frontend-only mode
   async getDownloadStats(): Promise<DownloadTracking[]> {
-    if (!isSupabaseConfigured || !supabase) {
-      // Return localStorage data in demo mode
-      try {
-        const localDownloads = JSON.parse(localStorage.getItem('pandagarde_downloads') || '[]');
-        return localDownloads.sort((a: DownloadTracking, b: DownloadTracking) => 
-          new Date(b.downloaded_at).getTime() - new Date(a.downloaded_at).getTime()
-        );
-      } catch (error) {
-        console.error('Error fetching local download stats:', error);
-        return [];
-      }
+    try {
+      const localDownloads = JSON.parse(localStorage.getItem('pandagarde_downloads') || '[]');
+      return localDownloads.sort((a: DownloadTracking, b: DownloadTracking) => 
+        new Date(b.downloaded_at).getTime() - new Date(a.downloaded_at).getTime()
+      );
+    } catch (error) {
+      console.error('Error fetching local download stats:', error);
+      return [];
     }
-    
-    const { data, error } = await supabase
-      .from(TABLES.DOWNLOAD_TRACKING)
-      .select('*')
-      .order('downloaded_at', { ascending: false })
-
-    if (error) {
-      console.error('Error fetching download stats:', error)
-      // Fallback to localStorage
-      try {
-        const localDownloads = JSON.parse(localStorage.getItem('pandagarde_downloads') || '[]');
-        return localDownloads.sort((a: DownloadTracking, b: DownloadTracking) => 
-          new Date(b.downloaded_at).getTime() - new Date(a.downloaded_at).getTime()
-        );
-      } catch (fallbackError) {
-        console.error('Error fetching local download stats fallback:', fallbackError);
-        return [];
-      }
-    }
-
-    return data || []
   }
 }
 
-// Session management functions
+// Session management functions - Frontend-only mode
 export const sessionService = {
-  // Create user session
+  // Create user session - disabled in frontend-only mode
   async createSession(userId: string, sessionData: Record<string, unknown>, expiresAt: Date): Promise<UserSession | null> {
-    if (!isSupabaseConfigured || !supabase) {return null}
-    
-    const { data, error } = await supabase
-      .from(TABLES.USER_SESSIONS)
-      .insert({
-        user_id: userId,
-        session_data: sessionData,
-        expires_at: expiresAt.toISOString()
-      })
-      .select()
-      .single()
-
-    if (error) {
-      console.error('Error creating session:', error)
-      return null
-    }
-
-    return data
+    console.log('Frontend-only mode: createSession() - operation skipped', { userId, sessionData, expiresAt })
+    return null
   },
 
-  // Get user sessions
+  // Get user sessions - returns empty array in frontend-only mode
   async getUserSessions(userId: string): Promise<UserSession[]> {
-    if (!isSupabaseConfigured || !supabase) {return []}
-    
-    const { data, error } = await supabase
-      .from(TABLES.USER_SESSIONS)
-      .select('*')
-      .eq('user_id', userId)
-      .gt('expires_at', new Date().toISOString())
-      .order('created_at', { ascending: false })
-
-    if (error) {
-      console.error('Error fetching sessions:', error)
-      return []
-    }
-
-    return data || []
+    console.log('Frontend-only mode: getUserSessions() - returning empty array', userId)
+    return []
   },
 
-  // Clean up expired sessions
+  // Clean up expired sessions - always returns true in frontend-only mode
   async cleanupExpiredSessions(): Promise<boolean> {
-    if (!isSupabaseConfigured || !supabase) {return true}
-    
-    const { error } = await supabase
-      .from(TABLES.USER_SESSIONS)
-      .delete()
-      .lt('expires_at', new Date().toISOString())
-
-    if (error) {
-      console.error('Error cleaning up sessions:', error)
-      return false
-    }
-
+    console.log('Frontend-only mode: cleanupExpiredSessions() - operation skipped')
     return true
   }
 }
 
-// Auth helper functions
+// Auth helper functions - Frontend-only mode
 export const authService = {
-  // Sign up with email and password
+  // Sign up with email and password - disabled in frontend-only mode
   async signUp(email: string, password: string) {
-    if (!isSupabaseConfigured || !supabase) {
-      console.log('Sign up attempt (demo mode):', email)
-      return { data: null, error: { message: 'Authentication not configured for demo mode' } }
-    }
-    
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    })
-
-    if (error) {
-      console.error('Error signing up:', error)
-      return { data: null, error }
-    }
-
-    // Create user profile after successful signup
-    if (data.user) {
-      try {
-        await userService.upsertUser({
-          id: data.user.id,
-          email: data.user.email!,
-          profile_data: {
-            name: '',
-            avatar_url: '',
-            created_at: new Date().toISOString()
-          }
-        })
-      } catch (profileError) {
-        console.error('Error creating user profile:', profileError)
-      }
-    }
-
-    return { data, error: null }
+    console.log('Frontend-only mode: Sign up attempt logged:', email)
+    return { data: null, error: { message: 'Authentication disabled - redirect to family hub project' } }
   },
 
-  // Sign in with email and password
+  // Sign in with email and password - disabled in frontend-only mode
   async signIn(email: string, password: string) {
-    if (!isSupabaseConfigured || !supabase) {
-      console.log('Sign in attempt (demo mode):', email)
-      return { data: null, error: { message: 'Authentication not configured for demo mode' } }
-    }
-    
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-
-    if (error) {
-      console.error('Error signing in:', error)
-      return { data: null, error }
-    }
-
-    return { data, error: null }
+    console.log('Frontend-only mode: Sign in attempt logged:', email)
+    return { data: null, error: { message: 'Authentication disabled - redirect to family hub project' } }
   },
 
-  // Sign out
+  // Sign out - always succeeds in frontend-only mode
   async signOut() {
-    if (!isSupabaseConfigured || !supabase) {
-      console.log('Sign out (demo mode)')
-      return { error: null }
-    }
-    
-    const { error } = await supabase.auth.signOut()
-    if (error) {
-      console.error('Error signing out:', error)
-    }
-    return { error }
+    console.log('Frontend-only mode: Sign out logged')
+    return { error: null }
   },
 
-  // Get current session
+  // Get current session - always returns null in frontend-only mode
   async getCurrentSession() {
-    if (!isSupabaseConfigured || !supabase) {
-      return { data: { session: null }, error: null }
-    }
-    
-    const { data, error } = await supabase.auth.getSession()
-    return { data, error }
+    console.log('Frontend-only mode: getCurrentSession() - returning null')
+    return { data: { session: null }, error: null }
   }
 }
