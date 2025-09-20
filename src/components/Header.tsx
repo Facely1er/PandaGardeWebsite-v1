@@ -55,6 +55,15 @@ const Header: React.FC = () => {
     { icon: Info, label: 'About', href: '/about', isExternal: false },
   ];
 
+  const mobileNavItems = [
+    { icon: Home, label: 'Home', href: '/', isExternal: false },
+    { icon: BookOpen, label: 'Overview', href: '/overview', isExternal: false },
+    { icon: Users, label: 'Quick Start', href: '/quick-start', isExternal: false },
+    { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
+    { icon: Info, label: 'About', href: '/about', isExternal: false },
+    { icon: Users, label: 'Family Hub', href: 'https://www.hub.pandagarde.com', isExternal: true },
+  ];
+
 
   const isActive = (href: string) => {
     if (href === '/') {
@@ -156,12 +165,21 @@ const Header: React.FC = () => {
       <header className={`header ${isScrolled ? 'scrolled' : ''}`} role="banner">
         <div className="container">
         <nav className="nav" role="navigation" aria-label="Main navigation" id="navigation">
-          <Logo 
-            size="medium" 
-            showText={true} 
-            linkTo="/"
+          <Link 
+            to="/" 
             className="logo"
-          />
+            aria-label="PandaGarde - Go to homepage"
+          >
+            <div className="logo-icon" aria-hidden="true">
+              <img 
+                src="/LogoPandagarde.png" 
+                alt="PandaGarde Logo" 
+                className="panda-logo"
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+              />
+            </div>
+            <span>Panda<span className="highlight">Garde</span></span>
+          </Link>
           
           <ul 
             id="mobile-menu"
@@ -170,7 +188,7 @@ const Header: React.FC = () => {
             aria-label="Main navigation menu"
             onKeyDown={handleMobileMenuKeyDown}
           >
-            {navItems.map((item) => (
+            {mobileNavItems.map((item) => (
               <li key={item.label} role="none">
                 {item.href.startsWith('#') ? (
                   <a
@@ -213,6 +231,22 @@ const Header: React.FC = () => {
                 )}
               </li>
             ))}
+            
+            {/* Mobile Search Button */}
+            <li role="none" className="mobile-search-item">
+              <button
+                onClick={() => {
+                  setIsSearchModalOpen(true);
+                  setIsMobileMenuOpen(false);
+                }}
+                className="nav-link mobile-search-button"
+                role="menuitem"
+                aria-label="Open search dialog"
+              >
+                <Search size={16} aria-hidden="true" />
+                Search
+              </button>
+            </li>
           </ul>
           
           <div className="nav-actions" role="toolbar" aria-label="Navigation actions">
