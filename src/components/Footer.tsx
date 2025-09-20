@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Shield as Child, User, UserCheck, Mail, HelpCircle, Newspaper, Headphones, Users, Shield, Wrench } from 'lucide-react';
+import { Shield as Child, User, UserCheck, Mail, HelpCircle, Newspaper, Headphones, Users, Shield, Wrench, BookOpen, GraduationCap, Info } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
   const quickLinks = [
     { icon: BookOpen, href: '/overview', label: 'Overview' },
     { icon: Users, href: '/quick-start', label: 'Quick Start' },
-    { icon: ChalkboardTeacher, href: '/resources', label: 'Resources' },
+    { icon: GraduationCap, href: '/resources', label: 'Resources' },
     { icon: Info, href: '/about', label: 'About' }
   ];
 
