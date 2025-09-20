@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-// import { useAuth } from '../pages/family-hub/AuthWrapper';
-import { supabase, TABLES } from '../lib/supabase';
+// Frontend-only mode - no authentication or database dependencies
 
 interface FamilyMember {
   id: string;
@@ -59,386 +58,70 @@ interface FamilyProviderProps {
 }
 
 export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
-  // const { user, profile, isAuthenticated } = useAuth();
+  // Frontend-only mode - no authentication
   const user = null;
   const profile = null;
-  const isAuthenticated = false; // Main site works without authentication
+  const isAuthenticated = false;
   const [currentFamily, setCurrentFamily] = useState<Family | null>(null);
   const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
   const [loading, setLoading] = useState(false);
 
   const loadFamilyMembers = useCallback(async (familyId: string) => {
-    try {
-      const { data, error } = await supabase
-        .from(TABLES.FAMILY_MEMBERS)
-        .select('*')
-        .eq('family_id', familyId)
-        .order('created_at', { ascending: true });
-
-      if (error) {
-        console.error('Error loading family members:', error);
-        return;
-      }
-
-      setFamilyMembers(data || []);
-    } catch (error) {
-      console.error('Error loading family members:', error);
-    }
+    console.log('Frontend-only mode: loadFamilyMembers() - operation skipped', familyId);
+    // In frontend-only mode, return empty array
+    setFamilyMembers([]);
   }, []);
 
   const loadFamilyData = useCallback(async (familyId: string) => {
-    setLoading(true);
-    try {
-      // Load family info
-      const { data: familyData, error: familyError } = await supabase
-        .from(TABLES.FAMILIES)
-        .select('*')
-        .eq('id', familyId)
-        .single();
-
-      if (familyError) {
-        console.error('Error loading family:', familyError);
-        return;
-      }
-
-      setCurrentFamily(familyData);
-      await loadFamilyMembers(familyId);
-    } catch (error) {
-      console.error('Error loading family data:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, [loadFamilyMembers]);
+    console.log('Frontend-only mode: loadFamilyData() - operation skipped', familyId);
+    setLoading(false);
+    // In frontend-only mode, no family data is loaded
+  }, []);
 
   const checkExistingFamily = useCallback(async () => {
-    if (!user) {return;}
+    console.log('Frontend-only mode: checkExistingFamily() - operation skipped');
+    // In frontend-only mode, no family checking is done
+  }, []);
 
-    try {
-      const { data, error } = await supabase
-        .from(TABLES.FAMILY_MEMBERS)
-        .select(`
-          *,
-          families (
-            id,
-            name,
-            created_by,
-            created_at,
-            updated_at
-          )
-        `)
-        .eq('user_id', user.id)
-        .single();
-
-      if (error && error.code !== 'PGRST116') {
-        console.error('Error checking existing family:', error);
-        return;
-      }
-
-      if (data) {
-        const family = data.families;
-        setCurrentFamily(family);
-        await loadFamilyMembers(family.id);
-      }
-    } catch (error) {
-      console.error('Error checking existing family:', error);
-    }
-  }, [user, loadFamilyMembers]);
-
-  // Load family data when user changes
+  // Load family data when user changes - Frontend-only mode
   useEffect(() => {
-    if (isAuthenticated && user && profile?.profile_data?.familyId) {
-      loadFamilyData(profile.profile_data.familyId);
-    } else if (isAuthenticated && user) {
-      // Check if user is already part of a family
-      checkExistingFamily();
-    }
-  }, [isAuthenticated, user, profile]);
+    console.log('Frontend-only mode: No family data loading needed');
+    // In frontend-only mode, no family data is loaded
+  }, []);
 
   const createFamily = async (name: string) => {
-    if (!user) {
-      return { family: null, error: 'User not authenticated' };
-    }
-
-    setLoading(true);
-    try {
-      // Create family
-      const { data: familyData, error: familyError } = await supabase
-        .from(TABLES.FAMILIES)
-        .insert({
-          name,
-          created_by: user.id
-        })
-        .select()
-        .single();
-
-      if (familyError) {
-        return { family: null, error: familyError.message };
-      }
-
-      // Add creator as parent member
-      const { error: memberError } = await supabase
-        .from(TABLES.FAMILY_MEMBERS)
-        .insert({
-          user_id: user.id,
-          family_id: familyData.id,
-          role: 'parent',
-          first_name: profile?.profile_data?.firstName || user.email?.split('@')[0] || 'User',
-          last_name: profile?.profile_data?.lastName || '',
-          email: user.email!
-        });
-
-      if (memberError) {
-        return { family: null, error: memberError.message };
-      }
-
-      // Update user profile with family ID
-      await supabase
-        .from(TABLES.USERS)
-        .update({
-          profile_data: {
-            ...profile?.profile_data,
-            familyId: familyData.id
-          }
-        })
-        .eq('id', user.id);
-
-      setCurrentFamily(familyData);
-      await loadFamilyMembers(familyData.id);
-
-      return { family: familyData, error: null };
-    } catch (error) {
-      console.error('Error creating family:', error);
-      return { family: null, error: 'Failed to create family' };
-    } finally {
-      setLoading(false);
-    }
+    console.log('Frontend-only mode: createFamily() - operation skipped', name);
+    return { family: null, error: 'Family management is handled by the external Family Hub project' };
   };
 
   const joinFamily = async (familyId: string) => {
-    if (!user) {
-      return { success: false, error: 'User not authenticated' };
-    }
-
-    setLoading(true);
-    try {
-      // Check if family exists
-      const { data: familyData, error: familyError } = await supabase
-        .from(TABLES.FAMILIES)
-        .select('*')
-        .eq('id', familyId)
-        .single();
-
-      if (familyError || !familyData) {
-        return { success: false, error: 'Family not found' };
-      }
-
-      // Add user as family member
-      const { error: memberError } = await supabase
-        .from(TABLES.FAMILY_MEMBERS)
-        .insert({
-          user_id: user.id,
-          family_id: familyId,
-          role: 'child', // Default to child, can be changed by parent
-          first_name: profile?.profile_data?.firstName || user.email?.split('@')[0] || 'User',
-          last_name: profile?.profile_data?.lastName || '',
-          email: user.email!
-        });
-
-      if (memberError) {
-        return { success: false, error: memberError.message };
-      }
-
-      // Update user profile with family ID
-      await supabase
-        .from(TABLES.USERS)
-        .update({
-          profile_data: {
-            ...profile?.profile_data,
-            familyId: familyId
-          }
-        })
-        .eq('id', user.id);
-
-      setCurrentFamily(familyData);
-      await loadFamilyMembers(familyId);
-
-      return { success: true, error: null };
-    } catch (error) {
-      console.error('Error joining family:', error);
-      return { success: false, error: 'Failed to join family' };
-    } finally {
-      setLoading(false);
-    }
+    console.log('Frontend-only mode: joinFamily() - operation skipped', familyId);
+    return { success: false, error: 'Family management is handled by the external Family Hub project' };
   };
 
   const leaveFamily = async () => {
-    if (!user || !currentFamily) {
-      return { success: false, error: 'No family to leave' };
-    }
-
-    setLoading(true);
-    try {
-      // Remove user from family members
-      const { error: memberError } = await supabase
-        .from(TABLES.FAMILY_MEMBERS)
-        .delete()
-        .eq('user_id', user.id)
-        .eq('family_id', currentFamily.id);
-
-      if (memberError) {
-        return { success: false, error: memberError.message };
-      }
-
-      // Update user profile to remove family ID
-      await supabase
-        .from(TABLES.USERS)
-        .update({
-          profile_data: {
-            ...profile?.profile_data,
-            familyId: null
-          }
-        })
-        .eq('id', user.id);
-
-      setCurrentFamily(null);
-      setFamilyMembers([]);
-
-      return { success: true, error: null };
-    } catch (error) {
-      console.error('Error leaving family:', error);
-      return { success: false, error: 'Failed to leave family' };
-    } finally {
-      setLoading(false);
-    }
+    console.log('Frontend-only mode: leaveFamily() - operation skipped');
+    return { success: false, error: 'Family management is handled by the external Family Hub project' };
   };
 
   const addFamilyMember = async (email: string, role: 'parent' | 'child', firstName: string, lastName: string) => {
-    if (!currentFamily) {
-      return { success: false, error: 'No family selected' };
-    }
-
-    setLoading(true);
-    try {
-      // Check if user exists
-      const { data: userData, error: userError } = await supabase
-        .from(TABLES.USERS)
-        .select('id')
-        .eq('email', email)
-        .single();
-
-      if (userError || !userData) {
-        return { success: false, error: 'User not found. They need to create an account first.' };
-      }
-
-      // Add as family member
-      const { error: memberError } = await supabase
-        .from(TABLES.FAMILY_MEMBERS)
-        .insert({
-          user_id: userData.id,
-          family_id: currentFamily.id,
-          role,
-          first_name: firstName,
-          last_name: lastName,
-          email
-        });
-
-      if (memberError) {
-        return { success: false, error: memberError.message };
-      }
-
-      await loadFamilyMembers(currentFamily.id);
-      return { success: true, error: null };
-    } catch (error) {
-      console.error('Error adding family member:', error);
-      return { success: false, error: 'Failed to add family member' };
-    } finally {
-      setLoading(false);
-    }
+    console.log('Frontend-only mode: addFamilyMember() - operation skipped', { email, role, firstName, lastName });
+    return { success: false, error: 'Family management is handled by the external Family Hub project' };
   };
 
   const removeFamilyMember = async (memberId: string) => {
-    if (!currentFamily) {
-      return { success: false, error: 'No family selected' };
-    }
-
-    setLoading(true);
-    try {
-      const { error } = await supabase
-        .from(TABLES.FAMILY_MEMBERS)
-        .delete()
-        .eq('id', memberId)
-        .eq('family_id', currentFamily.id);
-
-      if (error) {
-        return { success: false, error: error.message };
-      }
-
-      await loadFamilyMembers(currentFamily.id);
-      return { success: true, error: null };
-    } catch (error) {
-      console.error('Error removing family member:', error);
-      return { success: false, error: 'Failed to remove family member' };
-    } finally {
-      setLoading(false);
-    }
+    console.log('Frontend-only mode: removeFamilyMember() - operation skipped', memberId);
+    return { success: false, error: 'Family management is handled by the external Family Hub project' };
   };
 
   const updateFamilyMember = async (memberId: string, updates: Partial<FamilyMember>) => {
-    if (!currentFamily) {
-      return { success: false, error: 'No family selected' };
-    }
-
-    setLoading(true);
-    try {
-      const { error } = await supabase
-        .from(TABLES.FAMILY_MEMBERS)
-        .update(updates)
-        .eq('id', memberId)
-        .eq('family_id', currentFamily.id);
-
-      if (error) {
-        return { success: false, error: error.message };
-      }
-
-      await loadFamilyMembers(currentFamily.id);
-      return { success: true, error: null };
-    } catch (error) {
-      console.error('Error updating family member:', error);
-      return { success: false, error: 'Failed to update family member' };
-    } finally {
-      setLoading(false);
-    }
+    console.log('Frontend-only mode: updateFamilyMember() - operation skipped', { memberId, updates });
+    return { success: false, error: 'Family management is handled by the external Family Hub project' };
   };
 
   const getFamilyProgress = async () => {
-    if (!currentFamily) {
-      return null;
-    }
-
-    try {
-      // Get progress for all family members
-      const { data, error } = await supabase
-        .from(TABLES.PROGRESS)
-        .select(`
-          *,
-          users (
-            id,
-            email,
-            profile_data
-          )
-        `)
-        .in('user_id', familyMembers.map(member => member.user_id));
-
-      if (error) {
-        console.error('Error loading family progress:', error);
-        return null;
-      }
-
-      return data;
-    } catch (error) {
-      console.error('Error loading family progress:', error);
-      return null;
-    }
+    console.log('Frontend-only mode: getFamilyProgress() - operation skipped');
+    return null;
   };
 
   const isParent = familyMembers.find(member => member.user_id === user?.id)?.role === 'parent';
