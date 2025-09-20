@@ -8,10 +8,10 @@ import Logo from '../../components/Logo';
 interface FormData {
   email: string;
   password: string;
-  confirmPassword?: string;
-  firstName?: string;
-  lastName?: string;
-  role?: 'parent' | 'child' | 'educator';
+  confirmPassword: string;
+  firstName: string;
+  lastName: string;
+  role: 'parent' | 'child';
 }
 
 const LoginPage: React.FC = () => {
@@ -45,43 +45,12 @@ const LoginPage: React.FC = () => {
     setIsLoading(true);
 
     try {
-<<<<<<< HEAD
       // In frontend-only mode, redirect to external family hub
       success('Redirecting to Family Hub for authentication...');
       setTimeout(() => {
         redirectToFamilyHub();
       }, 1000);
     } catch (error: any) {
-=======
-      if (mode === 'signin') {
-        const { error } = await signIn(formData.email, formData.password);
-        if (error) {
-          showError(`Sign in failed: ${error.message}`);
-        } else {
-          success('Welcome back!');
-          navigate('/family-hub');
-        }
-      } else {
-        if (formData.password !== formData.confirmPassword) {
-          showError('Passwords do not match');
-          return;
-        }
-        
-        const { error } = await signUp(formData.email, formData.password, {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          role: formData.role
-        });
-        
-        if (error) {
-          showError(`Sign up failed: ${error.message}`);
-        } else {
-          success('Account created successfully!');
-          navigate('/family-hub');
-        }
-      }
-    } catch (error: unknown) {
->>>>>>> origin/main
       console.error('Auth error:', error);
       showError('An unexpected error occurred');
     } finally {
