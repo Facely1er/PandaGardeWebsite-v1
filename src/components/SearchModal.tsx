@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, X, Clock, ArrowRight, FileText, BookOpen, Download, Settings, Filter } from 'lucide-react';
 import { useSearch, SearchResult } from '../contexts/SearchContext';
+import { renderSearchHighlights, safeTextContent } from '../lib/htmlSanitizer';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -223,7 +224,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onResultClic
                             <div className="flex items-center gap-2 mb-1">
                               <h3 
                                 className="font-medium text-gray-900 dark:text-white truncate"
-                                dangerouslySetInnerHTML={{ __html: result.highlights.title }}
+                                dangerouslySetInnerHTML={{ __html: renderSearchHighlights(result.highlights, searchQuery).title }}
                               />
                               <span className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300 rounded">
                                 {result.category}
@@ -236,7 +237,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onResultClic
                             </div>
                             <p 
                               className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2"
-                              dangerouslySetInnerHTML={{ __html: result.highlights.description }}
+                              dangerouslySetInnerHTML={{ __html: renderSearchHighlights(result.highlights, searchQuery).description }}
                             />
                             <div className="flex items-center gap-1 mt-2">
                               <ArrowRight size={12} className="text-gray-400" />

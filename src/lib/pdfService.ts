@@ -94,6 +94,8 @@ export class PDFService {
         throw new Error('Unable to open print window. Please check your popup blocker settings.');
       }
 
+      // Use safer method to set content
+      printWindow.document.open();
       printWindow.document.write(htmlContent);
       printWindow.document.close();
 

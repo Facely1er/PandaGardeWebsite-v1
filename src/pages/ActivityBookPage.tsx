@@ -143,7 +143,7 @@ const ActivityBookPage: React.FC = () => {
     // Add celebration animation
     setTimeout(() => {
       const celebration = document.createElement('div');
-      celebration.innerHTML = '🎉✨🌟';
+      celebration.textContent = '🎉✨🌟';
       celebration.style.cssText = `
         position: fixed;
         top: 50%;
