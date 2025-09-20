@@ -31,6 +31,9 @@ const InteractiveStoryPage: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [points, setPoints] = useState(0);
+  const [showKeyboardHelp, setShowKeyboardHelp] = useState(false);
+  const [bookmarks, setBookmarks] = useState<Set<string>>(new Set());
+  const [showBookmarks, setShowBookmarks] = useState(false);
   const [achievements, setAchievements] = useState([
     {
       id: 'first-scene',
@@ -241,22 +244,22 @@ const InteractiveStoryPage: React.FC = () => {
   };
 
   const handleChoiceSelect = () => {
-    setPoints(prev => prev + 10);
+    setPoints((prev: number) => prev + 10);
     
     // Check for achievements
-    const choiceCount = achievements.find(a => a.id === 'wise-choices');
+    const choiceCount = achievements.find((a: any) => a.id === 'wise-choices');
     if (choiceCount && !choiceCount.unlocked) {
-      setAchievements(prev => prev.map(a => 
+      setAchievements((prev: any[]) => prev.map((a: any) => 
         a.id === 'wise-choices' ? { ...a, unlocked: true } : a
       ));
     }
   };
 
   const handleStoryComplete = () => {
-    setAchievements(prev => prev.map(a => 
+    setAchievements((prev: any[]) => prev.map((a: any) => 
       a.id === 'story-complete' ? { ...a, unlocked: true } : a
     ));
-    setPoints(prev => prev + 50);
+    setPoints((prev: number) => prev + 50);
   };
 
   const currentScene = storyScenes[currentSceneIndex];
@@ -264,7 +267,7 @@ const InteractiveStoryPage: React.FC = () => {
   // Unlock first scene achievement
   useEffect(() => {
     if (currentSceneIndex === 0) {
-      setAchievements(prev => prev.map(a => 
+      setAchievements((prev: any[]) => prev.map((a: any) => 
         a.id === 'first-scene' ? { ...a, unlocked: true } : a
       ));
     }
@@ -273,16 +276,129 @@ const InteractiveStoryPage: React.FC = () => {
   // Unlock privacy learner achievement
   useEffect(() => {
     if (currentSceneIndex >= 5) {
-      setAchievements(prev => prev.map(a => 
+      setAchievements((prev: any[]) => prev.map((a: any) => 
         a.id === 'privacy-learner' ? { ...a, unlocked: true } : a
       ));
     }
   }, [currentSceneIndex]);
 
+  // Load bookmarks from localStorage
+  useEffect(() => {
+    const savedBookmarks = localStorage.getItem('story-bookmarks');
+    if (savedBookmarks) {
+      try {
+        const bookmarkArray = JSON.parse(savedBookmarks);
+        setBookmarks(new Set(bookmarkArray));
+      } catch (error) {
+        console.error('Error loading bookmarks:', error);
+      }
+    }
+  }, []);
+
+  // Save bookmarks to localStorage
+  useEffect(() => {
+    localStorage.setItem('story-bookmarks', JSON.stringify(Array.from(bookmarks)));
+  }, [bookmarks]);
+
+  // Load progress from localStorage
+  useEffect(() => {
+    const savedProgress = localStorage.getItem('story-progress');
+    if (savedProgress) {
+      try {
+        const progress = JSON.parse(savedProgress);
+        setCurrentSceneIndex(progress.sceneIndex || 0);
+        setPoints(progress.points || 0);
+        setAchievements(progress.achievements || achievements);
+      } catch (error) {
+        console.error('Error loading progress:', error);
+      }
+    }
+  }, []);
+
+  // Save progress to localStorage
+  useEffect(() => {
+    const progress = {
+      sceneIndex: currentSceneIndex,
+      points,
+      achievements,
+      timestamp: Date.now()
+    };
+    localStorage.setItem('story-progress', JSON.stringify(progress));
+  }, [currentSceneIndex, points, achievements]);
+
+  const toggleBookmark = (sceneId: string) => {
+    setBookmarks(prev => {
+      const newBookmarks = new Set(prev);
+      if (newBookmarks.has(sceneId)) {
+        newBookmarks.delete(sceneId);
+      } else {
+        newBookmarks.add(sceneId);
+      }
+      return newBookmarks;
+    });
+  };
+
+  const jumpToBookmark = (sceneId: string) => {
+    const sceneIndex = storyScenes.findIndex(scene => scene.id === sceneId);
+    if (sceneIndex !== -1) {
+      setCurrentSceneIndex(sceneIndex);
+      setShowBookmarks(false);
+    }
+  };
+
+  // Keyboard navigation for main page
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      switch (event.key.toLowerCase()) {
+        case 'h':
+          event.preventDefault();
+          setShowKeyboardHelp(!showKeyboardHelp);
+          break;
+        case 'b':
+          event.preventDefault();
+          setShowBookmarks(!showBookmarks);
+          break;
+        case 'escape':
+          if (showKeyboardHelp) {
+            setShowKeyboardHelp(false);
+          }
+          if (showBookmarks) {
+            setShowBookmarks(false);
+          }
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [showKeyboardHelp, showBookmarks]);
+
   return (
     <div className="min-h-screen bg-white" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
+      {/* Skip to main content link for accessibility */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-white px-4 py-2 rounded z-50"
+        style={{ 
+          position: 'absolute',
+          top: '-40px',
+          left: '6px',
+          background: 'var(--primary)',
+          color: 'white',
+          padding: '8px 16px',
+          borderRadius: '4px',
+          textDecoration: 'none',
+          zIndex: 50,
+          transition: 'top 0.3s'
+        }}
+        onFocus={(e) => e.target.style.top = '6px'}
+        onBlur={(e) => e.target.style.top = '-40px'}
+      >
+        Skip to main content
+      </a>
+
       {/* Header */}
-      <header className="bg-gradient-to-r from-green-600 to-green-500 text-white py-20 relative overflow-hidden">
+      <header className="bg-gradient-to-r from-green-600 to-green-500 text-white py-20 relative overflow-hidden" role="banner">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
@@ -343,27 +459,46 @@ const InteractiveStoryPage: React.FC = () => {
             </button>
 
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-md">
+              <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-md" role="group" aria-label="Story Controls">
                 <button
                   onClick={() => setIsPlaying(!isPlaying)}
                   className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                  title={isPlaying ? 'Pause' : 'Play'}
+                  title={isPlaying ? 'Pause story (P)' : 'Play story (P)'}
+                  aria-label={isPlaying ? 'Pause story' : 'Play story'}
                 >
                   {isPlaying ? <Pause size={20} /> : <Play size={20} />}
                 </button>
                 <button
                   onClick={() => setIsMuted(!isMuted)}
                   className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                  title={isMuted ? 'Unmute' : 'Mute'}
+                  title={isMuted ? 'Unmute audio (M)' : 'Mute audio (M)'}
+                  aria-label={isMuted ? 'Unmute audio' : 'Mute audio'}
                 >
                   {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
                 </button>
                 <button
                   onClick={() => setCurrentSceneIndex(0)}
                   className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                  title="Reset Story"
+                  title="Reset story to beginning (R)"
+                  aria-label="Reset story to beginning"
                 >
                   <RotateCcw size={20} />
+                </button>
+                <button
+                  onClick={() => setShowKeyboardHelp(!showKeyboardHelp)}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  title="Show keyboard shortcuts (H)"
+                  aria-label="Show keyboard shortcuts"
+                >
+                  <span className="text-sm font-bold">?</span>
+                </button>
+                <button
+                  onClick={() => setShowBookmarks(!showBookmarks)}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  title="Show bookmarks (B)"
+                  aria-label="Show bookmarks"
+                >
+                  <span className="text-sm">🔖</span>
                 </button>
               </div>
             </div>
@@ -371,8 +506,111 @@ const InteractiveStoryPage: React.FC = () => {
         </div>
       </div>
 
+      {/* Keyboard Help Panel */}
+      {showKeyboardHelp && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" role="dialog" aria-labelledby="keyboard-help-title">
+          <div className="bg-white rounded-lg p-6 max-w-md mx-4" style={{ backgroundColor: 'var(--white)' }}>
+            <div className="flex justify-between items-center mb-4">
+              <h2 id="keyboard-help-title" className="text-xl font-bold" style={{ color: 'var(--gray-800)' }}>Keyboard Shortcuts</h2>
+              <button
+                onClick={() => setShowKeyboardHelp(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl"
+                aria-label="Close keyboard help"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-3" style={{ color: 'var(--gray-700)' }}>
+              <div className="flex justify-between">
+                <span>Next scene:</span>
+                <kbd className="px-2 py-1 bg-gray-200 rounded text-sm">→</kbd>
+              </div>
+              <div className="flex justify-between">
+                <span>Previous scene:</span>
+                <kbd className="px-2 py-1 bg-gray-200 rounded text-sm">←</kbd>
+              </div>
+              <div className="flex justify-between">
+                <span>Play/Pause:</span>
+                <kbd className="px-2 py-1 bg-gray-200 rounded text-sm">P</kbd>
+              </div>
+              <div className="flex justify-between">
+                <span>Mute/Unmute:</span>
+                <kbd className="px-2 py-1 bg-gray-200 rounded text-sm">M</kbd>
+              </div>
+              <div className="flex justify-between">
+                <span>Reset story:</span>
+                <kbd className="px-2 py-1 bg-gray-200 rounded text-sm">R</kbd>
+              </div>
+              <div className="flex justify-between">
+                <span>Select choice:</span>
+                <kbd className="px-2 py-1 bg-gray-200 rounded text-sm">Enter</kbd>
+              </div>
+              <div className="flex justify-between">
+                <span>Show this help:</span>
+                <kbd className="px-2 py-1 bg-gray-200 rounded text-sm">H</kbd>
+              </div>
+              <div className="flex justify-between">
+                <span>Show bookmarks:</span>
+                <kbd className="px-2 py-1 bg-gray-200 rounded text-sm">B</kbd>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bookmarks Panel */}
+      {showBookmarks && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" role="dialog" aria-labelledby="bookmarks-title">
+          <div className="bg-white rounded-lg p-6 max-w-2xl mx-4 max-h-96 overflow-y-auto" style={{ backgroundColor: 'var(--white)' }}>
+            <div className="flex justify-between items-center mb-4">
+              <h2 id="bookmarks-title" className="text-xl font-bold" style={{ color: 'var(--gray-800)' }}>Story Bookmarks</h2>
+              <button
+                onClick={() => setShowBookmarks(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl"
+                aria-label="Close bookmarks"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-2">
+              {bookmarks.size === 0 ? (
+                <p className="text-gray-500 text-center py-4">No bookmarks yet. Click the bookmark icon on any scene to save it!</p>
+              ) : (
+                Array.from(bookmarks).map(sceneId => {
+                  const scene = storyScenes.find(s => s.id === sceneId);
+                  return scene ? (
+                    <div key={sceneId} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg" style={{ backgroundColor: 'var(--light)' }}>
+                      <div className="flex-1">
+                        <h3 className="font-semibold" style={{ color: 'var(--gray-800)' }}>{scene.title}</h3>
+                        <p className="text-sm text-gray-600" style={{ color: 'var(--gray-600)' }}>
+                          {scene.content.substring(0, 100)}...
+                        </p>
+                      </div>
+                      <div className="flex gap-2 ml-4">
+                        <button
+                          onClick={() => jumpToBookmark(sceneId)}
+                          className="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700"
+                        >
+                          Go to
+                        </button>
+                        <button
+                          onClick={() => toggleBookmark(sceneId)}
+                          className="px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  ) : null;
+                })
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-16">
+      <main id="main-content" className="container mx-auto px-6 py-16" role="main" aria-label="Interactive Story Content">
         <div className="max-w-6xl mx-auto">
           {/* Progress Component */}
           <StoryProgress
@@ -394,50 +632,62 @@ const InteractiveStoryPage: React.FC = () => {
 
           {/* Current Scene with Character and Choices */}
           <div className="mt-8">
-            <StoryScene
-              sceneId={currentScene.id}
-              title={currentScene.title}
-              background={currentScene.background}
-              timeOfDay={currentScene.timeOfDay}
-              weather={currentScene.weather}
-              mood={currentScene.mood}
-            >
-              <div className="text-center">
-                {currentScene.character && (
-                  <StoryCharacter
-                    character={currentScene.character}
-                    animation={currentScene.animation}
-                    size="large"
-                    isSpeaking={isPlaying}
-                  />
-                )}
-                
-                <div className="story-text-content mt-6">
-                  <p className="text-lg leading-relaxed text-center max-w-4xl mx-auto">
-                    {currentScene.content}
-                  </p>
-                </div>
-
-                {currentScene.choices && currentScene.choices.length > 0 && (
-                  <div className="mt-8">
-                    <StoryChoices
-                      choices={currentScene.choices.map((choice, index) => ({
-                        id: `choice-${index}`,
-                        text: choice.text,
-                        description: choice.consequence,
-                        nextScene: choice.nextScene,
-                        icon: '🤔',
-                        difficulty: 'medium' as const,
-                        points: 10
-                      }))}
-                      onChoiceSelect={handleChoiceSelect}
-                      showConsequences={true}
-                      showPoints={true}
+            {currentScene && (
+              <StoryScene
+                sceneId={currentScene.id}
+                title={currentScene.title}
+                background={currentScene.background}
+                timeOfDay={currentScene.timeOfDay}
+                weather={currentScene.weather}
+                mood={currentScene.mood}
+              >
+                <div className="text-center">
+                  {currentScene.character && (
+                    <StoryCharacter
+                      character={currentScene.character}
+                      animation={currentScene.animation}
+                      size="large"
+                      isSpeaking={isPlaying}
                     />
+                  )}
+                  
+                  <div className="story-text-content mt-6 relative">
+                    <button
+                      onClick={() => toggleBookmark(currentScene.id)}
+                      className="absolute top-0 right-0 p-2 hover:bg-gray-100 rounded-full transition-colors"
+                      title={bookmarks.has(currentScene.id) ? 'Remove bookmark' : 'Add bookmark'}
+                      aria-label={bookmarks.has(currentScene.id) ? 'Remove bookmark' : 'Add bookmark'}
+                    >
+                      <span className={`text-2xl ${bookmarks.has(currentScene.id) ? 'text-yellow-500' : 'text-gray-400'}`}>
+                        {bookmarks.has(currentScene.id) ? '🔖' : '🔖'}
+                      </span>
+                    </button>
+                    <p className="text-lg leading-relaxed text-center max-w-4xl mx-auto pr-12">
+                      {currentScene.content}
+                    </p>
                   </div>
-                )}
-              </div>
-            </StoryScene>
+
+                  {currentScene.choices && currentScene.choices.length > 0 && (
+                    <div className="mt-8">
+                      <StoryChoices
+                        choices={currentScene.choices.map((choice, index) => ({
+                          id: `choice-${index}`,
+                          text: choice.text,
+                          description: choice.consequence,
+                          nextScene: choice.nextScene,
+                          icon: '🤔',
+                          difficulty: 'medium' as const,
+                          points: 10
+                        }))}
+                        onChoiceSelect={handleChoiceSelect}
+                        showConsequences={true}
+                        showPoints={true}
+                      />
+                    </div>
+                  )}
+                </div>
+              </StoryScene>
+            )}
           </div>
 
           {/* Call to Action */}
