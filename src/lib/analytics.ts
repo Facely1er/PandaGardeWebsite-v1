@@ -1,4 +1,5 @@
 import ReactGA from 'react-ga4';
+import { logger } from './logger';
 
 // Analytics configuration
 interface AnalyticsConfig {
@@ -54,7 +55,7 @@ export const initAnalytics = () => {
   };
 
   if (!config.enabled) {
-    console.log('Analytics disabled in development mode');
+    logger.info('Analytics disabled in development mode', undefined, 'ANALYTICS');
     return;
   }
 
@@ -64,7 +65,7 @@ export const initAnalytics = () => {
       testMode: import.meta.env.MODE === 'development',
       debug: import.meta.env.VITE_ANALYTICS_DEBUG === 'true',
     });
-    console.log('Google Analytics initialized');
+    logger.info('Google Analytics initialized', undefined, 'ANALYTICS');
   }
 
   // Initialize Google Tag Manager
@@ -81,7 +82,7 @@ export const initAnalytics = () => {
     gtag('js', new Date());
     gtag('config', config.googleTagManagerId);
     
-    console.log('Google Tag Manager initialized');
+    logger.info('Google Tag Manager initialized', undefined, 'ANALYTICS');
   }
 };
 

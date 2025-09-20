@@ -1,4 +1,5 @@
 import { supabase, TABLES, type Database, isSupabaseConfigured } from './supabase'
+import { logger } from './logger'
 
 // Re-export supabase for convenience
 export { supabase }
@@ -98,10 +99,32 @@ export const progressService = {
 export const contactService = {
   // Submit contact form - logs submission in frontend-only mode
   async submitContactForm(submission: Omit<ContactSubmission, 'id' | 'created_at' | 'status'>): Promise<ContactSubmission | null> {
+<<<<<<< HEAD
     console.log('Frontend-only mode: Contact form submission logged:', submission)
     // In a real frontend-only setup, you might want to send this to an external service
     // For now, we just log it
     return null
+=======
+    if (!isSupabaseConfigured || !supabase) {
+      // For demo purposes, just log the submission
+      logger.info('Contact form submission (demo mode)', submission, 'DATABASE')
+      return null
+    }
+    
+    return safeDbOperation(async () => {
+      const { data, error } = await supabase
+        .from(TABLES.CONTACT_SUBMISSIONS)
+        .insert(submission)
+        .select()
+        .single()
+
+      if (error) {
+        throw error
+      }
+
+      return data
+    }, 'submitContactForm')
+>>>>>>> origin/main
   },
 
   // Get contact submissions - returns empty array in frontend-only mode
@@ -115,14 +138,53 @@ export const contactService = {
 export const newsletterService = {
   // Subscribe to newsletter - logs subscription in frontend-only mode
   async subscribe(email: string): Promise<NewsletterSubscriber | null> {
+<<<<<<< HEAD
     console.log('Frontend-only mode: Newsletter subscription logged:', email)
     // In a real frontend-only setup, you might want to send this to an external service
     return null
+=======
+    if (!isSupabaseConfigured || !supabase) {
+      // For demo purposes, just log the subscription
+      logger.info('Newsletter subscription (demo mode)', { email }, 'DATABASE')
+      return null
+    }
+    
+    const { data, error } = await supabase
+      .from(TABLES.NEWSLETTER_SUBSCRIBERS)
+      .upsert({ email, is_active: true })
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Error subscribing to newsletter:', error)
+      return null
+    }
+
+    return data
+>>>>>>> origin/main
   },
 
   // Unsubscribe from newsletter - logs unsubscription in frontend-only mode
   async unsubscribe(email: string): Promise<boolean> {
+<<<<<<< HEAD
     console.log('Frontend-only mode: Newsletter unsubscription logged:', email)
+=======
+    if (!isSupabaseConfigured || !supabase) {
+      logger.info('Newsletter unsubscription (demo mode)', { email }, 'DATABASE')
+      return true
+    }
+    
+    const { error } = await supabase
+      .from(TABLES.NEWSLETTER_SUBSCRIBERS)
+      .update({ is_active: false })
+      .eq('email', email)
+
+    if (error) {
+      console.error('Error unsubscribing from newsletter:', error)
+      return false
+    }
+
+>>>>>>> origin/main
     return true
   }
 }
