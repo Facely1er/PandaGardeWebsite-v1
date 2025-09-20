@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { MessageCircle, Shield, AlertTriangle, CheckCircle, RotateCcw, Users, Heart } from 'lucide-react';
+import { MessageCircle, Shield, AlertTriangle, RotateCcw } from 'lucide-react';
 
 interface StrangerChatSimulatorProps {
   onComplete: () => void;
@@ -226,7 +226,9 @@ const StrangerChatSimulator: React.FC<StrangerChatSimulatorProps> = ({ onComplet
   };
 
   const handleResponseSubmit = useCallback(() => {
-    if (!selectedResponse) return;
+    if (!selectedResponse) {
+      return;
+    }
 
     const scenario = scenarios[currentScenario];
     const isCorrect = scenario.correctResponses.includes(selectedResponse);

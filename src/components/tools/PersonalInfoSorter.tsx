@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { Shuffle, CheckCircle, Download, Trophy, Star, Heart, Shield, Users } from 'lucide-react';
+import { Shuffle, CheckCircle, Download, Trophy, Star, Users } from 'lucide-react';
 
 interface PersonalInfoSorterProps {
   onComplete: () => void;
@@ -48,7 +48,7 @@ const PersonalInfoSorter: React.FC<PersonalInfoSorterProps> = ({ onComplete, onC
   useEffect(() => {
     const savedHighScore = localStorage.getItem('personalInfoSorterHighScore');
     if (savedHighScore) {
-      setHighScore(parseInt(savedHighScore));
+      setHighScore(parseInt(savedHighScore, 10));
     }
   }, []);
 
@@ -70,7 +70,9 @@ const PersonalInfoSorter: React.FC<PersonalInfoSorterProps> = ({ onComplete, onC
 
   const getEventPos = (e: React.MouseEvent | React.TouchEvent) => {
     const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return { x: 0, y: 0 };
+    if (!rect) {
+      return { x: 0, y: 0 };
+    }
 
     if ('touches' in e) {
       const touch = e.touches[0];
@@ -92,10 +94,14 @@ const PersonalInfoSorter: React.FC<PersonalInfoSorterProps> = ({ onComplete, onC
   };
 
   const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!draggedItem) return;
+    if (!draggedItem) {
+      return;
+    }
 
     const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return;
+    if (!rect) {
+      return;
+    }
 
     const { x, y } = getEventPos(e);
 
@@ -107,7 +113,9 @@ const PersonalInfoSorter: React.FC<PersonalInfoSorterProps> = ({ onComplete, onC
   };
 
   const handleEnd = () => {
-    if (!draggedItem) return;
+    if (!draggedItem) {
+      return;
+    }
 
     setItems(prev => prev.map(item =>
       item.id === draggedItem.id
@@ -232,11 +240,15 @@ const PersonalInfoSorter: React.FC<PersonalInfoSorterProps> = ({ onComplete, onC
 
   const downloadImage = () => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container) {
+      return;
+    }
 
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) {
+      return;
+    }
 
     canvas.width = 600;
     canvas.height = 500;

@@ -86,22 +86,22 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     let score = 100; // Start with perfect score
 
     // Deduct points for incomplete profile
-    if (!member.first_name || !member.last_name) score -= 10;
-    if (!member.email) score -= 15;
-    if (!member.profile_data?.age) score -= 5;
+    if (!member.first_name || !member.last_name) {score -= 10;}
+    if (!member.email) {score -= 15;}
+    if (!member.profile_data?.age) {score -= 5;}
 
     // Deduct points for lack of progress data
-    if (!progress) score -= 20;
+    if (!progress) {score -= 20;}
     else {
       // Deduct points for inactive users
       const lastActive = new Date(progress.lastActive);
       const daysSinceActive = (Date.now() - lastActive.getTime()) / (1000 * 60 * 60 * 24);
-      if (daysSinceActive > 7) score -= 10;
-      if (daysSinceActive > 30) score -= 20;
+      if (daysSinceActive > 7) {score -= 10;}
+      if (daysSinceActive > 30) {score -= 20;}
 
       // Bonus points for active users
-      if (progress.currentStreak > 0) score += Math.min(progress.currentStreak * 2, 20);
-      if (progress.completedMissions.length > 0) score += Math.min(progress.completedMissions.length * 3, 15);
+      if (progress.currentStreak > 0) {score += Math.min(progress.currentStreak * 2, 20);}
+      if (progress.completedMissions.length > 0) {score += Math.min(progress.completedMissions.length * 3, 15);}
     }
 
     return Math.max(0, Math.min(100, score));
@@ -466,7 +466,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
 
   // Calculate family privacy score
   const calculateFamilyPrivacyScore = (): number => {
-    if (familyMembers.length === 0) return 0;
+    if (familyMembers.length === 0) {return 0;}
     
     const totalScore = familyMembers.reduce((sum: number, member: FamilyMember) => {
       return sum + (member.privacyScore || 0);

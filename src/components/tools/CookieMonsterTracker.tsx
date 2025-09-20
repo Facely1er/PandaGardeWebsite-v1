@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { Cookie, Eye, Shield, Target, RotateCcw, Download, Trophy, Star, Heart } from 'lucide-react';
+import { Cookie, Eye, Shield, Target, RotateCcw, Download, Trophy, Star } from 'lucide-react';
 
 interface CookieMonsterTrackerProps {
   onComplete: () => void;
@@ -23,7 +23,7 @@ const CookieMonsterTracker: React.FC<CookieMonsterTrackerProps> = ({ onComplete,
   const [draggedCookie, setDraggedCookie] = useState<Cookie | null>(null);
   const [score, setScore] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [showExplanation, setShowExplanation] = useState(false);
+  const [_showExplanation, setShowExplanation] = useState(false);
   const [currentCookie, setCurrentCookie] = useState<Cookie | null>(null);
   const [highScore, setHighScore] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -50,7 +50,7 @@ const CookieMonsterTracker: React.FC<CookieMonsterTrackerProps> = ({ onComplete,
   useEffect(() => {
     const savedHighScore = localStorage.getItem('cookieMonsterHighScore');
     if (savedHighScore) {
-      setHighScore(parseInt(savedHighScore));
+      setHighScore(parseInt(savedHighScore, 10));
     }
   }, []);
 
@@ -75,7 +75,9 @@ const CookieMonsterTracker: React.FC<CookieMonsterTrackerProps> = ({ onComplete,
 
   const getEventPos = (e: React.MouseEvent | React.TouchEvent) => {
     const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return { x: 0, y: 0 };
+    if (!rect) {
+      return { x: 0, y: 0 };
+    }
 
     if ('touches' in e) {
       const touch = e.touches[0];
@@ -98,10 +100,14 @@ const CookieMonsterTracker: React.FC<CookieMonsterTrackerProps> = ({ onComplete,
   };
 
   const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!draggedCookie) return;
+    if (!draggedCookie) {
+      return;
+    }
 
     const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return;
+    if (!rect) {
+      return;
+    }
 
     const { x, y } = getEventPos(e);
 
@@ -113,7 +119,9 @@ const CookieMonsterTracker: React.FC<CookieMonsterTrackerProps> = ({ onComplete,
   };
 
   const handleEnd = () => {
-    if (!draggedCookie) return;
+    if (!draggedCookie) {
+      return;
+    }
 
     const jarZone = { x: 200, y: 300, width: 200, height: 150 };
     const cookieCenterX = draggedCookie.x + 50;
@@ -219,11 +227,15 @@ const CookieMonsterTracker: React.FC<CookieMonsterTrackerProps> = ({ onComplete,
 
   const downloadImage = () => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container) {
+      return;
+    }
 
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) {
+      return;
+    }
 
     canvas.width = 600;
     canvas.height = 500;

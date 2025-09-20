@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { AlertTriangle, CheckCircle, RotateCcw, Search, Eye, Shield, Zap, Mail, MessageSquare, Globe, Gamepad2 } from 'lucide-react';
+import React, { useState, useCallback, useMemo } from 'react';
+import { AlertTriangle, CheckCircle, RotateCcw, Search, Shield, Mail, MessageSquare, Globe, Gamepad2 } from 'lucide-react';
 
 interface ScamDetectorProps {
   onComplete: () => void;
@@ -217,7 +217,9 @@ const ScamDetector: React.FC<ScamDetectorProps> = ({ onComplete, onClose }) => {
   };
 
   const handleAnswerSubmit = useCallback(() => {
-    if (userAnswer === null) return;
+    if (userAnswer === null) {
+      return;
+    }
 
     const scenario = scenarios[currentScenario];
     const isCorrect = userAnswer === scenario.isScam;
