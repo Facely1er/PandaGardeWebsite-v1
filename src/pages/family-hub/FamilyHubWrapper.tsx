@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { AuthProvider, useAuth } from './AuthWrapper';
 import FamilyHubPage from '../FamilyHubPage';
 import LoginPage from './LoginPage';
@@ -7,7 +7,7 @@ import ProfilePage from '../ProfilePage';
 import CertificatePage from '../CertificatePage';
 
 // Component to handle authentication redirects - Frontend-only mode
-const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const AuthGuard: React.FC<{ children: React.ReactNode }> = () => {
   const { redirectToFamilyHub } = useAuth();
 
   // In frontend-only mode, always redirect to external family hub

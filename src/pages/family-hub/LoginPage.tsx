@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Mail, Lock, LogIn, UserPlus, ArrowLeft } from 'lucide-react';
+import { LogIn, ArrowLeft } from 'lucide-react';
 import { useAuth } from './AuthWrapper';
 import { useToast } from '../../hooks/useToast';
 import Logo from '../../components/Logo';
@@ -15,35 +15,12 @@ interface FormData {
 }
 
 const LoginPage: React.FC = () => {
-  const navigate = useNavigate();
   const { redirectToFamilyHub } = useAuth();
- 
   const { success, error: showError } = useToast();
- 
-  const [mode, setMode] = useState<'signin' | 'signup'>('signin');
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    firstName: '',
-    lastName: '',
-    role: 'parent' as 'parent' | 'child'
-  });
-  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev: FormData) => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleRedirect = async () => {
     setIsLoading(true);
-
     try {
       // In frontend-only mode, redirect to external family hub
       success('Redirecting to Family Hub for authentication...');
@@ -56,18 +33,6 @@ const LoginPage: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const switchMode = () => {
-    setMode(mode === 'signin' ? 'signup' : 'signin');
-    setFormData({
-      email: '',
-      password: '',
-      confirmPassword: '',
-      firstName: '',
-      lastName: '',
-      role: 'parent'
-    });
   };
 
   return (
@@ -106,7 +71,7 @@ const LoginPage: React.FC = () => {
           </div>
 
           <button
-            onClick={() => redirectToFamilyHub()}
+            onClick={handleRedirect}
             disabled={isLoading}
             className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
