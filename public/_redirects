@@ -1,11 +1,2 @@
-# SPA fallback - redirect all routes to index.html
-/*    /index.html   200
-
-# Service Worker
+# Service Worker - ensure proper serving
 /sw.js    /sw.js   200
-
-# Security headers
-/*
-  X-Content-Type-Options: nosniff
-  X-Frame-Options: DENY
-  X-XSS-Protection: 1; mode=block
