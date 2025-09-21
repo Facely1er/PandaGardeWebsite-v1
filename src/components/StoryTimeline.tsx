@@ -119,7 +119,7 @@ const StoryTimeline: React.FC = () => {
                         >
                           {event.linkText}
                           <ArrowRight size={16} />
-                        </Link>
+                        </a>
                       )}
                     </div>
                   </div>
@@ -144,13 +144,12 @@ const StoryTimeline: React.FC = () => {
                 <Book size={20} />
                 Start Privacy Panda's Story
               </Link>
-              <Link
-                to="/family-hub"
+              <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer"
                 className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors inline-flex items-center gap-2"
               >
                 <Users size={20} />
                 Join Family Hub
-              </Link>
+              </a>
             </div>
           </div>
         </div>

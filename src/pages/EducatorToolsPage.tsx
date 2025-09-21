@@ -508,13 +508,12 @@ const EducatorToolsPage: React.FC = () => {
             Access our comprehensive educator resources and start teaching digital privacy and online safety in your classroom today.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link
-              to="/family-hub"
+            <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer"
               className="bg-white text-emerald-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
             >
               <Users size={20} />
               Family Hub
-            </Link>
+            </a>
             <Link
               to="/contact"
               className="bg-emerald-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-800 transition-colors inline-flex items-center gap-2"

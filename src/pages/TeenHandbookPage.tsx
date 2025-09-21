@@ -514,13 +514,12 @@ const TeenHandbookPage: React.FC = () => {
               <Settings size={20} />
               Privacy Tools
             </Link>
-            <Link
-              to="/family-hub"
+            <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer"
               className="bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-800 transition-colors inline-flex items-center gap-2"
             >
               <Users size={20} />
               Family Hub
-            </Link>
+            </a>
           </div>
         </div>
       </section>

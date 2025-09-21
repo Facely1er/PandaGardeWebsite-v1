@@ -318,8 +318,10 @@ const GetStartedPage: React.FC = () => {
               <span className="text-green-600 font-semibold">Start Activities →</span>
             </Link>
 
-            <Link
-              to="/family-hub"
+            <a
+              href="https://www.hub.pandagarde.com"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center"
               style={{ backgroundColor: 'var(--card-color)' }}
             >
@@ -333,7 +335,7 @@ const GetStartedPage: React.FC = () => {
                 Create your family profile and start tracking everyone's progress together.
               </p>
               <span className="text-green-600 font-semibold">Set Up Family →</span>
-            </Link>
+            </a>
 
             <Link
               to="/story"
@@ -372,13 +374,15 @@ const GetStartedPage: React.FC = () => {
               <Play size={20} />
               Start Learning
             </Link>
-            <Link
-              to="/family-hub"
+            <a
+              href="https://www.hub.pandagarde.com"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-green-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors inline-flex items-center gap-2"
             >
               <Users size={20} />
               Family Hub
-            </Link>
+            </a>
           </div>
         </div>
       </section>

@@ -90,8 +90,10 @@ const HeroSection: React.FC = () => {
 
             {/* Enhanced action buttons with hover effects */}
             <div className="hero-buttons">
-              <Link
-                to="/family-hub"
+              <a
+                href="https://www.hub.pandagarde.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="button primary bounce-hover"
                 onMouseEnter={() => setIsHovered('hub')}
                 onMouseLeave={() => setIsHovered(null)}
@@ -99,7 +101,7 @@ const HeroSection: React.FC = () => {
                 <BookOpen size={20} />
                 Launch Family Hub
                 <ArrowRight size={16} className={`btn-icon ${isHovered === 'hub' ? 'btn-icon-active' : ''}`} />
-              </Link>
+              </a>
               <Link
                 to="/privacy-panda"
                 className="button secondary wiggle-hover"
