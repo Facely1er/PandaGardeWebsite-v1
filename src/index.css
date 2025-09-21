@@ -3577,6 +3577,20 @@ body {
   transform: translateY(-2px);
 }
 
+.action-meta {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--gray-600);
+}
+
 /* Age Groups Simple */
 .age-groups-simple {
   padding: 80px 0;
