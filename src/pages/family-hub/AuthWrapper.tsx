@@ -61,7 +61,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Frontend-only mode - redirect to external family hub project
   const redirectToFamilyHub = useCallback(() => {
     // Replace this URL with your actual family hub project URL
-    const familyHubUrl = 'https://your-family-hub-project.com'; // Update this URL
+    const familyHubUrl = 'https://www.hub.pandagarde.com'; // Updated to correct URL
     console.log('Redirecting to external family hub project:', familyHubUrl);
     window.location.href = familyHubUrl;
   }, []);

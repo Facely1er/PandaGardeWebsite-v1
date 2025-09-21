@@ -302,8 +302,7 @@ const CertificatesPage: React.FC = () => {
               </p>
             </Link>
 
-            <Link
-              to="/family-hub"
+            <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer"
               className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow text-center"
               style={{ backgroundColor: 'var(--card-color)' }}
             >
@@ -316,7 +315,7 @@ const CertificatesPage: React.FC = () => {
               <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
                 Track family achievements and progress together
               </p>
-            </Link>
+            </a>
           </div>
         </div>
       </main>

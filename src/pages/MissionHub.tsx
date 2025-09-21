@@ -301,13 +301,12 @@ const MissionHub: React.FC = () => {
       <div className="bg-white border-b">
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between py-4">
-            <Link 
-              to="/family-hub"
+            <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
             >
               <ArrowRight size={16} className="rotate-180" />
               Back to Family Hub
-            </Link>
+            </a>
             
             <nav className="flex items-center gap-8">
               {[

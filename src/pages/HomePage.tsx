@@ -91,11 +91,11 @@ const HomePage: React.FC = () => {
               </p>
 
               <div className="hero-buttons">
-                <Link to="/family-hub" className="button primary bounce-hover">
+                <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer" className="button primary bounce-hover">
                   <BookOpen size={20} />
                   Launch Family Hub
                   <ArrowRight size={16} />
-                </Link>
+                </a>
                 <Link to="/privacy-panda" className="button secondary wiggle-hover">
                   <Play size={20} />
                   Try PrivacyPanda
