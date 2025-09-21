@@ -105,17 +105,17 @@ export const AgeVerificationProvider: React.FC<AgeVerificationProviderProps> = (
 
   // Get age group category
   const getAgeGroup = (): 'ages-5-8' | 'ages-9-12' | 'ages-13-17' | null => {
-    if (!userAge) return null;
-    if (userAge >= 5 && userAge <= 8) return 'ages-5-8';
-    if (userAge >= 9 && userAge <= 12) return 'ages-9-12';
-    if (userAge >= 13 && userAge <= 17) return 'ages-13-17';
+    if (!userAge) {return null;}
+    if (userAge >= 5 && userAge <= 8) {return 'ages-5-8';}
+    if (userAge >= 9 && userAge <= 12) {return 'ages-9-12';}
+    if (userAge >= 13 && userAge <= 17) {return 'ages-13-17';}
     return null;
   };
 
   // Get age-appropriate content paths
   const getAgeAppropriateContent = (): string[] => {
     const ageGroup = getAgeGroup();
-    if (!ageGroup) return [];
+    if (!ageGroup) {return [];}
 
     const contentMap = {
       'ages-5-8': [
@@ -151,10 +151,10 @@ export const AgeVerificationProvider: React.FC<AgeVerificationProviderProps> = (
 
   // Check if user can access specific content
   const canAccessContent = (contentPath: string): boolean => {
-    if (!isVerified) return false;
+    if (!isVerified) {return false;}
     
     const ageGroup = getAgeGroup();
-    if (!ageGroup) return false;
+    if (!ageGroup) {return false;}
 
     // Check if content is age-appropriate
     const appropriateContent = getAgeAppropriateContent();

@@ -40,7 +40,7 @@ const SocialMediaScanner: React.FC = () => {
 
   const analyzePost = (postId: string) => {
     const post = posts.find(p => p.id === postId);
-    if (!post) return;
+    if (!post) {return;}
 
     let points = 0;
     

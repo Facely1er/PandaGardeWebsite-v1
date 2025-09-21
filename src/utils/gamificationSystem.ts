@@ -441,8 +441,8 @@ export class GamificationSystem {
    * Calculate XP required for a specific level
    */
   calculateXPForLevel(level: number): number {
-    if (level <= 1) return 0;
-    if (level > LEVELS.length) return LEVELS[LEVELS.length - 1].xpRequired;
+    if (level <= 1) {return 0;}
+    if (level > LEVELS.length) {return LEVELS[LEVELS.length - 1].xpRequired;}
     return LEVELS[level - 1].xpRequired;
   }
 
@@ -629,9 +629,9 @@ export class GamificationSystem {
 
     // Calculate streak bonus (1.1x for 3+ days, 1.2x for 7+ days, 1.5x for 30+ days)
     let streakBonus = 1;
-    if (newStreak >= 30) streakBonus = 1.5;
-    else if (newStreak >= 7) streakBonus = 1.2;
-    else if (newStreak >= 3) streakBonus = 1.1;
+    if (newStreak >= 30) {streakBonus = 1.5;}
+    else if (newStreak >= 7) {streakBonus = 1.2;}
+    else if (newStreak >= 3) {streakBonus = 1.1;}
 
     return { streakUpdated, streakBonus };
   }
@@ -647,13 +647,13 @@ export class GamificationSystem {
 
     return Array.from(this.missions.values()).filter(mission => {
       // Filter by age group
-      if (mission.ageGroup !== ageGroup) return false;
+      if (mission.ageGroup !== ageGroup) {return false;}
       
       // Filter by active status
-      if (!mission.isActive) return false;
+      if (!mission.isActive) {return false;}
       
       // Check if already completed
-      if (userProgress.completedMissions.includes(mission.id)) return false;
+      if (userProgress.completedMissions.includes(mission.id)) {return false;}
       
       // Check prerequisites
       const prerequisitesMet = mission.prerequisites.every(prereq => 

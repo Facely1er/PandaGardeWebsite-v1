@@ -102,7 +102,7 @@ const AppPermissionsAnalyzer: React.FC = () => {
     const permission = permissions.find(p => p.id === permissionId);
     const app = apps.find(a => a.id === appId);
     
-    if (!permission || !app) return;
+    if (!permission || !app) {return;}
 
     let points = 0;
     const isAppPermission = app.permissions.includes(permissionId);
@@ -144,8 +144,8 @@ const AppPermissionsAnalyzer: React.FC = () => {
   };
 
   const getScoreColor = () => {
-    if (score >= 20) return 'text-green-600';
-    if (score >= 0) return 'text-yellow-600';
+    if (score >= 20) {return 'text-green-600';}
+    if (score >= 0) {return 'text-yellow-600';}
     return 'text-red-600';
   };
 

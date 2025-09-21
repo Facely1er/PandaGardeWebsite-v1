@@ -302,7 +302,7 @@ const InteractiveStoryPage: React.FC = () => {
 
   // Get age-appropriate story content
   const getAgeAppropriateContent = (content: string, ageGroup: string | null): string => {
-    if (!ageGroup) return content;
+    if (!ageGroup) {return content;}
     
     // Simple content adaptation based on age group
     const adaptations = {

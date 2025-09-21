@@ -83,7 +83,7 @@ const FriendRequestAnalyzer: React.FC = () => {
 
   const analyzeRequest = (requestId: string) => {
     const request = friendRequests.find(r => r.id === requestId);
-    if (!request) return;
+    if (!request) {return;}
 
     let points = 0;
 
@@ -137,7 +137,7 @@ const FriendRequestAnalyzer: React.FC = () => {
     setDecisions(prev => new Map([...prev, [requestId, decision]]));
     
     const request = friendRequests.find(r => r.id === requestId);
-    if (!request) return;
+    if (!request) {return;}
 
     let points = 0;
     if (decision === 'accept') {
@@ -169,14 +169,14 @@ const FriendRequestAnalyzer: React.FC = () => {
   const getRiskLevel = (request: FriendRequest): 'low' | 'medium' | 'high' => {
     let riskScore = 0;
     
-    if (request.mutualFriends === 0) riskScore += 3;
-    if (request.accountAge.includes('day') || request.accountAge.includes('week')) riskScore += 2;
-    if (request.profileCompleteness < 30) riskScore += 2;
-    if (request.suspiciousActivity) riskScore += 3;
-    if (request.followingCount / Math.max(request.followersCount, 1) > 5) riskScore += 2;
+    if (request.mutualFriends === 0) {riskScore += 3;}
+    if (request.accountAge.includes('day') || request.accountAge.includes('week')) {riskScore += 2;}
+    if (request.profileCompleteness < 30) {riskScore += 2;}
+    if (request.suspiciousActivity) {riskScore += 3;}
+    if (request.followingCount / Math.max(request.followersCount, 1) > 5) {riskScore += 2;}
 
-    if (riskScore >= 6) return 'high';
-    if (riskScore >= 3) return 'medium';
+    if (riskScore >= 6) {return 'high';}
+    if (riskScore >= 3) {return 'medium';}
     return 'low';
   };
 
@@ -190,8 +190,8 @@ const FriendRequestAnalyzer: React.FC = () => {
   };
 
   const getScoreColor = () => {
-    if (score >= 30) return 'text-green-600';
-    if (score >= 0) return 'text-yellow-600';
+    if (score >= 30) {return 'text-green-600';}
+    if (score >= 0) {return 'text-yellow-600';}
     return 'text-red-600';
   };
 

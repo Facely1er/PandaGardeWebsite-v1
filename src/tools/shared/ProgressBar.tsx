@@ -22,7 +22,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   showIcons = true
 }) => {
   const getStepIcon = (step: ProgressStep) => {
-    if (!showIcons) return null;
+    if (!showIcons) {return null;}
     
     if (step.completed) {
       return <CheckCircle className="w-5 h-5 text-green-500" />;
@@ -34,8 +34,8 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   };
 
   const getStepColor = (step: ProgressStep) => {
-    if (step.completed) return 'text-green-600';
-    if (step.current) return 'text-blue-600';
+    if (step.completed) {return 'text-green-600';}
+    if (step.current) {return 'text-blue-600';}
     return 'text-gray-500';
   };
 
