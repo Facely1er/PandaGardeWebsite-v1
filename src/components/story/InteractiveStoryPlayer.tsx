@@ -145,6 +145,62 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
     }
   }, []);
 
+  // Define functions using useCallback to avoid temporal dead zone issues
+  const togglePlay = useCallback(() => {
+    const newIsPlaying = !isPlaying;
+    setIsPlaying(newIsPlaying);
+    
+    if (audioRef.current) {
+      if (newIsPlaying) {
+        audioRef.current.play();
+      } else {
+        audioRef.current.pause();
+      }
+    }
+    
+    // Handle text-to-speech
+    if (currentScene?.content) {
+      if (newIsPlaying) {
+        speakText(currentScene.content);
+      } else {
+        stopSpeaking();
+      }
+    }
+  }, [isPlaying, currentScene?.content, speakText, stopSpeaking]);
+
+  const toggleMute = useCallback(() => {
+    setIsMuted(!isMuted);
+  }, [isMuted]);
+
+  const resetStory = useCallback(() => {
+    setCurrentSceneIndex(0);
+    setIsPlaying(false);
+    setSelectedChoice(null);
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+    }
+  }, []);
+
+  const prevScene = useCallback(() => {
+    if (currentSceneIndex > 0) {
+      const prevIndex = currentSceneIndex - 1;
+      setCurrentSceneIndex(prevIndex);
+      setSelectedChoice(null);
+      onSceneChange?.(scenes[prevIndex].id);
+    }
+  }, [currentSceneIndex, scenes, onSceneChange]);
+
+  const handleChoice = useCallback((choice: { text: string; nextScene: string; consequence?: string }) => {
+    setSelectedChoice(choice.text);
+    const nextSceneIndex = scenes.findIndex(scene => scene.id === choice.nextScene);
+    if (nextSceneIndex !== -1) {
+      setTimeout(() => {
+        setCurrentSceneIndex(nextSceneIndex);
+        onSceneChange?.(choice.nextScene);
+      }, 1000);
+    }
+  }, [scenes, onSceneChange]);
+
   // Auto-speak when scene changes
   useEffect(() => {
     if (currentScene?.content && isPlaying) {
@@ -258,61 +314,6 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [isLoading, currentScene, nextScene, prevScene, togglePlay, toggleMute, resetStory, showSettings]);
-
-  const togglePlay = () => {
-    const newIsPlaying = !isPlaying;
-    setIsPlaying(newIsPlaying);
-    
-    if (audioRef.current) {
-      if (newIsPlaying) {
-        audioRef.current.play();
-      } else {
-        audioRef.current.pause();
-      }
-    }
-    
-    // Handle text-to-speech
-    if (currentScene?.content) {
-      if (newIsPlaying) {
-        speakText(currentScene.content);
-      } else {
-        stopSpeaking();
-      }
-    }
-  };
-
-  const toggleMute = () => {
-    setIsMuted(!isMuted);
-  };
-
-  const resetStory = () => {
-    setCurrentSceneIndex(0);
-    setIsPlaying(false);
-    setSelectedChoice(null);
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-    }
-  };
-
-  const prevScene = () => {
-    if (currentSceneIndex > 0) {
-      const prevIndex = currentSceneIndex - 1;
-      setCurrentSceneIndex(prevIndex);
-      setSelectedChoice(null);
-      onSceneChange?.(scenes[prevIndex].id);
-    }
-  };
-
-  const handleChoice = (choice: { text: string; nextScene: string; consequence?: string }) => {
-    setSelectedChoice(choice.text);
-    const nextSceneIndex = scenes.findIndex(scene => scene.id === choice.nextScene);
-    if (nextSceneIndex !== -1) {
-      setTimeout(() => {
-        setCurrentSceneIndex(nextSceneIndex);
-        onSceneChange?.(choice.nextScene);
-      }, 1000);
-    }
-  };
 
   const progress = ((currentSceneIndex + 1) / scenes.length) * 100;
 
