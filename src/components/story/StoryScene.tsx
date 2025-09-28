@@ -30,14 +30,20 @@ const StoryScene: React.FC<StorySceneProps> = ({
 
   useEffect(() => {
     setIsTransitioning(true);
-    const timer = setTimeout(() => {
+    setIsVisible(false);
+    
+    const enterTimer = setTimeout(() => {
       setIsVisible(true);
+    }, 200);
+    
+    const transitionTimer = setTimeout(() => {
       setIsTransitioning(false);
       onSceneEnter?.();
-    }, 300);
+    }, 800);
 
     return () => {
-      clearTimeout(timer);
+      clearTimeout(enterTimer);
+      clearTimeout(transitionTimer);
       onSceneExit?.();
     };
   }, [sceneId, onSceneEnter, onSceneExit]);
@@ -135,23 +141,26 @@ const StoryScene: React.FC<StorySceneProps> = ({
           position: relative;
           width: 100%;
           height: 100%;
-          min-height: 400px;
+          min-height: 500px;
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
-          transition: all 0.8s ease-in-out;
+          transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
           opacity: 0;
-          transform: scale(1.05);
+          transform: scale(1.1) translateY(20px);
+          filter: blur(2px);
         }
 
         .scene-background.transitioning {
-          opacity: 0.7;
-          transform: scale(1.02);
+          opacity: 0.6;
+          transform: scale(1.05) translateY(10px);
+          filter: blur(1px);
         }
 
         .scene-background.visible {
           opacity: 1;
-          transform: scale(1);
+          transform: scale(1) translateY(0);
+          filter: blur(0);
         }
 
         .scene-overlay {
@@ -173,24 +182,42 @@ const StoryScene: React.FC<StorySceneProps> = ({
         }
 
         .scene-content {
-          background: ${theme === 'dark' ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.95)'};
-          backdrop-filter: blur(10px);
-          border-radius: 16px;
-          padding: 2rem;
-          max-width: 600px;
+          background: ${theme === 'dark' ? 'rgba(0, 0, 0, 0.85)' : 'rgba(255, 255, 255, 0.95)'};
+          backdrop-filter: blur(15px);
+          border-radius: 20px;
+          padding: 3rem;
+          max-width: 700px;
           width: 100%;
           text-align: center;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-          border: 1px solid ${theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'};
-          animation: contentAppear 0.6s ease-out 0.3s both;
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+          border: 2px solid ${theme === 'dark' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.08)'};
+          animation: contentAppear 1s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .scene-content::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+          animation: shimmer 2s ease-in-out 0.8s;
         }
 
         .scene-title {
-          font-size: 2.5rem;
+          font-size: 2.8rem;
           font-weight: bold;
-          margin-bottom: 1.5rem;
+          margin-bottom: 2rem;
           color: ${theme === 'dark' ? 'var(--gray-100)' : 'var(--gray-800)'};
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+          text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+          background: linear-gradient(135deg, var(--primary), var(--primary-light));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: titleSlideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.6s both;
         }
 
         .scene-body {
@@ -203,11 +230,31 @@ const StoryScene: React.FC<StorySceneProps> = ({
         @keyframes contentAppear {
           0% {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(40px) scale(0.95);
           }
           100% {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        @keyframes shimmer {
+          0% {
+            left: -100%;
+          }
+          100% {
+            left: 100%;
+          }
+        }
+
+        @keyframes titleSlideIn {
+          0% {
+            opacity: 0;
+            transform: translateY(30px) scale(0.9);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
           }
         }
 

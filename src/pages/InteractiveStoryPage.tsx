@@ -255,6 +255,55 @@ const InteractiveStoryPage: React.FC = () => {
   const handleChoiceSelect = (choiceIndex: number, consequence?: string) => {
     setPoints((prev: number) => prev + 10);
     
+    // Add visual feedback for choice selection
+    const feedbackElement = document.createElement('div');
+    feedbackElement.textContent = '+10 Points!';
+    feedbackElement.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      z-index: 10000;
+      pointer-events: none;
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+      animation: pointsFeedback 2s ease-out forwards;
+    `;
+    
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes pointsFeedback {
+        0% { 
+          opacity: 0; 
+          transform: translate(-50%, -50%) scale(0.5) translateY(20px); 
+        }
+        20% { 
+          opacity: 1; 
+          transform: translate(-50%, -50%) scale(1.1) translateY(0); 
+        }
+        80% { 
+          opacity: 1; 
+          transform: translate(-50%, -50%) scale(1) translateY(-20px); 
+        }
+        100% { 
+          opacity: 0; 
+          transform: translate(-50%, -50%) scale(0.8) translateY(-40px); 
+        }
+      }
+    `;
+    document.head.appendChild(style);
+    document.body.appendChild(feedbackElement);
+    
+    setTimeout(() => {
+      document.body.removeChild(feedbackElement);
+      document.head.removeChild(style);
+    }, 2000);
+    
     // Track choice for privacy learning
     const choiceData = {
       sceneId: currentScene.id,
@@ -280,24 +329,202 @@ const InteractiveStoryPage: React.FC = () => {
     
     // Unlock privacy learner achievement
     if (privacyChoices.length >= 2) {
-      setAchievements((prev: Achievement[]) => prev.map((a: Achievement) => 
-        a.id === 'privacy-learner' ? { ...a, unlocked: true } : a
-      ));
+      const wasUnlocked = achievements.find(a => a.id === 'privacy-learner')?.unlocked;
+      if (!wasUnlocked) {
+        setAchievements((prev: Achievement[]) => prev.map((a: Achievement) => 
+          a.id === 'privacy-learner' ? { ...a, unlocked: true } : a
+        ));
+        showAchievementUnlocked('Privacy Learner', '🛡️', 'You\'ve learned about privacy concepts!');
+      }
     }
     
     // Unlock wise choices achievement
     if (savedChoices.length >= 3) {
-      setAchievements((prev: Achievement[]) => prev.map((a: Achievement) => 
-        a.id === 'wise-choices' ? { ...a, unlocked: true } : a
-      ));
+      const wasUnlocked = achievements.find(a => a.id === 'wise-choices')?.unlocked;
+      if (!wasUnlocked) {
+        setAchievements((prev: Achievement[]) => prev.map((a: Achievement) => 
+          a.id === 'wise-choices' ? { ...a, unlocked: true } : a
+        ));
+        showAchievementUnlocked('Wise Choices', '🧠', 'You\'ve made 3 good decisions!');
+      }
     }
   };
 
+  const showAchievementUnlocked = (title: string, icon: string, description: string) => {
+    const achievementElement = document.createElement('div');
+    achievementElement.innerHTML = `
+      <div style="
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 16px;
+        box-shadow: 0 12px 32px rgba(251, 191, 36, 0.4);
+        z-index: 10000;
+        max-width: 300px;
+        animation: achievementSlideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+      ">
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+          <span style="font-size: 2rem;">${icon}</span>
+          <div>
+            <h3 style="margin: 0; font-size: 1.1rem; font-weight: bold;">Achievement Unlocked!</h3>
+            <p style="margin: 0; font-size: 0.9rem; opacity: 0.9;">${title}</p>
+          </div>
+        </div>
+        <p style="margin: 0; font-size: 0.85rem; opacity: 0.8;">${description}</p>
+      </div>
+    `;
+    
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes achievementSlideIn {
+        0% { 
+          opacity: 0; 
+          transform: translateX(100%) scale(0.8); 
+        }
+        100% { 
+          opacity: 1; 
+          transform: translateX(0) scale(1); 
+        }
+      }
+    `;
+    document.head.appendChild(style);
+    document.body.appendChild(achievementElement);
+    
+    setTimeout(() => {
+      achievementElement.style.animation = 'achievementSlideOut 0.4s ease-in forwards';
+      setTimeout(() => {
+        document.body.removeChild(achievementElement);
+        document.head.removeChild(style);
+      }, 400);
+    }, 4000);
+    
+    // Add slide out animation
+    const slideOutStyle = document.createElement('style');
+    slideOutStyle.textContent = `
+      @keyframes achievementSlideOut {
+        0% { 
+          opacity: 1; 
+          transform: translateX(0) scale(1); 
+        }
+        100% { 
+          opacity: 0; 
+          transform: translateX(100%) scale(0.8); 
+        }
+      }
+    `;
+    document.head.appendChild(slideOutStyle);
+  };
+
   const handleStoryComplete = () => {
-    setAchievements((prev: Achievement[]) => prev.map((a: Achievement) => 
-      a.id === 'story-complete' ? { ...a, unlocked: true } : a
-    ));
-    setPoints((prev: number) => prev + 50);
+    const wasUnlocked = achievements.find(a => a.id === 'story-complete')?.unlocked;
+    if (!wasUnlocked) {
+      setAchievements((prev: Achievement[]) => prev.map((a: Achievement) => 
+        a.id === 'story-complete' ? { ...a, unlocked: true } : a
+      ));
+      setPoints((prev: number) => prev + 50);
+      
+      // Show completion celebration
+      showStoryCompletionCelebration();
+    }
+  };
+
+  const showStoryCompletionCelebration = () => {
+    // Create celebration overlay
+    const celebrationOverlay = document.createElement('div');
+    celebrationOverlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(5, 150, 105, 0.9));
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: celebrationFadeIn 0.8s ease-out;
+    `;
+    
+    celebrationOverlay.innerHTML = `
+      <div style="
+        text-align: center;
+        color: white;
+        padding: 3rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        animation: celebrationBounce 0.6s ease-out 0.3s both;
+      ">
+        <div style="font-size: 4rem; margin-bottom: 1rem; animation: celebrationSpin 2s ease-in-out infinite;">🏆</div>
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem; font-weight: bold;">Congratulations!</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">You've completed Privacy Panda's journey!</p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <button onclick="this.parentElement.parentElement.parentElement.remove()" style="
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+          " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+            Continue Learning
+          </button>
+        </div>
+      </div>
+    `;
+    
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes celebrationFadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+      }
+      
+      @keyframes celebrationBounce {
+        0% { 
+          opacity: 0; 
+          transform: scale(0.5) translateY(50px); 
+        }
+        100% { 
+          opacity: 1; 
+          transform: scale(1) translateY(0); 
+        }
+      }
+      
+      @keyframes celebrationSpin {
+        0%, 100% { transform: rotate(0deg) scale(1); }
+        50% { transform: rotate(10deg) scale(1.1); }
+      }
+    `;
+    document.head.appendChild(style);
+    document.body.appendChild(celebrationOverlay);
+    
+    // Auto-remove after 8 seconds
+    setTimeout(() => {
+      celebrationOverlay.style.animation = 'celebrationFadeOut 0.5s ease-in forwards';
+      setTimeout(() => {
+        document.body.removeChild(celebrationOverlay);
+        document.head.removeChild(style);
+      }, 500);
+    }, 8000);
+    
+    // Add fade out animation
+    const fadeOutStyle = document.createElement('style');
+    fadeOutStyle.textContent = `
+      @keyframes celebrationFadeOut {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+      }
+    `;
+    document.head.appendChild(fadeOutStyle);
   };
 
   // Get age-appropriate story content
@@ -488,108 +715,412 @@ const InteractiveStoryPage: React.FC = () => {
         Skip to main content
       </a>
 
-      {/* Header */}
-      <header className="bg-gradient-to-r from-green-600 to-green-500 text-white py-20 relative overflow-hidden" role="banner">
-        <div className="absolute inset-0 opacity-10">
+      {/* Enhanced Header */}
+      <header className="bg-gradient-to-br from-green-600 via-green-500 to-emerald-600 text-white py-24 relative overflow-hidden" role="banner">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 opacity-20">
           <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
+            backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='bamboo' width='20' height='40' patternUnits='userSpaceOnUse'><rect x='8' y='0' width='4' height='40' fill='rgba(255,255,255,0.1)'/><rect x='6' y='5' width='8' height='2' fill='rgba(255,255,255,0.05)'/><rect x='6' y='15' width='8' height='2' fill='rgba(255,255,255,0.05)'/><rect x='6' y='25' width='8' height='2' fill='rgba(255,255,255,0.05)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23bamboo)'/></svg>")`
           }} />
+        </div>
+        
+        {/* Floating Elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="floating-panda">🐼</div>
+          <div className="floating-leaf">🍃</div>
+          <div className="floating-star">⭐</div>
+          <div className="floating-shield">🛡️</div>
         </div>
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex items-center justify-center mb-8">
-            <div className="w-20 h-20 mr-4">
+            <div className="w-24 h-24 mr-4 animate-bounce">
               <Logo />
             </div>
           </div>
 
           <div className="text-center">
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
-              <Book size={16} />
-              <span className="text-sm font-semibold">INTERACTIVE STORY</span>
+            <div className="inline-flex items-center gap-2 bg-white/25 backdrop-blur-md px-6 py-3 rounded-full mb-8 shadow-lg animate-pulse">
+              <Book size={18} className="animate-spin-slow" />
+              <span className="text-sm font-bold tracking-wider">INTERACTIVE STORY</span>
             </div>
 
-            <h1 className="text-5xl font-bold mb-6 leading-tight">
-              Privacy Panda and the
-              <span className="block text-yellow-300">Digital Bamboo Forest</span>
+            <h1 className="text-6xl font-bold mb-8 leading-tight animate-fade-in-up">
+              <span className="block text-white drop-shadow-lg">Privacy Panda</span>
+              <span className="block text-yellow-300 drop-shadow-lg animate-glow">and the Digital Bamboo Forest</span>
             </h1>
 
-            <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              Join Po the Panda on an interactive adventure through the Digital Bamboo Forest as he learns about privacy, sharing, and staying safe online.
+            <p className="text-xl opacity-95 max-w-3xl mx-auto mb-10 leading-relaxed animate-fade-in-up-delay">
+              Join Po the Panda on an interactive adventure through the Digital Bamboo Forest as he learns about privacy, sharing, and staying safe online. Make choices, unlock achievements, and become a privacy expert!
             </p>
 
-            <div className="flex items-center justify-center gap-6 text-sm">
-              <div className="flex items-center gap-2">
-                <Star size={16} />
-                <span>Ages 5-12</span>
+            {/* Enhanced Feature Badges */}
+            <div className="flex flex-wrap items-center justify-center gap-6 text-sm mb-8">
+              <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full">
+                <Star size={16} className="text-yellow-300" />
+                <span className="font-semibold">Ages 5-12</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Book size={16} />
-                <span>Interactive Story</span>
+              <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full">
+                <Book size={16} className="text-blue-300" />
+                <span className="font-semibold">Interactive Story</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Heart size={16} />
-                <span>Educational Adventure</span>
+              <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full">
+                <Heart size={16} className="text-red-300" />
+                <span className="font-semibold">Educational Adventure</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full">
+                <span className="text-lg">🎮</span>
+                <span className="font-semibold">Make Choices</span>
+              </div>
+            </div>
+
+            {/* Interactive Preview */}
+            <div className="bg-white/15 backdrop-blur-md rounded-2xl p-6 max-w-2xl mx-auto border border-white/20">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                  <span className="text-2xl">🐼</span>
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold">Ready to Start?</h3>
+                  <p className="text-sm opacity-90">Click below to begin Po's journey</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <button 
+                  onClick={() => document.getElementById('main-content')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-6 py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg"
+                >
+                  Start Adventure
+                </button>
+                <button 
+                  onClick={() => setShowKeyboardHelp(true)}
+                  className="bg-white/20 hover:bg-white/30 text-white px-4 py-3 rounded-lg font-semibold transition-all"
+                >
+                  Help
+                </button>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Enhanced CSS for animations and mobile responsiveness */}
+        <style jsx>{`
+          .floating-panda {
+            position: absolute;
+            top: 20%;
+            left: 10%;
+            font-size: 2rem;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.7;
+          }
+          
+          .floating-leaf {
+            position: absolute;
+            top: 30%;
+            right: 15%;
+            font-size: 1.5rem;
+            animation: float 4s ease-in-out infinite reverse;
+            opacity: 0.6;
+          }
+          
+          .floating-star {
+            position: absolute;
+            top: 60%;
+            left: 20%;
+            font-size: 1.2rem;
+            animation: twinkle 3s ease-in-out infinite;
+            opacity: 0.8;
+          }
+          
+          .floating-shield {
+            position: absolute;
+            top: 40%;
+            right: 25%;
+            font-size: 1.8rem;
+            animation: float 5s ease-in-out infinite;
+            opacity: 0.5;
+          }
+          
+          .animate-spin-slow {
+            animation: spin 8s linear infinite;
+          }
+          
+          .animate-glow {
+            animation: glow 2s ease-in-out infinite alternate;
+          }
+          
+          .animate-fade-in-up {
+            animation: fadeInUp 1s ease-out;
+          }
+          
+          .animate-fade-in-up-delay {
+            animation: fadeInUp 1s ease-out 0.3s both;
+          }
+          
+          @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+          }
+          
+          @keyframes twinkle {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+          }
+          
+          @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(255, 255, 0, 0.5); }
+            to { text-shadow: 0 0 20px rgba(255, 255, 0, 0.8), 0 0 30px rgba(255, 255, 0, 0.6); }
+          }
+          
+          @keyframes fadeInUp {
+            from {
+              opacity: 0;
+              transform: translateY(30px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          
+          @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+
+          /* Mobile Responsiveness Enhancements */
+          @media (max-width: 768px) {
+            .floating-panda {
+              top: 15%;
+              left: 5%;
+              font-size: 1.5rem;
+            }
+            
+            .floating-leaf {
+              top: 25%;
+              right: 10%;
+              font-size: 1.2rem;
+            }
+            
+            .floating-star {
+              top: 70%;
+              left: 15%;
+              font-size: 1rem;
+            }
+            
+            .floating-shield {
+              top: 45%;
+              right: 20%;
+              font-size: 1.4rem;
+            }
+
+            /* Enhanced mobile header */
+            header {
+              padding: 3rem 1rem !important;
+            }
+
+            h1 {
+              font-size: 2.5rem !important;
+              line-height: 1.2 !important;
+            }
+
+            /* Mobile navigation improvements */
+            .container {
+              padding-left: 1rem !important;
+              padding-right: 1rem !important;
+            }
+
+            /* Mobile controls */
+            .story-controls {
+              flex-wrap: wrap;
+              gap: 0.5rem;
+            }
+
+            .control-btn {
+              min-width: 44px;
+              min-height: 44px;
+              padding: 0.75rem;
+            }
+
+            /* Mobile story content */
+            .story-text-wrapper {
+              padding: 1.5rem !important;
+              margin: 1rem !important;
+            }
+
+            .story-text-wrapper p {
+              font-size: 1.1rem !important;
+              line-height: 1.6 !important;
+            }
+
+            /* Mobile choices */
+            .choices-grid {
+              grid-template-columns: 1fr !important;
+              gap: 1rem !important;
+            }
+
+            .choice-btn {
+              padding: 1.25rem !important;
+              font-size: 1rem !important;
+              min-height: 60px !important;
+            }
+
+            /* Mobile call to action */
+            .bg-gradient-to-br {
+              padding: 2rem 1rem !important;
+              margin: 1rem !important;
+            }
+
+            .bg-gradient-to-br h2 {
+              font-size: 1.75rem !important;
+            }
+
+            .bg-gradient-to-br p {
+              font-size: 1rem !important;
+            }
+
+            .bg-gradient-to-br a,
+            .bg-gradient-to-br button {
+              padding: 0.75rem 1.5rem !important;
+              font-size: 0.9rem !important;
+            }
+          }
+
+          @media (max-width: 480px) {
+            /* Extra small mobile devices */
+            .floating-panda,
+            .floating-leaf,
+            .floating-star,
+            .floating-shield {
+              display: none; /* Hide floating elements on very small screens */
+            }
+
+            header {
+              padding: 2rem 0.5rem !important;
+            }
+
+            h1 {
+              font-size: 2rem !important;
+            }
+
+            .container {
+              padding-left: 0.5rem !important;
+              padding-right: 0.5rem !important;
+            }
+
+            .story-text-wrapper {
+              padding: 1rem !important;
+              margin: 0.5rem !important;
+            }
+
+            .story-text-wrapper p {
+              font-size: 1rem !important;
+            }
+
+            .choice-btn {
+              padding: 1rem !important;
+              font-size: 0.9rem !important;
+            }
+
+            .bg-gradient-to-br {
+              padding: 1.5rem 0.75rem !important;
+              margin: 0.5rem !important;
+            }
+
+            .bg-gradient-to-br h2 {
+              font-size: 1.5rem !important;
+            }
+          }
+        `}</style>
       </header>
 
-      {/* Navigation */}
-      <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
-        <div className="container mx-auto px-6 py-4">
+      {/* Enhanced Navigation */}
+      <div className="bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200" style={{ backgroundColor: 'var(--light)' }}>
+        <div className="container mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <button
               onClick={() => window.history.back()}
-              className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
+              className="inline-flex items-center gap-3 text-green-600 hover:text-green-700 font-semibold transition-all transform hover:scale-105 bg-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md"
               style={{ color: 'var(--primary-light)' }}
             >
-              <ArrowLeft size={16} />
+              <ArrowLeft size={18} />
               Back to Home
             </button>
 
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-md" role="group" aria-label="Story Controls">
+            <div className="flex items-center gap-6">
+              {/* Progress Indicator */}
+              <div className="hidden md:flex items-center gap-3 bg-white px-4 py-2 rounded-lg shadow-sm">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-bold text-green-600">{currentSceneIndex + 1}</span>
+                  </div>
+                  <span className="text-sm font-medium text-gray-600">of {storyScenes.length}</span>
+                </div>
+                <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-green-500 to-green-600 transition-all duration-500 ease-out"
+                    style={{ width: `${((currentSceneIndex + 1) / storyScenes.length) * 100}%` }}
+                  />
+                </div>
+              </div>
+
+              {/* Enhanced Controls */}
+              <div className="flex items-center gap-2 bg-white rounded-full px-2 py-2 shadow-lg border border-gray-200" role="group" aria-label="Story Controls">
                 <button
                   onClick={() => setIsPlaying(!isPlaying)}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  className={`p-3 rounded-full transition-all transform hover:scale-110 ${
+                    isPlaying 
+                      ? 'bg-red-100 text-red-600 hover:bg-red-200' 
+                      : 'bg-green-100 text-green-600 hover:bg-green-200'
+                  }`}
                   title={isPlaying ? 'Pause story (P)' : 'Play story (P)'}
                   aria-label={isPlaying ? 'Pause story' : 'Play story'}
                 >
                   {isPlaying ? <Pause size={20} /> : <Play size={20} />}
                 </button>
+                
+                <div className="w-px h-8 bg-gray-300"></div>
+                
                 <button
                   onClick={() => setIsMuted(!isMuted)}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  className={`p-3 rounded-full transition-all transform hover:scale-110 ${
+                    isMuted 
+                      ? 'bg-orange-100 text-orange-600 hover:bg-orange-200' 
+                      : 'bg-blue-100 text-blue-600 hover:bg-blue-200'
+                  }`}
                   title={isMuted ? 'Unmute audio (M)' : 'Mute audio (M)'}
                   aria-label={isMuted ? 'Unmute audio' : 'Mute audio'}
                 >
                   {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
                 </button>
+                
                 <button
                   onClick={() => setCurrentSceneIndex(0)}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  className="p-3 rounded-full bg-purple-100 text-purple-600 hover:bg-purple-200 transition-all transform hover:scale-110"
                   title="Reset story to beginning (R)"
                   aria-label="Reset story to beginning"
                 >
                   <RotateCcw size={20} />
                 </button>
+                
+                <div className="w-px h-8 bg-gray-300"></div>
+                
                 <button
                   onClick={() => setShowKeyboardHelp(!showKeyboardHelp)}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  className="p-3 rounded-full bg-yellow-100 text-yellow-600 hover:bg-yellow-200 transition-all transform hover:scale-110"
                   title="Show keyboard shortcuts (H)"
                   aria-label="Show keyboard shortcuts"
                 >
                   <span className="text-sm font-bold">?</span>
                 </button>
+                
                 <button
                   onClick={() => setShowBookmarks(!showBookmarks)}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  className="p-3 rounded-full bg-indigo-100 text-indigo-600 hover:bg-indigo-200 transition-all transform hover:scale-110"
                   title="Show bookmarks (B)"
                   aria-label="Show bookmarks"
                 >
-                  <span className="text-sm">🔖</span>
+                  <span className="text-lg">🔖</span>
                 </button>
               </div>
             </div>
@@ -700,20 +1231,22 @@ const InteractiveStoryPage: React.FC = () => {
         </div>
       )}
 
-      {/* Main Content */}
+      {/* Enhanced Main Content */}
       <main id="main-content" className="container mx-auto px-6 py-16" role="main" aria-label="Interactive Story Content">
         <div className="max-w-6xl mx-auto">
-          {/* Progress Component */}
-          <StoryProgress
-            currentScene={currentSceneIndex + 1}
-            totalScenes={storyScenes.length}
-            points={points}
-            achievements={achievements}
-            showDetailedProgress={true}
-          />
+          {/* Enhanced Progress Component */}
+          <div className="mb-12">
+            <StoryProgress
+              currentScene={currentSceneIndex + 1}
+              totalScenes={storyScenes.length}
+              points={points}
+              achievements={achievements}
+              showDetailedProgress={true}
+            />
+          </div>
 
-          {/* Interactive Story Player */}
-          <div className="mt-8">
+          {/* Enhanced Interactive Story Player */}
+          <div className="mb-12">
             <InteractiveStoryPlayer
               scenes={storyScenes}
               onSceneChange={handleSceneChange}
@@ -721,95 +1254,193 @@ const InteractiveStoryPage: React.FC = () => {
             />
           </div>
 
-          {/* Current Scene with Character and Choices */}
-          <div className="mt-8">
+          {/* Enhanced Current Scene with Character and Choices */}
+          <div className="mb-12">
             {currentScene && (
-              <StoryScene
-                sceneId={currentScene.id}
-                title={currentScene.title}
-                background={currentScene.background}
-                timeOfDay={currentScene.timeOfDay}
-                weather={currentScene.weather}
-                mood={currentScene.mood}
-              >
-                <div className="text-center">
-                  {currentScene.character && (
-                    <StoryCharacter
-                      character={currentScene.character}
-                      animation={currentScene.animation}
-                      size="large"
-                      isSpeaking={isPlaying}
-                    />
-                  )}
-                  
-                  <div className="story-text-content mt-6 relative">
-                    <button
-                      onClick={() => toggleBookmark(currentScene.id)}
-                      className="absolute top-0 right-0 p-2 hover:bg-gray-100 rounded-full transition-colors"
-                      title={bookmarks.has(currentScene.id) ? 'Remove bookmark' : 'Add bookmark'}
-                      aria-label={bookmarks.has(currentScene.id) ? 'Remove bookmark' : 'Add bookmark'}
-                    >
-                      <span className={`text-2xl ${bookmarks.has(currentScene.id) ? 'text-yellow-500' : 'text-gray-400'}`}>
-                        {bookmarks.has(currentScene.id) ? '🔖' : '🔖'}
-                      </span>
-                    </button>
-                    <p className="text-lg leading-relaxed text-center max-w-4xl mx-auto pr-12">
-                      {getAgeAppropriateContent(currentScene.content, userAgeGroup)}
-                    </p>
-                  </div>
-
-                  {currentScene.choices && currentScene.choices.length > 0 && (
-                    <div className="mt-8">
-                      <StoryChoices
-                        choices={currentScene.choices.map((choice, index) => ({
-                          id: `choice-${index}`,
-                          text: choice.text,
-                          description: choice.consequence,
-                          nextScene: choice.nextScene,
-                          icon: '🤔',
-                          difficulty: 'medium' as const,
-                          points: 10
-                        }))}
-                        onChoiceSelect={(choiceIndex: number, consequence?: string) => {
-                          handleChoiceSelect(choiceIndex, consequence);
-                          handleSceneChange(currentScene.choices![choiceIndex].nextScene);
-                        }}
-                        showConsequences={true}
-                        showPoints={true}
-                      />
+              <div className="scene-container">
+                <StoryScene
+                  sceneId={currentScene.id}
+                  title={currentScene.title}
+                  background={currentScene.background}
+                  timeOfDay={currentScene.timeOfDay}
+                  weather={currentScene.weather}
+                  mood={currentScene.mood}
+                >
+                  <div className="text-center">
+                    {currentScene.character && (
+                      <div className="character-section mb-8">
+                        <StoryCharacter
+                          character={currentScene.character}
+                          animation={currentScene.animation}
+                          size="large"
+                          isSpeaking={isPlaying}
+                        />
+                      </div>
+                    )}
+                    
+                    <div className="story-text-content mt-6 relative">
+                      <button
+                        onClick={() => toggleBookmark(currentScene.id)}
+                        className="absolute top-0 right-0 p-3 hover:bg-gray-100 rounded-full transition-all transform hover:scale-110 bg-white shadow-sm"
+                        title={bookmarks.has(currentScene.id) ? 'Remove bookmark' : 'Add bookmark'}
+                        aria-label={bookmarks.has(currentScene.id) ? 'Remove bookmark' : 'Add bookmark'}
+                      >
+                        <span className={`text-2xl transition-all ${bookmarks.has(currentScene.id) ? 'text-yellow-500 animate-pulse' : 'text-gray-400 hover:text-yellow-500'}`}>
+                          🔖
+                        </span>
+                      </button>
+                      <div className="story-text-wrapper bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/20">
+                        <p className="text-xl leading-relaxed text-center max-w-4xl mx-auto pr-16 font-medium">
+                          {getAgeAppropriateContent(currentScene.content, userAgeGroup)}
+                        </p>
+                      </div>
                     </div>
-                  )}
-                </div>
-              </StoryScene>
+
+                    {currentScene.choices && currentScene.choices.length > 0 && (
+                      <div className="mt-12">
+                        <div className="choices-header mb-6">
+                          <h3 className="text-2xl font-bold text-green-700 mb-2">What should happen next?</h3>
+                          <p className="text-gray-600">Choose wisely - your decision will affect Po's journey!</p>
+                        </div>
+                        <StoryChoices
+                          choices={currentScene.choices.map((choice, index) => ({
+                            id: `choice-${index}`,
+                            text: choice.text,
+                            description: choice.consequence,
+                            nextScene: choice.nextScene,
+                            icon: '🤔',
+                            difficulty: 'medium' as const,
+                            points: 10
+                          }))}
+                          onChoiceSelect={(choiceIndex: number, consequence?: string) => {
+                            handleChoiceSelect(choiceIndex, consequence);
+                            handleSceneChange(currentScene.choices![choiceIndex].nextScene);
+                          }}
+                          showConsequences={true}
+                          showPoints={true}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </StoryScene>
+              </div>
             )}
           </div>
 
-          {/* Call to Action */}
-          <div className="mt-16 text-center">
-            <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-8 rounded-lg">
-              <h2 className="text-2xl font-bold mb-4">Continue Learning with Privacy Panda!</h2>
-              <p className="text-lg mb-6 opacity-90">
-                Explore more activities, games, and resources to help children learn about digital privacy and online safety.
-              </p>
-              <div className="flex flex-wrap gap-4 justify-center">
-                <a
-                  href="/activity-book"
-                  className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
-                >
-                  <Book size={20} />
-                  Activity Book
-                </a>
-                <button
-                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                  className="bg-green-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors inline-flex items-center gap-2"
-                >
-                  <ArrowLeft size={20} />
-                  Back to Top
-                </button>
+          {/* Enhanced Call to Action */}
+          <div className="mt-20 text-center">
+            <div className="bg-gradient-to-br from-green-500 via-green-600 to-emerald-600 text-white p-12 rounded-3xl shadow-2xl relative overflow-hidden">
+              {/* Background decoration */}
+              <div className="absolute inset-0 opacity-10">
+                <div className="absolute top-4 left-4 text-4xl">🐼</div>
+                <div className="absolute top-4 right-4 text-3xl">🛡️</div>
+                <div className="absolute bottom-4 left-8 text-3xl">⭐</div>
+                <div className="absolute bottom-4 right-8 text-4xl">🌿</div>
+              </div>
+              
+              <div className="relative z-10">
+                <h2 className="text-3xl font-bold mb-6">Continue Learning with Privacy Panda!</h2>
+                <p className="text-xl mb-8 opacity-95 max-w-2xl mx-auto">
+                  Explore more activities, games, and resources to help children learn about digital privacy and online safety.
+                </p>
+                <div className="flex flex-wrap gap-4 justify-center">
+                  <a
+                    href="/activity-book"
+                    className="bg-white text-green-600 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg inline-flex items-center gap-3"
+                  >
+                    <Book size={24} />
+                    Activity Book
+                  </a>
+                  <button
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    className="bg-green-700 text-white px-8 py-4 rounded-xl font-bold hover:bg-green-800 transition-all transform hover:scale-105 shadow-lg inline-flex items-center gap-3"
+                  >
+                    <ArrowLeft size={24} />
+                    Back to Top
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Enhanced CSS for better visual engagement */}
+        <style jsx>{`
+          .scene-container {
+            position: relative;
+            animation: sceneSlideIn 0.8s ease-out;
+          }
+          
+          .character-section {
+            animation: characterAppear 1s ease-out 0.3s both;
+          }
+          
+          .story-text-wrapper {
+            animation: textFadeIn 0.8s ease-out 0.6s both;
+            position: relative;
+          }
+          
+          .story-text-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #10b981, #059669, #047857, #065f46);
+            border-radius: 24px;
+            z-index: -1;
+            opacity: 0.1;
+          }
+          
+          .choices-header {
+            animation: choicesSlideUp 0.8s ease-out 0.9s both;
+          }
+          
+          @keyframes sceneSlideIn {
+            from {
+              opacity: 0;
+              transform: translateY(50px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          
+          @keyframes characterAppear {
+            from {
+              opacity: 0;
+              transform: scale(0.8) translateY(30px);
+            }
+            to {
+              opacity: 1;
+              transform: scale(1) translateY(0);
+            }
+          }
+          
+          @keyframes textFadeIn {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          
+          @keyframes choicesSlideUp {
+            from {
+              opacity: 0;
+              transform: translateY(30px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+        `}</style>
       </main>
     </div>
   );
