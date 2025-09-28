@@ -37,13 +37,13 @@ const StoryCharacter: React.FC<StoryCharacterProps> = ({
   };
 
   const emotionStyles = {
-    happy: { transform: 'scale(1.1)', filter: 'brightness(1.2)' },
-    sad: { transform: 'scale(0.9)', filter: 'brightness(0.8) hue-rotate(180deg)' },
-    worried: { transform: 'scale(0.95)', filter: 'brightness(0.9) hue-rotate(30deg)' },
-    excited: { transform: 'scale(1.2)', filter: 'brightness(1.3) saturate(1.5)' },
-    confused: { transform: 'scale(1)', filter: 'brightness(1) hue-rotate(60deg)' },
-    proud: { transform: 'scale(1.15)', filter: 'brightness(1.2) saturate(1.3)' },
-    shy: { transform: 'scale(0.85)', filter: 'brightness(0.9) saturate(0.8)' }
+    happy: { transform: 'scale(1.1)', filter: 'brightness(1.2) saturate(1.3)' },
+    sad: { transform: 'scale(0.9)', filter: 'brightness(0.8) hue-rotate(180deg) saturate(0.7)' },
+    worried: { transform: 'scale(0.95)', filter: 'brightness(0.9) hue-rotate(30deg) saturate(0.8)' },
+    excited: { transform: 'scale(1.2)', filter: 'brightness(1.3) saturate(1.5) hue-rotate(10deg)' },
+    confused: { transform: 'scale(1)', filter: 'brightness(1) hue-rotate(60deg) saturate(1.1)' },
+    proud: { transform: 'scale(1.15)', filter: 'brightness(1.2) saturate(1.3) hue-rotate(-10deg)' },
+    shy: { transform: 'scale(0.85)', filter: 'brightness(0.9) saturate(0.8) hue-rotate(-20deg)' }
   };
 
   const sizeStyles = {
@@ -143,11 +143,17 @@ const StoryCharacter: React.FC<StoryCharacterProps> = ({
           position: relative;
           display: inline-block;
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
         }
 
         .character-wrapper:hover {
-          transform: scale(1.05);
+          transform: scale(1.1) translateY(-5px);
+          filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2)) brightness(1.1);
+        }
+
+        .character-wrapper:active {
+          transform: scale(0.95);
         }
 
         .character-emoji {
@@ -283,46 +289,67 @@ const StoryCharacter: React.FC<StoryCharacterProps> = ({
 
         @keyframes bounce {
           0%, 20%, 50%, 80%, 100% {
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
+          }
+          10% {
+            transform: translateY(-20px) scale(1.1);
           }
           40% {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.05);
           }
           60% {
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.02);
           }
         }
 
         @keyframes wave {
           0%, 100% {
-            transform: rotate(0deg);
+            transform: rotate(0deg) scale(1);
           }
           25% {
-            transform: rotate(-10deg);
+            transform: rotate(-15deg) scale(1.05);
           }
           75% {
-            transform: rotate(10deg);
+            transform: rotate(15deg) scale(1.05);
           }
         }
 
         @keyframes nod {
           0%, 100% {
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
           }
           50% {
-            transform: translateY(-5px);
+            transform: translateY(-8px) scale(1.02);
           }
         }
 
         @keyframes shake {
           0%, 100% {
-            transform: translateX(0);
+            transform: translateX(0) scale(1);
           }
-          25% {
-            transform: translateX(-5px);
+          10% {
+            transform: translateX(-8px) scale(0.98);
           }
-          75% {
-            transform: translateX(5px);
+          20% {
+            transform: translateX(8px) scale(0.98);
+          }
+          30% {
+            transform: translateX(-6px) scale(0.99);
+          }
+          40% {
+            transform: translateX(6px) scale(0.99);
+          }
+          50% {
+            transform: translateX(-4px) scale(1);
+          }
+          60% {
+            transform: translateX(4px) scale(1);
+          }
+          70% {
+            transform: translateX(-2px) scale(1);
+          }
+          80% {
+            transform: translateX(2px) scale(1);
           }
         }
 
@@ -330,14 +357,26 @@ const StoryCharacter: React.FC<StoryCharacterProps> = ({
           0%, 100% {
             transform: rotate(0deg) scale(1);
           }
-          25% {
-            transform: rotate(-5deg) scale(1.1);
+          12.5% {
+            transform: rotate(-8deg) scale(1.1);
           }
-          50% {
+          25% {
             transform: rotate(0deg) scale(1.2);
           }
+          37.5% {
+            transform: rotate(8deg) scale(1.1);
+          }
+          50% {
+            transform: rotate(0deg) scale(1.3);
+          }
+          62.5% {
+            transform: rotate(-6deg) scale(1.15);
+          }
           75% {
-            transform: rotate(5deg) scale(1.1);
+            transform: rotate(0deg) scale(1.2);
+          }
+          87.5% {
+            transform: rotate(6deg) scale(1.1);
           }
         }
 
@@ -393,50 +432,67 @@ const StoryCharacter: React.FC<StoryCharacterProps> = ({
         }
 
         @keyframes idleBlink {
-          0%, 90%, 100% {
-            transform: scaleY(1);
+          0%, 85%, 100% {
+            transform: scaleY(1) scaleX(1);
+            filter: brightness(1);
+          }
+          90% {
+            transform: scaleY(0.1) scaleX(1.1);
+            filter: brightness(1.2);
           }
           95% {
-            transform: scaleY(0.1);
+            transform: scaleY(0.05) scaleX(1.05);
+            filter: brightness(1.1);
           }
         }
 
         @keyframes idleSway {
           0%, 100% {
-            transform: rotate(0deg);
+            transform: rotate(0deg) scale(1);
           }
           25% {
-            transform: rotate(2deg);
+            transform: rotate(3deg) scale(1.02);
+          }
+          50% {
+            transform: rotate(0deg) scale(1.05);
           }
           75% {
-            transform: rotate(-2deg);
+            transform: rotate(-3deg) scale(1.02);
           }
         }
 
         @keyframes idleBreathe {
           0%, 100% {
             transform: scale(1);
+            filter: brightness(1);
           }
           50% {
-            transform: scale(1.05);
+            transform: scale(1.08);
+            filter: brightness(1.1);
           }
         }
 
         @keyframes idleLook {
           0%, 100% {
-            transform: translateX(0);
+            transform: translateX(0) scale(1);
           }
-          20% {
-            transform: translateX(5px);
+          15% {
+            transform: translateX(8px) scale(1.02);
           }
-          40% {
-            transform: translateX(-3px);
+          30% {
+            transform: translateX(-5px) scale(0.98);
+          }
+          45% {
+            transform: translateX(6px) scale(1.01);
           }
           60% {
-            transform: translateX(3px);
+            transform: translateX(-3px) scale(0.99);
           }
-          80% {
-            transform: translateX(-2px);
+          75% {
+            transform: translateX(4px) scale(1.01);
+          }
+          90% {
+            transform: translateX(-2px) scale(1);
           }
         }
 
