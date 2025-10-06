@@ -83,15 +83,22 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
     }
   }, [currentSceneIndex, scenes, onSceneChange, onStoryComplete]);
 
-  // Auto-advance functionality
+  // Auto-advance functionality - wait for text-to-speech to complete
   useEffect(() => {
-    if (isPlaying && autoAdvance && currentScene?.duration) {
+    if (isPlaying && autoAdvance && currentScene?.content) {
+      // If text-to-speech is available and playing, wait for it to complete
+      if ('speechSynthesis' in window && !isMuted) {
+        // The speech synthesis will trigger nextScene() via its onend callback
+        return;
+      }
+      
+      // Fallback to duration-based timing if no text-to-speech
       const timer = setTimeout(() => {
         nextScene();
-      }, currentScene.duration * 1000 / readingSpeed);
+      }, (currentScene.duration || 8) * 1000 / readingSpeed);
       return () => clearTimeout(timer);
     }
-  }, [isPlaying, autoAdvance, currentScene?.duration, readingSpeed, nextScene]);
+  }, [isPlaying, autoAdvance, currentScene?.content, currentScene?.duration, readingSpeed, nextScene, isMuted]);
 
   // Audio playback
   useEffect(() => {
@@ -130,13 +137,19 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
       }
       
       utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => setIsSpeaking(false);
+      utterance.onend = () => {
+        setIsSpeaking(false);
+        // Auto-advance to next scene when speech completes (if auto-advance is enabled)
+        if (isPlaying && autoAdvance) {
+          nextScene();
+        }
+      };
       utterance.onerror = () => setIsSpeaking(false);
       
       speechRef.current = utterance;
       window.speechSynthesis.speak(utterance);
     }
-  }, [speechRate, speechPitch, speechVoice, isMuted]);
+  }, [speechRate, speechPitch, speechVoice, isMuted, isPlaying, autoAdvance, nextScene]);
 
   const stopSpeaking = useCallback(() => {
     if ('speechSynthesis' in window) {
@@ -516,7 +529,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
       <div className="mobile-gesture-hint">
         <div className="gesture-hint-content">
           <span className="gesture-icon">👆</span>
-          <span className="gesture-text">Swipe left/right to navigate</span>
+          <span className="gesture-text">Swipe left/right to navigate, swipe up to play/pause</span>
         </div>
       </div>
 
