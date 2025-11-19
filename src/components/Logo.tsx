@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Logo: React.FC = () => {
+const Logo: React.FC = React.memo(() => {
   return (
     <div className="logo-icon">
       <svg className="panda-logo" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
@@ -57,6 +57,8 @@ const Logo: React.FC = () => {
       </svg>
     </div>
   );
-};
+});
+
+Logo.displayName = 'Logo';
 
 export default Logo;

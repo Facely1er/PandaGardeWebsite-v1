@@ -10,7 +10,7 @@ interface CardProps {
   as?: 'div' | 'article' | 'section';
 }
 
-const Card: React.FC<CardProps> = ({
+const Card: React.FC<CardProps> = React.memo(({
   children,
   className = '',
   variant = 'default',
@@ -43,6 +43,8 @@ const Card: React.FC<CardProps> = ({
       {children}
     </Component>
   );
-};
+});
+
+Card.displayName = 'Card';
 
 export default Card;

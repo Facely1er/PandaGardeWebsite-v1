@@ -7,7 +7,7 @@ interface AchievementBadgeProps {
   size?: 'small' | 'medium' | 'large';
 }
 
-const AchievementBadge: React.FC<AchievementBadgeProps> = ({ achievement, unlocked, size = 'medium' }) => {
+const AchievementBadge: React.FC<AchievementBadgeProps> = React.memo(({ achievement, unlocked, size = 'medium' }) => {
   const getAchievementInfo = (achievement: string) => {
     switch (achievement) {
       case 'first_activity':
@@ -171,6 +171,8 @@ const AchievementBadge: React.FC<AchievementBadgeProps> = ({ achievement, unlock
       `}</style>
     </div>
   );
-};
+});
+
+AchievementBadge.displayName = 'AchievementBadge';
 
 export default AchievementBadge;

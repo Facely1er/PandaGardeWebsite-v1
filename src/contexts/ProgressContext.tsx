@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { logger } from '../lib/logger';
 // Frontend-only mode - no authentication or database dependencies
 
 interface ActivityProgress {
@@ -64,7 +65,7 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
   // Load progress from localStorage - Frontend-only mode
   useEffect(() => {
     const loadProgress = async () => {
-      console.log('Frontend-only mode: Loading progress from localStorage only');
+      logger.debug('Frontend-only mode: Loading progress from localStorage only', undefined, 'Progress');
       // In frontend-only mode, always load from localStorage
       loadFromLocalStorage();
     };
@@ -104,20 +105,20 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
 
   // Autosave to database - Frontend-only mode (disabled)
   useEffect(() => {
-    console.log('Frontend-only mode: Database autosave disabled');
+    logger.debug('Frontend-only mode: Database autosave disabled', undefined, 'Progress');
     // In frontend-only mode, no database autosave is needed
   }, [progress]);
 
   // Periodic autosave - Frontend-only mode (disabled)
   useEffect(() => {
-    console.log('Frontend-only mode: Periodic database autosave disabled');
+    logger.debug('Frontend-only mode: Periodic database autosave disabled', undefined, 'Progress');
     // In frontend-only mode, no periodic database autosave is needed
   }, [progress]);
 
   // Save on page unload - Frontend-only mode (localStorage only)
   useEffect(() => {
     const handleBeforeUnload = () => {
-      console.log('Frontend-only mode: Progress already saved to localStorage');
+      logger.debug('Frontend-only mode: Progress already saved to localStorage', undefined, 'Progress');
       // In frontend-only mode, progress is automatically saved to localStorage
       // No additional action needed on page unload
     };
@@ -127,7 +128,7 @@ export const ProgressProvider: React.FC<ProgressProviderProps> = ({ children }) 
   }, [progress]);
 
   const markActivityCompleted = useCallback(async (activityId: string, score?: number, timeSpent?: number) => {
-    console.log('Frontend-only mode: markActivityCompleted() - saving to localStorage only', { activityId, score, timeSpent });
+    logger.debug('Frontend-only mode: markActivityCompleted() - saving to localStorage only', { activityId, score, timeSpent }, 'Progress');
     
     // In frontend-only mode, just update local state (which automatically saves to localStorage)
     setProgress(prev => {

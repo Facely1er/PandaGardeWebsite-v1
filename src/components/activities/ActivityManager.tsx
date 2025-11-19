@@ -2,6 +2,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Play, RotateCcw } from 'lucide-react';
 import { useProgress } from '../../contexts/ProgressContext';
 import { useToast } from '../../contexts/ToastContext';
+import FeatureErrorBoundary from '../FeatureErrorBoundary';
 // import { useAuth } from '../../contexts/AuthContext';
 
 // Lazy load activity components
@@ -261,7 +262,13 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
               <button onClick={onClose} className="close-button" aria-label="Close activity">×</button>
             </div>
           </div>
-          {renderActivity()}
+          <FeatureErrorBoundary
+            featureName={currentActivity?.title || 'Activity'}
+            onReset={handleRestart}
+            onClose={onClose}
+          >
+            {renderActivity()}
+          </FeatureErrorBoundary>
         </div>
       )}
 

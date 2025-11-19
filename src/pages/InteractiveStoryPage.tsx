@@ -6,6 +6,7 @@ import StoryCharacter from '../components/story/StoryCharacter';
 import StoryScene from '../components/story/StoryScene';
 import StoryChoices from '../components/story/StoryChoices';
 import StoryProgress from '../components/story/StoryProgress';
+import FeatureErrorBoundary from '../components/FeatureErrorBoundary';
 
 interface StorySceneData {
   id: string;
@@ -1247,11 +1248,16 @@ const InteractiveStoryPage: React.FC = () => {
 
           {/* Enhanced Interactive Story Player */}
           <div className="mb-12">
-            <InteractiveStoryPlayer
-              scenes={storyScenes}
-              onSceneChange={handleSceneChange}
-              onStoryComplete={handleStoryComplete}
-            />
+            <FeatureErrorBoundary
+              featureName="Interactive Story Player"
+              onReset={() => setCurrentSceneIndex(0)}
+            >
+              <InteractiveStoryPlayer
+                scenes={storyScenes}
+                onSceneChange={handleSceneChange}
+                onStoryComplete={handleStoryComplete}
+              />
+            </FeatureErrorBoundary>
           </div>
 
           {/* Enhanced Current Scene with Character and Choices */}
