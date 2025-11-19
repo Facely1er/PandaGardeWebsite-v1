@@ -9,8 +9,10 @@ export const initSentry = () => {
     integrations: [
       Sentry.browserTracingIntegration(),
       Sentry.replayIntegration({
-        maskAllText: false,
-        blockAllMedia: false,
+        maskAllText: true,
+        blockAllMedia: true,
+        // Mask specific sensitive inputs
+        maskAllInputs: true,
       }),
     ],
     // Performance Monitoring

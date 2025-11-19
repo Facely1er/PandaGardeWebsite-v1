@@ -171,11 +171,12 @@ const Header: React.FC = () => {
             aria-label="PandaGarde - Go to homepage"
           >
             <div className="logo-icon" aria-hidden="true">
-              <img 
-                src="/LogoPandagarde.png" 
-                alt="PandaGarde Logo" 
+              <img
+                src="/LogoPandagarde.png"
+                alt="PandaGarde Logo"
                 className="panda-logo"
                 style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                loading="lazy"
               />
             </div>
             <span>Panda<span className="highlight">Garde</span></span>
