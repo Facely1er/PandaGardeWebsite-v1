@@ -1,10 +1,12 @@
 import { useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { 
-  trackPageView, 
-  trackEvent, 
+import {
+  trackPageView,
+  trackEvent,
   trackContentEngagement,
   trackPerformance,
+  trackError as analyticsTrackError,
+  trackUserAction as analyticsTrackUserAction,
   setUserId,
   setUserProperties,
   AnalyticsEvents,
@@ -103,7 +105,7 @@ export const usePerformanceTracking = () => {
 // Hook for error tracking
 export const useErrorTracking = () => {
   const trackError = useCallback((error: Error, context?: Record<string, unknown>) => {
-    trackError(error, context);
+    analyticsTrackError(error, context);
   }, []);
 
   return { trackError };
@@ -112,7 +114,7 @@ export const useErrorTracking = () => {
 // Hook for general analytics actions
 export const useAnalytics = () => {
   const trackUserAction = useCallback((action: string, details?: Record<string, unknown>) => {
-    trackUserAction(action, details);
+    analyticsTrackUserAction(action, details);
   }, []);
 
   const trackCustomEvent = useCallback((eventName: string, parameters?: Record<string, unknown>) => {

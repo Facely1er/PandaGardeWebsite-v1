@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Shield, Users, AlertTriangle, CheckCircle, X } from 'lucide-react';
 import { useAgeVerification } from '../contexts/AgeVerificationContext';
 
@@ -7,6 +7,48 @@ const AgeVerificationModal: React.FC = () => {
   const [age, setAge] = useState<number | ''>('');
   const [hasParentalConsent, setHasParentalConsent] = useState(false);
   const [error, setError] = useState('');
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // Focus trap effect
+  useEffect(() => {
+    if (!showAgeModal || !modalRef.current) return;
+
+    const modal = modalRef.current;
+    const focusableElements = modal.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    const firstElement = focusableElements[0] as HTMLElement;
+    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+    // Focus first element on open
+    firstElement?.focus();
+
+    const handleTabKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement?.focus();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement?.focus();
+        }
+      }
+    };
+
+    modal.addEventListener('keydown', handleTabKey);
+    return () => modal.removeEventListener('keydown', handleTabKey);
+  }, [showAgeModal]);
+
+  // Handle escape key
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      setShowAgeModal(false);
+    }
+  }, [setShowAgeModal]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,14 +81,21 @@ const AgeVerificationModal: React.FC = () => {
   if (!showAgeModal) {return null;}
 
   return (
-    <div className="age-verification-overlay">
-      <div className="age-verification-modal">
+    <div
+      className="age-verification-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="age-verification-title"
+      aria-describedby="age-verification-description"
+      onKeyDown={handleKeyDown}
+    >
+      <div ref={modalRef} className="age-verification-modal">
         <div className="age-verification-header">
-          <div className="age-verification-icon">
+          <div className="age-verification-icon" aria-hidden="true">
             <Shield size={32} />
           </div>
-          <h2>Age Verification Required</h2>
-          <p>To comply with COPPA (Children's Online Privacy Protection Act), we need to verify your age.</p>
+          <h2 id="age-verification-title">Age Verification Required</h2>
+          <p id="age-verification-description">To comply with COPPA (Children's Online Privacy Protection Act), we need to verify your age.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="age-verification-form">

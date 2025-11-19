@@ -169,18 +169,40 @@ export const trackError = (error: Error, context?: Record<string, unknown>) => {
   });
 };
 
-// Track user properties
+// Track user properties - filter out PII
 export const setUserProperties = (properties: Record<string, unknown>) => {
   if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) {return;}
 
-  ReactGA.set(properties);
+  // Filter out PII fields
+  const piiFields = ['email', 'name', 'phone', 'address', 'firstName', 'lastName', 'fullName'];
+  const filteredProperties = Object.entries(properties).reduce((acc, [key, value]) => {
+    if (!piiFields.includes(key.toLowerCase())) {
+      acc[key] = value;
+    }
+    return acc;
+  }, {} as Record<string, unknown>);
+
+  ReactGA.set(filteredProperties);
 };
 
-// Track user ID
+// Track user ID - hash to protect PII
 export const setUserId = (userId: string) => {
   if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) {return;}
 
-  ReactGA.set({ user_id: userId });
+  // Hash the user ID to protect PII
+  const hashedId = hashString(userId);
+  ReactGA.set({ user_id: hashedId });
+};
+
+// Simple hash function for anonymizing user data
+const hashString = (str: string): string => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return 'u_' + Math.abs(hash).toString(36);
 };
 
 // Track conversion events

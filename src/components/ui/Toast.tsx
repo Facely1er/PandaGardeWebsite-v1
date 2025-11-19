@@ -113,6 +113,9 @@ const Toast: React.FC<ToastProps> = ({
         borderColor: colors.border,
         color: colors.text
       }}
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
     >
       <div className="toast-content">
         <div className="toast-icon" style={{ color: colors.icon }}>

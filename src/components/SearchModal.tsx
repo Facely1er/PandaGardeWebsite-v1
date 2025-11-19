@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Search, X, Clock, ArrowRight, FileText, BookOpen, Download, Settings, Filter } from 'lucide-react';
 import { useSearch, SearchResult } from '../contexts/SearchContext';
 import { renderSearchHighlights, safeTextContent } from '../lib/htmlSanitizer';
@@ -18,6 +18,45 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onResultClic
     category: [] as string[],
   });
   const inputRef = useRef<HTMLInputElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // Focus trap effect
+  useEffect(() => {
+    if (!isOpen || !modalRef.current) return;
+
+    const modal = modalRef.current;
+    const focusableElements = modal.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    const firstElement = focusableElements[0] as HTMLElement;
+    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+    const handleTabKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement?.focus();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement?.focus();
+        }
+      }
+    };
+
+    modal.addEventListener('keydown', handleTabKey);
+    return () => modal.removeEventListener('keydown', handleTabKey);
+  }, [isOpen]);
+
+  // Handle escape key
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      onClose();
+    }
+  }, [onClose]);
   const { 
     searchQuery, 
     searchResults, 
@@ -98,16 +137,27 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onResultClic
   if (!isOpen) {return null;}
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
+    <div
+      className="fixed inset-0 z-50 overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="search-modal-title"
+      onKeyDown={handleKeyDown}
+    >
       <div className="flex min-h-screen items-start justify-center p-4 pt-20">
         {/* Backdrop */}
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50"
           onClick={onClose}
+          aria-hidden="true"
         />
-        
+
         {/* Modal */}
-        <div className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
+        <div
+          ref={modalRef}
+          className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-hidden"
+        >
+          <h2 id="search-modal-title" className="sr-only">Search PandaGarde</h2>
           {/* Search Input */}
           <div className="p-4 border-b border-gray-200 dark:border-gray-700">
             <div className="relative">
