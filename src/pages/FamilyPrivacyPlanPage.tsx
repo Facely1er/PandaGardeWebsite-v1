@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Shield } from 'lucide-react';
 import Logo from '../components/Logo';
-import FamilyPrivacyPlanBuilder from '../components/FamilyPrivacyPlanBuilder';
-import type { FamilyPrivacyPlan } from '../components/FamilyPrivacyPlanBuilder';
+import FamilyPrivacyPlanBuilder from '../components/parent/FamilyPrivacyPlanBuilder';
+import type { FamilyPrivacyPlan } from '../components/parent/FamilyPrivacyPlanBuilder';
 
 const FamilyPrivacyPlanPage: React.FC = () => {
   useEffect(() => {

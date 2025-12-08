@@ -27,6 +27,7 @@ export interface ChildService {
   privacyConcerns: string[]; // Child-friendly explanations
   parentTips: string[]; // Tips for parents
   icon?: string; // Icon name or URL
+  logoUrl?: string; // Service logo URL (will be generated from service ID)
   website?: string; // Official website
 }
 

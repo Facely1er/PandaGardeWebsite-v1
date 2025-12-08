@@ -5,7 +5,8 @@ import { useAgeVerification } from '../contexts/AgeVerificationContext';
 const AgeVerificationModal: React.FC = () => {
   const { verifyAge, showAgeModal, setShowAgeModal } = useAgeVerification();
   const [age, setAge] = useState<number | ''>('');
-  const [hasParentalConsent, setHasParentalConsent] = useState(false);
+  const [parentEmail, setParentEmail] = useState('');
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -50,26 +51,51 @@ const AgeVerificationModal: React.FC = () => {
     }
   }, [setShowAgeModal]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
     if (age === '') {
       setError('Please enter your age');
+      setLoading(false);
       return;
     }
 
     if (age < 0 || age > 120) {
       setError('Please enter a valid age');
+      setLoading(false);
       return;
     }
 
-    if (age < 13 && !hasParentalConsent) {
-      setError('Parental consent is required for users under 13');
+    if (age < 13 && !parentEmail) {
+      setError('Parent email is required for users under 13');
+      setLoading(false);
       return;
     }
 
-    verifyAge(age, hasParentalConsent);
+    if (age < 13 && parentEmail && !isValidEmail(parentEmail)) {
+      setError('Please enter a valid parent email address');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const result = await verifyAge(age, age < 13 ? parentEmail : undefined);
+      if (!result.success) {
+        setError(result.error || 'Failed to verify age. Please try again.');
+        setLoading(false);
+      }
+      // If successful, modal will close automatically
+    } catch (err) {
+      setError('An error occurred. Please try again.');
+      setLoading(false);
+    }
+  };
+
+  const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
   const handleAgeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,22 +142,63 @@ const AgeVerificationModal: React.FC = () => {
 
           {age !== '' && age < 13 && (
             <div className="parental-consent-section">
-              <div className="consent-info">
-                <AlertTriangle size={20} className="warning-icon" />
-                <p>You are under 13 years old. Parental consent is required to use this site.</p>
+              <div className="coppa-notice" style={{ 
+                padding: '1rem', 
+                backgroundColor: '#fef3c7', 
+                borderRadius: '8px', 
+                marginBottom: '1rem',
+                border: '1px solid #f59e0b'
+              }}>
+                <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+                  <AlertTriangle size={20} className="warning-icon" style={{ color: '#f59e0b', flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <strong style={{ display: 'block', marginBottom: '0.5rem', color: '#92400e' }}>
+                      COPPA Notice - Parental Consent Required
+                    </strong>
+                    <p style={{ margin: '0.25rem 0', fontSize: '0.875rem', color: '#78350f' }}>
+                      You are under 13 years old. We need your parent's or guardian's permission to collect any information.
+                    </p>
+                    <p style={{ margin: '0.25rem 0', fontSize: '0.875rem', color: '#78350f' }}>
+                      We will send a consent request email to your parent. They must approve before you can use this site.
+                    </p>
+                  </div>
+                </div>
               </div>
               
-              <div className="consent-checkbox">
+              <div className="form-group">
+                <label htmlFor="parent-email">
+                  Parent/Guardian Email Address *
+                </label>
+                <input
+                  type="email"
+                  id="parent-email"
+                  value={parentEmail}
+                  onChange={(e) => {
+                    setParentEmail(e.target.value);
+                    setError('');
+                  }}
+                  placeholder="parent@example.com"
+                  className={error && !parentEmail ? 'error' : ''}
+                  required
+                  disabled={loading}
+                />
+                <small style={{ display: 'block', marginTop: '0.5rem', color: '#6b7280', fontSize: '0.875rem' }}>
+                  We'll send a consent request to this email. Your parent must click the link in the email to approve.
+                </small>
+              </div>
+              
+              <div className="consent-checkbox" style={{ marginTop: '1rem' }}>
                 <label className="checkbox-label">
                   <input
                     type="checkbox"
-                    checked={hasParentalConsent}
-                    onChange={(e) => setHasParentalConsent(e.target.checked)}
+                    checked={true}
+                    readOnly
+                    disabled
                   />
                   <span className="checkmark"></span>
                   <div className="checkbox-text">
-                    <strong>I have parental consent</strong>
-                    <span>My parent or guardian has given permission for me to use this educational website.</span>
+                    <strong>I understand</strong>
+                    <span>My parent will receive an email and must approve before I can use this site.</span>
                   </div>
                 </label>
               </div>
@@ -164,10 +231,19 @@ const AgeVerificationModal: React.FC = () => {
             <button
               type="submit"
               className="button primary"
-              disabled={age === '' || (age < 13 && !hasParentalConsent)}
+              disabled={age === '' || (age < 13 && !parentEmail) || loading}
             >
-              <CheckCircle size={16} />
-              Continue
+              {loading ? (
+                <>
+                  <span className="spinner" style={{ display: 'inline-block', width: '16px', height: '16px', border: '2px solid currentColor', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.6s linear infinite' }} />
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <CheckCircle size={16} />
+                  Continue
+                </>
+              )}
             </button>
           </div>
         </form>
@@ -176,8 +252,11 @@ const AgeVerificationModal: React.FC = () => {
           <div className="privacy-info">
             <Users size={16} />
             <p>
-              <strong>Privacy Notice:</strong> We use this information only to ensure compliance with COPPA. 
-              Your age is not stored permanently and is only used to determine appropriate content access.
+              <strong>Privacy Notice:</strong> We comply with COPPA (Children's Online Privacy Protection Act). 
+              For users under 13, we require verifiable parental consent before collecting any personal information. 
+              <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" style={{ marginLeft: '0.5rem', color: '#3b82f6' }}>
+                Read our Privacy Policy
+              </a>
             </p>
           </div>
         </div>

@@ -43,6 +43,10 @@ import PrivacyConcernsGuidePage from './pages/PrivacyConcernsGuidePage';
 import FamilyPrivacyGuidePage from './pages/guides/FamilyPrivacyGuidePage';
 import EmergencySafetyGuidePage from './pages/guides/EmergencySafetyGuidePage';
 import AgeSpecificGuidePage from './pages/guides/AgeSpecificGuidePage';
+import ConversationApproachesPage from './pages/guides/ConversationApproachesPage';
+import SafetyNetPage from './pages/guides/SafetyNetPage';
+import AgeSpecificPrivacyPage from './pages/guides/AgeSpecificPrivacyPage';
+import FamilyPrivacyPlanPage from './pages/FamilyPrivacyPlanPage';
 import EducatorToolsPage from './pages/EducatorToolsPage';
 import NewsletterPage from './pages/NewsletterPage';
 import SupportPage from './pages/SupportPage';
@@ -51,6 +55,10 @@ import OverviewPage from './pages/OverviewPage';
 import ResourcesPage from './pages/ResourcesPage';
 import QuickStartPage from './pages/QuickStartPage';
 import PlaceholderPage from './pages/PlaceholderPage';
+import ChildSafetyAlertsPage from './pages/ChildSafetyAlertsPage';
+import ServiceCatalogPage from './pages/ServiceCatalogPage';
+import ParentalConsentPage from './pages/ParentalConsentPage';
+import ParentalConsentPendingPage from './pages/ParentalConsentPendingPage';
 import NavigationErrorBoundary from './components/NavigationErrorBoundary';
 import AgeVerificationModal from './components/AgeVerificationModal';
 import { SentryErrorBoundary } from './lib/sentry';
@@ -138,6 +146,13 @@ function App() {
             <Route path="/support" element={<SupportPage />} />
             <Route path="/get-started" element={<GetStartedPage />} />
             <Route path="/implementation-guide" element={<ImplementationGuidePage />} />
+            <Route path="/service-catalog" element={<ServiceCatalogPage />} />
+            <Route path="/safety-alerts" element={<ChildSafetyAlertsPage />} />
+            <Route path="/alerts" element={<ChildSafetyAlertsPage />} />
+            
+            {/* COPPA Compliance Pages */}
+            <Route path="/parental-consent" element={<ParentalConsentPage />} />
+            <Route path="/parental-consent/pending" element={<ParentalConsentPendingPage />} />
 
             {/* Legal Pages */}
             <Route path="/privacy" element={<PrivacyPolicyPage />} />
@@ -165,6 +180,11 @@ function App() {
             <Route path="/guides/family-privacy" element={<FamilyPrivacyGuidePage />} />
             <Route path="/guides/emergency-safety" element={<EmergencySafetyGuidePage />} />
             <Route path="/guides/age-specific" element={<AgeSpecificGuidePage />} />
+            <Route path="/guides/conversation-approaches" element={<ConversationApproachesPage />} />
+            <Route path="/guides/safety-net" element={<SafetyNetPage />} />
+            <Route path="/guides/age-specific-privacy" element={<AgeSpecificPrivacyPage />} />
+            <Route path="/family-privacy-plan" element={<FamilyPrivacyPlanPage />} />
+            <Route path="/guides/family-privacy-plan" element={<FamilyPrivacyPlanPage />} />
 
             {/* Activity Pages */}
             <Route path="/activities/privacy-learning-kit" element={<PlaceholderPage title="Privacy Learning Kit" description="Interactive activities and games to reinforce privacy concepts" />} />

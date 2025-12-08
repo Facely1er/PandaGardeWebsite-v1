@@ -47,7 +47,7 @@ interface FamilyContextType {
   isChild: boolean;
   // New methods for localStorage and privacy
   calculateFamilyPrivacyScore: () => number;
-  exportFamilyData: () => string;
+  exportFamilyData: () => Promise<string>;
   importFamilyData: (jsonData: string) => boolean;
   getFamilyStorageUsage: () => number;
   clearFamilyData: () => void;
@@ -69,9 +69,6 @@ interface FamilyProviderProps {
 
 export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
   // Frontend-only mode - no authentication
-  const user = null;
-  const profile = null;
-  const isAuthenticated = false;
   const [currentFamily, setCurrentFamily] = useState<Family | null>(null);
   const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
   const [loading, setLoading] = useState(false);
@@ -130,7 +127,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
   const loadFamilyMembers = useCallback(async (familyId: string) => {
     console.log('Frontend-only mode: loadFamilyMembers() - using localStorage', familyId);
     try {
-      const familyData = localStorageManager.getFamilyData();
+      const familyData = await localStorageManager.getFamilyData();
       if (familyData && familyData.id === familyId) {
         const members = familyData.members || [];
         
@@ -158,7 +155,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     console.log('Frontend-only mode: checkExistingFamily() - using localStorage');
     try {
       const currentUserId = getCurrentUserId();
-      const familyData = localStorageManager.getFamilyData();
+      const familyData = await localStorageManager.getFamilyData();
       
       if (familyData && familyData.members) {
         const userMember = familyData.members.find((member: FamilyMember) => member.user_id === currentUserId);
@@ -211,8 +208,8 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
 
       familyData.members = [creatorMember];
 
-      // Save family data
-      localStorageManager.saveFamilyData(familyData);
+      // Save family data (with encryption)
+      await localStorageManager.saveFamilyData(familyData);
 
       // Create user progress if it doesn't exist
       let progress = localStorageManager.getUserProgress(currentUserId);
@@ -237,7 +234,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     setLoading(true);
     try {
       const currentUserId = getCurrentUserId();
-      const familyData = localStorageManager.getFamilyData();
+      const familyData = await localStorageManager.getFamilyData();
 
       if (!familyData || familyData.id !== familyId) {
         return { success: false, error: 'Family not found' };
@@ -266,7 +263,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
       familyData.updated_at = new Date().toISOString();
 
       // Save updated family data
-      localStorageManager.saveFamilyData(familyData);
+        await localStorageManager.saveFamilyData(familyData);
 
       // Create user progress if it doesn't exist
       let progress = localStorageManager.getUserProgress(currentUserId);
@@ -295,7 +292,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     setLoading(true);
     try {
       const currentUserId = getCurrentUserId();
-      const familyData = localStorageManager.getFamilyData();
+      const familyData = await localStorageManager.getFamilyData();
 
       if (!familyData || familyData.id !== currentFamily.id) {
         return { success: false, error: 'Family not found' };
@@ -311,8 +308,8 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
         setCurrentFamily(null);
         setFamilyMembers([]);
       } else {
-        // Save updated family data
-        localStorageManager.saveFamilyData(familyData);
+        // Save updated family data (with encryption)
+        await localStorageManager.saveFamilyData(familyData);
         setCurrentFamily(null);
         setFamilyMembers([]);
       }
@@ -334,7 +331,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
 
     setLoading(true);
     try {
-      const familyData = localStorageManager.getFamilyData();
+      const familyData = await localStorageManager.getFamilyData();
 
       if (!familyData || familyData.id !== currentFamily.id) {
         return { success: false, error: 'Family not found' };
@@ -363,7 +360,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
       familyData.updated_at = new Date().toISOString();
 
       // Save updated family data
-      localStorageManager.saveFamilyData(familyData);
+        await localStorageManager.saveFamilyData(familyData);
 
       // Create user progress for the new member
       const ageGroup = role === 'child' ? '9-12' : '13-17';
@@ -387,7 +384,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
 
     setLoading(true);
     try {
-      const familyData = localStorageManager.getFamilyData();
+      const familyData = await localStorageManager.getFamilyData();
 
       if (!familyData || familyData.id !== currentFamily.id) {
         return { success: false, error: 'Family not found' };
@@ -404,7 +401,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
       familyData.updated_at = new Date().toISOString();
 
       // Save updated family data
-      localStorageManager.saveFamilyData(familyData);
+        await localStorageManager.saveFamilyData(familyData);
 
       // Delete user progress data
       localStorageManager.deleteUser(memberToRemove.user_id);
@@ -427,7 +424,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
 
     setLoading(true);
     try {
-      const familyData = localStorageManager.getFamilyData();
+      const familyData = await localStorageManager.getFamilyData();
 
       if (!familyData || familyData.id !== currentFamily.id) {
         return { success: false, error: 'Family not found' };
@@ -448,7 +445,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
       familyData.updated_at = new Date().toISOString();
 
       // Save updated family data
-      localStorageManager.saveFamilyData(familyData);
+        await localStorageManager.saveFamilyData(familyData);
 
       await loadFamilyMembers(currentFamily.id);
       return { success: true, error: null };
@@ -507,8 +504,8 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
   };
 
   // Export family data
-  const exportFamilyData = (): string => {
-    return localStorageManager.exportData();
+  const exportFamilyData = async (): Promise<string> => {
+    return await localStorageManager.exportData();
   };
 
   // Import family data

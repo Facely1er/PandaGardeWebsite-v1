@@ -46,12 +46,19 @@ export const AnalyticsEvents = {
   ALERT_RESOLVED: 'alert_resolved',
 } as const;
 
+// Extend Window interface for dataLayer
+declare global {
+  interface Window {
+    dataLayer?: unknown[];
+  }
+}
+
 // Initialize analytics
 export const initAnalytics = () => {
   const config: AnalyticsConfig = {
-    googleAnalyticsId: import.meta.env.VITE_GOOGLE_ANALYTICS_ID,
-    googleTagManagerId: import.meta.env.VITE_GOOGLE_TAG_MANAGER_ID,
-    enabled: import.meta.env.MODE === 'production' || import.meta.env.VITE_ANALYTICS_DEBUG === 'true',
+    googleAnalyticsId: import.meta.env['VITE_GOOGLE_ANALYTICS_ID'],
+    googleTagManagerId: import.meta.env['VITE_GOOGLE_TAG_MANAGER_ID'],
+    enabled: import.meta.env.MODE === 'production' || import.meta.env['VITE_ANALYTICS_DEBUG'] === 'true',
   };
 
   if (!config.enabled) {
@@ -63,7 +70,6 @@ export const initAnalytics = () => {
   if (config.googleAnalyticsId) {
     ReactGA.initialize(config.googleAnalyticsId, {
       testMode: import.meta.env.MODE === 'development',
-      debug: import.meta.env.VITE_ANALYTICS_DEBUG === 'true',
     });
     logger.info('Google Analytics initialized', undefined, 'ANALYTICS');
   }
@@ -77,7 +83,9 @@ export const initAnalytics = () => {
 
     window.dataLayer = window.dataLayer || [];
     function gtag(...args: unknown[]) {
-      window.dataLayer.push(args);
+      if (window.dataLayer) {
+        window.dataLayer.push(args);
+      }
     }
     gtag('js', new Date());
     gtag('config', config.googleTagManagerId);
@@ -88,7 +96,7 @@ export const initAnalytics = () => {
 
 // Track page views
 export const trackPageView = (path: string, title?: string) => {
-  if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) {return;}
+  if (!import.meta.env['VITE_GOOGLE_ANALYTICS_ID']) {return;}
 
   ReactGA.send({
     hitType: 'pageview',
@@ -105,19 +113,34 @@ export const trackPageView = (path: string, title?: string) => {
 
 // Track custom events
 export const trackEvent = (eventName: string, parameters?: Record<string, unknown>) => {
-  if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) {return;}
+  if (!import.meta.env['VITE_GOOGLE_ANALYTICS_ID']) {return;}
 
-  ReactGA.event({
+  const category = typeof parameters?.['category'] === 'string' ? parameters['category'] : 'general';
+  const label = typeof parameters?.['label'] === 'string' ? parameters['label'] : undefined;
+  const value = typeof parameters?.['value'] === 'number' ? parameters['value'] : undefined;
+
+  const eventOptions: {
+    action: string;
+    category: string;
+    label?: string;
+    value?: number;
+  } = {
     action: eventName,
-    category: parameters?.category || 'general',
-    label: parameters?.label,
-    value: parameters?.value,
-    ...parameters,
-  });
+    category: category,
+  };
+
+  if (label !== undefined) {
+    eventOptions.label = label;
+  }
+  if (value !== undefined) {
+    eventOptions.value = value;
+  }
+
+  ReactGA.event(eventOptions);
 
   // Also send to GTM if available
-  if (typeof window !== 'undefined' && (window as unknown as { dataLayer?: unknown[] }).dataLayer) {
-    (window as unknown as { dataLayer: unknown[] }).dataLayer.push({
+  if (typeof window !== 'undefined' && window.dataLayer) {
+    window.dataLayer.push({
       event: eventName,
       ...parameters,
     });
@@ -171,7 +194,7 @@ export const trackError = (error: Error, context?: Record<string, unknown>) => {
 
 // Track user properties - filter out PII
 export const setUserProperties = (properties: Record<string, unknown>) => {
-  if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) {return;}
+  if (!import.meta.env['VITE_GOOGLE_ANALYTICS_ID']) {return;}
 
   // Filter out PII fields
   const piiFields = ['email', 'name', 'phone', 'address', 'firstName', 'lastName', 'fullName'];
@@ -187,7 +210,7 @@ export const setUserProperties = (properties: Record<string, unknown>) => {
 
 // Track user ID - hash to protect PII
 export const setUserId = (userId: string) => {
-  if (!import.meta.env.VITE_GOOGLE_ANALYTICS_ID) {return;}
+  if (!import.meta.env['VITE_GOOGLE_ANALYTICS_ID']) {return;}
 
   // Hash the user ID to protect PII
   const hashedId = hashString(userId);
@@ -224,8 +247,8 @@ export const isAnalyticsEnabled = () => {
   }
 
   // Check if analytics is enabled in environment
-  return import.meta.env.VITE_GOOGLE_ANALYTICS_ID && 
-         (import.meta.env.MODE === 'production' || import.meta.env.VITE_ANALYTICS_DEBUG === 'true');
+  return import.meta.env['VITE_GOOGLE_ANALYTICS_ID'] && 
+         (import.meta.env.MODE === 'production' || import.meta.env['VITE_ANALYTICS_DEBUG'] === 'true');
 };
 
 // Opt out user from analytics
@@ -233,7 +256,10 @@ export const optOutAnalytics = () => {
   localStorage.setItem('analytics_opt_out', 'true');
   // Disable GA tracking
   if (typeof window !== 'undefined') {
-    (window as unknown as Record<string, unknown>)[`ga-disable-${import.meta.env.VITE_GOOGLE_ANALYTICS_ID}`] = true;
+    const gaId = import.meta.env['VITE_GOOGLE_ANALYTICS_ID'];
+    if (gaId) {
+      (window as unknown as Record<string, unknown>)[`ga-disable-${gaId}`] = true;
+    }
   }
 };
 
@@ -242,6 +268,9 @@ export const optInAnalytics = () => {
   localStorage.removeItem('analytics_opt_out');
   // Re-enable GA tracking
   if (typeof window !== 'undefined') {
-    (window as unknown as Record<string, unknown>)[`ga-disable-${import.meta.env.VITE_GOOGLE_ANALYTICS_ID}`] = false;
+    const gaId = import.meta.env['VITE_GOOGLE_ANALYTICS_ID'];
+    if (gaId) {
+      (window as unknown as Record<string, unknown>)[`ga-disable-${gaId}`] = false;
+    }
   }
 };

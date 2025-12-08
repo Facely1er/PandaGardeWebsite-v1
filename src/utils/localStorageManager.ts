@@ -1,3 +1,5 @@
+import { encryptData, decryptData, generateUserPassword, isEncryptionAvailable } from '../lib/encryption';
+
 export interface UserProgress {
   id: string;
   name: string;
@@ -14,6 +16,10 @@ export interface UserProgress {
 export class LocalStorageManager {
   private static readonly STORAGE_KEY = 'pandagarde_user_progress';
   private static readonly FAMILY_KEY = 'pandagarde_family_data';
+  private static readonly ENCRYPTED_FLAG = '__encrypted__';
+  
+  // Fields that contain PII and should be encrypted
+  private static readonly PII_FIELDS = ['email', 'first_name', 'last_name', 'name', 'phone', 'address'];
 
   /**
    * Save user progress to localStorage
@@ -72,10 +78,10 @@ export class LocalStorageManager {
   /**
    * Export all data as JSON string
    */
-  exportData(): string {
+  async exportData(): Promise<string> {
     try {
       const allProgress = this.getAllUsers();
-      const familyData = this.getFamilyData();
+      const familyData = await this.getFamilyData();
       const exportData = {
         userProgress: allProgress,
         familyData: familyData,
@@ -156,12 +162,39 @@ export class LocalStorageManager {
   }
 
   /**
-   * Get family data from localStorage
+   * Get family data from localStorage (with decryption if encrypted)
    */
-  getFamilyData(): any {
+  async getFamilyData(): Promise<any> {
     try {
       const data = localStorage.getItem(LocalStorageManager.FAMILY_KEY);
-      return data ? JSON.parse(data) : null;
+      if (!data) return null;
+      
+      // Check if data is encrypted
+      if (data.startsWith(LocalStorageManager.ENCRYPTED_FLAG)) {
+        if (!isEncryptionAvailable()) {
+          console.warn('Encryption not available, cannot decrypt family data');
+          return null;
+        }
+        
+        const encryptedData = data.substring(LocalStorageManager.ENCRYPTED_FLAG.length);
+        // Use a default user ID for decryption (in production, use actual user ID)
+        const userId = this.getCurrentUserId();
+        const password = generateUserPassword(userId);
+        
+        try {
+          return await decryptData<any>(encryptedData, password);
+        } catch (decryptError) {
+          console.error('Error decrypting family data:', decryptError);
+          // Try to parse as plain JSON as fallback (for migration)
+          try {
+            return JSON.parse(encryptedData);
+          } catch {
+            return null;
+          }
+        }
+      }
+      
+      return JSON.parse(data);
     } catch (error) {
       console.error('Error getting family data:', error);
       return null;
@@ -169,15 +202,126 @@ export class LocalStorageManager {
   }
 
   /**
-   * Save family data to localStorage
+   * Save family data to localStorage (with encryption for PII)
    */
-  saveFamilyData(familyData: any): void {
+  async saveFamilyData(familyData: any): Promise<void> {
     try {
-      localStorage.setItem(LocalStorageManager.FAMILY_KEY, JSON.stringify(familyData));
+      if (!isEncryptionAvailable()) {
+        // Fallback to unencrypted storage if encryption not available
+        console.warn('Encryption not available, saving family data unencrypted');
+        localStorage.setItem(LocalStorageManager.FAMILY_KEY, JSON.stringify(familyData));
+        return;
+      }
+      
+      // Encrypt PII fields in family data
+      const encryptedFamilyData = await this.encryptPIIFields(familyData);
+      
+      // Use a default user ID for encryption (in production, use actual user ID)
+      const userId = this.getCurrentUserId();
+      const password = generateUserPassword(userId);
+      
+      // Encrypt the entire family data object
+      const encryptedData = await encryptData(encryptedFamilyData, password);
+      
+      // Store with encryption flag
+      localStorage.setItem(
+        LocalStorageManager.FAMILY_KEY, 
+        LocalStorageManager.ENCRYPTED_FLAG + encryptedData
+      );
     } catch (error) {
       console.error('Error saving family data:', error);
       throw new Error('Failed to save family data');
     }
+  }
+
+  /**
+   * Encrypt PII fields in an object recursively
+   */
+  private async encryptPIIFields(obj: any): Promise<any> {
+    if (obj === null || obj === undefined) return obj;
+    
+    if (Array.isArray(obj)) {
+      return Promise.all(obj.map(item => this.encryptPIIFields(item)));
+    }
+    
+    if (typeof obj === 'object') {
+      const result: any = {};
+      for (const [key, value] of Object.entries(obj)) {
+        if (LocalStorageManager.PII_FIELDS.includes(key) && typeof value === 'string' && value) {
+          // Encrypt PII field
+          const userId = this.getCurrentUserId();
+          const password = generateUserPassword(userId);
+          try {
+            result[key] = await encryptData(value, password);
+            result[`${key}_encrypted`] = true;
+          } catch (error) {
+            console.error(`Error encrypting field ${key}:`, error);
+            result[key] = value; // Fallback to unencrypted
+          }
+        } else if (typeof value === 'object') {
+          result[key] = await this.encryptPIIFields(value);
+        } else {
+          result[key] = value;
+        }
+      }
+      return result;
+    }
+    
+    return obj;
+  }
+
+  /**
+   * Decrypt PII fields in an object recursively
+   */
+  private async decryptPIIFields(obj: any): Promise<any> {
+    if (obj === null || obj === undefined) return obj;
+    
+    if (Array.isArray(obj)) {
+      return Promise.all(obj.map(item => this.decryptPIIFields(item)));
+    }
+    
+    if (typeof obj === 'object') {
+      const result: any = {};
+      for (const [key, value] of Object.entries(obj)) {
+        if (key.endsWith('_encrypted') && obj[key.replace('_encrypted', '')]) {
+          // Skip the encrypted flag
+          continue;
+        }
+        
+        const encryptedFlag = obj[`${key}_encrypted`];
+        if (encryptedFlag && typeof value === 'string' && value) {
+          // Decrypt PII field
+          const userId = this.getCurrentUserId();
+          const password = generateUserPassword(userId);
+          try {
+            result[key] = await decryptData<string>(value, password);
+          } catch (error) {
+            console.error(`Error decrypting field ${key}:`, error);
+            result[key] = value; // Fallback to encrypted value
+          }
+        } else if (typeof value === 'object') {
+          result[key] = await this.decryptPIIFields(value);
+        } else {
+          result[key] = value;
+        }
+      }
+      return result;
+    }
+    
+    return obj;
+  }
+
+  /**
+   * Get current user ID (for encryption key generation)
+   */
+  private getCurrentUserId(): string {
+    // Try to get from localStorage or generate a device-specific ID
+    let userId = localStorage.getItem('pandagarde_user_id');
+    if (!userId) {
+      userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      localStorage.setItem('pandagarde_user_id', userId);
+    }
+    return userId;
   }
 
   /**

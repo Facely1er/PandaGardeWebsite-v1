@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Search, 
   Filter, 
@@ -16,7 +17,8 @@ import {
   Palette,
   ChevronRight,
   Lock,
-  Clock
+  Clock,
+  Bell
 } from 'lucide-react';
 import { 
   childServiceCatalog, 
@@ -28,6 +30,9 @@ import {
   type ChildService
 } from '../data/childServiceCatalog';
 import { useFamily, type ServiceUsage } from '../contexts/FamilyContext';
+import { calculatePrivacyExposureIndex, getExposureLevel } from '../lib/privacyExposureIndex';
+import { getServiceLogoUrlWithBrandColor, hasServiceLogo } from '../utils/serviceLogos';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface ServiceCatalogProps {
   memberId?: string; // If provided, shows services for specific member
@@ -41,6 +46,7 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
   showRequestButton = false 
 }) => {
   const { familyMembers, requestService, isChild } = useFamily();
+  const { theme } = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory | 'all'>('all');
   const [selectedRisk, setSelectedRisk] = useState<string>('all');
@@ -156,10 +162,24 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
 
   return (
     <div className="service-catalog">
-      <div className="catalog-header">
-        <h2 className="catalog-title">Service Catalog</h2>
-        <p className="catalog-subtitle">Browse age-appropriate apps and platforms</p>
-      </div>
+      {/* Only show header if not used in ServiceCatalogPage */}
+      {!onServiceSelect && (
+        <div className="catalog-header">
+          <div className="flex items-center justify-between mb-2">
+            <div>
+              <h2 className="catalog-title">Service Catalog</h2>
+              <p className="catalog-subtitle">Browse age-appropriate apps and platforms</p>
+            </div>
+            <Link
+              to="/safety-alerts"
+              className="flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm"
+            >
+              <Bell className="h-4 w-4" />
+              <span>Safety Alerts</span>
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* Filters */}
       <div className="catalog-filters">
@@ -218,8 +238,34 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
               onClick={() => setSelectedService(service)}
             >
               <div className="service-card-header">
-                <div className="service-icon-wrapper">
-                  <CategoryIcon size={24} className="service-icon" />
+                <div className="service-icon-wrapper" style={{ position: 'relative' }}>
+                  {hasServiceLogo(service.id) ? (
+                    <img
+                      src={getServiceLogoUrlWithBrandColor(service.id) || undefined}
+                      alt={`${service.name} logo`}
+                      className="service-logo"
+                      style={{
+                        width: '40px',
+                        height: '40px',
+                        objectFit: 'contain',
+                        borderRadius: '8px',
+                        backgroundColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)',
+                        padding: '6px'
+                      }}
+                      onError={(e) => {
+                        // Fallback to category icon if logo fails to load
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const fallback = target.parentElement?.querySelector('.service-icon-fallback') as HTMLElement;
+                        if (fallback) fallback.style.display = 'block';
+                      }}
+                    />
+                  ) : null}
+                  <CategoryIcon 
+                    size={24} 
+                    className="service-icon service-icon-fallback"
+                    style={{ display: hasServiceLogo(service.id) ? 'none' : 'block' }}
+                  />
                 </div>
                 <div className="service-header-content">
                   <h3 className="service-name">{service.name}</h3>
@@ -235,6 +281,36 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
                   </div>
                   {getRiskBadge(service.riskLevel)}
                 </div>
+
+                {/* Privacy Exposure Index */}
+                {(() => {
+                  const exposureIndex = calculatePrivacyExposureIndex(service.id);
+                  const exposureLevel = getExposureLevel(exposureIndex);
+                  if (exposureIndex !== null) {
+                    return (
+                      <div className="mt-3 p-2 rounded-lg bg-gray-50 dark:bg-gray-800">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
+                            Privacy Exposure
+                          </span>
+                          <span className={`text-xs font-semibold ${exposureLevel.textColor}`}>
+                            {exposureIndex}/100
+                          </span>
+                        </div>
+                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                          <div
+                            className={`h-2 rounded-full ${exposureLevel.barColor}`}
+                            style={{ width: `${exposureIndex}%` }}
+                          />
+                        </div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                          {exposureLevel.level} - {exposureLevel.description}
+                        </p>
+                      </div>
+                    );
+                  }
+                  return null;
+                })()}
 
                 {serviceStatus && (
                   <div className="service-status">
@@ -313,10 +389,39 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
         <div className="service-modal-overlay" onClick={() => setSelectedService(null)}>
           <div className="service-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <div className="modal-title-section">
+              <div className="modal-title-section" style={{ display: 'flex', alignItems: 'center' }}>
+                {hasServiceLogo(selectedService.id) ? (
+                  <img
+                    src={getServiceLogoUrlWithBrandColor(selectedService.id) || undefined}
+                    alt={`${selectedService.name} logo`}
+                    className="modal-logo"
+                    style={{
+                      width: '48px',
+                      height: '48px',
+                      objectFit: 'contain',
+                      borderRadius: '12px',
+                      backgroundColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)',
+                      padding: '8px',
+                      marginRight: '12px'
+                    }}
+                    onError={(e) => {
+                      // Fallback to category icon if logo fails to load
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      const fallback = target.parentElement?.querySelector('.modal-icon-fallback') as HTMLElement;
+                      if (fallback) fallback.style.display = 'block';
+                    }}
+                  />
+                ) : null}
                 {(() => {
                   const CategoryIcon = getCategoryIcon(selectedService.category);
-                  return <CategoryIcon size={32} className="modal-icon" />;
+                  return (
+                    <CategoryIcon 
+                      size={32} 
+                      className="modal-icon modal-icon-fallback"
+                      style={{ display: hasServiceLogo(selectedService.id) ? 'none' : 'block', marginRight: '12px' }}
+                    />
+                  );
                 })()}
                 <div>
                   <h2 className="modal-title">{selectedService.name}</h2>
@@ -349,6 +454,41 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
                     <strong style={{ color: '#1e40af' }}>Recommended Age:</strong>
                     <span style={{ color: '#1e40af' }}>Age {selectedService.minAge} and older</span>
                   </div>
+                  {/* Privacy Exposure Index */}
+                  {(() => {
+                    const exposureIndex = calculatePrivacyExposureIndex(selectedService.id);
+                    const exposureLevel = getExposureLevel(exposureIndex);
+                    if (exposureIndex !== null) {
+                      return (
+                        <div style={{ marginTop: '1rem', padding: '1rem', backgroundColor: '#ffffff', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                            <strong style={{ color: '#1e40af', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                              <AlertTriangle size={16} />
+                              Privacy Exposure Index:
+                            </strong>
+                            <span style={{ fontWeight: 'bold', color: exposureLevel.textColor.replace('text-', '#').replace('-700', '').replace('-300', '') }}>
+                              {exposureIndex}/100
+                            </span>
+                          </div>
+                          <div style={{ width: '100%', backgroundColor: '#e5e7eb', borderRadius: '4px', height: '8px', marginBottom: '0.5rem' }}>
+                            <div
+                              style={{
+                                width: `${exposureIndex}%`,
+                                height: '100%',
+                                backgroundColor: exposureLevel.barColor.replace('bg-', '#').replace('-500', ''),
+                                borderRadius: '4px',
+                                transition: 'width 0.3s ease'
+                              }}
+                            />
+                          </div>
+                          <p style={{ fontSize: '0.875rem', color: '#4b5563', margin: 0 }}>
+                            <strong>{exposureLevel.level}</strong> - {exposureLevel.description}
+                          </p>
+                        </div>
+                      );
+                    }
+                    return null;
+                  })()}
                 </div>
                 {selectedService.privacyConcerns && selectedService.privacyConcerns.length > 0 && (
                   <div style={{ marginTop: '1rem' }}>
@@ -373,6 +513,21 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
                     <span className="info-label">Privacy Safety Level:</span>
                     {getRiskBadge(selectedService.riskLevel)}
                   </div>
+                  {(() => {
+                    const exposureIndex = calculatePrivacyExposureIndex(selectedService.id);
+                    if (exposureIndex !== null) {
+                      const exposureLevel = getExposureLevel(exposureIndex);
+                      return (
+                        <div className="info-item">
+                          <span className="info-label">Privacy Exposure Index:</span>
+                          <span className={`info-value ${exposureLevel.textColor} font-semibold`}>
+                            {exposureIndex}/100 ({exposureLevel.level})
+                          </span>
+                        </div>
+                      );
+                    }
+                    return null;
+                  })()}
                   <div className="info-item">
                     <span className="info-label">Category:</span>
                     <span className="info-value capitalize">{selectedService.category.replace('-', ' ')}</span>

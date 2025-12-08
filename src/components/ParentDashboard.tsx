@@ -241,7 +241,7 @@ const ParentDashboard: React.FC<ParentDashboardProps> = ({ progress, onClose }) 
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .parent-dashboard {
           position: fixed;
           top: 0;

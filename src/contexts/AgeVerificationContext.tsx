@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { coppaComplianceManager } from '../lib/coppaCompliance';
 
 interface AgeVerificationContextType {
   isVerified: boolean;
   isUnder13: boolean | null;
   hasParentalConsent: boolean;
-  verifyAge: (age: number, hasConsent?: boolean) => void;
+  consentToken: string | null;
+  verifyAge: (age: number, parentEmail?: string) => Promise<{ success: boolean; error?: string; consentToken?: string }>;
   resetVerification: () => void;
   showAgeModal: boolean;
   setShowAgeModal: (show: boolean) => void;
@@ -13,6 +15,7 @@ interface AgeVerificationContextType {
   getAgeAppropriateContent: () => string[];
   requiresParentalConsent: () => boolean;
   canAccessContent: (contentPath: string) => boolean;
+  isZeroDataMode: () => boolean;
 }
 
 const AgeVerificationContext = createContext<AgeVerificationContextType | undefined>(undefined);
@@ -25,6 +28,7 @@ export const AgeVerificationProvider: React.FC<AgeVerificationProviderProps> = (
   const [isVerified, setIsVerified] = useState(false);
   const [isUnder13, setIsUnder13] = useState<boolean | null>(null);
   const [hasParentalConsent, setHasParentalConsent] = useState(false);
+  const [consentToken, setConsentToken] = useState<string | null>(null);
   const [showAgeModal, setShowAgeModal] = useState(false);
   const [userAge, setUserAge] = useState<number | null>(null);
   const navigate = useNavigate();
@@ -32,62 +36,141 @@ export const AgeVerificationProvider: React.FC<AgeVerificationProviderProps> = (
 
   // Check for existing verification on mount
   useEffect(() => {
-    const savedVerification = localStorage.getItem('pandagarde-age-verification');
-    if (savedVerification) {
-      try {
-        const { verified, under13, consent, age } = JSON.parse(savedVerification);
-        setIsVerified(verified);
-        setIsUnder13(under13);
-        setHasParentalConsent(consent);
-        setUserAge(age);
-        
-        // Auto-route to appropriate content if not on a specific page
-        if (verified && location.pathname === '/') {
-          autoRouteToAppropriateContent(age);
+    const checkVerification = async () => {
+      const savedVerification = sessionStorage.getItem('pandagarde-age-verification');
+      const storedConsentToken = sessionStorage.getItem('coppa_consent_token');
+      
+      if (savedVerification) {
+        try {
+          const { verified, under13, age } = JSON.parse(savedVerification);
+          setIsVerified(verified);
+          setIsUnder13(under13);
+          setUserAge(age);
+          
+          // Check if consent is valid
+          if (under13 && storedConsentToken) {
+            const hasValidConsent = await coppaComplianceManager.hasValidConsent(storedConsentToken);
+            setHasParentalConsent(hasValidConsent);
+            setConsentToken(storedConsentToken);
+            
+            if (!hasValidConsent) {
+              // Enable zero-data mode if consent not verified
+              coppaComplianceManager.enableZeroDataMode();
+            } else {
+              coppaComplianceManager.disableZeroDataMode();
+            }
+          } else if (under13 && !storedConsentToken) {
+            // Under 13 without consent - enable zero-data mode
+            coppaComplianceManager.enableZeroDataMode();
+            setHasParentalConsent(false);
+          } else {
+            // Over 13 - no consent needed
+            setHasParentalConsent(true);
+            coppaComplianceManager.disableZeroDataMode();
+          }
+          
+          // Auto-route to appropriate content if not on a specific page
+          if (verified && location.pathname === '/') {
+            autoRouteToAppropriateContent(age);
+          }
+        } catch (error) {
+          console.error('Error parsing age verification data:', error);
+          // Clear invalid data
+          sessionStorage.removeItem('pandagarde-age-verification');
+          setShowAgeModal(true);
         }
-      } catch (error) {
-        console.error('Error parsing age verification data:', error);
-        // Clear invalid data
-        localStorage.removeItem('pandagarde-age-verification');
+      } else {
+        // Show age modal if no verification exists
         setShowAgeModal(true);
       }
-    } else {
-      // Show age modal if no verification exists
-      setShowAgeModal(true);
-    }
+    };
+    
+    checkVerification();
   }, [location.pathname]);
 
-  const verifyAge = (age: number, hasConsent: boolean = false) => {
+  const verifyAge = async (age: number, parentEmail?: string): Promise<{ success: boolean; error?: string; consentToken?: string }> => {
     const under13 = age < 13;
-    const consent = under13 ? hasConsent : true; // Over 13 doesn't need parental consent
     
-    setIsVerified(true);
-    setIsUnder13(under13);
-    setHasParentalConsent(consent);
-    setUserAge(age);
-    setShowAgeModal(false);
-
-    // Save to localStorage
-    const verificationData = {
-      verified: true,
-      under13,
-      consent,
-      age,
-      timestamp: Date.now()
-    };
-    localStorage.setItem('pandagarde-age-verification', JSON.stringify(verificationData));
-    
-    // Auto-route to appropriate content
-    autoRouteToAppropriateContent(age);
+    if (under13) {
+      // Under 13 requires parental consent
+      if (!parentEmail) {
+        return { success: false, error: 'Parent email is required for users under 13' };
+      }
+      
+      // Request parental consent
+      const result = await coppaComplianceManager.requestParentalConsent(age, parentEmail);
+      
+      if (!result.success) {
+        return { success: false, error: result.error || 'Failed to request parental consent' };
+      }
+      
+      // Store consent token
+      sessionStorage.setItem('coppa_consent_token', result.consentToken);
+      setConsentToken(result.consentToken);
+      
+      // Enable zero-data mode until consent is verified
+      coppaComplianceManager.enableZeroDataMode();
+      setHasParentalConsent(false);
+      
+      // Save verification (without consent yet)
+      const verificationData = {
+        verified: true,
+        under13: true,
+        age,
+        timestamp: Date.now()
+      };
+      sessionStorage.setItem('pandagarde-age-verification', JSON.stringify(verificationData));
+      
+      setIsVerified(true);
+      setIsUnder13(true);
+      setUserAge(age);
+      setShowAgeModal(false);
+      
+      // Navigate to pending consent page
+      navigate('/parental-consent/pending');
+      
+      return { success: true, consentToken: result.consentToken };
+    } else {
+      // Over 13 - no consent needed
+      setIsVerified(true);
+      setIsUnder13(false);
+      setHasParentalConsent(true);
+      setUserAge(age);
+      setShowAgeModal(false);
+      
+      // Disable zero-data mode
+      coppaComplianceManager.disableZeroDataMode();
+      
+      // Save to sessionStorage (not localStorage for privacy)
+      const verificationData = {
+        verified: true,
+        under13: false,
+        age,
+        timestamp: Date.now()
+      };
+      sessionStorage.setItem('pandagarde-age-verification', JSON.stringify(verificationData));
+      
+      // Auto-route to appropriate content
+      autoRouteToAppropriateContent(age);
+      
+      return { success: true };
+    }
   };
 
   const resetVerification = () => {
     setIsVerified(false);
     setIsUnder13(null);
     setHasParentalConsent(false);
+    setConsentToken(null);
     setUserAge(null);
     setShowAgeModal(true);
-    localStorage.removeItem('pandagarde-age-verification');
+    sessionStorage.removeItem('pandagarde-age-verification');
+    sessionStorage.removeItem('coppa_consent_token');
+    coppaComplianceManager.disableZeroDataMode();
+  };
+  
+  const isZeroDataMode = (): boolean => {
+    return coppaComplianceManager.isZeroDataMode();
   };
 
   // Auto-route to age-appropriate content
@@ -174,6 +257,7 @@ export const AgeVerificationProvider: React.FC<AgeVerificationProviderProps> = (
         isVerified,
         isUnder13,
         hasParentalConsent,
+        consentToken,
         verifyAge,
         resetVerification,
         showAgeModal,
@@ -181,7 +265,8 @@ export const AgeVerificationProvider: React.FC<AgeVerificationProviderProps> = (
         getAgeGroup,
         getAgeAppropriateContent,
         requiresParentalConsent,
-        canAccessContent
+        canAccessContent,
+        isZeroDataMode
       }}
     >
       {children}

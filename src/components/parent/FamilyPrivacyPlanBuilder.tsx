@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Save, Download, CheckCircle, Plus, X, Calendar, Users, Shield, Settings, AlertCircle } from 'lucide-react';
-import { useFamily } from '../contexts/FamilyContext';
+import { useFamily } from '../../contexts/FamilyContext';
 
 export interface FamilyPrivacyPlan {
   id?: string;
