@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Users, BookOpen, Book, Settings, Award, TrendingUp, Clock, CheckCircle, ArrowLeft, User, Shield as Child, UserCheck, Star, Play, Download, Plus, UserPlus, LogOut, Shield, Eye, MessageCircle, Zap } from 'lucide-react';
+import { Users, BookOpen, Book, Settings, Award, TrendingUp, Clock, CheckCircle, ArrowLeft, User, Shield as Child, UserCheck, Star, Play, Download, Plus, UserPlus, LogOut } from 'lucide-react';
 import Logo from '../components/Logo';
 import { useAuth } from './family-hub/AuthWrapper';
 import { useFamily } from '../contexts/FamilyContext';
 import { useProgress } from '../contexts/ProgressContext';
-import ParentDashboard from '../components/ParentDashboard';
 
 
 interface Activity {
@@ -30,7 +29,6 @@ const FamilyHubPage: React.FC = () => {
   const [newMemberFirstName, setNewMemberFirstName] = useState('');
   const [newMemberLastName, setNewMemberLastName] = useState('');
   const [newMemberRole, setNewMemberRole] = useState<'parent' | 'child'>('child');
-  const [showParentDashboard, setShowParentDashboard] = useState(false);
 
   const { isAuthenticated } = useAuth();
   const { 
@@ -40,10 +38,9 @@ const FamilyHubPage: React.FC = () => {
     createFamily, 
     joinFamily, 
     leaveFamily, 
-    addFamilyMember,
-    isParent
+    addFamilyMember 
   } = useFamily();
-  const { getOverallProgress, progress } = useProgress();
+  const { getOverallProgress } = useProgress();
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -211,24 +208,8 @@ const FamilyHubPage: React.FC = () => {
             </h1>
             
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              {isParent 
-                ? "See what your children do online, know their privacy risks, and get conversation starters to help them stay safe."
-                : "Your central dashboard for family privacy education, progress tracking, and personalized learning paths."
-              }
+              Your central dashboard for family privacy education, progress tracking, and personalized learning paths.
             </p>
-            
-            {isParent && currentFamily && (
-              <div className="flex justify-center mb-4">
-                <button
-                  onClick={() => setShowParentDashboard(true)}
-                  className="bg-white text-green-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors inline-flex items-center gap-2 shadow-lg"
-                >
-                  <Shield size={24} />
-                  View Privacy Dashboard
-                  <Eye size={20} />
-                </button>
-              </div>
-            )}
             
             <div className="flex items-center justify-center gap-6 text-sm">
               <div className="flex items-center gap-2">
@@ -386,53 +367,10 @@ const FamilyHubPage: React.FC = () => {
               )}
             </section>
 
-            {/* Parent Quick Actions */}
-            {isParent && currentFamily && (
-              <section className="mb-12">
-                <h2 className="text-3xl font-bold mb-8" style={{ color: 'var(--primary)' }}>
-                  Quick Actions for Parents
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <button
-                    onClick={() => setShowParentDashboard(true)}
-                    className="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-left"
-                  >
-                    <Shield size={32} className="mb-3" />
-                    <h3 className="font-bold text-lg mb-2">View Privacy Dashboard</h3>
-                    <p className="text-sm opacity-90">See your family's privacy risks and take action</p>
-                  </button>
-                  <button
-                    onClick={() => setActiveTab('family')}
-                    className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-left"
-                  >
-                    <Users size={32} className="mb-3" />
-                    <h3 className="font-bold text-lg mb-2">Manage Children</h3>
-                    <p className="text-sm opacity-90">Add or update your children's information</p>
-                  </button>
-                  <button
-                    onClick={() => setActiveTab('activities')}
-                    className="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-left"
-                  >
-                    <MessageCircle size={32} className="mb-3" />
-                    <h3 className="font-bold text-lg mb-2">Get Conversation Starters</h3>
-                    <p className="text-sm opacity-90">Ready-to-use questions to talk with your children</p>
-                  </button>
-                  <Link
-                    to="/parent-resources"
-                    className="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-left block"
-                  >
-                    <BookOpen size={32} className="mb-3" />
-                    <h3 className="font-bold text-lg mb-2">View Parent Guides</h3>
-                    <p className="text-sm opacity-90">Access guides and resources for parents</p>
-                  </Link>
-                </div>
-              </section>
-            )}
-
             {/* Quick Actions */}
             <section>
               <h2 className="text-3xl font-bold mb-8" style={{ color: 'var(--primary)' }}>
-                {isParent ? 'Learning Activities' : 'Quick Actions'}
+                Quick Actions
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -1007,20 +945,6 @@ const FamilyHubPage: React.FC = () => {
             </div>
           </div>
         </div>
-      )}
-
-      {/* Parent Dashboard Modal */}
-      {showParentDashboard && isParent && (
-        <ParentDashboard
-          progress={{
-            completedActivities: progress.completedActivities,
-            activityDetails: progress.activityDetails,
-            totalTimeSpent: progress.totalTimeSpent,
-            achievements: progress.achievements,
-            lastUpdated: progress.lastUpdated
-          }}
-          onClose={() => setShowParentDashboard(false)}
-        />
       )}
     </div>
   );

@@ -213,8 +213,6 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
           <canvas
             ref={canvasRef}
             className="connect-dots-canvas"
-            role="img"
-            aria-label="Privacy shield connect the dots activity. Click on numbered dots in order to connect them and reveal the privacy shield shape."
             onClick={(e) => {
               if (isCompleted) {return;}
 

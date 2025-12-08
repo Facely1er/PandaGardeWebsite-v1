@@ -91,35 +91,31 @@ const QuickStartPage: React.FC = () => {
   const parentQuickSteps = [
     {
       step: 1,
-      title: 'See Your Family\'s Privacy Status',
-      description: 'Create your Family Hub account and see what your children do online',
-      icon: Shield,
-      link: 'https://www.hub.pandagarde.com',
-      isExternal: true
+      title: 'Set Up Family Account',
+      description: 'Create your family profile and add your children',
+      icon: Users,
+      link: '/family-hub'
     },
     {
       step: 2,
-      title: 'Review Your Children\'s Online Services',
-      description: 'See which apps and websites your children use and their privacy risks',
-      icon: Users,
-      link: 'https://www.hub.pandagarde.com',
-      isExternal: true
+      title: 'Choose Age-Appropriate Content',
+      description: 'Select the right learning path for each child',
+      icon: BookOpen,
+      link: '/age-groups'
     },
     {
       step: 3,
-      title: 'Get Conversation Starters',
-      description: 'Get ready-to-use questions and topics to talk with your children about online safety',
-      icon: BookOpen,
-      link: '/parent-resources',
-      isExternal: false
+      title: 'Download Resources',
+      description: 'Get printable guides, checklists, and activity sheets',
+      icon: Download,
+      link: '/resources'
     },
     {
       step: 4,
-      title: 'Set Up Privacy Education',
-      description: 'Start privacy education activities with your children',
+      title: 'Start Learning Together',
+      description: 'Begin with the interactive story and activities',
       icon: Play,
-      link: '/privacy-panda',
-      isExternal: false
+      link: '/privacy-panda'
     }
   ];
 
@@ -137,135 +133,11 @@ const QuickStartPage: React.FC = () => {
       <section className="hero-simple">
         <div className="container">
           <div className="text-center fade-in">
-            <span className="badge">FOR PARENTS</span>
-            <h1>Get Started: Protect Your Family Online</h1>
+            <span className="badge">GET STARTED TODAY</span>
+            <h1>Quick Start Guide</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Follow these simple steps to start protecting your family's online privacy. Everything is designed to be easy, even if you're not tech-savvy.
+              Get your family started with digital privacy education in just a few minutes. Choose your path and begin learning immediately.
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Parent Journey Steps */}
-      <section className="parent-journey" style={{ padding: '4rem 0', backgroundColor: '#f8f9fa' }}>
-        <div className="container">
-          <div className="section-header fade-in" style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: '#2C3E50' }}>Your Parent Journey</h2>
-            <p style={{ fontSize: '1.25rem', color: '#666', maxWidth: '700px', margin: '0 auto' }}>
-              Follow these four simple steps to start protecting your family
-            </p>
-          </div>
-
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-            gap: '2rem',
-            marginBottom: '3rem'
-          }}>
-            {parentQuickSteps.map((step, index) => (
-              <div key={index} className="fade-in" style={{ 
-                backgroundColor: 'white', 
-                padding: '2rem', 
-                borderRadius: '12px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                position: 'relative'
-              }}>
-                <div style={{ 
-                  position: 'absolute',
-                  top: '-20px',
-                  left: '2rem',
-                  width: '40px',
-                  height: '40px',
-                  backgroundColor: '#4CAF50',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'white',
-                  fontWeight: 'bold',
-                  fontSize: '1.25rem'
-                }}>
-                  {step.step}
-                </div>
-                <div style={{ marginTop: '1rem' }}>
-                  <div style={{ 
-                    width: '48px', 
-                    height: '48px', 
-                    backgroundColor: '#f0f9ff', 
-                    borderRadius: '8px', 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center',
-                    marginBottom: '1rem'
-                  }}>
-                    <step.icon size={24} style={{ color: '#2563eb' }} />
-                  </div>
-                  <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#2C3E50' }}>
-                    {step.title}
-                  </h3>
-                  <p style={{ color: '#666', lineHeight: '1.8', marginBottom: '1.5rem' }}>
-                    {step.description}
-                  </p>
-                  {step.isExternal ? (
-                    <a 
-                      href={step.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        color: '#4CAF50',
-                        textDecoration: 'none',
-                        fontWeight: 'bold'
-                      }}
-                    >
-                      Go to Step {step.step}
-                      <ArrowRight size={16} />
-                    </a>
-                  ) : (
-                    <Link 
-                      to={step.link}
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        color: '#4CAF50',
-                        textDecoration: 'none',
-                        fontWeight: 'bold'
-                      }}
-                    >
-                      Go to Step {step.step}
-                      <ArrowRight size={16} />
-                    </Link>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ textAlign: 'center' }}>
-            <a 
-              href="https://www.hub.pandagarde.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '1rem 2rem',
-                backgroundColor: '#4CAF50',
-                color: 'white',
-                borderRadius: '8px',
-                textDecoration: 'none',
-                fontWeight: 'bold',
-                fontSize: '1.1rem'
-              }}
-            >
-              <Shield size={20} />
-              Skip to Family Hub
-              <ArrowRight size={16} />
-            </a>
           </div>
         </div>
       </section>
@@ -344,6 +216,36 @@ const QuickStartPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Parent Quick Steps */}
+      <section className="parent-steps">
+        <div className="container">
+          <div className="section-header fade-in">
+            <h2>Parent Quick Setup</h2>
+            <p>Follow these simple steps to get your family set up for success.</p>
+          </div>
+
+          <div className="parent-steps-grid">
+            {parentQuickSteps.map((step, index) => (
+              <div key={index} className="parent-step-card fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                <div className="step-number">
+                  <span>{step.step}</span>
+                </div>
+                <div className="step-content">
+                  <div className="step-icon">
+                    <step.icon size={24} />
+                  </div>
+                  <h3>{step.title}</h3>
+                  <p>{step.description}</p>
+                  <Link to={step.link} className="step-link">
+                    Go to Step {step.step}
+                    <ArrowRight size={16} />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Success Tips */}
       <section className="success-tips">
@@ -393,17 +295,17 @@ const QuickStartPage: React.FC = () => {
       <section className="cta-section">
         <div className="container">
           <div className="fade-in text-center">
-            <h2>Ready to Start Protecting Your Family?</h2>
-            <p>Begin your journey to keep your family safe online with simple, easy-to-use tools.</p>
+            <h2>Ready to Begin?</h2>
+            <p>Choose your starting point and begin your family's digital privacy education journey today.</p>
             <div className="cta-buttons">
-              <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer" className="button primary">
-                <Shield size={20} />
-                Start Protecting Your Family
-              </a>
-              <Link to="/overview" className="button secondary">
-                <BookOpen size={20} />
-                See How It Works
+              <Link to="/privacy-panda" className="button primary">
+                <Play size={20} />
+                Start with Privacy Panda
               </Link>
+              <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer" className="button secondary">
+                <Users size={20} />
+                Join Family Hub
+              </a>
             </div>
           </div>
         </div>

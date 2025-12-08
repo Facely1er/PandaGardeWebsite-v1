@@ -17,7 +17,6 @@ import AboutPage from './pages/AboutPage';
 import AgeGroupsPage from './pages/AgeGroupsPage';
 import ImplementationPage from './pages/ImplementationPage';
 import ParentResourcesPage from './pages/ParentResourcesPage';
-import ParentLandingPage from './pages/ParentLandingPage';
 import FamilyHubWrapper from './pages/family-hub/FamilyHubWrapper';
 import ContactPage from './pages/ContactPage';
 import GetStartedPage from './pages/GetStartedPage';
@@ -44,10 +43,6 @@ import PrivacyConcernsGuidePage from './pages/PrivacyConcernsGuidePage';
 import FamilyPrivacyGuidePage from './pages/guides/FamilyPrivacyGuidePage';
 import EmergencySafetyGuidePage from './pages/guides/EmergencySafetyGuidePage';
 import AgeSpecificGuidePage from './pages/guides/AgeSpecificGuidePage';
-import FamilyPrivacyPlanPage from './pages/FamilyPrivacyPlanPage';
-import ConversationApproachesPage from './pages/guides/ConversationApproachesPage';
-import SafetyNetPage from './pages/guides/SafetyNetPage';
-import AgeSpecificPrivacyPage from './pages/guides/AgeSpecificPrivacyPage';
 import EducatorToolsPage from './pages/EducatorToolsPage';
 import NewsletterPage from './pages/NewsletterPage';
 import SupportPage from './pages/SupportPage';
@@ -114,7 +109,6 @@ function App() {
                         <AgeVerificationModal />
                         <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/for-parents" element={<ParentLandingPage />} />
             <Route path="/story" element={<InteractiveStoryPage />} />
             <Route path="/privacy-panda" element={<InteractiveStoryPage />} />
             <Route path="/story-classic" element={<StoryPage />} />
@@ -169,12 +163,8 @@ function App() {
             <Route path="/guides/modeling-behavior" element={<ModelingBehaviorGuidePage />} />
             <Route path="/guides/privacy-concerns" element={<PrivacyConcernsGuidePage />} />
             <Route path="/guides/family-privacy" element={<FamilyPrivacyGuidePage />} />
-              <Route path="/guides/emergency-safety" element={<EmergencySafetyGuidePage />} />
-              <Route path="/guides/age-specific" element={<AgeSpecificGuidePage />} />
-              <Route path="/guides/conversation-approaches" element={<ConversationApproachesPage />} />
-              <Route path="/guides/safety-net" element={<SafetyNetPage />} />
-              <Route path="/guides/age-specific-privacy" element={<AgeSpecificPrivacyPage />} />
-              <Route path="/family-privacy-plan" element={<FamilyPrivacyPlanPage />} />
+            <Route path="/guides/emergency-safety" element={<EmergencySafetyGuidePage />} />
+            <Route path="/guides/age-specific" element={<AgeSpecificGuidePage />} />
 
             {/* Activity Pages */}
             <Route path="/activities/privacy-learning-kit" element={<PlaceholderPage title="Privacy Learning Kit" description="Interactive activities and games to reinforce privacy concepts" />} />

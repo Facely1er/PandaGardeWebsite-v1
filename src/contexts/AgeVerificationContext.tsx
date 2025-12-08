@@ -1,12 +1,11 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { encryptData, decryptData, generateUserPassword, isEncryptionAvailable } from '../lib/encryption';
 
 interface AgeVerificationContextType {
   isVerified: boolean;
   isUnder13: boolean | null;
   hasParentalConsent: boolean;
-  verifyAge: (age: number, hasConsent?: boolean) => Promise<void>;
+  verifyAge: (age: number, hasConsent?: boolean) => void;
   resetVerification: () => void;
   showAgeModal: boolean;
   setShowAgeModal: (show: boolean) => void;
@@ -33,65 +32,32 @@ export const AgeVerificationProvider: React.FC<AgeVerificationProviderProps> = (
 
   // Check for existing verification on mount
   useEffect(() => {
-    const loadVerification = async () => {
-      const savedVerification = localStorage.getItem('pandagarde-age-verification');
-      const isEncrypted = localStorage.getItem('pandagarde-age-verification-encrypted') === 'true';
-      
-      if (savedVerification) {
-        try {
-          let verificationData;
-          
-          if (isEncrypted && isEncryptionAvailable()) {
-            // Generate a device-specific key for age verification
-            const deviceId = getDeviceId();
-            const password = generateUserPassword(deviceId);
-            verificationData = await decryptData<{
-              verified: boolean;
-              under13: boolean;
-              consent: boolean;
-              age: number;
-            }>(savedVerification, password);
-          } else {
-            verificationData = JSON.parse(savedVerification);
-          }
-          
-          const { verified, under13, consent, age } = verificationData;
-          setIsVerified(verified);
-          setIsUnder13(under13);
-          setHasParentalConsent(consent);
-          setUserAge(age);
-          
-          // Auto-route to appropriate content if not on a specific page
-          if (verified && location.pathname === '/') {
-            autoRouteToAppropriateContent(age);
-          }
-        } catch (error) {
-          console.error('Error parsing age verification data:', error);
-          // Clear invalid data
-          localStorage.removeItem('pandagarde-age-verification');
-          localStorage.removeItem('pandagarde-age-verification-encrypted');
-          setShowAgeModal(true);
+    const savedVerification = localStorage.getItem('pandagarde-age-verification');
+    if (savedVerification) {
+      try {
+        const { verified, under13, consent, age } = JSON.parse(savedVerification);
+        setIsVerified(verified);
+        setIsUnder13(under13);
+        setHasParentalConsent(consent);
+        setUserAge(age);
+        
+        // Auto-route to appropriate content if not on a specific page
+        if (verified && location.pathname === '/') {
+          autoRouteToAppropriateContent(age);
         }
-      } else {
-        // Show age modal if no verification exists
+      } catch (error) {
+        console.error('Error parsing age verification data:', error);
+        // Clear invalid data
+        localStorage.removeItem('pandagarde-age-verification');
         setShowAgeModal(true);
       }
-    };
-    
-    loadVerification();
-  }, [location.pathname]);
-  
-  // Generate a device-specific ID for encryption key
-  const getDeviceId = (): string => {
-    let deviceId = localStorage.getItem('pandagarde-device-id');
-    if (!deviceId) {
-      deviceId = `device_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      localStorage.setItem('pandagarde-device-id', deviceId);
+    } else {
+      // Show age modal if no verification exists
+      setShowAgeModal(true);
     }
-    return deviceId;
-  };
+  }, [location.pathname]);
 
-  const verifyAge = async (age: number, hasConsent: boolean = false) => {
+  const verifyAge = (age: number, hasConsent: boolean = false) => {
     const under13 = age < 13;
     const consent = under13 ? hasConsent : true; // Over 13 doesn't need parental consent
     
@@ -101,7 +67,7 @@ export const AgeVerificationProvider: React.FC<AgeVerificationProviderProps> = (
     setUserAge(age);
     setShowAgeModal(false);
 
-    // Save to localStorage with encryption
+    // Save to localStorage
     const verificationData = {
       verified: true,
       under13,
@@ -109,23 +75,7 @@ export const AgeVerificationProvider: React.FC<AgeVerificationProviderProps> = (
       age,
       timestamp: Date.now()
     };
-    
-    try {
-      if (isEncryptionAvailable()) {
-        const deviceId = getDeviceId();
-        const password = generateUserPassword(deviceId);
-        const encrypted = await encryptData(verificationData, password);
-        localStorage.setItem('pandagarde-age-verification', encrypted);
-        localStorage.setItem('pandagarde-age-verification-encrypted', 'true');
-      } else {
-        localStorage.setItem('pandagarde-age-verification', JSON.stringify(verificationData));
-        localStorage.removeItem('pandagarde-age-verification-encrypted');
-      }
-    } catch (error) {
-      console.error('Error saving age verification:', error);
-      // Fallback to unencrypted storage if encryption fails
-      localStorage.setItem('pandagarde-age-verification', JSON.stringify(verificationData));
-    }
+    localStorage.setItem('pandagarde-age-verification', JSON.stringify(verificationData));
     
     // Auto-route to appropriate content
     autoRouteToAppropriateContent(age);
@@ -138,7 +88,6 @@ export const AgeVerificationProvider: React.FC<AgeVerificationProviderProps> = (
     setUserAge(null);
     setShowAgeModal(true);
     localStorage.removeItem('pandagarde-age-verification');
-    localStorage.removeItem('pandagarde-age-verification-encrypted');
   };
 
   // Auto-route to age-appropriate content

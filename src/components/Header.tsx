@@ -5,14 +5,6 @@ import { useTheme } from '../contexts/ThemeContext';
 import SearchModal from './SearchModal';
 import OfflineIndicator from './OfflineIndicator';
 
-interface NavItem {
-  icon: React.ComponentType<{ size?: number; className?: string }>;
-  label: string;
-  href: string;
-  isExternal: boolean;
-  tooltip?: string;
-}
-
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -55,21 +47,21 @@ const Header: React.FC = () => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isMobileMenuOpen, isSearchModalOpen]);
 
-  const navItems: NavItem[] = [
-    { icon: Home, label: 'Home', href: '/', isExternal: false, tooltip: 'Go to homepage' },
-    { icon: BookOpen, label: 'How It Works', href: '/overview', isExternal: false, tooltip: 'Learn how PandaGarde helps protect your family' },
-    { icon: Users, label: 'Get Started', href: '/quick-start', isExternal: false, tooltip: 'Step-by-step guide to get started' },
-    { icon: ChalkboardTeacher, label: 'Parent Guides', href: '/parent-resources', isExternal: false, tooltip: 'Resources and guides for parents' },
-    { icon: Info, label: 'About', href: '/about', isExternal: false, tooltip: 'Learn more about PandaGarde' },
+  const navItems = [
+    { icon: Home, label: 'Home', href: '/', isExternal: false },
+    { icon: BookOpen, label: 'Overview', href: '/overview', isExternal: false },
+    { icon: Users, label: 'Quick Start', href: '/quick-start', isExternal: false },
+    { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
+    { icon: Info, label: 'About', href: '/about', isExternal: false },
   ];
 
-  const mobileNavItems: NavItem[] = [
-    { icon: Home, label: 'Home', href: '/', isExternal: false, tooltip: 'Go to homepage' },
-    { icon: BookOpen, label: 'How It Works', href: '/overview', isExternal: false, tooltip: 'Learn how PandaGarde helps protect your family' },
-    { icon: Users, label: 'Get Started', href: '/quick-start', isExternal: false, tooltip: 'Step-by-step guide to get started' },
-    { icon: ChalkboardTeacher, label: 'Parent Guides', href: '/parent-resources', isExternal: false, tooltip: 'Resources and guides for parents' },
-    { icon: Info, label: 'About', href: '/about', isExternal: false, tooltip: 'Learn more about PandaGarde' },
-    { icon: Users, label: 'Family Hub', href: 'https://www.hub.pandagarde.com', isExternal: true, tooltip: 'Your family\'s privacy control center' },
+  const mobileNavItems = [
+    { icon: Home, label: 'Home', href: '/', isExternal: false },
+    { icon: BookOpen, label: 'Overview', href: '/overview', isExternal: false },
+    { icon: Users, label: 'Quick Start', href: '/quick-start', isExternal: false },
+    { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
+    { icon: Info, label: 'About', href: '/about', isExternal: false },
+    { icon: Users, label: 'Family Hub', href: 'https://www.hub.pandagarde.com', isExternal: true },
   ];
 
 
@@ -208,7 +200,6 @@ const Header: React.FC = () => {
                     }}
                     role="menuitem"
                     aria-label={`Navigate to ${item.label} section`}
-                    title={item.tooltip || item.label}
                   >
                     <item.icon size={16} aria-hidden="true" />
                     {item.label}
@@ -219,7 +210,6 @@ const Header: React.FC = () => {
                     className={`nav-link ${isActive(item.href) ? 'active' : ''}`}
                     role="menuitem"
                     aria-label={`Navigate to ${item.label} page`}
-                    title={item.tooltip || item.label}
                   >
                     <item.icon size={16} aria-hidden="true" />
                     {item.label}
@@ -249,7 +239,6 @@ const Header: React.FC = () => {
                     }}
                     role="menuitem"
                     aria-label={`Navigate to ${item.label} section`}
-                    title={item.tooltip || item.label}
                   >
                     <item.icon size={16} aria-hidden="true" />
                     {item.label}
@@ -263,7 +252,6 @@ const Header: React.FC = () => {
                     onClick={() => setIsMobileMenuOpen(false)}
                     role="menuitem"
                     aria-label={`${item.label} (opens in new tab)`}
-                    title={item.tooltip || item.label}
                   >
                     <item.icon size={16} aria-hidden="true" />
                     {item.label}
@@ -275,7 +263,6 @@ const Header: React.FC = () => {
                     onClick={() => setIsMobileMenuOpen(false)}
                     role="menuitem"
                     aria-label={`Navigate to ${item.label} page`}
-                    title={item.tooltip || item.label}
                   >
                     <item.icon size={16} aria-hidden="true" />
                     {item.label}
@@ -330,8 +317,8 @@ const Header: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="family-hub-button"
-              aria-label="Visit Family Hub - Your family's privacy control center (opens in new tab)"
-              title="See what your children do online, know their privacy risks, and get conversation starters"
+              aria-label="Visit Family Hub (opens in new tab)"
+              title="Connect with other families and access exclusive resources"
             >
               <Users size={16} aria-hidden="true" />
               Family Hub

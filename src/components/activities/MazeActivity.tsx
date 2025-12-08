@@ -242,12 +242,7 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
         </div>
 
         <div className="maze-container">
-          <canvas 
-            ref={canvasRef} 
-            className="maze-canvas"
-            role="img"
-            aria-label="Safe online journey maze. Use arrow keys to navigate from start to finish while avoiding unsafe areas."
-          />
+          <canvas ref={canvasRef} className="maze-canvas" />
 
           {isCompleted && (
             <div className="completion-overlay">

@@ -1,18 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 // Frontend-only mode - no authentication or database dependencies
 import { localStorageManager, UserProgress } from '../utils/localStorageManager';
-import { getServiceById, getRiskScore } from '../data/childServiceCatalog';
-
-export interface ServiceUsage {
-  serviceId: string;
-  firstUsed: string;
-  lastUsed: string;
-  status: 'approved' | 'pending' | 'denied' | 'requested';
-  requestedBy?: string; // user_id who requested
-  approvedBy?: string; // user_id who approved
-  approvedAt?: string;
-  notes?: string; // Parent notes about the service
-}
 
 interface FamilyMember {
   id: string;
@@ -33,9 +21,6 @@ interface FamilyMember {
   // Local storage specific fields
   progress?: UserProgress;
   privacyScore?: number;
-  // Service tracking (inspired by SocialCaution)
-  services?: ServiceUsage[]; // Services this member uses
-  serviceRiskScore?: number; // Aggregate risk score from services
 }
 
 interface Family {
@@ -62,36 +47,10 @@ interface FamilyContextType {
   isChild: boolean;
   // New methods for localStorage and privacy
   calculateFamilyPrivacyScore: () => number;
-  exportFamilyData: () => Promise<string>;
-  importFamilyData: (jsonData: string) => Promise<boolean>;
+  exportFamilyData: () => string;
+  importFamilyData: (jsonData: string) => boolean;
   getFamilyStorageUsage: () => number;
   clearFamilyData: () => void;
-  // Service management methods (inspired by SocialCaution)
-  requestService: (memberId: string, serviceId: string) => Promise<{ success: boolean; error: string | null }>;
-  approveService: (memberId: string, serviceId: string, notes?: string) => Promise<{ success: boolean; error: string | null }>;
-  denyService: (memberId: string, serviceId: string, reason?: string) => Promise<{ success: boolean; error: string | null }>;
-  removeService: (memberId: string, serviceId: string) => Promise<{ success: boolean; error: string | null }>;
-  getPendingServiceRequests: () => ServiceUsage[];
-  calculateServiceRiskScore: (memberId: string) => number;
-  // New parent-focused methods
-  getFamilyRiskScore: () => number;
-  getActionableItems: () => Array<{
-    id: string;
-    type: 'approval' | 'high-risk' | 'conversation' | 'education';
-    priority: 'high' | 'medium' | 'low';
-    title: string;
-    description: string;
-    memberId?: string;
-    serviceId?: string;
-  }>;
-  getConversationStarters: () => Array<{
-    childName: string;
-    service: any;
-    topic: string;
-    script: string;
-  }>;
-  recordRiskTrend: (memberId: string, score: number) => void;
-  getRiskTrends: (memberId: string, days: number) => Array<{ date: string; score: number }>;
 }
 
 const FamilyContext = createContext<FamilyContextType | undefined>(undefined);
@@ -110,6 +69,9 @@ interface FamilyProviderProps {
 
 export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
   // Frontend-only mode - no authentication
+  const user = null;
+  const profile = null;
+  const isAuthenticated = false;
   const [currentFamily, setCurrentFamily] = useState<Family | null>(null);
   const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
   const [loading, setLoading] = useState(false);
@@ -124,32 +86,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     return userId;
   };
 
-  // Calculate service risk score for a member (inspired by SocialCaution's Privacy Exposure Index)
-  const calculateServiceRiskScore = (memberId: string): number => {
-    const member = familyMembers.find(m => m.id === memberId);
-    if (!member || !member.services || member.services.length === 0) {
-      return 0; // No services = no risk
-    }
-
-    // Only count approved services
-    const approvedServices = member.services.filter(s => s.status === 'approved');
-    if (approvedServices.length === 0) {
-      return 0;
-    }
-
-    // Calculate average risk score from services
-    let totalRisk = 0;
-    approvedServices.forEach(serviceUsage => {
-      const service = getServiceById(serviceUsage.serviceId);
-      if (service) {
-        totalRisk += getRiskScore(service.riskLevel);
-      }
-    });
-
-    return Math.round(totalRisk / approvedServices.length);
-  };
-
-  // Calculate privacy score for a family member (enhanced with service risk)
+  // Calculate privacy score for a family member
   const calculateMemberPrivacyScore = (member: FamilyMember, progress?: UserProgress): number => {
     let score = 100; // Start with perfect score
 
@@ -187,45 +124,25 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
       }
     }
 
-    // Deduct points for high-risk services (inspired by SocialCaution)
-    if (member.services && member.services.length > 0) {
-      const serviceRisk = calculateServiceRiskScore(member.id);
-      // Convert service risk (0-100) to deduction (0-30 points)
-      // Higher risk = more deduction from privacy score
-      const riskDeduction = Math.round(serviceRisk * 0.3);
-      score -= riskDeduction;
-    }
-
     return Math.max(0, Math.min(100, score));
   };
 
   const loadFamilyMembers = useCallback(async (familyId: string) => {
     console.log('Frontend-only mode: loadFamilyMembers() - using localStorage', familyId);
     try {
-      const currentUserId = getCurrentUserId();
-      const familyData = await localStorageManager.getFamilyData(currentUserId);
+      const familyData = localStorageManager.getFamilyData();
       if (familyData && familyData.id === familyId) {
         const members = familyData.members || [];
         
-        // Load progress data for each member (use getAllUsersWithKey for encrypted data)
-        const allProgress = await localStorageManager.getAllUsersWithKey(currentUserId);
-        const membersWithProgress = await Promise.all(members.map(async (member: FamilyMember) => {
-          const progress = allProgress[member.user_id] || await localStorageManager.getUserProgress(member.user_id);
-          const memberWithProgress: FamilyMember = {
+        // Load progress data for each member
+        const membersWithProgress = members.map((member: FamilyMember) => {
+          const progress = localStorageManager.getUserProgress(member.user_id);
+          return {
             ...member,
-            services: member.services || [],
-            serviceRiskScore: 0
+            progress: progress || undefined,
+            privacyScore: calculateMemberPrivacyScore(member, progress || undefined)
           };
-          // Add progress if it exists
-          if (progress) {
-            memberWithProgress.progress = progress;
-          }
-          // Calculate service risk score
-          memberWithProgress.serviceRiskScore = calculateServiceRiskScore(member.id);
-          // Calculate privacy score (includes service risk)
-          memberWithProgress.privacyScore = calculateMemberPrivacyScore(memberWithProgress, progress || undefined);
-          return memberWithProgress;
-        }));
+        });
         
         setFamilyMembers(membersWithProgress);
       } else {
@@ -241,7 +158,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     console.log('Frontend-only mode: checkExistingFamily() - using localStorage');
     try {
       const currentUserId = getCurrentUserId();
-      const familyData = await localStorageManager.getFamilyData(currentUserId);
+      const familyData = localStorageManager.getFamilyData();
       
       if (familyData && familyData.members) {
         const userMember = familyData.members.find((member: FamilyMember) => member.user_id === currentUserId);
@@ -295,12 +212,12 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
       familyData.members = [creatorMember];
 
       // Save family data
-      await localStorageManager.saveFamilyData(familyData, currentUserId);
+      localStorageManager.saveFamilyData(familyData);
 
       // Create user progress if it doesn't exist
-      let progress = await localStorageManager.getUserProgress(currentUserId);
+      let progress = localStorageManager.getUserProgress(currentUserId);
       if (!progress) {
-        progress = await localStorageManager.createUserProgress(currentUserId, 'Parent User', '13-17');
+        progress = localStorageManager.createUserProgress(currentUserId, 'Parent User', '13-17');
       }
 
       setCurrentFamily(familyData);
@@ -320,7 +237,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     setLoading(true);
     try {
       const currentUserId = getCurrentUserId();
-      const familyData = await localStorageManager.getFamilyData(currentUserId);
+      const familyData = localStorageManager.getFamilyData();
 
       if (!familyData || familyData.id !== familyId) {
         return { success: false, error: 'Family not found' };
@@ -349,12 +266,12 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
       familyData.updated_at = new Date().toISOString();
 
       // Save updated family data
-      await localStorageManager.saveFamilyData(familyData, currentUserId);
+      localStorageManager.saveFamilyData(familyData);
 
       // Create user progress if it doesn't exist
-      let progress = await localStorageManager.getUserProgress(currentUserId);
+      let progress = localStorageManager.getUserProgress(currentUserId);
       if (!progress) {
-        progress = await localStorageManager.createUserProgress(currentUserId, 'Child User', '9-12');
+        progress = localStorageManager.createUserProgress(currentUserId, 'Child User', '9-12');
       }
 
       setCurrentFamily(familyData);
@@ -378,7 +295,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     setLoading(true);
     try {
       const currentUserId = getCurrentUserId();
-      const familyData = await localStorageManager.getFamilyData(currentUserId);
+      const familyData = localStorageManager.getFamilyData();
 
       if (!familyData || familyData.id !== currentFamily.id) {
         return { success: false, error: 'Family not found' };
@@ -395,7 +312,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
         setFamilyMembers([]);
       } else {
         // Save updated family data
-        await localStorageManager.saveFamilyData(familyData, currentUserId);
+        localStorageManager.saveFamilyData(familyData);
         setCurrentFamily(null);
         setFamilyMembers([]);
       }
@@ -417,8 +334,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
 
     setLoading(true);
     try {
-      const currentUserId = getCurrentUserId();
-      const familyData = await localStorageManager.getFamilyData(currentUserId);
+      const familyData = localStorageManager.getFamilyData();
 
       if (!familyData || familyData.id !== currentFamily.id) {
         return { success: false, error: 'Family not found' };
@@ -447,11 +363,11 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
       familyData.updated_at = new Date().toISOString();
 
       // Save updated family data
-      await localStorageManager.saveFamilyData(familyData, currentUserId);
+      localStorageManager.saveFamilyData(familyData);
 
       // Create user progress for the new member
       const ageGroup = role === 'child' ? '9-12' : '13-17';
-      await localStorageManager.createUserProgress(newMember.user_id, `${firstName} ${lastName}`, ageGroup);
+      localStorageManager.createUserProgress(newMember.user_id, `${firstName} ${lastName}`, ageGroup);
 
       await loadFamilyMembers(currentFamily.id);
       return { success: true, error: null };
@@ -471,8 +387,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
 
     setLoading(true);
     try {
-      const currentUserId = getCurrentUserId();
-      const familyData = await localStorageManager.getFamilyData(currentUserId);
+      const familyData = localStorageManager.getFamilyData();
 
       if (!familyData || familyData.id !== currentFamily.id) {
         return { success: false, error: 'Family not found' };
@@ -488,8 +403,8 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
       familyData.members = familyData.members.filter((member: FamilyMember) => member.id !== memberId);
       familyData.updated_at = new Date().toISOString();
 
-      // Save updated family data with encryption
-      await localStorageManager.saveFamilyData(familyData, currentUserId);
+      // Save updated family data
+      localStorageManager.saveFamilyData(familyData);
 
       // Delete user progress data
       localStorageManager.deleteUser(memberToRemove.user_id);
@@ -512,8 +427,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
 
     setLoading(true);
     try {
-      const currentUserId = getCurrentUserId();
-      const familyData = await localStorageManager.getFamilyData(currentUserId);
+      const familyData = localStorageManager.getFamilyData();
 
       if (!familyData || familyData.id !== currentFamily.id) {
         return { success: false, error: 'Family not found' };
@@ -533,8 +447,8 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
 
       familyData.updated_at = new Date().toISOString();
 
-      // Save updated family data with encryption
-      await localStorageManager.saveFamilyData(familyData, currentUserId);
+      // Save updated family data
+      localStorageManager.saveFamilyData(familyData);
 
       await loadFamilyMembers(currentFamily.id);
       return { success: true, error: null };
@@ -593,17 +507,16 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
   };
 
   // Export family data
-  const exportFamilyData = async (): Promise<string> => {
-    const currentUserId = getCurrentUserId();
-    return await localStorageManager.exportData(currentUserId);
+  const exportFamilyData = (): string => {
+    return localStorageManager.exportData();
   };
 
   // Import family data
-  const importFamilyData = async (jsonData: string): Promise<boolean> => {
+  const importFamilyData = (jsonData: string): boolean => {
     const success = localStorageManager.importData(jsonData);
     if (success) {
       // Reload family data after import
-      await checkExistingFamily();
+      checkExistingFamily();
     }
     return success;
   };
@@ -618,404 +531,6 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     localStorageManager.clearAllData();
     setCurrentFamily(null);
     setFamilyMembers([]);
-  };
-
-  // Service management methods (inspired by SocialCaution)
-  
-  /**
-   * Request a service for a child (child initiates, parent approves)
-   */
-  const requestService = async (memberId: string, serviceId: string): Promise<{ success: boolean; error: string | null }> => {
-    if (!currentFamily) {
-      return { success: false, error: 'No family selected' };
-    }
-
-    setLoading(true);
-    try {
-      const currentUserId = getCurrentUserId();
-      const familyData = await localStorageManager.getFamilyData(currentUserId);
-
-      if (!familyData || familyData.id !== currentFamily.id) {
-        return { success: false, error: 'Family not found' };
-      }
-
-      const member = familyData.members.find((m: FamilyMember) => m.id === memberId);
-      if (!member) {
-        return { success: false, error: 'Member not found' };
-      }
-
-      // Check if service already exists
-      const existingService = member.services?.find((s: ServiceUsage) => s.serviceId === serviceId);
-      if (existingService) {
-        return { success: false, error: 'Service already added' };
-      }
-
-      // Add service request
-      const serviceUsage: ServiceUsage = {
-        serviceId,
-        firstUsed: new Date().toISOString(),
-        lastUsed: new Date().toISOString(),
-        status: 'requested',
-        requestedBy: member.user_id
-      };
-
-      if (!member.services) {
-        member.services = [];
-      }
-      member.services.push(serviceUsage);
-      member.updated_at = new Date().toISOString();
-      familyData.updated_at = new Date().toISOString();
-
-      await localStorageManager.saveFamilyData(familyData, currentUserId);
-      await loadFamilyMembers(familyData.id);
-
-      // Record risk trend after service change
-      const newRiskScore = calculateServiceRiskScore(memberId);
-      recordRiskTrend(memberId, newRiskScore);
-
-      return { success: true, error: null };
-    } catch (error) {
-      console.error('Error requesting service:', error);
-      return { success: false, error: 'Failed to request service' };
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  /**
-   * Approve a service request (parent action)
-   */
-  const approveService = async (memberId: string, serviceId: string, notes?: string): Promise<{ success: boolean; error: string | null }> => {
-    if (!currentFamily || !isParent) {
-      return { success: false, error: 'Only parents can approve services' };
-    }
-
-    setLoading(true);
-    try {
-      const currentUserId = getCurrentUserId();
-      const familyData = await localStorageManager.getFamilyData(currentUserId);
-
-      if (!familyData || familyData.id !== currentFamily.id) {
-        return { success: false, error: 'Family not found' };
-      }
-
-      const member = familyData.members.find((m: FamilyMember) => m.id === memberId);
-      if (!member || !member.services) {
-        return { success: false, error: 'Service request not found' };
-      }
-
-      const serviceUsage = member.services.find((s: ServiceUsage) => s.serviceId === serviceId);
-      if (!serviceUsage) {
-        return { success: false, error: 'Service not found' };
-      }
-
-      // Update service status
-      serviceUsage.status = 'approved';
-      serviceUsage.approvedBy = currentUserId;
-      serviceUsage.approvedAt = new Date().toISOString();
-      if (notes) {
-        serviceUsage.notes = notes;
-      }
-
-      member.updated_at = new Date().toISOString();
-      familyData.updated_at = new Date().toISOString();
-
-      await localStorageManager.saveFamilyData(familyData, currentUserId);
-      await loadFamilyMembers(familyData.id);
-
-      // Record risk trend after service change
-      const newRiskScore = calculateServiceRiskScore(memberId);
-      recordRiskTrend(memberId, newRiskScore);
-
-      return { success: true, error: null };
-    } catch (error) {
-      console.error('Error approving service:', error);
-      return { success: false, error: 'Failed to approve service' };
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  /**
-   * Deny a service request (parent action)
-   */
-  const denyService = async (memberId: string, serviceId: string, reason?: string): Promise<{ success: boolean; error: string | null }> => {
-    if (!currentFamily || !isParent) {
-      return { success: false, error: 'Only parents can deny services' };
-    }
-
-    setLoading(true);
-    try {
-      const currentUserId = getCurrentUserId();
-      const familyData = await localStorageManager.getFamilyData(currentUserId);
-
-      if (!familyData || familyData.id !== currentFamily.id) {
-        return { success: false, error: 'Family not found' };
-      }
-
-      const member = familyData.members.find((m: FamilyMember) => m.id === memberId);
-      if (!member || !member.services) {
-        return { success: false, error: 'Service request not found' };
-      }
-
-      const serviceUsage = member.services.find((s: ServiceUsage) => s.serviceId === serviceId);
-      if (!serviceUsage) {
-        return { success: false, error: 'Service not found' };
-      }
-
-      // Update service status
-      serviceUsage.status = 'denied';
-      serviceUsage.approvedBy = currentUserId;
-      serviceUsage.approvedAt = new Date().toISOString();
-      if (reason) {
-        serviceUsage.notes = `Denied: ${reason}`;
-      }
-
-      member.updated_at = new Date().toISOString();
-      familyData.updated_at = new Date().toISOString();
-
-      await localStorageManager.saveFamilyData(familyData, currentUserId);
-      await loadFamilyMembers(familyData.id);
-
-      // Record risk trend after service change
-      const newRiskScore = calculateServiceRiskScore(memberId);
-      recordRiskTrend(memberId, newRiskScore);
-
-      return { success: true, error: null };
-    } catch (error) {
-      console.error('Error denying service:', error);
-      return { success: false, error: 'Failed to deny service' };
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  /**
-   * Remove a service from a member
-   */
-  const removeService = async (memberId: string, serviceId: string): Promise<{ success: boolean; error: string | null }> => {
-    if (!currentFamily) {
-      return { success: false, error: 'No family selected' };
-    }
-
-    setLoading(true);
-    try {
-      const currentUserId = getCurrentUserId();
-      const familyData = await localStorageManager.getFamilyData(currentUserId);
-
-      if (!familyData || familyData.id !== currentFamily.id) {
-        return { success: false, error: 'Family not found' };
-      }
-
-      const member = familyData.members.find((m: FamilyMember) => m.id === memberId);
-      if (!member || !member.services) {
-        return { success: false, error: 'Service not found' };
-      }
-
-      // Remove service
-      member.services = member.services.filter((s: ServiceUsage) => s.serviceId !== serviceId);
-      member.updated_at = new Date().toISOString();
-      familyData.updated_at = new Date().toISOString();
-
-      await localStorageManager.saveFamilyData(familyData, currentUserId);
-      await loadFamilyMembers(familyData.id);
-
-      // Record risk trend after service change
-      const newRiskScore = calculateServiceRiskScore(memberId);
-      recordRiskTrend(memberId, newRiskScore);
-
-      return { success: true, error: null };
-    } catch (error) {
-      console.error('Error removing service:', error);
-      return { success: false, error: 'Failed to remove service' };
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  /**
-   * Get all pending service requests (for parent dashboard)
-   */
-  const getPendingServiceRequests = (): ServiceUsage[] => {
-    const pendingRequests: ServiceUsage[] = [];
-    
-    familyMembers.forEach((member: FamilyMember) => {
-      if (member.services) {
-        member.services
-          .filter((s: ServiceUsage) => s.status === 'requested')
-          .forEach((service: ServiceUsage) => {
-            pendingRequests.push({
-              ...service,
-              // Add member info for display
-            } as ServiceUsage & { memberId: string; memberName: string });
-          });
-      }
-    });
-
-    return pendingRequests;
-  };
-
-  /**
-   * Get family average risk score
-   */
-  const getFamilyRiskScore = (): number => {
-    const children = familyMembers.filter(m => m.role === 'child');
-    if (children.length === 0) return 0;
-    
-    const totalRisk = children.reduce((sum, child) => {
-      return sum + calculateServiceRiskScore(child.id);
-    }, 0);
-    
-    return Math.round(totalRisk / children.length);
-  };
-
-  /**
-   * Get actionable items sorted by priority
-   */
-  const getActionableItems = () => {
-    const items: Array<{
-      id: string;
-      type: 'approval' | 'high-risk' | 'conversation' | 'education';
-      priority: 'high' | 'medium' | 'low';
-      title: string;
-      description: string;
-      memberId?: string;
-      serviceId?: string;
-    }> = [];
-
-    // Pending approvals
-    const pendingRequests = getPendingServiceRequests();
-    pendingRequests.forEach((request, index) => {
-      const member = familyMembers.find(m => 
-        m.services?.some(s => s.serviceId === request.serviceId && s.status === 'requested')
-      );
-      const service = getServiceById(request.serviceId);
-      if (member && service) {
-        const riskScore = getRiskScore(service.riskLevel);
-        items.push({
-          id: `approval-${index}`,
-          type: 'approval',
-          priority: riskScore >= 70 ? 'high' : riskScore >= 40 ? 'medium' : 'low',
-          title: `Review ${service.name} request from ${member.first_name}`,
-          description: `${service.name} has ${service.riskLevel} privacy risk level`,
-          memberId: member.id,
-          serviceId: request.serviceId
-        });
-      }
-    });
-
-    // High-risk children
-    const children = familyMembers.filter(m => m.role === 'child');
-    children.forEach(child => {
-      const riskScore = calculateServiceRiskScore(child.id);
-      if (riskScore >= 70) {
-        items.push({
-          id: `high-risk-${child.id}`,
-          type: 'high-risk',
-          priority: 'high',
-          title: `${child.first_name} has high privacy risk (${riskScore}/100)`,
-          description: 'Review their apps and websites and privacy settings',
-          memberId: child.id
-        });
-      } else if (riskScore >= 40) {
-        items.push({
-          id: `medium-risk-${child.id}`,
-          type: 'high-risk',
-          priority: 'medium',
-          title: `${child.first_name} has medium privacy risk (${riskScore}/100)`,
-          description: 'Consider reviewing their apps and privacy settings',
-          memberId: child.id
-        });
-      }
-    });
-
-    // Sort by priority
-    const priorityOrder = { high: 0, medium: 1, low: 2 };
-    return items.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
-  };
-
-  /**
-   * Get conversation starters based on high-risk services
-   */
-  const getConversationStarters = () => {
-    const starters: Array<{
-      childName: string;
-      service: any;
-      topic: string;
-      script: string;
-    }> = [];
-
-    const children = familyMembers.filter(m => m.role === 'child');
-    children.forEach(child => {
-      const approvedServices = child.services?.filter(s => s.status === 'approved') || [];
-      approvedServices.forEach(serviceUsage => {
-        const service = getServiceById(serviceUsage.serviceId);
-        if (service && getRiskScore(service.riskLevel) >= 50) {
-          const firstTip = service.parentTips && service.parentTips.length > 0 
-            ? service.parentTips[0] 
-            : 'We should review this together.';
-          starters.push({
-            childName: child.first_name,
-            service,
-            topic: `Privacy settings for ${service.name}`,
-            script: `Hey ${child.first_name}, I noticed you're using ${service.name}. Let's make sure your privacy settings are set up correctly. ${firstTip}`
-          });
-        }
-      });
-    });
-
-    return starters.slice(0, 3); // Top 3
-  };
-
-  /**
-   * Record risk trend data
-   */
-  const recordRiskTrend = (memberId: string, score: number): void => {
-    try {
-      const trendsKey = 'pandagarde_risk_trends';
-      const existing = localStorage.getItem(trendsKey);
-      const trends: Record<string, Array<{ date: string; score: number }>> = existing ? JSON.parse(existing) : {};
-      
-      if (!trends[memberId]) {
-        trends[memberId] = [];
-      }
-      
-      trends[memberId].push({
-        date: new Date().toISOString(),
-        score
-      });
-      
-      // Keep only last 90 days
-      const cutoffDate = new Date();
-      cutoffDate.setDate(cutoffDate.getDate() - 90);
-      trends[memberId] = trends[memberId].filter(t => new Date(t.date) >= cutoffDate);
-      
-      localStorage.setItem(trendsKey, JSON.stringify(trends));
-    } catch (error) {
-      console.error('Error recording risk trend:', error);
-    }
-  };
-
-  /**
-   * Get risk trends for a member
-   */
-  const getRiskTrends = (memberId: string, days: number = 30): Array<{ date: string; score: number }> => {
-    try {
-      const trendsKey = 'pandagarde_risk_trends';
-      const existing = localStorage.getItem(trendsKey);
-      if (!existing) return [];
-      
-      const trends: Record<string, Array<{ date: string; score: number }>> = JSON.parse(existing);
-      if (!trends[memberId]) return [];
-      
-      const cutoffDate = new Date();
-      cutoffDate.setDate(cutoffDate.getDate() - days);
-      
-      return trends[memberId].filter(t => new Date(t.date) >= cutoffDate);
-    } catch (error) {
-      console.error('Error getting risk trends:', error);
-      return [];
-    }
   };
 
   const value: FamilyContextType = {
@@ -1035,20 +550,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     exportFamilyData,
     importFamilyData,
     getFamilyStorageUsage,
-    clearFamilyData,
-    // Service management
-    requestService,
-    approveService,
-    denyService,
-    removeService,
-    getPendingServiceRequests,
-    calculateServiceRiskScore,
-    // New parent-focused methods
-    getFamilyRiskScore,
-    getActionableItems,
-    getConversationStarters,
-    recordRiskTrend,
-    getRiskTrends
+    clearFamilyData
   };
 
   return (

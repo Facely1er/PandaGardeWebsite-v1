@@ -1,5 +1,3 @@
-import { encryptData, decryptData, generateUserPassword, isEncryptionAvailable } from '../lib/encryption';
-
 export interface UserProgress {
   id: string;
   name: string;
@@ -16,27 +14,15 @@ export interface UserProgress {
 export class LocalStorageManager {
   private static readonly STORAGE_KEY = 'pandagarde_user_progress';
   private static readonly FAMILY_KEY = 'pandagarde_family_data';
-  private static readonly ENCRYPTION_ENABLED = true; // Enable encryption by default
-  private static readonly ENCRYPTION_FLAG = 'pandagarde_encrypted';
 
   /**
    * Save user progress to localStorage
-   * Encrypts sensitive data if encryption is available
    */
-  async saveUserProgress(userId: string, progress: UserProgress): Promise<void> {
+  saveUserProgress(userId: string, progress: UserProgress): void {
     try {
-      const allProgress = await this.getAllUsers();
+      const allProgress = this.getAllUsers();
       allProgress[userId] = progress;
-      
-      if (LocalStorageManager.ENCRYPTION_ENABLED && isEncryptionAvailable()) {
-        const password = generateUserPassword(userId);
-        const encrypted = await encryptData(allProgress, password);
-        localStorage.setItem(LocalStorageManager.STORAGE_KEY, encrypted);
-        localStorage.setItem(LocalStorageManager.ENCRYPTION_FLAG, 'true');
-      } else {
-        localStorage.setItem(LocalStorageManager.STORAGE_KEY, JSON.stringify(allProgress));
-        localStorage.removeItem(LocalStorageManager.ENCRYPTION_FLAG);
-      }
+      localStorage.setItem(LocalStorageManager.STORAGE_KEY, JSON.stringify(allProgress));
     } catch (error) {
       console.error('Error saving user progress:', error);
       throw new Error('Failed to save user progress');
@@ -45,12 +31,10 @@ export class LocalStorageManager {
 
   /**
    * Get user progress from localStorage
-   * Decrypts data if encryption was used
    */
-  async getUserProgress(userId: string): Promise<UserProgress | null> {
+  getUserProgress(userId: string): UserProgress | null {
     try {
-      // Use getAllUsersWithKey for encrypted data support
-      const allProgress = await this.getAllUsersWithKey(userId);
+      const allProgress = this.getAllUsers();
       return allProgress[userId] || null;
     } catch (error) {
       console.error('Error getting user progress:', error);
@@ -60,45 +44,11 @@ export class LocalStorageManager {
 
   /**
    * Get all users' progress data
-   * Handles both encrypted and unencrypted data for backward compatibility
-   * Note: For encrypted data, use getAllUsersWithKey() instead
    */
-  async getAllUsers(): Promise<Record<string, UserProgress>> {
+  getAllUsers(): Record<string, UserProgress> {
     try {
       const data = localStorage.getItem(LocalStorageManager.STORAGE_KEY);
-      if (!data) return {};
-      
-      const isEncrypted = localStorage.getItem(LocalStorageManager.ENCRYPTION_FLAG) === 'true';
-      
-      if (isEncrypted) {
-        // Encrypted data requires userId - return empty and use getAllUsersWithKey instead
-        console.warn('Data is encrypted. Use getAllUsersWithKey(userId) instead.');
-        return {};
-      } else {
-        return JSON.parse(data);
-      }
-    } catch (error) {
-      console.error('Error getting all users:', error);
-      return {};
-    }
-  }
-  
-  /**
-   * Get all users' progress data with userId for decryption
-   */
-  async getAllUsersWithKey(userId: string): Promise<Record<string, UserProgress>> {
-    try {
-      const data = localStorage.getItem(LocalStorageManager.STORAGE_KEY);
-      if (!data) return {};
-      
-      const isEncrypted = localStorage.getItem(LocalStorageManager.ENCRYPTION_FLAG) === 'true';
-      
-      if (isEncrypted && isEncryptionAvailable()) {
-        const password = generateUserPassword(userId);
-        return await decryptData<Record<string, UserProgress>>(data, password);
-      } else {
-        return JSON.parse(data);
-      }
+      return data ? JSON.parse(data) : {};
     } catch (error) {
       console.error('Error getting all users:', error);
       return {};
@@ -108,18 +58,11 @@ export class LocalStorageManager {
   /**
    * Delete a specific user's progress
    */
-  async deleteUser(userId: string): Promise<void> {
+  deleteUser(userId: string): void {
     try {
-      const allProgress = await this.getAllUsersWithKey(userId);
+      const allProgress = this.getAllUsers();
       delete allProgress[userId];
-      
-      if (LocalStorageManager.ENCRYPTION_ENABLED && isEncryptionAvailable()) {
-        const password = generateUserPassword(userId);
-        const encrypted = await encryptData(allProgress, password);
-        localStorage.setItem(LocalStorageManager.STORAGE_KEY, encrypted);
-      } else {
-        localStorage.setItem(LocalStorageManager.STORAGE_KEY, JSON.stringify(allProgress));
-      }
+      localStorage.setItem(LocalStorageManager.STORAGE_KEY, JSON.stringify(allProgress));
     } catch (error) {
       console.error('Error deleting user:', error);
       throw new Error('Failed to delete user');
@@ -129,10 +72,10 @@ export class LocalStorageManager {
   /**
    * Export all data as JSON string
    */
-  async exportData(userId?: string): Promise<string> {
+  exportData(): string {
     try {
-      const allProgress = userId ? await this.getAllUsersWithKey(userId) : await this.getAllUsers();
-      const familyData = userId ? await this.getFamilyData(userId) : await this.getFamilyData();
+      const allProgress = this.getAllUsers();
+      const familyData = this.getFamilyData();
       const exportData = {
         userProgress: allProgress,
         familyData: familyData,
@@ -214,21 +157,11 @@ export class LocalStorageManager {
 
   /**
    * Get family data from localStorage
-   * Decrypts data if encryption was used
    */
-  async getFamilyData(userId?: string): Promise<any> {
+  getFamilyData(): any {
     try {
       const data = localStorage.getItem(LocalStorageManager.FAMILY_KEY);
-      if (!data) return null;
-      
-      const isEncrypted = localStorage.getItem(`${LocalStorageManager.FAMILY_KEY}_encrypted`) === 'true';
-      
-      if (isEncrypted && isEncryptionAvailable() && userId) {
-        const password = generateUserPassword(userId);
-        return await decryptData(data, password);
-      } else {
-        return JSON.parse(data);
-      }
+      return data ? JSON.parse(data) : null;
     } catch (error) {
       console.error('Error getting family data:', error);
       return null;
@@ -237,20 +170,10 @@ export class LocalStorageManager {
 
   /**
    * Save family data to localStorage
-   * Encrypts sensitive PII (names, emails, ages) if encryption is available
    */
-  async saveFamilyData(familyData: any, userId?: string): Promise<void> {
+  saveFamilyData(familyData: any): void {
     try {
-      if (LocalStorageManager.ENCRYPTION_ENABLED && isEncryptionAvailable() && userId) {
-        // Encrypt sensitive family data
-        const password = generateUserPassword(userId);
-        const encrypted = await encryptData(familyData, password);
-        localStorage.setItem(LocalStorageManager.FAMILY_KEY, encrypted);
-        localStorage.setItem(`${LocalStorageManager.FAMILY_KEY}_encrypted`, 'true');
-      } else {
-        localStorage.setItem(LocalStorageManager.FAMILY_KEY, JSON.stringify(familyData));
-        localStorage.removeItem(`${LocalStorageManager.FAMILY_KEY}_encrypted`);
-      }
+      localStorage.setItem(LocalStorageManager.FAMILY_KEY, JSON.stringify(familyData));
     } catch (error) {
       console.error('Error saving family data:', error);
       throw new Error('Failed to save family data');
@@ -296,7 +219,7 @@ export class LocalStorageManager {
   /**
    * Create a new user progress entry
    */
-  async createUserProgress(userId: string, name: string, ageGroup: '5-8' | '9-12' | '13-17'): Promise<UserProgress> {
+  createUserProgress(userId: string, name: string, ageGroup: '5-8' | '9-12' | '13-17'): UserProgress {
     const now = new Date().toISOString();
     const progress: UserProgress = {
       id: userId,
@@ -311,26 +234,26 @@ export class LocalStorageManager {
       createdAt: now
     };
 
-    await this.saveUserProgress(userId, progress);
+    this.saveUserProgress(userId, progress);
     return progress;
   }
 
   /**
    * Update user's last active timestamp
    */
-  async updateLastActive(userId: string): Promise<void> {
-    const progress = await this.getUserProgress(userId);
+  updateLastActive(userId: string): void {
+    const progress = this.getUserProgress(userId);
     if (progress) {
       progress.lastActive = new Date().toISOString();
-      await this.saveUserProgress(userId, progress);
+      this.saveUserProgress(userId, progress);
     }
   }
 
   /**
    * Add XP to user and potentially level up
    */
-  async addXP(userId: string, xp: number): Promise<{ newLevel: number; leveledUp: boolean }> {
-    const progress = await this.getUserProgress(userId);
+  addXP(userId: string, xp: number): { newLevel: number; leveledUp: boolean } {
+    const progress = this.getUserProgress(userId);
     if (!progress) {
       throw new Error('User progress not found');
     }
@@ -344,51 +267,51 @@ export class LocalStorageManager {
     
     const leveledUp = newLevel > oldLevel;
     
-    await this.saveUserProgress(userId, progress);
+    this.saveUserProgress(userId, progress);
     return { newLevel, leveledUp };
   }
 
   /**
    * Complete a mission for a user
    */
-  async completeMission(userId: string, missionId: string): Promise<void> {
-    const progress = await this.getUserProgress(userId);
+  completeMission(userId: string, missionId: string): void {
+    const progress = this.getUserProgress(userId);
     if (!progress) {
       throw new Error('User progress not found');
     }
 
     if (!progress.completedMissions.includes(missionId)) {
       progress.completedMissions.push(missionId);
-      await this.saveUserProgress(userId, progress);
+      this.saveUserProgress(userId, progress);
     }
   }
 
   /**
    * Unlock an achievement for a user
    */
-  async unlockAchievement(userId: string, achievementId: string): Promise<void> {
-    const progress = await this.getUserProgress(userId);
+  unlockAchievement(userId: string, achievementId: string): void {
+    const progress = this.getUserProgress(userId);
     if (!progress) {
       throw new Error('User progress not found');
     }
 
     if (!progress.unlockedAchievements.includes(achievementId)) {
       progress.unlockedAchievements.push(achievementId);
-      await this.saveUserProgress(userId, progress);
+      this.saveUserProgress(userId, progress);
     }
   }
 
   /**
    * Update user's streak
    */
-  async updateStreak(userId: string, streak: number): Promise<void> {
-    const progress = await this.getUserProgress(userId);
+  updateStreak(userId: string, streak: number): void {
+    const progress = this.getUserProgress(userId);
     if (!progress) {
       throw new Error('User progress not found');
     }
 
     progress.currentStreak = streak;
-    await this.saveUserProgress(userId, progress);
+    this.saveUserProgress(userId, progress);
   }
 }
 

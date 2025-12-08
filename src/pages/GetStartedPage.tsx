@@ -19,40 +19,49 @@ const GetStartedPage: React.FC = () => {
 
   const steps: Step[] = [
     {
-      id: 'create-account',
-      title: 'Create Your Family Account',
-      description: 'Sign up for Family Hub and create your family profile. It only takes a few minutes.',
-      icon: Users,
-      completed: false,
-      estimatedTime: '3 mins',
-      action: 'Create account'
-    },
-    {
-      id: 'add-children',
-      title: 'Add Your Children',
-      description: 'Add your children to your family account so you can see their privacy status.',
-      icon: Users,
+      id: 'welcome',
+      title: 'Welcome to PandaGarde',
+      description: 'Learn about our mission and how we help families learn digital privacy together.',
+      icon: Star,
       completed: false,
       estimatedTime: '2 mins',
-      action: 'Add children'
+      action: 'Read our story'
     },
     {
-      id: 'see-risks',
-      title: 'See Their Privacy Risks',
-      description: 'View your dashboard to see which apps and websites your children use and their privacy risks.',
-      icon: Shield,
+      id: 'age-group',
+      title: 'Choose Your Age Group',
+      description: 'Select the appropriate age group for your child to get personalized content.',
+      icon: Users,
       completed: false,
-      estimatedTime: '2 mins',
-      action: 'View dashboard'
+      estimatedTime: '1 min',
+      action: 'Select age group'
     },
     {
-      id: 'start-education',
-      title: 'Start Privacy Education',
-      description: 'Begin privacy education activities with your children to help them learn about staying safe online.',
+      id: 'first-activity',
+      title: 'Try Your First Activity',
+      description: 'Complete your first interactive privacy activity to get started.',
       icon: Play,
       completed: false,
       estimatedTime: '10 mins',
-      action: 'Start education'
+      action: 'Start activity'
+    },
+    {
+      id: 'family-hub',
+      title: 'Set Up Family Hub',
+      description: 'Create your family profile and start tracking progress together.',
+      icon: Shield,
+      completed: false,
+      estimatedTime: '5 mins',
+      action: 'Set up family'
+    },
+    {
+      id: 'explore-resources',
+      title: 'Explore Resources',
+      description: 'Discover additional resources and guides for continued learning.',
+      icon: BookOpen,
+      completed: false,
+      estimatedTime: '5 mins',
+      action: 'Browse resources'
     }
   ];
 
@@ -64,14 +73,32 @@ const GetStartedPage: React.FC = () => {
 
   const getStepAction = (step: Step) => {
     switch (step.id) {
-      case 'create-account':
-        return () => window.open('https://www.hub.pandagarde.com', '_blank');
-      case 'add-children':
-        return () => window.open('https://www.hub.pandagarde.com', '_blank');
-      case 'see-risks':
-        return () => window.open('https://www.hub.pandagarde.com', '_blank');
-      case 'start-education':
-        return () => navigate('/privacy-panda');
+      case 'welcome':
+        return () => navigate('/story');
+      case 'age-group':
+        return () => {
+          navigate('/');
+          setTimeout(() => {
+            const element = document.querySelector('#age-groups');
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth' });
+            }
+          }, 100);
+        };
+      case 'first-activity':
+        return () => navigate('/activity-book');
+      case 'family-hub':
+        return () => navigate('/family-hub');
+      case 'explore-resources':
+        return () => {
+          navigate('/');
+          setTimeout(() => {
+            const element = document.querySelector('#parent-resources');
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth' });
+            }
+          }, 100);
+        };
       default:
         return () => {};
     }
@@ -103,12 +130,13 @@ const GetStartedPage: React.FC = () => {
             </div>
 
             <h1 className="text-5xl font-bold mb-6 leading-tight">
-              Get Started: Protect Your Family Online
-              <span className="block text-yellow-300">Simple Steps for Parents</span>
+              Get Started with PandaGarde
+              <span className="block text-yellow-300">Your Privacy Education Journey</span>
             </h1>
 
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              Follow these simple steps to start protecting your family's online privacy. Everything is designed to be easy, even if you're not tech-savvy.
+              Follow our step-by-step guide to begin your family's digital privacy education journey.
+              We'll help you get set up and start learning together.
             </p>
 
             <div className="flex items-center justify-center gap-6 text-sm">
@@ -171,10 +199,10 @@ const GetStartedPage: React.FC = () => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
-              Steps to Protect Your Family
+              Getting Started Steps
             </h2>
             <p className="text-lg" style={{ color: 'var(--gray-600)' }}>
-              Follow these four simple steps to start protecting your family's online privacy. Each step is designed for parents.
+              Follow these steps to set up your family's privacy education journey.
             </p>
           </div>
 
@@ -268,11 +296,28 @@ const GetStartedPage: React.FC = () => {
               Quick Start Options
             </h2>
             <p className="text-lg" style={{ color: 'var(--gray-600)' }}>
-              Jump right into protecting your family or follow the complete guide step by step.
+              Jump right into specific areas or follow the complete guide.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <Link
+              to="/activity-book"
+              className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center"
+              style={{ backgroundColor: 'var(--card-color)' }}
+            >
+              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-600 rounded-full flex items-center justify-center text-white mx-auto mb-4">
+                <Play size={32} />
+              </div>
+              <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
+                Start with Activities
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Jump straight into interactive privacy activities and start learning immediately.
+              </p>
+              <span className="text-green-600 font-semibold">Start Activities →</span>
+            </Link>
+
             <a
               href="https://www.hub.pandagarde.com"
               target="_blank"
@@ -281,19 +326,19 @@ const GetStartedPage: React.FC = () => {
               style={{ backgroundColor: 'var(--card-color)' }}
             >
               <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-600 rounded-full flex items-center justify-center text-white mx-auto mb-4">
-                <Shield size={32} />
+                <Users size={32} />
               </div>
               <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
-                Start Protecting Your Family
+                Set Up Family Hub
               </h3>
               <p className="text-gray-600 mb-4">
-                Go straight to Family Hub to see your family's privacy status and start taking action.
+                Create your family profile and start tracking everyone's progress together.
               </p>
-              <span className="text-green-600 font-semibold">Go to Family Hub →</span>
+              <span className="text-green-600 font-semibold">Set Up Family →</span>
             </a>
 
             <Link
-              to="/parent-resources"
+              to="/story"
               className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center"
               style={{ backgroundColor: 'var(--card-color)' }}
             >
@@ -301,29 +346,12 @@ const GetStartedPage: React.FC = () => {
                 <BookOpen size={32} />
               </div>
               <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
-                View Parent Guides
+                Read Our Story
               </h3>
               <p className="text-gray-600 mb-4">
-                Get guides, conversation starters, and resources to help you protect your family.
+                Learn about Privacy Panda and understand our mission through storytelling.
               </p>
-              <span className="text-green-600 font-semibold">View Guides →</span>
-            </Link>
-
-            <Link
-              to="/privacy-panda"
-              className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center"
-              style={{ backgroundColor: 'var(--card-color)' }}
-            >
-              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-600 rounded-full flex items-center justify-center text-white mx-auto mb-4">
-                <Play size={32} />
-              </div>
-              <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
-                Start Privacy Education
-              </h3>
-              <p className="text-gray-600 mb-4">
-                Begin privacy education activities with your children to help them learn about staying safe online.
-              </p>
-              <span className="text-green-600 font-semibold">Start Activities →</span>
+              <span className="text-green-600 font-semibold">Read Story →</span>
             </Link>
           </div>
         </div>
@@ -333,28 +361,28 @@ const GetStartedPage: React.FC = () => {
       <section className="bg-gradient-to-r from-green-600 to-blue-600 text-white py-16">
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold mb-4">
-            Ready to Start Protecting Your Family?
+            Ready to Begin Your Privacy Education Journey?
           </h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Join thousands of parents who are already keeping their families safe online with simple, easy-to-use tools.
+            Join thousands of families who are already learning about digital privacy with PandaGarde.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
+            <Link
+              to="/activity-book"
+              className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
+            >
+              <Play size={20} />
+              Start Learning
+            </Link>
             <a
               href="https://www.hub.pandagarde.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
-            >
-              <Shield size={20} />
-              Start Protecting Your Family
-            </a>
-            <Link
-              to="/overview"
               className="bg-green-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors inline-flex items-center gap-2"
             >
-              <BookOpen size={20} />
-              See How It Works
-            </Link>
+              <Users size={20} />
+              Family Hub
+            </a>
           </div>
         </div>
       </section>

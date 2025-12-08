@@ -67,15 +67,15 @@ const OverviewPage: React.FC = () => {
     },
     {
       id: 'parents',
-      title: 'For Parents',
+      title: 'Parents',
       icon: '👨‍👩‍👧‍👦',
       gradient: 'from-orange-500 to-red-500',
       features: [
-        'See what your children do online',
-        'Know their privacy risks',
-        'Get conversation starters',
-        'Approve or deny app requests',
-        'Track your family\'s safety progress'
+        'Family privacy policy creation',
+        'Device and app management',
+        'Monitoring and guidance strategies',
+        'Privacy education resources',
+        'Community support and networking'
       ]
     }
   ];
@@ -86,15 +86,15 @@ const OverviewPage: React.FC = () => {
       title: 'Family Hub',
       icon: Users,
       gradient: 'from-purple-500 to-pink-500',
-      description: 'Your family\'s privacy control center. See what your children do online, know their privacy risks, and get conversation starters.',
+      description: 'Connect with other families and access exclusive resources for digital safety education.',
       features: [
-        'See all apps and websites your children use',
-        'Get clear privacy risk scores',
-        'Approve or deny app requests',
-        'Get ready-to-use conversation starters',
-        'Track your family\'s privacy progress'
+        'Community support and networking',
+        'Exclusive educational resources',
+        'Parent guidance and tips',
+        'Progress tracking and achievements',
+        'Family challenges and activities'
       ],
-      ctaText: 'Start Protecting Your Family',
+      ctaText: 'Join Family Hub',
       ctaLink: '/family-hub'
     },
     {
@@ -115,19 +115,19 @@ const OverviewPage: React.FC = () => {
     },
     {
       id: 'parent-toolkit',
-      title: 'Parent Guides',
+      title: 'Parent Toolkit',
       icon: Wrench,
       gradient: 'from-green-500 to-emerald-500',
-      description: 'Simple guides and resources to help you protect your family. Everything explained in plain language.',
+      description: 'Comprehensive tools and resources to help parents guide their children\'s digital journey.',
       features: [
-        'How to talk to your children about privacy',
-        'Step-by-step privacy setting guides',
-        'Family privacy plan templates',
-        'Safety checklists you can use',
-        'Answers to common parent questions'
+        'Privacy policy templates',
+        'Device management guides',
+        'Conversation starters',
+        'Safety checklists and tools',
+        'Expert advice and support'
       ],
-      ctaText: 'View Parent Guides',
-      ctaLink: '/parent-resources'
+      ctaText: 'Access Toolkit',
+      ctaLink: '/parent-toolkit'
     }
   ];
 
@@ -145,162 +145,11 @@ const OverviewPage: React.FC = () => {
       <section className="hero-simple">
         <div className="container">
           <div className="text-center fade-in">
-            <span className="badge">HOW IT WORKS</span>
-            <h1>How PandaGarde Helps Protect Your Family</h1>
+            <span className="badge">COMPLETE ECOSYSTEM</span>
+            <h1>Everything Your Family Needs for Digital Privacy</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Simple tools that help you see what your children do online, understand their privacy risks, and get help talking to them about staying safe. No technical knowledge needed.
+              Our comprehensive platform provides age-appropriate education, interactive tools, and community support to help families navigate the digital world safely and confidently.
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* What Parents Get Section */}
-      <section style={{ padding: '4rem 0', backgroundColor: '#f8f9fa' }}>
-        <div className="container">
-          <div className="section-header fade-in" style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: '#2C3E50' }}>What Parents Get</h2>
-            <p style={{ fontSize: '1.25rem', color: '#666', maxWidth: '700px', margin: '0 auto' }}>
-              Everything you need to keep your family safe online, explained in simple terms
-            </p>
-          </div>
-
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-            gap: '2rem',
-            marginTop: '2rem'
-          }}>
-            <div className="fade-in" style={{ 
-              backgroundColor: 'white', 
-              padding: '2rem', 
-              borderRadius: '12px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-            }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>👀</div>
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#2C3E50' }}>See What Your Children Do Online</h3>
-              <p style={{ color: '#666', lineHeight: '1.8' }}>
-                Know which apps and websites your children use. See everything in one simple dashboard, so you always know what's happening.
-              </p>
-            </div>
-
-            <div className="fade-in" style={{ 
-              backgroundColor: 'white', 
-              padding: '2rem', 
-              borderRadius: '12px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-            }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⚠️</div>
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#2C3E50' }}>Understand Privacy Risks</h3>
-              <p style={{ color: '#666', lineHeight: '1.8' }}>
-                Get clear, easy-to-understand risk scores. We explain what each score means and what you need to do about it - no technical jargon.
-              </p>
-            </div>
-
-            <div className="fade-in" style={{ 
-              backgroundColor: 'white', 
-              padding: '2rem', 
-              borderRadius: '12px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-            }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>💬</div>
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#2C3E50' }}>Get Conversation Starters</h3>
-              <p style={{ color: '#666', lineHeight: '1.8' }}>
-                Ready-to-use questions and topics based on what your children are actually using. Know exactly what to talk about and how to start.
-              </p>
-            </div>
-
-            <div className="fade-in" style={{ 
-              backgroundColor: 'white', 
-              padding: '2rem', 
-              borderRadius: '12px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-            }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>✅</div>
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#2C3E50' }}>Take Action Easily</h3>
-              <p style={{ color: '#666', lineHeight: '1.8' }}>
-                Approve or deny app requests, get step-by-step guides for privacy settings, and see what needs your attention right away.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works Visual Flow */}
-      <section style={{ padding: '4rem 0', backgroundColor: 'white' }}>
-        <div className="container">
-          <div className="section-header fade-in" style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: '#2C3E50' }}>How It Works</h2>
-            <p style={{ fontSize: '1.25rem', color: '#666', maxWidth: '700px', margin: '0 auto' }}>
-              Three simple steps to start protecting your family
-            </p>
-          </div>
-
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
-            gap: '2rem',
-            maxWidth: '1000px',
-            margin: '0 auto'
-          }}>
-            <div className="fade-in" style={{ textAlign: 'center' }}>
-              <div style={{ 
-                width: '80px', 
-                height: '80px', 
-                backgroundColor: '#4CAF50', 
-                borderRadius: '50%', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                margin: '0 auto 1.5rem',
-                fontSize: '2rem',
-                fontWeight: 'bold',
-                color: 'white'
-              }}>1</div>
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#2C3E50' }}>Create Your Family Account</h3>
-              <p style={{ color: '#666', lineHeight: '1.8' }}>
-                Sign up for Family Hub and add your children. It takes just a few minutes.
-              </p>
-            </div>
-
-            <div className="fade-in" style={{ textAlign: 'center' }}>
-              <div style={{ 
-                width: '80px', 
-                height: '80px', 
-                backgroundColor: '#4CAF50', 
-                borderRadius: '50%', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                margin: '0 auto 1.5rem',
-                fontSize: '2rem',
-                fontWeight: 'bold',
-                color: 'white'
-              }}>2</div>
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#2C3E50' }}>See Your Family's Privacy Status</h3>
-              <p style={{ color: '#666', lineHeight: '1.8' }}>
-                View your dashboard to see risk scores, active apps, and what needs your attention.
-              </p>
-            </div>
-
-            <div className="fade-in" style={{ textAlign: 'center' }}>
-              <div style={{ 
-                width: '80px', 
-                height: '80px', 
-                backgroundColor: '#4CAF50', 
-                borderRadius: '50%', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                margin: '0 auto 1.5rem',
-                fontSize: '2rem',
-                fontWeight: 'bold',
-                color: 'white'
-              }}>3</div>
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#2C3E50' }}>Take Action</h3>
-              <p style={{ color: '#666', lineHeight: '1.8' }}>
-                Review service requests, get conversation starters, and start protecting your family.
-              </p>
-            </div>
           </div>
         </div>
       </section>
@@ -382,9 +231,9 @@ const OverviewPage: React.FC = () => {
       <section className="features-highlight">
         <div className="container">
           <div className="section-header fade-in">
-            <span className="badge">WHY PARENTS TRUST PANDAGARDE</span>
-            <h2>Built for Parents Who Aren't Tech Experts</h2>
-            <p>Simple tools that help you protect your family without needing to understand complicated technology.</p>
+            <span className="badge">WHY CHOOSE PANDAGARDE</span>
+            <h2>Built for Families, by Privacy Experts</h2>
+            <p>Our platform combines cutting-edge educational design with proven privacy protection methods.</p>
           </div>
 
           <div className="features-grid">
@@ -392,24 +241,24 @@ const OverviewPage: React.FC = () => {
               <div className="feature-icon">
                 <Heart size={32} className="text-red-500" />
               </div>
-              <h3>Easy to Understand</h3>
-              <p>No technical jargon. We explain everything in simple terms so you know exactly what's happening with your children's privacy.</p>
+              <h3>Family-First Design</h3>
+              <p>Every feature is designed with families in mind, ensuring age-appropriate content and easy parent oversight.</p>
             </div>
 
             <div className="feature-card fade-in">
               <div className="feature-icon">
-                <Shield size={32} className="text-green-500" />
+                <Brain size={32} className="text-purple-500" />
               </div>
-              <h3>Built for Parents</h3>
-              <p>Everything is designed with parents in mind. See risks, take action, and get help talking to your children - all in one place.</p>
+              <h3>Evidence-Based Learning</h3>
+              <p>Our curriculum is built on proven educational principles and privacy research, ensuring effective learning outcomes.</p>
             </div>
 
             <div className="feature-card fade-in">
               <div className="feature-icon">
                 <BookOpen size={32} className="text-blue-500" />
               </div>
-              <h3>Actionable Guidance</h3>
-              <p>Get clear next steps, conversation starters, and practical advice - not just information, but real help you can use right away.</p>
+              <h3>Interactive & Engaging</h3>
+              <p>Learning through stories, games, and activities that make privacy education fun and memorable for children.</p>
             </div>
           </div>
         </div>
@@ -419,16 +268,16 @@ const OverviewPage: React.FC = () => {
       <section className="cta-section">
         <div className="container">
           <div className="fade-in text-center">
-            <h2>Ready to Keep Your Family Safe Online?</h2>
-            <p>Start protecting your family today with simple, easy-to-use tools designed for parents.</p>
+            <h2>Ready to Get Started?</h2>
+            <p>Choose the path that's right for your family and begin your digital privacy education journey today.</p>
             <div className="cta-buttons">
               <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer" className="button primary">
-                <Shield size={20} />
-                Start Protecting Your Family
+                <Users size={20} />
+                Join Family Hub
               </a>
-              <Link to="/quick-start" className="button secondary">
-                <BookOpen size={20} />
-                See How to Get Started
+              <Link to="/privacy-panda" className="button secondary">
+                <Shield size={20} />
+                Try PrivacyPanda
               </Link>
             </div>
           </div>

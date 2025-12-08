@@ -50,7 +50,7 @@ const AgeVerificationModal: React.FC = () => {
     }
   }, [setShowAgeModal]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
@@ -69,12 +69,7 @@ const AgeVerificationModal: React.FC = () => {
       return;
     }
 
-    try {
-      await verifyAge(age, hasParentalConsent);
-    } catch (error) {
-      setError('Failed to save age verification. Please try again.');
-      console.error('Error verifying age:', error);
-    }
+    verifyAge(age, hasParentalConsent);
   };
 
   const handleAgeChange = (e: React.ChangeEvent<HTMLInputElement>) => {

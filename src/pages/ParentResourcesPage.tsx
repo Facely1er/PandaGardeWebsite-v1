@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MessageCircle, FileText, Shield, Download, Users, Award, Eye, Heart, Brain, BookOpen, Calendar, CheckSquare, Network } from 'lucide-react';
-import AgeSpecificConversations from '../components/parent/AgeSpecificConversations';
-import ConversationApproaches from '../components/parent/ConversationApproaches';
-import PrivacyChecklists from '../components/parent/PrivacyChecklists';
-import PrivacyDayPlanner from '../components/parent/PrivacyDayPlanner';
-import SafetyNetBuilder from '../components/parent/SafetyNetBuilder';
+import { MessageCircle, FileText, Shield, Download, Users, Award, Eye, Heart, Brain, BookOpen } from 'lucide-react';
 
 const ParentResourcesPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('what-to-do-now');
+  const [activeTab, setActiveTab] = useState('comprehensive-guides');
 
   const openResourceTab = (tabName: string) => {
     setActiveTab(tabName);
@@ -19,9 +14,9 @@ const ParentResourcesPage: React.FC = () => {
       <section className="hero-section">
         <div className="container">
           <div className="hero-content">
-            <span className="badge">FOR PARENTS</span>
-            <h1>Parent Guides & Resources</h1>
-            <p>Simple guides, conversation starters, and tools to help you protect your family online. Everything explained in plain language, no technical knowledge needed.</p>
+            <span className="badge">SUPPORTING RESOURCES</span>
+            <h1>Parent & Educator Resources</h1>
+            <p>Comprehensive tools, guides, and materials to help adults facilitate privacy education for children. Everything you need to create a safe digital environment for your family.</p>
             
             {/* Quick Stats */}
             <div className="flex items-center justify-center gap-8 mt-8 mb-8">
@@ -44,104 +39,48 @@ const ParentResourcesPage: React.FC = () => {
 
       <section className="resources-section">
         <div className="container">
-          {/* Quick Help Section */}
-          <div style={{ 
-            backgroundColor: '#f0f9ff', 
-            border: '2px solid #3b82f6', 
-            borderRadius: '12px', 
-            padding: '2rem', 
-            marginBottom: '3rem',
-            marginTop: '2rem'
-          }}>
-            <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#1e40af' }}>
-              Quick Help: Common Questions
-            </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
-              <div>
-                <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', color: '#1e40af' }}>How do I see what my children do online?</h3>
-                <p style={{ color: '#666', fontSize: '0.95rem' }}>Create a Family Hub account to see all apps and websites your children use.</p>
-              </div>
-              <div>
-                <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', color: '#1e40af' }}>What is a privacy risk score?</h3>
-                <p style={{ color: '#666', fontSize: '0.95rem' }}>A simple number showing how safe your child's privacy is. Lower is safer.</p>
-              </div>
-              <div>
-                <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', color: '#1e40af' }}>How do I talk to my child about privacy?</h3>
-                <p style={{ color: '#666', fontSize: '0.95rem' }}>Use our conversation starters - ready-to-use questions based on what your child uses.</p>
-              </div>
-            </div>
-          </div>
-
           <div className="resources-tabs">
             <div
-              className={`resource-tab ${activeTab === 'what-to-do-now' ? 'active' : ''}`}
-              onClick={() => openResourceTab('what-to-do-now')}
-            >
-              <Shield size={16} />
-              What to Do Now
-            </div>
-            <div
-              className={`resource-tab ${activeTab === 'how-to-talk' ? 'active' : ''}`}
-              onClick={() => openResourceTab('how-to-talk')}
-            >
-              <MessageCircle size={16} />
-              How to Talk to Kids
-            </div>
-            <div
-              className={`resource-tab ${activeTab === 'conversation-guides' ? 'active' : ''}`}
-              onClick={() => openResourceTab('conversation-guides')}
+              className={`resource-tab ${activeTab === 'comprehensive-guides' ? 'active' : ''}`}
+              onClick={() => openResourceTab('comprehensive-guides')}
             >
               <BookOpen size={16} />
-              Conversation Guides
+              Comprehensive Guides
             </div>
             <div
-              className={`resource-tab ${activeTab === 'privacy-settings' ? 'active' : ''}`}
-              onClick={() => openResourceTab('privacy-settings')}
+              className={`resource-tab ${activeTab === 'discussion-guides' ? 'active' : ''}`}
+              onClick={() => openResourceTab('discussion-guides')}
             >
-              <Shield size={16} />
-              Privacy Settings Help
-            </div>
-            <div
-              className={`resource-tab ${activeTab === 'family-privacy-plan' ? 'active' : ''}`}
-              onClick={() => openResourceTab('family-privacy-plan')}
-            >
-              <FileText size={16} />
-              Family Privacy Plan
-            </div>
-            <div
-              className={`resource-tab ${activeTab === 'safety-net' ? 'active' : ''}`}
-              onClick={() => openResourceTab('safety-net')}
-            >
-              <Network size={16} />
-              Safety Net Setup
-            </div>
-            <div
-              className={`resource-tab ${activeTab === 'checklists' ? 'active' : ''}`}
-              onClick={() => openResourceTab('checklists')}
-            >
-              <CheckSquare size={16} />
-              Privacy Checklists
-            </div>
-            <div
-              className={`resource-tab ${activeTab === 'privacy-day' ? 'active' : ''}`}
-              onClick={() => openResourceTab('privacy-day')}
-            >
-              <Calendar size={16} />
-              Privacy Day Planner
+              <MessageCircle size={16} />
+              Discussion Guides
             </div>
             <div
               className={`resource-tab ${activeTab === 'printable-resources' ? 'active' : ''}`}
               onClick={() => openResourceTab('printable-resources')}
             >
-              <Download size={16} />
+              <FileText size={16} />
               Printable Resources
+            </div>
+            <div
+              className={`resource-tab ${activeTab === 'digital-safety' ? 'active' : ''}`}
+              onClick={() => openResourceTab('digital-safety')}
+            >
+              <Shield size={16} />
+              Digital Safety Tips
+            </div>
+            <div
+              className={`resource-tab ${activeTab === 'activities-tools' ? 'active' : ''}`}
+              onClick={() => openResourceTab('activities-tools')}
+            >
+              <Users size={16} />
+              Activities & Tools
             </div>
           </div>
 
-          {/* What to Do Now Tab */}
-          <div className={`resource-content ${activeTab === 'what-to-do-now' ? 'active' : ''}`}>
-            <h2>What to Do Now: Action Items</h2>
-            <p>Immediate steps you can take right now to protect your family's online privacy. Start with these quick actions.</p>
+          {/* Comprehensive Guides Tab */}
+          <div className={`resource-content ${activeTab === 'comprehensive-guides' ? 'active' : ''}`}>
+            <h2>Comprehensive Privacy Education Guides</h2>
+            <p>In-depth guides covering all aspects of digital privacy education for families and educators. These comprehensive resources provide everything you need to teach children about online safety.</p>
 
             <div className="resource-grid">
               <div className="resource-card">
@@ -206,10 +145,10 @@ const ParentResourcesPage: React.FC = () => {
             </div>
           </div>
 
-          {/* How to Talk to Kids Tab */}
-          <div className={`resource-content ${activeTab === 'how-to-talk' ? 'active' : ''}`}>
-            <h2>How to Talk to Your Children About Privacy</h2>
-            <p>Ready-to-use conversation starters and guides to help you talk with your children about staying safe online. Each guide includes simple language and example questions.</p>
+          {/* Discussion Guides Tab */}
+          <div className={`resource-content ${activeTab === 'discussion-guides' ? 'active' : ''}`}>
+            <h2>Discussion Guides for Parents & Educators</h2>
+            <p>These discussion guides are designed to help you have meaningful conversations about digital privacy with children. Each guide includes age-appropriate language, example scenarios, and follow-up questions.</p>
 
             <div className="discussion-guide">
               <h3>How to Talk About Personal Information</h3>
@@ -294,10 +233,10 @@ const ParentResourcesPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Privacy Settings Help Tab */}
-          <div className={`resource-content ${activeTab === 'privacy-settings' ? 'active' : ''}`}>
-            <h2>Privacy Settings Help: Step-by-Step Guides</h2>
-            <p>Simple, step-by-step guides to help you set up privacy settings on your children's devices and apps. No technical knowledge needed.</p>
+          {/* Digital Safety Tips Tab */}
+          <div className={`resource-content ${activeTab === 'digital-safety' ? 'active' : ''}`}>
+            <h2>Digital Safety Tips for Families</h2>
+            <p>Expert advice to help parents and caregivers create a safe digital environment for children.</p>
 
             <div className="resource-grid">
               <div className="resource-card">
@@ -421,77 +360,6 @@ const ParentResourcesPage: React.FC = () => {
                   <span className="text-sm text-gray-500">Available Now</span>
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* Conversation Guides Tab */}
-          <div className={`resource-content ${activeTab === 'conversation-guides' ? 'active' : ''}`}>
-            <h2>Conversation Guides</h2>
-            <p>Learn effective ways to talk with your children about online privacy, plus ready-to-use conversation starters for different age groups.</p>
-            
-            <div style={{ marginTop: '2rem' }}>
-              <ConversationApproaches />
-            </div>
-            
-            <div style={{ marginTop: '3rem' }}>
-              <AgeSpecificConversations />
-            </div>
-          </div>
-
-          {/* Family Privacy Plan Tab */}
-          <div className={`resource-content ${activeTab === 'family-privacy-plan' ? 'active' : ''}`}>
-            <h2>Family Privacy Plan Builder</h2>
-            <p>Create a family privacy plan together. Set clear rules, choose safety tools, and schedule regular check-ups.</p>
-            
-            <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-              <Link
-                to="/family-privacy-plan"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  padding: '1rem 2rem',
-                  backgroundColor: '#4CAF50',
-                  color: 'white',
-                  borderRadius: '8px',
-                  textDecoration: 'none',
-                  fontWeight: 600,
-                  fontSize: '1.125rem'
-                }}
-              >
-                <FileText size={20} />
-                Create Your Family Privacy Plan
-              </Link>
-            </div>
-          </div>
-
-          {/* Safety Net Setup Tab */}
-          <div className={`resource-content ${activeTab === 'safety-net' ? 'active' : ''}`}>
-            <h2>Digital Safety Net Setup</h2>
-            <p>Build your family's support network for handling online privacy issues and emergencies. Designate tech guides and establish points of contact.</p>
-            
-            <div style={{ marginTop: '2rem' }}>
-              <SafetyNetBuilder />
-            </div>
-          </div>
-
-          {/* Privacy Checklists Tab */}
-          <div className={`resource-content ${activeTab === 'checklists' ? 'active' : ''}`}>
-            <h2>Interactive Privacy Checklists</h2>
-            <p>Track your family's privacy progress with age-appropriate checklists. Complete items as you work through privacy education together.</p>
-            
-            <div style={{ marginTop: '2rem' }}>
-              <PrivacyChecklists />
-            </div>
-          </div>
-
-          {/* Privacy Day Planner Tab */}
-          <div className={`resource-content ${activeTab === 'privacy-day' ? 'active' : ''}`}>
-            <h2>Family Privacy Day Planner</h2>
-            <p>Schedule quarterly "Privacy Days" to review and update your family's online privacy together. Make privacy maintenance a regular family activity.</p>
-            
-            <div style={{ marginTop: '2rem' }}>
-              <PrivacyDayPlanner />
             </div>
           </div>
         </div>
