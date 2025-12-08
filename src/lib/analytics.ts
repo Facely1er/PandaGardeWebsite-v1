@@ -1,5 +1,6 @@
 import ReactGA from 'react-ga4';
 import { logger } from './logger';
+import { coppaComplianceManager } from './coppaCompliance';
 
 // Analytics configuration
 interface AnalyticsConfig {
@@ -55,6 +56,12 @@ declare global {
 
 // Initialize analytics
 export const initAnalytics = () => {
+  // Check zero-data mode first (COPPA compliance)
+  if (coppaComplianceManager.isZeroDataMode()) {
+    logger.info('Analytics disabled: zero-data mode active (COPPA compliance)', undefined, 'ANALYTICS');
+    return;
+  }
+
   const config: AnalyticsConfig = {
     googleAnalyticsId: import.meta.env['VITE_GOOGLE_ANALYTICS_ID'],
     googleTagManagerId: import.meta.env['VITE_GOOGLE_TAG_MANAGER_ID'],
@@ -96,7 +103,7 @@ export const initAnalytics = () => {
 
 // Track page views
 export const trackPageView = (path: string, title?: string) => {
-  if (!import.meta.env['VITE_GOOGLE_ANALYTICS_ID']) {return;}
+  if (!isAnalyticsEnabled()) {return;}
 
   ReactGA.send({
     hitType: 'pageview',
@@ -113,7 +120,7 @@ export const trackPageView = (path: string, title?: string) => {
 
 // Track custom events
 export const trackEvent = (eventName: string, parameters?: Record<string, unknown>) => {
-  if (!import.meta.env['VITE_GOOGLE_ANALYTICS_ID']) {return;}
+  if (!isAnalyticsEnabled()) {return;}
 
   const category = typeof parameters?.['category'] === 'string' ? parameters['category'] : 'general';
   const label = typeof parameters?.['label'] === 'string' ? parameters['label'] : undefined;
@@ -194,7 +201,7 @@ export const trackError = (error: Error, context?: Record<string, unknown>) => {
 
 // Track user properties - filter out PII
 export const setUserProperties = (properties: Record<string, unknown>) => {
-  if (!import.meta.env['VITE_GOOGLE_ANALYTICS_ID']) {return;}
+  if (!isAnalyticsEnabled()) {return;}
 
   // Filter out PII fields
   const piiFields = ['email', 'name', 'phone', 'address', 'firstName', 'lastName', 'fullName'];
@@ -210,7 +217,7 @@ export const setUserProperties = (properties: Record<string, unknown>) => {
 
 // Track user ID - hash to protect PII
 export const setUserId = (userId: string) => {
-  if (!import.meta.env['VITE_GOOGLE_ANALYTICS_ID']) {return;}
+  if (!isAnalyticsEnabled()) {return;}
 
   // Hash the user ID to protect PII
   const hashedId = hashString(userId);
@@ -238,8 +245,13 @@ export const trackConversion = (conversionType: string, value?: number, currency
   });
 };
 
-// Privacy-compliant analytics (respects user preferences)
+// Privacy-compliant analytics (respects user preferences and COPPA compliance)
 export const isAnalyticsEnabled = () => {
+  // Check zero-data mode first (COPPA compliance - under-13s without consent)
+  if (coppaComplianceManager.isZeroDataMode()) {
+    return false;
+  }
+
   // Check if user has opted out
   const userOptOut = localStorage.getItem('analytics_opt_out');
   if (userOptOut === 'true') {

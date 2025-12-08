@@ -222,15 +222,110 @@ const PrivacyPolicyPage: React.FC = () => {
                    }}>
                 <h3 className="text-lg font-semibold mb-3 text-yellow-800"
                     style={{ color: theme === 'dark' ? '#FCD34D' : '#92400E' }}>
-                  Special Protections for Children
+                  Special Protections for Children Under 13
                 </h3>
+                <p className="mb-4 text-yellow-800"
+                   style={{ color: theme === 'dark' ? '#FCD34D' : '#92400E' }}>
+                  PandaGarde is fully compliant with the Children's Online Privacy Protection Act (COPPA).
+                  We have implemented strict measures to protect children under 13 years of age.
+                </p>
                 <ul className="list-disc pl-6 space-y-2 text-yellow-800"
                     style={{ color: theme === 'dark' ? '#FCD34D' : '#92400E' }}>
-                  <li>We do not knowingly collect personal information from children under 13</li>
+                  <li>We do not knowingly collect personal information from children under 13 without verifiable parental consent</li>
                   <li>All educational content is designed to be safe and appropriate for children</li>
                   <li>Parents can review and delete their child's progress data at any time</li>
                   <li>We follow COPPA (Children's Online Privacy Protection Act) guidelines</li>
                 </ul>
+              </div>
+
+              <div className="bg-white rounded-lg p-6 shadow-md mb-6" style={{ backgroundColor: 'var(--card-color)' }}>
+                <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--primary)' }}>
+                  Parental Consent Process
+                </h3>
+                <p className="mb-4" style={{ color: 'var(--gray-600)' }}>
+                  For children under 13, we require verifiable parental consent before collecting any personal information:
+                </p>
+                <ol className="list-decimal pl-6 space-y-3" style={{ color: 'var(--gray-600)' }}>
+                  <li>
+                    <strong>Age Verification:</strong> When a child indicates they are under 13, we immediately enable "zero-data mode" which prevents all data collection, including analytics tracking.
+                  </li>
+                  <li>
+                    <strong>Parental Consent Request:</strong> We request the parent's email address and send a verification email with a unique consent token.
+                  </li>
+                  <li>
+                    <strong>Email Verification:</strong> Parents must click the verification link in the email to provide consent. This ensures we have verifiable parental consent as required by COPPA.
+                  </li>
+                  <li>
+                    <strong>Consent Record:</strong> All consent records are encrypted and stored securely, including the child's age, parent's email, consent date, and IP address for audit purposes.
+                  </li>
+                  <li>
+                    <strong>Data Collection:</strong> Only after parental consent is verified do we allow data collection for the child's account.
+                  </li>
+                </ol>
+              </div>
+
+              <div className="bg-blue-50 border border-blue-200 p-6 rounded-lg mb-6"
+                   style={{
+                     backgroundColor: theme === 'dark' ? 'rgba(59, 130, 246, 0.1)' : '#EFF6FF',
+                     borderColor: theme === 'dark' ? 'rgba(59, 130, 246, 0.3)' : '#93C5FD'
+                   }}>
+                <h3 className="text-lg font-semibold mb-3 text-blue-800"
+                    style={{ color: theme === 'dark' ? '#93C5FD' : '#1E40AF' }}>
+                  Zero-Data Mode
+                </h3>
+                <p className="mb-3 text-blue-800"
+                   style={{ color: theme === 'dark' ? '#93C5FD' : '#1E40AF' }}>
+                  When zero-data mode is active (for children under 13 without verified parental consent), we:
+                </p>
+                <ul className="list-disc pl-6 space-y-2 text-blue-800"
+                    style={{ color: theme === 'dark' ? '#93C5FD' : '#1E40AF' }}>
+                  <li>Disable all analytics tracking and data collection</li>
+                  <li>Prevent storage of any personal information</li>
+                  <li>Allow access to educational content only</li>
+                  <li>Maintain strict privacy protections until consent is verified</li>
+                </ul>
+              </div>
+
+              <div className="bg-white rounded-lg p-6 shadow-md mb-6" style={{ backgroundColor: 'var(--card-color)' }}>
+                <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--primary)' }}>
+                  Parental Rights
+                </h3>
+                <p className="mb-4" style={{ color: 'var(--gray-600)' }}>
+                  Parents have the following rights regarding their child's information:
+                </p>
+                <ul className="list-disc pl-6 space-y-2" style={{ color: 'var(--gray-600)' }}>
+                  <li><strong>Review:</strong> Parents can request to review all personal information collected from their child</li>
+                  <li><strong>Delete:</strong> Parents can request deletion of their child's personal information at any time</li>
+                  <li><strong>Revoke Consent:</strong> Parents can revoke consent at any time, which will immediately delete all collected data and re-enable zero-data mode</li>
+                  <li><strong>Refuse Collection:</strong> Parents can refuse to allow further collection or use of their child's information</li>
+                  <li><strong>Contact:</strong> Parents can contact us at privacy@pandagarde.com with any questions or concerns</li>
+                </ul>
+              </div>
+
+              <div className="bg-green-50 border border-green-200 p-6 rounded-lg"
+                   style={{
+                     backgroundColor: theme === 'dark' ? 'rgba(34, 197, 94, 0.1)' : '#F0FDF4',
+                     borderColor: theme === 'dark' ? 'rgba(34, 197, 94, 0.3)' : '#86EFAC'
+                   }}>
+                <h3 className="text-lg font-semibold mb-3 text-green-800"
+                    style={{ color: theme === 'dark' ? '#86EFAC' : '#166534' }}>
+                  What Information We Collect (With Consent)
+                </h3>
+                <p className="mb-3 text-green-800"
+                   style={{ color: theme === 'dark' ? '#86EFAC' : '#166534' }}>
+                  After receiving verifiable parental consent, we may collect:
+                </p>
+                <ul className="list-disc pl-6 space-y-2 text-green-800"
+                    style={{ color: theme === 'dark' ? '#86EFAC' : '#166534' }}>
+                  <li>Child's age (for age-appropriate content)</li>
+                  <li>Progress data (activity completion, scores) - stored locally on device</li>
+                  <li>Parent's email address (for consent verification and communication)</li>
+                  <li>Consent token and verification status (encrypted)</li>
+                </ul>
+                <p className="mt-3 text-sm text-green-700"
+                   style={{ color: theme === 'dark' ? '#86EFAC' : '#166534' }}>
+                  <strong>Note:</strong> All personal information is encrypted before storage, and we never share this information with third parties.
+                </p>
               </div>
             </section>
 
