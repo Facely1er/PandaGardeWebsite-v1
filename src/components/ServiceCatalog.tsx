@@ -33,6 +33,7 @@ import { useFamily, type ServiceUsage } from '../contexts/FamilyContext';
 import { calculatePrivacyExposureIndex, getExposureLevel } from '../lib/privacyExposureIndex';
 import { getServiceLogoUrlWithBrandColor, hasServiceLogo } from '../utils/serviceLogos';
 import { useTheme } from '../contexts/ThemeContext';
+import ServiceRelationshipMap from './ServiceRelationshipMap';
 
 interface ServiceCatalogProps {
   memberId?: string; // If provided, shows services for specific member
@@ -50,6 +51,8 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory | 'all'>('all');
   const [selectedRisk, setSelectedRisk] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<'name' | 'exposure' | 'age'>('name');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [selectedService, setSelectedService] = useState<ChildService | null>(null);
   const [isRequesting, setIsRequesting] = useState(false);
 
@@ -57,7 +60,7 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
   const member = memberId ? familyMembers.find(m => m.id === memberId) : null;
   const memberServices = member?.services || [];
 
-  // Filter services
+  // Filter and sort services
   const filteredServices = useMemo(() => {
     let services = childServiceCatalog;
 
@@ -81,8 +84,29 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
       services = services.filter(s => s.riskLevel === selectedRisk);
     }
 
+    // Sort services
+    services = [...services].sort((a, b) => {
+      let comparison = 0;
+      
+      switch (sortBy) {
+        case 'name':
+          comparison = a.name.localeCompare(b.name);
+          break;
+        case 'exposure':
+          const exposureA = calculatePrivacyExposureIndex(a.id) || 0;
+          const exposureB = calculatePrivacyExposureIndex(b.id) || 0;
+          comparison = exposureA - exposureB;
+          break;
+        case 'age':
+          comparison = a.minAge - b.minAge;
+          break;
+      }
+      
+      return sortOrder === 'asc' ? comparison : -comparison;
+    });
+
     return services;
-  }, [searchQuery, selectedCategory, selectedRisk]);
+  }, [searchQuery, selectedCategory, selectedRisk, sortBy, sortOrder]);
 
   // Get category icon
   const getCategoryIcon = (category: ServiceCategory) => {
@@ -221,6 +245,24 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
             <option value="high">High Risk</option>
             <option value="very-high">Very High Risk</option>
           </select>
+
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as 'name' | 'exposure' | 'age')}
+            className="filter-select"
+          >
+            <option value="name">Sort by Name</option>
+            <option value="exposure">Sort by Exposure Index</option>
+            <option value="age">Sort by Age</option>
+          </select>
+
+          <button
+            onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+            className="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded text-sm font-medium transition-colors"
+            title={`Sort ${sortOrder === 'asc' ? 'Descending' : 'Ascending'}`}
+          >
+            {sortOrder === 'asc' ? '↑' : '↓'}
+          </button>
         </div>
       </div>
 
@@ -534,6 +576,17 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
                   </div>
                 </div>
               </div>
+
+              {/* Service Relationships */}
+              <ServiceRelationshipMap 
+                serviceId={selectedService.id}
+                onServiceClick={(serviceId) => {
+                  const service = childServiceCatalog.find(s => s.id === serviceId);
+                  if (service) {
+                    setSelectedService(service);
+                  }
+                }}
+              />
 
               {/* Quick Decision Guide */}
               <div className="modal-section" style={{ backgroundColor: '#fef3c7', padding: '1.5rem', borderRadius: '8px', marginTop: '1rem', border: '2px solid #f59e0b' }}>

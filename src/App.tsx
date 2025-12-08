@@ -59,6 +59,10 @@ import ChildSafetyAlertsPage from './pages/ChildSafetyAlertsPage';
 import ServiceCatalogPage from './pages/ServiceCatalogPage';
 import ParentalConsentPage from './pages/ParentalConsentPage';
 import ParentalConsentPendingPage from './pages/ParentalConsentPendingPage';
+import DigitalFootprintPage from './pages/DigitalFootprintPage';
+import PrivacyAssessmentPage from './pages/PrivacyAssessmentPage';
+import AssessmentHistoryPage from './pages/AssessmentHistoryPage';
+import PrivacyGoalsPage from './pages/PrivacyGoalsPage';
 import NavigationErrorBoundary from './components/NavigationErrorBoundary';
 import AgeVerificationModal from './components/AgeVerificationModal';
 import { SentryErrorBoundary } from './lib/sentry';
@@ -149,6 +153,14 @@ function App() {
             <Route path="/service-catalog" element={<ServiceCatalogPage />} />
             <Route path="/safety-alerts" element={<ChildSafetyAlertsPage />} />
             <Route path="/alerts" element={<ChildSafetyAlertsPage />} />
+            <Route path="/digital-footprint" element={<DigitalFootprintPage />} />
+            <Route path="/footprint" element={<DigitalFootprintPage />} />
+            <Route path="/privacy-assessment" element={<PrivacyAssessmentPage />} />
+            <Route path="/assessment" element={<PrivacyAssessmentPage />} />
+            <Route path="/assessment-history" element={<AssessmentHistoryPage />} />
+            <Route path="/assessment/history" element={<AssessmentHistoryPage />} />
+            <Route path="/privacy-goals" element={<PrivacyGoalsPage />} />
+            <Route path="/goals" element={<PrivacyGoalsPage />} />
             
             {/* COPPA Compliance Pages */}
             <Route path="/parental-consent" element={<ParentalConsentPage />} />

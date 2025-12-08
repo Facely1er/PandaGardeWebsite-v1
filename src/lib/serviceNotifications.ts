@@ -35,7 +35,34 @@ export class ChildServiceNotificationManager {
   };
 
   /**
-   * Get notifications for selected services
+   * Get notifications for selected services (async version with RSS support)
+   */
+  async getNotificationsForServicesAsync(selectedServiceIds: string[], notificationPrefs: Record<string, boolean> = {}): Promise<ServiceNotification[]> {
+    const notifications: ServiceNotification[] = [];
+    
+    // Get RSS-based notifications
+    const rssNotifications = await this.getNotificationsFromRSS(selectedServiceIds);
+    notifications.push(...rssNotifications);
+
+    // Get other notifications
+    const otherNotifications = this.getNotificationsForServices(selectedServiceIds, notificationPrefs);
+    notifications.push(...otherNotifications);
+
+    // Remove duplicates and sort
+    const uniqueNotifications = Array.from(
+      new Map(notifications.map(n => [n.id, n])).values()
+    );
+
+    return uniqueNotifications.sort((a, b) => {
+      const priorityOrder = { high: 3, medium: 2, low: 1 };
+      const priorityDiff = priorityOrder[b.priority] - priorityOrder[a.priority];
+      if (priorityDiff !== 0) return priorityDiff;
+      return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+    });
+  }
+
+  /**
+   * Get notifications for selected services (synchronous version)
    */
   getNotificationsForServices(selectedServiceIds: string[], notificationPrefs: Record<string, boolean> = {}): ServiceNotification[] {
     const notifications: ServiceNotification[] = [];
@@ -179,21 +206,105 @@ export class ChildServiceNotificationManager {
     }
   }
 
+  /**
+   * Get notifications from RSS feeds for services
+   */
+  async getNotificationsFromRSS(selectedServiceIds: string[]): Promise<ServiceNotification[]> {
+    try {
+      // Import RSS alert service dynamically to avoid circular dependencies
+      const { childRSSAlertService } = await import('./rssAlertService');
+      const alerts = await childRSSAlertService.processFeeds();
+      
+      const notifications: ServiceNotification[] = [];
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+      alerts
+        .filter(alert => {
+          // Only include alerts from last 30 days
+          const alertDate = new Date(alert.publishedDate);
+          if (alertDate < thirtyDaysAgo) return false;
+
+          // Check if alert relates to any selected service
+          return alert.relatedServices.some(serviceId => selectedServiceIds.includes(serviceId));
+        })
+        .slice(0, 10) // Limit to 10 most recent
+        .forEach(alert => {
+          alert.relatedServices.forEach(serviceId => {
+            if (!selectedServiceIds.includes(serviceId)) return;
+
+            const service = childServiceCatalog.find(s => s.id === serviceId);
+            if (!service) return;
+
+            const notificationType = alert.category === 'data-breach' 
+              ? this.notificationTypes.DATA_BREACH
+              : alert.severity === 'critical' || alert.severity === 'high'
+              ? this.notificationTypes.SAFETY_UPDATE
+              : this.notificationTypes.POLICY_UPDATE;
+
+            notifications.push({
+              id: `rss-${alert.id}-${serviceId}`,
+              serviceId,
+              serviceName: service.name,
+              type: notificationType,
+              title: alert.title,
+              message: alert.description || alert.title,
+              priority: alert.severity === 'critical' ? 'high' : alert.severity === 'high' ? 'medium' : 'low',
+              timestamp: alert.publishedDate,
+              category: alert.category === 'data-breach' ? 'breach' : 'safety',
+              action: alert.link ? {
+                label: 'View Alert',
+                url: alert.link
+              } : undefined
+            });
+          });
+        });
+
+      return notifications;
+    } catch (error) {
+      console.warn('Error fetching RSS notifications:', error);
+      return [];
+    }
+  }
+
   // Data retrieval methods (would connect to API/database in production)
   private getLastPolicyUpdate(serviceId: string): string | null {
     // In production: fetch from API that monitors policy changes
-    // For now, return null (no updates)
-    return null;
+    // For now, check localStorage for manually added updates
+    try {
+      const updates = JSON.parse(
+        localStorage.getItem('pandagarde_policy_updates') || '{}'
+      );
+      return updates[serviceId] || null;
+    } catch {
+      return null;
+    }
   }
 
   private getSafetyUpdate(serviceId: string): { title?: string; message?: string; priority?: 'high' | 'medium' | 'low'; timestamp: string } | null {
     // In production: check safety update feeds
-    return null;
+    // For now, check localStorage for manually added updates
+    try {
+      const updates = JSON.parse(
+        localStorage.getItem('pandagarde_safety_updates') || '{}'
+      );
+      return updates[serviceId] || null;
+    } catch {
+      return null;
+    }
   }
 
   private getRecentDataBreach(serviceId: string): { message?: string; timestamp: string } | null {
     // In production: check breach databases
-    return null;
+    // For now, check localStorage for manually added breaches
+    try {
+      const breaches = JSON.parse(
+        localStorage.getItem('pandagarde_data_breaches') || '{}'
+      );
+      return breaches[serviceId] || null;
+    } catch {
+      return null;
+    }
   }
 
   private isRecent(date: string, days: number): boolean {

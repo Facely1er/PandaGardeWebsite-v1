@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search } from 'lucide-react';
+import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search, Bell } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import SearchModal from './SearchModal';
 import OfflineIndicator from './OfflineIndicator';
+import ServiceNotificationCenter from './ServiceNotificationCenter';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -289,6 +290,16 @@ const Header: React.FC = () => {
           </ul>
           
           <div className="nav-actions" role="toolbar" aria-label="Navigation actions">
+            {/* Notification Badge */}
+            <Link
+              to="/safety-alerts"
+              className="relative p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+              aria-label="View safety alerts and notifications"
+              title="Safety Alerts"
+            >
+              <Bell size={20} aria-hidden="true" />
+            </Link>
+            
             <button
               onClick={() => setIsSearchModalOpen(true)}
               className="search-toggle"

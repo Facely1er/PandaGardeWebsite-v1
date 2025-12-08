@@ -5,6 +5,7 @@
  */
 
 import { childServiceCatalog, type ChildService, getRiskScore } from '../data/childServiceCatalog';
+import { getServiceRelationship, getSiblingServices } from '../data/serviceRelationships';
 
 /**
  * Calculate Privacy Exposure Index (0-100) for a child service
@@ -52,6 +53,18 @@ export function calculatePrivacyExposureIndex(serviceId: string): number | null 
     'other': 10
   };
   score += categoryRiskScores[service.category] || 10;
+  
+  // Factor 5: Parent company complexity (0-10 points)
+  // Services with parent companies and siblings have more data sharing potential
+  const relationship = getServiceRelationship(serviceId);
+  if (relationship?.parent) {
+    score += 5; // Base parent company penalty (data sharing across services)
+    const siblings = getSiblingServices(serviceId);
+    if (siblings && siblings.length > 0) {
+      // More sibling services = more data sharing opportunities
+      score += Math.min(siblings.length * 2, 5);
+    }
+  }
   
   // Normalize to 0-100
   return Math.min(Math.round(score), maxScore);

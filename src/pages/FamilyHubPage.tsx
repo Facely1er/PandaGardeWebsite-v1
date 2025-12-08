@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Users, BookOpen, Book, Settings, Award, TrendingUp, Clock, CheckCircle, ArrowLeft, User, Shield as Child, UserCheck, Star, Play, Download, Plus, UserPlus, LogOut } from 'lucide-react';
+import { Users, BookOpen, Book, Settings, Award, TrendingUp, Clock, CheckCircle, ArrowLeft, User, Shield as Child, UserCheck, Star, Play, Download, Plus, UserPlus, LogOut, Globe, Shield, Target } from 'lucide-react';
 import Logo from '../components/Logo';
 import { useAuth } from './family-hub/AuthWrapper';
 import { useFamily } from '../contexts/FamilyContext';
 import { useProgress } from '../contexts/ProgressContext';
+import DigitalFootprintVisualizer from '../components/DigitalFootprintVisualizer';
+import FamilyPrivacyAssessment from '../components/FamilyPrivacyAssessment';
+import PrivacyGoals from '../components/PrivacyGoals';
 
 
 interface Activity {
@@ -14,7 +17,7 @@ interface Activity {
   ageGroups: string[];
   duration: string;
   completed: boolean;
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: React.ComponentType<any>;
 }
 
 const FamilyHubPage: React.FC = () => {
@@ -109,6 +112,30 @@ const FamilyHubPage: React.FC = () => {
       action: 'app-link',
       color: 'from-orange-500 to-orange-600',
       url: '/family-hub'
+    },
+    {
+      title: 'Digital Footprint',
+      description: 'Analyze your family\'s online presence and privacy exposure',
+      icon: Globe,
+      action: 'footprint',
+      color: 'from-indigo-500 to-indigo-600',
+      url: '/digital-footprint'
+    },
+    {
+      title: 'Privacy Assessment',
+      description: 'Evaluate your family\'s privacy practices and get recommendations',
+      icon: Shield,
+      action: 'assessment',
+      color: 'from-blue-500 to-blue-600',
+      url: '/privacy-assessment'
+    },
+    {
+      title: 'Privacy Goals',
+      description: 'Set and track privacy improvement goals for your family',
+      icon: Target,
+      action: 'goals',
+      color: 'from-purple-500 to-purple-600',
+      url: '/privacy-goals'
     }
   ];
 
@@ -367,6 +394,27 @@ const FamilyHubPage: React.FC = () => {
               )}
             </section>
 
+            {/* Digital Footprint Widget */}
+            <section>
+              <div className="bg-white rounded-xl p-6 border-2 border-indigo-200 dark:border-indigo-800" style={{ backgroundColor: 'var(--card-color)' }}>
+                <DigitalFootprintVisualizer compact={true} />
+              </div>
+            </section>
+
+            {/* Privacy Assessment Widget */}
+            <section>
+              <div className="bg-white rounded-xl p-6 border-2 border-blue-200 dark:border-blue-800" style={{ backgroundColor: 'var(--card-color)' }}>
+                <FamilyPrivacyAssessment compact={true} />
+              </div>
+            </section>
+
+            {/* Privacy Goals Widget */}
+            <section>
+              <div className="bg-white rounded-xl p-6 border-2 border-purple-200 dark:border-purple-800" style={{ backgroundColor: 'var(--card-color)' }}>
+                <PrivacyGoals compact={true} />
+              </div>
+            </section>
+
             {/* Quick Actions */}
             <section>
               <h2 className="text-3xl font-bold mb-8" style={{ color: 'var(--primary)' }}>
@@ -378,6 +426,27 @@ const FamilyHubPage: React.FC = () => {
                   const IconComponent = action.icon;
                   
                   if (action.url) {
+                    // Check if it's an internal route (starts with /) or external
+                    if (action.url.startsWith('/')) {
+                      return (
+                        <Link
+                          key={index}
+                          to={action.url}
+                          className="bg-white rounded-xl p-6 text-left hover:shadow-lg transition-all transform hover:scale-105 block"
+                          style={{ backgroundColor: 'var(--card-color)' }}
+                        >
+                          <div className={`w-12 h-12 bg-gradient-to-r ${action.color} rounded-lg flex items-center justify-center text-white mb-4`}>
+                            <IconComponent size={24} />
+                          </div>
+                          <h3 className="font-bold mb-2" style={{ color: 'var(--primary)' }}>
+                            {action.title}
+                          </h3>
+                          <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
+                            {action.description}
+                          </p>
+                        </Link>
+                      );
+                    }
                     return (
                       <a
                         key={index}
@@ -577,23 +646,30 @@ const FamilyHubPage: React.FC = () => {
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {familyMembers.map((member) => (
-                  <div key={member.id} className="text-center">
-                    <div className="text-2xl mb-2">{member.avatar}</div>
-                    <h4 className="font-bold mb-2" style={{ color: 'var(--primary)' }}>
-                      {member.name}
-                    </h4>
-                    <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
-                      <div 
-                        className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full transition-all duration-500"
-                        style={{ width: `${member.progress}%` }}
-                      />
+                {familyMembers.map((member) => {
+                  const memberName = `${member.first_name} ${member.last_name}`.trim();
+                  const progress = (member as any).progress || 0;
+                  const completedActivities = (member as any).completedActivities || 0;
+                  const totalActivities = (member as any).totalActivities || 0;
+                  
+                  return (
+                    <div key={member.id} className="text-center">
+                      <div className="text-2xl mb-2">{member.avatar || '👤'}</div>
+                      <h4 className="font-bold mb-2" style={{ color: 'var(--primary)' }}>
+                        {memberName || 'Family Member'}
+                      </h4>
+                      <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
+                        <div 
+                          className="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full transition-all duration-500"
+                          style={{ width: `${progress}%` }}
+                        />
+                      </div>
+                      <div className="text-sm font-medium" style={{ color: 'var(--gray-600)' }}>
+                        {completedActivities}/{totalActivities} activities
+                      </div>
                     </div>
-                    <div className="text-sm font-medium" style={{ color: 'var(--gray-600)' }}>
-                      {member.completedActivities}/{member.totalActivities} activities
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>
