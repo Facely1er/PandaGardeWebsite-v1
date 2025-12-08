@@ -1,0 +1,259 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowLeft, ChevronDown, ChevronUp, HelpCircle, Book, Users, Shield, Download } from 'lucide-react';
+import Logo from '../components/Logo';
+
+interface FAQItem {
+  id: string;
+  question: string;
+  answer: string;
+  category: string;
+}
+
+const FAQPage: React.FC = () => {
+  const [openItems, setOpenItems] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+
+  const faqItems: FAQItem[] = [
+    {
+      id: '1',
+      question: 'What is PandaGarde and who is it for?',
+      answer: 'PandaGarde is an educational platform designed to teach children ages 5-18 about digital privacy and online safety. It uses interactive activities, stories, and games to make learning about privacy engaging and fun for the whole family.',
+      category: 'general'
+    },
+    {
+      id: '2',
+      question: 'Is PandaGarde free to use?',
+      answer: 'Yes! PandaGarde is completely free for families and educators. We believe privacy education should be accessible to everyone, so all our resources, activities, and content are available at no cost.',
+      category: 'general'
+    },
+    {
+      id: '3',
+      question: 'What age groups does PandaGarde support?',
+      answer: 'PandaGarde is designed for children ages 5-18, with age-appropriate content and activities for each stage. We have specific resources for early learners (5-8), elementary students (9-12), and teenagers (13-18).',
+      category: 'general'
+    },
+    {
+      id: '4',
+      question: 'How do I get started with PandaGarde?',
+      answer: 'Getting started is easy! Simply explore our age-appropriate resources, try the interactive activities in our Activity Book, and follow our implementation timeline. We recommend starting with the Privacy Panda story to introduce key concepts.',
+      category: 'getting-started'
+    },
+    {
+      id: '5',
+      question: 'Can educators use PandaGarde in schools?',
+      answer: 'Absolutely! We provide educator-specific resources and curriculum guides for classroom use. Teachers can use our activities, stories, and discussion guides to teach digital privacy concepts in their classrooms.',
+      category: 'educators'
+    },
+    {
+      id: '6',
+      question: 'How do the interactive activities work?',
+      answer: 'Our activities are designed to be engaging and educational. They include coloring pages, drag-and-drop games, mazes, word searches, and matching games. Each activity teaches specific privacy concepts while being fun to complete.',
+      category: 'activities'
+    },
+    {
+      id: '7',
+      question: 'Is my child\'s data safe on PandaGarde?',
+      answer: 'Yes, we take privacy very seriously. We don\'t collect personal information from children, and all progress data is stored locally on your device. We follow strict privacy guidelines and don\'t share any data with third parties.',
+      category: 'privacy'
+    },
+    {
+      id: '8',
+      question: 'Can I track my child\'s progress?',
+      answer: 'Yes! Our progress tracking system allows you to see which activities your child has completed, their scores, and overall learning progress. This helps you understand what they\'ve learned and identify areas for further discussion.',
+      category: 'progress'
+    },
+    {
+      id: '9',
+      question: 'What if my child has questions about privacy?',
+      answer: 'We provide discussion guides and conversation starters for parents to help answer questions about privacy. Our resources are designed to make these important conversations easier and more engaging for both parents and children.',
+      category: 'support'
+    },
+    {
+      id: '10',
+      question: 'Are there offline resources available?',
+      answer: 'Yes! We offer downloadable coloring sheets, certificates, family agreements, and printable activities that you can use offline. These are perfect for continuing the learning away from screens.',
+      category: 'resources'
+    },
+    {
+      id: '11',
+      question: 'How often is new content added?',
+      answer: 'We regularly add new activities, stories, and resources to keep the learning experience fresh and engaging. We also update our content based on feedback from families and educators.',
+      category: 'content'
+    },
+    {
+      id: '12',
+      question: 'Can I use PandaGarde on mobile devices?',
+      answer: 'Yes! PandaGarde is designed to work on all devices including smartphones, tablets, and computers. Our activities are optimized for touch interactions and responsive design.',
+      category: 'technical'
+    }
+  ];
+
+  const categories = [
+    { id: 'all', label: 'All Questions', icon: HelpCircle },
+    { id: 'general', label: 'General', icon: Book },
+    { id: 'getting-started', label: 'Getting Started', icon: Users },
+    { id: 'activities', label: 'Activities', icon: Shield },
+    { id: 'privacy', label: 'Privacy & Safety', icon: Shield },
+    { id: 'educators', label: 'For Educators', icon: Users },
+    { id: 'technical', label: 'Technical', icon: Download }
+  ];
+
+  const filteredItems = selectedCategory === 'all'
+    ? faqItems
+    : faqItems.filter(item => item.category === selectedCategory);
+
+  const toggleItem = (id: string) => {
+    setOpenItems(prev =>
+      prev.includes(id)
+        ? prev.filter(item => item !== id)
+        : [...prev, id]
+    );
+  };
+
+  return (
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
+      {/* Header */}
+      <header className="bg-gradient-to-r from-green-600 to-green-500 text-white py-20 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
+          }} />
+        </div>
+
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="flex items-center justify-center mb-8">
+            <div className="w-20 h-20 mr-4">
+              <Logo />
+            </div>
+          </div>
+
+          <div className="text-center">
+            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
+              <HelpCircle size={16} />
+              <span className="text-sm font-semibold">FREQUENTLY ASKED QUESTIONS</span>
+            </div>
+
+            <h1 className="text-5xl font-bold mb-6 leading-tight">
+              Frequently Asked
+              <span className="block text-yellow-300">Questions</span>
+            </h1>
+
+            <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
+              Find answers to common questions about PandaGarde, our privacy education platform, and how to get the most out of your learning experience.
+            </p>
+          </div>
+        </div>
+      </header>
+
+      {/* Navigation */}
+      <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
+        <div className="container mx-auto px-6 py-4">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
+            style={{ color: 'var(--primary-light)' }}
+          >
+            <ArrowLeft size={16} />
+            Back to Home
+          </Link>
+        </div>
+      </div>
+
+      {/* FAQ Content */}
+      <main className="container mx-auto px-6 py-16">
+        <div className="max-w-4xl mx-auto">
+          {/* Category Filter */}
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold mb-6" style={{ color: 'var(--primary)' }}>
+              Browse by Category
+            </h2>
+            <div className="flex flex-wrap gap-3">
+              {categories.map((category) => {
+                const Icon = category.icon;
+                return (
+                  <button
+                    key={category.id}
+                    onClick={() => setSelectedCategory(category.id)}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all ${
+                      selectedCategory === category.id
+                        ? 'bg-green-500 text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                    style={{
+                      backgroundColor: selectedCategory === category.id ? 'var(--primary-light)' : undefined,
+                      color: selectedCategory === category.id ? 'white' : undefined
+                    }}
+                  >
+                    <Icon size={16} />
+                    {category.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* FAQ Items */}
+          <div className="space-y-4">
+            {filteredItems.map((item) => (
+              <div
+                key={item.id}
+                className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden"
+                style={{ backgroundColor: 'var(--card-color)', boxShadow: 'var(--shadow-md)' }}
+              >
+                <button
+                  onClick={() => toggleItem(item.id)}
+                  className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
+                  style={{ backgroundColor: 'var(--gray-100)' }}
+                >
+                  <h3 className="text-lg font-semibold pr-4" style={{ color: 'var(--primary)' }}>
+                    {item.question}
+                  </h3>
+                  {openItems.includes(item.id) ? (
+                    <ChevronUp size={20} className="text-gray-500 flex-shrink-0" />
+                  ) : (
+                    <ChevronDown size={20} className="text-gray-500 flex-shrink-0" />
+                  )}
+                </button>
+
+                {openItems.includes(item.id) && (
+                  <div className="px-6 pb-4">
+                    <p className="text-gray-700 leading-relaxed" style={{ color: 'var(--gray-600)' }}>
+                      {item.answer}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Contact Section */}
+          <div className="mt-16 bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-8 text-white text-center">
+            <h2 className="text-2xl font-bold mb-4">
+              Still Have Questions?
+            </h2>
+            <p className="text-lg mb-6 opacity-90">
+              Can't find what you're looking for? We're here to help!
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link
+                to="/contact"
+                className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+              >
+                Contact Us
+              </Link>
+              <Link
+                to="/activity-book"
+                className="bg-green-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors"
+              >
+                Try Activities
+              </Link>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default FAQPage;
