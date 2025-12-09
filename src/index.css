@@ -190,14 +190,12 @@
   animation: pulse 1s ease-in-out infinite;
 }
 
-/* Rainbow text effect */
+/* Refined gradient text effect */
 .rainbow-text {
-  background: var(--gradient-rainbow);
-  background-size: 200% 200%;
+  background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: rainbow 3s ease infinite;
 }
 
 /* Sparkle effect - removed emoji, using subtle glow instead */

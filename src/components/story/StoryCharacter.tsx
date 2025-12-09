@@ -38,13 +38,13 @@ const StoryCharacter: React.FC<StoryCharacterProps> = ({
   };
 
   const emotionStyles = {
-    happy: { transform: 'scale(1.1)', filter: 'brightness(1.2) saturate(1.3)' },
-    sad: { transform: 'scale(0.9)', filter: 'brightness(0.8) hue-rotate(180deg) saturate(0.7)' },
-    worried: { transform: 'scale(0.95)', filter: 'brightness(0.9) hue-rotate(30deg) saturate(0.8)' },
-    excited: { transform: 'scale(1.2)', filter: 'brightness(1.3) saturate(1.5) hue-rotate(10deg)' },
-    confused: { transform: 'scale(1)', filter: 'brightness(1) hue-rotate(60deg) saturate(1.1)' },
-    proud: { transform: 'scale(1.15)', filter: 'brightness(1.2) saturate(1.3) hue-rotate(-10deg)' },
-    shy: { transform: 'scale(0.85)', filter: 'brightness(0.9) saturate(0.8) hue-rotate(-20deg)' }
+    happy: { filter: 'brightness(1.1) saturate(1.2)' },
+    sad: { filter: 'brightness(0.85) saturate(0.7)' },
+    worried: { filter: 'brightness(0.95) saturate(0.9)' },
+    excited: { filter: 'brightness(1.15) saturate(1.3)' },
+    confused: { filter: 'brightness(1) saturate(1.1)' },
+    proud: { filter: 'brightness(1.1) saturate(1.2)' },
+    shy: { filter: 'brightness(0.9) saturate(0.85)' }
   };
 
   const sizeStyles = {
