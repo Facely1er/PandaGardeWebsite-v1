@@ -168,18 +168,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          name: build-files
-          path: dist/
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
 
-      - name: Deploy to Production
-        run: |
-          echo "Deploying to production environment..."
-          # Add your production deployment commands here
-          # Example: rsync, scp, or other deployment method
-          echo "Production deployment completed"
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Deploy to Vercel Production
+        uses: amondnet/vercel-action@v25
+        id: vercel-deploy
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod --yes'
+          scope: ${{ secrets.VERCEL_ORG_ID }}
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
@@ -189,10 +195,14 @@ jobs:
           VITE_SENTRY_PROJECT: ${{ secrets.VITE_SENTRY_PROJECT }}
           VITE_SENTRY_AUTH_TOKEN: ${{ secrets.VITE_SENTRY_AUTH_TOKEN }}
 
+      - name: Display deployment URL
+        run: |
+          echo "🚀 Deployment completed!"
+          echo "Preview URL: ${{ steps.vercel-deploy.outputs.preview-url }}"
+
       - name: Run post-deployment tests
         run: |
           echo "Running post-deployment health checks..."
-          # Add health check commands here
           if [ -n "${{ secrets.PRODUCTION_URL }}" ]; then
             curl -f ${{ secrets.PRODUCTION_URL }}/health || exit 1
           else
