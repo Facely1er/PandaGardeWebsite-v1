@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, CheckCircle, Baby, User, GraduationCap } from 'lucide-react';
+import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, Baby, User, GraduationCap } from 'lucide-react';
 
 const HomePage: React.FC = () => {
   useEffect(() => {
