@@ -488,7 +488,7 @@ const FamilyHubPage: React.FC = () => {
                         href={action.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-white rounded-xl p-6 text-left hover:shadow-lg transition-all transform hover:scale-105 block"
+                        className="bg-white rounded-xl p-6 text-left hover:shadow-lg transition-all block"
                         style={{ backgroundColor: 'var(--card-color)' }}
                       >
                         <div className={`w-12 h-12 bg-gradient-to-r ${action.color} rounded-lg flex items-center justify-center text-white mb-4`}>
@@ -860,7 +860,7 @@ const FamilyHubPage: React.FC = () => {
                 href="/family-hub" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="bg-white rounded-xl p-6 hover:shadow-lg transition-all transform hover:scale-105 block"
+                className="bg-white rounded-xl p-6 hover:shadow-lg transition-all block"
                 style={{ backgroundColor: 'var(--card-color)' }}
               >
                 <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
