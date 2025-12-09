@@ -3,6 +3,18 @@ import react from '@vitejs/plugin-react';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 
+// Plugin to handle optional dependencies
+const optionalDependenciesPlugin = () => ({
+  name: 'optional-dependencies',
+  resolveId(id: string) {
+    // Make @emailjs/browser optional - return null so it's not bundled
+    if (id === '@emailjs/browser') {
+      return { id, external: true };
+    }
+    return null;
+  },
+});
+
 // Helper function to safely get environment variables
 const getEnvVar = (key: string): string | undefined => {
   try {
@@ -16,6 +28,7 @@ const getEnvVar = (key: string): string | undefined => {
 export default defineConfig({
   plugins: [
     react(),
+    optionalDependenciesPlugin(),
     // Only add Sentry plugin if environment variables are available
     ...(getEnvVar('VITE_SENTRY_ORG') && getEnvVar('VITE_SENTRY_PROJECT') && getEnvVar('VITE_SENTRY_AUTH_TOKEN') ? [
       sentryVitePlugin({

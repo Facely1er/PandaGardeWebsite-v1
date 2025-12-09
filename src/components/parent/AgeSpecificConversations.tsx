@@ -67,9 +67,9 @@ const AgeSpecificConversations: React.FC = () => {
             'Who are the trusted adults you can talk to if something feels wrong?'
           ],
           tips: [
-            'Validate their feelings and let them know it's okay to feel uncomfortable',
+            "Validate their feelings and let them know it's okay to feel uncomfortable",
             'Help them identify trusted adults in their life',
-            'Make sure they know they won't get in trouble for telling you'
+            "Make sure they know they won't get in trouble for telling you"
           ]
         }
       ]
