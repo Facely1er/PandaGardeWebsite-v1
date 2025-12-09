@@ -4243,3 +4243,241 @@ body {
     justify-content: center;
   }
 }
+
+/* ===== iOS SPECIFIC FIXES ===== */
+
+/* iOS Safari viewport fixes */
+@supports (-webkit-touch-callout: none) {
+  /* iOS Safari specific styles */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Fix iOS Safari 100vh issue */
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
+  
+  /* Fix iOS input zoom on focus */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="search"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+  
+  /* Fix iOS button tap highlight */
+  button,
+  a,
+  [role="button"] {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
+  }
+  
+  /* Fix iOS scroll momentum */
+  .overflow-x-auto,
+  .overflow-y-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Fix iOS fixed positioning issues */
+  .sticky,
+  .fixed {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  
+  /* Fix iOS text selection */
+  * {
+    -webkit-user-select: auto;
+    -webkit-touch-callout: default;
+  }
+  
+  /* Disable text selection on buttons and interactive elements */
+  button,
+  [role="button"],
+  .nav-link,
+  .mobile-nav .nav-link {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+  
+  /* Fix iOS modal backdrop */
+  .fixed.inset-0 {
+    position: fixed;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Fix iOS form inputs */
+  input,
+  textarea,
+  select {
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+  
+  /* Fix iOS safe area insets for notched devices */
+  @supports (padding: max(0px)) {
+    .container {
+      padding-left: max(1rem, env(safe-area-inset-left));
+      padding-right: max(1rem, env(safe-area-inset-right));
+    }
+    
+    header,
+    .sticky,
+    .fixed {
+      padding-left: max(0px, env(safe-area-inset-left));
+      padding-right: max(0px, env(safe-area-inset-right));
+    }
+  }
+}
+
+/* iOS Safari specific fixes for mobile navigation */
+@media (max-width: 768px) {
+  @supports (-webkit-touch-callout: none) {
+    /* Fix iOS Safari mobile menu */
+    .mobile-nav {
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
+    
+    /* Fix iOS Safari tab navigation */
+    nav[role="navigation"] button,
+    nav[role="navigation"] a {
+      -webkit-tap-highlight-color: rgba(34, 197, 94, 0.2);
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    /* Fix iOS Safari horizontal scroll */
+    .overflow-x-auto {
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    
+    .overflow-x-auto::-webkit-scrollbar {
+      display: none;
+    }
+    
+    /* Fix iOS Safari form inputs */
+    input,
+    textarea,
+    select {
+      font-size: 16px;
+      -webkit-appearance: none;
+      border-radius: 8px;
+    }
+    
+    /* Fix iOS Safari button active states */
+    button:active,
+    a:active,
+    [role="button"]:active {
+      opacity: 0.8;
+      transform: scale(0.98);
+    }
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Larger touch targets for mobile */
+  button,
+  a,
+  [role="button"],
+  .nav-link,
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Remove hover effects on touch devices */
+  .hover\:shadow-lg:hover {
+    box-shadow: none;
+  }
+  
+  /* Better touch feedback */
+  button:active,
+  a:active,
+  [role="button"]:active {
+    transform: scale(0.97);
+    transition: transform 0.1s ease;
+  }
+}
+
+/* Customer Journey Improvements - Mobile First */
+@media (max-width: 640px) {
+  /* Improve spacing for mobile */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Better mobile typography */
+  h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+  
+  h2 {
+    font-size: 1.75rem;
+    line-height: 1.3;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+    line-height: 1.4;
+  }
+  
+  /* Improve mobile cards */
+  .bg-white.rounded-xl {
+    border-radius: 12px;
+    padding: 1rem;
+  }
+  
+  /* Better mobile buttons */
+  .button,
+  button[type="button"],
+  button[type="submit"] {
+    min-height: 48px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  /* Improve mobile forms */
+  input,
+  textarea,
+  select {
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    font-size: 16px; /* Prevents iOS zoom */
+  }
+  
+  /* Better mobile grid layouts */
+  .grid {
+    gap: 1rem;
+  }
+  
+  /* Improve mobile sections */
+  section {
+    padding: 2rem 0;
+  }
+  
+  /* Better mobile spacing */
+  .space-y-12 > * + * {
+    margin-top: 2rem;
+  }
+  
+  .space-y-8 > * + * {
+    margin-top: 1.5rem;
+  }
+}

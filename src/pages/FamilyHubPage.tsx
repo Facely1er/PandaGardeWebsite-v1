@@ -274,29 +274,31 @@ const FamilyHubPage: React.FC = () => {
       </header>
 
       {/* Navigation */}
-      <div className="bg-white border-b">
-        <div className="container mx-auto px-6">
-          <div className="flex items-center justify-between py-4">
-            <div className="flex items-center gap-4">
+      <div className="bg-white border-b sticky top-0 z-40">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between py-3 md:py-4 gap-3 md:gap-0">
+            <div className="flex items-center gap-2 sm:gap-4 w-full md:w-auto justify-between md:justify-start">
               <Link 
                 to="/"
-                className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
+                className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors text-sm sm:text-base"
                 style={{ color: 'var(--primary-light)' }}
               >
                 <ArrowLeft size={16} />
-                Back to Main Site
+                <span className="hidden sm:inline">Back to Main Site</span>
+                <span className="sm:hidden">Back</span>
               </Link>
               
               <Link
                 to="/family-hub/profile"
-                className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 font-medium transition-colors"
+                className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 font-medium transition-colors text-sm sm:text-base"
               >
                 <User size={16} />
-                Profile
+                <span className="hidden sm:inline">Profile</span>
               </Link>
             </div>
             
-            <nav className="flex items-center gap-8">
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center gap-2 lg:gap-4">
               {[
                 { key: 'dashboard', label: 'Dashboard', icon: Users },
                 { key: 'activities', label: 'Activities', icon: BookOpen },
@@ -307,7 +309,7 @@ const FamilyHubPage: React.FC = () => {
                 <button
                   key={key}
                   onClick={() => setActiveTab(key as 'dashboard' | 'activities' | 'progress' | 'family' | 'resources')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                  className={`flex items-center gap-1.5 lg:gap-2 px-3 lg:px-4 py-2 rounded-lg font-medium transition-all text-sm lg:text-base ${
                     activeTab === key 
                       ? 'bg-green-100 text-green-700' 
                       : 'text-gray-600 hover:text-green-600 hover:bg-gray-50'
@@ -318,16 +320,48 @@ const FamilyHubPage: React.FC = () => {
                   }}
                 >
                   <Icon size={16} />
-                  {label}
+                  <span>{label}</span>
                 </button>
               ))}
+            </nav>
+
+            {/* Mobile Navigation - Horizontal Scrollable Tabs */}
+            <nav className="md:hidden w-full overflow-x-auto -mx-4 px-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+              <div className="flex items-center gap-2 min-w-max pb-2">
+                {[
+                  { key: 'dashboard', icon: Users, shortLabel: 'Home' },
+                  { key: 'activities', icon: BookOpen, shortLabel: 'Learn' },
+                  { key: 'progress', icon: TrendingUp, shortLabel: 'Progress' },
+                  { key: 'family', icon: UserPlus, shortLabel: 'Family' },
+                  { key: 'resources', icon: Download, shortLabel: 'Resources' }
+                ].map(({ key, icon: Icon, shortLabel }) => (
+                  <button
+                    key={key}
+                    onClick={() => setActiveTab(key as 'dashboard' | 'activities' | 'progress' | 'family' | 'resources')}
+                    className={`flex items-center gap-1.5 px-3 py-2 rounded-lg font-medium transition-all whitespace-nowrap touch-manipulation ${
+                      activeTab === key 
+                        ? 'bg-green-100 text-green-700 shadow-sm' 
+                        : 'text-gray-600 bg-gray-50'
+                    }`}
+                    style={{
+                      backgroundColor: activeTab === key ? 'var(--secondary)' : undefined,
+                      color: activeTab === key ? 'var(--primary)' : undefined,
+                      minHeight: '44px',
+                      WebkitTapHighlightColor: 'transparent'
+                    }}
+                  >
+                    <Icon size={18} />
+                    <span className="text-sm font-semibold">{shortLabel}</span>
+                  </button>
+                ))}
+              </div>
             </nav>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-12">
+      <main className="container mx-auto px-4 sm:px-6 py-6 sm:py-12">
         
         {/* Dashboard Tab */}
         {activeTab === 'dashboard' && (
@@ -335,7 +369,7 @@ const FamilyHubPage: React.FC = () => {
             
             {/* Family Members Overview */}
             <section>
-              <h2 className="text-3xl font-bold mb-8" style={{ color: 'var(--primary)' }}>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8" style={{ color: 'var(--primary)' }}>
                 Family Progress Overview
               </h2>
               
@@ -452,11 +486,11 @@ const FamilyHubPage: React.FC = () => {
 
             {/* Quick Actions */}
             <section>
-              <h2 className="text-3xl font-bold mb-8" style={{ color: 'var(--primary)' }}>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8" style={{ color: 'var(--primary)' }}>
                 Quick Actions
               </h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 {quickActions.map((action, index) => {
                   const IconComponent = action.icon;
                   
@@ -467,16 +501,16 @@ const FamilyHubPage: React.FC = () => {
                         <Link
                           key={index}
                           to={action.url}
-                          className="bg-white rounded-xl p-6 text-left hover:shadow-lg transition-all block"
-                          style={{ backgroundColor: 'var(--card-color)' }}
+                          className="bg-white rounded-xl p-4 sm:p-6 text-left hover:shadow-lg transition-all block touch-manipulation"
+                          style={{ backgroundColor: 'var(--card-color)', minHeight: '44px' }}
                         >
-                          <div className={`w-12 h-12 bg-gradient-to-r ${action.color} rounded-lg flex items-center justify-center text-white mb-4`}>
-                            <IconComponent size={24} />
+                          <div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r ${action.color} rounded-lg flex items-center justify-center text-white mb-3 sm:mb-4`}>
+                            <IconComponent size={20} className="sm:w-6 sm:h-6" />
                           </div>
-                          <h3 className="font-bold mb-2" style={{ color: 'var(--primary)' }}>
+                          <h3 className="font-bold mb-2 text-base sm:text-lg" style={{ color: 'var(--primary)' }}>
                             {action.title}
                           </h3>
-                          <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
+                          <p className="text-xs sm:text-sm" style={{ color: 'var(--gray-600)' }}>
                             {action.description}
                           </p>
                         </Link>
@@ -488,16 +522,16 @@ const FamilyHubPage: React.FC = () => {
                         href={action.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-white rounded-xl p-6 text-left hover:shadow-lg transition-all block"
-                        style={{ backgroundColor: 'var(--card-color)' }}
+                        className="bg-white rounded-xl p-4 sm:p-6 text-left hover:shadow-lg transition-all block touch-manipulation"
+                        style={{ backgroundColor: 'var(--card-color)', minHeight: '44px' }}
                       >
-                        <div className={`w-12 h-12 bg-gradient-to-r ${action.color} rounded-lg flex items-center justify-center text-white mb-4`}>
-                          <IconComponent size={24} />
+                        <div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r ${action.color} rounded-lg flex items-center justify-center text-white mb-3 sm:mb-4`}>
+                          <IconComponent size={20} className="sm:w-6 sm:h-6" />
                         </div>
-                        <h3 className="font-bold mb-2" style={{ color: 'var(--primary)' }}>
+                        <h3 className="font-bold mb-2 text-base sm:text-lg" style={{ color: 'var(--primary)' }}>
                           {action.title}
                         </h3>
-                        <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
+                        <p className="text-xs sm:text-sm" style={{ color: 'var(--gray-600)' }}>
                           {action.description}
                         </p>
                       </a>
@@ -507,16 +541,16 @@ const FamilyHubPage: React.FC = () => {
                   return (
                     <button
                       key={index}
-                      className="bg-white rounded-xl p-6 text-left hover:shadow-lg transition-all"
-                      style={{ backgroundColor: 'var(--card-color)' }}
+                      className="bg-white rounded-xl p-4 sm:p-6 text-left hover:shadow-lg transition-all touch-manipulation w-full"
+                      style={{ backgroundColor: 'var(--card-color)', minHeight: '44px' }}
                     >
-                      <div className={`w-12 h-12 bg-gradient-to-r ${action.color} rounded-lg flex items-center justify-center text-white mb-4`}>
-                        <IconComponent size={24} />
+                      <div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r ${action.color} rounded-lg flex items-center justify-center text-white mb-3 sm:mb-4`}>
+                        <IconComponent size={20} className="sm:w-6 sm:h-6" />
                       </div>
-                      <h3 className="font-bold mb-2" style={{ color: 'var(--primary)' }}>
+                      <h3 className="font-bold mb-2 text-base sm:text-lg" style={{ color: 'var(--primary)' }}>
                         {action.title}
                       </h3>
-                      <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
+                      <p className="text-xs sm:text-sm" style={{ color: 'var(--gray-600)' }}>
                         {action.description}
                       </p>
                     </button>
@@ -527,11 +561,11 @@ const FamilyHubPage: React.FC = () => {
 
             {/* Recent Activities */}
             <section>
-              <h2 className="text-3xl font-bold mb-8" style={{ color: 'var(--primary)' }}>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8" style={{ color: 'var(--primary)' }}>
                 Continue Learning
               </h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {recentActivities.map((activity) => {
                   const IconComponent = activity.icon;
                   return (
