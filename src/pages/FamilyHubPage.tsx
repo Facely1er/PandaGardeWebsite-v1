@@ -9,6 +9,10 @@ import DigitalFootprintVisualizer from '../components/DigitalFootprintVisualizer
 import FamilyPrivacyAssessment from '../components/FamilyPrivacyAssessment';
 import PrivacyGoals from '../components/PrivacyGoals';
 import ServiceNotificationCenter from '../components/ServiceNotificationCenter';
+import AdaptiveResources from '../components/AdaptiveResources';
+import EmailCaptureInline from '../components/EmailCaptureInline';
+import { familyPersonaDetectionEngine } from '../lib/familyPersonaDetection';
+import { FamilyPersonaProfiles } from '../data/familyPersonaProfiles';
 
 
 interface Activity {
@@ -45,6 +49,20 @@ const FamilyHubPage: React.FC = () => {
     addFamilyMember 
   } = useFamily();
   const { getOverallProgress } = useProgress();
+  const [familyPersona, setFamilyPersona] = useState<string | null>(null);
+
+  // Load family persona from localStorage
+  useEffect(() => {
+    const storedPersona = localStorage.getItem('pandagarde_family_persona');
+    if (storedPersona) {
+      try {
+        const personaData = JSON.parse(storedPersona);
+        setFamilyPersona(personaData.primary || null);
+      } catch (e) {
+        console.error('Error parsing persona data:', e);
+      }
+    }
+  }, []);
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -415,6 +433,24 @@ const FamilyHubPage: React.FC = () => {
                 <PrivacyGoals compact={true} />
               </div>
             </section>
+
+            {/* Recommended Resources (Compact) */}
+            {familyPersona && (
+              <section>
+                <div className="bg-white rounded-xl p-6 border-2 border-green-200 dark:border-green-800" style={{ backgroundColor: 'var(--card-color)' }}>
+                  <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
+                    Recommended for You
+                  </h3>
+                  <AdaptiveResources 
+                    personaId={familyPersona}
+                    {...(FamilyPersonaProfiles[familyPersona]?.dashboardPriorities && {
+                      priorities: FamilyPersonaProfiles[familyPersona].dashboardPriorities
+                    })}
+                    compact={true}
+                  />
+                </div>
+              </section>
+            )}
 
             {/* Quick Actions */}
             <section>
@@ -790,11 +826,29 @@ const FamilyHubPage: React.FC = () => {
           <div className="space-y-8">
             <div className="text-center">
               <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
-                Family Resources
+                Personalized Resources
               </h2>
               <p className="text-lg max-w-2xl mx-auto" style={{ color: 'var(--gray-600)' }}>
-                Additional materials to support your family's privacy education journey.
+                {familyPersona 
+                  ? `Resources tailored for ${FamilyPersonaProfiles[familyPersona]?.name || 'your family'}`
+                  : 'Resources tailored to your family\'s privacy needs'}
               </p>
+            </div>
+            
+            {/* Adaptive Resources Component */}
+            <AdaptiveResources 
+              {...(familyPersona && { personaId: familyPersona })}
+              compact={false}
+            />
+            
+            {/* Email Capture for Updates */}
+            <div className="mt-8">
+              <EmailCaptureInline
+                title="Stay Updated on Child Safety"
+                description="Get notified about important child safety alerts, privacy updates, and new educational resources."
+                purpose="safety-alerts"
+                compact={false}
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

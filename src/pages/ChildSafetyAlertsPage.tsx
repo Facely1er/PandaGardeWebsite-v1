@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Bell, AlertTriangle, ShoppingBag, BarChart3, ArrowRight } from 'lucide-react';
 import ChildSafetyAlerts from '../components/alerts/ChildSafetyAlerts';
 import ServiceNotificationCenter from '../components/ServiceNotificationCenter';
+import EmailCaptureInline from '../components/EmailCaptureInline';
 
 const ChildSafetyAlertsPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'alerts' | 'notifications'>('notifications');
@@ -93,6 +94,16 @@ const ChildSafetyAlertsPage: React.FC = () => {
         ) : (
           <ChildSafetyAlerts />
         )}
+
+        {/* Email Capture for Safety Alerts */}
+        <div className="mt-8">
+          <EmailCaptureInline
+            title="Stay Updated on Child Safety Alerts"
+            description="Get notified immediately when new child safety alerts are published. We'll send you important updates about privacy concerns, data breaches, and safety recommendations."
+            purpose="safety-alerts"
+            compact={false}
+          />
+        </div>
 
         {/* Related Resources */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">

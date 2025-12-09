@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ServiceCatalog from '../components/ServiceCatalog';
+import EmailCaptureInline from '../components/EmailCaptureInline';
 import { Bell, Shield, BarChart3, FileText, ArrowRight } from 'lucide-react';
 
 const ServiceCatalogPage: React.FC = () => {
@@ -112,6 +113,16 @@ const ServiceCatalogPage: React.FC = () => {
 
         {/* Service Catalog Component */}
         <ServiceCatalog />
+        
+        {/* Email Capture for Service Updates */}
+        <div className="mt-8 max-w-4xl mx-auto">
+          <EmailCaptureInline
+            title="Get Service Privacy Updates"
+            description="Stay informed about privacy policy changes, data breaches, and security updates for services your family uses."
+            purpose="updates"
+            compact={false}
+          />
+        </div>
       </div>
     </div>
   );
