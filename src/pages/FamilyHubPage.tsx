@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Users, BookOpen, Book, Settings, Award, TrendingUp, Clock, CheckCircle, ArrowLeft, User, Shield as Child, UserCheck, Star, Play, Download, Plus, UserPlus, LogOut, Globe, Shield, Target, Bell } from 'lucide-react';
+import { Users, BookOpen, Book, Settings, Award, TrendingUp, Clock, CheckCircle, ArrowLeft, User, Shield as Child, UserCheck, Star, Play, Download, Plus, UserPlus, LogOut, Globe, Shield, Target } from 'lucide-react';
 import Logo from '../components/Logo';
 import { useAuth } from './family-hub/AuthWrapper';
 import { useFamily } from '../contexts/FamilyContext';
@@ -8,10 +8,8 @@ import { useProgress } from '../contexts/ProgressContext';
 import DigitalFootprintVisualizer from '../components/DigitalFootprintVisualizer';
 import FamilyPrivacyAssessment from '../components/FamilyPrivacyAssessment';
 import PrivacyGoals from '../components/PrivacyGoals';
-import ServiceNotificationCenter from '../components/ServiceNotificationCenter';
 import AdaptiveResources from '../components/AdaptiveResources';
 import EmailCaptureInline from '../components/EmailCaptureInline';
-import { familyPersonaDetectionEngine } from '../lib/familyPersonaDetection';
 import { FamilyPersonaProfiles } from '../data/familyPersonaProfiles';
 
 

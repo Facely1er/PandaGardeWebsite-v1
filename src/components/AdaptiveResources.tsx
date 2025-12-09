@@ -4,17 +4,11 @@ import {
   BookOpen, 
   Video, 
   FileText, 
-  ExternalLink, 
-  Filter, 
   Search, 
-  Clock, 
-  TrendingUp, 
   Globe, 
   ArrowRight, 
   Wrench, 
   Target, 
-  X, 
-  CheckCircle,
   Shield,
   Play,
   Download,
@@ -33,13 +27,9 @@ import {
 } from 'lucide-react';
 import { 
   familyResources, 
-  getResourcesByPersona, 
-  getRecommendedResources,
-  type FamilyResource 
+  getRecommendedResources
 } from '../data/familyResources';
-import { FamilyPersonaProfiles, type FamilyPersonaProfile } from '../data/familyPersonaProfiles';
-import { useFamily } from '../contexts/FamilyContext';
-import { useTheme } from '../contexts/ThemeContext';
+import { FamilyPersonaProfiles } from '../data/familyPersonaProfiles';
 
 interface AdaptiveResourcesProps {
   personaId?: string;
@@ -77,7 +67,6 @@ const AdaptiveResources: React.FC<AdaptiveResourcesProps> = ({
   ageGroup,
   compact = false 
 }) => {
-  const { theme } = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedType, setSelectedType] = useState<string>('all');
