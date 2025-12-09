@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Users, BookOpen, Book, Settings, Award, TrendingUp, Clock, CheckCircle, ArrowLeft, User, Shield as Child, UserCheck, Star, Play, Download, Plus, UserPlus, LogOut, Globe, Shield, Target, UserCircle } from 'lucide-react';
+import { Users, BookOpen, Book, Settings, Award, TrendingUp, Clock, CheckCircle, ArrowLeft, ArrowRight, User, Shield as Child, UserCheck, Star, Play, Download, Plus, UserPlus, LogOut, Globe, Shield, Target, UserCircle } from 'lucide-react';
 import Logo from '../components/Logo';
 import { useAuth } from './family-hub/AuthWrapper';
 import { useFamily } from '../contexts/FamilyContext';
@@ -231,42 +231,42 @@ const FamilyHubPage: React.FC = () => {
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--light)', color: 'var(--gray-800)' }}>
       {/* Header */}
-      <header className="bg-gradient-to-r from-green-600 to-green-500 text-white py-20 relative overflow-hidden">
+      <header className="bg-gradient-to-r from-green-600 via-green-500 to-green-600 text-white py-12 sm:py-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
           }} />
         </div>
         
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="flex items-center justify-center mb-8">
-            <div className="w-20 h-20 mr-4">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <div className="flex items-center justify-center mb-6 sm:mb-8">
+            <div className="w-16 h-16 sm:w-20 sm:h-20">
               <Logo />
             </div>
           </div>
           
           <div className="text-center">
-            <h1 className="text-5xl font-bold mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 leading-tight">
               Privacy Panda
-              <span className="block text-yellow-300">Family Hub</span>
+              <span className="block text-yellow-300 mt-1">Family Hub</span>
             </h1>
             
-            <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
+            <p className="text-base sm:text-lg lg:text-xl opacity-90 max-w-2xl mx-auto mb-6 sm:mb-8 px-4">
               Your central dashboard for family privacy education, progress tracking, and personalized learning paths.
             </p>
             
-            <div className="flex items-center justify-center gap-6 text-sm">
-              <div className="flex items-center gap-2">
-                <Users size={16} />
-                <span>{familyMembers.length} Family Members</span>
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs sm:text-sm px-4">
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                <Users size={14} className="sm:w-4 sm:h-4" />
+                <span className="font-medium">{familyMembers.length} Family {familyMembers.length === 1 ? 'Member' : 'Members'}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Award size={16} />
-                <span>{getOverallProgressPercentage()}% Overall Progress</span>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                <Award size={14} className="sm:w-4 sm:h-4" />
+                <span className="font-medium">{getOverallProgressPercentage()}% Progress</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Clock size={16} />
-                <span>Active Learning</span>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                <Clock size={14} className="sm:w-4 sm:h-4" />
+                <span className="font-medium">Active Learning</span>
               </div>
             </div>
           </div>
@@ -369,38 +369,49 @@ const FamilyHubPage: React.FC = () => {
             
             {/* Family Members Overview */}
             <section>
-              <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8" style={{ color: 'var(--primary)' }}>
-                Family Progress Overview
-              </h2>
+              <div className="flex items-center justify-between mb-6 sm:mb-8">
+                <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--primary)' }}>
+                  Family Progress Overview
+                </h2>
+                {currentFamily && (
+                  <button
+                    onClick={() => setShowAddMember(true)}
+                    className="hidden sm:inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm"
+                  >
+                    <Plus size={16} />
+                    Add Member
+                  </button>
+                )}
+              </div>
               
               {!currentFamily ? (
-                <div className="text-center py-12">
-                  <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Users size={32} className="text-gray-400" />
+                <div className="text-center py-12 sm:py-16 bg-white rounded-xl border-2 border-dashed border-gray-300" style={{ backgroundColor: 'var(--card-color)' }}>
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Users size={32} className="sm:w-10 sm:h-10 text-gray-400" />
                   </div>
-                  <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
+                  <h3 className="text-xl sm:text-2xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
                     No Family Yet
                   </h3>
-                  <p className="text-gray-600 mb-8 max-w-md mx-auto">
+                  <p className="text-gray-600 mb-8 max-w-md mx-auto px-4">
                     Create a family or join an existing one to start tracking progress together.
                   </p>
-                  <div className="flex gap-4 justify-center">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
                     <button
                       onClick={() => setShowCreateFamily(true)}
-                      className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                      className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-sm hover:shadow-md active:scale-[0.98]"
                     >
                       Create Family
                     </button>
                     <button
                       onClick={() => setShowJoinFamily(true)}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow-sm hover:shadow-md active:scale-[0.98]"
                     >
                       Join Family
                     </button>
                   </div>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {familyMembers.map((member) => {
                     const AgeIcon = getAgeGroupIcon(member.profile_data?.age ? 
                       member.profile_data.age <= 8 ? '5-8' : 
@@ -408,39 +419,54 @@ const FamilyHubPage: React.FC = () => {
                     return (
                       <div 
                         key={member.id}
-                        className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all"
-                        style={{ backgroundColor: 'var(--card-color)' }}
+                        className="bg-white rounded-xl p-5 sm:p-6 shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-green-200"
+                        style={{ 
+                          backgroundColor: 'var(--card-color)',
+                          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
+                        }}
                       >
                         <div className="flex items-center gap-4 mb-4">
-                          <div className="w-12 h-12 rounded-full bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center text-white text-xl">
-                            {member.first_name.charAt(0)}
+                          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center text-white text-lg sm:text-xl font-bold shadow-sm">
+                            {member.first_name.charAt(0).toUpperCase()}
                           </div>
-                          <div>
-                            <h3 className="font-bold text-lg" style={{ color: 'var(--primary)' }}>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-bold text-base sm:text-lg truncate" style={{ color: 'var(--primary)' }}>
                               {member.first_name} {member.last_name}
                             </h3>
-                            <div className="flex items-center gap-1 text-sm" style={{ color: 'var(--gray-500)' }}>
+                            <div className="flex items-center gap-1.5 text-xs sm:text-sm" style={{ color: 'var(--gray-500)' }}>
                               <AgeIcon size={14} />
-                              <span>{member.role === 'parent' ? 'Parent' : 'Child'}</span>
+                              <span className="font-medium">{member.role === 'parent' ? 'Parent' : 'Child'}</span>
                             </div>
                           </div>
                         </div>
                         
-                        <div className="text-sm" style={{ color: 'var(--gray-600)' }}>
-                          <div className="flex items-center justify-between mb-1">
-                            <span>Email</span>
-                            <span className="font-medium">{member.email}</span>
+                        <div className="space-y-2 text-xs sm:text-sm pt-4 border-t border-gray-100" style={{ borderColor: 'var(--light)' }}>
+                          <div className="flex items-center justify-between">
+                            <span className="text-gray-500">Email</span>
+                            <span className="font-medium truncate ml-2" style={{ color: 'var(--gray-700)' }}>{member.email}</span>
                           </div>
                           {member.profile_data?.age && (
-                            <div className="flex items-center justify-between mb-1">
-                              <span>Age</span>
-                              <span className="font-medium">{member.profile_data.age}</span>
+                            <div className="flex items-center justify-between">
+                              <span className="text-gray-500">Age</span>
+                              <span className="font-medium" style={{ color: 'var(--gray-700)' }}>{member.profile_data.age} years</span>
                             </div>
                           )}
                         </div>
                       </div>
                     );
                   })}
+                  
+                  {/* Add Member Card */}
+                  <button
+                    onClick={() => setShowAddMember(true)}
+                    className="bg-white rounded-xl p-5 sm:p-6 border-2 border-dashed border-gray-300 hover:border-green-400 hover:bg-green-50 transition-all flex flex-col items-center justify-center min-h-[160px] text-center group sm:hidden"
+                    style={{ backgroundColor: 'var(--card-color)' }}
+                  >
+                    <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-3 group-hover:bg-green-200 transition-colors">
+                      <Plus size={24} className="text-green-600" />
+                    </div>
+                    <span className="font-semibold text-sm" style={{ color: 'var(--primary)' }}>Add Family Member</span>
+                  </button>
                 </div>
               )}
             </section>
@@ -486,11 +512,14 @@ const FamilyHubPage: React.FC = () => {
 
             {/* Quick Actions */}
             <section>
-              <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8" style={{ color: 'var(--primary)' }}>
-                Quick Actions
-              </h2>
+              <div className="flex items-center justify-between mb-6 sm:mb-8">
+                <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--primary)' }}>
+                  Quick Actions
+                </h2>
+                <span className="text-sm text-gray-500 hidden sm:inline">Tap any card to get started</span>
+              </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                 {quickActions.map((action, index) => {
                   const IconComponent = action.icon;
                   
@@ -501,18 +530,25 @@ const FamilyHubPage: React.FC = () => {
                         <Link
                           key={index}
                           to={action.url}
-                          className="bg-white rounded-xl p-4 sm:p-6 text-left hover:shadow-lg transition-all block touch-manipulation"
-                          style={{ backgroundColor: 'var(--card-color)', minHeight: '44px' }}
+                          className="group bg-white rounded-xl p-5 sm:p-6 text-left hover:shadow-xl transition-all block touch-manipulation border-2 border-transparent hover:border-green-200 active:scale-[0.98]"
+                          style={{ 
+                            backgroundColor: 'var(--card-color)', 
+                            minHeight: '140px',
+                            boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
+                          }}
                         >
-                          <div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r ${action.color} rounded-lg flex items-center justify-center text-white mb-3 sm:mb-4`}>
-                            <IconComponent size={20} className="sm:w-6 sm:h-6" />
+                          <div className={`w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-r ${action.color} rounded-xl flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform`}>
+                            <IconComponent size={24} className="sm:w-7 sm:h-7" />
                           </div>
-                          <h3 className="font-bold mb-2 text-base sm:text-lg" style={{ color: 'var(--primary)' }}>
+                          <h3 className="font-bold mb-2 text-base sm:text-lg leading-tight" style={{ color: 'var(--primary)' }}>
                             {action.title}
                           </h3>
-                          <p className="text-xs sm:text-sm" style={{ color: 'var(--gray-600)' }}>
+                          <p className="text-xs sm:text-sm leading-relaxed mb-3" style={{ color: 'var(--gray-600)' }}>
                             {action.description}
                           </p>
+                          <div className="flex items-center text-green-600 text-xs sm:text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                            Get started <ArrowRight size={14} className="ml-1" />
+                          </div>
                         </Link>
                       );
                     }
@@ -522,18 +558,25 @@ const FamilyHubPage: React.FC = () => {
                         href={action.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-white rounded-xl p-4 sm:p-6 text-left hover:shadow-lg transition-all block touch-manipulation"
-                        style={{ backgroundColor: 'var(--card-color)', minHeight: '44px' }}
+                        className="group bg-white rounded-xl p-5 sm:p-6 text-left hover:shadow-xl transition-all block touch-manipulation border-2 border-transparent hover:border-green-200 active:scale-[0.98]"
+                        style={{ 
+                          backgroundColor: 'var(--card-color)', 
+                          minHeight: '140px',
+                          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
+                        }}
                       >
-                        <div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r ${action.color} rounded-lg flex items-center justify-center text-white mb-3 sm:mb-4`}>
-                          <IconComponent size={20} className="sm:w-6 sm:h-6" />
+                        <div className={`w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-r ${action.color} rounded-xl flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform`}>
+                          <IconComponent size={24} className="sm:w-7 sm:h-7" />
                         </div>
-                        <h3 className="font-bold mb-2 text-base sm:text-lg" style={{ color: 'var(--primary)' }}>
+                        <h3 className="font-bold mb-2 text-base sm:text-lg leading-tight" style={{ color: 'var(--primary)' }}>
                           {action.title}
                         </h3>
-                        <p className="text-xs sm:text-sm" style={{ color: 'var(--gray-600)' }}>
+                        <p className="text-xs sm:text-sm leading-relaxed mb-3" style={{ color: 'var(--gray-600)' }}>
                           {action.description}
                         </p>
+                        <div className="flex items-center text-green-600 text-xs sm:text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                          Open <ArrowRight size={14} className="ml-1" />
+                        </div>
                       </a>
                     );
                   }
@@ -541,16 +584,20 @@ const FamilyHubPage: React.FC = () => {
                   return (
                     <button
                       key={index}
-                      className="bg-white rounded-xl p-4 sm:p-6 text-left hover:shadow-lg transition-all touch-manipulation w-full"
-                      style={{ backgroundColor: 'var(--card-color)', minHeight: '44px' }}
+                      className="group bg-white rounded-xl p-5 sm:p-6 text-left hover:shadow-xl transition-all touch-manipulation w-full border-2 border-transparent hover:border-green-200 active:scale-[0.98]"
+                      style={{ 
+                        backgroundColor: 'var(--card-color)', 
+                        minHeight: '140px',
+                        boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
+                      }}
                     >
-                      <div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r ${action.color} rounded-lg flex items-center justify-center text-white mb-3 sm:mb-4`}>
-                        <IconComponent size={20} className="sm:w-6 sm:h-6" />
+                      <div className={`w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-r ${action.color} rounded-xl flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform`}>
+                        <IconComponent size={24} className="sm:w-7 sm:h-7" />
                       </div>
-                      <h3 className="font-bold mb-2 text-base sm:text-lg" style={{ color: 'var(--primary)' }}>
+                      <h3 className="font-bold mb-2 text-base sm:text-lg leading-tight" style={{ color: 'var(--primary)' }}>
                         {action.title}
                       </h3>
-                      <p className="text-xs sm:text-sm" style={{ color: 'var(--gray-600)' }}>
+                      <p className="text-xs sm:text-sm leading-relaxed" style={{ color: 'var(--gray-600)' }}>
                         {action.description}
                       </p>
                     </button>
@@ -561,9 +608,17 @@ const FamilyHubPage: React.FC = () => {
 
             {/* Recent Activities */}
             <section>
-              <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8" style={{ color: 'var(--primary)' }}>
-                Continue Learning
-              </h2>
+              <div className="flex items-center justify-between mb-6 sm:mb-8">
+                <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--primary)' }}>
+                  Continue Learning
+                </h2>
+                <Link 
+                  to="/activities" 
+                  className="text-sm text-green-600 hover:text-green-700 font-medium hidden sm:inline-flex items-center gap-1"
+                >
+                  View all <ArrowRight size={14} />
+                </Link>
+              </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {recentActivities.map((activity) => {
@@ -571,30 +626,38 @@ const FamilyHubPage: React.FC = () => {
                   return (
                     <div 
                       key={activity.id}
-                      className="bg-white rounded-xl p-6 hover:shadow-lg transition-all cursor-pointer"
-                      style={{ backgroundColor: 'var(--card-color)' }}
+                      className="group bg-white rounded-xl p-6 hover:shadow-xl transition-all cursor-pointer border-2 border-transparent hover:border-green-200 active:scale-[0.98]"
+                      style={{ 
+                        backgroundColor: 'var(--card-color)',
+                        boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
+                      }}
                     >
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center text-white">
-                          <IconComponent size={20} />
+                      <div className="flex items-start gap-4 mb-4">
+                        <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center text-white flex-shrink-0 group-hover:scale-110 transition-transform">
+                          <IconComponent size={24} />
                         </div>
-                        <div>
-                          <h3 className="font-bold" style={{ color: 'var(--primary)' }}>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-bold mb-2 leading-tight" style={{ color: 'var(--primary)' }}>
                             {activity.title}
                           </h3>
-                          <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--gray-500)' }}>
-                            <Clock size={12} />
+                          <div className="flex items-center gap-2 text-sm mb-2" style={{ color: 'var(--gray-500)' }}>
+                            <Clock size={14} />
                             <span>{activity.duration}</span>
-                            {activity.completed && <CheckCircle size={12} className="text-green-500" />}
+                            {activity.completed && (
+                              <span className="flex items-center gap-1 text-green-600">
+                                <CheckCircle size={14} />
+                                <span className="text-xs font-medium">Completed</span>
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
                       
-                      <div className="flex items-center gap-2 mb-3">
+                      <div className="flex items-center gap-2 mb-4 flex-wrap">
                         {activity.ageGroups.map((group) => (
                           <span 
                             key={group}
-                            className="px-2 py-1 bg-gray-100 rounded text-xs font-medium"
+                            className="px-2.5 py-1 bg-gray-100 rounded-md text-xs font-medium"
                             style={{ backgroundColor: 'var(--light)', color: 'var(--gray-600)' }}
                           >
                             Ages {group}
@@ -602,12 +665,22 @@ const FamilyHubPage: React.FC = () => {
                         ))}
                       </div>
                       
-                      <button className="w-full py-2 px-4 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg font-medium hover:from-green-600 hover:to-green-700 transition-all">
-                        {activity.completed ? 'Review' : 'Start Activity'}
+                      <button className="w-full py-3 px-4 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all shadow-sm hover:shadow-md active:scale-[0.98]">
+                        {activity.completed ? 'Review Activity' : 'Start Activity'}
                       </button>
                     </div>
                   );
                 })}
+              </div>
+              
+              {/* Mobile View All Link */}
+              <div className="mt-4 sm:hidden text-center">
+                <Link 
+                  to="/activities" 
+                  className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium text-sm"
+                >
+                  View all activities <ArrowRight size={14} />
+                </Link>
               </div>
             </section>
           </div>

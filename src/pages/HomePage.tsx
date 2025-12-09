@@ -91,15 +91,19 @@ const HomePage: React.FC = () => {
               </p>
 
               <div className="hero-buttons">
-                <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer" className="button primary">
+                <Link to="/family-hub" className="button primary">
                   <BookOpen size={20} />
                   Launch Family Hub
                   <ArrowRight size={16} />
-                </a>
+                </Link>
                 <Link to="/privacy-panda" className="button secondary">
                   <Play size={20} />
                   Try PrivacyPanda
                   <Heart size={16} />
+                </Link>
+                <Link to="/quick-start" className="button tertiary">
+                  Get Started Guide
+                  <ArrowRight size={16} />
                 </Link>
               </div>
 
@@ -153,16 +157,14 @@ const HomePage: React.FC = () => {
                     </div>
                   </div>
 
-                  <a 
-                    href="https://www.hub.pandagarde.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
+                  <Link 
+                    to="/family-hub"
                     className="btn-hub"
                   >
                     <ArrowRight size={16} />
                     Visit Family Hub
                     <ArrowRight size={16} />
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -315,13 +317,16 @@ const HomePage: React.FC = () => {
             <h2>Ready to Protect Your Family?</h2>
             <p>Join thousands of families who are already building essential digital privacy skills.</p>
             <div className="cta-buttons">
-              <a href="https://www.hub.pandagarde.com" className="button primary" target="_blank" rel="noopener noreferrer">
+              <Link to="/family-hub" className="button primary">
                 <Users size={20} />
                 Launch Family Hub
-              </a>
+              </Link>
               <Link to="/privacy-panda" className="button secondary">
                 <Play size={20} />
                 Try PrivacyPanda
+              </Link>
+              <Link to="/quick-start" className="button tertiary">
+                Get Started Guide
               </Link>
             </div>
           </div>

@@ -1128,6 +1128,19 @@ body {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .hero-buttons .button {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 .btn-primary {
@@ -1951,7 +1964,9 @@ body {
 }
 
 .button {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 12px 24px;
   background: var(--primary-light);
   color: white;
@@ -1960,11 +1975,59 @@ body {
   font-weight: 600;
   transition: var(--transition);
   margin-top: 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 .button:hover {
   background: var(--primary);
   transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.button.primary {
+  background: var(--primary-light);
+  color: white;
+}
+
+.button.primary:hover {
+  background: var(--primary);
+}
+
+.button.secondary {
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.button.secondary:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.button.tertiary {
+  background: var(--gray-100);
+  color: var(--gray-700);
+  border: 2px solid var(--gray-300);
+}
+
+.button.tertiary:hover {
+  background: var(--gray-200);
+  border-color: var(--gray-400);
+  color: var(--gray-900);
+}
+
+[data-theme="dark"] .button.tertiary {
+  background: var(--gray-800);
+  color: var(--gray-200);
+  border-color: var(--gray-600);
+}
+
+[data-theme="dark"] .button.tertiary:hover {
+  background: var(--gray-700);
+  border-color: var(--gray-500);
+  color: var(--gray-100);
 }
 
 /* ===== PARENT RESOURCES SECTION ===== */
