@@ -62,6 +62,7 @@ import DigitalFootprintPage from './pages/DigitalFootprintPage';
 import PrivacyAssessmentPage from './pages/PrivacyAssessmentPage';
 import AssessmentHistoryPage from './pages/AssessmentHistoryPage';
 import PrivacyGoalsPage from './pages/PrivacyGoalsPage';
+import QuickAssessmentPage from './pages/QuickAssessmentPage';
 import NavigationErrorBoundary from './components/NavigationErrorBoundary';
 import { SentryErrorBoundary } from './lib/sentry';
 import { usePageTracking } from './hooks/useAnalytics';
@@ -152,6 +153,7 @@ function App() {
             <Route path="/digital-footprint" element={<DigitalFootprintPage />} />
             <Route path="/footprint" element={<DigitalFootprintPage />} />
             <Route path="/privacy-assessment" element={<PrivacyAssessmentPage />} />
+            <Route path="/quick-assessment" element={<QuickAssessmentPage />} />
             <Route path="/assessment" element={<PrivacyAssessmentPage />} />
             <Route path="/assessment-history" element={<AssessmentHistoryPage />} />
             <Route path="/assessment/history" element={<AssessmentHistoryPage />} />

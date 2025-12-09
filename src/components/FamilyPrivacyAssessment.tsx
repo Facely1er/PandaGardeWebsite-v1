@@ -10,9 +10,10 @@ import {
   Target,
   Info,
   BarChart3,
-  Lightbulb
+  Lightbulb,
+  Download,
+  FileText
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import {
   assessmentQuestions,
   familyPrivacyAssessment,
@@ -20,6 +21,9 @@ import {
   type AssessmentAnswer,
   type AssessmentResult
 } from '../lib/familyPrivacyAssessment';
+import { familyPersonaDetectionEngine, type PersonaDetectionResult } from '../lib/familyPersonaDetection';
+import { familyPrivacyReportGenerator } from '../lib/familyPrivacyReportGenerator';
+import { useFamily } from '../contexts/FamilyContext';
 
 interface FamilyPrivacyAssessmentProps {
   onComplete?: (result: AssessmentResult) => void;
@@ -33,7 +37,10 @@ const FamilyPrivacyAssessment: React.FC<FamilyPrivacyAssessmentProps> = ({
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string | number>>({});
   const [result, setResult] = useState<AssessmentResult | null>(null);
+  const [personaResult, setPersonaResult] = useState<PersonaDetectionResult | null>(null);
   const [showResults, setShowResults] = useState(false);
+  const [isGeneratingReport, setIsGeneratingReport] = useState(false);
+  const { currentFamily } = useFamily();
 
   const currentQuestion = assessmentQuestions[currentStep];
   const progress = ((currentStep + 1) / assessmentQuestions.length) * 100;
@@ -67,10 +74,40 @@ const FamilyPrivacyAssessment: React.FC<FamilyPrivacyAssessmentProps> = ({
 
     const assessmentResult = familyPrivacyAssessment.calculateScore(answerArray);
     setResult(assessmentResult);
+    
+    // Detect persona
+    const persona = familyPersonaDetectionEngine.analyzeAssessmentResults(assessmentResult, answerArray);
+    setPersonaResult(persona);
+    
+    // Store persona in localStorage
+    localStorage.setItem('pandagarde_family_persona', JSON.stringify(persona));
+    
     setShowResults(true);
     
     if (onComplete) {
       onComplete(assessmentResult);
+    }
+  };
+
+  const handleDownloadReport = async () => {
+    if (!result) return;
+    
+    setIsGeneratingReport(true);
+    try {
+      await familyPrivacyReportGenerator.downloadReport(
+        result,
+        personaResult || undefined,
+        {
+          familyName: currentFamily?.name || 'Your Family',
+          assessmentDate: new Date().toLocaleDateString(),
+          includePersona: !!personaResult,
+          includeRecommendations: true
+        }
+      );
+    } catch (error) {
+      console.error('Error generating report:', error);
+    } finally {
+      setIsGeneratingReport(false);
     }
   };
 
@@ -130,6 +167,14 @@ const FamilyPrivacyAssessment: React.FC<FamilyPrivacyAssessmentProps> = ({
               <p className="text-gray-600 dark:text-gray-300">
                 Your family's privacy practices assessment
               </p>
+              {personaResult?.profile && (
+                <div className="mt-2 flex items-center space-x-2">
+                  <Target className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  <span className="text-sm text-blue-700 dark:text-blue-300">
+                    Your Family Profile: <strong>{personaResult.profile.name}</strong>
+                  </span>
+                </div>
+              )}
             </div>
             <div className="text-center">
               <div className={`text-5xl font-bold mb-2 ${getScoreColor(result.overallScore)}`}>
@@ -298,8 +343,16 @@ const FamilyPrivacyAssessment: React.FC<FamilyPrivacyAssessmentProps> = ({
         )}
 
         {/* Actions */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center space-x-2">
+            <button
+              onClick={handleDownloadReport}
+              disabled={isGeneratingReport}
+              className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center space-x-2"
+            >
+              <Download className="h-4 w-4" />
+              <span>{isGeneratingReport ? 'Generating...' : 'Download PDF'}</span>
+            </button>
             <button
               onClick={handleRestart}
               className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
