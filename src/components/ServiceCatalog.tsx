@@ -16,16 +16,12 @@ import {
   GraduationCap,
   Palette,
   ChevronRight,
-  Lock,
   Clock,
   Bell
 } from 'lucide-react';
 import { 
   childServiceCatalog, 
   getServicesByCategory, 
-  getServicesByAge,
-  getRiskColor,
-  getRiskScore,
   type ServiceCategory,
   type ChildService
 } from '../data/childServiceCatalog';
@@ -152,7 +148,6 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
 
   // Get risk badge
   const getRiskBadge = (riskLevel: string) => {
-    const color = getRiskColor(riskLevel as any);
     const colors = {
       low: 'bg-green-100 text-green-800 border-green-300',
       medium: 'bg-yellow-100 text-yellow-800 border-yellow-300',
@@ -203,8 +198,6 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
       notes: serviceUsage.notes
     };
   };
-
-  const categories: (ServiceCategory | 'all')[] = ['all', 'social-media', 'messaging', 'gaming', 'streaming', 'education', 'creative'];
 
   return (
     <div className="service-catalog">
@@ -697,7 +690,7 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
         </div>
       )}
 
-      <style jsx>{`
+      <style dangerouslySetInnerHTML={{__html: `
         .service-catalog {
           padding: 20px;
           max-width: 1200px;
@@ -1155,7 +1148,7 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
             width: 100%;
           }
         }
-      `}</style>
+      `}} />
     </div>
   );
 };

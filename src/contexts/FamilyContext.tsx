@@ -2,6 +2,13 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 // Frontend-only mode - no authentication or database dependencies
 import { localStorageManager, UserProgress } from '../utils/localStorageManager';
 
+export interface ServiceUsage {
+  serviceId: string;
+  status: 'approved' | 'requested' | 'denied';
+  approvedAt?: string;
+  notes?: string;
+}
+
 interface FamilyMember {
   id: string;
   user_id: string;
@@ -21,6 +28,7 @@ interface FamilyMember {
   // Local storage specific fields
   progress?: UserProgress;
   privacyScore?: number;
+  services?: ServiceUsage[];
 }
 
 interface Family {
@@ -45,6 +53,8 @@ interface FamilyContextType {
   getFamilyProgress: () => Promise<{ totalActivities: number; completedActivities: number; progressPercentage: number } | null>;
   isParent: boolean;
   isChild: boolean;
+  // Service management
+  requestService: (memberId: string, serviceId: string) => Promise<{ success: boolean; error: string | null }>;
   // New methods for localStorage and privacy
   calculateFamilyPrivacyScore: () => number;
   exportFamilyData: () => Promise<string>;
@@ -530,6 +540,63 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     setFamilyMembers([]);
   };
 
+  // Request service for a family member
+  const requestService = async (memberId: string, serviceId: string): Promise<{ success: boolean; error: string | null }> => {
+    console.log('Frontend-only mode: requestService() - using localStorage', { memberId, serviceId });
+    if (!currentFamily) {
+      return { success: false, error: 'No family selected' };
+    }
+
+    setLoading(true);
+    try {
+      const familyData = await localStorageManager.getFamilyData();
+
+      if (!familyData || familyData.id !== currentFamily.id) {
+        return { success: false, error: 'Family not found' };
+      }
+
+      // Find the member
+      const memberIndex = familyData.members.findIndex((member: FamilyMember) => member.id === memberId);
+      if (memberIndex === -1) {
+        return { success: false, error: 'Member not found' };
+      }
+
+      const member = familyData.members[memberIndex];
+
+      // Initialize services array if it doesn't exist
+      if (!member.services) {
+        member.services = [];
+      }
+
+      // Check if service is already requested or approved
+      const existingService = member.services.find((s: ServiceUsage) => s.serviceId === serviceId);
+      if (existingService) {
+        return { success: false, error: 'Service already requested or approved' };
+      }
+
+      // Add service request
+      const newService: ServiceUsage = {
+        serviceId,
+        status: 'requested'
+      };
+
+      member.services.push(newService);
+      member.updated_at = new Date().toISOString();
+      familyData.updated_at = new Date().toISOString();
+
+      // Save updated family data
+      await localStorageManager.saveFamilyData(familyData);
+
+      await loadFamilyMembers(currentFamily.id);
+      return { success: true, error: null };
+    } catch (error) {
+      console.error('Error requesting service:', error);
+      return { success: false, error: 'Failed to request service' };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const value: FamilyContextType = {
     currentFamily,
     familyMembers,
@@ -543,6 +610,7 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     getFamilyProgress,
     isParent,
     isChild,
+    requestService,
     calculateFamilyPrivacyScore,
     exportFamilyData,
     importFamilyData,
