@@ -5,7 +5,6 @@ import { ToastProvider } from './contexts/ToastContext';
 import { FamilyProvider } from './contexts/FamilyContext';
 import { SearchProvider } from './contexts/SearchContext';
 import { ProgressProvider } from './contexts/ProgressContext';
-import { AgeVerificationProvider } from './contexts/AgeVerificationContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
@@ -64,7 +63,6 @@ import PrivacyAssessmentPage from './pages/PrivacyAssessmentPage';
 import AssessmentHistoryPage from './pages/AssessmentHistoryPage';
 import PrivacyGoalsPage from './pages/PrivacyGoalsPage';
 import NavigationErrorBoundary from './components/NavigationErrorBoundary';
-import AgeVerificationModal from './components/AgeVerificationModal';
 import { SentryErrorBoundary } from './lib/sentry';
 import { usePageTracking } from './hooks/useAnalytics';
 
@@ -111,15 +109,13 @@ function App() {
           <FamilyProvider>
             <ProgressProvider>
               <Router>
-                <AgeVerificationProvider>
-                  <SentryErrorBoundary fallback={<div>Something went wrong. Please refresh the page.</div>}>
-                    <NavigationErrorBoundary>
-                      <div className="App">
-                        <PageTracker />
-                        <HashHandler />
-                        <Header />
-                        <AgeVerificationModal />
-                        <Routes>
+                <SentryErrorBoundary fallback={<div>Something went wrong. Please refresh the page.</div>}>
+                  <NavigationErrorBoundary>
+                    <div className="App">
+                      <PageTracker />
+                      <HashHandler />
+                      <Header />
+                      <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/story" element={<InteractiveStoryPage />} />
             <Route path="/privacy-panda" element={<InteractiveStoryPage />} />
@@ -207,12 +203,11 @@ function App() {
             {/* 404 Fallback */}
             <Route path="*" element={<HomePage />} />
           </Routes>
-                        <Footer />
-                        <BackToTop />
-                      </div>
-                    </NavigationErrorBoundary>
-                  </SentryErrorBoundary>
-                </AgeVerificationProvider>
+                      <Footer />
+                      <BackToTop />
+                    </div>
+                  </NavigationErrorBoundary>
+                </SentryErrorBoundary>
               </Router>
             </ProgressProvider>
           </FamilyProvider>
