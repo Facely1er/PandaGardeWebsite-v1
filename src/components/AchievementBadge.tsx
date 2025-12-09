@@ -118,7 +118,7 @@ const AchievementBadge: React.FC<AchievementBadgeProps> = ({ achievement, unlock
         }
 
         .achievement-badge:hover.unlocked {
-          transform: scale(1.1);
+          transform: translateY(-2px);
           box-shadow: 0 6px 20px ${achievementInfo.color}60;
         }
 
