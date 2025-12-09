@@ -15,56 +15,49 @@ const AchievementBadge: React.FC<AchievementBadgeProps> = ({ achievement, unlock
           title: 'First Steps',
           description: 'Completed your first activity!',
           icon: Star,
-          color: '#FFD700',
-          emoji: '🌟'
+          color: '#FFD700'
         };
       case 'getting_started':
         return {
           title: 'Getting Started',
           description: 'Completed 3 activities!',
           icon: Target,
-          color: '#4CAF50',
-          emoji: '🎯'
+          color: '#4CAF50'
         };
       case 'privacy_champion':
         return {
           title: 'Privacy Champion',
           description: 'Completed all activities!',
           icon: Trophy,
-          color: '#FF6B6B',
-          emoji: '🏆'
+          color: '#FF6B6B'
         };
       case 'dedicated_learner':
         return {
           title: 'Dedicated Learner',
           description: 'Spent 60+ minutes learning!',
           icon: Clock,
-          color: '#9C27B0',
-          emoji: '⏰'
+          color: '#9C27B0'
         };
       case 'memory_master':
         return {
           title: 'Memory Master',
           description: 'Completed memory game!',
           icon: Brain,
-          color: '#FF9800',
-          emoji: '🧠'
+          color: '#FF9800'
         };
       case 'quiz_expert':
         return {
           title: 'Quiz Expert',
           description: 'Scored 80%+ on quiz!',
           icon: Award,
-          color: '#2196F3',
-          emoji: '🎓'
+          color: '#2196F3'
         };
       default:
         return {
           title: 'Achievement',
           description: 'Great job!',
           icon: Award,
-          color: '#666',
-          emoji: '🎉'
+          color: '#666'
         };
     }
   };
@@ -91,12 +84,9 @@ const AchievementBadge: React.FC<AchievementBadgeProps> = ({ achievement, unlock
     >
       <div className="badge-content">
         {unlocked ? (
-          <>
-            <div className="badge-icon" style={{ color: achievementInfo.color }}>
-              <Icon size={iconSizes[size]} />
-            </div>
-            <div className="badge-emoji">{achievementInfo.emoji}</div>
-          </>
+          <div className="badge-icon" style={{ color: achievementInfo.color }}>
+            <Icon size={iconSizes[size]} />
+          </div>
         ) : (
           <div className="badge-locked">
             <Icon size={iconSizes[size]} />
@@ -144,29 +134,8 @@ const AchievementBadge: React.FC<AchievementBadgeProps> = ({ achievement, unlock
           z-index: 2;
         }
 
-        .badge-emoji {
-          position: absolute;
-          top: -8px;
-          right: -8px;
-          font-size: 12px;
-          z-index: 3;
-          animation: bounce 2s infinite;
-        }
-
         .badge-locked {
           color: #999;
-        }
-
-        @keyframes bounce {
-          0%, 20%, 50%, 80%, 100% {
-            transform: translateY(0);
-          }
-          40% {
-            transform: translateY(-4px);
-          }
-          60% {
-            transform: translateY(-2px);
-          }
         }
       `}</style>
     </div>

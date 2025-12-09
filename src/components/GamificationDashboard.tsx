@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Card from './Card';
 import { gamificationSystem, Achievement, Mission, GamificationStats } from '../utils/gamificationSystem';
 import { localStorageManager, UserProgress } from '../utils/localStorageManager';
+import { BarChart3, Target, Trophy, Star, Calendar, Wrench, BookOpen, Award, TrendingUp, Clock, Users as UsersIcon } from 'lucide-react';
 
 interface GamificationDashboardProps {
   userId: string;
@@ -171,24 +172,27 @@ const GamificationDashboard: React.FC<GamificationDashboardProps> = ({ userId, a
       <div className="mb-6">
         <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
           {[
-            { id: 'overview', label: 'Overview', icon: '📊' },
-            { id: 'missions', label: 'Missions', icon: '🎯' },
-            { id: 'achievements', label: 'Achievements', icon: '🏆' },
-            { id: 'levels', label: 'Levels', icon: '⭐' }
-          ].map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setSelectedTab(tab.id as any)}
-              className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-md transition-colors ${
-                selectedTab === tab.id
-                  ? 'bg-white text-blue-600 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              <span>{tab.icon}</span>
-              <span className="font-medium">{tab.label}</span>
-            </button>
-          ))}
+            { id: 'overview', label: 'Overview', icon: BarChart3 },
+            { id: 'missions', label: 'Missions', icon: Target },
+            { id: 'achievements', label: 'Achievements', icon: Trophy },
+            { id: 'levels', label: 'Levels', icon: Star }
+          ].map(tab => {
+            const IconComponent = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setSelectedTab(tab.id as any)}
+                className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-md transition-colors ${
+                  selectedTab === tab.id
+                    ? 'bg-white text-blue-600 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                <IconComponent size={18} />
+                <span className="font-medium">{tab.label}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -204,7 +208,7 @@ const GamificationDashboard: React.FC<GamificationDashboardProps> = ({ userId, a
                   onClick={() => addXP(25, 'Daily check-in')}
                   className="p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors text-left"
                 >
-                  <div className="text-2xl mb-2">📅</div>
+                  <div className="mb-2 text-blue-600"><Calendar size={24} /></div>
                   <h4 className="font-medium text-gray-900">Daily Check-in</h4>
                   <p className="text-sm text-gray-600">+25 XP</p>
                 </button>
@@ -212,7 +216,7 @@ const GamificationDashboard: React.FC<GamificationDashboardProps> = ({ userId, a
                   onClick={() => addXP(50, 'Privacy tool usage')}
                   className="p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors text-left"
                 >
-                  <div className="text-2xl mb-2">🔧</div>
+                  <div className="mb-2 text-green-600"><Wrench size={24} /></div>
                   <h4 className="font-medium text-gray-900">Use Privacy Tool</h4>
                   <p className="text-sm text-gray-600">+50 XP</p>
                 </button>
@@ -220,7 +224,7 @@ const GamificationDashboard: React.FC<GamificationDashboardProps> = ({ userId, a
                   onClick={() => addXP(100, 'Learning session')}
                   className="p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors text-left"
                 >
-                  <div className="text-2xl mb-2">📚</div>
+                  <div className="mb-2 text-purple-600"><BookOpen size={24} /></div>
                   <h4 className="font-medium text-gray-900">Learning Session</h4>
                   <p className="text-sm text-gray-600">+100 XP</p>
                 </button>
@@ -234,21 +238,21 @@ const GamificationDashboard: React.FC<GamificationDashboardProps> = ({ userId, a
               <h3 className="text-xl font-semibold text-gray-900 mb-4">Recent Activity</h3>
               <div className="space-y-3">
                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                  <span className="text-lg">🎯</span>
+                  <Target size={20} className="text-blue-600" />
                   <div>
                     <p className="font-medium text-gray-900">Completed Daily App Check</p>
                     <p className="text-sm text-gray-600">+25 XP • 2 hours ago</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                  <span className="text-lg">🏆</span>
+                  <Trophy size={20} className="text-yellow-600" />
                   <div>
                     <p className="font-medium text-gray-900">Unlocked "First Steps" Achievement</p>
                     <p className="text-sm text-gray-600">+50 XP • Yesterday</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                  <span className="text-lg">⭐</span>
+                  <Star size={20} className="text-purple-600" />
                   <div>
                     <p className="font-medium text-gray-900">Leveled up to Privacy Learner!</p>
                     <p className="text-sm text-gray-600">Level 2 • 3 days ago</p>
@@ -284,9 +288,9 @@ const GamificationDashboard: React.FC<GamificationDashboardProps> = ({ userId, a
                           </div>
                           <p className="text-gray-600 mb-3">{mission.description}</p>
                           <div className="flex items-center space-x-4 text-sm text-gray-500">
-                            <span>⏱️ {mission.duration} min</span>
-                            <span>🎯 {mission.xpReward} XP</span>
-                            <span>👥 {mission.ageGroup}</span>
+                            <span className="flex items-center gap-1"><Clock size={14} /> {mission.duration} min</span>
+                            <span className="flex items-center gap-1"><Target size={14} /> {mission.xpReward} XP</span>
+                            <span className="flex items-center gap-1"><UsersIcon size={14} /> {mission.ageGroup}</span>
                           </div>
                         </div>
                         <button
@@ -317,7 +321,7 @@ const GamificationDashboard: React.FC<GamificationDashboardProps> = ({ userId, a
                   {achievements.map(achievement => (
                     <div key={achievement.id} className="border rounded-lg p-4">
                       <div className="flex items-start space-x-3">
-                        <span className="text-2xl">{achievement.icon}</span>
+                        <div className="text-blue-600"><Award size={24} /></div>
                         <div className="flex-1">
                           <div className="flex items-center space-x-2 mb-1">
                             <h4 className="font-semibold text-gray-900">{achievement.name}</h4>
@@ -352,7 +356,7 @@ const GamificationDashboard: React.FC<GamificationDashboardProps> = ({ userId, a
                 {gamificationSystem.getLevelInfo(userProgress.currentLevel) && (
                   <div className="bg-blue-50 rounded-lg p-4 border-2 border-blue-200">
                     <div className="flex items-center space-x-3">
-                      <span className="text-2xl">⭐</span>
+                      <Star size={24} className="text-yellow-600" />
                       <div>
                         <h4 className="font-semibold text-blue-900">Current Level: {currentLevelInfo.title}</h4>
                         <p className="text-blue-700">{currentLevelInfo.description}</p>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Users, BookOpen, Book, Settings, Award, TrendingUp, Clock, CheckCircle, ArrowLeft, User, Shield as Child, UserCheck, Star, Play, Download, Plus, UserPlus, LogOut, Globe, Shield, Target } from 'lucide-react';
+import { Users, BookOpen, Book, Settings, Award, TrendingUp, Clock, CheckCircle, ArrowLeft, User, Shield as Child, UserCheck, Star, Play, Download, Plus, UserPlus, LogOut, Globe, Shield, Target, UserCircle } from 'lucide-react';
 import Logo from '../components/Logo';
 import { useAuth } from './family-hub/AuthWrapper';
 import { useFamily } from '../contexts/FamilyContext';
@@ -467,7 +467,7 @@ const FamilyHubPage: React.FC = () => {
                         <Link
                           key={index}
                           to={action.url}
-                          className="bg-white rounded-xl p-6 text-left hover:shadow-lg transition-all transform hover:scale-105 block"
+                          className="bg-white rounded-xl p-6 text-left hover:shadow-lg transition-all block"
                           style={{ backgroundColor: 'var(--card-color)' }}
                         >
                           <div className={`w-12 h-12 bg-gradient-to-r ${action.color} rounded-lg flex items-center justify-center text-white mb-4`}>
@@ -507,7 +507,7 @@ const FamilyHubPage: React.FC = () => {
                   return (
                     <button
                       key={index}
-                      className="bg-white rounded-xl p-6 text-left hover:shadow-lg transition-all transform hover:scale-105"
+                      className="bg-white rounded-xl p-6 text-left hover:shadow-lg transition-all"
                       style={{ backgroundColor: 'var(--card-color)' }}
                     >
                       <div className={`w-12 h-12 bg-gradient-to-r ${action.color} rounded-lg flex items-center justify-center text-white mb-4`}>
@@ -593,7 +593,7 @@ const FamilyHubPage: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <Link to="/activity-book" className="block">
-                <div className="bg-white rounded-xl p-8 text-center hover:shadow-lg transition-all transform hover:scale-105"
+                <div className="bg-white rounded-xl p-8 text-center hover:shadow-lg transition-all"
                      style={{ backgroundColor: 'var(--card-color)' }}>
                   <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center text-white mx-auto mb-6">
                     <BookOpen size={32} />
@@ -611,7 +611,7 @@ const FamilyHubPage: React.FC = () => {
               </Link>
 
               <Link to="/story" className="block">
-                <div className="bg-white rounded-xl p-8 text-center hover:shadow-lg transition-all transform hover:scale-105"
+                <div className="bg-white rounded-xl p-8 text-center hover:shadow-lg transition-all"
                      style={{ backgroundColor: 'var(--card-color)' }}>
                   <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white mx-auto mb-6">
                     <Book size={32} />
@@ -629,7 +629,7 @@ const FamilyHubPage: React.FC = () => {
               </Link>
 
               <Link to="/privacy-tools" className="block">
-                <div className="bg-white rounded-xl p-8 text-center hover:shadow-lg transition-all transform hover:scale-105"
+                <div className="bg-white rounded-xl p-8 text-center hover:shadow-lg transition-all"
                      style={{ backgroundColor: 'var(--card-color)' }}>
                   <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center text-white mx-auto mb-6">
                     <Award size={32} />
@@ -689,7 +689,13 @@ const FamilyHubPage: React.FC = () => {
                   
                   return (
                     <div key={member.id} className="text-center">
-                      <div className="text-2xl mb-2">{member.avatar || '👤'}</div>
+                      <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center text-white">
+                        {member.avatar ? (
+                          <span className="text-2xl">{member.avatar}</span>
+                        ) : (
+                          <UserCircle size={32} className="text-white" />
+                        )}
+                      </div>
                       <h4 className="font-bold mb-2" style={{ color: 'var(--primary)' }}>
                         {memberName || 'Family Member'}
                       </h4>

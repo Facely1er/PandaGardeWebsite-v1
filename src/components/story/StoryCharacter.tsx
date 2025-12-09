@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { Heart, Shield, Zap, Users, Eye, Sparkles, Lock } from 'lucide-react';
 
 interface StoryCharacterProps {
   character: 'panda' | 'turtle' | 'monkey' | 'beaver' | 'rabbit' | 'owl' | 'fox';
@@ -26,14 +27,14 @@ const StoryCharacter: React.FC<StoryCharacterProps> = ({
   const [animationPhase, setAnimationPhase] = useState(0);
   const [isIdle, setIsIdle] = useState(true);
 
-  const characterEmojis = {
-    panda: '🐼',
-    turtle: '🐢',
-    monkey: '🐵',
-    beaver: '🦫',
-    rabbit: '🐰',
-    owl: '🦉',
-    fox: '🦊'
+  const characterIcons = {
+    panda: { icon: Heart, color: '#4CAF50' },
+    turtle: { icon: Shield, color: '#2196F3' },
+    monkey: { icon: Zap, color: '#FF9800' },
+    beaver: { icon: Users, color: '#9C27B0' },
+    rabbit: { icon: Eye, color: '#E91E63' },
+    owl: { icon: Sparkles, color: '#FFC107' },
+    fox: { icon: Lock, color: '#F44336' }
   };
 
   const emotionStyles = {
@@ -47,9 +48,9 @@ const StoryCharacter: React.FC<StoryCharacterProps> = ({
   };
 
   const sizeStyles = {
-    small: { fontSize: '2rem' },
-    medium: { fontSize: '4rem' },
-    large: { fontSize: '6rem' }
+    small: { size: 32 },
+    medium: { size: 64 },
+    large: { size: 96 }
   };
 
   const animationClasses = {
@@ -93,9 +94,12 @@ const StoryCharacter: React.FC<StoryCharacterProps> = ({
     }
   }, [isSpeaking, message]);
 
+  const characterInfo = characterIcons[character];
+  const CharacterIcon = characterInfo.icon;
+  const iconSize = sizeStyles[size].size;
+  
   const characterStyle = {
     ...emotionStyles[emotion],
-    ...sizeStyles[size],
     transition: 'all 0.3s ease'
   };
 
@@ -105,8 +109,8 @@ const StoryCharacter: React.FC<StoryCharacterProps> = ({
         className={`character-wrapper ${isAnimating && animation ? animationClasses[animation] : ''} ${isIdle ? `idle-phase-${animationPhase}` : ''}`}
         style={characterStyle}
       >
-        <div className="character-emoji">
-          {characterEmojis[character]}
+        <div className="character-icon" style={{ color: characterInfo.color }}>
+          <CharacterIcon size={iconSize} />
         </div>
         
         {isSpeaking && (
@@ -156,9 +160,10 @@ const StoryCharacter: React.FC<StoryCharacterProps> = ({
           transform: scale(0.95);
         }
 
-        .character-emoji {
-          display: inline-block;
-          line-height: 1;
+        .character-icon {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
           user-select: none;
         }
 
@@ -497,8 +502,8 @@ const StoryCharacter: React.FC<StoryCharacterProps> = ({
         }
 
         @media (max-width: 768px) {
-          .character-emoji {
-            font-size: 3rem;
+          .character-icon {
+            transform: scale(0.75);
           }
 
           .message-bubble {

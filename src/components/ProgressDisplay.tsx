@@ -22,11 +22,11 @@ const ProgressDisplay: React.FC<ProgressDisplayProps> = ({
   const percentage = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
   
   const getProgressMessage = () => {
-    if (percentage === 100) {return 'Privacy Champion! 🏆';}
-    if (percentage >= 75) {return 'Almost there! 🌟';}
-    if (percentage >= 50) {return 'Great progress! 👍';}
-    if (percentage >= 25) {return 'Keep going! 💪';}
-    return 'Let\'s get started! 🚀';
+    if (percentage === 100) {return 'Privacy Champion!';}
+    if (percentage >= 75) {return 'Almost there!';}
+    if (percentage >= 50) {return 'Great progress!';}
+    if (percentage >= 25) {return 'Keep going!';}
+    return 'Let\'s get started!';
   };
 
   const getProgressColor = () => {

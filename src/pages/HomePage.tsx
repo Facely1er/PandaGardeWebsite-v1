@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, CheckCircle } from 'lucide-react';
+import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, CheckCircle, Baby, User, GraduationCap } from 'lucide-react';
 
 const HomePage: React.FC = () => {
   useEffect(() => {
@@ -55,21 +55,21 @@ const HomePage: React.FC = () => {
   const ageGroups = [
     {
       age: 'Ages 5-8',
-      icon: '👶',
+      icon: Baby,
       description: 'Stories & Activities',
       link: '/activity-book',
       color: 'from-purple-500 to-pink-500'
     },
     {
       age: 'Ages 9-12',
-      icon: '🧒',
+      icon: User,
       description: 'Privacy Explorers',
       link: '/privacy-explorers',
       color: 'from-blue-500 to-cyan-500'
     },
     {
       age: 'Ages 13-17',
-      icon: '👦',
+      icon: GraduationCap,
       description: 'Teen Handbook',
       link: '/teen-handbook',
       color: 'from-green-500 to-emerald-500'
@@ -84,19 +84,19 @@ const HomePage: React.FC = () => {
           <div className="hero-content">
             <div className="hero-text slide-in-left">
               <span className="badge">DIGITAL PRIVACY EDUCATION</span>
-              <h1>Protecting Families in the <span className="highlight rainbow-text sparkle">Digital Age</span></h1>
+              <h1>Protecting Families in the <span className="highlight">Digital Age</span></h1>
               <p className="hero-description">
                 Comprehensive digital privacy education platform designed for families with children ages 5-17. 
                 Interactive curriculum, engaging activities, and practical tools to help families navigate the digital world safely.
               </p>
 
               <div className="hero-buttons">
-                <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer" className="button primary bounce-hover">
+                <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer" className="button primary">
                   <BookOpen size={20} />
                   Launch Family Hub
                   <ArrowRight size={16} />
                 </a>
-                <Link to="/privacy-panda" className="button secondary wiggle-hover">
+                <Link to="/privacy-panda" className="button secondary">
                   <Play size={20} />
                   Try PrivacyPanda
                   <Heart size={16} />
@@ -210,7 +210,9 @@ const HomePage: React.FC = () => {
             {ageGroups.map((group, index) => (
               <Link key={index} to={group.link} className="age-group-card fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
                 <div className={`group-header bg-gradient-to-r ${group.color}`}>
-                  <div className="group-icon text-4xl">{group.icon}</div>
+                  <div className="group-icon">
+                    <group.icon size={48} className="text-white" />
+                  </div>
                   <h3>{group.age}</h3>
                 </div>
                 <div className="group-content">

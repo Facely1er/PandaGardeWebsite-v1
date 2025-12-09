@@ -114,10 +114,10 @@
 
 @keyframes pulse {
   0%, 100% {
-    transform: scale(1);
+    opacity: 1;
   }
   50% {
-    transform: scale(1.05);
+    opacity: 0.8;
   }
 }
 
@@ -171,13 +171,15 @@
   }
 }
 
-/* Interactive hover effects */
+/* Interactive hover effects - refined for subtlety */
 .bounce-hover:hover {
-  animation: bounce 1s infinite;
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
 }
 
 .wiggle-hover:hover {
-  animation: wiggle 0.5s ease-in-out;
+  transform: translateX(2px);
+  transition: transform 0.2s ease;
 }
 
 .float-hover:hover {
@@ -198,16 +200,20 @@
   animation: rainbow 3s ease infinite;
 }
 
-/* Sparkle effect */
+/* Sparkle effect - removed emoji, using subtle glow instead */
 .sparkle {
   position: relative;
 }
 
 .sparkle::before {
-  content: '✨';
+  content: '';
   position: absolute;
   top: -10px;
   right: -10px;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+  border-radius: 50%;
   animation: sparkle 2s ease-in-out infinite;
 }
 
@@ -777,7 +783,7 @@ body {
 }
 
 .logo:hover {
-  transform: scale(1.05);
+  opacity: 0.9;
 }
 
 .logo-icon {
@@ -868,8 +874,7 @@ body {
 }
 
 .theme-toggle:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .cta-button {
@@ -929,8 +934,7 @@ body {
 }
 
 .user-icon-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .mobile-menu-toggle {
@@ -1531,7 +1535,7 @@ body {
   background-color: rgba(255, 255, 255, 0.2);
   border-color: var(--warning);
   color: var(--warning);
-  transform: translateY(-3px) scale(1.05);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
@@ -1664,7 +1668,7 @@ body {
 }
 
 .feature-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-lg);
 }
 
@@ -2470,12 +2474,12 @@ body {
 }
 
 .interactive-card:hover {
-  transform: translateY(-8px) scale(1.02);
+  transform: translateY(-4px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 .interactive-card:active {
-  transform: translateY(-4px) scale(0.98);
+  transform: translateY(-2px);
 }
 
 /* Loading animation for interactive elements */
