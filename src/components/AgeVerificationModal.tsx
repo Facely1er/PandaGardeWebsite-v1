@@ -121,7 +121,7 @@ const AgeVerificationModal: React.FC = () => {
             <Shield size={32} />
           </div>
           <h2 id="age-verification-title">Age Verification Required</h2>
-          <p id="age-verification-description">To comply with COPPA (Children's Online Privacy Protection Act), we need to verify your age.</p>
+          <p id="age-verification-description">We need to verify your age to provide age-appropriate content.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="age-verification-form">
@@ -153,7 +153,7 @@ const AgeVerificationModal: React.FC = () => {
                   <AlertTriangle size={20} className="warning-icon" style={{ color: '#f59e0b', flexShrink: 0, marginTop: '2px' }} />
                   <div>
                     <strong style={{ display: 'block', marginBottom: '0.5rem', color: '#92400e' }}>
-                      COPPA Notice - Parental Consent Required
+                      Parental Consent Required
                     </strong>
                     <p style={{ margin: '0.25rem 0', fontSize: '0.875rem', color: '#78350f' }}>
                       You are under 13 years old. We need your parent's or guardian's permission to collect any information.
@@ -252,8 +252,7 @@ const AgeVerificationModal: React.FC = () => {
           <div className="privacy-info">
             <Users size={16} />
             <p>
-              <strong>Privacy Notice:</strong> We comply with COPPA (Children's Online Privacy Protection Act). 
-              For users under 13, we require verifiable parental consent before collecting any personal information. 
+              <strong>Privacy Notice:</strong> For users under 13, we require verifiable parental consent before collecting any personal information. 
               <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" style={{ marginLeft: '0.5rem', color: '#3b82f6' }}>
                 Read our Privacy Policy
               </a>
