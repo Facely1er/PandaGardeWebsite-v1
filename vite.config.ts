@@ -1,7 +1,17 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
-import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
+
+// Conditionally import image optimizer only if sharp is available
+let ViteImageOptimizer: any = null;
+try {
+  // Check if sharp is available
+  require.resolve('sharp');
+  const imageOptimizer = require('vite-plugin-image-optimizer');
+  ViteImageOptimizer = imageOptimizer.ViteImageOptimizer || imageOptimizer.default;
+} catch (e) {
+  console.warn('sharp module not available, image optimization will be skipped');
+}
 
 // Plugin to handle optional dependencies
 const optionalDependenciesPlugin = () => ({
@@ -41,24 +51,26 @@ export default defineConfig({
         telemetry: false,
       })
     ] : []),
-    // Image optimization plugin - re-enabled with proper configuration
-    ViteImageOptimizer({
-      png: {
-        quality: 80,
-      },
-      jpeg: {
-        quality: 80,
-      },
-      jpg: {
-        quality: 80,
-      },
-      webp: {
-        quality: 80,
-      },
-      avif: {
-        quality: 80,
-      },
-    }),
+    // Image optimization plugin - only add if sharp is available
+    ...(ViteImageOptimizer ? [
+      ViteImageOptimizer({
+        png: {
+          quality: 80,
+        },
+        jpeg: {
+          quality: 80,
+        },
+        jpg: {
+          quality: 80,
+        },
+        webp: {
+          quality: 80,
+        },
+        avif: {
+          quality: 80,
+        },
+      })
+    ] : []),
   ],
   optimizeDeps: {
     exclude: ['lucide-react'],

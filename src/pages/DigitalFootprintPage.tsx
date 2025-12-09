@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Download } from 'lucide-react';
+import { ArrowLeft, Download, ShoppingBag, Bell, FileText, ArrowRight } from 'lucide-react';
 import DigitalFootprintVisualizer from '../components/DigitalFootprintVisualizer';
 import { useFamily } from '../contexts/FamilyContext';
 import { footprintAnalyzer } from '../lib/footprintAnalyzer';
@@ -92,42 +92,59 @@ const DigitalFootprintPage: React.FC = () => {
         <DigitalFootprintVisualizer />
 
         {/* Additional Resources */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Link
-            to="/service-catalog"
-            className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-green-500 dark:hover:border-green-600 transition-colors"
-          >
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
-              Review Services
-            </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Check privacy settings for all your family's services
-            </p>
-          </Link>
+        <div className="mt-8">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+            Take Action
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Link
+              to="/service-catalog"
+              className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-green-500 dark:hover:border-green-600 transition-colors group"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <ShoppingBag className="h-5 w-5 text-green-600 dark:text-green-400" />
+                <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-green-600 transition-colors" />
+              </div>
+              <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
+                Review Service Catalog
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Check Privacy Exposure Index for all services and review high-risk apps
+              </p>
+            </Link>
 
-          <Link
-            to="/guides/safety-net"
-            className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-green-500 dark:hover:border-green-600 transition-colors"
-          >
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
-              Privacy Guides
-            </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Learn how to reduce your digital footprint
-            </p>
-          </Link>
+            <Link
+              to="/safety-alerts"
+              className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-green-500 dark:hover:border-green-600 transition-colors group"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <Bell className="h-5 w-5 text-green-600 dark:text-green-400" />
+                <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-green-600 transition-colors" />
+              </div>
+              <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
+                Check Safety Alerts
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Get real-time notifications about privacy updates and data breaches
+              </p>
+            </Link>
 
-          <Link
-            to="/family-privacy-plan"
-            className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-green-500 dark:hover:border-green-600 transition-colors"
-          >
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
-              Create Privacy Plan
-            </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Build a customized privacy plan for your family
-            </p>
-          </Link>
+            <Link
+              to="/privacy-assessment"
+              className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-green-500 dark:hover:border-green-600 transition-colors group"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <FileText className="h-5 w-5 text-green-600 dark:text-green-400" />
+                <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-green-600 transition-colors" />
+              </div>
+              <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
+                Take Privacy Assessment
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Get personalized recommendations to improve your family's privacy practices
+              </p>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

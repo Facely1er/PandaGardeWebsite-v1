@@ -4,6 +4,8 @@
  */
 
 import { childServiceCatalog, type ChildService } from '../data/childServiceCatalog';
+import { childRSSAlertService } from './rssAlertService';
+import { calculatePrivacyExposureIndex } from './privacyExposureIndex';
 
 export interface ServiceNotification {
   id: string;
@@ -117,6 +119,14 @@ export class ChildServiceNotificationManager {
       // Check for data breaches
       const breach = this.getRecentDataBreach(serviceId);
       if (breach) {
+        // Data breaches are always high priority, but weight by exposure index
+        const exposureIndex = calculatePrivacyExposureIndex(serviceId);
+        let priority: 'high' | 'medium' | 'low' = 'high';
+        // Breaches for high-exposure services are critical
+        if (exposureIndex !== null && exposureIndex >= 70) {
+          priority = 'high'; // Already high, but could add 'critical' level in future
+        }
+
         notifications.push({
           id: `${serviceId}-breach-${breach.timestamp}`,
           serviceId,
@@ -124,7 +134,7 @@ export class ChildServiceNotificationManager {
           type: this.notificationTypes.DATA_BREACH,
           title: `Data Breach Alert: ${service.name}`,
           message: breach.message || `A data breach has been reported affecting ${service.name}. Take immediate action to secure your child's account.`,
-          priority: 'high',
+          priority,
           timestamp: breach.timestamp,
           category: 'breach',
           action: {
@@ -211,8 +221,7 @@ export class ChildServiceNotificationManager {
    */
   async getNotificationsFromRSS(selectedServiceIds: string[]): Promise<ServiceNotification[]> {
     try {
-      // Import RSS alert service dynamically to avoid circular dependencies
-      const { childRSSAlertService } = await import('./rssAlertService');
+      // Use statically imported RSS alert service
       const alerts = await childRSSAlertService.processFeeds();
       
       const notifications: ServiceNotification[] = [];

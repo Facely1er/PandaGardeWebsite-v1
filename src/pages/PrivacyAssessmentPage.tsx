@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Shield } from 'lucide-react';
+import { ArrowLeft, Shield, ShoppingBag, BarChart3, Bell, ArrowRight } from 'lucide-react';
 import FamilyPrivacyAssessment from '../components/FamilyPrivacyAssessment';
 import { type AssessmentResult } from '../lib/familyPrivacyAssessment';
 
@@ -60,12 +60,68 @@ const PrivacyAssessmentPage: React.FC = () => {
             Your answers help us provide personalized recommendations to improve your family's
             digital privacy and safety.
           </p>
-          <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
+          <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1 mb-4">
             <li>• Takes approximately 5-10 minutes to complete</li>
             <li>• All answers are stored locally on your device</li>
             <li>• Results are private and not shared</li>
             <li>• You can retake the assessment anytime</li>
           </ul>
+        </div>
+
+        {/* Related Resources */}
+        <div className="mt-8">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+            Explore Related Features
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Link
+              to="/service-catalog"
+              className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-green-500 dark:hover:border-green-600 transition-colors group"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <ShoppingBag className="h-5 w-5 text-green-600 dark:text-green-400" />
+                <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-green-600 transition-colors" />
+              </div>
+              <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
+                Service Catalog
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Review Privacy Exposure Index for all services your family uses
+              </p>
+            </Link>
+
+            <Link
+              to="/digital-footprint"
+              className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-green-500 dark:hover:border-green-600 transition-colors group"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <BarChart3 className="h-5 w-5 text-green-600 dark:text-green-400" />
+                <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-green-600 transition-colors" />
+              </div>
+              <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
+                Digital Footprint
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                See your family's overall privacy exposure and high-risk services
+              </p>
+            </Link>
+
+            <Link
+              to="/safety-alerts"
+              className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-green-500 dark:hover:border-green-600 transition-colors group"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <Bell className="h-5 w-5 text-green-600 dark:text-green-400" />
+                <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-green-600 transition-colors" />
+              </div>
+              <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
+                Safety Alerts
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Get real-time notifications about privacy and safety updates
+              </p>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

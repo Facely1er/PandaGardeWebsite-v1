@@ -51,6 +51,7 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory | 'all'>('all');
   const [selectedRisk, setSelectedRisk] = useState<string>('all');
+  const [selectedExposureLevel, setSelectedExposureLevel] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'name' | 'exposure' | 'age'>('name');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [selectedService, setSelectedService] = useState<ChildService | null>(null);
@@ -84,6 +85,27 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
       services = services.filter(s => s.riskLevel === selectedRisk);
     }
 
+    // Filter by exposure index level
+    if (selectedExposureLevel !== 'all') {
+      services = services.filter(s => {
+        const exposureIndex = calculatePrivacyExposureIndex(s.id);
+        if (exposureIndex === null) return false;
+        
+        switch (selectedExposureLevel) {
+          case 'very-high':
+            return exposureIndex >= 70;
+          case 'high':
+            return exposureIndex >= 50 && exposureIndex < 70;
+          case 'medium':
+            return exposureIndex >= 30 && exposureIndex < 50;
+          case 'low':
+            return exposureIndex < 30;
+          default:
+            return true;
+        }
+      });
+    }
+
     // Sort services
     services = [...services].sort((a, b) => {
       let comparison = 0;
@@ -106,7 +128,7 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
     });
 
     return services;
-  }, [searchQuery, selectedCategory, selectedRisk, sortBy, sortOrder]);
+  }, [searchQuery, selectedCategory, selectedRisk, selectedExposureLevel, sortBy, sortOrder]);
 
   // Get category icon
   const getCategoryIcon = (category: ServiceCategory) => {
@@ -244,6 +266,18 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
             <option value="medium">Medium Risk</option>
             <option value="high">High Risk</option>
             <option value="very-high">Very High Risk</option>
+          </select>
+
+          <select
+            value={selectedExposureLevel}
+            onChange={(e) => setSelectedExposureLevel(e.target.value)}
+            className="filter-select"
+          >
+            <option value="all">All Exposure Levels</option>
+            <option value="very-high">Very High (70-100)</option>
+            <option value="high">High (50-69)</option>
+            <option value="medium">Medium (30-49)</option>
+            <option value="low">Low (0-29)</option>
           </select>
 
           <select
@@ -418,6 +452,7 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
               setSearchQuery('');
               setSelectedCategory('all');
               setSelectedRisk('all');
+              setSelectedExposureLevel('all');
             }}
             className="clear-filters-button"
           >

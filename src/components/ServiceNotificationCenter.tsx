@@ -16,6 +16,7 @@ import { useFamily } from '../contexts/FamilyContext';
 import { childServiceNotificationManager, type ServiceNotification } from '../lib/serviceNotifications';
 import { getServiceLogoUrlWithBrandColor, hasServiceLogo } from '../utils/serviceLogos';
 import { childServiceCatalog, getServiceById } from '../data/childServiceCatalog';
+import { calculatePrivacyExposureIndex, getExposureLevel } from '../lib/privacyExposureIndex';
 
 interface ServiceNotificationCenterProps {
   compact?: boolean;
@@ -344,6 +345,33 @@ const ServiceNotificationCenter: React.FC<ServiceNotificationCenterProps> = ({
                     <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
                       {notification.message}
                     </p>
+
+                    {/* Privacy Exposure Index */}
+                    {service && (() => {
+                      const exposureIndex = calculatePrivacyExposureIndex(service.id);
+                      const exposureLevel = getExposureLevel(exposureIndex);
+                      if (exposureIndex !== null) {
+                        return (
+                          <div className="mb-2 p-2 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
+                                Privacy Exposure Index:
+                              </span>
+                              <span className={`text-xs font-semibold ${exposureLevel.textColor}`}>
+                                {exposureIndex}/100 ({exposureLevel.level})
+                              </span>
+                            </div>
+                            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                              <div
+                                className={`h-1.5 rounded-full ${exposureLevel.barColor}`}
+                                style={{ width: `${exposureIndex}%` }}
+                              />
+                            </div>
+                          </div>
+                        );
+                      }
+                      return null;
+                    })()}
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4 text-xs text-gray-500 dark:text-gray-400">
