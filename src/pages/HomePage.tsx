@@ -116,11 +116,12 @@ const HomePage: React.FC = () => {
     }
   ];
 
+  // Standardized customer journey steps - consistent across all pages
   const customerJourney = [
     {
       step: 1,
-      title: 'Create Your Family Profile',
-      description: 'Set up your family hub to track progress and access personalized resources',
+      title: 'Join PandaGarde Platform',
+      description: 'Create your family profile and access the complete privacy education ecosystem',
       icon: Users,
       link: '/family-hub',
       platform: 'PandaGarde'
@@ -129,7 +130,7 @@ const HomePage: React.FC = () => {
       step: 2,
       title: 'Add Services for Digital Footprint Analysis',
       description: 'Tell us which apps and services your family uses. This enables Digital Footprint Analysis, privacy recommendations, and safety alerts',
-      icon: Shield,
+      icon: ShoppingBag,
       link: '/service-catalog',
       platform: 'PandaGarde',
       enables: ['Digital Footprint Analysis', 'Privacy Recommendations', 'Safety Alerts'],
@@ -137,8 +138,8 @@ const HomePage: React.FC = () => {
     },
     {
       step: 3,
-      title: 'Start Learning with Privacy Panda',
-      description: 'Your children can begin fun, interactive activities and stories designed for their age group',
+      title: 'Start Privacy Panda Learning',
+      description: 'Begin interactive stories and activities designed for your child\'s age group',
       icon: Play,
       link: '/privacy-panda',
       platform: 'Privacy Panda'
@@ -347,13 +348,77 @@ const HomePage: React.FC = () => {
       )}
 
       {/* Hero Section */}
-      <section className="hero-simple">
-        <div className="container">
+      <section className="hero-simple" style={{
+        background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 25%, #ffffff 50%, #f0f9ff 75%, #e0f2fe 100%)',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        {/* Decorative background elements */}
+        <div style={{
+          position: 'absolute',
+          top: '-10%',
+          right: '-5%',
+          width: '600px',
+          height: '600px',
+          background: 'radial-gradient(circle, rgba(27, 94, 32, 0.08) 0%, transparent 70%)',
+          borderRadius: '50%',
+          zIndex: 0
+        }} />
+        <div style={{
+          position: 'absolute',
+          bottom: '-15%',
+          left: '-5%',
+          width: '500px',
+          height: '500px',
+          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%)',
+          borderRadius: '50%',
+          zIndex: 0
+        }} />
+        
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div className="hero-content">
             <div className="hero-text slide-in-left">
-              <span className="badge">DIGITAL PRIVACY EDUCATION</span>
-              <h1>Keep Your Family Safe <span className="highlight">Online</span></h1>
-              <p className="hero-description">
+              <span className="badge" style={{
+                background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+                color: 'white',
+                padding: '0.5rem 1.25rem',
+                borderRadius: '50px',
+                fontSize: '0.75rem',
+                fontWeight: '700',
+                letterSpacing: '1px',
+                textTransform: 'uppercase',
+                display: 'inline-block',
+                marginBottom: '1.5rem',
+                boxShadow: '0 4px 12px rgba(27, 94, 32, 0.2)'
+              }}>
+                DIGITAL PRIVACY EDUCATION
+              </span>
+              <h1 style={{
+                fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                fontWeight: '800',
+                lineHeight: '1.1',
+                marginBottom: '1.5rem',
+                color: '#0f172a',
+                letterSpacing: '-0.02em'
+              }}>
+                Keep Your Family<br />
+                <span className="highlight" style={{
+                  background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #66BB6A 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  display: 'inline-block'
+                }}>
+                  Safe Online
+                </span>
+              </h1>
+              <p className="hero-description" style={{
+                fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
+                lineHeight: '1.7',
+                color: '#475569',
+                marginBottom: '2rem',
+                maxWidth: '600px'
+              }}>
                 {familyPersona 
                   ? `${familyPersona.description}. Get personalized recommendations and resources tailored for your family's privacy needs.`
                   : 'Teach your children digital privacy and online safety through fun, interactive activities. Everything you need to protect your family in the digital world—all in one place, completely free.'
@@ -442,81 +507,368 @@ const HomePage: React.FC = () => {
                 </div>
               )}
 
-              <div className="hero-buttons">
-                <Link to="/privacy-panda" className="button primary">
+              <div className="hero-buttons" style={{
+                display: 'flex',
+                gap: '1rem',
+                flexWrap: 'wrap',
+                marginBottom: '3rem'
+              }}>
+                <Link 
+                  to="/quick-start" 
+                  className="button primary"
+                  style={{
+                    background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+                    color: 'white',
+                    padding: '1rem 2rem',
+                    borderRadius: '12px',
+                    fontWeight: '600',
+                    fontSize: '1rem',
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                    boxShadow: '0 4px 16px rgba(27, 94, 32, 0.3)',
+                    transition: 'all 0.3s ease',
+                    border: 'none'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(27, 94, 32, 0.4)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(27, 94, 32, 0.3)';
+                  }}
+                >
                   <Play size={20} />
-                  Start Learning with Privacy Panda
+                  Get Started Now
                   <ArrowRight size={16} />
                 </Link>
-                <Link to="/family-hub" className="button secondary">
-                  <Users size={20} />
-                  Set Up Family Hub
+                <Link 
+                  to="/privacy-panda" 
+                  className="button secondary"
+                  style={{
+                    background: 'white',
+                    color: '#1B5E20',
+                    padding: '1rem 2rem',
+                    borderRadius: '12px',
+                    fontWeight: '600',
+                    fontSize: '1rem',
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                    border: '2px solid #1B5E20',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#1B5E20';
+                    e.currentTarget.style.color = 'white';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(27, 94, 32, 0.3)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'white';
+                    e.currentTarget.style.color = '#1B5E20';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+                  }}
+                >
+                  <Play size={20} />
+                  Start Learning
                   <ArrowRight size={16} />
                 </Link>
-                <Link to="/quick-start" className="button tertiary">
+                <Link 
+                  to="/overview" 
+                  className="button tertiary"
+                  style={{
+                    background: 'transparent',
+                    color: '#475569',
+                    padding: '1rem 2rem',
+                    borderRadius: '12px',
+                    fontWeight: '600',
+                    fontSize: '1rem',
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                    border: '2px solid #e2e8f0',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = '#1B5E20';
+                    e.currentTarget.style.color = '#1B5E20';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = '#e2e8f0';
+                    e.currentTarget.style.color = '#475569';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
+                >
                   <BookOpen size={16} />
-                  Quick Start Guide
+                  Learn More
                   <ArrowRight size={16} />
                 </Link>
               </div>
 
               {/* Quick Stats */}
-              <div className="hero-stats">
-                <div className="stat-item">
-                  <span className="stat-number">3</span>
-                  <span className="stat-label">Age Groups</span>
+              <div className="hero-stats" style={{
+                display: 'flex',
+                gap: '2rem',
+                flexWrap: 'wrap',
+                paddingTop: '2rem',
+                borderTop: '1px solid #e2e8f0'
+              }}>
+                <div className="stat-item" style={{
+                  textAlign: 'left'
+                }}>
+                  <span className="stat-number" style={{
+                    display: 'block',
+                    fontSize: '2.5rem',
+                    fontWeight: '800',
+                    background: 'linear-gradient(135deg, #1B5E20 0%, #66BB6A 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    lineHeight: '1',
+                    marginBottom: '0.5rem'
+                  }}>3</span>
+                  <span className="stat-label" style={{
+                    fontSize: '0.875rem',
+                    color: '#64748b',
+                    fontWeight: '600',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}>Age Groups</span>
                 </div>
-                <div className="stat-item">
-                  <span className="stat-number">8</span>
-                  <span className="stat-label">Interactive Activities</span>
+                <div className="stat-item" style={{
+                  textAlign: 'left'
+                }}>
+                  <span className="stat-number" style={{
+                    display: 'block',
+                    fontSize: '2.5rem',
+                    fontWeight: '800',
+                    background: 'linear-gradient(135deg, #1B5E20 0%, #66BB6A 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    lineHeight: '1',
+                    marginBottom: '0.5rem'
+                  }}>8</span>
+                  <span className="stat-label" style={{
+                    fontSize: '0.875rem',
+                    color: '#64748b',
+                    fontWeight: '600',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}>Interactive Activities</span>
                 </div>
-                <div className="stat-item">
-                  <span className="stat-number">100%</span>
-                  <span className="stat-label">Free</span>
+                <div className="stat-item" style={{
+                  textAlign: 'left'
+                }}>
+                  <span className="stat-number" style={{
+                    display: 'block',
+                    fontSize: '2.5rem',
+                    fontWeight: '800',
+                    background: 'linear-gradient(135deg, #1B5E20 0%, #66BB6A 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    lineHeight: '1',
+                    marginBottom: '0.5rem'
+                  }}>100%</span>
+                  <span className="stat-label" style={{
+                    fontSize: '0.875rem',
+                    color: '#64748b',
+                    fontWeight: '600',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}>Free</span>
                 </div>
               </div>
             </div>
 
-            <div className="hero-visual slide-in-right">
-              <div className="family-hub-banner">
-                <div className="banner-content">
-                  <div className="banner-logo">
-                    <img 
-                      src="/LogoPandagarde.png" 
-                      alt="PandaGarde Logo" 
-                      style={{ 
-                        width: '100%', 
-                        height: 'auto', 
-                        maxWidth: '200px',
-                        objectFit: 'contain'
-                      }} 
-                    />
+            <div className="hero-visual slide-in-right" style={{
+              position: 'relative',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <div className="family-hub-banner" style={{
+                width: '100%',
+                maxWidth: '500px',
+                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 253, 244, 0.95) 100%)',
+                backdropFilter: 'blur(20px)',
+                borderRadius: '24px',
+                padding: '3rem',
+                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.5)',
+                border: '1px solid rgba(27, 94, 32, 0.1)',
+                position: 'relative',
+                overflow: 'hidden'
+              }}>
+                {/* Decorative gradient overlay */}
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: '4px',
+                  background: 'linear-gradient(90deg, #1B5E20 0%, #2E7D32 50%, #66BB6A 100%)'
+                }} />
+                
+                <div className="banner-content" style={{
+                  position: 'relative',
+                  zIndex: 1
+                }}>
+                  <div className="banner-logo" style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginBottom: '1.5rem'
+                  }}>
+                    <div style={{
+                      width: '120px',
+                      height: '120px',
+                      borderRadius: '20px',
+                      background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 8px 24px rgba(27, 94, 32, 0.15)',
+                      border: '2px solid rgba(27, 94, 32, 0.1)'
+                    }}>
+                      <img 
+                        src="/LogoPandagarde.png" 
+                        alt="PandaGarde Logo" 
+                        style={{ 
+                          width: '90%', 
+                          height: 'auto', 
+                          objectFit: 'contain'
+                        }} 
+                      />
+                    </div>
                   </div>
-                  <h3>Your Family's Privacy Dashboard</h3>
-                  <p>Track your children's learning progress, access personalized resources, and get recommendations tailored to your family's needs.</p>
+                  <h3 style={{
+                    fontSize: '1.75rem',
+                    fontWeight: '700',
+                    color: '#0f172a',
+                    marginBottom: '1rem',
+                    textAlign: 'center',
+                    lineHeight: '1.3'
+                  }}>Your Family's Privacy Dashboard</h3>
+                  <p style={{
+                    fontSize: '1rem',
+                    color: '#475569',
+                    lineHeight: '1.6',
+                    marginBottom: '2rem',
+                    textAlign: 'center'
+                  }}>Track your children's learning progress, access personalized resources, and get recommendations tailored to your family's needs.</p>
                   
-                  <div className="banner-features">
-                    <div className="feature-item">
-                      <Heart size={16} />
-                      <span>Track Progress</span>
+                  <div className="banner-features" style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.75rem',
+                    marginBottom: '2rem'
+                  }}>
+                    <div className="feature-item" style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.75rem',
+                      padding: '0.75rem 1rem',
+                      background: 'rgba(27, 94, 32, 0.05)',
+                      borderRadius: '12px',
+                      border: '1px solid rgba(27, 94, 32, 0.1)',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(27, 94, 32, 0.1)';
+                      e.currentTarget.style.transform = 'translateX(4px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(27, 94, 32, 0.05)';
+                      e.currentTarget.style.transform = 'translateX(0)';
+                    }}
+                    >
+                      <Heart size={18} style={{ color: '#1B5E20' }} />
+                      <span style={{ fontSize: '0.875rem', fontWeight: '600', color: '#0f172a' }}>Track Progress</span>
                     </div>
-                    <div className="feature-item">
-                      <Sparkles size={16} />
-                      <span>Personalized Resources</span>
+                    <div className="feature-item" style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.75rem',
+                      padding: '0.75rem 1rem',
+                      background: 'rgba(27, 94, 32, 0.05)',
+                      borderRadius: '12px',
+                      border: '1px solid rgba(27, 94, 32, 0.1)',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(27, 94, 32, 0.1)';
+                      e.currentTarget.style.transform = 'translateX(4px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(27, 94, 32, 0.05)';
+                      e.currentTarget.style.transform = 'translateX(0)';
+                    }}
+                    >
+                      <Sparkles size={18} style={{ color: '#1B5E20' }} />
+                      <span style={{ fontSize: '0.875rem', fontWeight: '600', color: '#0f172a' }}>Personalized Resources</span>
                     </div>
-                    <div className="feature-item">
-                      <Users size={16} />
-                      <span>Family Management</span>
+                    <div className="feature-item" style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.75rem',
+                      padding: '0.75rem 1rem',
+                      background: 'rgba(27, 94, 32, 0.05)',
+                      borderRadius: '12px',
+                      border: '1px solid rgba(27, 94, 32, 0.1)',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(27, 94, 32, 0.1)';
+                      e.currentTarget.style.transform = 'translateX(4px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(27, 94, 32, 0.05)';
+                      e.currentTarget.style.transform = 'translateX(0)';
+                    }}
+                    >
+                      <Users size={18} style={{ color: '#1B5E20' }} />
+                      <span style={{ fontSize: '0.875rem', fontWeight: '600', color: '#0f172a' }}>Family Management</span>
                     </div>
                   </div>
 
                   <Link 
                     to="/family-hub"
                     className="btn-hub"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.5rem',
+                      background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+                      color: 'white',
+                      padding: '1rem 2rem',
+                      borderRadius: '12px',
+                      fontWeight: '600',
+                      fontSize: '1rem',
+                      textDecoration: 'none',
+                      boxShadow: '0 4px 16px rgba(27, 94, 32, 0.3)',
+                      transition: 'all 0.3s ease',
+                      width: '100%'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 8px 24px rgba(27, 94, 32, 0.4)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 4px 16px rgba(27, 94, 32, 0.3)';
+                    }}
                   >
-                    <ArrowRight size={16} />
                     Set Up Family Hub
-                    <ArrowRight size={16} />
+                    <ArrowRight size={18} />
                   </Link>
                 </div>
               </div>
@@ -594,13 +946,26 @@ const HomePage: React.FC = () => {
       <section className="quick-actions">
         <div className="container">
           <div className="section-header fade-in">
-            <h2>
+            <h2 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '700',
+              color: '#0f172a',
+              marginBottom: '1rem',
+              textAlign: 'center'
+            }}>
               {familyPersona 
                 ? `Recommended for ${familyPersona.name}` 
                 : 'Get Started in Minutes'
               }
             </h2>
-            <p>
+            <p style={{
+              fontSize: '1.125rem',
+              color: '#64748b',
+              maxWidth: '700px',
+              margin: '0 auto',
+              textAlign: 'center',
+              lineHeight: '1.6'
+            }}>
               {familyPersona 
                 ? familyPersona.characteristics[0] || 'Personalized recommendations based on your family profile'
                 : 'Choose your path and begin learning about digital privacy today.'
@@ -796,8 +1161,21 @@ const HomePage: React.FC = () => {
       <section className="family-personas" style={{ padding: '4rem 0', background: '#ffffff' }}>
         <div className="container">
           <div className="section-header fade-in">
-            <h2>Which Family Are You?</h2>
-            <p className="text-lg">Discover your family's privacy profile and get personalized recommendations</p>
+            <h2 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '700',
+              color: '#0f172a',
+              marginBottom: '1rem',
+              textAlign: 'center'
+            }}>Which Family Are You?</h2>
+            <p style={{
+              fontSize: '1.125rem',
+              color: '#64748b',
+              maxWidth: '700px',
+              margin: '0 auto',
+              textAlign: 'center',
+              lineHeight: '1.6'
+            }}>Discover your family's privacy profile and get personalized recommendations</p>
           </div>
 
           <div style={{ 
@@ -940,8 +1318,21 @@ const HomePage: React.FC = () => {
       <section className="parent-steps">
         <div className="container">
           <div className="section-header fade-in">
-            <h2>How PandaGarde Works</h2>
-            <p>Four simple steps to help your family learn about digital privacy and online safety.</p>
+            <h2 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '700',
+              color: '#0f172a',
+              marginBottom: '1rem',
+              textAlign: 'center'
+            }}>How PandaGarde Works</h2>
+            <p style={{
+              fontSize: '1.125rem',
+              color: '#64748b',
+              maxWidth: '700px',
+              margin: '0 auto',
+              textAlign: 'center',
+              lineHeight: '1.6'
+            }}>Four simple steps to help your family learn about digital privacy and online safety.</p>
             
             {/* Progress Bar */}
             <div style={{ 
@@ -1176,8 +1567,21 @@ const HomePage: React.FC = () => {
       <section className="age-groups-simple" style={{ padding: '4rem 0' }}>
         <div className="container">
           <div className="section-header fade-in">
-            <h2>Content Designed for Your Child's Age</h2>
-            <p>Age-appropriate activities and lessons that match your child's understanding and needs.</p>
+            <h2 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '700',
+              color: '#0f172a',
+              marginBottom: '1rem',
+              textAlign: 'center'
+            }}>Content Designed for Your Child's Age</h2>
+            <p style={{
+              fontSize: '1.125rem',
+              color: '#64748b',
+              maxWidth: '700px',
+              margin: '0 auto',
+              textAlign: 'center',
+              lineHeight: '1.6'
+            }}>Age-appropriate activities and lessons that match your child's understanding and needs.</p>
           </div>
 
           <div className="age-groups-grid">
@@ -1205,8 +1609,21 @@ const HomePage: React.FC = () => {
       <section className="key-features" style={{ padding: '4rem 0', background: '#f9fafb' }}>
         <div className="container">
           <div className="section-header fade-in">
-            <h2>Why Parents Love PandaGarde</h2>
-            <p style={{ fontSize: '1.125rem', color: '#6b7280' }}>Everything you need to teach your children about online safety, all in one place.</p>
+            <h2 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '700',
+              color: '#0f172a',
+              marginBottom: '1rem',
+              textAlign: 'center'
+            }}>Why Parents Love PandaGarde</h2>
+            <p style={{
+              fontSize: '1.125rem',
+              color: '#64748b',
+              maxWidth: '700px',
+              margin: '0 auto',
+              textAlign: 'center',
+              lineHeight: '1.6'
+            }}>Everything you need to teach your children about online safety, all in one place.</p>
           </div>
 
           <div className="features-grid">
@@ -1265,8 +1682,21 @@ const HomePage: React.FC = () => {
       <section className="learn-more" style={{ padding: '3rem 0' }}>
         <div className="container">
           <div className="section-header fade-in">
-            <h2>Helpful Resources for Parents</h2>
-            <p>Everything you need to get started and support your family's digital privacy journey.</p>
+            <h2 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '700',
+              color: '#0f172a',
+              marginBottom: '1rem',
+              textAlign: 'center'
+            }}>Helpful Resources for Parents</h2>
+            <p style={{
+              fontSize: '1.125rem',
+              color: '#64748b',
+              maxWidth: '700px',
+              margin: '0 auto',
+              textAlign: 'center',
+              lineHeight: '1.6'
+            }}>Everything you need to get started and support your family's digital privacy journey.</p>
           </div>
 
           <div className="learn-more-grid">
@@ -1310,8 +1740,21 @@ const HomePage: React.FC = () => {
       <section className="community-section" style={{ padding: '4rem 0', background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)' }}>
         <div className="container">
           <div className="section-header fade-in text-center">
-            <h2 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>Join Our Privacy-First Community</h2>
-            <p style={{ fontSize: '1.125rem', color: '#6b7280', maxWidth: '2xl', margin: '0 auto 2rem' }}>
+            <h2 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '700',
+              color: '#0f172a',
+              marginBottom: '1rem',
+              textAlign: 'center'
+            }}>Join Our Privacy-First Community</h2>
+            <p style={{
+              fontSize: '1.125rem',
+              color: '#64748b',
+              maxWidth: '700px',
+              margin: '0 auto 2rem',
+              textAlign: 'center',
+              lineHeight: '1.6'
+            }}>
               Connect with other families, share success stories, and discover privacy resources—all while maintaining complete privacy.
             </p>
           </div>
@@ -1371,8 +1814,22 @@ const HomePage: React.FC = () => {
       <section className="cta-section" style={{ padding: '4rem 0', background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)', color: 'white' }}>
         <div className="container">
           <div className="fade-in text-center">
-            <h2 style={{ color: 'white', marginBottom: '1rem' }}>Start Protecting Your Family Today</h2>
-            <p style={{ fontSize: '1.125rem', color: '#e0f2fe', marginBottom: '2rem', maxWidth: '600px', margin: '0 auto 2rem' }}>
+            <h2 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '700',
+              color: 'white',
+              marginBottom: '1rem',
+              textAlign: 'center'
+            }}>Start Protecting Your Family Today</h2>
+            <p style={{
+              fontSize: '1.125rem',
+              color: 'rgba(255, 255, 255, 0.9)',
+              marginBottom: '2rem',
+              maxWidth: '700px',
+              margin: '0 auto 2rem',
+              textAlign: 'center',
+              lineHeight: '1.6'
+            }}>
               Join families who are teaching their children essential digital privacy skills through fun, interactive learning.
             </p>
             <div className="cta-buttons" style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>

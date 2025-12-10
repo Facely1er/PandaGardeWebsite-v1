@@ -48,6 +48,7 @@ const Header: React.FC = () => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isMobileMenuOpen, isSearchModalOpen]);
 
+  // Consistent navigation items for both desktop and mobile
   const navItems = [
     { icon: Home, label: 'Home', href: '/', isExternal: false },
     { icon: BookOpen, label: 'Overview', href: '/overview', isExternal: false },
@@ -57,14 +58,15 @@ const Header: React.FC = () => {
     { icon: Info, label: 'About', href: '/about', isExternal: false },
   ];
 
+  // Mobile navigation includes additional community links
   const mobileNavItems = [
     { icon: Home, label: 'Home', href: '/', isExternal: false },
     { icon: BookOpen, label: 'Overview', href: '/overview', isExternal: false },
     { icon: Users, label: 'Quick Start', href: '/quick-start', isExternal: false },
     { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
-    { icon: MessageCircle, label: 'Community', href: '/community/forum', isExternal: false },
+    { icon: MessageCircle, label: 'Community Forum', href: '/community/forum', isExternal: false },
     { icon: Heart, label: 'Success Stories', href: '/community/stories', isExternal: false },
-    { icon: Globe, label: 'Resources', href: '/community/resources', isExternal: false },
+    { icon: Globe, label: 'Community Resources', href: '/community/resources', isExternal: false },
     { icon: Info, label: 'About', href: '/about', isExternal: false },
     { icon: Users, label: 'Family Hub', href: 'https://www.hub.pandagarde.com', isExternal: true },
   ];
