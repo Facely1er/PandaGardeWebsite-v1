@@ -69,7 +69,6 @@ const ParentLandingPage: React.FC = () => {
             </Link>
           </div>
         </div>
-      </section>
 
       {/* Three Column Layout */}
       <section style={{ padding: '4rem 0', backgroundColor: '#f8f9fa' }}>
