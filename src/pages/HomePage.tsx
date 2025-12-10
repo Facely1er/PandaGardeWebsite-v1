@@ -7,6 +7,7 @@ import { useFamily } from '../contexts/FamilyContext';
 import OnboardingFlow from '../components/OnboardingFlow';
 import FeatureUnlockCelebration from '../components/FeatureUnlockCelebration';
 import { logger } from '../lib/logger';
+import { trackEvent, AnalyticsEvents } from '../lib/analytics';
 
 const HomePage: React.FC = () => {
   const personas = getAllPersonas();
