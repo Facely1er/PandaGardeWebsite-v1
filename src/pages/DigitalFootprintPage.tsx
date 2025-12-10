@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Download, ShoppingBag, Bell, FileText, ArrowRight, Shield, Unlock } from 'lucide-react';
+import { ArrowLeft, Download, ShoppingBag, Bell, FileText, ArrowRight, Shield, BarChart3 } from 'lucide-react';
 import DigitalFootprintVisualizer from '../components/DigitalFootprintVisualizer';
+import EmptyStateWithServicePrompt from '../components/EmptyStateWithServicePrompt';
 import { useFamily } from '../contexts/FamilyContext';
 import { footprintAnalyzer } from '../lib/footprintAnalyzer';
 
@@ -10,10 +11,24 @@ const DigitalFootprintPage: React.FC = () => {
 
   // Get services for analysis
   const memberServices: Record<string, string[]> = {};
+  let totalServicesCount = 0;
   familyMembers.forEach(member => {
     const memberServiceIds = (member as any).services?.map((s: any) => s.serviceId) || [];
     memberServices[member.id] = memberServiceIds;
+    totalServicesCount += memberServiceIds.length;
   });
+
+  // Check if services have been added
+  if (totalServicesCount === 0) {
+    return (
+      <EmptyStateWithServicePrompt
+        feature="Digital Footprint Analysis"
+        description="Your digital footprint shows how your family's data is shared across services, which apps pose the highest privacy risks, and provides personalized recommendations to reduce your exposure."
+        minimumServices={3}
+        icon={<BarChart3 size={24} className="text-white" />}
+      />
+    );
+  }
 
   const analysis = footprintAnalyzer.analyzeFamilyFootprint(familyMembers, memberServices);
 
