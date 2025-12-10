@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Users, Clock, Award, TrendingUp, Download, Share2 } from 'lucide-react';
+import { Users, Clock, Award, TrendingUp, Download, Share2, BookOpen, Target } from 'lucide-react';
 import ProgressDisplay from './ProgressDisplay';
 
 interface ParentDashboardProps {
@@ -149,14 +149,18 @@ const ParentDashboard: React.FC<ParentDashboardProps> = ({ progress, onClose }) 
                 <h3>Learning Insights</h3>
                 <div className="insights-grid">
                   <div className="insight-item">
-                    <div className="insight-icon">📚</div>
+                    <div className="insight-icon">
+                      <BookOpen size={24} className="text-blue-600" />
+                    </div>
                     <div className="insight-content">
                       <div className="insight-title">Learning Time</div>
                       <div className="insight-value">{Math.round(progress.totalTimeSpent)} minutes</div>
                     </div>
                   </div>
                   <div className="insight-item">
-                    <div className="insight-icon">🎯</div>
+                    <div className="insight-icon">
+                      <Target size={24} className="text-green-600" />
+                    </div>
                     <div className="insight-content">
                       <div className="insight-title">Completion Rate</div>
                       <div className="insight-value">{Math.round(overallProgress.percentage)}%</div>

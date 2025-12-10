@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useFamily } from '../../contexts/FamilyContext';
-import { CheckCircle, ArrowRight, ArrowLeft, Shield, Users, Eye, MessageCircle, BookOpen, X } from 'lucide-react';
+import { CheckCircle, ArrowRight, ArrowLeft, Shield, Users, Eye, BookOpen, X, UsersRound, Smartphone, Lightbulb } from 'lucide-react';
 import InfoBox from './InfoBox';
 
 interface ParentOnboardingProps {
@@ -9,7 +9,7 @@ interface ParentOnboardingProps {
 }
 
 const ParentOnboarding: React.FC<ParentOnboardingProps> = ({ onComplete, onSkip }) => {
-  const { familyMembers, addFamilyMember } = useFamily();
+  const { familyMembers } = useFamily();
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
 
@@ -91,7 +91,7 @@ const ParentOnboarding: React.FC<ParentOnboardingProps> = ({ onComplete, onSkip 
     {
       id: 4,
       title: 'First Risk Assessment',
-      subtitle: 'See your family's privacy status',
+      subtitle: "See your family's privacy status",
       icon: Eye,
       content: (
         <div>
@@ -140,24 +140,27 @@ const ParentOnboarding: React.FC<ParentOnboardingProps> = ({ onComplete, onSkip 
               </p>
             </div>
             <div style={{ marginBottom: '1rem', padding: '1rem', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-              <h4 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#2C3E50' }}>
-                👨‍👩‍👧‍👦 Children
+              <h4 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#2C3E50', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <UsersRound size={18} />
+                Children
               </h4>
               <p style={{ margin: 0, color: '#666', fontSize: '0.9375rem' }}>
                 View each child's privacy status and manage their services
               </p>
             </div>
             <div style={{ marginBottom: '1rem', padding: '1rem', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-              <h4 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#2C3E50' }}>
-                📱 Services
+              <h4 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#2C3E50', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Smartphone size={18} />
+                Services
               </h4>
               <p style={{ margin: 0, color: '#666', fontSize: '0.9375rem' }}>
                 Browse the service catalog and approve/deny requests
               </p>
             </div>
             <div style={{ marginBottom: '1rem', padding: '1rem', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-              <h4 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#2C3E50' }}>
-                💡 Insights
+              <h4 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '0.5rem', color: '#2C3E50', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Lightbulb size={18} />
+                Insights
               </h4>
               <p style={{ margin: 0, color: '#666', fontSize: '0.9375rem' }}>
                 View privacy trends and get recommendations

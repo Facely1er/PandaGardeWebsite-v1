@@ -1,10 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { MessageCircle, Plus, Search, ArrowRight, Heart, Edit, Trash2, CheckCircle, User } from 'lucide-react';
+import { MessageCircle, Plus, Search, ArrowRight, Heart, CheckCircle, User, Shield, Lock, GraduationCap, Briefcase, UserCircle } from 'lucide-react';
 import { communityStorage, ForumTopic, ForumPost, ForumUser } from '../../utils/communityStorageManager';
 
 interface PrivacyTipsForumProps {
   compact?: boolean;
 }
+
+// Avatar mapping helper
+const getAvatarIcon = (avatarId: string | undefined) => {
+  const avatarMap: Record<string, React.ComponentType<any>> = {
+    'user': User,
+    'shield': Shield,
+    'lock': Lock,
+    'graduation': GraduationCap,
+    'briefcase': Briefcase,
+    'usercircle': UserCircle
+  };
+  const IconComponent = avatarMap[avatarId || 'user'] || User;
+  return IconComponent;
+};
 
 const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) => {
   const [topics, setTopics] = useState<ForumTopic[]>([]);
@@ -107,7 +121,7 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
 
   const handleCreatePost = (content: string) => {
     if (!currentUser || !selectedTopic) return;
-    const post = communityStorage.createPost({
+    communityStorage.createPost({
       topicId: selectedTopic.id,
       authorId: currentUser.id,
       content
@@ -364,7 +378,7 @@ interface TopicDetailViewProps {
 const TopicDetailView: React.FC<TopicDetailViewProps> = ({
   topic,
   posts,
-  currentUser,
+  currentUser: _currentUser,
   onBack,
   onCreatePost,
   onVotePost,
@@ -427,8 +441,8 @@ const TopicDetailView: React.FC<TopicDetailViewProps> = ({
                 style={{ backgroundColor: 'var(--card-color)' }}
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center text-white text-lg flex-shrink-0">
-                    {postAuthor?.avatar || '👤'}
+                  <div className="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center text-white flex-shrink-0">
+                    {React.createElement(getAvatarIcon(postAuthor?.avatar), { size: 20 })}
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
@@ -520,10 +534,17 @@ interface UserRegistrationFormProps {
 const UserRegistrationForm: React.FC<UserRegistrationFormProps> = ({ onSubmit, onCancel, required = false }) => {
   const [username, setUsername] = useState('');
   const [displayName, setDisplayName] = useState('');
-  const [avatar, setAvatar] = useState('👤');
+  const [avatar, setAvatar] = useState('user');
   const [error, setError] = useState('');
 
-  const avatars = ['👤', '🦸', '🦸‍♀️', '🧑‍💼', '👨‍🏫', '👩‍🏫', '🛡️', '🔒'];
+  const avatars = [
+    { id: 'user', icon: User, label: 'User' },
+    { id: 'shield', icon: Shield, label: 'Shield' },
+    { id: 'lock', icon: Lock, label: 'Lock' },
+    { id: 'graduation', icon: GraduationCap, label: 'Graduation' },
+    { id: 'briefcase', icon: Briefcase, label: 'Briefcase' },
+    { id: 'usercircle', icon: UserCircle, label: 'User Circle' }
+  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -593,17 +614,21 @@ const UserRegistrationForm: React.FC<UserRegistrationFormProps> = ({ onSubmit, o
               <label className="block text-sm font-medium mb-2" style={{ color: 'var(--gray-700)' }}>
                 Avatar
               </label>
-              <div className="flex gap-2">
-                {avatars.map(av => (
+              <div className="flex gap-2 flex-wrap">
+                {avatars.map(av => {
+                  const IconComponent = av.icon;
+                  return (
                   <button
-                    key={av}
+                    key={av.id}
                     type="button"
-                    onClick={() => setAvatar(av)}
-                    className={`w-12 h-12 text-2xl rounded-full border-2 ${avatar === av ? 'border-green-600' : 'border-gray-300'}`}
+                    onClick={() => setAvatar(av.id)}
+                    className={`w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all ${avatar === av.id ? 'border-green-600 bg-green-50' : 'border-gray-300 hover:border-gray-400'}`}
+                    title={av.label}
                   >
-                    {av}
+                    <IconComponent size={24} className={avatar === av.id ? 'text-green-600' : 'text-gray-600'} />
                   </button>
-                ))}
+                );
+                })}
               </div>
             </div>
             <div className="flex gap-3 pt-4">
@@ -647,7 +672,7 @@ const TopicCreationForm: React.FC<TopicCreationFormProps> = ({ onSubmit, onCance
       onSubmit({
         title: title.trim(),
         category,
-        description: description.trim() || undefined
+        ...(description.trim() ? { description: description.trim() } : {})
       });
       setTitle('');
       setDescription('');

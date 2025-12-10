@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Play, Users, BookOpen, Download, CheckCircle, ArrowRight, Clock, Star, Shield, ShoppingBag, BarChart3, Unlock } from 'lucide-react';
+import { ArrowLeft, Play, Users, BookOpen, Download, CheckCircle, ArrowRight, Clock, Star, Shield, ShoppingBag, BarChart3, Unlock, Baby, User, GraduationCap } from 'lucide-react';
 import { useJourneyProgress } from '../hooks/useJourneyProgress';
 
 const QuickStartPage: React.FC = () => {
@@ -51,7 +51,7 @@ const QuickStartPage: React.FC = () => {
   const ageGroupPaths = [
     {
       age: 'Ages 5-8',
-      icon: '👶',
+      icon: Baby,
       description: 'Start with Privacy Panda\'s story and coloring activities',
       steps: [
         'Watch Privacy Panda\'s story',
@@ -64,7 +64,7 @@ const QuickStartPage: React.FC = () => {
     },
     {
       age: 'Ages 9-12',
-      icon: '🧒',
+      icon: User,
       description: 'Explore interactive activities and learn about digital footprints',
       steps: [
         'Join Privacy Explorers program',
@@ -77,7 +77,7 @@ const QuickStartPage: React.FC = () => {
     },
     {
       age: 'Ages 13-17',
-      icon: '👦',
+      icon: GraduationCap,
       description: 'Master advanced privacy settings and digital rights',
       steps: [
         'Access Teen Handbook',
@@ -198,29 +198,34 @@ const QuickStartPage: React.FC = () => {
           </div>
 
           <div className="age-paths-grid">
-            {ageGroupPaths.map((path, index) => (
-              <div key={index} className="age-path-card fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className={`path-header bg-gradient-to-r ${path.color}`}>
-                  <div className="path-icon text-4xl">{path.icon}</div>
-                  <h3>{path.age}</h3>
+            {ageGroupPaths.map((path, index) => {
+              const IconComponent = path.icon;
+              return (
+                <div key={index} className="age-path-card fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                  <div className={`path-header bg-gradient-to-r ${path.color}`}>
+                    <div className="path-icon">
+                      <IconComponent size={48} className="text-white" />
+                    </div>
+                    <h3>{path.age}</h3>
+                  </div>
+                  <div className="path-content">
+                    <p className="path-description">{path.description}</p>
+                    <ul className="path-steps">
+                      {path.steps.map((step, stepIndex) => (
+                        <li key={stepIndex} className="path-step">
+                          <CheckCircle size={16} className="check-icon" />
+                          <span>{step}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <Link to={path.link} className="path-button">
+                      Start Learning
+                      <ArrowRight size={16} />
+                    </Link>
+                  </div>
                 </div>
-                <div className="path-content">
-                  <p className="path-description">{path.description}</p>
-                  <ul className="path-steps">
-                    {path.steps.map((step, stepIndex) => (
-                      <li key={stepIndex} className="path-step">
-                        <CheckCircle size={16} className="check-icon" />
-                        <span>{step}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Link to={path.link} className="path-button">
-                    Start Learning
-                    <ArrowRight size={16} />
-                  </Link>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

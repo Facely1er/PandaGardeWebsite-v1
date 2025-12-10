@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Users, Shield, Wrench, Check, BookOpen, Heart, Brain, Play, Baby, Download, ArrowRight, ShoppingBag, BarChart3, Unlock } from 'lucide-react';
+import { ArrowLeft, Users, Shield, Wrench, Check, BookOpen, Heart, Brain, Play, Baby, ArrowRight, ShoppingBag, BarChart3, Unlock, User, GraduationCap, UsersRound } from 'lucide-react';
 
 const OverviewPage: React.FC = () => {
   useEffect(() => {
@@ -29,7 +29,7 @@ const OverviewPage: React.FC = () => {
     {
       id: '5-8',
       title: 'Ages 5-8',
-      icon: '👶',
+      icon: Baby,
       gradient: 'from-purple-500 to-pink-500',
       features: [
         'Basic privacy concepts through stories',
@@ -42,7 +42,7 @@ const OverviewPage: React.FC = () => {
     {
       id: '9-12',
       title: 'Ages 9-12',
-      icon: '🧒',
+      icon: User,
       gradient: 'from-blue-500 to-cyan-500',
       features: [
         'Social media privacy basics',
@@ -55,7 +55,7 @@ const OverviewPage: React.FC = () => {
     {
       id: '13-17',
       title: 'Ages 13-17',
-      icon: '👦',
+      icon: GraduationCap,
       gradient: 'from-green-500 to-emerald-500',
       features: [
         'Advanced privacy settings management',
@@ -68,7 +68,7 @@ const OverviewPage: React.FC = () => {
     {
       id: 'parents',
       title: 'Parents',
-      icon: '👨‍👩‍👧‍👦',
+      icon: UsersRound,
       gradient: 'from-orange-500 to-red-500',
       features: [
         'Family privacy policy creation',
@@ -270,26 +270,29 @@ const OverviewPage: React.FC = () => {
           </div>
 
           <div className="curriculum-grid">
-            {ageGroups.map((group, index) => (
-              <div key={group.id} className="curriculum-card fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className={`card-header bg-gradient-to-r ${group.gradient}`}>
-                  <div className="card-icon text-4xl">
-                    {group.icon}
+            {ageGroups.map((group, index) => {
+              const IconComponent = group.icon;
+              return (
+                <div key={group.id} className="curriculum-card fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                  <div className={`card-header bg-gradient-to-r ${group.gradient}`}>
+                    <div className="card-icon">
+                      <IconComponent size={48} className="text-white" />
+                    </div>
+                    <h3>{group.title}</h3>
                   </div>
-                  <h3>{group.title}</h3>
+                  <div className="card-content">
+                    <ul className="feature-list">
+                      {group.features.map((feature, featureIndex) => (
+                        <li key={featureIndex} className="feature-item">
+                          <Check size={16} className="check-icon" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-                <div className="card-content">
-                  <ul className="feature-list">
-                    {group.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="feature-item">
-                        <Check size={16} className="check-icon" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
