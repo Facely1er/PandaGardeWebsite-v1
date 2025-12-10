@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search, Bell } from 'lucide-react';
+import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search, Bell, ShoppingBag } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useFamily } from '../contexts/FamilyContext';
 import SearchModal from './SearchModal';
 import OfflineIndicator from './OfflineIndicator';
 import ServiceNotificationCenter from './ServiceNotificationCenter';
@@ -11,8 +12,19 @@ const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const { familyMembers } = useFamily();
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Calculate total services
+  const totalServices = React.useMemo(() => {
+    let count = 0;
+    familyMembers.forEach(member => {
+      const memberServices = (member as any).services || [];
+      count += memberServices.length;
+    });
+    return count;
+  }, [familyMembers]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -290,6 +302,26 @@ const Header: React.FC = () => {
           </ul>
           
           <div className="nav-actions" role="toolbar" aria-label="Navigation actions">
+            {/* Service Catalog Badge */}
+            <Link
+              to="/service-catalog"
+              className="relative p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+              aria-label={`View service catalog (${totalServices} services added)`}
+              title="Service Catalog"
+            >
+              <ShoppingBag className="h-5 w-5 text-gray-600 dark:text-gray-400" aria-hidden="true" />
+              {totalServices > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 bg-green-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {totalServices > 9 ? '9+' : totalServices}
+                </span>
+              )}
+              {totalServices === 0 && (
+                <span className="absolute -top-0.5 -right-0.5 bg-amber-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  !
+                </span>
+              )}
+            </Link>
+
             {/* Notification Badge */}
             <Link
               to="/safety-alerts"
