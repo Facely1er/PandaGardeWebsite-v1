@@ -19,11 +19,13 @@ BEGIN
     -- For stripe_customers: Get column from existing policy or check table structure
     IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'stripe_customers') THEN
         -- Try to get from existing policy
-        SELECT pg_get_expr(polqual, polrelid) INTO v_policy_def
-        FROM pg_policy 
-        WHERE schemaname = 'public' 
-        AND tablename = 'stripe_customers' 
-        AND policyname = 'Users can view their own customer data'
+        SELECT pg_get_expr(p.polqual, p.polrelid) INTO v_policy_def
+        FROM pg_policy p
+        JOIN pg_class c ON p.polrelid = c.oid
+        JOIN pg_namespace n ON c.relnamespace = n.oid
+        WHERE n.nspname = 'public' 
+        AND c.relname = 'stripe_customers' 
+        AND p.polname = 'Users can view their own customer data'
         LIMIT 1;
         
         -- Extract column name or check table structure
@@ -42,20 +44,27 @@ BEGIN
             v_stripe_customers_col := NULL;
         END IF;
         
+        -- Verify column exists before creating policy
         IF v_stripe_customers_col IS NOT NULL THEN
-            EXECUTE format('DROP POLICY IF EXISTS %I ON public.stripe_customers', 'Users can view their own customer data');
-            EXECUTE format('CREATE POLICY %I ON public.stripe_customers FOR SELECT USING ((select auth.uid()) = %I)', 
-                'Users can view their own customer data', v_stripe_customers_col);
+            IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'stripe_customers' AND column_name = v_stripe_customers_col) THEN
+                EXECUTE format('DROP POLICY IF EXISTS %I ON public.stripe_customers', 'Users can view their own customer data');
+                EXECUTE format('CREATE POLICY %I ON public.stripe_customers FOR SELECT USING ((select auth.uid()) = %I)', 
+                    'Users can view their own customer data', v_stripe_customers_col);
+            ELSE
+                RAISE NOTICE 'Column % does not exist in stripe_customers, skipping policy creation', v_stripe_customers_col;
+            END IF;
         END IF;
     END IF;
     
     -- For stripe_subscriptions
     IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'stripe_subscriptions') THEN
-        SELECT pg_get_expr(polqual, polrelid) INTO v_policy_def
-        FROM pg_policy 
-        WHERE schemaname = 'public' 
-        AND tablename = 'stripe_subscriptions' 
-        AND policyname = 'Users can view their own subscription data'
+        SELECT pg_get_expr(p.polqual, p.polrelid) INTO v_policy_def
+        FROM pg_policy p
+        JOIN pg_class c ON p.polrelid = c.oid
+        JOIN pg_namespace n ON c.relnamespace = n.oid
+        WHERE n.nspname = 'public' 
+        AND c.relname = 'stripe_subscriptions' 
+        AND p.polname = 'Users can view their own subscription data'
         LIMIT 1;
         
         IF v_policy_def IS NOT NULL AND v_policy_def ~ 'auth\.uid\(\)\s*=\s*(\w+)' THEN
@@ -73,20 +82,40 @@ BEGIN
             v_stripe_subscriptions_col := NULL;
         END IF;
         
+        -- Verify column exists before creating policy
+        -- Note: stripe_subscriptions might use a subquery through stripe_customers
         IF v_stripe_subscriptions_col IS NOT NULL THEN
-            EXECUTE format('DROP POLICY IF EXISTS %I ON public.stripe_subscriptions', 'Users can view their own subscription data');
-            EXECUTE format('CREATE POLICY %I ON public.stripe_subscriptions FOR SELECT USING ((select auth.uid()) = %I)', 
-                'Users can view their own subscription data', v_stripe_subscriptions_col);
+            IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'stripe_subscriptions' AND column_name = v_stripe_subscriptions_col) THEN
+                EXECUTE format('DROP POLICY IF EXISTS %I ON public.stripe_subscriptions', 'Users can view their own subscription data');
+                EXECUTE format('CREATE POLICY %I ON public.stripe_subscriptions FOR SELECT USING ((select auth.uid()) = %I)', 
+                    'Users can view their own subscription data', v_stripe_subscriptions_col);
+            ELSIF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'stripe_subscriptions' AND column_name = 'customer_id') THEN
+                -- Handle case where policy uses subquery through stripe_customers - fix auth.uid() in subquery
+                EXECUTE format('DROP POLICY IF EXISTS %I ON public.stripe_subscriptions', 'Users can view their own subscription data');
+                EXECUTE format('CREATE POLICY %I ON public.stripe_subscriptions FOR SELECT USING (customer_id IN (SELECT customer_id FROM stripe_customers WHERE (user_id = (select auth.uid())) AND deleted_at IS NULL) AND deleted_at IS NULL)', 
+                    'Users can view their own subscription data');
+            ELSE
+                RAISE NOTICE 'Could not determine structure for stripe_subscriptions, skipping policy creation';
+            END IF;
+        ELSIF v_policy_def IS NOT NULL AND v_policy_def LIKE '%stripe_customers%' THEN
+            -- Policy uses subquery through stripe_customers - fix it
+            IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'stripe_subscriptions' AND column_name = 'customer_id') THEN
+                EXECUTE format('DROP POLICY IF EXISTS %I ON public.stripe_subscriptions', 'Users can view their own subscription data');
+                EXECUTE format('CREATE POLICY %I ON public.stripe_subscriptions FOR SELECT USING (customer_id IN (SELECT customer_id FROM stripe_customers WHERE (user_id = (select auth.uid())) AND deleted_at IS NULL) AND deleted_at IS NULL)', 
+                    'Users can view their own subscription data');
+            END IF;
         END IF;
     END IF;
     
     -- For stripe_orders
     IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'stripe_orders') THEN
-        SELECT pg_get_expr(polqual, polrelid) INTO v_policy_def
-        FROM pg_policy 
-        WHERE schemaname = 'public' 
-        AND tablename = 'stripe_orders' 
-        AND policyname = 'Users can view their own order data'
+        SELECT pg_get_expr(p.polqual, p.polrelid) INTO v_policy_def
+        FROM pg_policy p
+        JOIN pg_class c ON p.polrelid = c.oid
+        JOIN pg_namespace n ON c.relnamespace = n.oid
+        WHERE n.nspname = 'public' 
+        AND c.relname = 'stripe_orders' 
+        AND p.polname = 'Users can view their own order data'
         LIMIT 1;
         
         IF v_policy_def IS NOT NULL AND v_policy_def ~ 'auth\.uid\(\)\s*=\s*(\w+)' THEN
@@ -104,10 +133,28 @@ BEGIN
             v_stripe_orders_col := NULL;
         END IF;
         
+        -- Verify column exists before creating policy
+        -- Note: stripe_orders might use a subquery through stripe_customers
         IF v_stripe_orders_col IS NOT NULL THEN
-            EXECUTE format('DROP POLICY IF EXISTS %I ON public.stripe_orders', 'Users can view their own order data');
-            EXECUTE format('CREATE POLICY %I ON public.stripe_orders FOR SELECT USING ((select auth.uid()) = %I)', 
-                'Users can view their own order data', v_stripe_orders_col);
+            IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'stripe_orders' AND column_name = v_stripe_orders_col) THEN
+                EXECUTE format('DROP POLICY IF EXISTS %I ON public.stripe_orders', 'Users can view their own order data');
+                EXECUTE format('CREATE POLICY %I ON public.stripe_orders FOR SELECT USING ((select auth.uid()) = %I)', 
+                    'Users can view their own order data', v_stripe_orders_col);
+            ELSIF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'stripe_orders' AND column_name = 'customer_id') THEN
+                -- Handle case where policy uses subquery through stripe_customers - fix auth.uid() in subquery
+                EXECUTE format('DROP POLICY IF EXISTS %I ON public.stripe_orders', 'Users can view their own order data');
+                EXECUTE format('CREATE POLICY %I ON public.stripe_orders FOR SELECT USING (customer_id IN (SELECT customer_id FROM stripe_customers WHERE (user_id = (select auth.uid())) AND deleted_at IS NULL) AND deleted_at IS NULL)', 
+                    'Users can view their own order data');
+            ELSE
+                RAISE NOTICE 'Could not determine structure for stripe_orders, skipping policy creation';
+            END IF;
+        ELSIF v_policy_def IS NOT NULL AND v_policy_def LIKE '%stripe_customers%' THEN
+            -- Policy uses subquery through stripe_customers - fix it
+            IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'stripe_orders' AND column_name = 'customer_id') THEN
+                EXECUTE format('DROP POLICY IF EXISTS %I ON public.stripe_orders', 'Users can view their own order data');
+                EXECUTE format('CREATE POLICY %I ON public.stripe_orders FOR SELECT USING (customer_id IN (SELECT customer_id FROM stripe_customers WHERE (user_id = (select auth.uid())) AND deleted_at IS NULL) AND deleted_at IS NULL)', 
+                    'Users can view their own order data');
+            END IF;
         END IF;
     END IF;
 END $$;
