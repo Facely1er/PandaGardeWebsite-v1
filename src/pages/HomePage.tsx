@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, Baby, User, GraduationCap, ShoppingBag, BarChart3, Unlock, AlertTriangle, Target, Settings, Bell, CheckCircle, Zap } from 'lucide-react';
+import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, Baby, User, GraduationCap, ShoppingBag, BarChart3, Unlock, AlertTriangle, Target, Settings, Bell, CheckCircle, Zap, MessageCircle, Globe } from 'lucide-react';
 import { getAllPersonas, FamilyPersonaProfiles, type FamilyPersonaProfile } from '../data/familyPersonaProfiles';
 import { useJourneyProgress } from '../hooks/useJourneyProgress';
 import { useFamily } from '../contexts/FamilyContext';
@@ -1302,6 +1302,67 @@ const HomePage: React.FC = () => {
                 <ArrowRight size={16} />
               </div>
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Community Section */}
+      <section className="community-section" style={{ padding: '4rem 0', background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)' }}>
+        <div className="container">
+          <div className="section-header fade-in text-center">
+            <h2 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>Join Our Privacy-First Community</h2>
+            <p style={{ fontSize: '1.125rem', color: '#6b7280', maxWidth: '2xl', margin: '0 auto 2rem' }}>
+              Connect with other families, share success stories, and discover privacy resources—all while maintaining complete privacy.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <Link to="/community/forum" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center" style={{ backgroundColor: 'var(--card-color)' }}>
+              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center text-white mx-auto mb-4">
+                <MessageCircle size={32} />
+              </div>
+              <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
+                Privacy Tips Forum
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Share tips, ask questions, and learn from other parents in our pseudonymous discussion forum.
+              </p>
+              <span className="text-green-600 font-semibold">Join Forum →</span>
+            </Link>
+
+            <Link to="/community/stories" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center" style={{ backgroundColor: 'var(--card-color)' }}>
+              <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-pink-600 rounded-full flex items-center justify-center text-white mx-auto mb-4">
+                <Heart size={32} />
+              </div>
+              <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
+                Success Stories
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Read and share anonymous success stories about teaching privacy to children.
+              </p>
+              <span className="text-green-600 font-semibold">View Stories →</span>
+            </Link>
+
+            <Link to="/community/resources" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center" style={{ backgroundColor: 'var(--card-color)' }}>
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white mx-auto mb-4">
+                <Globe size={32} />
+              </div>
+              <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
+                Community Resources
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Discover privacy tools and resources shared and voted on by the community.
+              </p>
+              <span className="text-green-600 font-semibold">Browse Resources →</span>
+            </Link>
+          </div>
+
+          <div className="mt-8 text-center">
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 inline-block">
+              <p className="text-sm text-green-800">
+                <strong>Privacy First:</strong> All community features use localStorage—your data never leaves your device. No backend required, completely anonymous.
+              </p>
+            </div>
           </div>
         </div>
       </section>

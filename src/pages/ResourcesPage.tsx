@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ClipboardCheck as ChalkboardTeacher, MessageCircle, FileText, Shield, Download, Users, Award, Eye, Heart, Brain, BookOpen } from 'lucide-react';
+import { ArrowLeft, ClipboardCheck as ChalkboardTeacher, MessageCircle, FileText, Shield, Download, Users, Award, Eye, Heart, Brain, BookOpen, Globe, ArrowRight } from 'lucide-react';
 
 const ResourcesPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('comprehensive-guides');
@@ -362,6 +362,73 @@ const ResourcesPage: React.FC = () => {
                   <span className="text-sm text-gray-500">All Devices</span>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Community Resources Section */}
+      <section className="community-resources" style={{ padding: '4rem 0', background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)' }}>
+        <div className="container">
+          <div className="section-header fade-in text-center">
+            <h2 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>Community Resources</h2>
+            <p style={{ fontSize: '1.125rem', color: '#6b7280', maxWidth: '2xl', margin: '0 auto 2rem' }}>
+              Connect with other families, share success stories, and discover community-voted privacy resources.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <Link to="/community/forum" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105" style={{ backgroundColor: 'var(--card-color)' }}>
+              <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center text-white mb-4">
+                <MessageCircle size={24} />
+              </div>
+              <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--primary)' }}>
+                Privacy Tips Forum
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Join discussions, share tips, and ask questions in our privacy-first forum.
+              </p>
+              <span className="text-green-600 font-semibold flex items-center gap-2">
+                Visit Forum <ArrowRight size={16} />
+              </span>
+            </Link>
+
+            <Link to="/community/stories" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105" style={{ backgroundColor: 'var(--card-color)' }}>
+              <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-pink-600 rounded-lg flex items-center justify-center text-white mb-4">
+                <Heart size={24} />
+              </div>
+              <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--primary)' }}>
+                Success Stories
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Read and share anonymous success stories about teaching privacy to children.
+              </p>
+              <span className="text-green-600 font-semibold flex items-center gap-2">
+                View Stories <ArrowRight size={16} />
+              </span>
+            </Link>
+
+            <Link to="/community/resources" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105" style={{ backgroundColor: 'var(--card-color)' }}>
+              <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center text-white mb-4">
+                <Globe size={24} />
+              </div>
+              <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--primary)' }}>
+                Community Resources
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Discover privacy tools and resources shared and voted on by the community.
+              </p>
+              <span className="text-green-600 font-semibold flex items-center gap-2">
+                Browse Resources <ArrowRight size={16} />
+              </span>
+            </Link>
+          </div>
+
+          <div className="mt-8 text-center">
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 inline-block">
+              <p className="text-sm text-green-800">
+                <strong>Privacy First:</strong> All community features use localStorage—your data never leaves your device. Completely anonymous and private.
+              </p>
             </div>
           </div>
         </div>
