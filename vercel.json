@@ -4,10 +4,6 @@
   "framework": "vite",
   "rewrites": [
     {
-      "source": "/favicon.ico",
-      "destination": "/LogoPandagarde.png"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
