@@ -63,6 +63,9 @@ import PrivacyAssessmentPage from './pages/PrivacyAssessmentPage';
 import AssessmentHistoryPage from './pages/AssessmentHistoryPage';
 import PrivacyGoalsPage from './pages/PrivacyGoalsPage';
 import QuickAssessmentPage from './pages/QuickAssessmentPage';
+import SuccessStoriesPage from './pages/community/SuccessStoriesPage';
+import ResourceSharingPage from './pages/community/ResourceSharingPage';
+import PrivacyTipsForumPage from './pages/community/PrivacyTipsForumPage';
 import NavigationErrorBoundary from './components/NavigationErrorBoundary';
 import { SentryErrorBoundary } from './lib/sentry';
 import { usePageTracking } from './hooks/useAnalytics';
@@ -159,6 +162,13 @@ function App() {
             <Route path="/assessment/history" element={<AssessmentHistoryPage />} />
             <Route path="/privacy-goals" element={<PrivacyGoalsPage />} />
             <Route path="/goals" element={<PrivacyGoalsPage />} />
+            
+            {/* Community Features */}
+            <Route path="/community/stories" element={<SuccessStoriesPage />} />
+            <Route path="/community/success-stories" element={<SuccessStoriesPage />} />
+            <Route path="/community/resources" element={<ResourceSharingPage />} />
+            <Route path="/community/forum" element={<PrivacyTipsForumPage />} />
+            <Route path="/community/privacy-tips" element={<PrivacyTipsForumPage />} />
             
             {/* COPPA Compliance Pages */}
             <Route path="/parental-consent" element={<ParentalConsentPage />} />
