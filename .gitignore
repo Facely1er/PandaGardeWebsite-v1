@@ -31,3 +31,9 @@ dist-ssr
 
 # Supabase
 .supabase/
+
+# Migration scripts (contain database credentials)
+scripts/run-migration.js
+scripts/verify-migration.js
+.env.local
+.env.demo

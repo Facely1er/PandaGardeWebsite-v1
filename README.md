@@ -4,6 +4,30 @@
 
 **PandaGarde** is a comprehensive digital privacy education platform designed to teach children about online safety and digital citizenship through interactive activities, games, and educational resources. Built with modern web technologies, it provides a safe, engaging, and educational environment for families and educators.
 
+## 📁 Project Structure
+
+```
+PandaGardeWebsite-v1/
+├── src/                    # Source code
+├── public/                 # Static assets
+├── docs/                   # Documentation
+│   ├── production/        # Production readiness docs
+│   ├── deployment/        # Deployment guides
+│   ├── features/          # Feature documentation
+│   ├── testing/           # Testing reports
+│   └── database/          # Database documentation
+├── database/              # Database schema and SQL files
+├── scripts/                # Utility scripts
+├── tests/                  # Test files
+└── [config files]         # Configuration files (root)
+```
+
+**Quick Links:**
+- 📚 [Documentation](docs/README.md)
+- 🚀 [Deployment Guide](docs/deployment/DEPLOYMENT_READY.md)
+- 🗄️ [Database Setup](database/README.md)
+- 🔧 [Scripts](scripts/README.md)
+
 ## 🎯 Platform Overview
 
 PandaGarde transforms digital privacy education into an interactive, gamified experience that makes learning about online safety fun and engaging for children aged 5-17. The platform combines educational content with interactive activities, progress tracking, and downloadable resources to create a comprehensive learning ecosystem.
