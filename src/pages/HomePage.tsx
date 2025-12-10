@@ -223,40 +223,17 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Quick Actions */}
-      <section className="quick-actions">
-        <div className="container">
-          <div className="section-header fade-in">
-            <h2>Get Started in Minutes</h2>
-            <p>Choose your path and begin learning about digital privacy today.</p>
-          </div>
-
-          <div className="quick-actions-grid">
-            {quickActions.map((action, index) => (
-              <Link key={index} to={action.link} className="quick-action-card fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className={`action-icon ${action.bgColor}`}>
-                  <action.icon size={32} className={action.color} />
-                </div>
-                <div className="action-content">
-                  <h3>{action.title}</h3>
-                  <p>{action.description}</p>
-                  <div className="action-button">
-                    Get Started
-                    <ArrowRight size={16} />
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Service Catalog Value Proposition */}
+      {/* Service Catalog Value Proposition - MOVED UP FOR EMPHASIS */}
       <section className="service-catalog-value" style={{ padding: '4rem 0', background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)' }}>
         <div className="container">
           <div className="section-header fade-in">
-            <h2>Understand Your Family's Digital Footprint</h2>
-            <p className="text-lg">The Service Catalog is your foundation for comprehensive privacy protection</p>
+            <div style={{ display: 'inline-block', background: '#3b82f6', color: 'white', padding: '0.5rem 1rem', borderRadius: '9999px', fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+              ⭐ START HERE - FOUNDATION OF YOUR PRIVACY JOURNEY
+            </div>
+            <h2>The Service Catalog: Your Family's Privacy Command Center</h2>
+            <p className="text-lg" style={{ fontWeight: '600', color: '#1e40af' }}>
+              Everything begins with understanding which services your family uses. The Service Catalog is the foundation that unlocks all advanced privacy features.
+            </p>
           </div>
 
           <div className="fade-in" style={{ maxWidth: '900px', margin: '0 auto 3rem', textAlign: 'center' }}>
@@ -264,18 +241,42 @@ const HomePage: React.FC = () => {
               background: 'white', 
               borderRadius: '16px', 
               padding: '2.5rem', 
-              boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-              marginBottom: '2rem'
+              boxShadow: '0 8px 16px rgba(0,0,0,0.15)',
+              marginBottom: '2rem',
+              border: '3px solid #3b82f6'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem' }}>
-                <ShoppingBag size={48} className="text-blue-600" style={{ marginRight: '1rem' }} />
+                <div style={{
+                  background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                  borderRadius: '50%',
+                  width: '64px',
+                  height: '64px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginRight: '1rem',
+                  boxShadow: '0 4px 8px rgba(59, 130, 246, 0.3)'
+                }}>
+                  <ShoppingBag size={32} style={{ color: 'white' }} />
+                </div>
                 <h3 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#1e40af' }}>
                   What is the Service Catalog?
                 </h3>
               </div>
-              <p style={{ fontSize: '1.125rem', color: '#4b5563', lineHeight: '1.75', marginBottom: '1.5rem' }}>
+              <p style={{ fontSize: '1.125rem', color: '#4b5563', lineHeight: '1.75', marginBottom: '1rem' }}>
                 A comprehensive database of apps, platforms, and services your family uses—from social media and gaming to education and streaming. Each service includes privacy risk ratings, age recommendations, and practical guidance to help you make informed decisions.
               </p>
+              <div style={{ 
+                background: '#eff6ff', 
+                borderLeft: '4px solid #3b82f6',
+                padding: '1rem',
+                borderRadius: '8px',
+                marginTop: '1.5rem'
+              }}>
+                <p style={{ fontSize: '1rem', color: '#1e40af', fontWeight: '600', margin: 0 }}>
+                  💡 <strong>Why Start Here?</strong> You can't protect what you don't understand. By cataloging your family's services, you create the foundation for every other privacy feature on PandaGarde.
+                </p>
+              </div>
             </div>
 
             <div style={{ 
@@ -373,23 +374,73 @@ const HomePage: React.FC = () => {
               </div>
             </div>
 
-            <div style={{ marginTop: '2rem' }}>
-              <Link 
-                to="/service-catalog" 
-                className="button primary"
-                style={{ 
-                  display: 'inline-flex', 
-                  alignItems: 'center', 
-                  gap: '0.5rem',
-                  fontSize: '1.125rem',
-                  padding: '0.875rem 2rem'
-                }}
-              >
-                <ShoppingBag size={20} />
-                Explore Service Catalog
-                <ArrowRight size={16} />
-              </Link>
+            <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+              <div style={{ 
+                background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                borderRadius: '16px',
+                padding: '2rem',
+                boxShadow: '0 8px 16px rgba(59, 130, 246, 0.3)',
+                marginBottom: '1.5rem'
+              }}>
+                <p style={{ color: 'white', fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+                  🚀 Ready to Start Your Privacy Journey?
+                </p>
+                <p style={{ color: '#e0f2fe', fontSize: '1rem', marginBottom: '1.5rem' }}>
+                  Add your first 3 services to unlock Digital Footprint Analysis, Risk Exposure Reports, and Safety Alerts
+                </p>
+                <Link 
+                  to="/service-catalog" 
+                  className="button primary"
+                  style={{ 
+                    display: 'inline-flex', 
+                    alignItems: 'center', 
+                    gap: '0.5rem',
+                    fontSize: '1.25rem',
+                    padding: '1rem 2.5rem',
+                    background: 'white',
+                    color: '#1e40af',
+                    fontWeight: 'bold',
+                    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+                    border: 'none'
+                  }}
+                >
+                  <ShoppingBag size={24} />
+                  Set Up Your Service Catalog Now
+                  <ArrowRight size={20} />
+                </Link>
+                <p style={{ color: '#bfdbfe', fontSize: '0.875rem', marginTop: '1rem', fontStyle: 'italic' }}>
+                  Takes only 5 minutes • Unlock all features • 100% Free
+                </p>
+              </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Actions */}
+      <section className="quick-actions">
+        <div className="container">
+          <div className="section-header fade-in">
+            <h2>Get Started in Minutes</h2>
+            <p>Choose your path and begin learning about digital privacy today.</p>
+          </div>
+
+          <div className="quick-actions-grid">
+            {quickActions.map((action, index) => (
+              <Link key={index} to={action.link} className="quick-action-card fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                <div className={`action-icon ${action.bgColor}`}>
+                  <action.icon size={32} className={action.color} />
+                </div>
+                <div className="action-content">
+                  <h3>{action.title}</h3>
+                  <p>{action.description}</p>
+                  <div className="action-button">
+                    Get Started
+                    <ArrowRight size={16} />
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -544,6 +595,20 @@ const HomePage: React.FC = () => {
           <div className="section-header fade-in">
             <h2>Your PandaGarde Journey</h2>
             <p>Follow these simple steps to protect your family in the digital age.</p>
+            <div style={{ 
+              background: '#eff6ff', 
+              borderRadius: '12px',
+              padding: '1rem 1.5rem',
+              marginTop: '1rem',
+              border: '2px solid #3b82f6',
+              maxWidth: '800px',
+              margin: '1rem auto 0'
+            }}>
+              <p style={{ color: '#1e40af', fontSize: '1rem', fontWeight: '600', margin: 0, textAlign: 'center' }}>
+                <Unlock size={20} style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: 'middle' }} />
+                <strong>Step 2 (Service Catalog)</strong> is the key that unlocks Steps 4's advanced features!
+              </p>
+            </div>
           </div>
 
           <div className="parent-steps-grid">
