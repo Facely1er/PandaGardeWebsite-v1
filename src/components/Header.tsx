@@ -5,6 +5,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import SearchModal from './SearchModal';
 import OfflineIndicator from './OfflineIndicator';
 import ServiceNotificationCenter from './ServiceNotificationCenter';
+import Logo from './Logo';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -48,27 +49,25 @@ const Header: React.FC = () => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isMobileMenuOpen, isSearchModalOpen]);
 
-  // Consistent navigation items for both desktop and mobile
+  // Enhanced navigation structure with better organization
   const navItems = [
     { icon: Home, label: 'Home', href: '/', isExternal: false },
-    { icon: BookOpen, label: 'Overview', href: '/overview', isExternal: false },
-    { icon: Users, label: 'Quick Start', href: '/quick-start', isExternal: false },
+    { icon: BookOpen, label: 'Learn', href: '/overview', isExternal: false },
+    { icon: Users, label: 'Get Started', href: '/quick-start', isExternal: false },
     { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
     { icon: MessageCircle, label: 'Community', href: '/community/forum', isExternal: false },
-    { icon: Info, label: 'About', href: '/about', isExternal: false },
   ];
 
-  // Mobile navigation includes additional community links
+  // Mobile navigation with organized sections
   const mobileNavItems = [
     { icon: Home, label: 'Home', href: '/', isExternal: false },
-    { icon: BookOpen, label: 'Overview', href: '/overview', isExternal: false },
-    { icon: Users, label: 'Quick Start', href: '/quick-start', isExternal: false },
+    { icon: BookOpen, label: 'Learn', href: '/overview', isExternal: false },
+    { icon: Users, label: 'Get Started', href: '/quick-start', isExternal: false },
     { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
     { icon: MessageCircle, label: 'Community Forum', href: '/community/forum', isExternal: false },
     { icon: Heart, label: 'Success Stories', href: '/community/stories', isExternal: false },
     { icon: Globe, label: 'Community Resources', href: '/community/resources', isExternal: false },
     { icon: Info, label: 'About', href: '/about', isExternal: false },
-    { icon: Users, label: 'Family Hub', href: 'https://www.hub.pandagarde.com', isExternal: true },
   ];
 
 
@@ -177,15 +176,7 @@ const Header: React.FC = () => {
             className="logo"
             aria-label="PandaGarde - Go to homepage"
           >
-            <div className="logo-icon" aria-hidden="true">
-              <img
-                src="/LogoPandagarde.png"
-                alt="PandaGarde Logo"
-                className="panda-logo"
-                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                loading="lazy"
-              />
-            </div>
+            <Logo />
             <span>Panda<span className="highlight">Garde</span></span>
           </Link>
           
