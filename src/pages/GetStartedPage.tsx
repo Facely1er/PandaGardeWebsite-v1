@@ -19,49 +19,49 @@ const GetStartedPage: React.FC = () => {
 
   const steps: Step[] = [
     {
-      id: 'welcome',
-      title: 'Welcome to PandaGarde',
-      description: 'Learn about our mission and how we help families learn digital privacy together.',
-      icon: Star,
+      id: 'family-hub',
+      title: 'Join Family Hub',
+      description: 'Create your family profile and connect with other families to start your journey.',
+      icon: Users,
       completed: false,
-      estimatedTime: '2 mins',
-      action: 'Read our story'
+      estimatedTime: '5 mins',
+      action: 'Join Family Hub'
     },
     {
       id: 'age-group',
-      title: 'Choose Your Age Group',
-      description: 'Select the appropriate age group for your child to get personalized content.',
-      icon: Users,
+      title: 'Choose Age Group',
+      description: 'Select the right learning path for each child\'s age to get personalized content.',
+      icon: Star,
       completed: false,
       estimatedTime: '1 min',
-      action: 'Select age group'
+      action: 'Choose age group'
     },
     {
       id: 'first-activity',
-      title: 'Try Your First Activity',
-      description: 'Complete your first interactive privacy activity to get started.',
+      title: 'Start Learning',
+      description: 'Begin with Privacy Panda\'s interactive stories and activities.',
       icon: Play,
       completed: false,
       estimatedTime: '10 mins',
-      action: 'Start activity'
-    },
-    {
-      id: 'family-hub',
-      title: 'Set Up Family Hub',
-      description: 'Create your family profile and start tracking progress together.',
-      icon: Shield,
-      completed: false,
-      estimatedTime: '5 mins',
-      action: 'Set up family'
+      action: 'Start learning'
     },
     {
       id: 'explore-resources',
-      title: 'Explore Resources',
-      description: 'Discover additional resources and guides for continued learning.',
+      title: 'Access Resources',
+      description: 'Download guides, activities, and printable materials for continued learning.',
       icon: BookOpen,
       completed: false,
       estimatedTime: '5 mins',
-      action: 'Browse resources'
+      action: 'Access resources'
+    },
+    {
+      id: 'welcome',
+      title: 'Learn More',
+      description: 'Explore our complete platform and discover additional tools and features.',
+      icon: Shield,
+      completed: false,
+      estimatedTime: '2 mins',
+      action: 'Explore platform'
     }
   ];
 
@@ -73,32 +73,24 @@ const GetStartedPage: React.FC = () => {
 
   const getStepAction = (step: Step) => {
     switch (step.id) {
-      case 'welcome':
-        return () => navigate('/story');
+      case 'family-hub':
+        return () => navigate('/family-hub');
       case 'age-group':
         return () => {
-          navigate('/');
+          navigate('/quick-start');
           setTimeout(() => {
-            const element = document.querySelector('#age-groups');
+            const element = document.querySelector('.age-groups-simple, .age-paths');
             if (element) {
               element.scrollIntoView({ behavior: 'smooth' });
             }
           }, 100);
         };
       case 'first-activity':
-        return () => navigate('/activity-book');
-      case 'family-hub':
-        return () => navigate('/family-hub');
+        return () => navigate('/privacy-panda');
       case 'explore-resources':
-        return () => {
-          navigate('/');
-          setTimeout(() => {
-            const element = document.querySelector('#parent-resources');
-            if (element) {
-              element.scrollIntoView({ behavior: 'smooth' });
-            }
-          }, 100);
-        };
+        return () => navigate('/resources');
+      case 'welcome':
+        return () => navigate('/overview');
       default:
         return () => {};
     }

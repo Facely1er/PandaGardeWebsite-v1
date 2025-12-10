@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Play, Users, BookOpen, Download, CheckCircle, ArrowRight, Clock, Star, Shield } from 'lucide-react';
+import { ArrowLeft, Play, Users, BookOpen, Download, CheckCircle, ArrowRight, Clock, Star, Shield, Baby } from 'lucide-react';
 
 const QuickStartPage: React.FC = () => {
   const quickActions = [
@@ -91,31 +91,31 @@ const QuickStartPage: React.FC = () => {
   const parentQuickSteps = [
     {
       step: 1,
-      title: 'Set Up Family Account',
-      description: 'Create your family profile and add your children',
+      title: 'Join Family Hub',
+      description: 'Create your family profile and connect with other families',
       icon: Users,
       link: '/family-hub'
     },
     {
       step: 2,
-      title: 'Choose Age-Appropriate Content',
-      description: 'Select the right learning path for each child',
-      icon: BookOpen,
-      link: '/age-groups'
+      title: 'Choose Age Group',
+      description: 'Select the right learning path for each child\'s age',
+      icon: Baby,
+      link: '/quick-start'
     },
     {
       step: 3,
-      title: 'Download Resources',
-      description: 'Get printable guides, checklists, and activity sheets',
-      icon: Download,
-      link: '/resources'
+      title: 'Start Learning',
+      description: 'Begin with Privacy Panda\'s interactive stories and activities',
+      icon: Play,
+      link: '/privacy-panda'
     },
     {
       step: 4,
-      title: 'Start Learning Together',
-      description: 'Begin with the interactive story and activities',
-      icon: Play,
-      link: '/privacy-panda'
+      title: 'Access Resources',
+      description: 'Download guides, activities, and printable materials',
+      icon: Download,
+      link: '/resources'
     }
   ];
 
@@ -220,8 +220,8 @@ const QuickStartPage: React.FC = () => {
       <section className="parent-steps">
         <div className="container">
           <div className="section-header fade-in">
-            <h2>Parent Quick Setup</h2>
-            <p>Follow these simple steps to get your family set up for success.</p>
+            <h2>Your PandaGarde Journey</h2>
+            <p>Follow these simple steps to protect your family in the digital age.</p>
           </div>
 
           <div className="parent-steps-grid">
@@ -237,7 +237,7 @@ const QuickStartPage: React.FC = () => {
                   <h3>{step.title}</h3>
                   <p>{step.description}</p>
                   <Link to={step.link} className="step-link">
-                    Go to Step {step.step}
+                    Get Started
                     <ArrowRight size={16} />
                   </Link>
                 </div>

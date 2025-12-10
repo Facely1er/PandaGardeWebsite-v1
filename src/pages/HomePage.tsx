@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, Baby, User, GraduationCap } from 'lucide-react';
+import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, Baby, User, GraduationCap, Download } from 'lucide-react';
 
 const HomePage: React.FC = () => {
   useEffect(() => {
@@ -49,6 +49,37 @@ const HomePage: React.FC = () => {
       link: '/resources',
       color: 'text-green-600',
       bgColor: 'bg-green-50'
+    }
+  ];
+
+  const customerJourney = [
+    {
+      step: 1,
+      title: 'Join Family Hub',
+      description: 'Create your family profile and connect with other families',
+      icon: Users,
+      link: '/family-hub'
+    },
+    {
+      step: 2,
+      title: 'Choose Age Group',
+      description: 'Select the right learning path for each child\'s age',
+      icon: Baby,
+      link: '/quick-start'
+    },
+    {
+      step: 3,
+      title: 'Start Learning',
+      description: 'Begin with Privacy Panda\'s interactive stories and activities',
+      icon: Play,
+      link: '/privacy-panda'
+    },
+    {
+      step: 4,
+      title: 'Access Resources',
+      description: 'Download guides, activities, and printable materials',
+      icon: Download,
+      link: '/resources'
     }
   ];
 
@@ -190,6 +221,37 @@ const HomePage: React.FC = () => {
                   <h3>{action.title}</h3>
                   <p>{action.description}</p>
                   <div className="action-button">
+                    Get Started
+                    <ArrowRight size={16} />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Customer Journey */}
+      <section className="parent-steps">
+        <div className="container">
+          <div className="section-header fade-in">
+            <h2>Your PandaGarde Journey</h2>
+            <p>Follow these simple steps to protect your family in the digital age.</p>
+          </div>
+
+          <div className="parent-steps-grid">
+            {customerJourney.map((step, index) => (
+              <Link key={index} to={step.link} className="parent-step-card fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                <div className="step-number">
+                  <span>{step.step}</span>
+                </div>
+                <div className="step-content">
+                  <div className="step-icon">
+                    <step.icon size={24} />
+                  </div>
+                  <h3>{step.title}</h3>
+                  <p>{step.description}</p>
+                  <div className="step-link">
                     Get Started
                     <ArrowRight size={16} />
                   </div>
