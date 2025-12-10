@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, MessageCircle, Plus, Search, Filter, TrendingUp, Clock, Tag } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowLeft, Heart, MessageCircle, Plus, Search, Clock, Tag } from 'lucide-react';
 import { communityStorage, SuccessStory } from '../../utils/communityStorageManager';
 
 interface SuccessStoriesProps {
@@ -135,9 +136,31 @@ const SuccessStories: React.FC<SuccessStoriesProps> = ({ compact = false }) => {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
-      <div className="container mx-auto px-6 py-8">
-        {/* Header */}
+    <main id="main-content">
+      {/* Back Navigation */}
+      <div className="container py-6">
+        <Link to="/" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors">
+          <ArrowLeft size={16} />
+          Back to Home
+        </Link>
+      </div>
+
+      {/* Hero Section */}
+      <section className="hero-simple">
+        <div className="container">
+          <div className="text-center fade-in">
+            <span className="badge">COMMUNITY</span>
+            <h1>Success Stories</h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Real-world examples of families teaching privacy to their children. Share your anonymous success story and inspire others.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Content */}
+      <section className="container mx-auto px-6 py-8">
+        {/* Header Actions */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
@@ -158,9 +181,9 @@ const SuccessStories: React.FC<SuccessStoriesProps> = ({ compact = false }) => {
           </div>
 
           {/* Privacy Notice */}
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6 fade-in">
             <p className="text-sm text-green-800">
-              <strong>Privacy First:</strong> All stories are completely anonymous. No personal information is collected or displayed.
+              <strong>Privacy First:</strong> All stories are completely anonymous. No personal information is collected or displayed. All data is stored locally on your device.
             </p>
           </div>
         </div>
@@ -232,8 +255,8 @@ const SuccessStories: React.FC<SuccessStoriesProps> = ({ compact = false }) => {
             onCancel={() => setShowForm(false)}
           />
         )}
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 
@@ -319,11 +342,11 @@ const StorySubmissionForm: React.FC<StorySubmissionFormProps> = ({ onSubmit, onC
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
-    if (!title.trim()) newErrors.title = 'Title is required';
-    if (title.length > 100) newErrors.title = 'Title must be 100 characters or less';
-    if (!story.trim()) newErrors.story = 'Story is required';
-    if (story.length > 2000) newErrors.story = 'Story must be 2000 characters or less';
-    if (story.length < 50) newErrors.story = 'Story must be at least 50 characters';
+    if (!title.trim()) newErrors['title'] = 'Title is required';
+    if (title.length > 100) newErrors['title'] = 'Title must be 100 characters or less';
+    if (!story.trim()) newErrors['story'] = 'Story is required';
+    if (story.length > 2000) newErrors['story'] = 'Story must be 2000 characters or less';
+    if (story.length < 50) newErrors['story'] = 'Story must be at least 50 characters';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -371,11 +394,11 @@ const StorySubmissionForm: React.FC<StorySubmissionFormProps> = ({ onSubmit, onC
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 maxLength={100}
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 ${errors.title ? 'border-red-500' : 'border-gray-300'}`}
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 ${errors['title'] ? 'border-red-500' : 'border-gray-300'}`}
                 style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}
                 placeholder="A brief title for your story"
               />
-              {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
+              {errors['title'] && <p className="text-red-500 text-sm mt-1">{errors['title']}</p>}
               <p className="text-xs text-gray-500 mt-1">{title.length}/100 characters</p>
             </div>
 
@@ -409,11 +432,11 @@ const StorySubmissionForm: React.FC<StorySubmissionFormProps> = ({ onSubmit, onC
                 onChange={(e) => setStory(e.target.value)}
                 maxLength={2000}
                 rows={8}
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 ${errors.story ? 'border-red-500' : 'border-gray-300'}`}
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 ${errors['story'] ? 'border-red-500' : 'border-gray-300'}`}
                 style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}
                 placeholder="Share your success story about teaching privacy to your children. Remember: no personal information, names, or identifying details."
               />
-              {errors.story && <p className="text-red-500 text-sm mt-1">{errors.story}</p>}
+              {errors['story'] && <p className="text-red-500 text-sm mt-1">{errors['story']}</p>}
               <p className="text-xs text-gray-500 mt-1">{story.length}/2000 characters (minimum 50)</p>
             </div>
 
