@@ -132,6 +132,32 @@ const PilotPage: React.FC = () => {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
+      {/* Page Header */}
+      <section style={{ padding: '2rem 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
+        <div className="container mx-auto px-6">
+          <div className="text-center fade-in" style={{ textAlign: 'center' }}>
+            <h1 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '800',
+              lineHeight: '1.1',
+              marginBottom: '1rem',
+              color: '#0f172a'
+            }}>
+              Join the Family Hub Pilot Program
+            </h1>
+            <p style={{
+              fontSize: '1.125rem',
+              color: '#64748b',
+              maxWidth: '48rem',
+              margin: '0 auto',
+              lineHeight: '1.6'
+            }}>
+              Help shape the future of family privacy education. Be part of an exclusive group of families testing the PrivacyPanda Family Hub and make your voice heard.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Navigation */}
       <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
         <div className="container mx-auto px-6 py-4">

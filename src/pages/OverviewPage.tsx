@@ -179,6 +179,32 @@ const OverviewPage: React.FC = () => {
         </Link>
       </div>
 
+      {/* Page Header */}
+      <section style={{ padding: '2rem 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
+        <div className="container">
+          <div className="text-center fade-in" style={{ textAlign: 'center' }}>
+            <h1 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '800',
+              lineHeight: '1.1',
+              marginBottom: '1rem',
+              color: '#0f172a'
+            }}>
+              Everything Your Family Needs for Digital Privacy
+            </h1>
+            <p style={{
+              fontSize: '1.125rem',
+              color: '#64748b',
+              maxWidth: '48rem',
+              margin: '0 auto',
+              lineHeight: '1.6'
+            }}>
+              Our comprehensive platform provides age-appropriate education, interactive tools, and community support to help families navigate the digital world safely and confidently.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Customer Journey */}
       <section className="parent-steps">
         <div className="container">

@@ -27,48 +27,73 @@ const ParentLandingPage: React.FC = () => {
   ];
 
   return (
-    <main id="main-content" style={{ minHeight: '100vh', paddingTop: '2rem' }}>
-      <div className="container">
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '2rem' }}>
-          <Link 
-            to="/family-hub"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              padding: '1rem 2rem',
-              backgroundColor: '#667eea',
-              color: 'white',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              fontWeight: 'bold',
-              fontSize: '1.1rem'
-            }}
-          >
-            <Shield size={20} />
-            Start Protecting Your Family
-            <ArrowRight size={16} />
-          </Link>
-          <Link 
-            to="/overview"
-            style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '1rem 2rem',
-                backgroundColor: 'transparent',
-                color: 'white',
-                border: '2px solid white',
-                borderRadius: '8px',
-                textDecoration: 'none',
-                fontWeight: 'bold',
-                fontSize: '1.1rem'
-              }}
-            >
-              Learn More
-            </Link>
+    <main id="main-content" style={{ minHeight: '100vh' }}>
+      {/* Page Header */}
+      <section style={{ padding: '2rem 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
+        <div className="container">
+          <div className="text-center fade-in" style={{ textAlign: 'center' }}>
+            <h1 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '800',
+              lineHeight: '1.1',
+              marginBottom: '1rem',
+              color: '#0f172a'
+            }}>
+              For Parents: Keep Your Family Safe Online
+            </h1>
+            <p style={{
+              fontSize: '1.125rem',
+              color: '#64748b',
+              maxWidth: '48rem',
+              margin: '0 auto 2rem',
+              lineHeight: '1.6'
+            }}>
+              Simple tools to see what your children do online, understand their privacy risks, and get help talking to them about staying safe.
+            </p>
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Link 
+                to="/family-hub"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '1rem 2rem',
+                  backgroundColor: '#667eea',
+                  color: 'white',
+                  borderRadius: '8px',
+                  textDecoration: 'none',
+                  fontWeight: 'bold',
+                  fontSize: '1.1rem'
+                }}
+              >
+                <Shield size={20} />
+                Start Protecting Your Family
+                <ArrowRight size={16} />
+              </Link>
+              <Link 
+                to="/overview"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '1rem 2rem',
+                  backgroundColor: 'transparent',
+                  color: '#667eea',
+                  border: '2px solid #667eea',
+                  borderRadius: '8px',
+                  textDecoration: 'none',
+                  fontWeight: 'bold',
+                  fontSize: '1.1rem'
+                }}
+              >
+                Learn More
+              </Link>
+            </div>
           </div>
         </div>
+      </section>
+
+      <div className="container">
 
       {/* Three Column Layout */}
       <section style={{ padding: '4rem 0', backgroundColor: '#f8f9fa' }}>
