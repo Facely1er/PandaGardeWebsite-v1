@@ -6,24 +6,111 @@
 -- ============================================
 -- 1. Fix Stripe Tables RLS Policies
 -- ============================================
+-- First, we need to identify the correct column names by checking existing policies
 
--- Fix stripe_customers: "Users can view their own customer data"
-DROP POLICY IF EXISTS "Users can view their own customer data" ON public.stripe_customers;
-CREATE POLICY "Users can view their own customer data" 
-ON public.stripe_customers FOR SELECT 
-USING ((select auth.uid()) = user_id);
-
--- Fix stripe_subscriptions: "Users can view their own subscription data"
-DROP POLICY IF EXISTS "Users can view their own subscription data" ON public.stripe_subscriptions;
-CREATE POLICY "Users can view their own subscription data" 
-ON public.stripe_subscriptions FOR SELECT 
-USING ((select auth.uid()) = user_id);
-
--- Fix stripe_orders: "Users can view their own order data"
-DROP POLICY IF EXISTS "Users can view their own order data" ON public.stripe_orders;
-CREATE POLICY "Users can view their own order data" 
-ON public.stripe_orders FOR SELECT 
-USING ((select auth.uid()) = user_id);
+-- Helper function to get column name from existing policy
+DO $$
+DECLARE
+    v_stripe_customers_col TEXT;
+    v_stripe_subscriptions_col TEXT;
+    v_stripe_orders_col TEXT;
+    v_policy_def TEXT;
+BEGIN
+    -- For stripe_customers: Get column from existing policy or check table structure
+    IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'stripe_customers') THEN
+        -- Try to get from existing policy
+        SELECT pg_get_expr(polqual, polrelid) INTO v_policy_def
+        FROM pg_policy 
+        WHERE schemaname = 'public' 
+        AND tablename = 'stripe_customers' 
+        AND policyname = 'Users can view their own customer data'
+        LIMIT 1;
+        
+        -- Extract column name or check table structure
+        IF v_policy_def IS NOT NULL AND v_policy_def ~ 'auth\.uid\(\)\s*=\s*(\w+)' THEN
+            v_stripe_customers_col := (regexp_match(v_policy_def, 'auth\.uid\(\)\s*=\s*(\w+)'))[1];
+        ELSIF v_policy_def IS NOT NULL AND v_policy_def ~ '(\w+)\s*=\s*auth\.uid\(\)' THEN
+            v_stripe_customers_col := (regexp_match(v_policy_def, '(\w+)\s*=\s*auth\.uid\(\)'))[1];
+        ELSIF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'stripe_customers' AND column_name = 'user_id') THEN
+            v_stripe_customers_col := 'user_id';
+        ELSIF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'stripe_customers' AND column_name = 'customer_id') THEN
+            v_stripe_customers_col := 'customer_id';
+        ELSIF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'stripe_customers' AND column_name = 'auth_user_id') THEN
+            v_stripe_customers_col := 'auth_user_id';
+        ELSE
+            RAISE NOTICE 'Could not determine column for stripe_customers, skipping';
+            v_stripe_customers_col := NULL;
+        END IF;
+        
+        IF v_stripe_customers_col IS NOT NULL THEN
+            EXECUTE format('DROP POLICY IF EXISTS %I ON public.stripe_customers', 'Users can view their own customer data');
+            EXECUTE format('CREATE POLICY %I ON public.stripe_customers FOR SELECT USING ((select auth.uid()) = %I)', 
+                'Users can view their own customer data', v_stripe_customers_col);
+        END IF;
+    END IF;
+    
+    -- For stripe_subscriptions
+    IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'stripe_subscriptions') THEN
+        SELECT pg_get_expr(polqual, polrelid) INTO v_policy_def
+        FROM pg_policy 
+        WHERE schemaname = 'public' 
+        AND tablename = 'stripe_subscriptions' 
+        AND policyname = 'Users can view their own subscription data'
+        LIMIT 1;
+        
+        IF v_policy_def IS NOT NULL AND v_policy_def ~ 'auth\.uid\(\)\s*=\s*(\w+)' THEN
+            v_stripe_subscriptions_col := (regexp_match(v_policy_def, 'auth\.uid\(\)\s*=\s*(\w+)'))[1];
+        ELSIF v_policy_def IS NOT NULL AND v_policy_def ~ '(\w+)\s*=\s*auth\.uid\(\)' THEN
+            v_stripe_subscriptions_col := (regexp_match(v_policy_def, '(\w+)\s*=\s*auth\.uid\(\)'))[1];
+        ELSIF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'stripe_subscriptions' AND column_name = 'user_id') THEN
+            v_stripe_subscriptions_col := 'user_id';
+        ELSIF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'stripe_subscriptions' AND column_name = 'customer_id') THEN
+            v_stripe_subscriptions_col := 'customer_id';
+        ELSIF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'stripe_subscriptions' AND column_name = 'auth_user_id') THEN
+            v_stripe_subscriptions_col := 'auth_user_id';
+        ELSE
+            RAISE NOTICE 'Could not determine column for stripe_subscriptions, skipping';
+            v_stripe_subscriptions_col := NULL;
+        END IF;
+        
+        IF v_stripe_subscriptions_col IS NOT NULL THEN
+            EXECUTE format('DROP POLICY IF EXISTS %I ON public.stripe_subscriptions', 'Users can view their own subscription data');
+            EXECUTE format('CREATE POLICY %I ON public.stripe_subscriptions FOR SELECT USING ((select auth.uid()) = %I)', 
+                'Users can view their own subscription data', v_stripe_subscriptions_col);
+        END IF;
+    END IF;
+    
+    -- For stripe_orders
+    IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'stripe_orders') THEN
+        SELECT pg_get_expr(polqual, polrelid) INTO v_policy_def
+        FROM pg_policy 
+        WHERE schemaname = 'public' 
+        AND tablename = 'stripe_orders' 
+        AND policyname = 'Users can view their own order data'
+        LIMIT 1;
+        
+        IF v_policy_def IS NOT NULL AND v_policy_def ~ 'auth\.uid\(\)\s*=\s*(\w+)' THEN
+            v_stripe_orders_col := (regexp_match(v_policy_def, 'auth\.uid\(\)\s*=\s*(\w+)'))[1];
+        ELSIF v_policy_def IS NOT NULL AND v_policy_def ~ '(\w+)\s*=\s*auth\.uid\(\)' THEN
+            v_stripe_orders_col := (regexp_match(v_policy_def, '(\w+)\s*=\s*auth\.uid\(\)'))[1];
+        ELSIF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'stripe_orders' AND column_name = 'user_id') THEN
+            v_stripe_orders_col := 'user_id';
+        ELSIF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'stripe_orders' AND column_name = 'customer_id') THEN
+            v_stripe_orders_col := 'customer_id';
+        ELSIF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'stripe_orders' AND column_name = 'auth_user_id') THEN
+            v_stripe_orders_col := 'auth_user_id';
+        ELSE
+            RAISE NOTICE 'Could not determine column for stripe_orders, skipping';
+            v_stripe_orders_col := NULL;
+        END IF;
+        
+        IF v_stripe_orders_col IS NOT NULL THEN
+            EXECUTE format('DROP POLICY IF EXISTS %I ON public.stripe_orders', 'Users can view their own order data');
+            EXECUTE format('CREATE POLICY %I ON public.stripe_orders FOR SELECT USING ((select auth.uid()) = %I)', 
+                'Users can view their own order data', v_stripe_orders_col);
+        END IF;
+    END IF;
+END $$;
 
 -- ============================================
 -- 2. Fix pandagarde_search_content RLS Policies
@@ -88,4 +175,3 @@ DROP POLICY IF EXISTS "Users can view their own downloads" ON public.pandagarde_
 CREATE POLICY "Users can view their own downloads" 
 ON public.pandagarde_download_tracking FOR SELECT 
 USING ((select auth.uid()) = user_id OR user_id IS NULL);
-
