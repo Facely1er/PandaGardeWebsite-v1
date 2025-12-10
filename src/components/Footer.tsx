@@ -1,36 +1,12 @@
 import React from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Shield as Child, User, UserCheck, Mail, HelpCircle, Newspaper, Headphones, Users, Shield, Wrench, BookOpen, GraduationCap, Info } from 'lucide-react';
 
 const Footer: React.FC = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const scrollToSection = (href: string) => {
-    if (href.startsWith('#')) {
-      // If we're not on the home page, navigate there first
-      if (location.pathname !== '/') {
-        navigate('/');
-        // Wait for navigation to complete, then scroll
-        setTimeout(() => {
-          const element = document.querySelector(href);
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-          }
-        }, 300);
-      } else {
-        const element = document.querySelector(href);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    }
-  };
-
   // Social media links removed - no active social media accounts
 
   const productLinks = [
-    { icon: Users, href: 'https://www.hub.pandagarde.com', label: 'Family Hub', isExternal: true },
+    { icon: Users, href: '/family-hub', label: 'Family Hub', isExternal: false },
     { icon: Shield, href: '/story', label: 'PrivacyPanda' },
     { icon: Wrench, href: '/parent-resources', label: 'Parent Toolkit' }
   ];

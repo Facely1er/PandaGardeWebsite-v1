@@ -320,17 +320,15 @@ const Header: React.FC = () => {
             <OfflineIndicator className="hidden md:block" />
             
             {/* Family Hub Button - Prominent */}
-            <a
-              href="https://www.hub.pandagarde.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/family-hub"
               className="family-hub-button"
-              aria-label="Visit Family Hub (opens in new tab)"
+              aria-label="Visit Family Hub"
               title="Connect with other families and access exclusive resources"
             >
               <Users size={16} aria-hidden="true" />
               Family Hub
-            </a>
+            </Link>
           </div>
           
           <button

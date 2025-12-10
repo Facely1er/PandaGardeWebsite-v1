@@ -276,7 +276,7 @@ const FamilyAgreementPage: React.FC = () => {
               </p>
             </Link>
 
-            <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer"
+            <Link to="/family-hub"
               className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow text-center"
               style={{ backgroundColor: 'var(--card-color)' }}
             >
@@ -289,7 +289,7 @@ const FamilyAgreementPage: React.FC = () => {
               <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
                 Track your family's privacy learning progress
               </p>
-            </a>
+            </Link>
           </div>
         </div>
       </main>

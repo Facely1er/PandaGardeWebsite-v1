@@ -10,12 +10,12 @@ const CertificatePage: React.FC = () => {
       <header className="bg-white dark:bg-gray-800 shadow-sm border-b">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer"
+            <Link to="/family-hub"
               className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
             >
               <ArrowLeft size={16} />
               Back to Family Hub
-            </a>
+            </Link>
             
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">
               Certificate Generator

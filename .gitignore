@@ -37,3 +37,5 @@ scripts/run-migration.js
 scripts/verify-migration.js
 .env.local
 .env.demo
+
+.vercel

@@ -216,7 +216,7 @@ const CertificatesPage: React.FC = () => {
                   </div>
                   
                   <button
-                    onClick={() => handleDownload(cert.id, cert.title)}
+                    onClick={() => handleDownload(cert.id)}
                     className="w-full bg-yellow-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-yellow-700 transition-colors flex items-center justify-center gap-2"
                   >
                     <Download size={16} />
@@ -254,7 +254,7 @@ const CertificatesPage: React.FC = () => {
             Download all 6 certificate templates in one package. Perfect for educators and families who want to recognize various achievements!
           </p>
           <button
-            onClick={() => handleDownload('all-certificates', 'Complete Certificate Collection')}
+            onClick={() => handleDownload('all-certificates')}
             disabled={isDownloading}
             className="bg-white text-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
@@ -302,7 +302,7 @@ const CertificatesPage: React.FC = () => {
               </p>
             </Link>
 
-            <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer"
+            <Link to="/family-hub"
               className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow text-center"
               style={{ backgroundColor: 'var(--card-color)' }}
             >
@@ -315,7 +315,7 @@ const CertificatesPage: React.FC = () => {
               <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
                 Track family achievements and progress together
               </p>
-            </a>
+            </Link>
           </div>
         </div>
       </main>

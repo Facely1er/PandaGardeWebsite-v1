@@ -43,10 +43,8 @@ const ParentLandingPage: React.FC = () => {
             Simple tools to see what your children do online, understand their privacy risks, and get help talking to them about staying safe.
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a 
-              href="https://www.hub.pandagarde.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
+            <Link 
+              to="/family-hub"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -260,10 +258,8 @@ const ParentLandingPage: React.FC = () => {
             </div>
             
             <div style={{ textAlign: 'center' }}>
-              <a 
-                href="https://www.hub.pandagarde.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
+              <Link 
+                to="/family-hub"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -359,10 +355,8 @@ const ParentLandingPage: React.FC = () => {
           <p style={{ fontSize: '1.25rem', marginBottom: '2rem', maxWidth: '600px', margin: '0 auto 2rem' }}>
             Join thousands of parents who are already keeping their families safe online with simple, easy-to-use tools.
           </p>
-          <a 
-            href="https://www.hub.pandagarde.com" 
-            target="_blank" 
-            rel="noopener noreferrer"
+          <Link 
+            to="/family-hub"
             style={{
               display: 'inline-flex',
               alignItems: 'center',

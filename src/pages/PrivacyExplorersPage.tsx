@@ -389,12 +389,12 @@ const PrivacyExplorersPage: React.FC = () => {
               <BookOpen size={20} />
               Try Activity Book
             </Link>
-            <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer"
+            <Link to="/family-hub"
               className="bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors inline-flex items-center gap-2"
             >
               <Users size={20} />
               Family Hub
-            </a>
+            </Link>
           </div>
         </div>
       </section>

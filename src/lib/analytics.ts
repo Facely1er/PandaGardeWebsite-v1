@@ -34,6 +34,12 @@ export const AnalyticsEvents = {
   FAMILY_CREATED: 'family_created',
   CHILD_ADDED: 'child_added',
   PROGRESS_VIEWED: 'progress_viewed',
+  FAMILY_MEMBER_ADDED: 'family_member_added',
+  FAMILY_MEMBER_REMOVED: 'family_member_removed',
+  CHILD_PROGRESS_VIEWED: 'child_progress_viewed',
+  FAMILY_GOAL_ADDED: 'family_goal_added',
+  FAMILY_GOAL_COMPLETED: 'family_goal_completed',
+  FEEDBACK_SUBMITTED: 'feedback_submitted',
   
   // Educational Content
   RESOURCE_VIEWED: 'resource_viewed',
@@ -45,6 +51,15 @@ export const AnalyticsEvents = {
   PERFORMANCE_METRIC: 'performance_metric',
   ALERT_CREATED: 'alert_created',
   ALERT_RESOLVED: 'alert_resolved',
+  
+  // Pilot Program
+  PILOT_PAGE_VIEWED: 'pilot_page_viewed',
+  PILOT_BANNER_SHOWN: 'pilot_banner_shown',
+  PILOT_BANNER_DISMISSED: 'pilot_banner_dismissed',
+  PILOT_BANNER_CLICKED: 'pilot_banner_clicked',
+  PILOT_CTA_CLICKED: 'pilot_cta_clicked',
+  PILOT_JOIN_CLICKED: 'pilot_join_clicked',
+  PILOT_LEARN_MORE_CLICKED: 'pilot_learn_more_clicked',
 } as const;
 
 // Extend Window interface for dataLayer

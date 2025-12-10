@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 // Frontend-only mode - no authentication dependencies
+import { useNavigate } from 'react-router-dom';
 import { reportError } from '../../lib/sentry';
 import { trackEvent, AnalyticsEvents, setUserId } from '../../lib/analytics';
 
@@ -58,13 +59,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [session, setSession] = useState<any | null>(null);
   const [loading, setLoading] = useState(false); // No loading needed in frontend-only mode
 
-  // Frontend-only mode - redirect to external family hub project
+  // Redirect to internal family hub route
+  const navigate = useNavigate();
   const redirectToFamilyHub = useCallback(() => {
-    // Replace this URL with your actual family hub project URL
-    const familyHubUrl = 'https://www.hub.pandagarde.com'; // Updated to correct URL
-    console.log('Redirecting to external family hub project:', familyHubUrl);
-    window.location.href = familyHubUrl;
-  }, []);
+    // Use internal route since Family Hub is integrated
+    navigate('/family-hub');
+  }, [navigate]);
 
   // Initialize auth state - frontend-only mode
   useEffect(() => {

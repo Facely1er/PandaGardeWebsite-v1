@@ -282,12 +282,12 @@ const ActivityBookPage: React.FC = () => {
               Back to Home
             </button>
             
-            <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer"
+            <Link to="/family-hub"
               className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm md:text-base"
             >
               <Users size={14} className="md:w-4 md:h-4" />
               Family Hub
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -361,7 +361,7 @@ const ActivityBookPage: React.FC = () => {
               You've completed all activities and earned your Privacy Champion certificate!
             </p>
             <button 
-              onClick={() => window.open('https://www.hub.pandagarde.com', '_blank')}
+              onClick={() => navigate('/family-hub')}
               className="mt-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105"
             >
               <Award size={20} className="inline mr-2" />
@@ -642,12 +642,12 @@ const ActivityBookPage: React.FC = () => {
               <Book size={18} className="md:w-5 md:h-5" />
               Read Privacy Panda's Story
             </Link>
-            <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer"
+            <Link to="/family-hub"
               className="bg-blue-600 text-white px-4 md:px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors inline-flex items-center justify-center gap-2 text-sm md:text-base"
             >
               <Users size={18} className="md:w-5 md:h-5" />
               Join Family Hub
-            </a>
+            </Link>
           </div>
         </div>
       </section>

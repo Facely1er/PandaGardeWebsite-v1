@@ -479,12 +479,12 @@ const StoryPage: React.FC = () => {
             </div>
             
             <div className="text-center">
-              <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer"
+              <Link to="/family-hub"
                 className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center gap-2"
               >
                 <Users size={20} />
                 Join Family Hub
-              </a>
+              </Link>
             </div>
           </div>
 

@@ -463,7 +463,7 @@ const ModelingBehaviorGuidePage: React.FC = () => {
               </p>
             </Link>
 
-            <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer"
+            <Link to="/family-hub"
               className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow text-center"
               style={{ backgroundColor: 'var(--card-color)' }}
             >
@@ -476,7 +476,7 @@ const ModelingBehaviorGuidePage: React.FC = () => {
               <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
                 Track family progress and digital activities
               </p>
-            </a>
+            </Link>
           </div>
         </div>
       </main>

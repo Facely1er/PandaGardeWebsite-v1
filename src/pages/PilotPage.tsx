@@ -6,11 +6,45 @@ import {
   Heart, Zap, TrendingUp, Gift
 } from 'lucide-react';
 import Logo from '../components/Logo';
+import { trackEvent, AnalyticsEvents } from '../lib/analytics';
+import { usePageTracking } from '../hooks/useAnalytics';
 
 const PilotPage: React.FC = () => {
+  // Track page view
+  usePageTracking('Pilot Program');
+  
   useEffect(() => {
     window.scrollTo(0, 0);
+    // Track pilot page view
+    trackEvent(AnalyticsEvents.PILOT_PAGE_VIEWED, {
+      timestamp: new Date().toISOString(),
+      source: 'direct_navigation'
+    });
   }, []);
+  
+  const handleJoinPilot = () => {
+    trackEvent(AnalyticsEvents.PILOT_JOIN_CLICKED, {
+      source: 'pilot_page',
+      button_location: 'hero_section',
+      timestamp: new Date().toISOString()
+    });
+  };
+  
+  const handleLearnMore = () => {
+    trackEvent(AnalyticsEvents.PILOT_LEARN_MORE_CLICKED, {
+      source: 'pilot_page',
+      button_location: 'hero_section',
+      timestamp: new Date().toISOString()
+    });
+  };
+  
+  const handleCTAClick = (location: string) => {
+    trackEvent(AnalyticsEvents.PILOT_CTA_CLICKED, {
+      source: 'pilot_page',
+      button_location: location,
+      timestamp: new Date().toISOString()
+    });
+  };
 
   const benefits = [
     {
@@ -122,6 +156,7 @@ const PilotPage: React.FC = () => {
             <div className="flex flex-wrap justify-center gap-4">
               <Link
                 to="/family-hub"
+                onClick={handleJoinPilot}
                 className="bg-white text-purple-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors flex items-center space-x-2 shadow-lg"
               >
                 <span>Join the Pilot</span>
@@ -129,6 +164,7 @@ const PilotPage: React.FC = () => {
               </Link>
               <a
                 href="#learn-more"
+                onClick={handleLearnMore}
                 className="bg-white/10 backdrop-blur-sm text-white border-2 border-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white/20 transition-colors"
               >
                 Learn More
@@ -354,6 +390,7 @@ const PilotPage: React.FC = () => {
           <div className="flex flex-wrap justify-center gap-4">
             <Link
               to="/family-hub"
+              onClick={() => handleCTAClick('cta_section')}
               className="bg-white text-purple-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors flex items-center space-x-2 shadow-lg"
             >
               <span>Start Your Pilot Journey</span>
@@ -361,6 +398,7 @@ const PilotPage: React.FC = () => {
             </Link>
             <Link
               to="/contact"
+              onClick={() => handleCTAClick('contact_button')}
               className="bg-white/10 backdrop-blur-sm text-white border-2 border-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white/20 transition-colors"
             >
               Have Questions?

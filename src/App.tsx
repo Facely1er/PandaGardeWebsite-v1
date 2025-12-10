@@ -5,6 +5,7 @@ import { ToastProvider } from './contexts/ToastContext';
 import { FamilyProvider } from './contexts/FamilyContext';
 import { SearchProvider } from './contexts/SearchContext';
 import { ProgressProvider } from './contexts/ProgressContext';
+import { FamilyProgressProvider } from './contexts/FamilyProgressContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
@@ -113,7 +114,8 @@ function App() {
         <SearchProvider>
           <FamilyProvider>
             <ProgressProvider>
-              <Router>
+              <FamilyProgressProvider>
+                <Router>
                 <SentryErrorBoundary fallback={<div>Something went wrong. Please refresh the page.</div>}>
                   <NavigationErrorBoundary>
                     <div className="App">
@@ -224,6 +226,7 @@ function App() {
                   </NavigationErrorBoundary>
                 </SentryErrorBoundary>
               </Router>
+              </FamilyProgressProvider>
             </ProgressProvider>
           </FamilyProvider>
         </SearchProvider>

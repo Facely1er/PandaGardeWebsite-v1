@@ -20,6 +20,33 @@ const HomePage: React.FC = () => {
     return !localStorage.getItem('pandagarde_pilot_banner_dismissed');
   });
 
+  // Track banner display
+  useEffect(() => {
+    if (showPilotBanner) {
+      trackEvent(AnalyticsEvents.PILOT_BANNER_SHOWN, {
+        timestamp: new Date().toISOString(),
+        source: 'homepage'
+      });
+    }
+  }, [showPilotBanner]);
+
+  const handleBannerDismiss = () => {
+    setShowPilotBanner(false);
+    localStorage.setItem('pandagarde_pilot_banner_dismissed', 'true');
+    trackEvent(AnalyticsEvents.PILOT_BANNER_DISMISSED, {
+      timestamp: new Date().toISOString(),
+      source: 'homepage'
+    });
+  };
+
+  const handleBannerClick = () => {
+    trackEvent(AnalyticsEvents.PILOT_BANNER_CLICKED, {
+      timestamp: new Date().toISOString(),
+      source: 'homepage',
+      action: 'learn_more'
+    });
+  };
+
   // Load persona from localStorage
   useEffect(() => {
     const storedPersona = localStorage.getItem('pandagarde_family_persona');
@@ -227,6 +254,7 @@ const HomePage: React.FC = () => {
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                 <Link
                   to="/pilot"
+                  onClick={handleBannerClick}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -248,10 +276,7 @@ const HomePage: React.FC = () => {
                   <ArrowRight size={16} />
                 </Link>
                 <button
-                  onClick={() => {
-                    setShowPilotBanner(false);
-                    localStorage.setItem('pandagarde_pilot_banner_dismissed', 'true');
-                  }}
+                  onClick={handleBannerDismiss}
                   style={{
                     background: 'transparent',
                     border: 'none',

@@ -571,12 +571,12 @@ const DigitalRightsPage: React.FC = () => {
               <BookOpen size={20} />
               Teen Handbook
             </Link>
-            <a href="https://www.hub.pandagarde.com" target="_blank" rel="noopener noreferrer"
+            <Link to="/family-hub"
               className="bg-slate-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-slate-800 transition-colors inline-flex items-center gap-2"
             >
               <Users size={20} />
               Family Hub
-            </a>
+            </Link>
           </div>
         </div>
       </section>
