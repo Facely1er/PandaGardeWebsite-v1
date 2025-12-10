@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, Baby, User, GraduationCap, ShoppingBag, BarChart3, Unlock, AlertTriangle, Target, Settings, Bell, CheckCircle2, CheckCircle } from 'lucide-react';
 import { getAllPersonas } from '../data/familyPersonaProfiles';
 import { useJourneyProgress } from '../hooks/useJourneyProgress';
+import OnboardingFlow from '../components/OnboardingFlow';
 
 const HomePage: React.FC = () => {
   const personas = getAllPersonas();
-  const location = useLocation();
   const { progress, markStepVisited, isStepCompleted, isStepVisited } = useJourneyProgress();
 
   // Mark steps as visited when component mounts
@@ -140,6 +140,7 @@ const HomePage: React.FC = () => {
 
   return (
     <main id="main-content">
+      <OnboardingFlow />
       {/* Hero Section */}
       <section className="hero-simple">
         <div className="container">
