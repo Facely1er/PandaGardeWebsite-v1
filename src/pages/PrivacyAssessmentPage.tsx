@@ -68,11 +68,11 @@ const PrivacyAssessmentPage: React.FC = () => {
           </ul>
           <div className="mt-4 pt-4 border-t border-blue-200 dark:border-blue-700">
             <p className="text-sm text-blue-800 dark:text-blue-200">
-              <strong>Tip:</strong> For more detailed privacy analysis, add services your family uses in the 
+              <strong>Tip:</strong> For more detailed privacy analysis, 
               <Link to="/service-catalog" className="text-blue-600 dark:text-blue-400 hover:underline font-medium mx-1">
-                Service Catalog
+                add services your family uses
               </Link>
-              to enable digital footprint analysis and risk exposure assessment.
+              to enable Digital Footprint Analysis and personalized risk assessments.
             </p>
           </div>
         </div>
@@ -92,10 +92,10 @@ const PrivacyAssessmentPage: React.FC = () => {
                 <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-green-600 transition-colors" />
               </div>
               <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-                Service Catalog
+                Add Services for Analysis
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Add services to enable digital footprint analysis and personalized risk assessments
+                Add your family's apps and services to enable Digital Footprint Analysis and personalized risk assessments
               </p>
             </Link>
 

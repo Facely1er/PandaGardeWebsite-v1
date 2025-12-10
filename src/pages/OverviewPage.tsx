@@ -91,12 +91,12 @@ const OverviewPage: React.FC = () => {
     },
     {
       step: 2,
-      title: 'Set Up Service Catalog',
-      description: 'Add services your family uses to enable risk analysis, alerts, and digital footprint tracking',
+      title: 'Add Services for Digital Footprint Analysis',
+      description: 'Tell us which apps and services your family uses. This enables Digital Footprint Analysis, privacy recommendations, and safety alerts',
       icon: ShoppingBag,
       link: '/service-catalog',
       platform: 'PandaGarde',
-      enables: ['Digital Footprint', 'Risk Exposure', 'Safety Alerts'],
+      enables: ['Digital Footprint Analysis', 'Privacy Recommendations', 'Safety Alerts'],
       isFoundation: true
     },
     {
@@ -109,12 +109,12 @@ const OverviewPage: React.FC = () => {
     },
     {
       step: 4,
-      title: 'Use Advanced Features',
-      description: 'Access digital footprint analysis, risk assessments, and personalized recommendations',
+      title: 'View Your Digital Footprint Analysis',
+      description: 'See your family\'s privacy exposure across all services and get personalized recommendations to improve your privacy',
       icon: BarChart3,
       link: '/digital-footprint',
       platform: 'PandaGarde',
-      requires: 'Service Catalog'
+      requires: 'Step 2: Add Services'
     }
   ];
 

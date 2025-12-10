@@ -14,7 +14,7 @@ const ServiceCatalogPage: React.FC = () => {
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                  Service Catalog
+                  Add Services for Digital Footprint Analysis
                 </h1>
                 <span className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
                   <Unlock size={12} />
@@ -22,7 +22,7 @@ const ServiceCatalogPage: React.FC = () => {
                 </span>
               </div>
               <p className="text-gray-600 dark:text-gray-400">
-                Add services your family uses to unlock advanced features like digital footprint analysis, risk exposure assessment, and safety alerts
+                Add the apps and services your family uses. This enables Digital Footprint Analysis, which shows your privacy exposure and provides personalized recommendations to improve your family's online safety.
               </p>
             </div>
             <div className="flex items-center space-x-2">
@@ -53,18 +53,18 @@ const ServiceCatalogPage: React.FC = () => {
               </div>
               <div className="flex-1">
                 <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2">
-                  Service Catalog: Your Foundation for Advanced Features
+                  Enable Digital Footprint Analysis
                 </h3>
                 <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
-                  The Service Catalog is the foundation that enables all service-based features in PandaGarde. 
-                  By adding services your family uses, you unlock powerful tools for managing your family's digital privacy.
+                  Adding services your family uses is the foundation that enables Digital Footprint Analysis. 
+                  This powerful tool helps you understand your family's privacy exposure and provides personalized recommendations to improve your online safety.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <div className="font-semibold text-sm text-gray-900 dark:text-white">Digital Footprint</div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">Visualize your family's online presence</div>
+                      <div className="font-semibold text-sm text-gray-900 dark:text-white">Digital Footprint Analysis</div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">See your family's privacy exposure across all services</div>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
@@ -119,10 +119,10 @@ const ServiceCatalogPage: React.FC = () => {
                 <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-green-600 transition-colors" />
               </div>
               <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-                View Family Footprint
+                View Digital Footprint Analysis
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                See your family's overall privacy exposure and get recommendations
+                See your family's privacy exposure across all services and get personalized recommendations
               </p>
             </Link>
 

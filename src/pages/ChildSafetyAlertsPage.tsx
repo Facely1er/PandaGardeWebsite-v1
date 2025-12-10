@@ -27,7 +27,7 @@ const ChildSafetyAlertsPage: React.FC = () => {
                 className="flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
               >
                 <ShoppingBag className="h-5 w-5" />
-                <span>Service Catalog</span>
+                <span>Add Services</span>
               </Link>
               <Link
                 to="/digital-footprint"
@@ -45,18 +45,17 @@ const ChildSafetyAlertsPage: React.FC = () => {
               <Shield className="h-5 w-5 text-yellow-600 dark:text-yellow-400 mt-0.5 flex-shrink-0" />
               <div className="flex-1">
                 <h3 className="font-semibold text-yellow-900 dark:text-yellow-100 mb-1">
-                  Requires Service Catalog Setup
+                  Add Services to Enable Alerts
                 </h3>
                 <p className="text-sm text-yellow-800 dark:text-yellow-200 mb-3">
-                  Service notifications are generated for services added in your Service Catalog. 
-                  Add services your family uses to receive personalized safety alerts and privacy updates.
+                  Safety alerts are generated for services you add. Add your family's apps and services to receive personalized safety alerts and privacy updates.
                 </p>
                 <Link
                   to="/service-catalog"
                   className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition-colors text-sm font-medium"
                 >
                   <ShoppingBag size={16} />
-                  Set Up Service Catalog
+                  Add Your Family's Services
                 </Link>
               </div>
             </div>
@@ -139,10 +138,10 @@ const ChildSafetyAlertsPage: React.FC = () => {
               <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-green-600 transition-colors" />
             </div>
             <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-              Browse Service Catalog
+              Add Services for Analysis
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Add or update services to enable personalized safety alerts and notifications
+              Add or update your family's apps and services to enable personalized safety alerts and Digital Footprint Analysis
             </p>
           </Link>
 

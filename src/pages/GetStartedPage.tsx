@@ -7,7 +7,7 @@ interface Step {
   id: string;
   title: string;
   description: string;
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: React.ComponentType<{ size?: number | string; className?: string | undefined }>;
   completed: boolean;
   estimatedTime: string;
   action: string;
@@ -29,12 +29,12 @@ const GetStartedPage: React.FC = () => {
     },
     {
       id: 'service-catalog',
-      title: 'Set Up Service Catalog',
-      description: 'Add services your family uses to enable risk analysis, alerts, and digital footprint tracking.',
+      title: 'Add Services for Digital Footprint Analysis',
+      description: 'Tell us which apps and services your family uses. This enables Digital Footprint Analysis, privacy recommendations, and safety alerts.',
       icon: ShoppingBag,
       completed: false,
       estimatedTime: '10 mins',
-      action: 'Set Up Catalog'
+      action: 'Add Services'
     },
     {
       id: 'first-activity',
@@ -47,12 +47,12 @@ const GetStartedPage: React.FC = () => {
     },
     {
       id: 'advanced-features',
-      title: 'Use Advanced Features',
-      description: 'Access digital footprint analysis, risk assessments, and personalized recommendations.',
+      title: 'View Your Digital Footprint Analysis',
+      description: 'See your family\'s privacy exposure across all services and get personalized recommendations to improve your privacy.',
       icon: BarChart3,
       completed: false,
       estimatedTime: '5 mins',
-      action: 'Explore Features'
+      action: 'View Analysis'
     },
     {
       id: 'explore-resources',
@@ -260,7 +260,7 @@ const GetStartedPage: React.FC = () => {
                             <div className="flex items-center gap-2">
                               <Shield size={14} className="text-yellow-600 dark:text-yellow-400" />
                               <span className="text-sm text-yellow-800 dark:text-yellow-200">
-                                <strong>Requires:</strong> Service Catalog setup
+                                <strong>Requires:</strong> Step 2: Add Services
                               </span>
                             </div>
                           </div>

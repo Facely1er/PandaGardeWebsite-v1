@@ -127,12 +127,12 @@ const HomePage: React.FC = () => {
     },
     {
       step: 2,
-      title: 'Add Your Family\'s Apps & Services',
-      description: 'Tell us which apps and services your family uses to get personalized privacy recommendations and safety alerts',
+      title: 'Add Services for Digital Footprint Analysis',
+      description: 'Tell us which apps and services your family uses. This enables Digital Footprint Analysis, privacy recommendations, and safety alerts',
       icon: Shield,
       link: '/service-catalog',
       platform: 'PandaGarde',
-      enables: ['Privacy Recommendations', 'Safety Alerts', 'Risk Analysis'],
+      enables: ['Digital Footprint Analysis', 'Privacy Recommendations', 'Safety Alerts'],
       isFoundation: true
     },
     {
@@ -145,12 +145,12 @@ const HomePage: React.FC = () => {
     },
     {
       step: 4,
-      title: 'Get Privacy Insights & Recommendations',
-      description: 'View your family\'s digital footprint and receive personalized tips to improve your privacy',
+      title: 'View Your Digital Footprint Analysis',
+      description: 'See your family\'s privacy exposure across all services and get personalized recommendations to improve your privacy',
       icon: BarChart3,
       link: '/digital-footprint',
       platform: 'PandaGarde',
-      requires: 'Service Catalog'
+      requires: 'Step 2: Add Services'
     }
   ];
 
@@ -245,7 +245,7 @@ const HomePage: React.FC = () => {
                   }}>
                     <CheckCircle size={18} />
                     <span style={{ fontSize: '0.875rem', fontWeight: '600' }}>
-                      {totalServicesCount} Services • Features Unlocked
+                      {totalServicesCount} Services • Digital Footprint Analysis Enabled
                     </span>
                   </div>
                 ) : (
@@ -268,7 +268,7 @@ const HomePage: React.FC = () => {
                     onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                   >
                     <ShoppingBag size={18} />
-                    Set Up Service Catalog
+                    Add Services for Analysis
                   </Link>
                 )}
                 <Link
@@ -316,10 +316,10 @@ const HomePage: React.FC = () => {
                 <CheckCircle size={24} />
                 <div>
                   <div style={{ fontSize: '0.875rem', opacity: 0.9 }}>
-                    Service Catalog Active
+                    Services Added - Analysis Ready
                   </div>
                   <div style={{ fontSize: '1rem', fontWeight: '600' }}>
-                    {totalServicesCount} services added • Advanced features unlocked!
+                    {totalServicesCount} services added • Digital Footprint Analysis enabled!
                   </div>
                 </div>
               </div>
@@ -338,7 +338,7 @@ const HomePage: React.FC = () => {
                   fontSize: '0.875rem'
                 }}
               >
-                Explore Features
+                View Digital Footprint
                 <ArrowRight size={18} />
               </Link>
             </div>
@@ -413,10 +413,10 @@ const HomePage: React.FC = () => {
                     <ShoppingBag size={24} className="text-amber-700" />
                     <div style={{ flex: 1 }}>
                       <div style={{ fontSize: '0.875rem', fontWeight: '700', color: '#92400e', marginBottom: '0.25rem' }}>
-                        Unlock Advanced Features
+                        Enable Digital Footprint Analysis
                       </div>
                       <div style={{ fontSize: '0.75rem', color: '#78350f' }}>
-                        Add {servicesNeeded} more service{servicesNeeded !== 1 ? 's' : ''} to enable Digital Footprint Analysis and Safety Alerts
+                        Add {servicesNeeded} more service{servicesNeeded !== 1 ? 's' : ''} to unlock Digital Footprint Analysis and Safety Alerts
                       </div>
                     </div>
                     <Link
@@ -435,7 +435,7 @@ const HomePage: React.FC = () => {
                         whiteSpace: 'nowrap'
                       }}
                     >
-                      Set Up Now
+                      Add Services
                       <ArrowRight size={16} />
                     </Link>
                   </div>
@@ -539,11 +539,11 @@ const HomePage: React.FC = () => {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
                   <ShoppingBag size={40} className="text-blue-600" style={{ marginRight: '1rem' }} />
                   <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1e40af' }}>
-                    Track Your Family's Apps & Services
+                    Set Up Your Digital Footprint Analysis
                   </h3>
                 </div>
                 <p style={{ fontSize: '1rem', color: '#4b5563', lineHeight: '1.6', marginBottom: '1.5rem' }}>
-                  Add the apps and services your family uses to get personalized privacy recommendations, safety alerts, and understand your digital footprint. Takes just 5 minutes to set up.
+                  Add the apps and services your family uses. This enables Digital Footprint Analysis, which shows your privacy exposure across all services and provides personalized recommendations to improve your family's online safety. Takes just 5 minutes to set up.
                 </p>
                 <div style={{ 
                   display: 'grid', 
@@ -581,7 +581,7 @@ const HomePage: React.FC = () => {
                   }}
                 >
                   <ShoppingBag size={20} />
-                  Set Up Service Catalog
+                  Add Your Family's Services
                   <ArrowRight size={18} />
                 </Link>
               </div>
@@ -648,10 +648,10 @@ const HomePage: React.FC = () => {
                       Foundation Step
                     </span>
                   </div>
-                  <h3>Set Up Service Catalog</h3>
-                  <p>Add {servicesNeeded} more service{servicesNeeded !== 1 ? 's' : ''} to unlock Digital Footprint Analysis, Risk Exposure, and Safety Alerts</p>
+                  <h3>Add Services for Analysis</h3>
+                  <p>Add {servicesNeeded} more service{servicesNeeded !== 1 ? 's' : ''} to enable Digital Footprint Analysis, privacy recommendations, and safety alerts</p>
                   <div className="action-button" style={{ background: '#1B5E20', color: 'white' }}>
-                    Set Up Now
+                    Add Services Now
                     <ArrowRight size={16} />
                   </div>
                 </div>
@@ -667,13 +667,13 @@ const HomePage: React.FC = () => {
                   icon: Target
                 },
                 '/digital-footprint': {
-                  title: 'Digital Footprint',
-                  description: hasServiceCatalog ? 'Analyze your family\'s online presence' : 'Unlock by setting up Service Catalog',
+                  title: 'Digital Footprint Analysis',
+                  description: hasServiceCatalog ? 'View your family\'s privacy exposure and get recommendations' : 'Add services in Step 2 to enable this feature',
                   icon: BarChart3
                 },
                 '/service-catalog': {
-                  title: 'Service Catalog',
-                  description: 'Review and manage your family\'s services',
+                  title: 'Add Services for Analysis',
+                  description: 'Add your family\'s apps and services to enable Digital Footprint Analysis',
                   icon: ShoppingBag
                 },
                 '/privacy-panda': {
@@ -990,7 +990,7 @@ const HomePage: React.FC = () => {
             }}>
               <p style={{ color: '#1e40af', fontSize: '1rem', fontWeight: '600', margin: 0, textAlign: 'center' }}>
                 <Unlock size={20} style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: 'middle' }} />
-                <strong>Step 2 (Service Catalog)</strong> is the key that unlocks Steps 4's advanced features!
+                <strong>Step 2 (Add Services)</strong> enables Step 4's Digital Footprint Analysis!
               </p>
             </div>
           </div>
