@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, Baby, User, GraduationCap, ShoppingBag, BarChart3, Unlock, AlertTriangle, Target, Settings, Bell, CheckCircle2, CheckCircle, Zap } from 'lucide-react';
+import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, Baby, User, GraduationCap, ShoppingBag, BarChart3, Unlock, AlertTriangle, Target, Settings, Bell, CheckCircle, Zap } from 'lucide-react';
 import { getAllPersonas, FamilyPersonaProfiles, type FamilyPersonaProfile } from '../data/familyPersonaProfiles';
 import { useJourneyProgress } from '../hooks/useJourneyProgress';
 import { useFamily } from '../contexts/FamilyContext';
@@ -119,34 +119,34 @@ const HomePage: React.FC = () => {
   const customerJourney = [
     {
       step: 1,
-      title: 'Join PandaGarde Platform',
-      description: 'Create your family profile and access the complete privacy education ecosystem',
+      title: 'Create Your Family Profile',
+      description: 'Set up your family hub to track progress and access personalized resources',
       icon: Users,
       link: '/family-hub',
       platform: 'PandaGarde'
     },
     {
       step: 2,
-      title: 'Set Up Service Catalog',
-      description: 'Add services your family uses to enable risk analysis, alerts, and digital footprint tracking',
+      title: 'Add Your Family\'s Apps & Services',
+      description: 'Tell us which apps and services your family uses to get personalized privacy recommendations and safety alerts',
       icon: Shield,
       link: '/service-catalog',
       platform: 'PandaGarde',
-      enables: ['Digital Footprint', 'Risk Exposure', 'Safety Alerts'],
+      enables: ['Privacy Recommendations', 'Safety Alerts', 'Risk Analysis'],
       isFoundation: true
     },
     {
       step: 3,
       title: 'Start Learning with Privacy Panda',
-      description: 'Begin interactive stories and activities designed for your child\'s age group',
+      description: 'Your children can begin fun, interactive activities and stories designed for their age group',
       icon: Play,
       link: '/privacy-panda',
       platform: 'Privacy Panda'
     },
     {
       step: 4,
-      title: 'Access Advanced Features',
-      description: 'Use digital footprint analysis, risk assessments, and personalized recommendations',
+      title: 'Get Privacy Insights & Recommendations',
+      description: 'View your family\'s digital footprint and receive personalized tips to improve your privacy',
       icon: BarChart3,
       link: '/digital-footprint',
       platform: 'PandaGarde',
@@ -352,11 +352,11 @@ const HomePage: React.FC = () => {
           <div className="hero-content">
             <div className="hero-text slide-in-left">
               <span className="badge">DIGITAL PRIVACY EDUCATION</span>
-              <h1>Protecting Families in the <span className="highlight">Digital Age</span></h1>
+              <h1>Keep Your Family Safe <span className="highlight">Online</span></h1>
               <p className="hero-description">
                 {familyPersona 
                   ? `${familyPersona.description}. Get personalized recommendations and resources tailored for your family's privacy needs.`
-                  : 'Comprehensive digital privacy education platform designed for families with children ages 5-17. Interactive curriculum, engaging activities, and practical tools to help families navigate the digital world safely.'
+                  : 'Teach your children digital privacy and online safety through fun, interactive activities. Everything you need to protect your family in the digital world—all in one place, completely free.'
                 }
               </p>
 
@@ -443,18 +443,19 @@ const HomePage: React.FC = () => {
               )}
 
               <div className="hero-buttons">
-                <Link to="/family-hub" className="button primary">
-                  <BookOpen size={20} />
-                  Launch Family Hub
+                <Link to="/privacy-panda" className="button primary">
+                  <Play size={20} />
+                  Start Learning with Privacy Panda
                   <ArrowRight size={16} />
                 </Link>
-                <Link to="/privacy-panda" className="button secondary">
-                  <Play size={20} />
-                  Try PrivacyPanda
-                  <Heart size={16} />
+                <Link to="/family-hub" className="button secondary">
+                  <Users size={20} />
+                  Set Up Family Hub
+                  <ArrowRight size={16} />
                 </Link>
                 <Link to="/quick-start" className="button tertiary">
-                  Get Started Guide
+                  <BookOpen size={16} />
+                  Quick Start Guide
                   <ArrowRight size={16} />
                 </Link>
               </div>
@@ -466,8 +467,8 @@ const HomePage: React.FC = () => {
                   <span className="stat-label">Age Groups</span>
                 </div>
                 <div className="stat-item">
-                  <span className="stat-number">50+</span>
-                  <span className="stat-label">Activities</span>
+                  <span className="stat-number">8</span>
+                  <span className="stat-label">Interactive Activities</span>
                 </div>
                 <div className="stat-item">
                   <span className="stat-number">100%</span>
@@ -491,21 +492,21 @@ const HomePage: React.FC = () => {
                       }} 
                     />
                   </div>
-                  <h3>Join Our Family Hub</h3>
-                  <p>Connect with other families, share experiences, and access exclusive resources for digital safety education.</p>
+                  <h3>Your Family's Privacy Dashboard</h3>
+                  <p>Track your children's learning progress, access personalized resources, and get recommendations tailored to your family's needs.</p>
                   
                   <div className="banner-features">
                     <div className="feature-item">
                       <Heart size={16} />
-                      <span>Community Support</span>
+                      <span>Track Progress</span>
                     </div>
                     <div className="feature-item">
                       <Sparkles size={16} />
-                      <span>Exclusive Resources</span>
+                      <span>Personalized Resources</span>
                     </div>
                     <div className="feature-item">
                       <Users size={16} />
-                      <span>Parent Guidance</span>
+                      <span>Family Management</span>
                     </div>
                   </div>
 
@@ -514,7 +515,7 @@ const HomePage: React.FC = () => {
                     className="btn-hub"
                   >
                     <ArrowRight size={16} />
-                    Visit Family Hub
+                    Set Up Family Hub
                     <ArrowRight size={16} />
                   </Link>
                 </div>
@@ -524,171 +525,45 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Service Catalog Value Proposition - MOVED UP FOR EMPHASIS */}
-      <section className="service-catalog-value" style={{ padding: '4rem 0', background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)' }}>
-        <div className="container">
-          <div className="section-header fade-in">
-            <div style={{ display: 'inline-block', background: '#3b82f6', color: 'white', padding: '0.5rem 1rem', borderRadius: '9999px', fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
-              ⭐ START HERE - FOUNDATION OF YOUR PRIVACY JOURNEY
-            </div>
-            <h2>The Service Catalog: Your Family's Privacy Command Center</h2>
-            <p className="text-lg" style={{ fontWeight: '600', color: '#1e40af' }}>
-              Everything begins with understanding which services your family uses. The Service Catalog is the foundation that unlocks all advanced privacy features.
-            </p>
-          </div>
-
-          <div className="fade-in" style={{ maxWidth: '900px', margin: '0 auto 3rem', textAlign: 'center' }}>
-            <div style={{ 
-              background: 'white', 
-              borderRadius: '16px', 
-              padding: '2.5rem', 
-              boxShadow: '0 8px 16px rgba(0,0,0,0.15)',
-              marginBottom: '2rem',
-              border: '3px solid #3b82f6'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem' }}>
-                <div style={{
-                  background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
-                  borderRadius: '50%',
-                  width: '64px',
-                  height: '64px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginRight: '1rem',
-                  boxShadow: '0 4px 8px rgba(59, 130, 246, 0.3)'
+      {/* Service Catalog - Simplified for Parents */}
+      {!hasServiceCatalog && (
+        <section className="service-catalog-value" style={{ padding: '3rem 0', background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)' }}>
+          <div className="container">
+            <div className="fade-in" style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+              <div style={{ 
+                background: 'white', 
+                borderRadius: '16px', 
+                padding: '2rem', 
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
+                  <ShoppingBag size={40} className="text-blue-600" style={{ marginRight: '1rem' }} />
+                  <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1e40af' }}>
+                    Track Your Family's Apps & Services
+                  </h3>
+                </div>
+                <p style={{ fontSize: '1rem', color: '#4b5563', lineHeight: '1.6', marginBottom: '1.5rem' }}>
+                  Add the apps and services your family uses to get personalized privacy recommendations, safety alerts, and understand your digital footprint. Takes just 5 minutes to set up.
+                </p>
+                <div style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+                  gap: '1rem',
+                  marginBottom: '1.5rem'
                 }}>
-                  <ShoppingBag size={32} style={{ color: 'white' }} />
-                </div>
-                <h3 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#1e40af' }}>
-                  What is the Service Catalog?
-                </h3>
-              </div>
-              <p style={{ fontSize: '1.125rem', color: '#4b5563', lineHeight: '1.75', marginBottom: '1rem' }}>
-                A comprehensive database of apps, platforms, and services your family uses—from social media and gaming to education and streaming. Each service includes privacy risk ratings, age recommendations, and practical guidance to help you make informed decisions.
-              </p>
-              <div style={{ 
-                background: '#eff6ff', 
-                borderLeft: '4px solid #3b82f6',
-                padding: '1rem',
-                borderRadius: '8px',
-                marginTop: '1.5rem'
-              }}>
-                <p style={{ fontSize: '1rem', color: '#1e40af', fontWeight: '600', margin: 0 }}>
-                  💡 <strong>Why Start Here?</strong> You can't protect what you don't understand. By cataloging your family's services, you create the foundation for every other privacy feature on PandaGarde.
-                </p>
-              </div>
-            </div>
-
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-              gap: '1.5rem',
-              marginBottom: '2rem'
-            }}>
-              <div style={{ 
-                background: 'white', 
-                borderRadius: '12px', 
-                padding: '1.5rem',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-              }}>
-                <BarChart3 size={32} className="text-green-600" style={{ marginBottom: '1rem' }} />
-                <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem', color: '#1e40af' }}>Digital Footprint Analysis</h4>
-                <p style={{ color: '#6b7280', fontSize: '0.95rem' }}>
-                  See your family's overall privacy exposure across all services and get personalized recommendations
-                </p>
-              </div>
-
-              <div style={{ 
-                background: 'white', 
-                borderRadius: '12px', 
-                padding: '1.5rem',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-              }}>
-                <Shield size={32} className="text-orange-600" style={{ marginBottom: '1rem' }} />
-                <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem', color: '#1e40af' }}>Privacy Exposure Index</h4>
-                <p style={{ color: '#6b7280', fontSize: '0.95rem' }}>
-                  Each service is rated 0-100 for privacy risk, helping you understand which apps need closer supervision
-                </p>
-              </div>
-
-              <div style={{ 
-                background: 'white', 
-                borderRadius: '12px', 
-                padding: '1.5rem',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-              }}>
-                <Bell size={32} className="text-red-600" style={{ marginBottom: '1rem' }} />
-                <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem', color: '#1e40af' }}>Safety Alerts</h4>
-                <p style={{ color: '#6b7280', fontSize: '0.95rem' }}>
-                  Receive real-time notifications about privacy updates, policy changes, and safety concerns for your services
-                </p>
-              </div>
-            </div>
-
-            <div style={{ 
-              background: 'white', 
-              borderRadius: '12px', 
-              padding: '2rem',
-              boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-            }}>
-              <h4 style={{ fontWeight: 'bold', marginBottom: '1rem', color: '#1e40af', fontSize: '1.25rem' }}>
-                Why It Matters
-              </h4>
-              <div style={{ display: 'grid', gap: '1rem', textAlign: 'left' }}>
-                <div style={{ display: 'flex', alignItems: 'start' }}>
-                  <CheckCircle2 size={20} className="text-green-600" style={{ marginRight: '0.75rem', marginTop: '0.25rem', flexShrink: 0 }} />
-                  <div>
-                    <strong style={{ color: '#1e40af' }}>Make Informed Decisions:</strong>
-                    <span style={{ color: '#6b7280', marginLeft: '0.5rem' }}>
-                      Know which services are appropriate for your child's age and understand the privacy risks before they sign up
-                    </span>
+                  <div style={{ padding: '1rem', background: '#eff6ff', borderRadius: '8px' }}>
+                    <Shield size={24} className="text-blue-600" style={{ marginBottom: '0.5rem' }} />
+                    <p style={{ fontSize: '0.875rem', color: '#1e40af', fontWeight: '600', margin: 0 }}>Privacy Ratings</p>
+                  </div>
+                  <div style={{ padding: '1rem', background: '#eff6ff', borderRadius: '8px' }}>
+                    <Bell size={24} className="text-blue-600" style={{ marginBottom: '0.5rem' }} />
+                    <p style={{ fontSize: '0.875rem', color: '#1e40af', fontWeight: '600', margin: 0 }}>Safety Alerts</p>
+                  </div>
+                  <div style={{ padding: '1rem', background: '#eff6ff', borderRadius: '8px' }}>
+                    <BarChart3 size={24} className="text-blue-600" style={{ marginBottom: '0.5rem' }} />
+                    <p style={{ fontSize: '0.875rem', color: '#1e40af', fontWeight: '600', margin: 0 }}>Risk Analysis</p>
                   </div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'start' }}>
-                  <CheckCircle2 size={20} className="text-green-600" style={{ marginRight: '0.75rem', marginTop: '0.25rem', flexShrink: 0 }} />
-                  <div>
-                    <strong style={{ color: '#1e40af' }}>Track Your Family's Exposure:</strong>
-                    <span style={{ color: '#6b7280', marginLeft: '0.5rem' }}>
-                      See your complete digital footprint and identify areas where you need better privacy protection
-                    </span>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'start' }}>
-                  <CheckCircle2 size={20} className="text-green-600" style={{ marginRight: '0.75rem', marginTop: '0.25rem', flexShrink: 0 }} />
-                  <div>
-                    <strong style={{ color: '#1e40af' }}>Get Actionable Guidance:</strong>
-                    <span style={{ color: '#6b7280', marginLeft: '0.5rem' }}>
-                      Receive specific privacy tips and parental control recommendations for each service your family uses
-                    </span>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'start' }}>
-                  <CheckCircle2 size={20} className="text-green-600" style={{ marginRight: '0.75rem', marginTop: '0.25rem', flexShrink: 0 }} />
-                  <div>
-                    <strong style={{ color: '#1e40af' }}>Stay Updated:</strong>
-                    <span style={{ color: '#6b7280', marginLeft: '0.5rem' }}>
-                      Get alerts when services change their privacy policies or when new risks are discovered
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-              <div style={{ 
-                background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
-                borderRadius: '16px',
-                padding: '2rem',
-                boxShadow: '0 8px 16px rgba(59, 130, 246, 0.3)',
-                marginBottom: '1.5rem'
-              }}>
-                <p style={{ color: 'white', fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '1rem' }}>
-                  🚀 Ready to Start Your Privacy Journey?
-                </p>
-                <p style={{ color: '#e0f2fe', fontSize: '1rem', marginBottom: '1.5rem' }}>
-                  Add your first 3 services to unlock Digital Footprint Analysis, Risk Exposure Reports, and Safety Alerts
-                </p>
                 <Link 
                   to="/service-catalog" 
                   className="button primary"
@@ -696,27 +571,24 @@ const HomePage: React.FC = () => {
                     display: 'inline-flex', 
                     alignItems: 'center', 
                     gap: '0.5rem',
-                    fontSize: '1.25rem',
-                    padding: '1rem 2.5rem',
-                    background: 'white',
-                    color: '#1e40af',
-                    fontWeight: 'bold',
-                    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-                    border: 'none'
+                    fontSize: '1rem',
+                    padding: '0.75rem 2rem',
+                    background: '#3b82f6',
+                    color: 'white',
+                    fontWeight: '600',
+                    borderRadius: '8px',
+                    textDecoration: 'none'
                   }}
                 >
-                  <ShoppingBag size={24} />
-                  Set Up Your Service Catalog Now
-                  <ArrowRight size={20} />
+                  <ShoppingBag size={20} />
+                  Set Up Service Catalog
+                  <ArrowRight size={18} />
                 </Link>
-                <p style={{ color: '#bfdbfe', fontSize: '0.875rem', marginTop: '1rem', fontStyle: 'italic' }}>
-                  Takes only 5 minutes • Unlock all features • 100% Free
-                </p>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Personalized Quick Actions Based on Persona & Service Catalog */}
       <section className="quick-actions">
@@ -1068,8 +940,8 @@ const HomePage: React.FC = () => {
       <section className="parent-steps">
         <div className="container">
           <div className="section-header fade-in">
-            <h2>Your PandaGarde Journey</h2>
-            <p>Follow these simple steps to protect your family in the digital age.</p>
+            <h2>How PandaGarde Works</h2>
+            <p>Four simple steps to help your family learn about digital privacy and online safety.</p>
             
             {/* Progress Bar */}
             <div style={{ 
@@ -1301,11 +1173,11 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Age Groups */}
-      <section className="age-groups-simple">
+      <section className="age-groups-simple" style={{ padding: '4rem 0' }}>
         <div className="container">
           <div className="section-header fade-in">
-            <h2>Choose Your Child's Age Group</h2>
-            <p>Age-appropriate content designed for every stage of development.</p>
+            <h2>Content Designed for Your Child's Age</h2>
+            <p>Age-appropriate activities and lessons that match your child's understanding and needs.</p>
           </div>
 
           <div className="age-groups-grid">
@@ -1329,12 +1201,12 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Key Features */}
-      <section className="key-features">
+      {/* Key Features - Parent-Focused Benefits */}
+      <section className="key-features" style={{ padding: '4rem 0', background: '#f9fafb' }}>
         <div className="container">
           <div className="section-header fade-in">
-            <h2>Why Choose PandaGarde?</h2>
-            <p>Built specifically for families, with proven methods and engaging content.</p>
+            <h2>Why Parents Love PandaGarde</h2>
+            <p style={{ fontSize: '1.125rem', color: '#6b7280' }}>Everything you need to teach your children about online safety, all in one place.</p>
           </div>
 
           <div className="features-grid">
@@ -1342,55 +1214,79 @@ const HomePage: React.FC = () => {
               <div className="feature-icon">
                 <Shield size={32} className="text-green-500" />
               </div>
-              <h3>Age-Appropriate Learning</h3>
-              <p>Content specifically designed for children ages 5-17, with developmentally appropriate concepts and activities.</p>
+              <h3>Age-Appropriate Content</h3>
+              <p>Carefully designed activities and lessons for children ages 5-17. Each age group gets content that matches their understanding and needs.</p>
             </div>
 
             <div className="feature-card fade-in">
               <div className="feature-icon">
                 <Heart size={32} className="text-red-500" />
               </div>
-              <h3>Family-Focused</h3>
-              <p>Designed for families to learn together, with resources for both children and parents.</p>
+              <h3>Learn Together as a Family</h3>
+              <p>Resources designed for parents and children to explore together. Build healthy digital habits as a family with guided conversations and activities.</p>
             </div>
 
             <div className="feature-card fade-in">
               <div className="feature-icon">
                 <Star size={32} className="text-yellow-500" />
               </div>
-              <h3>Interactive & Fun</h3>
-              <p>Learning through stories, games, and activities that make privacy education engaging and memorable.</p>
+              <h3>Fun & Engaging Activities</h3>
+              <p>8 interactive activities including games, stories, and hands-on learning. Your children will enjoy learning about privacy and online safety.</p>
+            </div>
+
+            <div className="feature-card fade-in">
+              <div className="feature-icon">
+                <BookOpen size={32} className="text-blue-500" />
+              </div>
+              <h3>Practical Tools & Resources</h3>
+              <p>Downloadable guides, printable materials, and step-by-step instructions to help you protect your family's privacy in real life.</p>
+            </div>
+
+            <div className="feature-card fade-in">
+              <div className="feature-icon">
+                <Users size={32} className="text-purple-500" />
+              </div>
+              <h3>Track Your Family's Progress</h3>
+              <p>See what your children are learning, celebrate their achievements, and monitor their understanding of digital privacy concepts.</p>
+            </div>
+
+            <div className="feature-card fade-in">
+              <div className="feature-icon">
+                <CheckCircle size={32} className="text-emerald-500" />
+              </div>
+              <h3>100% Free Forever</h3>
+              <p>All features, activities, and resources are completely free. No hidden costs, no premium tiers—just quality privacy education for every family.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Learn More Links */}
-      <section className="learn-more">
+      {/* Learn More Links - Simplified */}
+      <section className="learn-more" style={{ padding: '3rem 0' }}>
         <div className="container">
           <div className="section-header fade-in">
-            <h2>Explore More</h2>
-            <p>Dive deeper into our comprehensive platform and resources.</p>
+            <h2>Helpful Resources for Parents</h2>
+            <p>Everything you need to get started and support your family's digital privacy journey.</p>
           </div>
 
           <div className="learn-more-grid">
-            <Link to="/overview" className="learn-more-card fade-in">
-              <div className="card-icon">
-                <BookOpen size={24} />
-              </div>
-              <h3>Complete Overview</h3>
-              <p>Learn about our complete ecosystem of tools and features</p>
-              <div className="card-arrow">
-                <ArrowRight size={16} />
-              </div>
-            </Link>
-
             <Link to="/quick-start" className="learn-more-card fade-in">
               <div className="card-icon">
                 <Play size={24} />
               </div>
               <h3>Quick Start Guide</h3>
-              <p>Get started in minutes with our step-by-step guide</p>
+              <p>Get started in 5 minutes with our simple step-by-step guide</p>
+              <div className="card-arrow">
+                <ArrowRight size={16} />
+              </div>
+            </Link>
+
+            <Link to="/parent-resources" className="learn-more-card fade-in">
+              <div className="card-icon">
+                <BookOpen size={24} />
+              </div>
+              <h3>Parent Resources</h3>
+              <p>Guides, conversation starters, and tools to help you teach your children</p>
               <div className="card-arrow">
                 <ArrowRight size={16} />
               </div>
@@ -1400,8 +1296,8 @@ const HomePage: React.FC = () => {
               <div className="card-icon">
                 <Users size={24} />
               </div>
-              <h3>Parent Resources</h3>
-              <p>Access guides, tools, and materials for parents and educators</p>
+              <h3>Downloadable Materials</h3>
+              <p>Printable activities, certificates, and family agreements</p>
               <div className="card-arrow">
                 <ArrowRight size={16} />
               </div>
@@ -1410,23 +1306,22 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="cta-section">
+      {/* CTA Section - Parent-Focused */}
+      <section className="cta-section" style={{ padding: '4rem 0', background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)', color: 'white' }}>
         <div className="container">
           <div className="fade-in text-center">
-            <h2>Ready to Protect Your Family?</h2>
-            <p>Join thousands of families who are already building essential digital privacy skills.</p>
-            <div className="cta-buttons">
-              <Link to="/family-hub" className="button primary">
-                <Users size={20} />
-                Launch Family Hub
-              </Link>
-              <Link to="/privacy-panda" className="button secondary">
+            <h2 style={{ color: 'white', marginBottom: '1rem' }}>Start Protecting Your Family Today</h2>
+            <p style={{ fontSize: '1.125rem', color: '#e0f2fe', marginBottom: '2rem', maxWidth: '600px', margin: '0 auto 2rem' }}>
+              Join families who are teaching their children essential digital privacy skills through fun, interactive learning.
+            </p>
+            <div className="cta-buttons" style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Link to="/privacy-panda" className="button primary" style={{ background: 'white', color: '#1B5E20', fontWeight: '600' }}>
                 <Play size={20} />
-                Try PrivacyPanda
+                Start Learning Now
               </Link>
-              <Link to="/quick-start" className="button tertiary">
-                Get Started Guide
+              <Link to="/quick-start" className="button secondary" style={{ background: 'rgba(255,255,255,0.2)', color: 'white', border: '2px solid white' }}>
+                <BookOpen size={20} />
+                See How It Works
               </Link>
             </div>
           </div>
