@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search, Bell, MessageCircle, Heart, Globe } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
@@ -23,6 +23,18 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Helper function to close mobile menu and restore body scroll
+  const closeMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(false);
+    // Restore body scroll
+    const scrollY = document.body.style.top;
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.top = '';
+    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+  }, []);
+
   // Keyboard navigation support
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -35,7 +47,7 @@ const Header: React.FC = () => {
       
       // Close mobile menu on Escape
       if (e.key === 'Escape' && isMobileMenuOpen) {
-        setIsMobileMenuOpen(false);
+        closeMobileMenu();
       }
       
       // Close modals on Escape
@@ -46,7 +58,18 @@ const Header: React.FC = () => {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isMobileMenuOpen, isSearchModalOpen]);
+  }, [isMobileMenuOpen, isSearchModalOpen, closeMobileMenu]);
+
+  // Cleanup body scroll lock on unmount
+  useEffect(() => {
+    return () => {
+      // Restore body scroll when component unmounts
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+    };
+  }, []);
 
   // Consistent navigation items for both desktop and mobile
   const navItems = [
@@ -105,19 +128,33 @@ const Header: React.FC = () => {
     navigate(result.url);
   };
 
-  // Focus management for accessibility
+  // Focus management for accessibility and body scroll lock
   const handleMobileMenuToggle = () => {
     const newState = !isMobileMenuOpen;
     setIsMobileMenuOpen(newState);
     
-    // Focus management
+    // Lock/unlock body scroll
     if (newState) {
+      // Lock body scroll when menu opens
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.top = `-${window.scrollY}px`;
+      
       // Focus first menu item when opening
       setTimeout(() => {
         const firstMenuItem = document.querySelector('.mobile-nav .nav-link') as HTMLElement;
         firstMenuItem?.focus();
       }, 100);
     } else {
+      // Unlock body scroll when menu closes
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      
       // Return focus to menu toggle button when closing
       setTimeout(() => {
         const menuToggle = document.querySelector('.mobile-menu-toggle') as HTMLElement;
@@ -226,6 +263,15 @@ const Header: React.FC = () => {
             ))}
           </ul>
           
+          {/* Mobile Menu Backdrop */}
+          {isMobileMenuOpen && (
+            <div 
+              className="mobile-menu-backdrop"
+              onClick={closeMobileMenu}
+              aria-hidden="true"
+            />
+          )}
+          
           {/* Mobile Navigation Menu */}
           <ul 
             id="mobile-menu"
@@ -234,6 +280,17 @@ const Header: React.FC = () => {
             aria-label="Main navigation menu"
             onKeyDown={handleMobileMenuKeyDown}
           >
+            {/* Mobile Menu Close Button */}
+            <li role="none" className="mobile-menu-close">
+              <button
+                onClick={closeMobileMenu}
+                className="mobile-close-button"
+                aria-label="Close mobile menu"
+              >
+                <X size={24} aria-hidden="true" />
+              </button>
+            </li>
+            
             {mobileNavItems.map((item) => (
               <li key={item.label} role="none">
                 {item.href.startsWith('#') ? (
@@ -243,6 +300,7 @@ const Header: React.FC = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       scrollToSection(item.href);
+                      closeMobileMenu();
                     }}
                     role="menuitem"
                     aria-label={`Navigate to ${item.label} section`}
@@ -256,7 +314,7 @@ const Header: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="nav-link"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={closeMobileMenu}
                     role="menuitem"
                     aria-label={`${item.label} (opens in new tab)`}
                   >
@@ -267,7 +325,7 @@ const Header: React.FC = () => {
                   <Link 
                     to={item.href} 
                     className={`nav-link ${isActive(item.href) ? 'active' : ''}`}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={closeMobileMenu}
                     role="menuitem"
                     aria-label={`Navigate to ${item.label} page`}
                   >
@@ -283,7 +341,7 @@ const Header: React.FC = () => {
               <button
                 onClick={() => {
                   setIsSearchModalOpen(true);
-                  setIsMobileMenuOpen(false);
+                  closeMobileMenu();
                 }}
                 className="nav-link mobile-search-button"
                 role="menuitem"
