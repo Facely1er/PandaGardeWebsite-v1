@@ -22,6 +22,33 @@ const HomePage: React.FC = () => {
     return !localStorage.getItem('pandagarde_pilot_banner_dismissed');
   });
 
+  // Hero text carousel messages
+  const heroMessages = [
+    'Teach your children digital privacy and online safety through fun, interactive activities. Everything you need to protect your family—all in one place, completely free.',
+    'Empower your family with age-appropriate privacy education. Interactive games, activities, and resources designed to keep kids safe online.',
+    'Build digital citizenship skills through engaging content. From privacy basics to advanced safety strategies—all tailored for your family.',
+    'Join thousands of families learning together. Free resources, expert guidance, and a supportive community to help you navigate digital privacy.'
+  ];
+
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Carousel rotation effect
+  useEffect(() => {
+    // Skip carousel if family persona is set (shows personalized message)
+    if (familyPersona) return;
+
+    const interval = setInterval(() => {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentMessageIndex((prev) => (prev + 1) % heroMessages.length);
+        setIsTransitioning(false);
+      }, 300); // Half of transition duration
+    }, 5000); // Change message every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [familyPersona, heroMessages.length]);
+
   // Track banner display
   useEffect(() => {
     if (showPilotBanner) {
@@ -230,79 +257,6 @@ const HomePage: React.FC = () => {
         />
       )}
 
-      {/* Consolidated Status Banner - Only show one at a time */}
-      {showPilotBanner && !familyPersona && !hasServiceCatalog && (
-        <section className="fade-in" style={{ 
-          background: 'linear-gradient(135deg, #9333ea 0%, #3b82f6 100%)',
-          color: 'white',
-          padding: '0.875rem 0',
-          marginBottom: '0',
-          position: 'relative'
-        }}>
-          <div className="container">
-            <div style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: '1rem'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flex: 1, minWidth: '200px' }}>
-                <Sparkles size={20} className="text-white" />
-                <div style={{ fontSize: '0.875rem', fontWeight: '500' }}>
-                  Join the Family Hub Pilot Program
-                </div>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <Link
-                  to="/pilot"
-                  onClick={handleBannerClick}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    background: 'white',
-                    color: '#9333ea',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '6px',
-                    fontWeight: '600',
-                    textDecoration: 'none',
-                    fontSize: '0.875rem',
-                    transition: 'transform 0.2s',
-                    whiteSpace: 'nowrap'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                >
-                  Learn More
-                  <ArrowRight size={16} />
-                </Link>
-                <button
-                  onClick={handleBannerDismiss}
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    color: 'white',
-                    padding: '0.5rem',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'background 0.2s'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                  aria-label="Dismiss banner"
-                >
-                  <X size={18} />
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Personalized Welcome Banner - Simplified */}
       {familyPersona && (
         <section className="fade-in" style={{ 
@@ -351,7 +305,7 @@ const HomePage: React.FC = () => {
         background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
         position: 'relative',
         overflow: 'hidden',
-        padding: '4rem 0 5rem'
+        padding: '2rem 0 2.5rem'
       }}>
         {/* Subtle background elements */}
         <div style={{
@@ -368,9 +322,9 @@ const HomePage: React.FC = () => {
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '4rem',
-            alignItems: 'center',
+            gridTemplateColumns: '1.1fr 0.9fr',
+            gap: '2rem',
+            alignItems: 'flex-start',
             maxWidth: '1200px',
             margin: '0 auto'
           }}>
@@ -386,7 +340,7 @@ const HomePage: React.FC = () => {
                 letterSpacing: '0.5px',
                 textTransform: 'uppercase',
                 display: 'inline-block',
-                marginBottom: '1.5rem'
+                marginBottom: '1.25rem'
               }}>
                 Digital Privacy Education
               </span>
@@ -394,7 +348,7 @@ const HomePage: React.FC = () => {
                 fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
                 fontWeight: '800',
                 lineHeight: '1.1',
-                marginBottom: '1.5rem',
+                marginBottom: '1.25rem',
                 color: '#0f172a',
                 letterSpacing: '-0.02em'
               }}>
@@ -409,30 +363,47 @@ const HomePage: React.FC = () => {
                   Safe Online
                 </span>
               </h1>
-              <p className="hero-description" style={{
-                fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
-                lineHeight: '1.7',
-                color: '#64748b',
+              <div style={{ 
+                minHeight: 'clamp(5.5rem, 8vw, 6.5rem)',
                 marginBottom: '2.5rem',
-                maxWidth: '700px',
-                margin: '0 auto 2.5rem'
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'flex-start'
               }}>
-                {familyPersona 
-                  ? `${familyPersona.description}. Get personalized recommendations tailored for your family's privacy needs.`
-                  : 'Teach your children digital privacy and online safety through fun, interactive activities. Everything you need to protect your family—all in one place, completely free.'
-                }
-              </p>
+                <p 
+                  className="hero-description" 
+                  style={{
+                    fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
+                    lineHeight: '1.7',
+                    color: '#64748b',
+                    margin: 0,
+                    maxWidth: '100%',
+                    width: '100%',
+                    opacity: isTransitioning ? 0 : 1,
+                    transform: isTransitioning ? 'translateY(10px)' : 'translateY(0)',
+                    transition: 'opacity 0.6s ease, transform 0.6s ease',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0
+                  }}
+                  key={currentMessageIndex}
+                >
+                  {familyPersona 
+                    ? `${familyPersona.description}. Get personalized recommendations tailored for your family's privacy needs.`
+                    : heroMessages[currentMessageIndex]
+                  }
+                </p>
+              </div>
 
               {/* Simplified Journey Progress - Only show if significant progress */}
               {progress.overallProgress > 25 && (
                 <div style={{
                   background: 'rgba(27, 94, 32, 0.05)',
                   borderRadius: '12px',
-                  padding: '1rem 1.5rem',
-                  marginBottom: '2rem',
+                  padding: '0.875rem 1.25rem',
+                  marginBottom: '1.5rem',
                   border: '1px solid rgba(27, 94, 32, 0.1)',
-                  maxWidth: '500px',
-                  margin: '0 auto 2rem'
+                  maxWidth: '100%'
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                     <span style={{ fontSize: '0.875rem', fontWeight: '600', color: '#1B5E20' }}>
@@ -462,10 +433,11 @@ const HomePage: React.FC = () => {
 
               <div className="hero-buttons" style={{
                 display: 'flex',
-                gap: '1rem',
+                gap: '0.875rem',
                 flexWrap: 'wrap',
                 justifyContent: 'flex-start',
-                marginBottom: '3rem'
+                marginTop: '0.5rem',
+                marginBottom: '2rem'
               }}>
                 <Link 
                   to="/quick-start" 
@@ -473,14 +445,14 @@ const HomePage: React.FC = () => {
                   style={{
                     background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
                     color: 'white',
-                    padding: '1rem 2.5rem',
+                    padding: '0.875rem 2rem',
                     borderRadius: '12px',
                     fontWeight: '600',
-                    fontSize: '1rem',
+                    fontSize: '0.9375rem',
                     textDecoration: 'none',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '0.75rem',
+                    gap: '0.625rem',
                     boxShadow: '0 4px 16px rgba(27, 94, 32, 0.25)',
                     transition: 'all 0.3s ease',
                     border: 'none'
@@ -504,14 +476,14 @@ const HomePage: React.FC = () => {
                   style={{
                     background: 'white',
                     color: '#1B5E20',
-                    padding: '1rem 2.5rem',
+                    padding: '0.875rem 2rem',
                     borderRadius: '12px',
                     fontWeight: '600',
-                    fontSize: '1rem',
+                    fontSize: '0.9375rem',
                     textDecoration: 'none',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '0.75rem',
+                    gap: '0.625rem',
                     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
                     border: '2px solid #e2e8f0',
                     transition: 'all 0.3s ease'
@@ -537,10 +509,10 @@ const HomePage: React.FC = () => {
               {/* Simplified Stats */}
               <div className="hero-stats" style={{
                 display: 'flex',
-                gap: '3rem',
+                gap: '2.5rem',
                 flexWrap: 'wrap',
                 justifyContent: 'flex-start',
-                paddingTop: '2rem',
+                paddingTop: '1.5rem',
                 borderTop: '1px solid #e2e8f0'
               }}>
                 <div className="stat-item">
@@ -585,20 +557,21 @@ const HomePage: React.FC = () => {
             {/* Right Column - Logo/Image */}
             <div className="hero-image slide-in-right" style={{
               display: 'flex',
+              flexDirection: 'column',
               alignItems: 'center',
-              justifyContent: 'center',
-              position: 'relative'
+              justifyContent: 'flex-end',
+              gap: '1rem'
             }}>
               <div style={{
                 width: '100%',
-                maxWidth: '500px',
-                aspectRatio: '1',
+                maxWidth: '320px',
+                aspectRatio: '0.9',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 background: 'linear-gradient(135deg, rgba(27, 94, 32, 0.05) 0%, rgba(102, 187, 106, 0.05) 100%)',
-                borderRadius: '24px',
-                padding: '2rem',
+                borderRadius: '16px',
+                padding: '1rem',
                 boxShadow: '0 20px 60px rgba(27, 94, 32, 0.1)'
               }}>
                 <div style={{
@@ -614,7 +587,7 @@ const HomePage: React.FC = () => {
                     style={{
                       width: '100%',
                       height: 'auto',
-                      maxWidth: '400px',
+                      maxWidth: '280px',
                       objectFit: 'contain'
                     }}
                     onError={(e) => {
@@ -636,6 +609,98 @@ const HomePage: React.FC = () => {
                   />
                 </div>
               </div>
+              
+              {/* Pilot Banner - Descriptive, Centered Below Image */}
+              {showPilotBanner && !familyPersona && !hasServiceCatalog && (
+                <div className="fade-in" style={{
+                  background: 'linear-gradient(135deg, #9333ea 0%, #3b82f6 100%)',
+                  color: 'white',
+                  padding: '0.75rem 1rem',
+                  borderRadius: '10px',
+                  boxShadow: '0 4px 16px rgba(147, 51, 234, 0.3)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  maxWidth: '320px',
+                  width: '100%',
+                  textAlign: 'center',
+                  transition: 'transform 0.2s'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                >
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', width: '100%', justifyContent: 'space-between' }}>
+                    <Sparkles size={14} className="text-white" style={{ flexShrink: 0, marginTop: '0.125rem' }} />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: '0.8125rem', fontWeight: '700', lineHeight: '1.3', marginBottom: '0.125rem' }}>
+                        Join the Family Hub Pilot Program
+                      </div>
+                      <div style={{ fontSize: '0.6875rem', lineHeight: '1.3', opacity: 0.95 }}>
+                        Get early access to family privacy features and exclusive resources
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleBannerDismiss}
+                      style={{
+                        background: 'transparent',
+                        border: 'none',
+                        color: 'white',
+                        padding: '0.125rem',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'background 0.2s',
+                        flexShrink: 0,
+                        opacity: 0.8,
+                        alignSelf: 'flex-start'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                        e.currentTarget.style.opacity = '1';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.opacity = '0.8';
+                      }}
+                      aria-label="Dismiss banner"
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
+                  <Link
+                    to="/pilot"
+                    onClick={handleBannerClick}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.375rem',
+                      background: 'rgba(255, 255, 255, 0.2)',
+                      color: 'white',
+                      textDecoration: 'none',
+                      fontSize: '0.75rem',
+                      fontWeight: '600',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '6px',
+                      transition: 'all 0.2s',
+                      marginTop: '0.125rem'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
+                      e.currentTarget.style.transform = 'scale(1.05)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                      e.currentTarget.style.transform = 'scale(1)';
+                    }}
+                  >
+                    Learn More
+                    <ArrowRight size={12} />
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -1165,22 +1230,46 @@ const HomePage: React.FC = () => {
           </div>
 
           <div className="age-groups-grid">
-            {ageGroups.map((group, index) => (
-              <Link key={index} to={group.link} className="age-group-card fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className={`group-header bg-gradient-to-r ${group.color}`}>
-                  <div className="group-icon">
-                    <group.icon size={48} className="text-white" />
+            {ageGroups.map((group, index) => {
+              const gradientMap: Record<string, string> = {
+                'from-purple-500 to-pink-500': 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)',
+                'from-blue-500 to-cyan-500': 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)',
+                'from-green-500 to-emerald-500': 'linear-gradient(135deg, #22c55e 0%, #10b981 100%)'
+              };
+              const gradient = gradientMap[group.color] || gradientMap['from-purple-500 to-pink-500'];
+              
+              return (
+                <Link 
+                  key={index} 
+                  to={group.link} 
+                  className="age-group-card fade-in" 
+                  style={{ 
+                    animationDelay: `${index * 0.1}s`,
+                    '--card-gradient': gradient
+                  } as React.CSSProperties}
+                >
+                  <div className="group-header" style={{ background: gradient }}>
+                    <div className="group-icon-wrapper">
+                      <div className="group-icon-bg" />
+                      <div className="group-icon">
+                        <group.icon size={40} className="text-white" />
+                      </div>
+                    </div>
+                    <h3>{group.age}</h3>
+                    <div className="group-decoration" />
                   </div>
-                  <h3>{group.age}</h3>
-                </div>
-                <div className="group-content">
-                  <p>{group.description}</p>
-                  <div className="group-arrow">
-                    <ArrowRight size={20} />
+                  <div className="group-content">
+                    <p>{group.description}</p>
+                    <div className="group-arrow-wrapper">
+                      <span className="group-arrow-text">Explore</span>
+                      <div className="group-arrow">
+                        <ArrowRight size={18} />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
