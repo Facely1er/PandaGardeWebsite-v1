@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { logger } from './logger';
 
 // Get environment variables
 const supabaseUrl = import.meta.env['VITE_SUPABASE_URL'];
@@ -6,7 +7,7 @@ const supabaseAnonKey = import.meta.env['VITE_SUPABASE_ANON_KEY'];
 
 // Validate environment variables
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('Supabase environment variables are not set. Some features may not work.');
+  logger.warn('Supabase environment variables are not set. Some features may not work.', undefined, 'Supabase');
 }
 
 // Create Supabase client

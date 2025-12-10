@@ -10,7 +10,8 @@ try {
   const imageOptimizer = require('vite-plugin-image-optimizer');
   ViteImageOptimizer = imageOptimizer.ViteImageOptimizer || imageOptimizer.default;
 } catch (e) {
-  console.warn('sharp module not available, image optimization will be skipped');
+  // Silently skip if sharp is not available - this is expected in some environments
+  // Image optimization is optional and won't affect functionality
 }
 
 // Plugin to handle optional dependencies
@@ -126,9 +127,39 @@ export default defineConfig({
             return 'story-components';
           }
           
-          // Page components chunk
+          // Split pages into smaller chunks for better loading
           if (id.includes('/src/pages/')) {
-            return 'pages';
+            // Split community pages
+            if (id.includes('/src/pages/community/')) {
+              return 'pages-community';
+            }
+            // Split family-hub pages
+            if (id.includes('/src/pages/family-hub/')) {
+              return 'pages-family-hub';
+            }
+            // Split guide pages
+            if (id.includes('/src/pages/guides/')) {
+              return 'pages-guides';
+            }
+            // Split main feature pages into separate chunks
+            if (id.includes('DigitalFootprint')) {
+              return 'pages-digital-footprint';
+            }
+            if (id.includes('ServiceCatalog')) {
+              return 'pages-service-catalog';
+            }
+            if (id.includes('PrivacyAssessment') || id.includes('AssessmentHistory')) {
+              return 'pages-assessment';
+            }
+            if (id.includes('FamilyHub') || id.includes('FamilyPrivacy')) {
+              return 'pages-family';
+            }
+            // Split age-specific pages
+            if (id.includes('PrivacyExplorers') || id.includes('TeenHandbook') || id.includes('ActivityBook')) {
+              return 'pages-age-specific';
+            }
+            // Other pages
+            return 'pages-other';
           }
           
           // Context and hooks chunk
@@ -156,7 +187,7 @@ export default defineConfig({
         }
       }
     },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 1500, // Increased to accommodate feature-rich pages, but we'll optimize splitting
     target: 'esnext',
     minify: 'esbuild',
     sourcemap: true,

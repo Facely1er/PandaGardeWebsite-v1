@@ -1,5 +1,6 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+import { logger } from '../lib/logger';
 
 interface Props {
   children: ReactNode;
@@ -23,7 +24,7 @@ class NavigationErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Navigation Error:', error, errorInfo);
+    logger.error('Navigation Error', { error: error.message, stack: error.stack, componentStack: errorInfo.componentStack }, 'NavigationErrorBoundary');
     this.setState({ error, errorInfo });
   }
 

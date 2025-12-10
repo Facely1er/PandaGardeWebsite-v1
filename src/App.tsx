@@ -54,6 +54,7 @@ import OverviewPage from './pages/OverviewPage';
 import ResourcesPage from './pages/ResourcesPage';
 import QuickStartPage from './pages/QuickStartPage';
 import PlaceholderPage from './pages/PlaceholderPage';
+import PilotPage from './pages/PilotPage';
 import ChildSafetyAlertsPage from './pages/ChildSafetyAlertsPage';
 import ServiceCatalogPage from './pages/ServiceCatalogPage';
 import ParentalConsentPage from './pages/ParentalConsentPage';
@@ -148,6 +149,8 @@ function App() {
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/newsletter" element={<NewsletterPage />} />
             <Route path="/support" element={<SupportPage />} />
+            <Route path="/pilot" element={<PilotPage />} />
+            <Route path="/join-pilot" element={<PilotPage />} />
             <Route path="/get-started" element={<GetStartedPage />} />
             <Route path="/implementation-guide" element={<ImplementationGuidePage />} />
             <Route path="/service-catalog" element={<ServiceCatalogPage />} />

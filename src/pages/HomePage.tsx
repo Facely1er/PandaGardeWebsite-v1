@@ -6,6 +6,7 @@ import { useJourneyProgress } from '../hooks/useJourneyProgress';
 import { useFamily } from '../contexts/FamilyContext';
 import OnboardingFlow from '../components/OnboardingFlow';
 import FeatureUnlockCelebration from '../components/FeatureUnlockCelebration';
+import { logger } from '../lib/logger';
 
 const HomePage: React.FC = () => {
   const personas = getAllPersonas();
@@ -30,7 +31,7 @@ const HomePage: React.FC = () => {
           setFamilyPersona(FamilyPersonaProfiles[personaId]);
         }
       } catch (e) {
-        console.error('Error parsing persona data:', e);
+        logger.error('Error parsing persona data', e, 'HomePage');
       }
     }
   }, []);
