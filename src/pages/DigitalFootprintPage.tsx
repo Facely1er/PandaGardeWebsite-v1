@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Download, ShoppingBag, Bell, FileText, ArrowRight, Shield, BarChart3 } from 'lucide-react';
+import { ArrowLeft, Download, ShoppingBag, Bell, FileText, ArrowRight, BarChart3, Shield } from 'lucide-react';
 import DigitalFootprintVisualizer from '../components/DigitalFootprintVisualizer';
 import EmptyStateWithServicePrompt from '../components/EmptyStateWithServicePrompt';
 import { useFamily } from '../contexts/FamilyContext';
