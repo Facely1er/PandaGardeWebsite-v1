@@ -8,6 +8,7 @@ import OnboardingFlow from '../components/OnboardingFlow';
 import FeatureUnlockCelebration from '../components/FeatureUnlockCelebration';
 import { logger } from '../lib/logger';
 import { trackEvent, AnalyticsEvents } from '../lib/analytics';
+import Logo from '../components/Logo';
 
 const HomePage: React.FC = () => {
   const personas = getAllPersonas();
@@ -345,12 +346,12 @@ const HomePage: React.FC = () => {
         </section>
       )}
 
-      {/* Hero Section - Simplified */}
+      {/* Hero Section - Two Column Layout */}
       <section className="hero-simple" style={{
         background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
         position: 'relative',
         overflow: 'hidden',
-        padding: '5rem 0 4rem'
+        padding: '4rem 0 5rem'
       }}>
         {/* Subtle background elements */}
         <div style={{
@@ -365,8 +366,16 @@ const HomePage: React.FC = () => {
         }} />
         
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div className="hero-content" style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-            <div className="hero-text slide-in-left">
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '4rem',
+            alignItems: 'center',
+            maxWidth: '1200px',
+            margin: '0 auto'
+          }}>
+            {/* Left Column - Text Content */}
+            <div className="hero-text slide-in-left" style={{ textAlign: 'left' }}>
               <span className="badge" style={{
                 background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
                 color: 'white',
@@ -455,7 +464,7 @@ const HomePage: React.FC = () => {
                 display: 'flex',
                 gap: '1rem',
                 flexWrap: 'wrap',
-                justifyContent: 'center',
+                justifyContent: 'flex-start',
                 marginBottom: '3rem'
               }}>
                 <Link 
@@ -530,7 +539,7 @@ const HomePage: React.FC = () => {
                 display: 'flex',
                 gap: '3rem',
                 flexWrap: 'wrap',
-                justifyContent: 'center',
+                justifyContent: 'flex-start',
                 paddingTop: '2rem',
                 borderTop: '1px solid #e2e8f0'
               }}>
@@ -569,6 +578,62 @@ const HomePage: React.FC = () => {
                     color: '#64748b',
                     fontWeight: '500'
                   }}>Free Forever</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Logo/Image */}
+            <div className="hero-image slide-in-right" style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative'
+            }}>
+              <div style={{
+                width: '100%',
+                maxWidth: '500px',
+                aspectRatio: '1',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'linear-gradient(135deg, rgba(27, 94, 32, 0.05) 0%, rgba(102, 187, 106, 0.05) 100%)',
+                borderRadius: '24px',
+                padding: '2rem',
+                boxShadow: '0 20px 60px rgba(27, 94, 32, 0.1)'
+              }}>
+                <div style={{
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <img 
+                    src="/LogoPandagarde.png" 
+                    alt="PandaGarde Logo" 
+                    style={{
+                      width: '100%',
+                      height: 'auto',
+                      maxWidth: '400px',
+                      objectFit: 'contain'
+                    }}
+                    onError={(e) => {
+                      // Fallback to Logo component if image fails to load
+                      const target = e.currentTarget;
+                      target.style.display = 'none';
+                      const parent = target.parentElement;
+                      if (parent) {
+                        const logoDiv = document.createElement('div');
+                        logoDiv.style.width = '100%';
+                        logoDiv.style.height = '100%';
+                        logoDiv.style.display = 'flex';
+                        logoDiv.style.alignItems = 'center';
+                        logoDiv.style.justifyContent = 'center';
+                        parent.appendChild(logoDiv);
+                        // Render Logo component would need React, so we'll just hide and show a placeholder
+                      }
+                    }}
+                  />
                 </div>
               </div>
             </div>

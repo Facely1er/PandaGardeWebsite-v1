@@ -5,7 +5,6 @@ import { useTheme } from '../contexts/ThemeContext';
 import SearchModal from './SearchModal';
 import OfflineIndicator from './OfflineIndicator';
 import ServiceNotificationCenter from './ServiceNotificationCenter';
-import Logo from './Logo';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -176,7 +175,13 @@ const Header: React.FC = () => {
             className="logo"
             aria-label="PandaGarde - Go to homepage"
           >
-            <Logo />
+            <div className="logo-icon">
+              <img
+                src="/LogoPandagarde.png"
+                alt="PandaGarde Logo"
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+              />
+            </div>
             <span>Panda<span className="highlight">Garde</span></span>
           </Link>
           
