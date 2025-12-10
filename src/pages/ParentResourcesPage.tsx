@@ -11,31 +11,6 @@ const ParentResourcesPage: React.FC = () => {
 
   return (
     <main id="main-content">
-      <section className="hero-section">
-        <div className="container">
-          <div className="hero-content">
-            <span className="badge">SUPPORTING RESOURCES</span>
-            <h1>Parent & Educator Resources</h1>
-            <p>Comprehensive tools, guides, and materials to help adults facilitate privacy education for children. Everything you need to create a safe digital environment for your family.</p>
-            
-            {/* Quick Stats */}
-            <div className="flex items-center justify-center gap-8 mt-8 mb-8">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-emerald-600">50+</div>
-                <div className="text-sm text-gray-600">Resources</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">10</div>
-                <div className="text-sm text-gray-600">Categories</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600">100%</div>
-                <div className="text-sm text-gray-600">Free</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <section className="resources-section">
         <div className="container">

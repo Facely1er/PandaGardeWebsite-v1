@@ -91,16 +91,6 @@ const AgeGroupsPage: React.FC = () => {
 
   return (
     <main id="main-content">
-      <section className="hero-section">
-        <div className="container">
-          <div className="hero-content">
-            <span className="badge">AGE-APPROPRIATE LEARNING</span>
-            <h1>Age-Appropriate Learning Paths</h1>
-            <p>Tailored content and interactions designed specifically for different developmental stages. Each age group has unique learning needs and capabilities when it comes to understanding digital privacy.</p>
-          </div>
-        </div>
-      </section>
-
       <section className="age-group-section">
         <div className="container">
           <div className="age-group-tabs">

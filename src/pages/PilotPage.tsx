@@ -132,48 +132,6 @@ const PilotPage: React.FC = () => {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
-      {/* Hero Section */}
-      <header className="bg-gradient-to-r from-purple-600 via-blue-600 to-green-600 text-white py-24 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 20% 50%, rgba(147, 51, 234, 0.3) 0%, transparent 50%),
-                            radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.3) 0%, transparent 50%)`
-          }} />
-        </div>
-
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="flex items-center justify-center mb-6">
-              <Sparkles className="w-12 h-12 mr-3" />
-              <h1 className="text-5xl font-bold">Join the Family Hub Pilot Program</h1>
-            </div>
-
-            <p className="text-xl opacity-90 mb-8 leading-relaxed">
-              Help shape the future of family privacy education. Be part of an exclusive group of families 
-              testing the PrivacyPanda Family Hub and make your voice heard.
-            </p>
-
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link
-                to="/family-hub"
-                onClick={handleJoinPilot}
-                className="bg-white text-purple-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors flex items-center space-x-2 shadow-lg"
-              >
-                <span>Join the Pilot</span>
-                <ArrowRight size={20} />
-              </Link>
-              <a
-                href="#learn-more"
-                onClick={handleLearnMore}
-                className="bg-white/10 backdrop-blur-sm text-white border-2 border-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white/20 transition-colors"
-              >
-                Learn More
-              </a>
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* Navigation */}
       <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
         <div className="container mx-auto px-6 py-4">

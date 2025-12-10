@@ -179,19 +179,6 @@ const OverviewPage: React.FC = () => {
         </Link>
       </div>
 
-      {/* Hero Section */}
-      <section className="hero-simple">
-        <div className="container">
-          <div className="text-center fade-in">
-            <span className="badge">COMPLETE ECOSYSTEM</span>
-            <h1>Everything Your Family Needs for Digital Privacy</h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our comprehensive platform provides age-appropriate education, interactive tools, and community support to help families navigate the digital world safely and confidently.
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* Customer Journey */}
       <section className="parent-steps">
         <div className="container">

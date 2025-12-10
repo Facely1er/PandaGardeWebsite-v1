@@ -27,44 +27,31 @@ const ParentLandingPage: React.FC = () => {
   ];
 
   return (
-    <main id="main-content" style={{ minHeight: '100vh' }}>
-      {/* Hero Section */}
-      <section style={{ 
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white',
-        padding: '4rem 0',
-        textAlign: 'center'
-      }}>
-        <div className="container">
-          <h1 style={{ fontSize: '3rem', marginBottom: '1rem', fontWeight: 'bold' }}>
-            For Parents: Keep Your Family Safe Online
-          </h1>
-          <p style={{ fontSize: '1.25rem', marginBottom: '2rem', maxWidth: '800px', margin: '0 auto 2rem' }}>
-            Simple tools to see what your children do online, understand their privacy risks, and get help talking to them about staying safe.
-          </p>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link 
-              to="/family-hub"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '1rem 2rem',
-                backgroundColor: 'white',
-                color: '#667eea',
-                borderRadius: '8px',
-                textDecoration: 'none',
-                fontWeight: 'bold',
-                fontSize: '1.1rem'
-              }}
-            >
-              <Shield size={20} />
-              Start Protecting Your Family
-              <ArrowRight size={16} />
-            </a>
-            <Link 
-              to="/overview"
-              style={{
+    <main id="main-content" style={{ minHeight: '100vh', paddingTop: '2rem' }}>
+      <div className="container">
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '2rem' }}>
+          <Link 
+            to="/family-hub"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '1rem 2rem',
+              backgroundColor: '#667eea',
+              color: 'white',
+              borderRadius: '8px',
+              textDecoration: 'none',
+              fontWeight: 'bold',
+              fontSize: '1.1rem'
+            }}
+          >
+            <Shield size={20} />
+            Start Protecting Your Family
+            <ArrowRight size={16} />
+          </Link>
+          <Link 
+            to="/overview"
+            style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',

@@ -129,27 +129,18 @@ const QuickStartPage: React.FC = () => {
   ];
 
   return (
-    <main id="main-content">
+    <main id="main-content" style={{ minHeight: '100vh', paddingTop: '80px' }}>
       {/* Back Navigation */}
-      <div className="container py-6">
-        <Link to="/" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors">
+      <div className="container" style={{ padding: '1.5rem 1rem' }}>
+        <Link 
+          to="/" 
+          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+          style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
+        >
           <ArrowLeft size={16} />
           Back to Home
         </Link>
       </div>
-
-      {/* Hero Section */}
-      <section className="hero-simple">
-        <div className="container">
-          <div className="text-center fade-in">
-            <span className="badge">GET STARTED TODAY</span>
-            <h1>Quick Start Guide</h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Get your family started with digital privacy education in just a few minutes. Choose your path and begin learning immediately.
-            </p>
-          </div>
-        </div>
-      </section>
 
       {/* Quick Actions */}
       <section className="quick-actions">

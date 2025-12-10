@@ -142,16 +142,6 @@ const ImplementationPage: React.FC = () => {
 
   return (
     <main id="main-content">
-      <section className="hero-section">
-        <div className="container">
-          <div className="hero-content">
-            <span className="badge">IMPLEMENTATION GUIDE</span>
-            <h1>Implementation Timeline</h1>
-            <p>Flexible guides to implementing Privacy Panda education in various settings. Choose the implementation model that best fits your needs and schedule.</p>
-          </div>
-        </div>
-      </section>
-
       <section className="timeline-section">
         <div className="container">
           <div className="timeline-intro">
