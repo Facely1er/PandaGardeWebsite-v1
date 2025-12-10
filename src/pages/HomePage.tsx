@@ -1,21 +1,61 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, Baby, User, GraduationCap, ShoppingBag, BarChart3, Unlock, AlertTriangle, Target, Settings, Bell, CheckCircle2, CheckCircle } from 'lucide-react';
-import { getAllPersonas } from '../data/familyPersonaProfiles';
+import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, Baby, User, GraduationCap, ShoppingBag, BarChart3, Unlock, AlertTriangle, Target, Settings, Bell, CheckCircle2, CheckCircle, Zap } from 'lucide-react';
+import { getAllPersonas, FamilyPersonaProfiles, type FamilyPersonaProfile } from '../data/familyPersonaProfiles';
 import { useJourneyProgress } from '../hooks/useJourneyProgress';
+import { useFamily } from '../contexts/FamilyContext';
 import OnboardingFlow from '../components/OnboardingFlow';
+import FeatureUnlockCelebration from '../components/FeatureUnlockCelebration';
 
 const HomePage: React.FC = () => {
   const personas = getAllPersonas();
   const { progress, markStepVisited, isStepCompleted, isStepVisited } = useJourneyProgress();
+  const { familyMembers, currentFamily } = useFamily();
+  const [familyPersona, setFamilyPersona] = useState<FamilyPersonaProfile | null>(null);
+  const [showUnlockCelebration, setShowUnlockCelebration] = useState(false);
+  const [unlockedFeature, setUnlockedFeature] = useState<string | null>(null);
+
+  // Load persona from localStorage
+  useEffect(() => {
+    const storedPersona = localStorage.getItem('pandagarde_family_persona');
+    if (storedPersona) {
+      try {
+        const personaData = JSON.parse(storedPersona);
+        const personaId = personaData.primary;
+        if (personaId && FamilyPersonaProfiles[personaId]) {
+          setFamilyPersona(FamilyPersonaProfiles[personaId]);
+        }
+      } catch (e) {
+        console.error('Error parsing persona data:', e);
+      }
+    }
+  }, []);
+
+  // Calculate service catalog status
+  const totalServicesCount = familyMembers.reduce((count, member) => {
+    const memberServices = (member as any).services || [];
+    return count + memberServices.length;
+  }, 0);
+
+  const hasServiceCatalog = totalServicesCount >= 3;
+  const servicesNeeded = Math.max(0, 3 - totalServicesCount);
+
+  // Check for feature unlocks
+  useEffect(() => {
+    if (hasServiceCatalog && !progress.step2.completed) {
+      // Feature just unlocked
+      setUnlockedFeature('Digital Footprint Analysis');
+      setShowUnlockCelebration(true);
+    }
+  }, [hasServiceCatalog, progress.step2.completed]);
 
   // Mark steps as visited when component mounts
   useEffect(() => {
     // Mark step 1 as visited if family exists
-    if (progress.step1.visited) {
+    if (currentFamily && !progress.step1.visited) {
       markStepVisited(1);
     }
-  }, []);
+  }, [currentFamily, progress.step1.visited, markStepVisited]);
   
   // Icon mapping for personas
   const personaIcons: Record<string, React.ComponentType<any>> = {
@@ -141,6 +181,171 @@ const HomePage: React.FC = () => {
   return (
     <main id="main-content">
       <OnboardingFlow />
+      
+      {/* Feature Unlock Celebration */}
+      {showUnlockCelebration && unlockedFeature && (
+        <FeatureUnlockCelebration
+          feature={unlockedFeature}
+          description="You've unlocked advanced privacy features! Explore your digital footprint and get personalized recommendations."
+          icon={<BarChart3 size={24} className="text-white" />}
+          link="/digital-footprint"
+          onClose={() => {
+            setShowUnlockCelebration(false);
+            setUnlockedFeature(null);
+          }}
+        />
+      )}
+
+      {/* Personalized Welcome Banner - If Persona Detected */}
+      {familyPersona && (
+        <section className="fade-in" style={{ 
+          background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+          color: 'white',
+          padding: '1.5rem 0',
+          marginBottom: '0'
+        }}>
+          <div className="container">
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: '1rem'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flex: 1, minWidth: '250px' }}>
+                <div style={{
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '12px',
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  {React.createElement(personaIcons[familyPersona.icon] || Users, { size: 24, className: 'text-white' })}
+                </div>
+                <div>
+                  <div style={{ fontSize: '0.875rem', opacity: 0.9, marginBottom: '0.25rem' }}>
+                    Welcome back, {familyPersona.name}!
+                  </div>
+                  <div style={{ fontSize: '1rem', fontWeight: '600' }}>
+                    {familyPersona.description}
+                  </div>
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                {hasServiceCatalog ? (
+                  <div style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '0.5rem',
+                    background: 'rgba(255, 255, 255, 0.2)',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '8px'
+                  }}>
+                    <CheckCircle size={18} />
+                    <span style={{ fontSize: '0.875rem', fontWeight: '600' }}>
+                      {totalServicesCount} Services • Features Unlocked
+                    </span>
+                  </div>
+                ) : (
+                  <Link
+                    to="/service-catalog"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      background: 'white',
+                      color: '#1B5E20',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '8px',
+                      fontWeight: '600',
+                      textDecoration: 'none',
+                      fontSize: '0.875rem',
+                      transition: 'transform 0.2s'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                  >
+                    <ShoppingBag size={18} />
+                    Set Up Service Catalog
+                  </Link>
+                )}
+                <Link
+                  to="/privacy-assessment"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    background: 'rgba(255, 255, 255, 0.2)',
+                    color: 'white',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '8px',
+                    fontWeight: '600',
+                    textDecoration: 'none',
+                    fontSize: '0.875rem',
+                    border: '1px solid rgba(255, 255, 255, 0.3)'
+                  }}
+                >
+                  <Target size={18} />
+                  View Recommendations
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Service Catalog Status Banner - If No Persona But Has Services */}
+      {!familyPersona && hasServiceCatalog && (
+        <section className="fade-in" style={{ 
+          background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+          color: 'white',
+          padding: '1rem 0',
+          marginBottom: '0'
+        }}>
+          <div className="container">
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: '1rem'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <CheckCircle size={24} />
+                <div>
+                  <div style={{ fontSize: '0.875rem', opacity: 0.9 }}>
+                    Service Catalog Active
+                  </div>
+                  <div style={{ fontSize: '1rem', fontWeight: '600' }}>
+                    {totalServicesCount} services added • Advanced features unlocked!
+                  </div>
+                </div>
+              </div>
+              <Link
+                to="/digital-footprint"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  background: 'white',
+                  color: '#2563eb',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '8px',
+                  fontWeight: '600',
+                  textDecoration: 'none',
+                  fontSize: '0.875rem'
+                }}
+              >
+                Explore Features
+                <ArrowRight size={18} />
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Hero Section */}
       <section className="hero-simple">
         <div className="container">
@@ -149,9 +354,93 @@ const HomePage: React.FC = () => {
               <span className="badge">DIGITAL PRIVACY EDUCATION</span>
               <h1>Protecting Families in the <span className="highlight">Digital Age</span></h1>
               <p className="hero-description">
-                Comprehensive digital privacy education platform designed for families with children ages 5-17. 
-                Interactive curriculum, engaging activities, and practical tools to help families navigate the digital world safely.
+                {familyPersona 
+                  ? `${familyPersona.description}. Get personalized recommendations and resources tailored for your family's privacy needs.`
+                  : 'Comprehensive digital privacy education platform designed for families with children ages 5-17. Interactive curriculum, engaging activities, and practical tools to help families navigate the digital world safely.'
+                }
               </p>
+
+              {/* Journey Progress Indicator in Hero */}
+              {progress.overallProgress > 0 && (
+                <div style={{
+                  background: 'rgba(27, 94, 32, 0.1)',
+                  borderRadius: '12px',
+                  padding: '1rem',
+                  marginBottom: '1.5rem',
+                  border: '2px solid rgba(27, 94, 32, 0.2)'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                    <span style={{ fontSize: '0.875rem', fontWeight: '600', color: '#1B5E20' }}>
+                      Your Journey Progress
+                    </span>
+                    <span style={{ fontSize: '0.875rem', fontWeight: '700', color: '#1B5E20' }}>
+                      {Math.round(progress.overallProgress)}%
+                    </span>
+                  </div>
+                  <div style={{ 
+                    width: '100%', 
+                    height: '8px', 
+                    background: 'rgba(27, 94, 32, 0.2)', 
+                    borderRadius: '4px',
+                    overflow: 'hidden'
+                  }}>
+                    <div style={{ 
+                      width: `${progress.overallProgress}%`, 
+                      height: '100%', 
+                      background: 'linear-gradient(90deg, #1B5E20 0%, #2E7D32 100%)',
+                      borderRadius: '4px',
+                      transition: 'width 0.5s ease-in-out'
+                    }} />
+                  </div>
+                  {progress.nextRecommendedStep > 0 && (
+                    <div style={{ marginTop: '0.5rem', fontSize: '0.75rem', color: '#1B5E20', opacity: 0.8 }}>
+                      Next: {customerJourney[progress.nextRecommendedStep - 1]?.title}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Service Catalog Status in Hero */}
+              {!hasServiceCatalog && (
+                <div style={{
+                  background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
+                  borderRadius: '12px',
+                  padding: '1rem',
+                  marginBottom: '1.5rem',
+                  border: '2px solid #f59e0b'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <ShoppingBag size={24} className="text-amber-700" />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: '0.875rem', fontWeight: '700', color: '#92400e', marginBottom: '0.25rem' }}>
+                        Unlock Advanced Features
+                      </div>
+                      <div style={{ fontSize: '0.75rem', color: '#78350f' }}>
+                        Add {servicesNeeded} more service{servicesNeeded !== 1 ? 's' : ''} to enable Digital Footprint Analysis and Safety Alerts
+                      </div>
+                    </div>
+                    <Link
+                      to="/service-catalog"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        background: '#f59e0b',
+                        color: 'white',
+                        padding: '0.5rem 1rem',
+                        borderRadius: '8px',
+                        fontWeight: '600',
+                        textDecoration: 'none',
+                        fontSize: '0.875rem',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      Set Up Now
+                      <ArrowRight size={16} />
+                    </Link>
+                  </div>
+                </div>
+              )}
 
               <div className="hero-buttons">
                 <Link to="/family-hub" className="button primary">
@@ -429,17 +718,146 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Quick Actions */}
+      {/* Personalized Quick Actions Based on Persona & Service Catalog */}
       <section className="quick-actions">
         <div className="container">
           <div className="section-header fade-in">
-            <h2>Get Started in Minutes</h2>
-            <p>Choose your path and begin learning about digital privacy today.</p>
+            <h2>
+              {familyPersona 
+                ? `Recommended for ${familyPersona.name}` 
+                : 'Get Started in Minutes'
+              }
+            </h2>
+            <p>
+              {familyPersona 
+                ? familyPersona.characteristics[0] || 'Personalized recommendations based on your family profile'
+                : 'Choose your path and begin learning about digital privacy today.'
+              }
+            </p>
           </div>
 
           <div className="quick-actions-grid">
-            {quickActions.map((action, index) => (
-              <Link key={index} to={action.link} className="quick-action-card fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+            {/* Service Catalog Action - Always First if Not Set Up */}
+            {!hasServiceCatalog && (
+              <Link 
+                to="/service-catalog" 
+                className="quick-action-card fade-in foundation-action" 
+                style={{ 
+                  animationDelay: '0s',
+                  border: '3px solid #1B5E20',
+                  background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+                  boxShadow: '0 8px 16px rgba(27, 94, 32, 0.15)'
+                }}
+              >
+                <div className="action-icon bg-green-100" style={{ position: 'relative' }}>
+                  <ShoppingBag size={32} className="text-green-600" />
+                  <div style={{
+                    position: 'absolute',
+                    top: '-8px',
+                    right: '-8px',
+                    background: '#f59e0b',
+                    color: 'white',
+                    borderRadius: '50%',
+                    width: '24px',
+                    height: '24px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '10px',
+                    fontWeight: '700'
+                  }}>
+                    !
+                  </div>
+                </div>
+                <div className="action-content">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                    <Unlock size={16} className="text-green-600" />
+                    <span style={{ fontSize: '0.75rem', fontWeight: '700', color: '#1B5E20', textTransform: 'uppercase' }}>
+                      Foundation Step
+                    </span>
+                  </div>
+                  <h3>Set Up Service Catalog</h3>
+                  <p>Add {servicesNeeded} more service{servicesNeeded !== 1 ? 's' : ''} to unlock Digital Footprint Analysis, Risk Exposure, and Safety Alerts</p>
+                  <div className="action-button" style={{ background: '#1B5E20', color: 'white' }}>
+                    Set Up Now
+                    <ArrowRight size={16} />
+                  </div>
+                </div>
+              </Link>
+            )}
+
+            {/* Persona-Based Recommendations */}
+            {familyPersona && familyPersona.recommendedResources.slice(0, 2).map((resource, index) => {
+              const resourceMap: Record<string, { title: string; description: string; icon: React.ComponentType<any> }> = {
+                '/privacy-assessment': {
+                  title: 'Privacy Assessment',
+                  description: 'Get personalized recommendations based on your family profile',
+                  icon: Target
+                },
+                '/digital-footprint': {
+                  title: 'Digital Footprint',
+                  description: hasServiceCatalog ? 'Analyze your family\'s online presence' : 'Unlock by setting up Service Catalog',
+                  icon: BarChart3
+                },
+                '/service-catalog': {
+                  title: 'Service Catalog',
+                  description: 'Review and manage your family\'s services',
+                  icon: ShoppingBag
+                },
+                '/privacy-panda': {
+                  title: 'Privacy Panda',
+                  description: 'Start interactive learning activities',
+                  icon: Play
+                },
+                '/family-hub': {
+                  title: 'Family Hub',
+                  description: 'Access your personalized dashboard',
+                  icon: Users
+                }
+              };
+
+              const resourceInfo = resourceMap[resource] || {
+                title: 'Explore Resources',
+                description: 'Discover personalized content',
+                icon: BookOpen
+              };
+
+              return (
+                <Link 
+                  key={`persona-${index}`}
+                  to={resource} 
+                  className="quick-action-card fade-in" 
+                  style={{ animationDelay: `${(hasServiceCatalog ? 0 : 1) + index * 0.1}s` }}
+                >
+                  <div className={`action-icon ${familyPersona.color === 'blue' ? 'bg-blue-50' : familyPersona.color === 'purple' ? 'bg-purple-50' : 'bg-green-50'}`}>
+                    <resourceInfo.icon size={32} className={familyPersona.color === 'blue' ? 'text-blue-600' : familyPersona.color === 'purple' ? 'text-purple-600' : 'text-green-600'} />
+                  </div>
+                  <div className="action-content">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                      <Sparkles size={14} className="text-amber-500" />
+                      <span style={{ fontSize: '0.75rem', fontWeight: '600', color: '#6b7280' }}>
+                        Recommended
+                      </span>
+                    </div>
+                    <h3>{resourceInfo.title}</h3>
+                    <p>{resourceInfo.description}</p>
+                    <div className="action-button">
+                      Explore
+                      <ArrowRight size={16} />
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+
+            {/* Standard Quick Actions */}
+            {quickActions.slice(0, familyPersona ? 1 : 3).map((action, index) => (
+              <Link 
+                key={index} 
+                to={action.link} 
+                className="quick-action-card fade-in" 
+                style={{ animationDelay: `${(hasServiceCatalog ? 0 : 1) + (familyPersona ? 2 : 0) + index * 0.1}s` }}
+              >
                 <div className={`action-icon ${action.bgColor}`}>
                   <action.icon size={32} className={action.color} />
                 </div>
@@ -453,6 +871,51 @@ const HomePage: React.FC = () => {
                 </div>
               </Link>
             ))}
+
+            {/* Unlocked Features Showcase */}
+            {hasServiceCatalog && (
+              <Link 
+                to="/digital-footprint" 
+                className="quick-action-card fade-in" 
+                style={{ 
+                  animationDelay: '0.3s',
+                  border: '2px solid #22c55e',
+                  background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)'
+                }}
+              >
+                <div className="action-icon bg-green-100" style={{ position: 'relative' }}>
+                  <BarChart3 size={32} className="text-green-600" />
+                  <div style={{
+                    position: 'absolute',
+                    top: '-8px',
+                    right: '-8px',
+                    background: '#22c55e',
+                    borderRadius: '50%',
+                    width: '20px',
+                    height: '20px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <CheckCircle size={12} className="text-white" style={{ strokeWidth: 3 }} />
+                  </div>
+                </div>
+                <div className="action-content">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                    <Zap size={14} className="text-green-600" />
+                    <span style={{ fontSize: '0.75rem', fontWeight: '700', color: '#16a34a', textTransform: 'uppercase' }}>
+                      Unlocked
+                    </span>
+                  </div>
+                  <h3>Digital Footprint Analysis</h3>
+                  <p>View your family's privacy exposure across {totalServicesCount} services</p>
+                  <div className="action-button" style={{ background: '#22c55e', color: 'white' }}>
+                    Explore Now
+                    <ArrowRight size={16} />
+                  </div>
+                </div>
+              </Link>
+            )}
           </div>
         </div>
       </section>
