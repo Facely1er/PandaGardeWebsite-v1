@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Play, Users, BookOpen, Download, CheckCircle, ArrowRight, Clock, Star, Shield, ShoppingBag, BarChart3, Unlock } from 'lucide-react';
+import { useJourneyProgress } from '../hooks/useJourneyProgress';
 
 const QuickStartPage: React.FC = () => {
+  const { progress, markStepVisited, isStepCompleted, isStepVisited } = useJourneyProgress();
   const quickActions = [
     {
       title: 'Start with Privacy Panda',
@@ -229,64 +231,161 @@ const QuickStartPage: React.FC = () => {
           <div className="section-header fade-in">
             <h2>Your PandaGarde Journey</h2>
             <p>Follow these simple steps to protect your family in the digital age.</p>
+            
+            {/* Progress Bar */}
+            <div style={{ 
+              maxWidth: '600px', 
+              margin: '1.5rem auto 0',
+              background: '#f3f4f6',
+              borderRadius: '12px',
+              padding: '1rem',
+              border: '2px solid #e5e7eb'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                <span style={{ fontSize: '0.875rem', fontWeight: '600', color: '#374151' }}>
+                  Journey Progress
+                </span>
+                <span style={{ fontSize: '0.875rem', fontWeight: '700', color: '#1B5E20' }}>
+                  {Math.round(progress.overallProgress)}%
+                </span>
+              </div>
+              <div style={{ 
+                width: '100%', 
+                height: '12px', 
+                background: '#e5e7eb', 
+                borderRadius: '6px',
+                overflow: 'hidden',
+                position: 'relative'
+              }}>
+                <div style={{ 
+                  width: `${progress.overallProgress}%`, 
+                  height: '100%', 
+                  background: 'linear-gradient(90deg, #1B5E20 0%, #2E7D32 50%, #66BB6A 100%)',
+                  borderRadius: '6px',
+                  transition: 'width 0.5s ease-in-out',
+                  boxShadow: '0 2px 4px rgba(27, 94, 32, 0.2)'
+                }} />
+              </div>
+            </div>
           </div>
 
-          <div className="parent-steps-grid">
-            {parentQuickSteps.map((step, index) => (
-              <Link 
-                key={index} 
-                to={step.link} 
-                className={`parent-step-card fade-in ${step.isFoundation ? 'foundation-step' : ''}`} 
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="step-number">
-                  {step.isFoundation && <Unlock size={12} style={{ position: 'absolute', top: '-5px', right: '-5px' }} />}
-                  <span>{step.step}</span>
-                </div>
-                <div className="step-content">
-                  <div className="step-header">
-                    <div className="step-icon">
-                      <step.icon size={24} />
-                    </div>
-                    {step.platform && (
-                      <span className={`platform-badge ${step.platform === 'Privacy Panda' ? 'privacy-panda' : 'pandagarde'}`}>
-                        {step.platform}
-                      </span>
+          <div className="journey-container" style={{ position: 'relative', marginTop: '3rem' }}>
+            <div className="parent-steps-grid journey-steps-enhanced">
+              {parentQuickSteps.map((step, index) => {
+                const isCompleted = isStepCompleted(step.step);
+                const isVisited = isStepVisited(step.step);
+                const isRecommended = progress.nextRecommendedStep === step.step;
+                const isFoundation = step.isFoundation;
+
+                return (
+                  <Link 
+                    key={index} 
+                    to={step.link}
+                    onClick={() => markStepVisited(step.step)}
+                    className={`parent-step-card fade-in ${isFoundation ? 'foundation-step' : ''} ${isCompleted ? 'step-completed' : ''} ${isRecommended ? 'step-recommended' : ''}`} 
+                    style={{ 
+                      animationDelay: `${index * 0.1}s`,
+                      position: 'relative'
+                    }}
+                  >
+                    {/* Completion Checkmark */}
+                    {isCompleted && (
+                      <div style={{
+                        position: 'absolute',
+                        top: '-10px',
+                        right: '-10px',
+                        width: '32px',
+                        height: '32px',
+                        background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: '0 4px 8px rgba(34, 197, 94, 0.3)',
+                        zIndex: 10
+                      }}>
+                        <CheckCircle size={18} className="text-white" style={{ strokeWidth: 3 }} />
+                      </div>
                     )}
-                  </div>
-                  <h3>{step.title}</h3>
-                  <p>{step.description}</p>
-                  
-                  {/* Show what this step enables */}
-                  {step.enables && step.enables.length > 0 && (
-                    <div className="enables-list">
-                      <div className="enables-label">
-                        <Unlock size={14} />
-                        <span>Unlocks:</span>
+
+                    {/* Recommended Badge */}
+                    {isRecommended && !isCompleted && (
+                      <div style={{
+                        position: 'absolute',
+                        top: '-12px',
+                        left: '-12px',
+                        background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                        color: 'white',
+                        padding: '4px 10px',
+                        borderRadius: '12px',
+                        fontSize: '10px',
+                        fontWeight: '700',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
+                        boxShadow: '0 4px 8px rgba(245, 158, 11, 0.3)',
+                        zIndex: 10
+                      }}>
+                        Next Step
                       </div>
-                      <div className="enables-items">
-                        {step.enables.map((feature, idx) => (
-                          <span key={idx} className="enable-badge">{feature}</span>
-                        ))}
+                    )}
+
+                    <div className="step-number">
+                      {step.isFoundation && <Unlock size={12} style={{ position: 'absolute', top: '-5px', right: '-5px' }} />}
+                      {isCompleted ? (
+                        <CheckCircle size={20} className="text-white" style={{ strokeWidth: 3 }} />
+                      ) : (
+                        <span>{step.step}</span>
+                      )}
+                    </div>
+                    <div className="step-content">
+                      <div className="step-header">
+                        <div className="step-icon" style={{
+                          background: isCompleted ? 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)' : undefined,
+                          color: isCompleted ? 'white' : undefined
+                        }}>
+                          <step.icon size={24} />
+                        </div>
+                        {step.platform && (
+                          <span className={`platform-badge ${step.platform === 'Privacy Panda' ? 'privacy-panda' : 'pandagarde'}`}>
+                            {step.platform}
+                          </span>
+                        )}
+                      </div>
+                      <h3>{step.title}</h3>
+                      <p>{step.description}</p>
+                      
+                      {/* Show what this step enables */}
+                      {step.enables && step.enables.length > 0 && (
+                        <div className="enables-list">
+                          <div className="enables-label">
+                            <Unlock size={14} />
+                            <span>Unlocks:</span>
+                          </div>
+                          <div className="enables-items">
+                            {step.enables.map((feature, idx) => (
+                              <span key={idx} className="enable-badge">{feature}</span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Show requirements */}
+                      {step.requires && (
+                        <div className="requires-badge">
+                          <Shield size={14} />
+                          <span>Requires: {step.requires}</span>
+                        </div>
+                      )}
+                      
+                      <div className="step-link">
+                        {isCompleted ? 'View Again' : isVisited ? 'Continue' : 'Get Started'}
+                        <ArrowRight size={16} />
                       </div>
                     </div>
-                  )}
-                  
-                  {/* Show requirements */}
-                  {step.requires && (
-                    <div className="requires-badge">
-                      <Shield size={14} />
-                      <span>Requires: {step.requires}</span>
-                    </div>
-                  )}
-                  
-                  <div className="step-link">
-                    Get Started
-                    <ArrowRight size={16} />
-                  </div>
-                </div>
-              </Link>
-            ))}
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>

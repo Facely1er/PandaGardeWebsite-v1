@@ -4311,6 +4311,175 @@ body {
   color: var(--primary-dark);
 }
 
+/* Journey Container */
+.journey-container {
+  position: relative;
+  padding: 2rem 0;
+}
+
+.journey-steps-enhanced {
+  position: relative;
+  z-index: 1;
+}
+
+/* Journey Connectors - Desktop Only */
+@media (min-width: 1024px) {
+  .journey-connectors {
+    display: block !important;
+  }
+  
+  .journey-arrow {
+    display: block !important;
+  }
+}
+
+/* Step Completion States */
+.parent-step-card.step-completed {
+  border-color: #22c55e;
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+}
+
+.parent-step-card.step-completed .step-number {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.parent-step-card.step-recommended {
+  animation: recommendedPulse 2s ease-in-out infinite;
+  border-color: #f59e0b;
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.25);
+}
+
+@keyframes recommendedPulse {
+  0%, 100% {
+    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.25);
+  }
+  50% {
+    box-shadow: 0 12px 32px rgba(245, 158, 11, 0.4);
+  }
+}
+
+/* Enhanced Foundation Step */
+.parent-step-card.foundation-step {
+  border-color: var(--primary);
+  border-width: 3px;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
+  position: relative;
+}
+
+.parent-step-card.foundation-step::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #66BB6A 100%);
+  border-radius: var(--border-radius-lg);
+  z-index: -1;
+  opacity: 0.1;
+  animation: foundationGlow 3s ease-in-out infinite;
+}
+
+@keyframes foundationGlow {
+  0%, 100% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+.parent-step-card.foundation-step .step-number {
+  background: linear-gradient(135deg, var(--primary) 0%, #22c55e 100%);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+  animation: foundationPulse 2s ease-in-out infinite;
+}
+
+@keyframes foundationPulse {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.1);
+  }
+}
+
+.parent-step-card.foundation-step:hover {
+  border-color: var(--primary-dark);
+  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.25);
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  .parent-steps-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .parent-step-card {
+    padding: 24px 20px;
+    min-height: auto;
+  }
+  
+  .journey-container {
+    padding: 1rem 0;
+  }
+  
+  .step-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .step-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .platform-badge {
+    font-size: 10px;
+    padding: 3px 10px;
+  }
+  
+  .enables-list {
+    padding: 10px;
+    font-size: 12px;
+  }
+  
+  .enable-badge {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+  
+  .requires-badge {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+}
+
+/* Touch Target Optimization */
+@media (max-width: 768px) {
+  .parent-step-card {
+    min-height: 200px;
+    touch-action: manipulation;
+  }
+  
+  .step-link {
+    min-height: 44px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .step-number {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+}
+
 .tips-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));

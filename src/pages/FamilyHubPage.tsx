@@ -325,9 +325,9 @@ const FamilyHubPage: React.FC = () => {
               ))}
             </nav>
 
-            {/* Mobile Navigation - Horizontal Scrollable Tabs */}
-            <nav className="md:hidden w-full overflow-x-auto -mx-4 px-4" style={{ WebkitOverflowScrolling: 'touch' }}>
-              <div className="flex items-center gap-2 min-w-max pb-2">
+            {/* Mobile Navigation - Improved Dropdown Style */}
+            <nav className="md:hidden w-full">
+              <div className="grid grid-cols-5 gap-1">
                 {[
                   { key: 'dashboard', icon: Users, shortLabel: 'Home' },
                   { key: 'activities', icon: BookOpen, shortLabel: 'Learn' },
@@ -338,20 +338,21 @@ const FamilyHubPage: React.FC = () => {
                   <button
                     key={key}
                     onClick={() => setActiveTab(key as 'dashboard' | 'activities' | 'progress' | 'family' | 'resources')}
-                    className={`flex items-center gap-1.5 px-3 py-2 rounded-lg font-medium transition-all whitespace-nowrap touch-manipulation ${
+                    className={`flex flex-col items-center justify-center gap-1 px-2 py-3 rounded-lg font-medium transition-all touch-manipulation ${
                       activeTab === key 
                         ? 'bg-green-100 text-green-700 shadow-sm' 
-                        : 'text-gray-600 bg-gray-50'
+                        : 'text-gray-600 bg-gray-50 active:bg-gray-100'
                     }`}
                     style={{
                       backgroundColor: activeTab === key ? 'var(--secondary)' : undefined,
                       color: activeTab === key ? 'var(--primary)' : undefined,
-                      minHeight: '44px',
+                      minHeight: '64px',
+                      minWidth: '64px',
                       WebkitTapHighlightColor: 'transparent'
                     }}
                   >
-                    <Icon size={18} />
-                    <span className="text-sm font-semibold">{shortLabel}</span>
+                    <Icon size={20} />
+                    <span className="text-xs font-semibold leading-tight text-center">{shortLabel}</span>
                   </button>
                 ))}
               </div>
