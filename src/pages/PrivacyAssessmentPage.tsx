@@ -66,6 +66,15 @@ const PrivacyAssessmentPage: React.FC = () => {
             <li>• Results are private and not shared</li>
             <li>• You can retake the assessment anytime</li>
           </ul>
+          <div className="mt-4 pt-4 border-t border-blue-200 dark:border-blue-700">
+            <p className="text-sm text-blue-800 dark:text-blue-200">
+              <strong>Tip:</strong> For more detailed privacy analysis, add services your family uses in the 
+              <Link to="/service-catalog" className="text-blue-600 dark:text-blue-400 hover:underline font-medium mx-1">
+                Service Catalog
+              </Link>
+              to enable digital footprint analysis and risk exposure assessment.
+            </p>
+          </div>
         </div>
 
         {/* Related Resources */}
@@ -86,7 +95,7 @@ const PrivacyAssessmentPage: React.FC = () => {
                 Service Catalog
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Review Privacy Exposure Index for all services your family uses
+                Add services to enable digital footprint analysis and personalized risk assessments
               </p>
             </Link>
 

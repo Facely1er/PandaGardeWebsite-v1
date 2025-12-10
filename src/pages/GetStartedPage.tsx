@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, CheckCircle, Star, Users, BookOpen, Shield, Clock, Play } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Star, Users, BookOpen, Shield, Clock, Play, ShoppingBag, BarChart3, Unlock } from 'lucide-react';
 import Logo from '../components/Logo';
 
 interface Step {
@@ -20,30 +20,39 @@ const GetStartedPage: React.FC = () => {
   const steps: Step[] = [
     {
       id: 'family-hub',
-      title: 'Join Family Hub',
-      description: 'Create your family profile and connect with other families to start your journey.',
+      title: 'Join PandaGarde Platform',
+      description: 'Create your family profile and access the complete privacy education ecosystem.',
       icon: Users,
       completed: false,
       estimatedTime: '5 mins',
-      action: 'Join Family Hub'
+      action: 'Join Platform'
     },
     {
-      id: 'age-group',
-      title: 'Choose Age Group',
-      description: 'Select the right learning path for each child\'s age to get personalized content.',
-      icon: Star,
+      id: 'service-catalog',
+      title: 'Set Up Service Catalog',
+      description: 'Add services your family uses to enable risk analysis, alerts, and digital footprint tracking.',
+      icon: ShoppingBag,
       completed: false,
-      estimatedTime: '1 min',
-      action: 'Choose age group'
+      estimatedTime: '10 mins',
+      action: 'Set Up Catalog'
     },
     {
       id: 'first-activity',
-      title: 'Start Learning',
-      description: 'Begin with Privacy Panda\'s interactive stories and activities.',
+      title: 'Start Privacy Panda Learning',
+      description: 'Begin interactive stories and activities designed for your child\'s age group.',
       icon: Play,
       completed: false,
       estimatedTime: '10 mins',
-      action: 'Start learning'
+      action: 'Start Learning'
+    },
+    {
+      id: 'advanced-features',
+      title: 'Use Advanced Features',
+      description: 'Access digital footprint analysis, risk assessments, and personalized recommendations.',
+      icon: BarChart3,
+      completed: false,
+      estimatedTime: '5 mins',
+      action: 'Explore Features'
     },
     {
       id: 'explore-resources',
@@ -52,16 +61,7 @@ const GetStartedPage: React.FC = () => {
       icon: BookOpen,
       completed: false,
       estimatedTime: '5 mins',
-      action: 'Access resources'
-    },
-    {
-      id: 'welcome',
-      title: 'Learn More',
-      description: 'Explore our complete platform and discover additional tools and features.',
-      icon: Shield,
-      completed: false,
-      estimatedTime: '2 mins',
-      action: 'Explore platform'
+      action: 'Access Resources'
     }
   ];
 
@@ -75,22 +75,14 @@ const GetStartedPage: React.FC = () => {
     switch (step.id) {
       case 'family-hub':
         return () => navigate('/family-hub');
-      case 'age-group':
-        return () => {
-          navigate('/quick-start');
-          setTimeout(() => {
-            const element = document.querySelector('.age-groups-simple, .age-paths');
-            if (element) {
-              element.scrollIntoView({ behavior: 'smooth' });
-            }
-          }, 100);
-        };
+      case 'service-catalog':
+        return () => navigate('/service-catalog');
       case 'first-activity':
         return () => navigate('/privacy-panda');
+      case 'advanced-features':
+        return () => navigate('/digital-footprint');
       case 'explore-resources':
         return () => navigate('/resources');
-      case 'welcome':
-        return () => navigate('/overview');
       default:
         return () => {};
     }
@@ -232,6 +224,12 @@ const GetStartedPage: React.FC = () => {
                           <h3 className="text-xl font-bold" style={{ color: 'var(--primary)' }}>
                             {step.title}
                           </h3>
+                          {step.id === 'service-catalog' && !isCompleted && (
+                            <span className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-xs font-semibold px-2 py-1 rounded-full flex items-center gap-1">
+                              <Unlock size={12} />
+                              Foundation Step
+                            </span>
+                          )}
                           {isCompleted && (
                             <span className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full">
                               Completed
@@ -242,6 +240,31 @@ const GetStartedPage: React.FC = () => {
                         <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
                           {step.description}
                         </p>
+                        
+                        {step.id === 'service-catalog' && (
+                          <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                            <div className="flex items-center gap-2 mb-2">
+                              <Unlock size={14} className="text-green-600 dark:text-green-400" />
+                              <span className="text-sm font-semibold text-green-800 dark:text-green-200">Unlocks:</span>
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                              <span className="bg-green-600 text-white text-xs px-2 py-1 rounded-full">Digital Footprint</span>
+                              <span className="bg-green-600 text-white text-xs px-2 py-1 rounded-full">Risk Exposure</span>
+                              <span className="bg-green-600 text-white text-xs px-2 py-1 rounded-full">Safety Alerts</span>
+                            </div>
+                          </div>
+                        )}
+                        
+                        {step.id === 'advanced-features' && (
+                          <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
+                            <div className="flex items-center gap-2">
+                              <Shield size={14} className="text-yellow-600 dark:text-yellow-400" />
+                              <span className="text-sm text-yellow-800 dark:text-yellow-200">
+                                <strong>Requires:</strong> Service Catalog setup
+                              </span>
+                            </div>
+                          </div>
+                        )}
 
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-4 text-sm text-gray-500">

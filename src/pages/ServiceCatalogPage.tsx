@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ServiceCatalog from '../components/ServiceCatalog';
 import EmailCaptureInline from '../components/EmailCaptureInline';
-import { Bell, Shield, BarChart3, FileText, ArrowRight } from 'lucide-react';
+import { Bell, Shield, BarChart3, FileText, ArrowRight, Unlock, CheckCircle } from 'lucide-react';
 
 const ServiceCatalogPage: React.FC = () => {
   return (
@@ -12,11 +12,17 @@ const ServiceCatalogPage: React.FC = () => {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                Service Catalog
-              </h1>
+              <div className="flex items-center gap-3 mb-2">
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                  Service Catalog
+                </h1>
+                <span className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
+                  <Unlock size={12} />
+                  Foundation Step
+                </span>
+              </div>
               <p className="text-gray-600 dark:text-gray-400">
-                Browse age-appropriate apps and platforms with Privacy Exposure Index ratings
+                Add services your family uses to unlock advanced features like digital footprint analysis, risk exposure assessment, and safety alerts
               </p>
             </div>
             <div className="flex items-center space-x-2">
@@ -37,7 +43,50 @@ const ServiceCatalogPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Info Banner */}
+          {/* Foundation Banner */}
+          <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-2 border-green-200 dark:border-green-800 rounded-lg p-6 mb-6">
+            <div className="flex items-start space-x-4">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-600 rounded-full flex items-center justify-center">
+                  <Unlock className="h-6 w-6 text-white" />
+                </div>
+              </div>
+              <div className="flex-1">
+                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2">
+                  Service Catalog: Your Foundation for Advanced Features
+                </h3>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
+                  The Service Catalog is the foundation that enables all service-based features in PandaGarde. 
+                  By adding services your family uses, you unlock powerful tools for managing your family's digital privacy.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <div className="font-semibold text-sm text-gray-900 dark:text-white">Digital Footprint</div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">Visualize your family's online presence</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <div className="font-semibold text-sm text-gray-900 dark:text-white">Risk Exposure</div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">Understand privacy risks per service</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <div className="font-semibold text-sm text-gray-900 dark:text-white">Safety Alerts</div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">Get notified about privacy issues</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Privacy Exposure Index Banner */}
           <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
             <div className="flex items-start space-x-3">
               <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5" />

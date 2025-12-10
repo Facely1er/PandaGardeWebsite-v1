@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Bell, AlertTriangle, ShoppingBag, BarChart3, ArrowRight } from 'lucide-react';
+import { Bell, AlertTriangle, ShoppingBag, BarChart3, ArrowRight, Shield } from 'lucide-react';
 import ChildSafetyAlerts from '../components/alerts/ChildSafetyAlerts';
 import ServiceNotificationCenter from '../components/ServiceNotificationCenter';
 import EmailCaptureInline from '../components/EmailCaptureInline';
@@ -36,6 +36,29 @@ const ChildSafetyAlertsPage: React.FC = () => {
                 <BarChart3 className="h-5 w-5" />
                 <span>Footprint</span>
               </Link>
+            </div>
+          </div>
+
+          {/* Service Catalog Requirement Banner */}
+          <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-4">
+            <div className="flex items-start space-x-3">
+              <Shield className="h-5 w-5 text-yellow-600 dark:text-yellow-400 mt-0.5 flex-shrink-0" />
+              <div className="flex-1">
+                <h3 className="font-semibold text-yellow-900 dark:text-yellow-100 mb-1">
+                  Requires Service Catalog Setup
+                </h3>
+                <p className="text-sm text-yellow-800 dark:text-yellow-200 mb-3">
+                  Service notifications are generated for services added in your Service Catalog. 
+                  Add services your family uses to receive personalized safety alerts and privacy updates.
+                </p>
+                <Link
+                  to="/service-catalog"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition-colors text-sm font-medium"
+                >
+                  <ShoppingBag size={16} />
+                  Set Up Service Catalog
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -119,7 +142,7 @@ const ChildSafetyAlertsPage: React.FC = () => {
               Browse Service Catalog
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Review Privacy Exposure Index for all services and manage your family's apps
+              Add or update services to enable personalized safety alerts and notifications
             </p>
           </Link>
 
