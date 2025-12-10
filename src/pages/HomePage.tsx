@@ -78,7 +78,7 @@ const HomePage: React.FC = () => {
       step: 2,
       title: 'Set Up Service Catalog',
       description: 'Add services your family uses to enable risk analysis, alerts, and digital footprint tracking',
-      icon: ShoppingBag,
+      icon: Shield,
       link: '/service-catalog',
       platform: 'PandaGarde',
       enables: ['Digital Footprint', 'Risk Exposure', 'Safety Alerts'],
@@ -86,7 +86,7 @@ const HomePage: React.FC = () => {
     },
     {
       step: 3,
-      title: 'Start Privacy Panda Learning',
+      title: 'Start Learning with Privacy Panda',
       description: 'Begin interactive stories and activities designed for your child\'s age group',
       icon: Play,
       link: '/privacy-panda',
@@ -94,8 +94,8 @@ const HomePage: React.FC = () => {
     },
     {
       step: 4,
-      title: 'Use Advanced Features',
-      description: 'Access digital footprint analysis, risk assessments, and personalized recommendations',
+      title: 'Access Advanced Features',
+      description: 'Use digital footprint analysis, risk assessments, and personalized recommendations',
       icon: BarChart3,
       link: '/digital-footprint',
       platform: 'PandaGarde',
