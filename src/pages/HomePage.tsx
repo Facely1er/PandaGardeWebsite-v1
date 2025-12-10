@@ -1,8 +1,21 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, Baby, User, GraduationCap, ShoppingBag, BarChart3, Unlock } from 'lucide-react';
+import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, Baby, User, GraduationCap, ShoppingBag, BarChart3, Unlock, AlertTriangle, Target, Settings, Bell, CheckCircle2 } from 'lucide-react';
+import { getAllPersonas } from '../data/familyPersonaProfiles';
 
 const HomePage: React.FC = () => {
+  const personas = getAllPersonas();
+  
+  // Icon mapping for personas
+  const personaIcons: Record<string, React.ComponentType<any>> = {
+    'Users': Users,
+    'Shield': Shield,
+    'BookOpen': BookOpen,
+    'Settings': Settings,
+    'Target': Target,
+    'AlertTriangle': AlertTriangle
+  };
+
   useEffect(() => {
     // Intersection Observer for animations
     const observerOptions = {
@@ -234,6 +247,293 @@ const HomePage: React.FC = () => {
                 </div>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Service Catalog Value Proposition */}
+      <section className="service-catalog-value" style={{ padding: '4rem 0', background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)' }}>
+        <div className="container">
+          <div className="section-header fade-in">
+            <h2>Understand Your Family's Digital Footprint</h2>
+            <p className="text-lg">The Service Catalog is your foundation for comprehensive privacy protection</p>
+          </div>
+
+          <div className="fade-in" style={{ maxWidth: '900px', margin: '0 auto 3rem', textAlign: 'center' }}>
+            <div style={{ 
+              background: 'white', 
+              borderRadius: '16px', 
+              padding: '2.5rem', 
+              boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+              marginBottom: '2rem'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem' }}>
+                <ShoppingBag size={48} className="text-blue-600" style={{ marginRight: '1rem' }} />
+                <h3 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#1e40af' }}>
+                  What is the Service Catalog?
+                </h3>
+              </div>
+              <p style={{ fontSize: '1.125rem', color: '#4b5563', lineHeight: '1.75', marginBottom: '1.5rem' }}>
+                A comprehensive database of apps, platforms, and services your family uses—from social media and gaming to education and streaming. Each service includes privacy risk ratings, age recommendations, and practical guidance to help you make informed decisions.
+              </p>
+            </div>
+
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+              gap: '1.5rem',
+              marginBottom: '2rem'
+            }}>
+              <div style={{ 
+                background: 'white', 
+                borderRadius: '12px', 
+                padding: '1.5rem',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              }}>
+                <BarChart3 size={32} className="text-green-600" style={{ marginBottom: '1rem' }} />
+                <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem', color: '#1e40af' }}>Digital Footprint Analysis</h4>
+                <p style={{ color: '#6b7280', fontSize: '0.95rem' }}>
+                  See your family's overall privacy exposure across all services and get personalized recommendations
+                </p>
+              </div>
+
+              <div style={{ 
+                background: 'white', 
+                borderRadius: '12px', 
+                padding: '1.5rem',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              }}>
+                <Shield size={32} className="text-orange-600" style={{ marginBottom: '1rem' }} />
+                <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem', color: '#1e40af' }}>Privacy Exposure Index</h4>
+                <p style={{ color: '#6b7280', fontSize: '0.95rem' }}>
+                  Each service is rated 0-100 for privacy risk, helping you understand which apps need closer supervision
+                </p>
+              </div>
+
+              <div style={{ 
+                background: 'white', 
+                borderRadius: '12px', 
+                padding: '1.5rem',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              }}>
+                <Bell size={32} className="text-red-600" style={{ marginBottom: '1rem' }} />
+                <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem', color: '#1e40af' }}>Safety Alerts</h4>
+                <p style={{ color: '#6b7280', fontSize: '0.95rem' }}>
+                  Receive real-time notifications about privacy updates, policy changes, and safety concerns for your services
+                </p>
+              </div>
+            </div>
+
+            <div style={{ 
+              background: 'white', 
+              borderRadius: '12px', 
+              padding: '2rem',
+              boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+            }}>
+              <h4 style={{ fontWeight: 'bold', marginBottom: '1rem', color: '#1e40af', fontSize: '1.25rem' }}>
+                Why It Matters
+              </h4>
+              <div style={{ display: 'grid', gap: '1rem', textAlign: 'left' }}>
+                <div style={{ display: 'flex', alignItems: 'start' }}>
+                  <CheckCircle2 size={20} className="text-green-600" style={{ marginRight: '0.75rem', marginTop: '0.25rem', flexShrink: 0 }} />
+                  <div>
+                    <strong style={{ color: '#1e40af' }}>Make Informed Decisions:</strong>
+                    <span style={{ color: '#6b7280', marginLeft: '0.5rem' }}>
+                      Know which services are appropriate for your child's age and understand the privacy risks before they sign up
+                    </span>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'start' }}>
+                  <CheckCircle2 size={20} className="text-green-600" style={{ marginRight: '0.75rem', marginTop: '0.25rem', flexShrink: 0 }} />
+                  <div>
+                    <strong style={{ color: '#1e40af' }}>Track Your Family's Exposure:</strong>
+                    <span style={{ color: '#6b7280', marginLeft: '0.5rem' }}>
+                      See your complete digital footprint and identify areas where you need better privacy protection
+                    </span>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'start' }}>
+                  <CheckCircle2 size={20} className="text-green-600" style={{ marginRight: '0.75rem', marginTop: '0.25rem', flexShrink: 0 }} />
+                  <div>
+                    <strong style={{ color: '#1e40af' }}>Get Actionable Guidance:</strong>
+                    <span style={{ color: '#6b7280', marginLeft: '0.5rem' }}>
+                      Receive specific privacy tips and parental control recommendations for each service your family uses
+                    </span>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'start' }}>
+                  <CheckCircle2 size={20} className="text-green-600" style={{ marginRight: '0.75rem', marginTop: '0.25rem', flexShrink: 0 }} />
+                  <div>
+                    <strong style={{ color: '#1e40af' }}>Stay Updated:</strong>
+                    <span style={{ color: '#6b7280', marginLeft: '0.5rem' }}>
+                      Get alerts when services change their privacy policies or when new risks are discovered
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ marginTop: '2rem' }}>
+              <Link 
+                to="/service-catalog" 
+                className="button primary"
+                style={{ 
+                  display: 'inline-flex', 
+                  alignItems: 'center', 
+                  gap: '0.5rem',
+                  fontSize: '1.125rem',
+                  padding: '0.875rem 2rem'
+                }}
+              >
+                <ShoppingBag size={20} />
+                Explore Service Catalog
+                <ArrowRight size={16} />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Family Personas */}
+      <section className="family-personas" style={{ padding: '4rem 0', background: '#ffffff' }}>
+        <div className="container">
+          <div className="section-header fade-in">
+            <h2>Which Family Are You?</h2>
+            <p className="text-lg">Discover your family's privacy profile and get personalized recommendations</p>
+          </div>
+
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+            gap: '1.5rem',
+            maxWidth: '1200px',
+            margin: '0 auto'
+          }}>
+            {personas.map((persona, index) => {
+              const IconComponent = personaIcons[persona.icon] || Users;
+              const colorMap: Record<string, string> = {
+                'blue': '#3b82f6',
+                'purple': '#9333ea',
+                'green': '#10b981',
+                'teal': '#14b8a6',
+                'amber': '#f59e0b',
+                'red': '#ef4444'
+              };
+              const personaColor = colorMap[persona.color] || '#6b7280';
+
+              return (
+                <div 
+                  key={persona.id} 
+                  className="fade-in" 
+                  style={{ 
+                    animationDelay: `${index * 0.1}s`,
+                    background: 'white',
+                    borderRadius: '12px',
+                    padding: '1.5rem',
+                    border: `2px solid ${personaColor}20`,
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.15)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+                    <div style={{ 
+                      width: '48px', 
+                      height: '48px', 
+                      borderRadius: '12px',
+                      background: `${personaColor}20`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginRight: '1rem'
+                    }}>
+                      <IconComponent size={24} style={{ color: personaColor }} />
+                    </div>
+                    <div>
+                      <h3 style={{ fontWeight: 'bold', fontSize: '1.25rem', color: '#1e40af', margin: 0 }}>
+                        {persona.name}
+                      </h3>
+                      <span style={{ 
+                        fontSize: '0.75rem', 
+                        color: personaColor,
+                        fontWeight: '600',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em'
+                      }}>
+                        {persona.riskThreshold} risk threshold
+                      </span>
+                    </div>
+                  </div>
+
+                  <p style={{ color: '#6b7280', marginBottom: '1rem', lineHeight: '1.6' }}>
+                    {persona.description}
+                  </p>
+
+                  <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: `1px solid ${personaColor}20` }}>
+                    <div style={{ fontSize: '0.875rem', fontWeight: '600', color: '#374151', marginBottom: '0.5rem' }}>
+                      Key Characteristics:
+                    </div>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                      {persona.characteristics.slice(0, 2).map((char, idx) => (
+                        <li key={idx} style={{ 
+                          fontSize: '0.875rem', 
+                          color: '#6b7280',
+                          marginBottom: '0.375rem',
+                          display: 'flex',
+                          alignItems: 'start'
+                        }}>
+                          <span style={{ color: personaColor, marginRight: '0.5rem' }}>•</span>
+                          {char}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <Link 
+                    to={`/family-hub?persona=${persona.id}`}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      marginTop: '1rem',
+                      color: personaColor,
+                      fontWeight: '600',
+                      fontSize: '0.875rem',
+                      textDecoration: 'none'
+                    }}
+                  >
+                    Learn More
+                    <ArrowRight size={14} style={{ marginLeft: '0.25rem' }} />
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+            <p style={{ color: '#6b7280', marginBottom: '1rem' }}>
+              Not sure which persona fits your family? Start with our quick assessment.
+            </p>
+            <Link 
+              to="/family-hub" 
+              className="button secondary"
+              style={{ 
+                display: 'inline-flex', 
+                alignItems: 'center', 
+                gap: '0.5rem'
+              }}
+            >
+              <Users size={20} />
+              Find Your Family Profile
+              <ArrowRight size={16} />
+            </Link>
           </div>
         </div>
       </section>
