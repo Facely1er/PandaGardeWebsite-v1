@@ -56,15 +56,15 @@ ALTER TABLE pandagarde_user_preferences ENABLE ROW LEVEL SECURITY;
 -- RLS Policies for User Preferences
 CREATE POLICY "Users can view their own preferences" 
 ON pandagarde_user_preferences FOR SELECT 
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can insert their own preferences" 
 ON pandagarde_user_preferences FOR INSERT 
-WITH CHECK (auth.uid() = user_id);
+WITH CHECK ((select auth.uid()) = user_id);
 
 CREATE POLICY "Users can update their own preferences" 
 ON pandagarde_user_preferences FOR UPDATE 
-USING (auth.uid() = user_id);
+USING ((select auth.uid()) = user_id);
 
 -- ============================================
 -- 3. Contact Submissions Table
@@ -88,7 +88,7 @@ WITH CHECK (true);
 
 CREATE POLICY "Allow admin read access" 
 ON pandagarde_contact_submissions FOR SELECT 
-USING (auth.role() = 'service_role');
+USING ((select auth.role()) = 'service_role');
 
 -- ============================================
 -- 4. Newsletter Subscribers Table
@@ -134,7 +134,7 @@ WITH CHECK (true);
 
 CREATE POLICY "Users can view their own downloads" 
 ON pandagarde_download_tracking FOR SELECT 
-USING (auth.uid() = user_id OR user_id IS NULL);
+USING ((select auth.uid()) = user_id OR user_id IS NULL);
 
 -- ============================================
 -- Indexes for Performance
