@@ -5,6 +5,12 @@
 [build.environment]
   NODE_VERSION = "18"
 
+# Redirect favicon.ico to LogoPandagarde.png (fixes 404 error)
+[[redirects]]
+  from = "/favicon.ico"
+  to = "/LogoPandagarde.png"
+  status = 200
+
 # SPA fallback - redirect all routes to index.html
 [[redirects]]
   from = "/*"
