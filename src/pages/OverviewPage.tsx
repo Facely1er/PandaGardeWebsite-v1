@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Users, Shield, Wrench, Check, BookOpen, Heart, Brain, Play, Baby, Download, ArrowRight } from 'lucide-react';
+import { ArrowLeft, Users, Shield, Wrench, Check, BookOpen, Heart, Brain, Play, Baby, Download, ArrowRight, ShoppingBag, BarChart3, Unlock } from 'lucide-react';
 
 const OverviewPage: React.FC = () => {
   useEffect(() => {
@@ -83,31 +83,38 @@ const OverviewPage: React.FC = () => {
   const customerJourney = [
     {
       step: 1,
-      title: 'Join Family Hub',
-      description: 'Create your family profile and connect with other families',
+      title: 'Join PandaGarde Platform',
+      description: 'Create your family profile and access the complete privacy education ecosystem',
       icon: Users,
-      link: '/family-hub'
+      link: '/family-hub',
+      platform: 'PandaGarde'
     },
     {
       step: 2,
-      title: 'Choose Age Group',
-      description: 'Select the right learning path for each child\'s age',
-      icon: Baby,
-      link: '/quick-start'
+      title: 'Set Up Service Catalog',
+      description: 'Add services your family uses to enable risk analysis, alerts, and digital footprint tracking',
+      icon: ShoppingBag,
+      link: '/service-catalog',
+      platform: 'PandaGarde',
+      enables: ['Digital Footprint', 'Risk Exposure', 'Safety Alerts'],
+      isFoundation: true
     },
     {
       step: 3,
-      title: 'Start Learning',
-      description: 'Begin with Privacy Panda\'s interactive stories and activities',
+      title: 'Start Privacy Panda Learning',
+      description: 'Begin interactive stories and activities designed for your child\'s age group',
       icon: Play,
-      link: '/privacy-panda'
+      link: '/privacy-panda',
+      platform: 'Privacy Panda'
     },
     {
       step: 4,
-      title: 'Access Resources',
-      description: 'Download guides, activities, and printable materials',
-      icon: Download,
-      link: '/resources'
+      title: 'Use Advanced Features',
+      description: 'Access digital footprint analysis, risk assessments, and personalized recommendations',
+      icon: BarChart3,
+      link: '/digital-footprint',
+      platform: 'PandaGarde',
+      requires: 'Service Catalog'
     }
   ];
 
@@ -195,16 +202,53 @@ const OverviewPage: React.FC = () => {
 
           <div className="parent-steps-grid">
             {customerJourney.map((step, index) => (
-              <Link key={index} to={step.link} className="parent-step-card fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+              <Link 
+                key={index} 
+                to={step.link} 
+                className={`parent-step-card fade-in ${step.isFoundation ? 'foundation-step' : ''}`} 
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
                 <div className="step-number">
+                  {step.isFoundation && <Unlock size={12} style={{ position: 'absolute', top: '-5px', right: '-5px' }} />}
                   <span>{step.step}</span>
                 </div>
                 <div className="step-content">
-                  <div className="step-icon">
-                    <step.icon size={24} />
+                  <div className="step-header">
+                    <div className="step-icon">
+                      <step.icon size={24} />
+                    </div>
+                    {step.platform && (
+                      <span className={`platform-badge ${step.platform === 'Privacy Panda' ? 'privacy-panda' : 'pandagarde'}`}>
+                        {step.platform}
+                      </span>
+                    )}
                   </div>
                   <h3>{step.title}</h3>
                   <p>{step.description}</p>
+                  
+                  {/* Show what this step enables */}
+                  {step.enables && step.enables.length > 0 && (
+                    <div className="enables-list">
+                      <div className="enables-label">
+                        <Unlock size={14} />
+                        <span>Unlocks:</span>
+                      </div>
+                      <div className="enables-items">
+                        {step.enables.map((feature, idx) => (
+                          <span key={idx} className="enable-badge">{feature}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Show requirements */}
+                  {step.requires && (
+                    <div className="requires-badge">
+                      <Shield size={14} />
+                      <span>Requires: {step.requires}</span>
+                    </div>
+                  )}
+                  
                   <div className="step-link">
                     Get Started
                     <ArrowRight size={16} />
