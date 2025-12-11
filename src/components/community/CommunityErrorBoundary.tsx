@@ -86,7 +86,7 @@ class CommunityErrorBoundary extends Component<Props, State> {
                 Clear Data & Reset
               </button>
             </div>
-            {this.state.error && process.env.NODE_ENV === 'development' && (
+            {this.state.error && import.meta.env.DEV && (
               <details className="mt-4 text-left">
                 <summary className="cursor-pointer text-sm text-gray-500">Error Details (Development Only)</summary>
                 <pre className="mt-2 text-xs bg-gray-100 p-2 rounded overflow-auto" style={{ maxHeight: '200px' }}>

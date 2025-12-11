@@ -30,38 +30,64 @@ class ChildRSSAlertService {
    * Initialize the RSS alert service
    */
   initialize(intervalMs: number = this.DEFAULT_INTERVAL): void {
-    if (typeof window === 'undefined') return;
-    
-    const isProduction = typeof window !== 'undefined' && 
-                        (window.location.hostname.includes('pandagarde.com') || 
-                         window.location.hostname.includes('vercel.app') ||
-                         window.location.hostname.includes('netlify.app'));
-    
-    // In production, delay initialization to avoid CORS errors on page load
-    // Only initialize when explicitly needed (e.g., when user visits alerts page)
-    if (isProduction) {
-      // Don't auto-initialize in production - let components initialize on demand
-      return;
-    }
-    
-    const isDevMode = process.env['NODE_ENV'] === 'development' || 
-                      (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'));
-    
-    if (isDevMode) {
-      console.log('[Child RSS Alert Service] Initializing...');
-    }
-    
-    // Process feeds immediately on initialization (only in dev)
-    this.processFeeds().catch(() => {
-      // Silently handle errors
-    });
-    
-    // Set up recurring processing
-    this.processInterval = setInterval(() => {
+    try {
+      if (typeof window === 'undefined') return;
+      
+      const isProduction = typeof window !== 'undefined' && 
+                          (window.location.hostname.includes('pandagarde.com') || 
+                           window.location.hostname.includes('vercel.app') ||
+                           window.location.hostname.includes('netlify.app'));
+      
+      // In production, delay initialization to avoid CORS errors on page load
+      // Only initialize when explicitly needed (e.g., when user visits alerts page)
+      if (isProduction) {
+        // Don't auto-initialize in production - let components initialize on demand
+        return;
+      }
+      
+      // Safely check for dev mode - use hostname check as primary method
+      // This avoids issues with import.meta not being available in all contexts
+      let isDevMode = false;
+      if (typeof window !== 'undefined') {
+        const hostname = window.location.hostname;
+        isDevMode = hostname === 'localhost' || 
+                   hostname === '127.0.0.1' ||
+                   hostname.startsWith('192.168.') ||
+                   hostname.startsWith('10.') ||
+                   hostname.includes('localhost');
+        
+        // Also check import.meta if available (Vite-specific)
+        if (!isDevMode) {
+          try {
+            // @ts-ignore - import.meta is available in Vite but TypeScript may not recognize it
+            if (typeof import.meta !== 'undefined' && import.meta.env?.DEV === true) {
+              isDevMode = true;
+            }
+          } catch {
+            // Ignore if import.meta is not available
+          }
+        }
+      }
+      
+      if (isDevMode) {
+        console.log('[Child RSS Alert Service] Initializing...');
+      }
+      
+      // Process feeds immediately on initialization (only in dev)
       this.processFeeds().catch(() => {
         // Silently handle errors
       });
-    }, intervalMs);
+      
+      // Set up recurring processing
+      this.processInterval = setInterval(() => {
+        this.processFeeds().catch(() => {
+          // Silently handle errors
+        });
+      }, intervalMs);
+    } catch (error) {
+      // Silently fail initialization to prevent breaking the app
+      console.warn('[Child RSS Alert Service] Initialization failed:', error);
+    }
   }
 
   /**
@@ -263,8 +289,30 @@ class ChildRSSAlertService {
       const isHttpError = error instanceof Error && error.message.includes('HTTP');
       
       const isExpectedError = isNetworkError || isAbortError || isTimeoutError || isCorsError;
-      const isDevMode = process.env['NODE_ENV'] === 'development' || 
-                        (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'));
+      
+      // Safely check for dev mode - use hostname check as primary method
+      let isDevMode = false;
+      if (typeof window !== 'undefined') {
+        const hostname = window.location.hostname;
+        isDevMode = hostname === 'localhost' || 
+                   hostname === '127.0.0.1' ||
+                   hostname.startsWith('192.168.') ||
+                   hostname.startsWith('10.') ||
+                   hostname.includes('localhost');
+        
+        // Also check import.meta if available (Vite-specific)
+        if (!isDevMode) {
+          try {
+            // @ts-ignore - import.meta is available in Vite but TypeScript may not recognize it
+            if (typeof import.meta !== 'undefined' && import.meta.env?.DEV === true) {
+              isDevMode = true;
+            }
+          } catch {
+            // Ignore if import.meta is not available
+          }
+        }
+      }
+      
       const isProduction = typeof window !== 'undefined' && 
                           (window.location.hostname.includes('pandagarde.com') || 
                            window.location.hostname.includes('vercel.app') ||
@@ -362,13 +410,21 @@ export const childRSSAlertService = new ChildRSSAlertService();
 // Auto-initialize in browser (only in development)
 // In production, components should initialize on-demand to avoid CORS errors
 if (typeof window !== 'undefined') {
-  const isProduction = window.location.hostname.includes('pandagarde.com') || 
-                       window.location.hostname.includes('vercel.app') ||
-                       window.location.hostname.includes('netlify.app');
-  
-  if (!isProduction) {
-    // Only auto-initialize in development/localhost
-    childRSSAlertService.initialize(3600000);
+  try {
+    const isProduction = window.location.hostname.includes('pandagarde.com') || 
+                         window.location.hostname.includes('vercel.app') ||
+                         window.location.hostname.includes('netlify.app');
+    
+    if (!isProduction) {
+      // Only auto-initialize in development/localhost
+      // Wrap in setTimeout to ensure it doesn't block page load
+      setTimeout(() => {
+        childRSSAlertService.initialize(3600000);
+      }, 1000);
+    }
+  } catch (error) {
+    // Silently fail auto-initialization to prevent breaking the app
+    // Components can still initialize the service on-demand
   }
 }
 

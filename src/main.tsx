@@ -26,9 +26,33 @@ try {
 }
 
 // Initialize service worker asynchronously (don't block app rendering)
-initServiceWorker().catch((error) => {
-  console.warn('Failed to initialize Service Worker:', error);
-});
+// DISABLED IN DEVELOPMENT to prevent cache issues
+if (import.meta.env.MODE === 'production') {
+  initServiceWorker().catch((error) => {
+    console.warn('Failed to initialize Service Worker:', error);
+  });
+} else {
+  // In development, unregister ALL service workers to prevent cache issues
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      registrations.forEach((registration) => {
+        registration.unregister().then((success) => {
+          if (success) {
+            console.log('[Dev] Service Worker unregistered');
+          }
+        });
+      });
+    });
+    // Also clear all caches
+    caches.keys().then((cacheNames) => {
+      cacheNames.forEach((cacheName) => {
+        caches.delete(cacheName).then(() => {
+          console.log('[Dev] Cache deleted:', cacheName);
+        });
+      });
+    });
+  }
+}
 
 // Global error handlers - capture unhandled errors
 // Set up AFTER initialization to ensure functions are available

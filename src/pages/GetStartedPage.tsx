@@ -47,199 +47,75 @@ const GetStartedPage: React.FC = () => {
   ];
 
   return (
-    <main 
-      id="main-content" 
-      style={{ 
-        minHeight: '100vh', 
-        paddingTop: '80px', 
-        backgroundColor: '#ffffff',
-        color: '#0f172a',
-        fontFamily: 'system-ui, -apple-system, sans-serif',
-        lineHeight: '1.6'
-      }}
-    >
-      {/* Back Navigation */}
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem 1.5rem' }}>
-        <Link
-          to="/"
-          style={{ 
-            textDecoration: 'none', 
-            color: '#4b5563',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            fontSize: '1rem',
-            fontWeight: '500'
-          }}
-          aria-label="Back to home page"
-        >
-          <ArrowLeft size={16} aria-hidden="true" />
-          <span>Back to Home</span>
-        </Link>
-      </div>
+    <main className="min-h-screen bg-white pt-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Back Navigation */}
+        <div className="py-6">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+            aria-label="Back to home page"
+          >
+            <ArrowLeft size={16} aria-hidden="true" />
+            <span>Back to Home</span>
+          </Link>
+        </div>
 
-      {/* Page Header */}
-      <section style={{ 
-        padding: 'clamp(3rem, 6vw, 4rem) 0', 
-        background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
-        width: '100%',
-        display: 'block'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <div style={{ textAlign: 'center' }}>
-            <h1 style={{
-              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
-              fontWeight: '800',
-              lineHeight: '1.1',
-              marginBottom: '1rem',
-              color: '#0f172a',
-              display: 'block',
-              visibility: 'visible',
-              opacity: 1
-            }}>
+        {/* Page Header */}
+        <section className="py-12 md:py-16 bg-gradient-to-br from-gray-50 to-white rounded-lg mb-12">
+          <div className="text-center max-w-3xl mx-auto px-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Get Started with PandaGarde
             </h1>
-            <p style={{
-              fontSize: '1.125rem',
-              color: '#64748b',
-              maxWidth: '48rem',
-              margin: '0 auto',
-              lineHeight: '1.6',
-              display: 'block',
-              visibility: 'visible',
-              opacity: 1
-            }}>
+            <p className="text-lg md:text-xl text-gray-600">
               Follow our step-by-step guide to begin your family's digital privacy education journey.
             </p>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Steps Section */}
-      <section 
-        aria-labelledby="steps-heading" 
-        style={{ 
-          padding: 'clamp(4rem, 8vw, 6rem) 0', 
-          background: '#ffffff',
-          width: '100%',
-          display: 'block'
-        }}
-      >
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+        {/* Steps Section */}
+        <section className="py-12 md:py-16" aria-labelledby="steps-heading">
+          <div className="max-w-4xl mx-auto">
             <h2 
               id="steps-heading" 
-              style={{ 
-                fontSize: '2rem', 
-                fontWeight: 'bold', 
-                marginBottom: '1rem',
-                color: '#1B5E20',
-                textAlign: 'center',
-                display: 'block',
-                visibility: 'visible',
-                opacity: 1
-              }}
+              className="text-3xl font-bold text-center mb-3 text-[#1B5E20]"
             >
               Getting Started Steps
             </h2>
-            <p style={{ 
-              fontSize: '1.125rem', 
-              color: '#757575',
-              textAlign: 'center',
-              marginBottom: '3rem',
-              display: 'block',
-              visibility: 'visible',
-              opacity: 1
-            }}>
+            <p className="text-lg text-gray-600 text-center mb-12">
               Follow these steps to set up your family's privacy education journey.
             </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }} role="list" aria-label="Getting started steps">
+            <div className="space-y-6" role="list" aria-label="Getting started steps">
               {steps.map((step, index) => {
                 const Icon = step.icon;
                 return (
                   <div
                     key={step.id}
                     role="listitem"
-                    style={{
-                      backgroundColor: '#ffffff',
-                      borderRadius: '12px',
-                      padding: '1.5rem',
-                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                      border: '1px solid #e5e7eb',
-                      display: 'block',
-                      visibility: 'visible',
-                      opacity: 1
-                    }}
+                    className="bg-white rounded-xl p-6 shadow-md border border-gray-200 hover:shadow-lg transition-shadow"
                   >
-                    <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-                      <div style={{
-                        width: '64px',
-                        height: '64px',
-                        borderRadius: '50%',
-                        background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
-                        color: '#ffffff',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0,
-                        fontSize: '1.5rem',
-                        fontWeight: 'bold'
-                      }}>
+                    <div className="flex flex-col sm:flex-row gap-6 items-start">
+                      <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] text-white flex items-center justify-center text-xl font-bold">
                         {index + 1}
                       </div>
 
-                      <div style={{ flex: 1, minWidth: '200px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-                          <Icon size={20} style={{ color: '#1B5E20', display: 'block' }} />
-                          <h3 style={{ 
-                            fontSize: '1.25rem', 
-                            fontWeight: 'bold',
-                            color: '#1B5E20',
-                            margin: 0,
-                            display: 'block',
-                            visibility: 'visible',
-                            opacity: 1
-                          }}>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-3 mb-3">
+                          <Icon size={24} className="text-[#1B5E20] flex-shrink-0" />
+                          <h3 className="text-xl font-bold text-[#1B5E20]">
                             {step.title}
                           </h3>
                         </div>
 
-                        <p style={{ 
-                          fontSize: '1rem', 
-                          color: '#757575',
-                          marginBottom: '1rem',
-                          lineHeight: '1.6',
-                          display: 'block',
-                          visibility: 'visible',
-                          opacity: 1
-                        }}>
+                        <p className="text-gray-600 mb-4 leading-relaxed">
                           {step.description}
                         </p>
 
                         <Link
                           to={step.link}
-                          style={{
-                            display: 'inline-block',
-                            padding: '0.75rem 1.5rem',
-                            background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
-                            color: '#ffffff',
-                            borderRadius: '8px',
-                            textDecoration: 'none',
-                            fontWeight: '600',
-                            transition: 'all 0.2s ease',
-                            visibility: 'visible',
-                            opacity: 1
-                          }}
+                          className="inline-block px-6 py-3 bg-gradient-to-r from-[#1B5E20] to-[#2E7D32] text-white rounded-lg font-semibold hover:opacity-90 transition-opacity"
                           aria-label={`${step.action}: ${step.title}`}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.opacity = '0.9';
-                            e.currentTarget.style.transform = 'translateY(-2px)';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.opacity = '1';
-                            e.currentTarget.style.transform = 'translateY(0)';
-                          }}
                         >
                           {step.action}
                         </Link>
@@ -250,334 +126,109 @@ const GetStartedPage: React.FC = () => {
               })}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Quick Start Options */}
-      <section 
-        aria-labelledby="quick-start-heading" 
-        style={{ 
-          padding: 'clamp(4rem, 8vw, 6rem) 0', 
-          background: '#f8fafc',
-          width: '100%',
-          display: 'block'
-        }}
-      >
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <h2 
-            id="quick-start-heading" 
-            style={{ 
-              fontSize: '2rem', 
-              fontWeight: 'bold', 
-              marginBottom: '1rem',
-              color: '#1B5E20',
-              textAlign: 'center',
-              display: 'block',
-              visibility: 'visible',
-              opacity: 1
-            }}
-          >
-            Quick Start Options
-          </h2>
-          <p style={{ 
-            fontSize: '1.125rem', 
-            color: '#757575',
-            textAlign: 'center',
-            marginBottom: '3rem',
-            display: 'block',
-            visibility: 'visible',
-            opacity: 1
-          }}>
-            Jump right into specific areas or follow the complete guide.
-          </p>
-
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '2rem',
-            maxWidth: '900px',
-            margin: '0 auto'
-          }} role="list" aria-label="Quick start options">
-            <Link
-              to="/activity-book"
-              style={{
-                backgroundColor: '#ffffff',
-                borderRadius: '12px',
-                padding: '2rem',
-                textAlign: 'center',
-                textDecoration: 'none',
-                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                transition: 'all 0.2s ease',
-                display: 'block',
-                color: 'inherit'
-              }}
-              aria-label="Start with Activities - Jump straight into interactive privacy activities"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.15)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-              }}
+        {/* Quick Start Options */}
+        <section className="py-12 md:py-16 bg-gray-50 rounded-lg mb-12" aria-labelledby="quick-start-heading">
+          <div className="max-w-5xl mx-auto px-4">
+            <h2 
+              id="quick-start-heading" 
+              className="text-3xl font-bold text-center mb-3 text-[#1B5E20]"
             >
-              <div style={{
-                width: '64px',
-                height: '64px',
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
-                color: '#ffffff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0 auto 1rem'
-              }}>
-                <Play size={32} />
-              </div>
-              <h3 style={{ 
-                fontSize: '1.25rem', 
-                fontWeight: 'bold',
-                color: '#1B5E20',
-                marginBottom: '0.5rem',
-                display: 'block',
-                visibility: 'visible',
-                opacity: 1
-              }}>
-                Start with Activities
-              </h3>
-              <p style={{ 
-                color: '#757575', 
-                marginBottom: '1rem',
-                display: 'block',
-                visibility: 'visible',
-                opacity: 1
-              }}>
-                Jump straight into interactive privacy activities.
-              </p>
-            </Link>
+              Quick Start Options
+            </h2>
+            <p className="text-lg text-gray-600 text-center mb-12">
+              Jump right into specific areas or follow the complete guide.
+            </p>
 
-            <Link
-              to="/family-hub"
-              style={{
-                backgroundColor: '#ffffff',
-                borderRadius: '12px',
-                padding: '2rem',
-                textAlign: 'center',
-                textDecoration: 'none',
-                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                transition: 'all 0.2s ease',
-                display: 'block',
-                color: 'inherit'
-              }}
-              aria-label="Set Up Family Hub - Create your family profile and track progress"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.15)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-              }}
-            >
-              <div style={{
-                width: '64px',
-                height: '64px',
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
-                color: '#ffffff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0 auto 1rem'
-              }}>
-                <Users size={32} />
-              </div>
-              <h3 style={{ 
-                fontSize: '1.25rem', 
-                fontWeight: 'bold',
-                color: '#1B5E20',
-                marginBottom: '0.5rem',
-                display: 'block',
-                visibility: 'visible',
-                opacity: 1
-              }}>
-                Set Up Family Hub
-              </h3>
-              <p style={{ 
-                color: '#757575', 
-                marginBottom: '1rem',
-                display: 'block',
-                visibility: 'visible',
-                opacity: 1
-              }}>
-                Create your family profile and track progress.
-              </p>
-            </Link>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              <Link
+                to="/activity-book"
+                className="bg-white rounded-xl p-8 text-center shadow-md border border-gray-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+                aria-label="Start with Activities - Jump straight into interactive privacy activities"
+              >
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] text-white flex items-center justify-center mx-auto mb-4">
+                  <Play size={32} />
+                </div>
+                <h3 className="text-xl font-bold text-[#1B5E20] mb-2">
+                  Start with Activities
+                </h3>
+                <p className="text-gray-600">
+                  Jump straight into interactive privacy activities.
+                </p>
+              </Link>
 
-            <Link
-              to="/story"
-              style={{
-                backgroundColor: '#ffffff',
-                borderRadius: '12px',
-                padding: '2rem',
-                textAlign: 'center',
-                textDecoration: 'none',
-                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                transition: 'all 0.2s ease',
-                display: 'block',
-                color: 'inherit'
-              }}
-              aria-label="Read Our Story - Learn about Privacy Panda through storytelling"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.15)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-              }}
-            >
-              <div style={{
-                width: '64px',
-                height: '64px',
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
-                color: '#ffffff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0 auto 1rem'
-              }}>
-                <BookOpen size={32} />
-              </div>
-              <h3 style={{ 
-                fontSize: '1.25rem', 
-                fontWeight: 'bold',
-                color: '#1B5E20',
-                marginBottom: '0.5rem',
-                display: 'block',
-                visibility: 'visible',
-                opacity: 1
-              }}>
-                Read Our Story
-              </h3>
-              <p style={{ 
-                color: '#757575', 
-                marginBottom: '1rem',
-                display: 'block',
-                visibility: 'visible',
-                opacity: 1
-              }}>
-                Learn about Privacy Panda through storytelling.
-              </p>
-            </Link>
+              <Link
+                to="/family-hub"
+                className="bg-white rounded-xl p-8 text-center shadow-md border border-gray-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+                aria-label="Set Up Family Hub - Create your family profile and track progress"
+              >
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] text-white flex items-center justify-center mx-auto mb-4">
+                  <Users size={32} />
+                </div>
+                <h3 className="text-xl font-bold text-[#1B5E20] mb-2">
+                  Set Up Family Hub
+                </h3>
+                <p className="text-gray-600">
+                  Create your family profile and track progress.
+                </p>
+              </Link>
+
+              <Link
+                to="/story"
+                className="bg-white rounded-xl p-8 text-center shadow-md border border-gray-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+                aria-label="Read Our Story - Learn about Privacy Panda through storytelling"
+              >
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] text-white flex items-center justify-center mx-auto mb-4">
+                  <BookOpen size={32} />
+                </div>
+                <h3 className="text-xl font-bold text-[#1B5E20] mb-2">
+                  Read Our Story
+                </h3>
+                <p className="text-gray-600">
+                  Learn about Privacy Panda through storytelling.
+                </p>
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Call to Action */}
-      <section 
-        aria-labelledby="cta-heading"
-        style={{ 
-          padding: 'clamp(4rem, 8vw, 6rem) 0', 
-          background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)', 
-          color: '#ffffff',
-          textAlign: 'center',
-          width: '100%',
-          display: 'block'
-        }}
-      >
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <h2 
-            id="cta-heading" 
-            style={{ 
-              fontSize: '2rem', 
-              fontWeight: 'bold', 
-              marginBottom: '1rem', 
-              color: '#ffffff',
-              display: 'block',
-              visibility: 'visible',
-              opacity: 1
-            }}
-          >
-            Ready to Begin Your Privacy Education Journey?
-          </h2>
-          <p style={{ 
-            fontSize: '1.25rem', 
-            marginBottom: '2rem', 
-            opacity: 0.9, 
-            maxWidth: '600px', 
-            margin: '0 auto 2rem', 
-            color: '#ffffff',
-            display: 'block',
-            visibility: 'visible'
-          }}>
-            Join thousands of families who are already learning about digital privacy with PandaGarde.
-          </p>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link
-              to="/activity-book"
-              style={{
-                backgroundColor: '#ffffff',
-                color: '#1B5E20',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '8px',
-                textDecoration: 'none',
-                fontWeight: '600',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                transition: 'all 0.2s ease',
-                visibility: 'visible',
-                opacity: 1
-              }}
-              aria-label="Start Learning - Begin interactive privacy activities"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.opacity = '0.9';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.opacity = '1';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
+        {/* Call to Action */}
+        <section 
+          className="py-12 md:py-16 bg-gradient-to-r from-[#1B5E20] to-[#2E7D32] text-white text-center rounded-lg mb-12"
+          aria-labelledby="cta-heading"
+        >
+          <div className="max-w-3xl mx-auto px-4">
+            <h2 
+              id="cta-heading" 
+              className="text-3xl md:text-4xl font-bold mb-4"
             >
-              <Play size={20} />
-              <span>Start Learning</span>
-            </Link>
-            <Link
-              to="/family-hub"
-              style={{
-                backgroundColor: '#2E7D32',
-                color: '#ffffff',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '8px',
-                textDecoration: 'none',
-                fontWeight: '600',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                transition: 'all 0.2s ease',
-                visibility: 'visible',
-                opacity: 1
-              }}
-              aria-label="Family Hub - Create your family profile"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.opacity = '0.9';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.backgroundColor = '#1B5E20';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.opacity = '1';
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.backgroundColor = '#2E7D32';
-              }}
-            >
-              <Users size={20} />
-              <span>Family Hub</span>
-            </Link>
+              Ready to Begin Your Privacy Education Journey?
+            </h2>
+            <p className="text-xl mb-8 opacity-90">
+              Join thousands of families who are already learning about digital privacy with PandaGarde.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                to="/activity-book"
+                className="inline-flex items-center justify-center gap-2 bg-white text-[#1B5E20] px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity"
+                aria-label="Start Learning - Begin interactive privacy activities"
+              >
+                <Play size={20} />
+                <span>Start Learning</span>
+              </Link>
+              <Link
+                to="/family-hub"
+                className="inline-flex items-center justify-center gap-2 bg-[#2E7D32] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1B5E20] transition-colors border-2 border-white"
+                aria-label="Family Hub - Create your family profile"
+              >
+                <Users size={20} />
+                <span>Family Hub</span>
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </main>
   );
 };

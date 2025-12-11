@@ -262,8 +262,9 @@ class ServiceWorkerManager {
 }
 
 // Default configuration
+// DISABLED in development to prevent cache issues
 const defaultConfig: ServiceWorkerConfig = {
-  enabled: import.meta.env.MODE === 'production' || import.meta.env.VITE_SW_ENABLED === 'true',
+  enabled: import.meta.env.MODE === 'production' && import.meta.env.VITE_SW_ENABLED !== 'false',
   updateInterval: 24 * 60 * 60 * 1000, // 24 hours
   cacheStrategy: 'conservative',
 };

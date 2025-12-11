@@ -1,7 +1,9 @@
 // PandaGarde Service Worker
-const CACHE_NAME = 'pandagarde-v1';
-const STATIC_CACHE = 'pandagarde-static-v1';
-const DYNAMIC_CACHE = 'pandagarde-dynamic-v1';
+// Updated cache version to force invalidation
+const CACHE_VERSION = 'v3';
+const CACHE_NAME = `pandagarde-${CACHE_VERSION}`;
+const STATIC_CACHE = `pandagarde-static-${CACHE_VERSION}`;
+const DYNAMIC_CACHE = `pandagarde-dynamic-${CACHE_VERSION}`;
 
 // Resources to cache immediately on install
 const STATIC_ASSETS = [
@@ -73,22 +75,21 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Handle static assets (CSS, JS, images)
+  // Use network-first strategy to always get fresh content
   if (isStaticAsset(url.pathname)) {
     event.respondWith(
-      caches.match(request)
-        .then((cachedResponse) => {
-          if (cachedResponse) {
-            return cachedResponse;
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const responseClone = response.clone();
+            caches.open(STATIC_CACHE)
+              .then((cache) => cache.put(request, responseClone));
           }
-          return fetch(request)
-            .then((response) => {
-              if (response.ok) {
-                const responseClone = response.clone();
-                caches.open(STATIC_CACHE)
-                  .then((cache) => cache.put(request, responseClone));
-              }
-              return response;
-            });
+          return response;
+        })
+        .catch(() => {
+          // Fallback to cache only if network fails
+          return caches.match(request);
         })
     );
     return;
@@ -111,22 +112,20 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Default: stale-while-revalidate
+  // Default: network-first strategy (always try network first)
   event.respondWith(
-    caches.match(request)
-      .then((cachedResponse) => {
-        const fetchPromise = fetch(request)
-          .then((response) => {
-            if (response.ok) {
-              const responseClone = response.clone();
-              caches.open(DYNAMIC_CACHE)
-                .then((cache) => cache.put(request, responseClone));
-            }
-            return response;
-          })
-          .catch(() => cachedResponse);
-
-        return cachedResponse || fetchPromise;
+    fetch(request)
+      .then((response) => {
+        if (response.ok) {
+          const responseClone = response.clone();
+          caches.open(DYNAMIC_CACHE)
+            .then((cache) => cache.put(request, responseClone));
+        }
+        return response;
+      })
+      .catch(() => {
+        // Fallback to cache only if network fails
+        return caches.match(request);
       })
   );
 });
