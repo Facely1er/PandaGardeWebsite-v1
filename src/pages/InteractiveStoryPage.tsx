@@ -578,55 +578,6 @@ const InteractiveStoryPage: React.FC = () => {
       breadcrumbs={true}
     >
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-        {/* Quick Start Section */}
-        <div style={{ 
-          background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)', 
-          borderRadius: '12px', 
-          padding: '2rem', 
-          marginBottom: '2rem',
-          border: '1px solid #bbf7d0'
-        }}>
-          <div className="grid md:grid-cols-2 gap-6 items-center">
-            {/* Left Column - Features */}
-            <div>
-              <div className="grid grid-cols-2 gap-3 mb-4">
-                <div className="flex items-center gap-2 bg-white/80 px-3 py-2 rounded-lg">
-                  <Star size={16} className="text-yellow-500" />
-                  <span className="font-semibold text-sm">Ages 5-12</span>
-                </div>
-                <div className="flex items-center gap-2 bg-white/80 px-3 py-2 rounded-lg">
-                  <Book size={16} className="text-blue-500" />
-                  <span className="font-semibold text-sm">Interactive</span>
-                </div>
-                <div className="flex items-center gap-2 bg-white/80 px-3 py-2 rounded-lg">
-                  <Heart size={16} className="text-red-500" />
-                  <span className="font-semibold text-sm">Educational</span>
-                </div>
-                <div className="flex items-center gap-2 bg-white/80 px-3 py-2 rounded-lg">
-                  <span className="text-lg">🎮</span>
-                  <span className="font-semibold text-sm">Make Choices</span>
-                </div>
-              </div>
-              <button 
-                onClick={() => document.getElementById('main-content')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
-              >
-                <Play size={18} />
-                Start Adventure
-              </button>
-            </div>
-
-            {/* Right Column - Visual */}
-            <div className="text-center hidden md:block">
-              <div className="text-6xl mb-2">🐼</div>
-              <div className="flex justify-center gap-2">
-                <span className="text-2xl">🛡️</span>
-                <span className="text-2xl">🔒</span>
-                <span className="text-2xl">⭐</span>
-              </div>
-            </div>
-          </div>
-        </div>
         {/* Animated Background Elements */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute inset-0" style={{
@@ -714,7 +665,13 @@ const InteractiveStoryPage: React.FC = () => {
                 {/* Main Panda Illustration Area */}
                 <div className="relative bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
                   <div className="text-center">
-                    <div className="text-7xl mb-4 animate-bounce" style={{ animationDuration: '2s' }}>🐼</div>
+                    <div className="flex justify-center mb-4 animate-bounce" style={{ animationDuration: '2s' }}>
+                      <div style={{ width: '120px', height: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div style={{ width: '100%', height: '100%' }}>
+                          <Logo />
+                        </div>
+                      </div>
+                    </div>
                     <div className="flex justify-center gap-2 mb-4">
                       <span className="text-3xl animate-pulse">🛡️</span>
                       <span className="text-3xl animate-pulse" style={{ animationDelay: '0.2s' }}>🔒</span>
