@@ -180,7 +180,7 @@ const OverviewPage: React.FC = () => {
       </div>
 
       {/* Page Header */}
-      <section style={{ padding: '2rem 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
+      <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
         <div className="container">
           <div className="text-center fade-in" style={{ textAlign: 'center' }}>
             <h1 style={{

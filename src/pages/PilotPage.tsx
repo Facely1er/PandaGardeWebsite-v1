@@ -133,7 +133,7 @@ const PilotPage: React.FC = () => {
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
       {/* Page Header */}
-      <section style={{ padding: '2rem 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
+      <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
         <div className="container mx-auto px-6">
           <div className="text-center fade-in" style={{ textAlign: 'center' }}>
             <h1 style={{

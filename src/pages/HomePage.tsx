@@ -708,7 +708,7 @@ const HomePage: React.FC = () => {
 
       {/* Service Catalog - Simplified */}
       {!hasServiceCatalog && (
-        <section className="service-catalog-value" style={{ padding: '4rem 0', background: '#f8fafc' }}>
+        <section className="service-catalog-value" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#f8fafc' }}>
           <div className="container">
             <div className="fade-in" style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
               <ShoppingBag size={48} className="text-blue-600" style={{ marginBottom: '1rem' }} />
@@ -754,7 +754,7 @@ const HomePage: React.FC = () => {
       )}
 
       {/* Quick Actions - Simplified */}
-      <section className="quick-actions" style={{ padding: '5rem 0' }}>
+      <section className="quick-actions" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0' }}>
         <div className="container">
           <div className="section-header fade-in" style={{ marginBottom: '3rem' }}>
             <h2 style={{
@@ -853,7 +853,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Family Personas - Simplified */}
-      <section className="family-personas" style={{ padding: '5rem 0', background: '#ffffff' }}>
+      <section className="family-personas" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
         <div className="container">
           <div className="section-header fade-in" style={{ marginBottom: '3rem' }}>
             <h2 style={{
@@ -899,7 +899,7 @@ const HomePage: React.FC = () => {
                   style={{ 
                     animationDelay: `${index * 0.1}s`,
                     background: 'white',
-                    borderRadius: '12px',
+                    borderRadius: '16px',
                     padding: '1.5rem',
                     border: `2px solid ${personaColor}20`,
                     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
@@ -1010,7 +1010,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Customer Journey */}
-      <section className="parent-steps" style={{ padding: '5rem 0', background: '#f8fafc' }}>
+      <section className="parent-steps" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#f8fafc' }}>
         <div className="container">
           <div className="section-header fade-in" style={{ marginBottom: '3rem' }}>
             <h2 style={{
@@ -1153,7 +1153,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Age Groups */}
-      <section className="age-groups-simple" style={{ padding: '5rem 0', background: '#f8fafc' }}>
+      <section className="age-groups-simple" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#f8fafc' }}>
         <div className="container">
           <div className="section-header fade-in" style={{ marginBottom: '3rem' }}>
             <h2 style={{
@@ -1219,7 +1219,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Key Features - Parent-Focused Benefits */}
-      <section className="key-features" style={{ padding: '5rem 0', background: '#ffffff' }}>
+      <section className="key-features" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
         <div className="container">
           <div className="section-header fade-in" style={{ marginBottom: '3rem' }}>
             <h2 style={{
@@ -1228,7 +1228,7 @@ const HomePage: React.FC = () => {
               color: '#0f172a',
               marginBottom: '0.75rem',
               textAlign: 'center'
-            }}>Why Parents Love PandaGarde</h2>
+            }}>Why PandaGarde?</h2>
             <p style={{
               fontSize: '1.125rem',
               color: '#64748b',
@@ -1292,7 +1292,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Learn More Links - Simplified */}
-      <section className="learn-more" style={{ padding: '5rem 0', background: '#f8fafc' }}>
+      <section className="learn-more" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#f8fafc' }}>
         <div className="container">
           <div className="section-header fade-in" style={{ marginBottom: '3rem' }}>
             <h2 style={{
@@ -1350,7 +1350,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Community Section - Simplified */}
-      <section className="community-section" style={{ padding: '5rem 0', background: '#ffffff' }}>
+      <section className="community-section" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
         <div className="container">
           <div className="section-header fade-in text-center" style={{ marginBottom: '3rem' }}>
             <h2 style={{
@@ -1424,7 +1424,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* CTA Section - Parent-Focused */}
-      <section className="cta-section" style={{ padding: '4rem 0', background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)', color: 'white' }}>
+      <section className="cta-section" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)', color: 'white' }}>
         <div className="container">
           <div className="fade-in text-center">
             <h2 style={{
