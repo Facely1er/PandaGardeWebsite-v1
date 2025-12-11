@@ -1373,6 +1373,7 @@ const InteractiveStoryPage: React.FC = () => {
             </div>
           </div>
         </div>
+        </div>
 
         {/* Enhanced CSS for better visual engagement */}
         <style>{`
@@ -1451,8 +1452,8 @@ const InteractiveStoryPage: React.FC = () => {
             }
           }
         `}</style>
-        </div>
       </main>
+    </div>
   );
 };
 
