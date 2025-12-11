@@ -190,6 +190,7 @@ function App() {
             <Route path="/downloads/coloring-sheets" element={<ColoringSheetsPage />} />
             <Route path="/downloads/safety-posters" element={<SafetyPostersPage />} />
             <Route path="/downloads/certificates" element={<CertificatesPage />} />
+            <Route path="/certificates" element={<CertificatesPage />} />
             <Route path="/downloads/family-agreement" element={<FamilyAgreementPage />} />
             
             {/* Alternative download routes using DownloadGuidePage */}

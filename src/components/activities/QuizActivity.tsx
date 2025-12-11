@@ -75,18 +75,6 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
     }
   ], []);
 
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (quizStarted && timeLeft > 0 && !showResult && !isCompleted) {
-      interval = setInterval(() => {
-        setTimeLeft(prev => prev - 1);
-      }, 1000);
-    } else if (timeLeft === 0 && !showResult) {
-      handleAnswerSubmit();
-    }
-    return () => clearInterval(interval);
-  }, [timeLeft, quizStarted, showResult, isCompleted, handleAnswerSubmit]);
-
   const handleAnswerSelect = (answerIndex: number) => {
     if (showResult) {return;}
     setSelectedAnswer(answerIndex);
@@ -148,6 +136,18 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
       }
     }, 3000);
   }, [selectedAnswer, questions, currentQuestion, score, onComplete]);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (quizStarted && timeLeft > 0 && !showResult && !isCompleted) {
+      interval = setInterval(() => {
+        setTimeLeft(prev => prev - 1);
+      }, 1000);
+    } else if (timeLeft === 0 && !showResult) {
+      handleAnswerSubmit();
+    }
+    return () => clearInterval(interval);
+  }, [timeLeft, quizStarted, showResult, isCompleted, handleAnswerSubmit]);
 
   const handleNext = () => {
     if (currentQuestion < questions.length - 1) {

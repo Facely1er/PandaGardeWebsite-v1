@@ -180,17 +180,6 @@ const ActivityBookPage: React.FC = () => {
 
   const overallProgress = getOverallProgress();
 
-  // Animate stats on load
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setAnimatedStats({
-        completed: overallProgress.completedCount,
-        total: overallProgress.totalCount
-      });
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [overallProgress]);
-
   // Filter and sort activities
   const filteredActivities = activities
     .filter(activity => {
@@ -235,33 +224,33 @@ const ActivityBookPage: React.FC = () => {
         </div>
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="text-center">
+          <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 md:px-4 py-2 rounded-full mb-4 md:mb-6">
               <Book size={14} className="md:w-4 md:h-4" />
               <span className="text-xs md:text-sm font-semibold">INTERACTIVE ACTIVITY BOOK</span>
             </div>
 
-            <h1 className="text-3xl md:text-5xl font-bold mb-4 md:mb-6 leading-tight">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-tight">
               Privacy Panda's
-              <span className="block text-yellow-300">Activity Adventures</span>
+              <span className="block text-yellow-300 mt-2">Activity Adventures</span>
             </h1>
 
-            <p className="text-lg md:text-xl opacity-90 max-w-2xl mx-auto mb-6 md:mb-8 px-4">
+            <p className="text-base md:text-lg lg:text-xl opacity-90 max-w-2xl mx-auto mb-6 md:mb-8 px-4">
               Continue Po the Panda's journey with interactive activities that reinforce the privacy lessons from the Digital Bamboo Forest story.
               Learn through fun games, coloring, and puzzles!
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-6 text-xs md:text-sm">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-6 text-xs md:text-sm lg:text-base">
               <div className="flex items-center gap-2">
-                <Star size={14} className="md:w-4 md:h-4" />
+                <Star size={16} className="md:w-5 md:h-5" />
                 <span>Ages 5-12</span>
               </div>
               <div className="flex items-center gap-2">
-                <Play size={14} className="md:w-4 md:h-4" />
+                <Play size={16} className="md:w-5 md:h-5" />
                 <span>8 Interactive Activities</span>
               </div>
               <div className="flex items-center gap-2">
-                <Users size={14} className="md:w-4 md:h-4" />
+                <Users size={16} className="md:w-5 md:h-5" />
                 <span>Family Friendly</span>
               </div>
             </div>
@@ -270,23 +259,24 @@ const ActivityBookPage: React.FC = () => {
       </header>
 
       {/* Navigation */}
-      <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
+      <div className="bg-gray-50 border-b border-gray-200" style={{ backgroundColor: 'var(--light)' }}>
         <div className="container mx-auto px-4 md:px-6 py-3 md:py-4">
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <button
               onClick={() => window.history.back()}
               className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors text-sm md:text-base"
               style={{ color: 'var(--primary-light)' }}
             >
-              <ArrowLeft size={14} className="md:w-4 md:h-4" />
-              Back to Home
+              <ArrowLeft size={16} className="md:w-4 md:h-4" />
+              <span>Back to Home</span>
             </button>
             
-            <Link to="/family-hub"
-              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm md:text-base"
+            <Link 
+              to="/family-hub"
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm md:text-base whitespace-nowrap"
             >
-              <Users size={14} className="md:w-4 md:h-4" />
-              Family Hub
+              <Users size={16} className="md:w-4 md:h-4" />
+              <span>Family Hub</span>
             </Link>
           </div>
         </div>
@@ -294,32 +284,32 @@ const ActivityBookPage: React.FC = () => {
 
       {/* Story Connection Section */}
       <section className="container mx-auto px-4 md:px-6 py-8 md:py-12">
-        <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6 md:p-8 mb-8 md:mb-12" style={{
+        <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6 md:p-8 mb-8 md:mb-12 max-w-5xl mx-auto" style={{
           backgroundColor: theme === 'dark' ? 'rgba(16, 185, 129, 0.1)' : '#F0FDF4',
           borderColor: theme === 'dark' ? 'rgba(16, 185, 129, 0.3)' : '#BBF7D0'
         }}>
           <div className="text-center mb-6">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-3xl">🐼</span>
+            <div className="w-16 h-16 md:w-20 md:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-3xl md:text-4xl">🐼</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-3" style={{ color: theme === 'dark' ? '#6EE7B7' : '#059669' }}>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3" style={{ color: theme === 'dark' ? '#6EE7B7' : '#059669' }}>
               Continue Po's Journey
             </h2>
-            <p className="text-lg max-w-2xl mx-auto" style={{ color: theme === 'dark' ? '#6EE7B7' : '#059669' }}>
+            <p className="text-base md:text-lg lg:text-xl max-w-2xl mx-auto px-4" style={{ color: theme === 'dark' ? '#6EE7B7' : '#059669' }}>
               These activities extend the story of Privacy Panda. Practice the privacy concepts Po learned in the Digital Bamboo Forest through hands-on games and exercises.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div className="bg-white rounded-lg p-4 shadow-sm">
-              <h3 className="font-semibold mb-2" style={{ color: 'var(--primary)' }}>📖 Story Connection</h3>
-              <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
+            <div className="bg-white rounded-lg p-4 md:p-6 shadow-sm">
+              <h3 className="font-semibold mb-2 text-base md:text-lg" style={{ color: 'var(--primary)' }}>📖 Story Connection</h3>
+              <p className="text-sm md:text-base" style={{ color: 'var(--gray-600)' }}>
                 Each activity relates to a part of Po's adventure, reinforcing the privacy lessons he learned.
               </p>
             </div>
-            <div className="bg-white rounded-lg p-4 shadow-sm">
-              <h3 className="font-semibold mb-2" style={{ color: 'var(--primary)' }}>🎯 Learning Goals</h3>
-              <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
+            <div className="bg-white rounded-lg p-4 md:p-6 shadow-sm">
+              <h3 className="font-semibold mb-2 text-base md:text-lg" style={{ color: 'var(--primary)' }}>🎯 Learning Goals</h3>
+              <p className="text-sm md:text-base" style={{ color: 'var(--gray-600)' }}>
                 Develop practical skills for protecting personal information and staying safe online.
               </p>
             </div>
@@ -328,15 +318,15 @@ const ActivityBookPage: React.FC = () => {
           <div className="text-center">
             <Link
               to="/story"
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-flex items-center gap-2"
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-flex items-center gap-2 text-sm md:text-base"
             >
               <Book size={20} />
-              Read Privacy Panda's Story First
+              <span>Read Privacy Panda's Story First</span>
             </Link>
           </div>
         </div>
 
-        <div className="mb-8 md:mb-12">
+        <div className="mb-8 md:mb-12 max-w-5xl mx-auto">
           <ProgressDisplay
             completedCount={overallProgress.completedCount}
             totalCount={overallProgress.totalCount}
@@ -373,16 +363,16 @@ const ActivityBookPage: React.FC = () => {
 
       {/* Activities Grid */}
       <section className="container mx-auto px-4 md:px-6 pb-12 md:pb-16">
-        <div className="text-center mb-6 md:mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4" style={{ color: 'var(--primary)' }}>
+        <div className="text-center mb-6 md:mb-8 max-w-4xl mx-auto">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4" style={{ color: 'var(--primary)' }}>
             Choose Your Activity
           </h2>
-          <p className="text-base md:text-lg max-w-2xl mx-auto mb-6 md:mb-8 px-4" style={{ color: 'var(--gray-600)' }}>
+          <p className="text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-6 md:mb-8 px-4" style={{ color: 'var(--gray-600)' }}>
             Click on any activity to start learning about digital privacy through interactive games and exercises.
           </p>
 
           {/* Interactive Controls */}
-          <div className="bg-white rounded-xl shadow-lg p-4 md:p-6 mb-6 md:mb-8" style={{ backgroundColor: 'var(--card-color)' }}>
+          <div className="bg-white rounded-xl shadow-lg p-4 md:p-6 mb-6 md:mb-8 max-w-5xl mx-auto" style={{ backgroundColor: 'var(--card-color)' }}>
             <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
               {/* Search */}
               <div className="flex-1 min-w-0">
@@ -393,26 +383,26 @@ const ActivityBookPage: React.FC = () => {
                     placeholder="Search activities..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm md:text-base"
+                    className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm md:text-base"
                     style={{ backgroundColor: 'var(--white)' }}
                   />
                 </div>
               </div>
 
               {/* Filter and Sort */}
-              <div className="flex items-center gap-2 md:gap-4">
+              <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
                 <button
                   onClick={() => setShowFilters(!showFilters)}
-                  className="flex items-center gap-2 px-3 md:px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-sm md:text-base"
+                  className="flex items-center gap-2 px-3 md:px-4 py-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-sm md:text-base whitespace-nowrap"
                 >
-                  <Filter size={14} className="md:w-4 md:h-4" />
+                  <Filter size={16} className="md:w-4 md:h-4" />
                   <span className="hidden sm:inline">Filter</span>
                 </button>
 
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as 'name' | 'difficulty' | 'duration')}
-                  className="px-3 md:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm md:text-base"
+                  className="px-3 md:px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm md:text-base"
                   style={{ backgroundColor: 'var(--white)' }}
                 >
                   <option value="name">Sort by Name</option>
@@ -464,7 +454,7 @@ const ActivityBookPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
           {filteredActivities.length === 0 ? (
             <div className="col-span-full text-center py-12">
               <div className="text-6xl mb-4">🔍</div>
@@ -573,7 +563,7 @@ const ActivityBookPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
             <div className="bg-white rounded-xl p-4 md:p-6 shadow-md text-center" style={{ backgroundColor: 'var(--card-color)' }}>
               <div className="w-12 h-12 md:w-14 md:h-14 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
                 <Download size={20} className="text-blue-600 md:w-6 md:h-6" />
