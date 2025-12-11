@@ -33,6 +33,7 @@
   --gray-900: #000000;
   --success: #4CAF50;
   --danger: #DC3545;
+  --card-color: #FFFFFF;
   
   /* Logo colors - Enhanced contrast */
   --logo-bg: #E8F5E8;
@@ -614,6 +615,7 @@
   --gray-700: #B1BAC4;
   --gray-800: #D0D7DE;
   --gray-900: #F0F6FC;
+  --card-color: #161B22;
   
   /* Logo colors for dark theme - Enhanced contrast */
   --logo-bg: #1B5E20;

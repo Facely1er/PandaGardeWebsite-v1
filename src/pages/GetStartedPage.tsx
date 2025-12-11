@@ -175,7 +175,7 @@ const GetStartedPage: React.FC = () => {
             </p>
           </div>
         </div>
-        </div>
+      </div>
       </section>
 
       {/* Steps */}
@@ -302,7 +302,7 @@ const GetStartedPage: React.FC = () => {
             })}
           </div>
         </div>
-        </div>
+      </div>
       </section>
 
       {/* Quick Start Options */}
