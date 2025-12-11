@@ -12,8 +12,8 @@ const ResourcesPage: React.FC = () => {
   return (
     <main id="main-content">
       {/* Back Navigation */}
-      <div className="container py-6">
-        <Link to="/" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors">
+      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem 1.5rem' }}>
+        <Link to="/" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors" style={{ textDecoration: 'none' }}>
           <ArrowLeft size={16} />
           Back to Home
         </Link>
@@ -46,9 +46,15 @@ const ResourcesPage: React.FC = () => {
       </section>
 
       {/* Resource Categories */}
-      <section className="resources-section" id="parent-resources">
-        <div className="container">
-          <div className="resources-tabs">
+      <section className="resources-section" id="parent-resources" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+          <div className="resources-tabs" style={{ 
+            display: 'flex', 
+            gap: '0.5rem', 
+            marginBottom: '3rem', 
+            flexWrap: 'wrap', 
+            justifyContent: 'center' 
+          }}>
             <div
               className={`resource-tab ${activeTab === 'comprehensive-guides' ? 'active' : ''}`}
               onClick={() => openResourceTab('comprehensive-guides')}
@@ -87,9 +93,22 @@ const ResourcesPage: React.FC = () => {
           </div>
 
           {/* Comprehensive Guides Tab */}
-          <div className={`resource-content ${activeTab === 'comprehensive-guides' ? 'active' : ''}`}>
-            <h3>Comprehensive Privacy Education Guides</h3>
-            <p>In-depth guides covering all aspects of digital privacy education for families and educators. These comprehensive resources provide everything you need to teach children about online safety.</p>
+          <div className={`resource-content ${activeTab === 'comprehensive-guides' ? 'active' : ''}`} style={{ display: activeTab === 'comprehensive-guides' ? 'block' : 'none' }}>
+            <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+              <h3 style={{
+                fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                fontWeight: '700',
+                color: '#0f172a',
+                marginBottom: '0.75rem'
+              }}>Comprehensive Privacy Education Guides</h3>
+              <p style={{
+                fontSize: '1.125rem',
+                color: '#64748b',
+                maxWidth: '800px',
+                margin: '0 auto',
+                lineHeight: '1.6'
+              }}>In-depth guides covering all aspects of digital privacy education for families and educators. These comprehensive resources provide everything you need to teach children about online safety.</p>
+            </div>
 
             <div className="resource-grid">
               <div className="resource-card">
@@ -155,9 +174,22 @@ const ResourcesPage: React.FC = () => {
           </div>
 
           {/* Discussion Guides Tab */}
-          <div className={`resource-content ${activeTab === 'discussion-guides' ? 'active' : ''}`}>
-            <h3>Discussion Guides for Parents & Educators</h3>
-            <p>These discussion guides are designed to help you have meaningful conversations about digital privacy with children. Each guide includes age-appropriate language, example scenarios, and follow-up questions.</p>
+          <div className={`resource-content ${activeTab === 'discussion-guides' ? 'active' : ''}`} style={{ display: activeTab === 'discussion-guides' ? 'block' : 'none' }}>
+            <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+              <h3 style={{
+                fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                fontWeight: '700',
+                color: '#0f172a',
+                marginBottom: '0.75rem'
+              }}>Discussion Guides for Parents & Educators</h3>
+              <p style={{
+                fontSize: '1.125rem',
+                color: '#64748b',
+                maxWidth: '800px',
+                margin: '0 auto',
+                lineHeight: '1.6'
+              }}>These discussion guides are designed to help you have meaningful conversations about digital privacy with children. Each guide includes age-appropriate language, example scenarios, and follow-up questions.</p>
+            </div>
 
             <div className="discussion-guide">
               <h4>How to Talk About Personal Information</h4>
@@ -181,9 +213,22 @@ const ResourcesPage: React.FC = () => {
           </div>
 
           {/* Printable Resources Tab */}
-          <div className={`resource-content ${activeTab === 'printable-resources' ? 'active' : ''}`}>
-            <h3>Printable Resources</h3>
-            <p>A collection of printable materials to support privacy education at home or in the classroom.</p>
+          <div className={`resource-content ${activeTab === 'printable-resources' ? 'active' : ''}`} style={{ display: activeTab === 'printable-resources' ? 'block' : 'none' }}>
+            <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+              <h3 style={{
+                fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                fontWeight: '700',
+                color: '#0f172a',
+                marginBottom: '0.75rem'
+              }}>Printable Resources</h3>
+              <p style={{
+                fontSize: '1.125rem',
+                color: '#64748b',
+                maxWidth: '800px',
+                margin: '0 auto',
+                lineHeight: '1.6'
+              }}>A collection of printable materials to support privacy education at home or in the classroom.</p>
+            </div>
 
             <div className="resource-grid">
               <div className="resource-card">
@@ -233,9 +278,22 @@ const ResourcesPage: React.FC = () => {
           </div>
 
           {/* Digital Safety Tips Tab */}
-          <div className={`resource-content ${activeTab === 'digital-safety' ? 'active' : ''}`}>
-            <h3>Digital Safety Tips for Families</h3>
-            <p>Expert advice to help parents and caregivers create a safe digital environment for children.</p>
+          <div className={`resource-content ${activeTab === 'digital-safety' ? 'active' : ''}`} style={{ display: activeTab === 'digital-safety' ? 'block' : 'none' }}>
+            <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+              <h3 style={{
+                fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                fontWeight: '700',
+                color: '#0f172a',
+                marginBottom: '0.75rem'
+              }}>Digital Safety Tips for Families</h3>
+              <p style={{
+                fontSize: '1.125rem',
+                color: '#64748b',
+                maxWidth: '800px',
+                margin: '0 auto',
+                lineHeight: '1.6'
+              }}>Expert advice to help parents and caregivers create a safe digital environment for children.</p>
+            </div>
 
             <div className="resource-grid">
               <div className="resource-card">
@@ -265,9 +323,22 @@ const ResourcesPage: React.FC = () => {
           </div>
 
           {/* Activities & Tools Tab */}
-          <div className={`resource-content ${activeTab === 'activities-tools' ? 'active' : ''}`}>
-            <h3>Interactive Activities & Practical Tools</h3>
-            <p>Hands-on activities, games, and practical tools to make privacy education engaging and effective for children of all ages.</p>
+          <div className={`resource-content ${activeTab === 'activities-tools' ? 'active' : ''}`} style={{ display: activeTab === 'activities-tools' ? 'block' : 'none' }}>
+            <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+              <h3 style={{
+                fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                fontWeight: '700',
+                color: '#0f172a',
+                marginBottom: '0.75rem'
+              }}>Interactive Activities & Practical Tools</h3>
+              <p style={{
+                fontSize: '1.125rem',
+                color: '#64748b',
+                maxWidth: '800px',
+                margin: '0 auto',
+                lineHeight: '1.6'
+              }}>Hands-on activities, games, and practical tools to make privacy education engaging and effective for children of all ages.</p>
+            </div>
 
             <div className="resource-grid">
               <div className="resource-card">
@@ -365,11 +436,22 @@ const ResourcesPage: React.FC = () => {
       </section>
 
       {/* Community Resources Section */}
-      <section className="community-resources" style={{ padding: '4rem 0', background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)' }}>
-        <div className="container">
-          <div className="section-header fade-in text-center">
-            <h2 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>Community Resources</h2>
-            <p style={{ fontSize: '1.125rem', color: '#6b7280', maxWidth: '2xl', margin: '0 auto 2rem' }}>
+      <section className="community-resources" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)' }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+          <div className="section-header fade-in text-center" style={{ marginBottom: '3rem' }}>
+            <h2 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '700',
+              color: '#1B5E20',
+              marginBottom: '0.75rem'
+            }}>Community Resources</h2>
+            <p style={{
+              fontSize: '1.125rem',
+              color: '#64748b',
+              maxWidth: '600px',
+              margin: '0 auto',
+              lineHeight: '1.6'
+            }}>
               Connect with other families, share success stories, and discover community-voted privacy resources.
             </p>
           </div>
