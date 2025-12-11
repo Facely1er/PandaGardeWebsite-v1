@@ -8,7 +8,6 @@ import OnboardingFlow from '../components/OnboardingFlow';
 import FeatureUnlockCelebration from '../components/FeatureUnlockCelebration';
 import { logger } from '../lib/logger';
 import { trackEvent, AnalyticsEvents } from '../lib/analytics';
-import Logo from '../components/Logo';
 
 const HomePage: React.FC = () => {
   const personas = getAllPersonas();
