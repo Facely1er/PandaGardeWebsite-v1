@@ -39,11 +39,32 @@ window.onunhandledrejection = (event) => {
 };
 
 // Initialize monitoring, analytics, and service worker before rendering the app
-initSentry();
-initAnalytics();
-initServiceWorker();
+// Wrap in try-catch to prevent initialization errors from blocking the app
+try {
+  initSentry();
+} catch (error) {
+  console.warn('Failed to initialize Sentry:', error);
+}
 
-createRoot(document.getElementById('root')!).render(
+try {
+  initAnalytics();
+} catch (error) {
+  console.warn('Failed to initialize Analytics:', error);
+}
+
+try {
+  initServiceWorker();
+} catch (error) {
+  console.warn('Failed to initialize Service Worker:', error);
+}
+
+// Ensure root element exists before rendering
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  throw new Error('Root element not found. Make sure <div id="root"></div> exists in index.html');
+}
+
+createRoot(rootElement).render(
   <StrictMode>
     <App />
   </StrictMode>

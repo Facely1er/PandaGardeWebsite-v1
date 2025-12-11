@@ -3,9 +3,17 @@ import * as Sentry from '@sentry/react';
 
 // Initialize Sentry
 export const initSentry = () => {
-  Sentry.init({
-    dsn: import.meta.env.VITE_SENTRY_DSN || '',
-    environment: import.meta.env.MODE || 'development',
+  // Only initialize if DSN is provided
+  const dsn = import.meta.env.VITE_SENTRY_DSN;
+  if (!dsn) {
+    // Sentry is optional - app will work without it
+    return;
+  }
+
+  try {
+    Sentry.init({
+      dsn: dsn,
+      environment: import.meta.env.MODE || 'development',
     integrations: [
       Sentry.browserTracingIntegration(),
       Sentry.replayIntegration({
@@ -36,7 +44,11 @@ export const initSentry = () => {
         component: 'privacy-panda-app',
       },
     },
-  });
+    });
+  } catch (error) {
+    // Sentry initialization failed - log but don't throw
+    console.warn('Sentry initialization failed:', error);
+  }
 };
 
 // Simple error boundary component for React (class component)
@@ -77,14 +89,22 @@ export const trackPerformance = (name: string, fn: () => void) => {
 
 // Custom error reporting
 export const reportError = (error: Error, context?: Record<string, unknown>) => {
-  Sentry.withScope((scope) => {
-    if (context) {
-      Object.keys(context).forEach(key => {
-        scope.setContext(key, context[key]);
+  try {
+    // Only report if Sentry is available
+    if (typeof Sentry !== 'undefined' && typeof Sentry.captureException === 'function') {
+      Sentry.withScope((scope) => {
+        if (context) {
+          Object.keys(context).forEach(key => {
+            scope.setContext(key, context[key]);
+          });
+        }
+        Sentry.captureException(error);
       });
     }
-    Sentry.captureException(error);
-  });
+  } catch (err) {
+    // Silently fail - don't break the app if error reporting fails
+    console.warn('Error reporting failed:', err);
+  }
 };
 
 // User context for better error tracking
