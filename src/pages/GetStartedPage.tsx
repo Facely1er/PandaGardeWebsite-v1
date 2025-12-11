@@ -175,6 +175,7 @@ const GetStartedPage: React.FC = () => {
             </p>
           </div>
         </div>
+        </div>
       </section>
 
       {/* Steps */}
@@ -300,6 +301,7 @@ const GetStartedPage: React.FC = () => {
               );
             })}
           </div>
+        </div>
         </div>
       </section>
 
