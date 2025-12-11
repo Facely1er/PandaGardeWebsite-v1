@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Users, BookOpen, Play, ShoppingBag, BarChart3, Rocket } from 'lucide-react';
+import PageLayout from '../components/layout/PageLayout';
 
 const GetStartedPage: React.FC = () => {
   const steps = [
@@ -47,58 +48,14 @@ const GetStartedPage: React.FC = () => {
   ];
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      backgroundColor: '#FFFFFF', 
-      paddingTop: '100px'
-    }}>
-      {/* Page Header */}
-      <div style={{
-        background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
-        color: 'white',
-        padding: '2rem 0',
-        marginBottom: '2rem'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', textAlign: 'center' }}>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            background: 'rgba(255, 255, 255, 0.2)',
-            backdropFilter: 'blur(10px)',
-            padding: '0.5rem 1rem',
-            borderRadius: '50px',
-            marginBottom: '1rem',
-            fontSize: '0.875rem',
-            fontWeight: 600
-          }}>
-            <Rocket size={16} />
-            GET STARTED
-          </div>
-          <h1 style={{
-            fontSize: 'clamp(2rem, 4vw, 2.5rem)',
-            fontWeight: 800,
-            lineHeight: 1.2,
-            marginBottom: '0.75rem',
-            color: 'white'
-          }}>
-            Get Started with PandaGarde
-          </h1>
-          <p style={{
-            fontSize: '1.125rem',
-            opacity: 0.9,
-            maxWidth: '42rem',
-            margin: '0 auto',
-            lineHeight: 1.6
-          }}>
-            Follow our step-by-step guide to begin your family's digital privacy education journey.
-          </p>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <main style={{ padding: '2rem 0', backgroundColor: '#FFFFFF' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+    <PageLayout
+      title="Get Started with PandaGarde"
+      subtitle="Follow our step-by-step guide to begin your family's digital privacy education journey."
+      icon={Rocket}
+      badge="GET STARTED"
+      breadcrumbs={true}
+    >
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           {/* Steps Section */}
           <section style={{ padding: '2rem 0', marginBottom: '3rem' }} aria-labelledby="steps-heading">
             <div style={{ maxWidth: '896px', margin: '0 auto' }}>
@@ -439,9 +396,8 @@ const GetStartedPage: React.FC = () => {
               </div>
             </div>
           </section>
-        </div>
-      </main>
-    </div>
+      </div>
+    </PageLayout>
   );
 };
 

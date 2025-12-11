@@ -52,7 +52,7 @@ const Header: React.FC = () => {
   const navItems = [
     { icon: Home, label: 'Home', href: '/', isExternal: false },
     { icon: BookOpen, label: 'Learn', href: '/overview', isExternal: false },
-    { icon: Users, label: 'Get Started', href: '/quick-start', isExternal: false },
+    { icon: Users, label: 'Get Started', href: '/get-started', isExternal: false },
     { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
     { icon: MessageCircle, label: 'Community', href: '/community/forum', isExternal: false },
   ];
@@ -61,7 +61,7 @@ const Header: React.FC = () => {
   const mobileNavItems = [
     { icon: Home, label: 'Home', href: '/', isExternal: false },
     { icon: BookOpen, label: 'Learn', href: '/overview', isExternal: false },
-    { icon: Users, label: 'Get Started', href: '/quick-start', isExternal: false },
+    { icon: Users, label: 'Get Started', href: '/get-started', isExternal: false },
     { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
     { icon: MessageCircle, label: 'Community Forum', href: '/community/forum', isExternal: false },
     { icon: Heart, label: 'Success Stories', href: '/community/stories', isExternal: false },

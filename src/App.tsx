@@ -122,7 +122,8 @@ function App() {
                       <PageTracker />
                       <HashHandler />
                       <Header />
-                      <Routes>
+                      <main className="main-content-wrapper">
+                        <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/story" element={<InteractiveStoryPage />} />
             <Route path="/privacy-panda" element={<InteractiveStoryPage />} />
@@ -219,9 +220,10 @@ function App() {
             
             {/* 404 Fallback */}
             <Route path="*" element={<HomePage />} />
-          </Routes>
-                      <Footer />
-                      <BackToTop />
+                        </Routes>
+                        <Footer />
+                        <BackToTop />
+                      </main>
                     </div>
                   </NavigationErrorBoundary>
                 </SentryErrorBoundary>

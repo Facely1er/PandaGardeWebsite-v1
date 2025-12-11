@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, MessageCircle, FileText, Shield, Download, Users, Award, Eye, Heart, Brain, BookOpen, Globe, ArrowRight } from 'lucide-react';
+import PageLayout from '../components/layout/PageLayout';
 
 const ResourcesPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('comprehensive-guides');
@@ -10,44 +11,17 @@ const ResourcesPage: React.FC = () => {
   };
 
   return (
-    <main id="main-content" style={{ minHeight: '100vh', paddingTop: '80px' }}>
-      {/* Back Navigation */}
-      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem 1.5rem' }}>
-        <Link to="/" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors" style={{ textDecoration: 'none' }}>
-          <ArrowLeft size={16} />
-          Back to Home
-        </Link>
-      </div>
-
-      {/* Page Header */}
-      <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
-        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <div className="text-center fade-in" style={{ textAlign: 'center' }}>
-            <h1 style={{
-              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
-              fontWeight: '800',
-              lineHeight: '1.1',
-              marginBottom: '1rem',
-              color: '#0f172a'
-            }}>
-              Parent & Educator Resources
-            </h1>
-            <p style={{
-              fontSize: '1.125rem',
-              color: '#64748b',
-              maxWidth: '48rem',
-              margin: '0 auto',
-              lineHeight: '1.6'
-            }}>
-              Comprehensive tools, guides, and materials to help adults facilitate privacy education for children. Everything you need to create a safe digital environment for your family.
-            </p>
-          </div>
-        </div>
-      </section>
+    <PageLayout
+      title="Parent & Educator Resources"
+      subtitle="Comprehensive tools, guides, and materials to help adults facilitate privacy education for children. Everything you need to create a safe digital environment for your family."
+      icon={BookOpen}
+      badge="RESOURCES"
+      breadcrumbs={true}
+    >
 
       {/* Resource Categories */}
-      <section className="resources-section" id="parent-resources" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
-        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+      <section className="resources-section" id="parent-resources" style={{ padding: '2rem 0', background: '#ffffff' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div className="resources-tabs" style={{ 
             display: 'flex', 
             gap: '0.5rem', 
@@ -512,7 +486,7 @@ const ResourcesPage: React.FC = () => {
           </div>
         </div>
       </section>
-    </main>
+    </PageLayout>
   );
 };
 

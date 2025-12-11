@@ -26,6 +26,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className = '' }) => {
     '/accessibility': 'Accessibility',
     '/overview': 'Overview',
     '/quick-start': 'Quick Start',
+    '/get-started': 'Get Started',
     '/resources': 'Resources',
     '/newsletter': 'Newsletter',
     '/support': 'Support',

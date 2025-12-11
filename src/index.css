@@ -713,10 +713,19 @@ body {
   min-height: calc(100vh - 80px);
 }
 
+/* Ensure content after fixed header has proper spacing */
+.main-content-wrapper {
+  padding-top: 84px;
+}
+
 @media (max-width: 768px) {
   #main-content {
     padding-top: 70px;
     min-height: calc(100vh - 70px);
+  }
+  
+  .main-content-wrapper {
+    padding-top: 72px;
   }
 }
 

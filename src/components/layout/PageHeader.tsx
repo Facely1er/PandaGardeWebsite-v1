@@ -25,7 +25,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
       style={{
         background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
         color: 'white',
-        padding: '1.5rem 0 1rem',
+        padding: '2rem 0 1.5rem',
         position: 'relative',
         overflow: 'hidden'
       }}
