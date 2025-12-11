@@ -229,200 +229,166 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
   }
 
   return (
-    <main id="main-content" style={{ minHeight: '100vh', paddingTop: '80px' }}>
-      {/* Back Navigation */}
-      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem 1.5rem' }}>
-        <Link to="/" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors" style={{ textDecoration: 'none' }}>
-          <ArrowLeft size={16} />
-          Back to Home
-        </Link>
-      </div>
+    <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      {/* Forum Description Section */}
+      <div style={{
+        maxWidth: '900px',
+        margin: '0 auto',
+        textAlign: 'left',
+        background: 'white',
+        borderRadius: '12px',
+        padding: '2rem',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        marginTop: '2rem'
+      }}>
+        <h2 style={{
+          fontSize: '1.5rem',
+          fontWeight: '700',
+          color: '#1B5E20',
+          marginBottom: '1rem'
+        }}>
+          What is the Privacy Tips Forum?
+        </h2>
+        <p style={{
+          fontSize: '1rem',
+          color: '#64748b',
+          lineHeight: '1.7',
+          marginBottom: '1.5rem'
+        }}>
+          A community-driven space where parents, educators, and families come together to share knowledge, 
+          ask questions, and support each other in teaching children about digital privacy and online safety.
+        </p>
 
-      {/* Page Header */}
-      <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
-        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <div className="text-center fade-in" style={{ textAlign: 'center' }}>
-            <h1 style={{
-              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
-              fontWeight: '800',
-              lineHeight: '1.1',
-              marginBottom: '1rem',
-              color: '#0f172a'
-            }}>
-              Privacy Tips Forum
-            </h1>
-            <p style={{
-              fontSize: '1.125rem',
-              color: '#64748b',
-              maxWidth: '48rem',
-              margin: '0 auto 2rem',
-              lineHeight: '1.6'
-            }}>
-              Share tips, ask questions, and learn from other parents in our privacy-first community forum.
-            </p>
-            
-            {/* Forum Description Section */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', marginTop: '2rem' }}>
+          <div style={{ padding: '1rem' }}>
             <div style={{
-              maxWidth: '900px',
-              margin: '0 auto',
-              textAlign: 'left',
-              background: 'white',
-              borderRadius: '12px',
-              padding: '2rem',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-              marginTop: '2rem'
+              width: '48px',
+              height: '48px',
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '1rem'
             }}>
-              <h2 style={{
-                fontSize: '1.5rem',
-                fontWeight: '700',
-                color: '#1B5E20',
-                marginBottom: '1rem'
-              }}>
-                What is the Privacy Tips Forum?
-              </h2>
-              <p style={{
-                fontSize: '1rem',
-                color: '#64748b',
-                lineHeight: '1.7',
-                marginBottom: '1.5rem'
-              }}>
-                A community-driven space where parents, educators, and families come together to share knowledge, 
-                ask questions, and support each other in teaching children about digital privacy and online safety.
-              </p>
-
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', marginTop: '2rem' }}>
-                <div style={{ padding: '1rem' }}>
-                  <div style={{
-                    width: '48px',
-                    height: '48px',
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '1rem'
-                  }}>
-                    <MessageCircle size={24} style={{ color: 'white' }} />
-                  </div>
-                  <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#0f172a', marginBottom: '0.5rem' }}>
-                    Share Tips & Strategies
-                  </h3>
-                  <p style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: '1.6' }}>
-                    Exchange practical advice on teaching privacy concepts, managing screen time, and protecting your family's digital footprint.
-                  </p>
-                </div>
-
-                <div style={{ padding: '1rem' }}>
-                  <div style={{
-                    width: '48px',
-                    height: '48px',
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '1rem'
-                  }}>
-                    <Users size={24} style={{ color: 'white' }} />
-                  </div>
-                  <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#0f172a', marginBottom: '0.5rem' }}>
-                    Ask Questions
-                  </h3>
-                  <p style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: '1.6' }}>
-                    Get answers from experienced parents and educators about age-appropriate privacy education, app safety, and digital citizenship.
-                  </p>
-                </div>
-
-                <div style={{ padding: '1rem' }}>
-                  <div style={{
-                    width: '48px',
-                    height: '48px',
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '1rem'
-                  }}>
-                    <Shield size={24} style={{ color: 'white' }} />
-                  </div>
-                  <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#0f172a', marginBottom: '0.5rem' }}>
-                    Privacy First
-                  </h3>
-                  <p style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: '1.6' }}>
-                    All data is stored locally on your device. No backend required. Use pseudonymous usernames. Completely anonymous and secure.
-                  </p>
-                </div>
-              </div>
-
-              <div style={{
-                marginTop: '2rem',
-                padding: '1.5rem',
-                background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
-                borderRadius: '8px',
-                border: '1px solid #86efac'
-              }}>
-                <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#1B5E20', marginBottom: '0.75rem' }}>
-                  Topics You Can Explore:
-                </h3>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                  {categories.filter(c => c.value !== 'all').map((category) => (
-                    <span
-                      key={category.value}
-                      style={{
-                        display: 'inline-block',
-                        padding: '0.5rem 1rem',
-                        background: 'white',
-                        borderRadius: '20px',
-                        fontSize: '0.875rem',
-                        color: '#166534',
-                        border: '1px solid #86efac'
-                      }}
-                    >
-                      {category.label}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {!currentUser && (
-                <div style={{
-                  marginTop: '2rem',
-                  padding: '1.5rem',
-                  background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
-                  borderRadius: '8px',
-                  color: 'white',
-                  textAlign: 'center'
-                }}>
-                  <p style={{ fontSize: '1rem', marginBottom: '1rem', opacity: 0.95 }}>
-                    <strong>Ready to join the conversation?</strong> Browse topics below or sign up to start sharing your own tips and questions.
-                  </p>
-                  <button
-                    onClick={() => setShowUserForm(true)}
-                    style={{
-                      padding: '0.75rem 2rem',
-                      background: 'white',
-                      color: '#1B5E20',
-                      border: 'none',
-                      borderRadius: '8px',
-                      fontSize: '1rem',
-                      fontWeight: '600',
-                      cursor: 'pointer',
-                      transition: 'opacity 0.2s'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
-                    onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
-                  >
-                    Join Forum
-                  </button>
-                </div>
-              )}
+              <MessageCircle size={24} style={{ color: 'white' }} />
             </div>
+            <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#0f172a', marginBottom: '0.5rem' }}>
+              Share Tips & Strategies
+            </h3>
+            <p style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: '1.6' }}>
+              Exchange practical advice on teaching privacy concepts, managing screen time, and protecting your family's digital footprint.
+            </p>
+          </div>
+
+          <div style={{ padding: '1rem' }}>
+            <div style={{
+              width: '48px',
+              height: '48px',
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '1rem'
+            }}>
+              <Users size={24} style={{ color: 'white' }} />
+            </div>
+            <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#0f172a', marginBottom: '0.5rem' }}>
+              Ask Questions
+            </h3>
+            <p style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: '1.6' }}>
+              Get answers from experienced parents and educators about age-appropriate privacy education, app safety, and digital citizenship.
+            </p>
+          </div>
+
+          <div style={{ padding: '1rem' }}>
+            <div style={{
+              width: '48px',
+              height: '48px',
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '1rem'
+            }}>
+              <Shield size={24} style={{ color: 'white' }} />
+            </div>
+            <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#0f172a', marginBottom: '0.5rem' }}>
+              Privacy First
+            </h3>
+            <p style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: '1.6' }}>
+              All data is stored locally on your device. No backend required. Use pseudonymous usernames. Completely anonymous and secure.
+            </p>
           </div>
         </div>
-      </section>
 
-      <div style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
+        <div style={{
+          marginTop: '2rem',
+          padding: '1.5rem',
+          background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+          borderRadius: '8px',
+          border: '1px solid #86efac'
+        }}>
+          <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#1B5E20', marginBottom: '0.75rem' }}>
+            Topics You Can Explore:
+          </h3>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+            {categories.filter(c => c.value !== 'all').map((category) => (
+              <span
+                key={category.value}
+                style={{
+                  display: 'inline-block',
+                  padding: '0.5rem 1rem',
+                  background: 'white',
+                  borderRadius: '20px',
+                  fontSize: '0.875rem',
+                  color: '#166534',
+                  border: '1px solid #86efac'
+                }}
+              >
+                {category.label}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {!currentUser && (
+          <div style={{
+            marginTop: '2rem',
+            padding: '1.5rem',
+            background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+            borderRadius: '8px',
+            color: 'white',
+            textAlign: 'center'
+          }}>
+            <p style={{ fontSize: '1rem', marginBottom: '1rem', opacity: 0.95 }}>
+              <strong>Ready to join the conversation?</strong> Browse topics below or sign up to start sharing your own tips and questions.
+            </p>
+            <button
+              onClick={() => setShowUserForm(true)}
+              style={{
+                padding: '0.75rem 2rem',
+                background: 'white',
+                color: '#1B5E20',
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: '1rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'opacity 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+            >
+              Join Forum
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)', marginTop: '2rem' }}>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: 'clamp(2rem, 4vw, 3rem) 1.5rem' }}>
           {/* Join Banner - Closable */}
           {showBanner && currentUser && (
@@ -623,7 +589,7 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
           )}
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 

@@ -25,7 +25,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
       style={{
         background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
         color: 'white',
-        padding: '3rem 0 2rem',
+        padding: '1.5rem 0 1rem',
         position: 'relative',
         overflow: 'hidden'
       }}
@@ -51,7 +51,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
         }}
       >
         {showBreadcrumbs && (
-          <div style={{ marginBottom: '1.5rem' }}>
+          <div style={{ marginBottom: '0.75rem' }}>
             <Breadcrumbs />
           </div>
         )}
@@ -67,7 +67,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
                 backdropFilter: 'blur(10px)',
                 padding: '0.5rem 1rem',
                 borderRadius: '50px',
-                marginBottom: '1.5rem',
+                marginBottom: '1rem',
                 fontSize: '0.875rem',
                 fontWeight: 600
               }}
@@ -82,7 +82,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',
               fontWeight: 800,
               lineHeight: 1.2,
-              marginBottom: subtitle ? '1rem' : 0,
+              marginBottom: subtitle ? '0.75rem' : 0,
               color: 'white'
             }}
           >

@@ -26,8 +26,8 @@ const PageLayout: React.FC<PageLayoutProps> = ({
       className={`page-layout ${className}`}
       style={{
         minHeight: '100vh',
-        backgroundColor: 'var(--white)',
-        color: 'var(--gray-800)'
+        backgroundColor: '#FFFFFF',
+        color: '#212121'
       }}
     >
       <PageHeader
@@ -40,8 +40,9 @@ const PageLayout: React.FC<PageLayoutProps> = ({
 
       <main 
         style={{
-          padding: '3rem 0',
-          backgroundColor: 'var(--white)'
+          padding: '1.5rem 0',
+          backgroundColor: '#FFFFFF',
+          color: '#212121'
         }}
       >
         <div 
@@ -49,7 +50,8 @@ const PageLayout: React.FC<PageLayoutProps> = ({
           style={{
             maxWidth: '1200px',
             margin: '0 auto',
-            padding: '0 1.5rem'
+            padding: '0 1.5rem',
+            color: '#212121'
           }}
         >
           {children}

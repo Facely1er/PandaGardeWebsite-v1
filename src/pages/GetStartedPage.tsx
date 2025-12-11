@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Users, BookOpen, Play, ShoppingBag, BarChart3 } from 'lucide-react';
+import { Users, BookOpen, Play, ShoppingBag, BarChart3, Rocket } from 'lucide-react';
+import PageLayout from '../components/layout/PageLayout';
 
 const GetStartedPage: React.FC = () => {
   const steps = [
@@ -47,31 +48,13 @@ const GetStartedPage: React.FC = () => {
   ];
 
   return (
-    <main className="min-h-screen bg-white pt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Back Navigation */}
-        <div className="py-6">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-            aria-label="Back to home page"
-          >
-            <ArrowLeft size={16} aria-hidden="true" />
-            <span>Back to Home</span>
-          </Link>
-        </div>
-
-        {/* Page Header */}
-        <section className="py-12 md:py-16 bg-gradient-to-br from-gray-50 to-white rounded-lg mb-12">
-          <div className="text-center max-w-3xl mx-auto px-4">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Get Started with PandaGarde
-            </h1>
-            <p className="text-lg md:text-xl text-gray-600">
-              Follow our step-by-step guide to begin your family's digital privacy education journey.
-            </p>
-          </div>
-        </section>
+    <PageLayout
+      title="Get Started with PandaGarde"
+      subtitle="Follow our step-by-step guide to begin your family's digital privacy education journey."
+      icon={Rocket}
+      badge="GET STARTED"
+    >
+      <div className="max-w-7xl mx-auto">
 
         {/* Steps Section */}
         <section className="py-12 md:py-16" aria-labelledby="steps-heading">
@@ -229,7 +212,7 @@ const GetStartedPage: React.FC = () => {
           </div>
         </section>
       </div>
-    </main>
+    </PageLayout>
   );
 };
 
