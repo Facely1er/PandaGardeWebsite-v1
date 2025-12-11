@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { MessageCircle, Plus, Search, ArrowRight, Heart, CheckCircle, User, Shield, Lock, GraduationCap, Briefcase, UserCircle, X, ArrowLeft } from 'lucide-react';
+import { MessageCircle, Plus, Search, ArrowRight, Heart, CheckCircle, User, Users, Shield, Lock, GraduationCap, Briefcase, UserCircle, X, ArrowLeft } from 'lucide-react';
 import { communityStorage, ForumTopic, ForumPost, ForumUser } from '../../utils/communityStorageManager';
 
 interface PrivacyTipsForumProps {
@@ -209,17 +209,7 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
     );
   }
 
-  if (!currentUser) {
-    return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--white)' }}>
-        <UserRegistrationForm
-          onSubmit={handleCreateUser}
-          onCancel={() => {}}
-          required={true}
-        />
-      </div>
-    );
-  }
+  // Don't return early - show forum content even when not logged in (read-only mode)
 
   if (selectedTopic) {
     return (
@@ -343,14 +333,25 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
                   Join conversations and share your privacy tips
                 </p>
               </div>
-              <button
-                onClick={() => setShowTopicForm(true)}
-                className="px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all flex items-center gap-2"
-                style={{ whiteSpace: 'nowrap' }}
-              >
-                <Plus size={20} />
-                New Topic
-              </button>
+              {currentUser ? (
+                <button
+                  onClick={() => setShowTopicForm(true)}
+                  className="px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all flex items-center gap-2"
+                  style={{ whiteSpace: 'nowrap' }}
+                >
+                  <Plus size={20} />
+                  New Topic
+                </button>
+              ) : (
+                <button
+                  onClick={() => setShowUserForm(true)}
+                  className="px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all flex items-center gap-2"
+                  style={{ whiteSpace: 'nowrap' }}
+                >
+                  <Users size={20} />
+                  Join Forum
+                </button>
+              )}
             </div>
           </div>
 
@@ -386,12 +387,21 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
           <div className="text-center py-12">
             <MessageCircle size={48} className="mx-auto text-gray-300 mb-4" />
             <p className="text-gray-500 mb-4">No topics found. Start a new discussion!</p>
-            <button
-              onClick={() => setShowTopicForm(true)}
-              className="px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors"
-            >
-              Create First Topic
-            </button>
+            {currentUser ? (
+              <button
+                onClick={() => setShowTopicForm(true)}
+                className="px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors"
+              >
+                Create First Topic
+              </button>
+            ) : (
+              <button
+                onClick={() => setShowUserForm(true)}
+                className="px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors"
+              >
+                Join Forum to Start Discussion
+              </button>
+            )}
           </div>
         ) : (
           <div className="space-y-4">
@@ -438,7 +448,14 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
         )}
 
           {/* Topic Creation Form */}
-          {showTopicForm && (
+          {showUserForm && (
+            <UserRegistrationForm
+              onSubmit={handleCreateUser}
+              onCancel={() => setShowUserForm(false)}
+              required={true}
+            />
+          )}
+          {showTopicForm && currentUser && (
             <TopicCreationForm
               onSubmit={handleCreateTopic}
               onCancel={() => setShowTopicForm(false)}
@@ -485,15 +502,48 @@ const TopicDetailView: React.FC<TopicDetailViewProps> = ({
   const author = communityStorage.getForumUser(topic.authorId);
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
-      <div className="container mx-auto px-6 py-8">
+    <main id="main-content" style={{ minHeight: '100vh', paddingTop: '80px' }}>
+      {/* Back Navigation */}
+      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem 1.5rem' }}>
         <button
           onClick={onBack}
-          className="mb-6 text-green-600 hover:text-green-700 font-medium flex items-center gap-2"
+          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+          style={{ textDecoration: 'none', background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit' }}
         >
-          ← Back to Forum
+          <ArrowLeft size={16} />
+          Back to Forum
         </button>
+      </div>
 
+      {/* Page Header */}
+      <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+          <h1 style={{
+            fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+            fontWeight: '800',
+            lineHeight: '1.1',
+            marginBottom: '1rem',
+            color: '#0f172a'
+          }}>
+            {topic.title}
+          </h1>
+          {topic.description && (
+            <p style={{
+              fontSize: '1.125rem',
+              color: '#64748b',
+              maxWidth: '48rem',
+              margin: '0 auto',
+              lineHeight: '1.6'
+            }}>
+              {topic.description}
+            </p>
+          )}
+        </div>
+      </section>
+
+      {/* Topic Content */}
+      <section style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
         {/* Topic Header */}
         <div className="bg-white rounded-lg p-6 shadow-md mb-6" style={{ backgroundColor: 'var(--card-color)' }}>
           <h1 className="text-3xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
@@ -606,8 +656,9 @@ const TopicDetailView: React.FC<TopicDetailViewProps> = ({
             Reply to Topic
           </button>
         )}
-      </div>
-    </div>
+        </div>
+      </section>
+    </main>
   );
 };
 

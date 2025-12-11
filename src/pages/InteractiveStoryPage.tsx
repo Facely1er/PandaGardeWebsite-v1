@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Book, ArrowLeft, Heart, Star, Play, Pause, Volume2, VolumeX, RotateCcw } from 'lucide-react';
 import Logo from '../components/Logo';
 import InteractiveStoryPlayer from '../components/story/InteractiveStoryPlayer';
@@ -804,7 +805,7 @@ const InteractiveStoryPage: React.FC = () => {
         </div>
 
         {/* Enhanced CSS for animations and mobile responsiveness */}
-        <style jsx>{`
+        <style>{`
           .floating-panda {
             position: absolute;
             top: 20%;
@@ -1232,7 +1233,16 @@ const InteractiveStoryPage: React.FC = () => {
       )}
 
       {/* Enhanced Main Content */}
-      <main id="main-content" className="container mx-auto px-6 py-16" role="main" aria-label="Interactive Story Content">
+      <main id="main-content" style={{ minHeight: '100vh', paddingTop: '80px' }} role="main" aria-label="Interactive Story Content">
+        {/* Back Navigation */}
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem 1.5rem' }}>
+          <Link to="/" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors" style={{ textDecoration: 'none' }}>
+            <ArrowLeft size={16} />
+            Back to Home
+          </Link>
+        </div>
+        
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
         <div className="max-w-6xl mx-auto">
           {/* Enhanced Progress Component */}
           <div className="mb-12">
@@ -1365,7 +1375,7 @@ const InteractiveStoryPage: React.FC = () => {
         </div>
 
         {/* Enhanced CSS for better visual engagement */}
-        <style jsx>{`
+        <style>{`
           .scene-container {
             position: relative;
             animation: sceneSlideIn 0.8s ease-out;
@@ -1441,8 +1451,8 @@ const InteractiveStoryPage: React.FC = () => {
             }
           }
         `}</style>
+        </div>
       </main>
-    </div>
   );
 };
 

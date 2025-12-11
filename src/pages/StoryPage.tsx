@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Book, ArrowLeft, Heart, Star, Play, Pause, Volume2, VolumeX, RotateCcw, Users, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTheme } from '../contexts/ThemeContext';
 import Logo from '../components/Logo';
 
 const StoryPage: React.FC = () => {
+  const { theme } = useTheme();
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [readingProgress, setReadingProgress] = useState(0);
@@ -21,7 +23,6 @@ const StoryPage: React.FC = () => {
   };
 
   const resetStory = () => {
-    setCurrentPage(0);
     setReadingProgress(0);
     setIsPlaying(false);
     scrollToTop();
@@ -48,19 +49,28 @@ const StoryPage: React.FC = () => {
       }, 50);
       return () => clearInterval(interval);
     }
+    return undefined;
   }, [isPlaying]);
 
   return (
-    <div className="min-h-screen bg-white" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
+    <main id="main-content" style={{ minHeight: '100vh', paddingTop: '80px' }}>
+      {/* Back Navigation */}
+      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem 1.5rem' }}>
+        <Link to="/" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors" style={{ textDecoration: 'none' }}>
+          <ArrowLeft size={16} />
+          Back to Home
+        </Link>
+      </div>
+
       {/* Header */}
-      <header className="bg-gradient-to-r from-green-600 to-green-500 text-white py-20 relative overflow-hidden">
+      <header className="bg-gradient-to-r from-green-600 to-green-500 text-white py-20 relative overflow-hidden" style={{ padding: 'clamp(3rem, 6vw, 5rem) 0' }}>
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
           }} />
         </div>
 
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', position: 'relative', zIndex: 10 }}>
           <div className="flex items-center justify-center mb-8">
             <div className="w-20 h-20 mr-4">
               <Logo />
@@ -120,7 +130,7 @@ const StoryPage: React.FC = () => {
 
       {/* Navigation */}
       <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
-        <div className="container mx-auto px-6 py-4">
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '1rem 1.5rem' }}>
           <div className="flex items-center justify-between">
             <button
               onClick={() => window.history.back()}
@@ -175,8 +185,9 @@ const StoryPage: React.FC = () => {
       </div>
 
       {/* Story Content */}
-      <main className="container mx-auto px-6 py-16">
-        <div className="max-w-4xl mx-auto">
+      <section style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           {/* Story Introduction */}
           <div className="bg-green-50 border-l-4 border-green-500 p-6 mb-12 rounded-r-lg"
                style={{
@@ -223,7 +234,8 @@ const StoryPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <p className="text-xl font-semibold text-green-700 italic" style={{ color: 'var(--primary-light)' }}>
+
+              <p>
                 Deep in the lush Bamboo Digital Forest lived a panda named Po. He was different from the other pandas because instead of munching on regular bamboo all day, he loved to play with digital bamboo tablets. These magical tablets could connect to all parts of the forest, letting animals share stories, photos, and messages.
               </p>
 
@@ -520,9 +532,10 @@ const StoryPage: React.FC = () => {
               </div>
             </div>
           </div>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+    </main>
   );
 };
 
