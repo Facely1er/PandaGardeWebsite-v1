@@ -131,7 +131,7 @@ const QuickStartPage: React.FC = () => {
   return (
     <main id="main-content" style={{ minHeight: '100vh', paddingTop: '80px' }}>
       {/* Back Navigation */}
-      <div className="container" style={{ padding: '1.5rem 1rem' }}>
+      <div className="container" style={{ padding: '1.5rem 1rem', maxWidth: '1200px', margin: '0 auto' }}>
         <Link 
           to="/" 
           className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
@@ -169,11 +169,22 @@ const QuickStartPage: React.FC = () => {
       </section>
 
       {/* Quick Actions */}
-      <section className="quick-actions">
+      <section className="quick-actions" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0' }}>
         <div className="container">
-          <div className="section-header fade-in">
-            <h2>Choose Your Starting Point</h2>
-            <p>Pick the option that feels right for your family and start learning today.</p>
+          <div className="section-header fade-in" style={{ marginBottom: '3rem', textAlign: 'center' }}>
+            <h2 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '700',
+              color: '#0f172a',
+              marginBottom: '0.75rem'
+            }}>Choose Your Starting Point</h2>
+            <p style={{
+              fontSize: '1.125rem',
+              color: '#64748b',
+              maxWidth: '600px',
+              margin: '0 auto',
+              lineHeight: '1.6'
+            }}>Pick the option that feels right for your family and start learning today.</p>
           </div>
 
           <div className="quick-actions-grid">
@@ -207,11 +218,22 @@ const QuickStartPage: React.FC = () => {
       </section>
 
       {/* Age Group Paths */}
-      <section className="age-paths">
+      <section className="age-paths" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#f8fafc' }}>
         <div className="container">
-          <div className="section-header fade-in">
-            <h2>Age-Appropriate Learning Paths</h2>
-            <p>Find the perfect starting point for your child's age and development level.</p>
+          <div className="section-header fade-in" style={{ marginBottom: '3rem', textAlign: 'center' }}>
+            <h2 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '700',
+              color: '#0f172a',
+              marginBottom: '0.75rem'
+            }}>Age-Appropriate Learning Paths</h2>
+            <p style={{
+              fontSize: '1.125rem',
+              color: '#64748b',
+              maxWidth: '600px',
+              margin: '0 auto',
+              lineHeight: '1.6'
+            }}>Find the perfect starting point for your child's age and development level.</p>
           </div>
 
           <div className="age-paths-grid">
@@ -248,11 +270,22 @@ const QuickStartPage: React.FC = () => {
       </section>
 
       {/* Parent Quick Steps */}
-      <section className="parent-steps">
+      <section className="parent-steps" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
         <div className="container">
-          <div className="section-header fade-in">
-            <h2>Your PandaGarde Journey</h2>
-            <p>Follow these simple steps to protect your family in the digital age.</p>
+          <div className="section-header fade-in" style={{ marginBottom: '3rem', textAlign: 'center' }}>
+            <h2 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '700',
+              color: '#0f172a',
+              marginBottom: '0.75rem'
+            }}>Your PandaGarde Journey</h2>
+            <p style={{
+              fontSize: '1.125rem',
+              color: '#64748b',
+              maxWidth: '600px',
+              margin: '0 auto',
+              lineHeight: '1.6'
+            }}>Follow these simple steps to protect your family in the digital age.</p>
             
             {/* Progress Bar */}
             <div style={{ 
@@ -413,11 +446,22 @@ const QuickStartPage: React.FC = () => {
       </section>
 
       {/* Success Tips */}
-      <section className="success-tips">
+      <section className="success-tips" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#f8fafc' }}>
         <div className="container">
-          <div className="section-header fade-in">
-            <h2>Tips for Success</h2>
-            <p>Make the most of your family's privacy education journey with these helpful tips.</p>
+          <div className="section-header fade-in" style={{ marginBottom: '3rem', textAlign: 'center' }}>
+            <h2 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '700',
+              color: '#0f172a',
+              marginBottom: '0.75rem'
+            }}>Tips for Success</h2>
+            <p style={{
+              fontSize: '1.125rem',
+              color: '#64748b',
+              maxWidth: '600px',
+              margin: '0 auto',
+              lineHeight: '1.6'
+            }}>Make the most of your family's privacy education journey with these helpful tips.</p>
           </div>
 
           <div className="tips-grid">
@@ -457,11 +501,22 @@ const QuickStartPage: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="cta-section">
+      <section className="cta-section" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)', color: 'white' }}>
         <div className="container">
           <div className="fade-in text-center">
-            <h2>Ready to Begin?</h2>
-            <p>Choose your starting point and begin your family's digital privacy education journey today.</p>
+            <h2 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '700',
+              color: 'white',
+              marginBottom: '1rem'
+            }}>Ready to Begin?</h2>
+            <p style={{
+              fontSize: '1.125rem',
+              color: 'rgba(255, 255, 255, 0.9)',
+              maxWidth: '700px',
+              margin: '0 auto 2rem',
+              lineHeight: '1.6'
+            }}>Choose your starting point and begin your family's digital privacy education journey today.</p>
             <div className="cta-buttons">
               <Link to="/privacy-panda" className="button primary">
                 <Play size={20} />

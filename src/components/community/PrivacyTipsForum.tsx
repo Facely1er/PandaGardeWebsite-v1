@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MessageCircle, Plus, Search, ArrowRight, Heart, CheckCircle, User, Shield, Lock, GraduationCap, Briefcase, UserCircle } from 'lucide-react';
+import { MessageCircle, Plus, Search, ArrowRight, Heart, CheckCircle, User, Shield, Lock, GraduationCap, Briefcase, UserCircle, X } from 'lucide-react';
 import { communityStorage, ForumTopic, ForumPost, ForumUser } from '../../utils/communityStorageManager';
 
 interface PrivacyTipsForumProps {
@@ -31,6 +31,7 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
   const [showUserForm, setShowUserForm] = useState(false);
   const [showTopicForm, setShowTopicForm] = useState(false);
   const [showPostForm, setShowPostForm] = useState(false);
+  const [showBanner, setShowBanner] = useState(true);
 
   const categories: Array<{ value: string; label: string }> = [
     { value: 'all', label: 'All Topics' },
@@ -47,6 +48,11 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
   useEffect(() => {
     loadCurrentUser();
     loadTopics();
+    // Check if banner was dismissed
+    const bannerDismissed = localStorage.getItem('privacy-tips-forum-banner-dismissed');
+    if (bannerDismissed === 'true') {
+      setShowBanner(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -138,6 +144,11 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
     }
   };
 
+  const handleDismissBanner = () => {
+    setShowBanner(false);
+    localStorage.setItem('privacy-tips-forum-banner-dismissed', 'true');
+  };
+
   if (compact) {
     const recentTopics = filteredTopics.slice(0, 5);
     return (
@@ -225,48 +236,114 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
-      <div className="container mx-auto px-6 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-3xl font-bold mb-2" style={{ color: 'var(--primary)' }}>
-                Privacy Tips Forum
-              </h1>
-              <p className="text-lg" style={{ color: 'var(--gray-600)' }}>
-                Share tips, ask questions, and learn from other parents
-              </p>
-            </div>
-            <button
-              onClick={() => setShowTopicForm(true)}
-              className="px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all flex items-center gap-2"
-            >
-              <Plus size={20} />
-              New Topic
-            </button>
-          </div>
-
-          {/* User Info */}
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center text-white text-lg">
-                  {currentUser.avatar}
-                </div>
-                <div>
-                  <p className="font-semibold" style={{ color: 'var(--primary)' }}>
-                    {currentUser.displayName || currentUser.username}
-                  </p>
-                  <p className="text-sm text-gray-600">@{currentUser.username}</p>
-                </div>
-              </div>
-              <p className="text-sm text-green-800">
-                <strong>Privacy First:</strong> Your username is pseudonymous. All data is stored locally on your device.
-              </p>
-            </div>
+    <main id="main-content" style={{ minHeight: '100vh', paddingTop: '80px' }}>
+      {/* Page Header */}
+      <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+          <div className="text-center fade-in" style={{ textAlign: 'center' }}>
+            <h1 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontWeight: '800',
+              lineHeight: '1.1',
+              marginBottom: '1rem',
+              color: '#0f172a'
+            }}>
+              Privacy Tips Forum
+            </h1>
+            <p style={{
+              fontSize: '1.125rem',
+              color: '#64748b',
+              maxWidth: '48rem',
+              margin: '0 auto',
+              lineHeight: '1.6'
+            }}>
+              Share tips, ask questions, and learn from other parents in our privacy-first community forum.
+            </p>
           </div>
         </div>
+      </section>
+
+      <div style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: 'clamp(2rem, 4vw, 3rem) 1.5rem' }}>
+          {/* Join Banner - Closable */}
+          {showBanner && (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6" style={{
+              position: 'relative',
+              background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+              border: '2px solid #86efac'
+            }}>
+              <button
+                onClick={handleDismissBanner}
+                style={{
+                  position: 'absolute',
+                  top: '0.75rem',
+                  right: '0.75rem',
+                  background: 'transparent',
+                  border: 'none',
+                  color: '#16a34a',
+                  padding: '0.25rem',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'background 0.2s',
+                  opacity: 0.7
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(22, 163, 74, 0.1)';
+                  e.currentTarget.style.opacity = '1';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.opacity = '0.7';
+                }}
+                aria-label="Dismiss banner"
+              >
+                <X size={18} />
+              </button>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center text-white flex-shrink-0">
+                  {React.createElement(getAvatarIcon(currentUser.avatar), { size: 20 })}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <p className="font-semibold mb-1" style={{ color: '#1B5E20', fontSize: '1rem' }}>
+                    Welcome, {currentUser.displayName || currentUser.username}!
+                  </p>
+                  <p className="text-sm" style={{ color: '#166534', lineHeight: '1.5' }}>
+                    <strong>Privacy First:</strong> Your username is pseudonymous. All data is stored locally on your device. No backend required, completely anonymous.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Header Actions */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
+              <div>
+                <h2 style={{
+                  fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                  fontWeight: '700',
+                  color: '#0f172a',
+                  marginBottom: '0.5rem'
+                }}>
+                  Community Discussions
+                </h2>
+                <p style={{ color: '#64748b', fontSize: '1rem' }}>
+                  Join conversations and share your privacy tips
+                </p>
+              </div>
+              <button
+                onClick={() => setShowTopicForm(true)}
+                className="px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all flex items-center gap-2"
+                style={{ whiteSpace: 'nowrap' }}
+              >
+                <Plus size={20} />
+                New Topic
+              </button>
+            </div>
+          </div>
 
         {/* Filters */}
         <div className="bg-white rounded-lg p-4 shadow-md mb-6" style={{ backgroundColor: 'var(--card-color)' }}>
@@ -351,15 +428,16 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
           </div>
         )}
 
-        {/* Topic Creation Form */}
-        {showTopicForm && (
-          <TopicCreationForm
-            onSubmit={handleCreateTopic}
-            onCancel={() => setShowTopicForm(false)}
-          />
-        )}
+          {/* Topic Creation Form */}
+          {showTopicForm && (
+            <TopicCreationForm
+              onSubmit={handleCreateTopic}
+              onCancel={() => setShowTopicForm(false)}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </main>
   );
 };
 
