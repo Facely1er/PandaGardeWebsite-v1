@@ -156,10 +156,10 @@ const GetStartedPage: React.FC = () => {
       {/* Progress Overview */}
       <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-12" style={{
-          backgroundColor: 'var(--card-color)',
-          boxShadow: 'var(--shadow-lg)'
-        }}>
+          <div className="bg-white rounded-xl shadow-lg p-8 mb-12" style={{
+            backgroundColor: 'var(--card-color)',
+            boxShadow: 'var(--shadow-lg)'
+          }}>
           <div className="text-center mb-6">
             <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
               Your Progress
@@ -175,13 +175,13 @@ const GetStartedPage: React.FC = () => {
             </p>
           </div>
         </div>
-      </div>
+        </div>
       </section>
 
       {/* Steps */}
       <section style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-        <div className="max-w-4xl mx-auto">
+          <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
               Getting Started Steps
@@ -302,7 +302,6 @@ const GetStartedPage: React.FC = () => {
             })}
           </div>
         </div>
-      </div>
       </section>
 
       {/* Quick Start Options */}
