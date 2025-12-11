@@ -69,9 +69,7 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
   const loadCurrentUser = () => {
     const user = communityStorage.getCurrentForumUser();
     setCurrentUser(user);
-    if (!user) {
-      setShowUserForm(true);
-    }
+    // Don't force the modal - let users browse first
   };
 
   const loadTopics = () => {
@@ -159,15 +157,19 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
             <MessageCircle size={20} />
             Privacy Tips Forum
           </h3>
-          {currentUser && (
-            <button
-              onClick={() => setShowTopicForm(true)}
-              className="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors text-sm flex items-center gap-2"
-            >
-              <Plus size={14} />
-              New Topic
-            </button>
-          )}
+          <button
+            onClick={() => {
+              if (currentUser) {
+                setShowTopicForm(true);
+              } else {
+                setShowUserForm(true);
+              }
+            }}
+            className="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors text-sm flex items-center gap-2"
+          >
+            <Plus size={14} />
+            New Topic
+          </button>
         </div>
         <div className="space-y-3">
           {recentTopics.map(topic => {
@@ -265,7 +267,7 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
       <div style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: 'clamp(2rem, 4vw, 3rem) 1.5rem' }}>
           {/* Join Banner - Closable */}
-          {showBanner && (
+          {showBanner && currentUser && (
             <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6" style={{
               position: 'relative',
               background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
@@ -303,11 +305,11 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
               </button>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center text-white flex-shrink-0">
-                  {React.createElement(getAvatarIcon(currentUser.avatar), { size: 20 })}
+                  {React.createElement(getAvatarIcon(currentUser?.avatar), { size: 20 })}
                 </div>
                 <div style={{ flex: 1 }}>
                   <p className="font-semibold mb-1" style={{ color: '#1B5E20', fontSize: '1rem' }}>
-                    Welcome, {currentUser.displayName || currentUser.username}!
+                    Welcome, {currentUser?.displayName || currentUser?.username || 'User'}!
                   </p>
                   <p className="text-sm" style={{ color: '#166534', lineHeight: '1.5' }}>
                     <strong>Privacy First:</strong> Your username is pseudonymous. All data is stored locally on your device. No backend required, completely anonymous.
@@ -650,7 +652,13 @@ const TopicDetailView: React.FC<TopicDetailViewProps> = ({
           </div>
         ) : (
           <button
-            onClick={() => setShowPostForm(true)}
+            onClick={() => {
+              if (currentUser) {
+                setShowPostForm(true);
+              } else {
+                setShowUserForm(true);
+              }
+            }}
             className="w-full px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors"
           >
             Reply to Topic

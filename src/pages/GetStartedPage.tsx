@@ -1,30 +1,15 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, CheckCircle, Star, Users, BookOpen, Shield, Clock, Play, ShoppingBag, BarChart3, Unlock } from 'lucide-react';
-import Logo from '../components/Logo';
-
-interface Step {
-  id: string;
-  title: string;
-  description: string;
-  icon: React.ComponentType<{ size?: number | string; className?: string | undefined }>;
-  completed: boolean;
-  estimatedTime: string;
-  action: string;
-}
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowLeft, Users, BookOpen, Play, ShoppingBag, BarChart3 } from 'lucide-react';
 
 const GetStartedPage: React.FC = () => {
-  const navigate = useNavigate();
-  const [completedSteps, setCompletedSteps] = useState<string[]>([]);
-
-  const steps: Step[] = [
+  const steps = [
     {
       id: 'family-hub',
       title: 'Join PandaGarde Platform',
       description: 'Create your family profile and access the complete privacy education ecosystem.',
       icon: Users,
-      completed: false,
-      estimatedTime: '5 mins',
+      link: '/family-hub',
       action: 'Join Platform'
     },
     {
@@ -32,8 +17,7 @@ const GetStartedPage: React.FC = () => {
       title: 'Add Services for Digital Footprint Analysis',
       description: 'Tell us which apps and services your family uses. This enables Digital Footprint Analysis, privacy recommendations, and safety alerts.',
       icon: ShoppingBag,
-      completed: false,
-      estimatedTime: '10 mins',
+      link: '/service-catalog',
       action: 'Add Services'
     },
     {
@@ -41,8 +25,7 @@ const GetStartedPage: React.FC = () => {
       title: 'Start Privacy Panda Learning',
       description: 'Begin interactive stories and activities designed for your child\'s age group.',
       icon: Play,
-      completed: false,
-      estimatedTime: '10 mins',
+      link: '/privacy-panda',
       action: 'Start Learning'
     },
     {
@@ -50,8 +33,7 @@ const GetStartedPage: React.FC = () => {
       title: 'View Your Digital Footprint Analysis',
       description: 'See your family\'s privacy exposure across all services and get personalized recommendations to improve your privacy.',
       icon: BarChart3,
-      completed: false,
-      estimatedTime: '5 mins',
+      link: '/digital-footprint',
       action: 'View Analysis'
     },
     {
@@ -59,41 +41,15 @@ const GetStartedPage: React.FC = () => {
       title: 'Access Resources',
       description: 'Download guides, activities, and printable materials for continued learning.',
       icon: BookOpen,
-      completed: false,
-      estimatedTime: '5 mins',
+      link: '/resources',
       action: 'Access Resources'
     }
   ];
 
-  const handleStepComplete = (stepId: string) => {
-    if (!completedSteps.includes(stepId)) {
-      setCompletedSteps([...completedSteps, stepId]);
-    }
-  };
-
-  const getStepAction = (step: Step) => {
-    switch (step.id) {
-      case 'family-hub':
-        return () => navigate('/family-hub');
-      case 'service-catalog':
-        return () => navigate('/service-catalog');
-      case 'first-activity':
-        return () => navigate('/privacy-panda');
-      case 'advanced-features':
-        return () => navigate('/digital-footprint');
-      case 'explore-resources':
-        return () => navigate('/resources');
-      default:
-        return () => {};
-    }
-  };
-
-  const completionPercentage = Math.round((completedSteps.length / steps.length) * 100);
-
   return (
     <main id="main-content" style={{ minHeight: '100vh', paddingTop: '80px' }}>
       {/* Back Navigation */}
-      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem 1.5rem' }}>
+      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem' }}>
         <Link
           to="/"
           className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
@@ -105,293 +61,320 @@ const GetStartedPage: React.FC = () => {
       </div>
 
       {/* Header */}
-      <header className="bg-gradient-to-r from-green-600 to-blue-600 text-white py-20 relative overflow-hidden" style={{ padding: 'clamp(3rem, 6vw, 5rem) 0' }}>
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
-          }} />
-        </div>
-
-        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', position: 'relative', zIndex: 10 }}>
-          <div className="flex items-center justify-center mb-8">
-            <div className="w-20 h-20 mr-4">
-              <Logo />
-            </div>
-          </div>
-
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
-              <Star size={16} />
-              <span className="text-sm font-semibold">GET STARTED</span>
-            </div>
-
-            <h1 className="text-5xl font-bold mb-6 leading-tight">
-              Get Started with PandaGarde
-              <span className="block text-yellow-300">Your Privacy Education Journey</span>
-            </h1>
-
-            <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              Follow our step-by-step guide to begin your family's digital privacy education journey.
-              We'll help you get set up and start learning together.
-            </p>
-
-            <div className="flex items-center justify-center gap-6 text-sm">
-              <div className="flex items-center gap-2">
-                <Clock size={16} />
-                <span>~20 minutes</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Users size={16} />
-                <span>Family Friendly</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Shield size={16} />
-                <span>Privacy First</span>
-              </div>
-            </div>
-          </div>
+      <header style={{ 
+        background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)', 
+        color: 'white', 
+        padding: '4rem 0',
+        textAlign: 'center'
+      }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+          <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+            Get Started with PandaGarde
+          </h1>
+          <p style={{ fontSize: '1.25rem', opacity: 0.9, maxWidth: '600px', margin: '0 auto' }}>
+            Follow our step-by-step guide to begin your family's digital privacy education journey.
+          </p>
         </div>
       </header>
 
-      {/* Progress Overview */}
-      <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
+      {/* Steps Section */}
+      <section style={{ padding: '4rem 0', background: '#ffffff' }}>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <div className="bg-white rounded-xl shadow-lg p-8 mb-12" style={{
-            backgroundColor: 'var(--card-color)',
-            boxShadow: 'var(--shadow-lg)'
-          }}>
-          <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
-              Your Progress
-            </h2>
-            <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
-              <div
-                className="h-4 rounded-full transition-all duration-500 bg-gradient-to-r from-green-500 to-blue-600"
-                style={{ width: `${completionPercentage}%` }}
-              />
-            </div>
-            <p className="text-lg" style={{ color: 'var(--gray-600)' }}>
-              {completedSteps.length} of {steps.length} steps completed ({completionPercentage}%)
-            </p>
-          </div>
-        </div>
-        </div>
-      </section>
-
-      {/* Steps */}
-      <section style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
-        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
+          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+            <h2 style={{ 
+              fontSize: '2rem', 
+              fontWeight: 'bold', 
+              marginBottom: '1rem',
+              color: 'var(--primary)',
+              textAlign: 'center'
+            }}>
               Getting Started Steps
             </h2>
-            <p className="text-lg" style={{ color: 'var(--gray-600)' }}>
+            <p style={{ 
+              fontSize: '1.125rem', 
+              color: 'var(--gray-600)',
+              textAlign: 'center',
+              marginBottom: '3rem'
+            }}>
               Follow these steps to set up your family's privacy education journey.
             </p>
-          </div>
 
-          <div className="space-y-8">
-            {steps.map((step, index) => {
-              const Icon = step.icon;
-              const isCompleted = completedSteps.includes(step.id);
-
-              return (
-                <div
-                  key={step.id}
-                  className={`bg-white rounded-xl shadow-md hover:shadow-lg transition-all border-2 ${
-                    isCompleted ? 'border-green-500' : 'border-transparent'
-                  }`}
-                  style={{ backgroundColor: 'var(--card-color)' }}
-                >
-                  <div className="p-6">
-                    <div className="flex items-start gap-6">
-                      <div className="flex-shrink-0">
-                        <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
-                          isCompleted
-                            ? 'bg-green-500 text-white'
-                            : 'bg-gradient-to-r from-green-500 to-blue-600 text-white'
-                        }`}>
-                          {isCompleted ? (
-                            <CheckCircle size={32} />
-                          ) : (
-                            <span className="text-2xl font-bold">{index + 1}</span>
-                          )}
-                        </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              {steps.map((step, index) => {
+                const Icon = step.icon;
+                return (
+                  <div
+                    key={step.id}
+                    style={{
+                      backgroundColor: 'white',
+                      borderRadius: '12px',
+                      padding: '1.5rem',
+                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                      border: '1px solid #e5e7eb'
+                    }}
+                  >
+                    <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
+                      <div style={{
+                        width: '64px',
+                        height: '64px',
+                        borderRadius: '50%',
+                        background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                        color: 'white',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                        fontSize: '1.5rem',
+                        fontWeight: 'bold'
+                      }}>
+                        {index + 1}
                       </div>
 
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <h3 className="text-xl font-bold" style={{ color: 'var(--primary)' }}>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                          <Icon size={20} style={{ color: 'var(--primary)' }} />
+                          <h3 style={{ 
+                            fontSize: '1.25rem', 
+                            fontWeight: 'bold',
+                            color: 'var(--primary)',
+                            margin: 0
+                          }}>
                             {step.title}
                           </h3>
-                          {step.id === 'service-catalog' && !isCompleted && (
-                            <span className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-xs font-semibold px-2 py-1 rounded-full flex items-center gap-1">
-                              <Unlock size={12} />
-                              Foundation Step
-                            </span>
-                          )}
-                          {isCompleted && (
-                            <span className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full">
-                              Completed
-                            </span>
-                          )}
                         </div>
 
-                        <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
+                        <p style={{ 
+                          fontSize: '1rem', 
+                          color: 'var(--gray-600)',
+                          marginBottom: '1rem',
+                          lineHeight: '1.6'
+                        }}>
                           {step.description}
                         </p>
-                        
-                        {step.id === 'service-catalog' && (
-                          <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
-                            <div className="flex items-center gap-2 mb-2">
-                              <Unlock size={14} className="text-green-600 dark:text-green-400" />
-                              <span className="text-sm font-semibold text-green-800 dark:text-green-200">Unlocks:</span>
-                            </div>
-                            <div className="flex flex-wrap gap-2">
-                              <span className="bg-green-600 text-white text-xs px-2 py-1 rounded-full">Digital Footprint</span>
-                              <span className="bg-green-600 text-white text-xs px-2 py-1 rounded-full">Risk Exposure</span>
-                              <span className="bg-green-600 text-white text-xs px-2 py-1 rounded-full">Safety Alerts</span>
-                            </div>
-                          </div>
-                        )}
-                        
-                        {step.id === 'advanced-features' && (
-                          <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
-                            <div className="flex items-center gap-2">
-                              <Shield size={14} className="text-yellow-600 dark:text-yellow-400" />
-                              <span className="text-sm text-yellow-800 dark:text-yellow-200">
-                                <strong>Requires:</strong> Step 2: Add Services
-                              </span>
-                            </div>
-                          </div>
-                        )}
 
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-4 text-sm text-gray-500">
-                            <span className="flex items-center gap-1">
-                              <Clock size={16} />
-                              {step.estimatedTime}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Icon size={16} />
-                              Step {index + 1}
-                            </span>
-                          </div>
-
-                          <button
-                            onClick={() => {
-                              getStepAction(step)();
-                              handleStepComplete(step.id);
-                            }}
-                            className={`px-6 py-2 rounded-lg font-semibold transition-all ${
-                              isCompleted
-                                ? 'bg-gray-100 text-gray-600 cursor-not-allowed'
-                                : 'bg-gradient-to-r from-green-500 to-blue-600 text-white hover:from-green-600 hover:to-blue-700'
-                            }`}
-                            disabled={isCompleted}
-                          >
-                            {isCompleted ? 'Completed' : step.action}
-                          </button>
-                        </div>
+                        <Link
+                          to={step.link}
+                          style={{
+                            display: 'inline-block',
+                            padding: '0.75rem 1.5rem',
+                            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                            color: 'white',
+                            borderRadius: '8px',
+                            textDecoration: 'none',
+                            fontWeight: '600',
+                            transition: 'opacity 0.2s'
+                          }}
+                          onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
+                          onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                        >
+                          {step.action}
+                        </Link>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Quick Start Options */}
-      <section style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#f8fafc' }}>
+      <section style={{ padding: '4rem 0', background: '#f8fafc' }}>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
-              Quick Start Options
-            </h2>
-            <p className="text-lg" style={{ color: 'var(--gray-600)' }}>
-              Jump right into specific areas or follow the complete guide.
-            </p>
-          </div>
+          <h2 style={{ 
+            fontSize: '2rem', 
+            fontWeight: 'bold', 
+            marginBottom: '1rem',
+            color: 'var(--primary)',
+            textAlign: 'center'
+          }}>
+            Quick Start Options
+          </h2>
+          <p style={{ 
+            fontSize: '1.125rem', 
+            color: 'var(--gray-600)',
+            textAlign: 'center',
+            marginBottom: '3rem'
+          }}>
+            Jump right into specific areas or follow the complete guide.
+          </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '2rem',
+            maxWidth: '900px',
+            margin: '0 auto'
+          }}>
             <Link
               to="/activity-book"
-              className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center"
-              style={{ backgroundColor: 'var(--card-color)' }}
+              style={{
+                backgroundColor: 'white',
+                borderRadius: '12px',
+                padding: '2rem',
+                textAlign: 'center',
+                textDecoration: 'none',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                transition: 'transform 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
             >
-              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-600 rounded-full flex items-center justify-center text-white mx-auto mb-4">
+              <div style={{
+                width: '64px',
+                height: '64px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                color: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 1rem'
+              }}>
                 <Play size={32} />
               </div>
-              <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
+              <h3 style={{ 
+                fontSize: '1.25rem', 
+                fontWeight: 'bold',
+                color: 'var(--primary)',
+                marginBottom: '0.5rem'
+              }}>
                 Start with Activities
               </h3>
-              <p className="text-gray-600 mb-4">
-                Jump straight into interactive privacy activities and start learning immediately.
+              <p style={{ color: 'var(--gray-600)', marginBottom: '1rem' }}>
+                Jump straight into interactive privacy activities.
               </p>
-              <span className="text-green-600 font-semibold">Start Activities →</span>
             </Link>
 
             <Link
               to="/family-hub"
-              className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center"
-              style={{ backgroundColor: 'var(--card-color)' }}
+              style={{
+                backgroundColor: 'white',
+                borderRadius: '12px',
+                padding: '2rem',
+                textAlign: 'center',
+                textDecoration: 'none',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                transition: 'transform 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
             >
-              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-600 rounded-full flex items-center justify-center text-white mx-auto mb-4">
+              <div style={{
+                width: '64px',
+                height: '64px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                color: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 1rem'
+              }}>
                 <Users size={32} />
               </div>
-              <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
+              <h3 style={{ 
+                fontSize: '1.25rem', 
+                fontWeight: 'bold',
+                color: 'var(--primary)',
+                marginBottom: '0.5rem'
+              }}>
                 Set Up Family Hub
               </h3>
-              <p className="text-gray-600 mb-4">
-                Create your family profile and start tracking everyone's progress together.
+              <p style={{ color: 'var(--gray-600)', marginBottom: '1rem' }}>
+                Create your family profile and track progress.
               </p>
-              <span className="text-green-600 font-semibold">Set Up Family →</span>
             </Link>
 
             <Link
               to="/story"
-              className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center"
-              style={{ backgroundColor: 'var(--card-color)' }}
+              style={{
+                backgroundColor: 'white',
+                borderRadius: '12px',
+                padding: '2rem',
+                textAlign: 'center',
+                textDecoration: 'none',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                transition: 'transform 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
             >
-              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-600 rounded-full flex items-center justify-center text-white mx-auto mb-4">
+              <div style={{
+                width: '64px',
+                height: '64px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                color: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 1rem'
+              }}>
                 <BookOpen size={32} />
               </div>
-              <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
+              <h3 style={{ 
+                fontSize: '1.25rem', 
+                fontWeight: 'bold',
+                color: 'var(--primary)',
+                marginBottom: '0.5rem'
+              }}>
                 Read Our Story
               </h3>
-              <p className="text-gray-600 mb-4">
-                Learn about Privacy Panda and understand our mission through storytelling.
+              <p style={{ color: 'var(--gray-600)', marginBottom: '1rem' }}>
+                Learn about Privacy Panda through storytelling.
               </p>
-              <span className="text-green-600 font-semibold">Read Story →</span>
             </Link>
           </div>
         </div>
       </section>
 
       {/* Call to Action */}
-      <section style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)', color: 'white' }}>
-        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', textAlign: 'center' }}>
-          <h2 className="text-3xl font-bold mb-4">
+      <section style={{ 
+        padding: '4rem 0', 
+        background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)', 
+        color: 'white',
+        textAlign: 'center'
+      }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+          <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '1rem' }}>
             Ready to Begin Your Privacy Education Journey?
           </h2>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+          <p style={{ fontSize: '1.25rem', marginBottom: '2rem', opacity: 0.9, maxWidth: '600px', margin: '0 auto 2rem' }}>
             Join thousands of families who are already learning about digital privacy with PandaGarde.
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link
               to="/activity-book"
-              className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
+              style={{
+                backgroundColor: 'white',
+                color: '#1B5E20',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontWeight: '600',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem'
+              }}
             >
               <Play size={20} />
               Start Learning
             </Link>
             <Link
               to="/family-hub"
-              className="bg-green-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors inline-flex items-center gap-2"
+              style={{
+                backgroundColor: '#2E7D32',
+                color: 'white',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontWeight: '600',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem'
+              }}
             >
               <Users size={20} />
               Family Hub
