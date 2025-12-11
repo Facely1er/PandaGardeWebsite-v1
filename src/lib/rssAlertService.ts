@@ -67,17 +67,26 @@ class ChildRSSAlertService {
     try {
       const activeFeeds = childRssFeeds.filter(feed => feed.isActive);
       
-      for (const feed of activeFeeds) {
-        try {
-          const alerts = await this.fetchAndProcessFeed(feed);
-          allAlerts.push(...alerts);
-        } catch (error) {
-          console.error(`Error processing feed ${feed.id}:`, error);
+      // Process feeds in parallel with Promise.allSettled to handle individual failures
+      const feedPromises = activeFeeds.map(feed => 
+        this.fetchAndProcessFeed(feed).catch(() => []) // Return empty array on error
+      );
+      
+      const results = await Promise.allSettled(feedPromises);
+      
+      results.forEach((result, index) => {
+        if (result.status === 'fulfilled') {
+          allAlerts.push(...result.value);
         }
-      }
+        // Errors are already handled in fetchAndProcessFeed, so we silently continue
+      });
 
       this.lastProcessed = new Date();
       return allAlerts;
+    } catch (error) {
+      // This should rarely happen, but log if it does
+      console.warn('[RSS Alert Service] Unexpected error processing feeds:', error);
+      return allAlerts; // Return whatever we've collected so far
     } finally {
       this.isProcessing = false;
     }
@@ -97,55 +106,105 @@ class ChildRSSAlertService {
       // Use CORS proxy for RSS feeds (in production, use backend API)
       const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(feed.url)}`;
       
-      const response = await fetch(proxyUrl);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch feed: ${response.statusText}`);
+      // Add timeout to prevent hanging requests
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      
+      try {
+        const response = await fetch(proxyUrl, {
+          signal: controller.signal,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        
+        if (!data.contents) {
+          throw new Error('Invalid response format from proxy');
+        }
+        
+        const xmlContent = data.contents;
+
+        // Parse XML
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlContent, 'text/xml');
+
+        // Check for parsing errors
+        const parseError = xmlDoc.querySelector('parsererror');
+        if (parseError) {
+          throw new Error('Failed to parse RSS XML');
+        }
+
+        // Extract items
+        const items = Array.from(xmlDoc.querySelectorAll('item')).map(item => ({
+          title: item.querySelector('title')?.textContent || '',
+          description: item.querySelector('description')?.textContent || '',
+          link: item.querySelector('link')?.textContent || '',
+          pubDate: item.querySelector('pubDate')?.textContent || new Date().toISOString(),
+          guid: item.querySelector('guid')?.textContent || item.querySelector('link')?.textContent || ''
+        }));
+
+        if (items.length === 0) {
+          // No items found, but not an error - just return empty
+          return [];
+        }
+
+        // Convert to alerts
+        const alerts: ChildSafetyAlert[] = items.map(item => {
+          const severity = this.determineSeverity(item.title, item.description);
+          const relatedServices = this.findRelatedServices(item.title, item.description, feed);
+
+          return {
+            id: item.guid || `${feed.id}-${Date.now()}-${Math.random()}`,
+            title: item.title,
+            description: item.description,
+            link: item.link,
+            publishedDate: item.pubDate,
+            severity,
+            category: feed.category,
+            relatedServices,
+            isChildFocused: true
+          };
+        });
+
+        // Cache the result
+        this.cache.set(feed.id, {
+          data: alerts,
+          timestamp: Date.now()
+        });
+
+        return alerts;
+      } catch (fetchError) {
+        clearTimeout(timeoutId);
+        throw fetchError;
       }
-
-      const data = await response.json();
-      const xmlContent = data.contents;
-
-      // Parse XML
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(xmlContent, 'text/xml');
-
-      // Extract items
-      const items = Array.from(xmlDoc.querySelectorAll('item')).map(item => ({
-        title: item.querySelector('title')?.textContent || '',
-        description: item.querySelector('description')?.textContent || '',
-        link: item.querySelector('link')?.textContent || '',
-        pubDate: item.querySelector('pubDate')?.textContent || new Date().toISOString(),
-        guid: item.querySelector('guid')?.textContent || item.querySelector('link')?.textContent || ''
-      }));
-
-      // Convert to alerts
-      const alerts: ChildSafetyAlert[] = items.map(item => {
-        const severity = this.determineSeverity(item.title, item.description);
-        const relatedServices = this.findRelatedServices(item.title, item.description, feed);
-
-        return {
-          id: item.guid || `${feed.id}-${Date.now()}-${Math.random()}`,
-          title: item.title,
-          description: item.description,
-          link: item.link,
-          publishedDate: item.pubDate,
-          severity,
-          category: feed.category,
-          relatedServices,
-          isChildFocused: true
-        };
-      });
-
-      // Cache the result
-      this.cache.set(feed.id, {
-        data: alerts,
-        timestamp: Date.now()
-      });
-
-      return alerts;
     } catch (error) {
-      console.error(`Error fetching RSS feed ${feed.id}:`, error);
-      return [];
+      // Use console.warn for expected network/CORS errors (less alarming than console.error)
+      // Only log in development or if it's not a network error
+      const isNetworkError = error instanceof TypeError && error.message.includes('fetch');
+      const isDevMode = process.env.NODE_ENV === 'development' || 
+                        (typeof window !== 'undefined' && window.location.hostname === 'localhost');
+      
+      if (isNetworkError) {
+        // Network errors are expected with CORS proxies - use warn level
+        if (isDevMode) {
+          console.warn(`[RSS Alert Service] Unable to fetch feed "${feed.name}" (${feed.id}). This is expected if the CORS proxy is unavailable.`, error);
+        }
+      } else {
+        // Other errors should be logged
+        console.warn(`[RSS Alert Service] Error processing feed "${feed.name}" (${feed.id}):`, error);
+      }
+      
+      // Return cached data if available, otherwise empty array
+      const cached = this.cache.get(feed.id);
+      return cached ? cached.data : [];
     }
   }
 
