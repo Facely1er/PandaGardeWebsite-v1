@@ -47,30 +47,55 @@ const GetStartedPage: React.FC = () => {
   ];
 
   return (
-    <main id="main-content" style={{ minHeight: '100vh', paddingTop: '80px', backgroundColor: '#ffffff' }}>
+    <main 
+      id="main-content" 
+      style={{ 
+        minHeight: '100vh', 
+        paddingTop: '80px', 
+        backgroundColor: '#ffffff',
+        color: '#0f172a',
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+        lineHeight: '1.6'
+      }}
+    >
       {/* Back Navigation */}
-      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem 1.5rem' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem 1.5rem' }}>
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-          style={{ textDecoration: 'none', color: '#4b5563' }}
+          style={{ 
+            textDecoration: 'none', 
+            color: '#4b5563',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            fontSize: '1rem',
+            fontWeight: '500'
+          }}
           aria-label="Back to home page"
         >
           <ArrowLeft size={16} aria-hidden="true" />
-          Back to Home
+          <span>Back to Home</span>
         </Link>
       </div>
 
       {/* Page Header */}
-      <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
-        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+      <section style={{ 
+        padding: 'clamp(3rem, 6vw, 4rem) 0', 
+        background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
+        width: '100%',
+        display: 'block'
+      }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div style={{ textAlign: 'center' }}>
             <h1 style={{
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',
               fontWeight: '800',
               lineHeight: '1.1',
               marginBottom: '1rem',
-              color: '#0f172a'
+              color: '#0f172a',
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1
             }}>
               Get Started with PandaGarde
             </h1>
@@ -79,7 +104,10 @@ const GetStartedPage: React.FC = () => {
               color: '#64748b',
               maxWidth: '48rem',
               margin: '0 auto',
-              lineHeight: '1.6'
+              lineHeight: '1.6',
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1
             }}>
               Follow our step-by-step guide to begin your family's digital privacy education journey.
             </p>
@@ -88,23 +116,40 @@ const GetStartedPage: React.FC = () => {
       </section>
 
       {/* Steps Section */}
-      <section aria-labelledby="steps-heading" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
-        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+      <section 
+        aria-labelledby="steps-heading" 
+        style={{ 
+          padding: 'clamp(4rem, 8vw, 6rem) 0', 
+          background: '#ffffff',
+          width: '100%',
+          display: 'block'
+        }}
+      >
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-            <h2 id="steps-heading" style={{ 
-              fontSize: '2rem', 
-              fontWeight: 'bold', 
-              marginBottom: '1rem',
-              color: '#1B5E20',
-              textAlign: 'center'
-            }}>
+            <h2 
+              id="steps-heading" 
+              style={{ 
+                fontSize: '2rem', 
+                fontWeight: 'bold', 
+                marginBottom: '1rem',
+                color: '#1B5E20',
+                textAlign: 'center',
+                display: 'block',
+                visibility: 'visible',
+                opacity: 1
+              }}
+            >
               Getting Started Steps
             </h2>
             <p style={{ 
               fontSize: '1.125rem', 
               color: '#757575',
               textAlign: 'center',
-              marginBottom: '3rem'
+              marginBottom: '3rem',
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1
             }}>
               Follow these steps to set up your family's privacy education journey.
             </p>
@@ -121,7 +166,10 @@ const GetStartedPage: React.FC = () => {
                       borderRadius: '12px',
                       padding: '1.5rem',
                       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                      border: '1px solid #e5e7eb'
+                      border: '1px solid #e5e7eb',
+                      display: 'block',
+                      visibility: 'visible',
+                      opacity: 1
                     }}
                   >
                     <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
@@ -143,12 +191,15 @@ const GetStartedPage: React.FC = () => {
 
                       <div style={{ flex: 1, minWidth: '200px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-                          <Icon size={20} style={{ color: '#1B5E20' }} />
+                          <Icon size={20} style={{ color: '#1B5E20', display: 'block' }} />
                           <h3 style={{ 
                             fontSize: '1.25rem', 
                             fontWeight: 'bold',
                             color: '#1B5E20',
-                            margin: 0
+                            margin: 0,
+                            display: 'block',
+                            visibility: 'visible',
+                            opacity: 1
                           }}>
                             {step.title}
                           </h3>
@@ -158,7 +209,10 @@ const GetStartedPage: React.FC = () => {
                           fontSize: '1rem', 
                           color: '#757575',
                           marginBottom: '1rem',
-                          lineHeight: '1.6'
+                          lineHeight: '1.6',
+                          display: 'block',
+                          visibility: 'visible',
+                          opacity: 1
                         }}>
                           {step.description}
                         </p>
@@ -173,7 +227,9 @@ const GetStartedPage: React.FC = () => {
                             borderRadius: '8px',
                             textDecoration: 'none',
                             fontWeight: '600',
-                            transition: 'all 0.2s ease'
+                            transition: 'all 0.2s ease',
+                            visibility: 'visible',
+                            opacity: 1
                           }}
                           aria-label={`${step.action}: ${step.title}`}
                           onMouseEnter={(e) => {
@@ -198,22 +254,39 @@ const GetStartedPage: React.FC = () => {
       </section>
 
       {/* Quick Start Options */}
-      <section aria-labelledby="quick-start-heading" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#f8fafc' }}>
-        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <h2 id="quick-start-heading" style={{ 
-            fontSize: '2rem', 
-            fontWeight: 'bold', 
-            marginBottom: '1rem',
-            color: '#1B5E20',
-            textAlign: 'center'
-          }}>
+      <section 
+        aria-labelledby="quick-start-heading" 
+        style={{ 
+          padding: 'clamp(4rem, 8vw, 6rem) 0', 
+          background: '#f8fafc',
+          width: '100%',
+          display: 'block'
+        }}
+      >
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+          <h2 
+            id="quick-start-heading" 
+            style={{ 
+              fontSize: '2rem', 
+              fontWeight: 'bold', 
+              marginBottom: '1rem',
+              color: '#1B5E20',
+              textAlign: 'center',
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1
+            }}
+          >
             Quick Start Options
           </h2>
           <p style={{ 
             fontSize: '1.125rem', 
             color: '#757575',
             textAlign: 'center',
-            marginBottom: '3rem'
+            marginBottom: '3rem',
+            display: 'block',
+            visibility: 'visible',
+            opacity: 1
           }}>
             Jump right into specific areas or follow the complete guide.
           </p>
@@ -235,7 +308,8 @@ const GetStartedPage: React.FC = () => {
                 textDecoration: 'none',
                 boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                 transition: 'all 0.2s ease',
-                display: 'block'
+                display: 'block',
+                color: 'inherit'
               }}
               aria-label="Start with Activities - Jump straight into interactive privacy activities"
               onMouseEnter={(e) => {
@@ -264,11 +338,20 @@ const GetStartedPage: React.FC = () => {
                 fontSize: '1.25rem', 
                 fontWeight: 'bold',
                 color: '#1B5E20',
-                marginBottom: '0.5rem'
+                marginBottom: '0.5rem',
+                display: 'block',
+                visibility: 'visible',
+                opacity: 1
               }}>
                 Start with Activities
               </h3>
-              <p style={{ color: '#757575', marginBottom: '1rem' }}>
+              <p style={{ 
+                color: '#757575', 
+                marginBottom: '1rem',
+                display: 'block',
+                visibility: 'visible',
+                opacity: 1
+              }}>
                 Jump straight into interactive privacy activities.
               </p>
             </Link>
@@ -283,7 +366,8 @@ const GetStartedPage: React.FC = () => {
                 textDecoration: 'none',
                 boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                 transition: 'all 0.2s ease',
-                display: 'block'
+                display: 'block',
+                color: 'inherit'
               }}
               aria-label="Set Up Family Hub - Create your family profile and track progress"
               onMouseEnter={(e) => {
@@ -312,11 +396,20 @@ const GetStartedPage: React.FC = () => {
                 fontSize: '1.25rem', 
                 fontWeight: 'bold',
                 color: '#1B5E20',
-                marginBottom: '0.5rem'
+                marginBottom: '0.5rem',
+                display: 'block',
+                visibility: 'visible',
+                opacity: 1
               }}>
                 Set Up Family Hub
               </h3>
-              <p style={{ color: '#757575', marginBottom: '1rem' }}>
+              <p style={{ 
+                color: '#757575', 
+                marginBottom: '1rem',
+                display: 'block',
+                visibility: 'visible',
+                opacity: 1
+              }}>
                 Create your family profile and track progress.
               </p>
             </Link>
@@ -331,7 +424,8 @@ const GetStartedPage: React.FC = () => {
                 textDecoration: 'none',
                 boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                 transition: 'all 0.2s ease',
-                display: 'block'
+                display: 'block',
+                color: 'inherit'
               }}
               aria-label="Read Our Story - Learn about Privacy Panda through storytelling"
               onMouseEnter={(e) => {
@@ -360,11 +454,20 @@ const GetStartedPage: React.FC = () => {
                 fontSize: '1.25rem', 
                 fontWeight: 'bold',
                 color: '#1B5E20',
-                marginBottom: '0.5rem'
+                marginBottom: '0.5rem',
+                display: 'block',
+                visibility: 'visible',
+                opacity: 1
               }}>
                 Read Our Story
               </h3>
-              <p style={{ color: '#757575', marginBottom: '1rem' }}>
+              <p style={{ 
+                color: '#757575', 
+                marginBottom: '1rem',
+                display: 'block',
+                visibility: 'visible',
+                opacity: 1
+              }}>
                 Learn about Privacy Panda through storytelling.
               </p>
             </Link>
@@ -379,14 +482,36 @@ const GetStartedPage: React.FC = () => {
           padding: 'clamp(4rem, 8vw, 6rem) 0', 
           background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)', 
           color: '#ffffff',
-          textAlign: 'center'
+          textAlign: 'center',
+          width: '100%',
+          display: 'block'
         }}
       >
-        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <h2 id="cta-heading" style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '1rem', color: '#ffffff' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+          <h2 
+            id="cta-heading" 
+            style={{ 
+              fontSize: '2rem', 
+              fontWeight: 'bold', 
+              marginBottom: '1rem', 
+              color: '#ffffff',
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1
+            }}
+          >
             Ready to Begin Your Privacy Education Journey?
           </h2>
-          <p style={{ fontSize: '1.25rem', marginBottom: '2rem', opacity: 0.9, maxWidth: '600px', margin: '0 auto 2rem', color: '#ffffff' }}>
+          <p style={{ 
+            fontSize: '1.25rem', 
+            marginBottom: '2rem', 
+            opacity: 0.9, 
+            maxWidth: '600px', 
+            margin: '0 auto 2rem', 
+            color: '#ffffff',
+            display: 'block',
+            visibility: 'visible'
+          }}>
             Join thousands of families who are already learning about digital privacy with PandaGarde.
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -402,7 +527,9 @@ const GetStartedPage: React.FC = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.2s ease',
+                visibility: 'visible',
+                opacity: 1
               }}
               aria-label="Start Learning - Begin interactive privacy activities"
               onMouseEnter={(e) => {
@@ -415,7 +542,7 @@ const GetStartedPage: React.FC = () => {
               }}
             >
               <Play size={20} />
-              Start Learning
+              <span>Start Learning</span>
             </Link>
             <Link
               to="/family-hub"
@@ -429,7 +556,9 @@ const GetStartedPage: React.FC = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.2s ease',
+                visibility: 'visible',
+                opacity: 1
               }}
               aria-label="Family Hub - Create your family profile"
               onMouseEnter={(e) => {
@@ -444,7 +573,7 @@ const GetStartedPage: React.FC = () => {
               }}
             >
               <Users size={20} />
-              Family Hub
+              <span>Family Hub</span>
             </Link>
           </div>
         </div>

@@ -44,14 +44,43 @@ export class COPPAComplianceManager {
    * Note: This is a client-side approximation
    */
   private async getUserIP(): Promise<string> {
-    try {
-      // Try to get IP from a public service (for audit trail)
-      const response = await fetch('https://api.ipify.org?format=json');
-      const data = await response.json();
-      return data.ip || 'unknown';
-    } catch {
-      return 'unknown';
+    // Try multiple IP services with fallbacks
+    const ipServices = [
+      'https://api.ipify.org?format=json',
+      'https://api64.ipify.org?format=json',
+      'https://ipapi.co/json/'
+    ];
+
+    for (const serviceUrl of ipServices) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 second timeout
+        
+        const response = await fetch(serviceUrl, {
+          signal: controller.signal,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (response.ok) {
+          const data = await response.json();
+          // Handle different response formats
+          const ip = data.ip || data.query || data.origin;
+          if (ip && typeof ip === 'string') {
+            return ip;
+          }
+        }
+      } catch (error) {
+        // Silently continue to next service
+        continue;
+      }
     }
+    
+    // If all services fail, return unknown
+    return 'unknown';
   }
 
   /**
@@ -194,16 +223,24 @@ export class COPPAComplianceManager {
             support_email: import.meta.env['VITE_SUPPORT_EMAIL'] || 'support@pandagarde.com'
           };
 
-          await emailjsModule.send(
+          // Add timeout for email sending
+          const emailPromise = emailjsModule.send(
             emailjsServiceId,
             emailjsTemplateId,
             templateParams,
             emailjsPublicKey
           );
+          
+          const timeoutPromise = new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Email send timeout')), 10000)
+          );
+          
+          await Promise.race([emailPromise, timeoutPromise]);
           return true;
         }
       } catch (emailError) {
-        console.warn('EmailJS error:', emailError);
+        // Silently fail - fallback to manual processing
+        console.warn('EmailJS error (falling back to manual processing):', emailError);
         // Fall through to manual processing
       }
       

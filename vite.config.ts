@@ -1,10 +1,13 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
+import { createRequire } from 'module';
 
 // Conditionally import image optimizer only if sharp is available
 let ViteImageOptimizer: any = null;
 try {
+  // Use createRequire for ES module compatibility
+  const require = createRequire(import.meta.url);
   // Check if sharp is available
   require.resolve('sharp');
   const imageOptimizer = require('vite-plugin-image-optimizer');

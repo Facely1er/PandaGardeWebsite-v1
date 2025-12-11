@@ -6,21 +6,62 @@ import { initSentry, reportError } from './lib/sentry.ts';
 import { initAnalytics, trackError } from './lib/analytics.ts';
 import { initServiceWorker } from './lib/serviceWorker.ts';
 
+// Initialize monitoring, analytics, and service worker before rendering the app
+// Wrap in try-catch to prevent initialization errors from blocking the app
+let sentryInitialized = false;
+let analyticsInitialized = false;
+
+try {
+  initSentry();
+  sentryInitialized = true;
+} catch (error) {
+  console.warn('Failed to initialize Sentry:', error);
+}
+
+try {
+  initAnalytics();
+  analyticsInitialized = true;
+} catch (error) {
+  console.warn('Failed to initialize Analytics:', error);
+}
+
+// Initialize service worker asynchronously (don't block app rendering)
+initServiceWorker().catch((error) => {
+  console.warn('Failed to initialize Service Worker:', error);
+});
+
 // Global error handlers - capture unhandled errors
+// Set up AFTER initialization to ensure functions are available
 window.onerror = (message, source, lineno, colno, error) => {
   const errorObj = error || new Error(String(message));
-  reportError(errorObj, {
-    type: 'global_error',
-    source,
-    lineno,
-    colno,
-  });
-  trackError(errorObj, {
-    type: 'global_error',
-    source,
-    lineno,
-    colno,
-  });
+  
+  // Only report if initialized
+  if (sentryInitialized) {
+    try {
+      reportError(errorObj, {
+        type: 'global_error',
+        source,
+        lineno,
+        colno,
+      });
+    } catch (err) {
+      console.warn('Error reporting failed:', err);
+    }
+  }
+  
+  if (analyticsInitialized) {
+    try {
+      trackError(errorObj, {
+        type: 'global_error',
+        source,
+        lineno,
+        colno,
+      });
+    } catch (err) {
+      console.warn('Error tracking failed:', err);
+    }
+  }
+  
   // Don't suppress the error
   return false;
 };
@@ -30,33 +71,28 @@ window.onunhandledrejection = (event) => {
   const error = event.reason instanceof Error
     ? event.reason
     : new Error(String(event.reason));
-  reportError(error, {
-    type: 'unhandled_rejection',
-  });
-  trackError(error, {
-    type: 'unhandled_rejection',
-  });
+  
+  // Only report if initialized
+  if (sentryInitialized) {
+    try {
+      reportError(error, {
+        type: 'unhandled_rejection',
+      });
+    } catch (err) {
+      console.warn('Error reporting failed:', err);
+    }
+  }
+  
+  if (analyticsInitialized) {
+    try {
+      trackError(error, {
+        type: 'unhandled_rejection',
+      });
+    } catch (err) {
+      console.warn('Error tracking failed:', err);
+    }
+  }
 };
-
-// Initialize monitoring, analytics, and service worker before rendering the app
-// Wrap in try-catch to prevent initialization errors from blocking the app
-try {
-  initSentry();
-} catch (error) {
-  console.warn('Failed to initialize Sentry:', error);
-}
-
-try {
-  initAnalytics();
-} catch (error) {
-  console.warn('Failed to initialize Analytics:', error);
-}
-
-try {
-  initServiceWorker();
-} catch (error) {
-  console.warn('Failed to initialize Service Worker:', error);
-}
 
 // Ensure root element exists before rendering
 const rootElement = document.getElementById('root');

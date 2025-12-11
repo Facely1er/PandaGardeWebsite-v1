@@ -120,11 +120,17 @@ export const initAnalytics = () => {
 export const trackPageView = (path: string, title?: string) => {
   if (!isAnalyticsEnabled()) {return;}
 
-  ReactGA.send({
-    hitType: 'pageview',
-    page: path,
-    title: title || document.title,
-  });
+  try {
+    if (typeof ReactGA !== 'undefined' && typeof ReactGA.send === 'function') {
+      ReactGA.send({
+        hitType: 'pageview',
+        page: path,
+        title: title || document.title,
+      });
+    }
+  } catch (error) {
+    console.warn('Page view tracking failed:', error);
+  }
 
   // Also track with custom event
   trackEvent(AnalyticsEvents.PAGE_VIEW, {
@@ -158,14 +164,24 @@ export const trackEvent = (eventName: string, parameters?: Record<string, unknow
     eventOptions.value = value;
   }
 
-  ReactGA.event(eventOptions);
+  try {
+    if (typeof ReactGA !== 'undefined' && typeof ReactGA.event === 'function') {
+      ReactGA.event(eventOptions);
+    }
+  } catch (error) {
+    console.warn('Event tracking failed:', error);
+  }
 
   // Also send to GTM if available
-  if (typeof window !== 'undefined' && window.dataLayer) {
-    window.dataLayer.push({
-      event: eventName,
-      ...parameters,
-    });
+  try {
+    if (typeof window !== 'undefined' && window.dataLayer) {
+      window.dataLayer.push({
+        event: eventName,
+        ...parameters,
+      });
+    }
+  } catch (error) {
+    console.warn('GTM event tracking failed:', error);
   }
 };
 
@@ -206,12 +222,20 @@ export const trackPerformance = (metricName: string, value: number, unit: string
 
 // Track errors
 export const trackError = (error: Error, context?: Record<string, unknown>) => {
-  trackEvent(AnalyticsEvents.ERROR_OCCURRED, {
-    category: 'error',
-    error_message: error.message,
-    error_stack: error.stack,
-    ...context,
-  });
+  try {
+    if (!isAnalyticsEnabled()) {
+      return;
+    }
+    trackEvent(AnalyticsEvents.ERROR_OCCURRED, {
+      category: 'error',
+      error_message: error.message,
+      error_stack: error.stack,
+      ...context,
+    });
+  } catch (err) {
+    // Silently fail - don't break the app if error tracking fails
+    console.warn('Error tracking failed:', err);
+  }
 };
 
 // Track user properties - filter out PII
@@ -227,7 +251,13 @@ export const setUserProperties = (properties: Record<string, unknown>) => {
     return acc;
   }, {} as Record<string, unknown>);
 
-  ReactGA.set(filteredProperties);
+  try {
+    if (typeof ReactGA !== 'undefined' && typeof ReactGA.set === 'function') {
+      ReactGA.set(filteredProperties);
+    }
+  } catch (error) {
+    console.warn('Setting user properties failed:', error);
+  }
 };
 
 // Track user ID - hash to protect PII
@@ -236,7 +266,13 @@ export const setUserId = (userId: string) => {
 
   // Hash the user ID to protect PII
   const hashedId = hashString(userId);
-  ReactGA.set({ user_id: hashedId });
+  try {
+    if (typeof ReactGA !== 'undefined' && typeof ReactGA.set === 'function') {
+      ReactGA.set({ user_id: hashedId });
+    }
+  } catch (error) {
+    console.warn('Setting user ID failed:', error);
+  }
 };
 
 // Simple hash function for anonymizing user data

@@ -192,10 +192,22 @@ export class PDFService {
    */
   private async getColoringSheetsHTML(): Promise<string> {
     try {
-      const response = await fetch('/downloads/coloring-sheets.html');
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+      
+      const response = await fetch('/downloads/coloring-sheets.html', {
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
       return await response.text();
     } catch (error) {
-      console.error('Error fetching coloring sheets HTML:', error);
+      console.warn('Error fetching coloring sheets HTML, using fallback:', error);
       return this.getDefaultColoringSheetsHTML();
     }
   }
@@ -205,10 +217,22 @@ export class PDFService {
    */
   private async getSafetyPostersHTML(): Promise<string> {
     try {
-      const response = await fetch('/downloads/safety-posters.html');
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+      
+      const response = await fetch('/downloads/safety-posters.html', {
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
       return await response.text();
     } catch (error) {
-      console.error('Error fetching safety posters HTML:', error);
+      console.warn('Error fetching safety posters HTML, using fallback:', error);
       return this.getDefaultSafetyPostersHTML();
     }
   }
@@ -218,10 +242,22 @@ export class PDFService {
    */
   private async getCertificatesHTML(): Promise<string> {
     try {
-      const response = await fetch('/downloads/certificates.html');
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+      
+      const response = await fetch('/downloads/certificates.html', {
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
       return await response.text();
     } catch (error) {
-      console.error('Error fetching certificates HTML:', error);
+      console.warn('Error fetching certificates HTML, using fallback:', error);
       return this.getDefaultCertificatesHTML();
     }
   }
@@ -231,10 +267,22 @@ export class PDFService {
    */
   private async getFamilyAgreementHTML(): Promise<string> {
     try {
-      const response = await fetch('/downloads/family-agreement.html');
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+      
+      const response = await fetch('/downloads/family-agreement.html', {
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
       return await response.text();
     } catch (error) {
-      console.error('Error fetching family agreement HTML:', error);
+      console.warn('Error fetching family agreement HTML, using fallback:', error);
       return this.getDefaultFamilyAgreementHTML();
     }
   }
