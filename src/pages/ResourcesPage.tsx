@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ClipboardCheck as ChalkboardTeacher, MessageCircle, FileText, Shield, Download, Users, Award, Eye, Heart, Brain, BookOpen, Globe, ArrowRight } from 'lucide-react';
+import { ArrowLeft, MessageCircle, FileText, Shield, Download, Users, Award, Eye, Heart, Brain, BookOpen, Globe, ArrowRight } from 'lucide-react';
 
 const ResourcesPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('comprehensive-guides');
