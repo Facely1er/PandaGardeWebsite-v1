@@ -3,46 +3,6 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, Users, BookOpen, Play, ShoppingBag, BarChart3 } from 'lucide-react';
 
 const GetStartedPage: React.FC = () => {
-  // CSS styles for interactive elements
-  const buttonStyle: React.CSSProperties = {
-    display: 'inline-block',
-    padding: '0.75rem 1.5rem',
-    background: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)',
-    color: 'white',
-    borderRadius: '8px',
-    textDecoration: 'none',
-    fontWeight: '600',
-    transition: 'all 0.2s ease',
-    cursor: 'pointer',
-    border: 'none',
-    outline: 'none'
-  };
-
-  const iconCircleStyle: React.CSSProperties = {
-    width: '64px',
-    height: '64px',
-    borderRadius: '50%',
-    background: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)',
-    color: 'white',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-    fontSize: '1.5rem',
-    fontWeight: 'bold'
-  };
-
-  const cardLinkStyle: React.CSSProperties = {
-    backgroundColor: 'white',
-    borderRadius: '12px',
-    padding: '2rem',
-    textAlign: 'center',
-    textDecoration: 'none',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-    transition: 'all 0.2s ease',
-    display: 'block',
-    outline: 'none'
-  };
   const steps = [
     {
       id: 'family-hub',
@@ -87,30 +47,14 @@ const GetStartedPage: React.FC = () => {
   ];
 
   return (
-    <main id="main-content" style={{ 
-      minHeight: '100vh', 
-      paddingTop: '80px', 
-      backgroundColor: '#ffffff'
-    }}>
+    <main id="main-content" style={{ minHeight: '100vh', paddingTop: '80px', backgroundColor: '#ffffff' }}>
       {/* Back Navigation */}
       <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem 1.5rem' }}>
         <Link
           to="/"
           className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-          style={{ 
-            textDecoration: 'none',
-            outline: 'none',
-            color: '#4b5563'
-          }}
+          style={{ textDecoration: 'none', color: '#4b5563' }}
           aria-label="Back to home page"
-          onFocus={(e) => {
-            e.currentTarget.style.outline = '3px solid var(--primary-light)';
-            e.currentTarget.style.outlineOffset = '2px';
-            e.currentTarget.style.borderRadius = '4px';
-          }}
-          onBlur={(e) => {
-            e.currentTarget.style.outline = 'none';
-          }}
         >
           <ArrowLeft size={16} aria-hidden="true" />
           Back to Home
@@ -144,24 +88,21 @@ const GetStartedPage: React.FC = () => {
       </section>
 
       {/* Steps Section */}
-      <section aria-labelledby="steps-heading" style={{ 
-        padding: 'clamp(4rem, 8vw, 6rem) 0', 
-        background: '#ffffff'
-      }}>
+      <section aria-labelledby="steps-heading" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div style={{ maxWidth: '800px', margin: '0 auto' }}>
             <h2 id="steps-heading" style={{ 
               fontSize: '2rem', 
               fontWeight: 'bold', 
               marginBottom: '1rem',
-              color: 'var(--primary, #1B5E20)',
+              color: '#1B5E20',
               textAlign: 'center'
             }}>
               Getting Started Steps
             </h2>
             <p style={{ 
               fontSize: '1.125rem', 
-              color: 'var(--gray-600, #757575)',
+              color: '#757575',
               textAlign: 'center',
               marginBottom: '3rem'
             }}>
@@ -176,7 +117,7 @@ const GetStartedPage: React.FC = () => {
                     key={step.id}
                     role="listitem"
                     style={{
-                      backgroundColor: 'white',
+                      backgroundColor: '#ffffff',
                       borderRadius: '12px',
                       padding: '1.5rem',
                       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
@@ -184,17 +125,29 @@ const GetStartedPage: React.FC = () => {
                     }}
                   >
                     <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-                      <div style={iconCircleStyle}>
+                      <div style={{
+                        width: '64px',
+                        height: '64px',
+                        borderRadius: '50%',
+                        background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+                        color: '#ffffff',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                        fontSize: '1.5rem',
+                        fontWeight: 'bold'
+                      }}>
                         {index + 1}
                       </div>
 
-                      <div style={{ flex: 1 }}>
+                      <div style={{ flex: 1, minWidth: '200px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-                          <Icon size={20} style={{ color: 'var(--primary, #1B5E20)' }} />
+                          <Icon size={20} style={{ color: '#1B5E20' }} />
                           <h3 style={{ 
                             fontSize: '1.25rem', 
                             fontWeight: 'bold',
-                            color: 'var(--primary, #1B5E20)',
+                            color: '#1B5E20',
                             margin: 0
                           }}>
                             {step.title}
@@ -203,7 +156,7 @@ const GetStartedPage: React.FC = () => {
 
                         <p style={{ 
                           fontSize: '1rem', 
-                          color: 'var(--gray-600, #757575)',
+                          color: '#757575',
                           marginBottom: '1rem',
                           lineHeight: '1.6'
                         }}>
@@ -212,24 +165,24 @@ const GetStartedPage: React.FC = () => {
 
                         <Link
                           to={step.link}
-                          style={buttonStyle}
+                          style={{
+                            display: 'inline-block',
+                            padding: '0.75rem 1.5rem',
+                            background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+                            color: '#ffffff',
+                            borderRadius: '8px',
+                            textDecoration: 'none',
+                            fontWeight: '600',
+                            transition: 'all 0.2s ease'
+                          }}
                           aria-label={`${step.action}: ${step.title}`}
                           onMouseEnter={(e) => {
                             e.currentTarget.style.opacity = '0.9';
                             e.currentTarget.style.transform = 'translateY(-2px)';
-                            e.currentTarget.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.15)';
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.opacity = '1';
                             e.currentTarget.style.transform = 'translateY(0)';
-                            e.currentTarget.style.boxShadow = 'none';
-                          }}
-                          onFocus={(e) => {
-                            e.currentTarget.style.outline = '3px solid var(--primary-light)';
-                            e.currentTarget.style.outlineOffset = '2px';
-                          }}
-                          onBlur={(e) => {
-                            e.currentTarget.style.outline = 'none';
                           }}
                         >
                           {step.action}
@@ -251,14 +204,14 @@ const GetStartedPage: React.FC = () => {
             fontSize: '2rem', 
             fontWeight: 'bold', 
             marginBottom: '1rem',
-            color: 'var(--primary)',
+            color: '#1B5E20',
             textAlign: 'center'
           }}>
             Quick Start Options
           </h2>
           <p style={{ 
             fontSize: '1.125rem', 
-            color: 'var(--gray-600)',
+            color: '#757575',
             textAlign: 'center',
             marginBottom: '3rem'
           }}>
@@ -274,7 +227,16 @@ const GetStartedPage: React.FC = () => {
           }} role="list" aria-label="Quick start options">
             <Link
               to="/activity-book"
-              style={cardLinkStyle}
+              style={{
+                backgroundColor: '#ffffff',
+                borderRadius: '12px',
+                padding: '2rem',
+                textAlign: 'center',
+                textDecoration: 'none',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                transition: 'all 0.2s ease',
+                display: 'block'
+              }}
               aria-label="Start with Activities - Jump straight into interactive privacy activities"
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-4px)';
@@ -284,33 +246,45 @@ const GetStartedPage: React.FC = () => {
                 e.currentTarget.style.transform = 'translateY(0)';
                 e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
               }}
-              onFocus={(e) => {
-                e.currentTarget.style.outline = '3px solid var(--primary-light)';
-                e.currentTarget.style.outlineOffset = '2px';
-              }}
-              onBlur={(e) => {
-                e.currentTarget.style.outline = 'none';
-              }}
             >
-              <div style={{ ...iconCircleStyle, margin: '0 auto 1rem', width: '64px', height: '64px' }}>
+              <div style={{
+                width: '64px',
+                height: '64px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+                color: '#ffffff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 1rem'
+              }}>
                 <Play size={32} />
               </div>
               <h3 style={{ 
                 fontSize: '1.25rem', 
                 fontWeight: 'bold',
-                color: 'var(--primary)',
+                color: '#1B5E20',
                 marginBottom: '0.5rem'
               }}>
                 Start with Activities
               </h3>
-              <p style={{ color: 'var(--gray-600)', marginBottom: '1rem' }}>
+              <p style={{ color: '#757575', marginBottom: '1rem' }}>
                 Jump straight into interactive privacy activities.
               </p>
             </Link>
 
             <Link
               to="/family-hub"
-              style={cardLinkStyle}
+              style={{
+                backgroundColor: '#ffffff',
+                borderRadius: '12px',
+                padding: '2rem',
+                textAlign: 'center',
+                textDecoration: 'none',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                transition: 'all 0.2s ease',
+                display: 'block'
+              }}
               aria-label="Set Up Family Hub - Create your family profile and track progress"
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-4px)';
@@ -320,33 +294,45 @@ const GetStartedPage: React.FC = () => {
                 e.currentTarget.style.transform = 'translateY(0)';
                 e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
               }}
-              onFocus={(e) => {
-                e.currentTarget.style.outline = '3px solid var(--primary-light)';
-                e.currentTarget.style.outlineOffset = '2px';
-              }}
-              onBlur={(e) => {
-                e.currentTarget.style.outline = 'none';
-              }}
             >
-              <div style={{ ...iconCircleStyle, margin: '0 auto 1rem', width: '64px', height: '64px' }}>
+              <div style={{
+                width: '64px',
+                height: '64px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+                color: '#ffffff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 1rem'
+              }}>
                 <Users size={32} />
               </div>
               <h3 style={{ 
                 fontSize: '1.25rem', 
                 fontWeight: 'bold',
-                color: 'var(--primary)',
+                color: '#1B5E20',
                 marginBottom: '0.5rem'
               }}>
                 Set Up Family Hub
               </h3>
-              <p style={{ color: 'var(--gray-600)', marginBottom: '1rem' }}>
+              <p style={{ color: '#757575', marginBottom: '1rem' }}>
                 Create your family profile and track progress.
               </p>
             </Link>
 
             <Link
               to="/story"
-              style={cardLinkStyle}
+              style={{
+                backgroundColor: '#ffffff',
+                borderRadius: '12px',
+                padding: '2rem',
+                textAlign: 'center',
+                textDecoration: 'none',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                transition: 'all 0.2s ease',
+                display: 'block'
+              }}
               aria-label="Read Our Story - Learn about Privacy Panda through storytelling"
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-4px)';
@@ -356,26 +342,29 @@ const GetStartedPage: React.FC = () => {
                 e.currentTarget.style.transform = 'translateY(0)';
                 e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
               }}
-              onFocus={(e) => {
-                e.currentTarget.style.outline = '3px solid var(--primary-light)';
-                e.currentTarget.style.outlineOffset = '2px';
-              }}
-              onBlur={(e) => {
-                e.currentTarget.style.outline = 'none';
-              }}
             >
-              <div style={{ ...iconCircleStyle, margin: '0 auto 1rem', width: '64px', height: '64px' }}>
+              <div style={{
+                width: '64px',
+                height: '64px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+                color: '#ffffff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 1rem'
+              }}>
                 <BookOpen size={32} />
               </div>
               <h3 style={{ 
                 fontSize: '1.25rem', 
                 fontWeight: 'bold',
-                color: 'var(--primary)',
+                color: '#1B5E20',
                 marginBottom: '0.5rem'
               }}>
                 Read Our Story
               </h3>
-              <p style={{ color: 'var(--gray-600)', marginBottom: '1rem' }}>
+              <p style={{ color: '#757575', marginBottom: '1rem' }}>
                 Learn about Privacy Panda through storytelling.
               </p>
             </Link>
@@ -388,8 +377,7 @@ const GetStartedPage: React.FC = () => {
         aria-labelledby="cta-heading"
         style={{ 
           padding: 'clamp(4rem, 8vw, 6rem) 0', 
-          background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
-          backgroundImage: 'linear-gradient(135deg, var(--primary, #1B5E20) 0%, var(--primary-light, #2E7D32) 100%)', 
+          background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)', 
           color: '#ffffff',
           textAlign: 'center'
         }}
@@ -405,8 +393,8 @@ const GetStartedPage: React.FC = () => {
             <Link
               to="/activity-book"
               style={{
-                backgroundColor: 'white',
-                color: 'var(--primary)',
+                backgroundColor: '#ffffff',
+                color: '#1B5E20',
                 padding: '0.75rem 1.5rem',
                 borderRadius: '8px',
                 textDecoration: 'none',
@@ -414,8 +402,7 @@ const GetStartedPage: React.FC = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                transition: 'all 0.2s ease',
-                outline: 'none'
+                transition: 'all 0.2s ease'
               }}
               aria-label="Start Learning - Begin interactive privacy activities"
               onMouseEnter={(e) => {
@@ -426,13 +413,6 @@ const GetStartedPage: React.FC = () => {
                 e.currentTarget.style.opacity = '1';
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
-              onFocus={(e) => {
-                e.currentTarget.style.outline = '3px solid white';
-                e.currentTarget.style.outlineOffset = '2px';
-              }}
-              onBlur={(e) => {
-                e.currentTarget.style.outline = 'none';
-              }}
             >
               <Play size={20} />
               Start Learning
@@ -440,8 +420,8 @@ const GetStartedPage: React.FC = () => {
             <Link
               to="/family-hub"
               style={{
-                backgroundColor: 'var(--primary-light)',
-                color: 'white',
+                backgroundColor: '#2E7D32',
+                color: '#ffffff',
                 padding: '0.75rem 1.5rem',
                 borderRadius: '8px',
                 textDecoration: 'none',
@@ -449,26 +429,18 @@ const GetStartedPage: React.FC = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                transition: 'all 0.2s ease',
-                outline: 'none'
+                transition: 'all 0.2s ease'
               }}
               aria-label="Family Hub - Create your family profile"
               onMouseEnter={(e) => {
                 e.currentTarget.style.opacity = '0.9';
                 e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.backgroundColor = 'var(--primary)';
+                e.currentTarget.style.backgroundColor = '#1B5E20';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.opacity = '1';
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.backgroundColor = 'var(--primary-light)';
-              }}
-              onFocus={(e) => {
-                e.currentTarget.style.outline = '3px solid white';
-                e.currentTarget.style.outlineOffset = '2px';
-              }}
-              onBlur={(e) => {
-                e.currentTarget.style.outline = 'none';
+                e.currentTarget.style.backgroundColor = '#2E7D32';
               }}
             >
               <Users size={20} />
