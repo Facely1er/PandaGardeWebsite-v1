@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { Book, ArrowLeft, Heart, Star, Play, Pause, Volume2, VolumeX, RotateCcw } from 'lucide-react';
-import Logo from '../components/Logo';
 import InteractiveStoryPlayer from '../components/story/InteractiveStoryPlayer';
-import StoryCharacter from '../components/story/StoryCharacter';
-import StoryScene from '../components/story/StoryScene';
-import StoryChoices from '../components/story/StoryChoices';
 import StoryProgress from '../components/story/StoryProgress';
+import PageLayout from '../components/layout/PageLayout';
+import Logo from '../components/Logo';
 
 interface StorySceneData {
   id: string;
@@ -29,7 +26,7 @@ interface StorySceneData {
 
 interface Achievement {
   id: string;
-  title: string;
+  name: string;
   description: string;
   unlocked: boolean;
   icon: string;
@@ -253,76 +250,7 @@ const InteractiveStoryPage: React.FC = () => {
     }
   };
 
-  const handleChoiceSelect = (choiceIndex: number, consequence?: string) => {
-    setPoints((prev: number) => prev + 10);
-    
-    // Add visual feedback for choice selection
-    const feedbackElement = document.createElement('div');
-    feedbackElement.textContent = '+10 Points!';
-    feedbackElement.style.cssText = `
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: white;
-      padding: 1rem 2rem;
-      border-radius: 12px;
-      font-weight: bold;
-      font-size: 1.2rem;
-      z-index: 10000;
-      pointer-events: none;
-      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
-      animation: pointsFeedback 2s ease-out forwards;
-    `;
-    
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes pointsFeedback {
-        0% { 
-          opacity: 0; 
-          transform: translate(-50%, -50%) scale(0.5) translateY(20px); 
-        }
-        20% { 
-          opacity: 1; 
-          transform: translate(-50%, -50%) scale(1.1) translateY(0); 
-        }
-        80% { 
-          opacity: 1; 
-          transform: translate(-50%, -50%) scale(1) translateY(-20px); 
-        }
-        100% { 
-          opacity: 0; 
-          transform: translate(-50%, -50%) scale(0.8) translateY(-40px); 
-        }
-      }
-    `;
-    document.head.appendChild(style);
-    document.body.appendChild(feedbackElement);
-    
-    setTimeout(() => {
-      document.body.removeChild(feedbackElement);
-      document.head.removeChild(style);
-    }, 2000);
-    
-    // Track choice for privacy learning
-    const choiceData = {
-      sceneId: currentScene.id,
-      choiceIndex,
-      consequence,
-      timestamp: Date.now()
-    };
-    
-    // Save choice to localStorage for analytics
-    const savedChoices = JSON.parse(localStorage.getItem('story-choices') || '[]');
-    savedChoices.push(choiceData);
-    localStorage.setItem('story-choices', JSON.stringify(savedChoices));
-    
-    // Check for achievements based on choices
-    checkChoiceAchievements(choiceIndex, consequence);
-  };
-
-  const checkChoiceAchievements = (choiceIndex: number, consequence?: string) => {
+  const checkChoiceAchievements = (_choiceIndex: number, _consequence?: string) => {
     const savedChoices = JSON.parse(localStorage.getItem('story-choices') || '[]');
     const privacyChoices = savedChoices.filter((choice: any) => 
       choice.consequence && choice.consequence.includes('privacy')
@@ -528,39 +456,6 @@ const InteractiveStoryPage: React.FC = () => {
     document.head.appendChild(fadeOutStyle);
   };
 
-  // Get age-appropriate story content
-  const getAgeAppropriateContent = (content: string, ageGroup: string | null): string => {
-    if (!ageGroup) {return content;}
-    
-    // Simple content adaptation based on age group
-    const adaptations = {
-      'ages-5-8': {
-        'digital tablet': 'magic tablet',
-        'privacy settings': 'special buttons',
-        'personal information': 'secrets',
-        'online safety': 'staying safe'
-      },
-      'ages-9-12': {
-        'magic tablet': 'digital tablet',
-        'special buttons': 'privacy settings',
-        'secrets': 'personal information'
-      },
-      'ages-13-17': {
-        // Keep original content for teens
-      }
-    };
-    
-    let adaptedContent = content;
-    const ageAdaptations = adaptations[ageGroup as keyof typeof adaptations];
-    
-    if (ageAdaptations) {
-      Object.entries(ageAdaptations).forEach(([original, adapted]) => {
-        adaptedContent = adaptedContent.replace(new RegExp(original, 'gi'), adapted);
-      });
-    }
-    
-    return adaptedContent;
-  };
 
   const currentScene = storyScenes[currentSceneIndex];
 
@@ -600,24 +495,6 @@ const InteractiveStoryPage: React.FC = () => {
     localStorage.setItem('story-bookmarks', JSON.stringify(Array.from(bookmarks)));
   }, [bookmarks]);
 
-  // Determine user age group
-  useEffect(() => {
-    const savedVerification = localStorage.getItem('pandagarde-age-verification');
-    if (savedVerification) {
-      try {
-        const { age } = JSON.parse(savedVerification);
-        if (age >= 5 && age <= 8) {
-          setUserAgeGroup('ages-5-8');
-        } else if (age >= 9 && age <= 12) {
-          setUserAgeGroup('ages-9-12');
-        } else if (age >= 13 && age <= 17) {
-          setUserAgeGroup('ages-13-17');
-        }
-      } catch (error) {
-        console.error('Error parsing age verification:', error);
-      }
-    }
-  }, []);
 
   // Load progress from localStorage
   useEffect(() => {
@@ -693,31 +570,63 @@ const InteractiveStoryPage: React.FC = () => {
   }, [showKeyboardHelp, showBookmarks]);
 
   return (
-    <div className="min-h-screen bg-white" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
-      {/* Skip to main content link for accessibility */}
-      <a 
-        href="#main-content" 
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-white px-4 py-2 rounded z-50"
-        style={{ 
-          position: 'absolute',
-          top: '-40px',
-          left: '6px',
-          background: 'var(--primary)',
-          color: 'white',
-          padding: '8px 16px',
-          borderRadius: '4px',
-          textDecoration: 'none',
-          zIndex: 50,
-          transition: 'top 0.3s'
-        }}
-        onFocus={(e) => e.target.style.top = '6px'}
-        onBlur={(e) => e.target.style.top = '-40px'}
-      >
-        Skip to main content
-      </a>
+    <PageLayout
+      title="Privacy Panda and the Digital Bamboo Forest"
+      subtitle="Join Po the Panda on an interactive adventure through the Digital Bamboo Forest as he learns about privacy, sharing, and staying safe online. Make choices, unlock achievements, and become a privacy expert!"
+      icon={Book}
+      badge="INTERACTIVE STORY"
+      breadcrumbs={true}
+    >
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+        {/* Quick Start Section */}
+        <div style={{ 
+          background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)', 
+          borderRadius: '12px', 
+          padding: '2rem', 
+          marginBottom: '2rem',
+          border: '1px solid #bbf7d0'
+        }}>
+          <div className="grid md:grid-cols-2 gap-6 items-center">
+            {/* Left Column - Features */}
+            <div>
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                <div className="flex items-center gap-2 bg-white/80 px-3 py-2 rounded-lg">
+                  <Star size={16} className="text-yellow-500" />
+                  <span className="font-semibold text-sm">Ages 5-12</span>
+                </div>
+                <div className="flex items-center gap-2 bg-white/80 px-3 py-2 rounded-lg">
+                  <Book size={16} className="text-blue-500" />
+                  <span className="font-semibold text-sm">Interactive</span>
+                </div>
+                <div className="flex items-center gap-2 bg-white/80 px-3 py-2 rounded-lg">
+                  <Heart size={16} className="text-red-500" />
+                  <span className="font-semibold text-sm">Educational</span>
+                </div>
+                <div className="flex items-center gap-2 bg-white/80 px-3 py-2 rounded-lg">
+                  <span className="text-lg">🎮</span>
+                  <span className="font-semibold text-sm">Make Choices</span>
+                </div>
+              </div>
+              <button 
+                onClick={() => document.getElementById('main-content')?.scrollIntoView({ behavior: 'smooth' })}
+                className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
+              >
+                <Play size={18} />
+                Start Adventure
+              </button>
+            </div>
 
-      {/* Enhanced Header */}
-      <header className="bg-gradient-to-br from-green-600 via-green-500 to-emerald-600 text-white py-24 relative overflow-hidden" role="banner">
+            {/* Right Column - Visual */}
+            <div className="text-center hidden md:block">
+              <div className="text-6xl mb-2">🐼</div>
+              <div className="flex justify-center gap-2">
+                <span className="text-2xl">🛡️</span>
+                <span className="text-2xl">🔒</span>
+                <span className="text-2xl">⭐</span>
+              </div>
+            </div>
+          </div>
+        </div>
         {/* Animated Background Elements */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute inset-0" style={{
@@ -725,339 +634,118 @@ const InteractiveStoryPage: React.FC = () => {
           }} />
         </div>
         
-        {/* Floating Elements */}
-        <div className="absolute inset-0 pointer-events-none">
+        {/* Enhanced Floating Elements with More Variety */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="floating-panda">🐼</div>
           <div className="floating-leaf">🍃</div>
           <div className="floating-star">⭐</div>
           <div className="floating-shield">🛡️</div>
+          <div className="floating-bamboo">🎋</div>
+          <div className="floating-lock">🔒</div>
+          <div className="floating-heart">💚</div>
         </div>
 
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="flex items-center justify-center mb-8">
-            <div className="w-24 h-24 mr-4 animate-bounce">
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', position: 'relative', zIndex: 10 }}>
+          {/* Compact Logo and Badge Row */}
+          <div className="flex items-center justify-between mb-6">
+            <div className="w-14 h-14 animate-bounce">
               <Logo />
+            </div>
+            <div className="inline-flex items-center gap-2 bg-white/25 backdrop-blur-md px-4 py-2 rounded-full shadow-lg animate-pulse">
+              <Book size={14} className="animate-spin-slow" />
+              <span className="text-xs font-bold tracking-wider">INTERACTIVE STORY</span>
             </div>
           </div>
 
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 bg-white/25 backdrop-blur-md px-6 py-3 rounded-full mb-8 shadow-lg animate-pulse">
-              <Book size={18} className="animate-spin-slow" />
-              <span className="text-sm font-bold tracking-wider">INTERACTIVE STORY</span>
-            </div>
+          {/* Main Content Grid Layout */}
+          <div className="grid md:grid-cols-2 gap-6 items-center">
+            {/* Left Column - Text Content */}
+            <div className="text-left md:text-left">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
+                <span className="block text-white drop-shadow-lg mb-1">Privacy Panda</span>
+                <span className="block text-yellow-300 drop-shadow-lg animate-glow">and the Digital Bamboo Forest</span>
+              </h1>
 
-            <h1 className="text-6xl font-bold mb-8 leading-tight animate-fade-in-up">
-              <span className="block text-white drop-shadow-lg">Privacy Panda</span>
-              <span className="block text-yellow-300 drop-shadow-lg animate-glow">and the Digital Bamboo Forest</span>
-            </h1>
+              <p className="text-base md:text-lg opacity-95 mb-6 leading-relaxed">
+                Join Po the Panda on an interactive adventure through the Digital Bamboo Forest as he learns about privacy, sharing, and staying safe online.
+              </p>
 
-            <p className="text-xl opacity-95 max-w-3xl mx-auto mb-10 leading-relaxed animate-fade-in-up-delay">
-              Join Po the Panda on an interactive adventure through the Digital Bamboo Forest as he learns about privacy, sharing, and staying safe online. Make choices, unlock achievements, and become a privacy expert!
-            </p>
-
-            {/* Enhanced Feature Badges */}
-            <div className="flex flex-wrap items-center justify-center gap-6 text-sm mb-8">
-              <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full">
-                <Star size={16} className="text-yellow-300" />
-                <span className="font-semibold">Ages 5-12</span>
-              </div>
-              <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full">
-                <Book size={16} className="text-blue-300" />
-                <span className="font-semibold">Interactive Story</span>
-              </div>
-              <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full">
-                <Heart size={16} className="text-red-300" />
-                <span className="font-semibold">Educational Adventure</span>
-              </div>
-              <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full">
-                <span className="text-lg">🎮</span>
-                <span className="font-semibold">Make Choices</span>
-              </div>
-            </div>
-
-            {/* Interactive Preview */}
-            <div className="bg-white/15 backdrop-blur-md rounded-2xl p-6 max-w-2xl mx-auto border border-white/20">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                  <span className="text-2xl">🐼</span>
+              {/* Compact Feature Grid */}
+              <div className="grid grid-cols-2 gap-3 mb-6">
+                <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-2 rounded-lg">
+                  <Star size={16} className="text-yellow-300" />
+                  <span className="font-semibold text-sm">Ages 5-12</span>
                 </div>
-                <div>
-                  <h3 className="text-lg font-bold">Ready to Start?</h3>
-                  <p className="text-sm opacity-90">Click below to begin Po's journey</p>
+                <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-2 rounded-lg">
+                  <Book size={16} className="text-blue-300" />
+                  <span className="font-semibold text-sm">Interactive</span>
+                </div>
+                <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-2 rounded-lg">
+                  <Heart size={16} className="text-red-300" />
+                  <span className="font-semibold text-sm">Educational</span>
+                </div>
+                <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-2 rounded-lg">
+                  <span className="text-lg">🎮</span>
+                  <span className="font-semibold text-sm">Make Choices</span>
                 </div>
               </div>
+
+              {/* CTA Buttons */}
               <div className="flex gap-3">
                 <button 
                   onClick={() => document.getElementById('main-content')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-6 py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg"
+                  className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-6 py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
                 >
+                  <Play size={18} />
                   Start Adventure
                 </button>
                 <button 
                   onClick={() => setShowKeyboardHelp(true)}
-                  className="bg-white/20 hover:bg-white/30 text-white px-4 py-3 rounded-lg font-semibold transition-all"
+                  className="bg-white/20 hover:bg-white/30 text-white px-4 py-3 rounded-lg font-semibold transition-all border border-white/30"
                 >
                   Help
                 </button>
               </div>
             </div>
+
+            {/* Right Column - Visual Element */}
+            <div className="relative hidden md:block">
+              <div className="relative">
+                {/* Main Panda Illustration Area */}
+                <div className="relative bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
+                  <div className="text-center">
+                    <div className="text-7xl mb-4 animate-bounce" style={{ animationDuration: '2s' }}>🐼</div>
+                    <div className="flex justify-center gap-2 mb-4">
+                      <span className="text-3xl animate-pulse">🛡️</span>
+                      <span className="text-3xl animate-pulse" style={{ animationDelay: '0.2s' }}>🔒</span>
+                      <span className="text-3xl animate-pulse" style={{ animationDelay: '0.4s' }}>⭐</span>
+                    </div>
+                    <p className="text-sm opacity-90 font-medium">Ready to protect your digital privacy?</p>
+                  </div>
+                </div>
+                
+                {/* Decorative Elements */}
+                <div className="absolute -top-4 -right-4 text-4xl opacity-50 animate-float">🌿</div>
+                <div className="absolute -bottom-4 -left-4 text-4xl opacity-50 animate-float" style={{ animationDelay: '1s' }}>🎋</div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Enhanced CSS for animations and mobile responsiveness */}
-        <style>{`
-          .floating-panda {
-            position: absolute;
-            top: 20%;
-            left: 10%;
-            font-size: 2rem;
-            animation: float 6s ease-in-out infinite;
-            opacity: 0.7;
-          }
-          
-          .floating-leaf {
-            position: absolute;
-            top: 30%;
-            right: 15%;
-            font-size: 1.5rem;
-            animation: float 4s ease-in-out infinite reverse;
-            opacity: 0.6;
-          }
-          
-          .floating-star {
-            position: absolute;
-            top: 60%;
-            left: 20%;
-            font-size: 1.2rem;
-            animation: twinkle 3s ease-in-out infinite;
-            opacity: 0.8;
-          }
-          
-          .floating-shield {
-            position: absolute;
-            top: 40%;
-            right: 25%;
-            font-size: 1.8rem;
-            animation: float 5s ease-in-out infinite;
-            opacity: 0.5;
-          }
-          
-          .animate-spin-slow {
-            animation: spin 8s linear infinite;
-          }
-          
-          .animate-glow {
-            animation: glow 2s ease-in-out infinite alternate;
-          }
-          
-          .animate-fade-in-up {
-            animation: fadeInUp 1s ease-out;
-          }
-          
-          .animate-fade-in-up-delay {
-            animation: fadeInUp 1s ease-out 0.3s both;
-          }
-          
-          @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-          }
-          
-          @keyframes twinkle {
-            0%, 100% { opacity: 0.8; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-          }
-          
-          @keyframes glow {
-            from { text-shadow: 0 0 10px rgba(255, 255, 0, 0.5); }
-            to { text-shadow: 0 0 20px rgba(255, 255, 0, 0.8), 0 0 30px rgba(255, 255, 0, 0.6); }
-          }
-          
-          @keyframes fadeInUp {
-            from {
-              opacity: 0;
-              transform: translateY(30px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-          
-          @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-          }
 
-          /* Mobile Responsiveness Enhancements */
-          @media (max-width: 768px) {
-            .floating-panda {
-              top: 15%;
-              left: 5%;
-              font-size: 1.5rem;
-            }
-            
-            .floating-leaf {
-              top: 25%;
-              right: 10%;
-              font-size: 1.2rem;
-            }
-            
-            .floating-star {
-              top: 70%;
-              left: 15%;
-              font-size: 1rem;
-            }
-            
-            .floating-shield {
-              top: 45%;
-              right: 20%;
-              font-size: 1.4rem;
-            }
+      {/* Story Controls Navigation */}
+      <div id="main-content" className="bg-gray-50 border-b border-gray-200" style={{ backgroundColor: 'var(--light)', marginTop: '2rem', marginBottom: '2rem' }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '1rem 1.5rem' }}>
+          <div className="flex items-center justify-between flex-wrap gap-3">
 
-            /* Enhanced mobile header */
-            header {
-              padding: 3rem 1rem !important;
-            }
-
-            h1 {
-              font-size: 2.5rem !important;
-              line-height: 1.2 !important;
-            }
-
-            /* Mobile navigation improvements */
-            .container {
-              padding-left: 1rem !important;
-              padding-right: 1rem !important;
-            }
-
-            /* Mobile controls */
-            .story-controls {
-              flex-wrap: wrap;
-              gap: 0.5rem;
-            }
-
-            .control-btn {
-              min-width: 44px;
-              min-height: 44px;
-              padding: 0.75rem;
-            }
-
-            /* Mobile story content */
-            .story-text-wrapper {
-              padding: 1.5rem !important;
-              margin: 1rem !important;
-            }
-
-            .story-text-wrapper p {
-              font-size: 1.1rem !important;
-              line-height: 1.6 !important;
-            }
-
-            /* Mobile choices */
-            .choices-grid {
-              grid-template-columns: 1fr !important;
-              gap: 1rem !important;
-            }
-
-            .choice-btn {
-              padding: 1.25rem !important;
-              font-size: 1rem !important;
-              min-height: 60px !important;
-            }
-
-            /* Mobile call to action */
-            .bg-gradient-to-br {
-              padding: 2rem 1rem !important;
-              margin: 1rem !important;
-            }
-
-            .bg-gradient-to-br h2 {
-              font-size: 1.75rem !important;
-            }
-
-            .bg-gradient-to-br p {
-              font-size: 1rem !important;
-            }
-
-            .bg-gradient-to-br a,
-            .bg-gradient-to-br button {
-              padding: 0.75rem 1.5rem !important;
-              font-size: 0.9rem !important;
-            }
-          }
-
-          @media (max-width: 480px) {
-            /* Extra small mobile devices */
-            .floating-panda,
-            .floating-leaf,
-            .floating-star,
-            .floating-shield {
-              display: none; /* Hide floating elements on very small screens */
-            }
-
-            header {
-              padding: 2rem 0.5rem !important;
-            }
-
-            h1 {
-              font-size: 2rem !important;
-            }
-
-            .container {
-              padding-left: 0.5rem !important;
-              padding-right: 0.5rem !important;
-            }
-
-            .story-text-wrapper {
-              padding: 1rem !important;
-              margin: 0.5rem !important;
-            }
-
-            .story-text-wrapper p {
-              font-size: 1rem !important;
-            }
-
-            .choice-btn {
-              padding: 1rem !important;
-              font-size: 0.9rem !important;
-            }
-
-            .bg-gradient-to-br {
-              padding: 1.5rem 0.75rem !important;
-              margin: 0.5rem !important;
-            }
-
-            .bg-gradient-to-br h2 {
-              font-size: 1.5rem !important;
-            }
-          }
-        `}</style>
-      </header>
-
-      {/* Enhanced Navigation */}
-      <div className="bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200" style={{ backgroundColor: 'var(--light)' }}>
-        <div className="container mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => window.history.back()}
-              className="inline-flex items-center gap-3 text-green-600 hover:text-green-700 font-semibold transition-all transform hover:scale-105 bg-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md"
-              style={{ color: 'var(--primary-light)' }}
-            >
-              <ArrowLeft size={18} />
-              Back to Home
-            </button>
-
-            <div className="flex items-center gap-6">
-              {/* Progress Indicator */}
-              <div className="hidden md:flex items-center gap-3 bg-white px-4 py-2 rounded-lg shadow-sm">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold text-green-600">{currentSceneIndex + 1}</span>
-                  </div>
-                  <span className="text-sm font-medium text-gray-600">of {storyScenes.length}</span>
+            <div className="flex items-center gap-4 flex-wrap">
+              {/* Compact Progress Indicator */}
+              <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg shadow-sm">
+                <div className="w-7 h-7 bg-green-100 rounded-full flex items-center justify-center">
+                  <span className="text-xs font-bold text-green-600">{currentSceneIndex + 1}</span>
                 </div>
-                <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+                <span className="text-xs font-medium text-gray-600 hidden sm:inline">/{storyScenes.length}</span>
+                <div className="w-20 h-1.5 bg-gray-200 rounded-full overflow-hidden hidden md:block">
                   <div
                     className="h-full bg-gradient-to-r from-green-500 to-green-600 transition-all duration-500 ease-out"
                     style={{ width: `${((currentSceneIndex + 1) / storyScenes.length) * 100}%` }}
@@ -1065,63 +753,63 @@ const InteractiveStoryPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Enhanced Controls */}
-              <div className="flex items-center gap-2 bg-white rounded-full px-2 py-2 shadow-lg border border-gray-200" role="group" aria-label="Story Controls">
+              {/* Compact Enhanced Controls */}
+              <div className="flex items-center gap-1 bg-white rounded-full px-1 py-1 shadow-lg border border-gray-200" role="group" aria-label="Story Controls">
                 <button
                   onClick={() => setIsPlaying(!isPlaying)}
-                  className={`p-3 rounded-full transition-all transform hover:scale-110 ${
+                  className={`p-2.5 rounded-full transition-all transform hover:scale-110 ${
                     isPlaying 
                       ? 'bg-red-100 text-red-600 hover:bg-red-200' 
                       : 'bg-green-100 text-green-600 hover:bg-green-200'
                   }`}
-                  title={isPlaying ? 'Pause story (P)' : 'Play story (P)'}
+                  title={isPlaying ? 'Pause (P)' : 'Play (P)'}
                   aria-label={isPlaying ? 'Pause story' : 'Play story'}
                 >
-                  {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+                  {isPlaying ? <Pause size={18} /> : <Play size={18} />}
                 </button>
                 
-                <div className="w-px h-8 bg-gray-300"></div>
+                <div className="w-px h-6 bg-gray-300"></div>
                 
                 <button
                   onClick={() => setIsMuted(!isMuted)}
-                  className={`p-3 rounded-full transition-all transform hover:scale-110 ${
+                  className={`p-2.5 rounded-full transition-all transform hover:scale-110 ${
                     isMuted 
                       ? 'bg-orange-100 text-orange-600 hover:bg-orange-200' 
                       : 'bg-blue-100 text-blue-600 hover:bg-blue-200'
                   }`}
-                  title={isMuted ? 'Unmute audio (M)' : 'Mute audio (M)'}
+                  title={isMuted ? 'Unmute (M)' : 'Mute (M)'}
                   aria-label={isMuted ? 'Unmute audio' : 'Mute audio'}
                 >
-                  {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+                  {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
                 </button>
                 
                 <button
                   onClick={() => setCurrentSceneIndex(0)}
-                  className="p-3 rounded-full bg-purple-100 text-purple-600 hover:bg-purple-200 transition-all transform hover:scale-110"
-                  title="Reset story to beginning (R)"
-                  aria-label="Reset story to beginning"
+                  className="p-2.5 rounded-full bg-purple-100 text-purple-600 hover:bg-purple-200 transition-all transform hover:scale-110 hidden sm:block"
+                  title="Reset (R)"
+                  aria-label="Reset story"
                 >
-                  <RotateCcw size={20} />
+                  <RotateCcw size={18} />
                 </button>
                 
-                <div className="w-px h-8 bg-gray-300"></div>
+                <div className="w-px h-6 bg-gray-300 hidden sm:block"></div>
                 
                 <button
                   onClick={() => setShowKeyboardHelp(!showKeyboardHelp)}
-                  className="p-3 rounded-full bg-yellow-100 text-yellow-600 hover:bg-yellow-200 transition-all transform hover:scale-110"
-                  title="Show keyboard shortcuts (H)"
+                  className="p-2.5 rounded-full bg-yellow-100 text-yellow-600 hover:bg-yellow-200 transition-all transform hover:scale-110"
+                  title="Help (H)"
                   aria-label="Show keyboard shortcuts"
                 >
-                  <span className="text-sm font-bold">?</span>
+                  <span className="text-xs font-bold">?</span>
                 </button>
                 
                 <button
                   onClick={() => setShowBookmarks(!showBookmarks)}
-                  className="p-3 rounded-full bg-indigo-100 text-indigo-600 hover:bg-indigo-200 transition-all transform hover:scale-110"
-                  title="Show bookmarks (B)"
+                  className="p-2.5 rounded-full bg-indigo-100 text-indigo-600 hover:bg-indigo-200 transition-all transform hover:scale-110"
+                  title="Bookmarks (B)"
                   aria-label="Show bookmarks"
                 >
-                  <span className="text-lg">🔖</span>
+                  <span className="text-base">🔖</span>
                 </button>
               </div>
             </div>
@@ -1232,228 +920,99 @@ const InteractiveStoryPage: React.FC = () => {
         </div>
       )}
 
-      {/* Enhanced Main Content */}
-      <main id="main-content" style={{ minHeight: '100vh', paddingTop: '80px' }} role="main" aria-label="Interactive Story Content">
-        {/* Back Navigation */}
-        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem 1.5rem' }}>
-          <Link to="/" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors" style={{ textDecoration: 'none' }}>
-            <ArrowLeft size={16} />
-            Back to Home
-          </Link>
+        {/* Enhanced Progress Component */}
+        <div style={{ marginBottom: '2rem' }}>
+          <StoryProgress
+            currentScene={currentSceneIndex + 1}
+            totalScenes={storyScenes.length}
+            points={points}
+            achievements={achievements}
+            showDetailedProgress={true}
+          />
         </div>
-        
-        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-        <div className="max-w-6xl mx-auto">
-          {/* Enhanced Progress Component */}
-          <div className="mb-12">
-            <StoryProgress
-              currentScene={currentSceneIndex + 1}
-              totalScenes={storyScenes.length}
-              points={points}
-              achievements={achievements}
-              showDetailedProgress={true}
-            />
-          </div>
 
-          {/* Enhanced Interactive Story Player */}
-          <div className="mb-12">
-            <InteractiveStoryPlayer
-              scenes={storyScenes}
-              onSceneChange={handleSceneChange}
-              onStoryComplete={handleStoryComplete}
-            />
-          </div>
+        {/* Enhanced Interactive Story Player */}
+        <div style={{ marginBottom: '2rem' }}>
+          <InteractiveStoryPlayer
+            scenes={storyScenes}
+            onSceneChange={handleSceneChange}
+            onStoryComplete={handleStoryComplete}
+          />
+        </div>
 
-          {/* Enhanced Current Scene with Character and Choices */}
-          <div className="mb-12">
-            {currentScene && (
-              <div className="scene-container">
-                <StoryScene
-                  sceneId={currentScene.id}
-                  title={currentScene.title}
-                  background={currentScene.background}
-                  timeOfDay={currentScene.timeOfDay}
-                  weather={currentScene.weather}
-                  mood={currentScene.mood}
+        {/* Enhanced Call to Action */}
+        <div style={{ marginTop: '3rem', textAlign: 'center' }}>
+          <div style={{
+            background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #15803d 100%)',
+            color: 'white',
+            padding: '3rem',
+            borderRadius: '1rem',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
+            <div style={{ position: 'absolute', inset: 0, opacity: 0.1 }}>
+              <div style={{ position: 'absolute', top: '1rem', left: '1rem', fontSize: '2rem' }}>🐼</div>
+              <div style={{ position: 'absolute', top: '1rem', right: '1rem', fontSize: '1.5rem' }}>🛡️</div>
+              <div style={{ position: 'absolute', bottom: '1rem', left: '2rem', fontSize: '1.5rem' }}>⭐</div>
+              <div style={{ position: 'absolute', bottom: '1rem', right: '2rem', fontSize: '2rem' }}>🌿</div>
+            </div>
+            
+            <div style={{ position: 'relative', zIndex: 10 }}>
+              <h2 style={{ fontSize: '1.875rem', fontWeight: 700, marginBottom: '1rem' }}>Continue Learning with Privacy Panda!</h2>
+              <p style={{ fontSize: '1.125rem', opacity: 0.95, maxWidth: '42rem', margin: '0 auto 2rem', lineHeight: 1.6 }}>
+                Explore more activities, games, and resources to help children learn about digital privacy and online safety.
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center' }}>
+                <a
+                  href="/activity-book"
+                  style={{
+                    background: 'white',
+                    color: '#16a34a',
+                    padding: '0.75rem 2rem',
+                    borderRadius: '0.75rem',
+                    fontWeight: 700,
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    transition: 'all 0.2s',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = '#f3f4f6'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
                 >
-                  <div className="text-center">
-                    {currentScene.character && (
-                      <div className="character-section mb-8">
-                        <StoryCharacter
-                          character={currentScene.character}
-                          animation={currentScene.animation}
-                          size="large"
-                          isSpeaking={isPlaying}
-                        />
-                      </div>
-                    )}
-                    
-                    <div className="story-text-content mt-6 relative">
-                      <button
-                        onClick={() => toggleBookmark(currentScene.id)}
-                        className="absolute top-0 right-0 p-3 hover:bg-gray-100 rounded-full transition-all transform hover:scale-110 bg-white shadow-sm"
-                        title={bookmarks.has(currentScene.id) ? 'Remove bookmark' : 'Add bookmark'}
-                        aria-label={bookmarks.has(currentScene.id) ? 'Remove bookmark' : 'Add bookmark'}
-                      >
-                        <span className={`text-2xl transition-all ${bookmarks.has(currentScene.id) ? 'text-yellow-500 animate-pulse' : 'text-gray-400 hover:text-yellow-500'}`}>
-                          🔖
-                        </span>
-                      </button>
-                      <div className="story-text-wrapper bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/20">
-                        <p className="text-xl leading-relaxed text-center max-w-4xl mx-auto pr-16 font-medium">
-                          {getAgeAppropriateContent(currentScene.content, userAgeGroup)}
-                        </p>
-                      </div>
-                    </div>
-
-                    {currentScene.choices && currentScene.choices.length > 0 && (
-                      <div className="mt-12">
-                        <div className="choices-header mb-6">
-                          <h3 className="text-2xl font-bold text-green-700 mb-2">What should happen next?</h3>
-                          <p className="text-gray-600">Choose wisely - your decision will affect Po's journey!</p>
-                        </div>
-                        <StoryChoices
-                          choices={currentScene.choices.map((choice, index) => ({
-                            id: `choice-${index}`,
-                            text: choice.text,
-                            description: choice.consequence,
-                            nextScene: choice.nextScene,
-                            icon: '🤔',
-                            difficulty: 'medium' as const,
-                            points: 10
-                          }))}
-                          onChoiceSelect={(choiceIndex: number, consequence?: string) => {
-                            handleChoiceSelect(choiceIndex, consequence);
-                            handleSceneChange(currentScene.choices![choiceIndex].nextScene);
-                          }}
-                          showConsequences={true}
-                          showPoints={true}
-                        />
-                      </div>
-                    )}
-                  </div>
-                </StoryScene>
-              </div>
-            )}
-          </div>
-
-          {/* Enhanced Call to Action */}
-          <div className="mt-20 text-center">
-            <div className="bg-gradient-to-br from-green-500 via-green-600 to-emerald-600 text-white p-12 rounded-3xl shadow-2xl relative overflow-hidden">
-              {/* Background decoration */}
-              <div className="absolute inset-0 opacity-10">
-                <div className="absolute top-4 left-4 text-4xl">🐼</div>
-                <div className="absolute top-4 right-4 text-3xl">🛡️</div>
-                <div className="absolute bottom-4 left-8 text-3xl">⭐</div>
-                <div className="absolute bottom-4 right-8 text-4xl">🌿</div>
-              </div>
-              
-              <div className="relative z-10">
-                <h2 className="text-3xl font-bold mb-6">Continue Learning with Privacy Panda!</h2>
-                <p className="text-xl mb-8 opacity-95 max-w-2xl mx-auto">
-                  Explore more activities, games, and resources to help children learn about digital privacy and online safety.
-                </p>
-                <div className="flex flex-wrap gap-4 justify-center">
-                  <a
-                    href="/activity-book"
-                    className="bg-white text-green-600 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg inline-flex items-center gap-3"
-                  >
-                    <Book size={24} />
-                    Activity Book
-                  </a>
-                  <button
-                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                    className="bg-green-700 text-white px-8 py-4 rounded-xl font-bold hover:bg-green-800 transition-all transform hover:scale-105 shadow-lg inline-flex items-center gap-3"
-                  >
-                    <ArrowLeft size={24} />
-                    Back to Top
-                  </button>
-                </div>
+                  <Book size={20} />
+                  Activity Book
+                </a>
+                <button
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  style={{
+                    background: '#15803d',
+                    color: 'white',
+                    padding: '0.75rem 2rem',
+                    borderRadius: '0.75rem',
+                    fontWeight: 700,
+                    border: 'none',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    transition: 'all 0.2s',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = '#166534'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = '#15803d'}
+                >
+                  <ArrowLeft size={20} />
+                  Back to Top
+                </button>
               </div>
             </div>
           </div>
         </div>
-        </div>
-
-        {/* Enhanced CSS for better visual engagement */}
-        <style>{`
-          .scene-container {
-            position: relative;
-            animation: sceneSlideIn 0.8s ease-out;
-          }
-          
-          .character-section {
-            animation: characterAppear 1s ease-out 0.3s both;
-          }
-          
-          .story-text-wrapper {
-            animation: textFadeIn 0.8s ease-out 0.6s both;
-            position: relative;
-          }
-          
-          .story-text-wrapper::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #10b981, #059669, #047857, #065f46);
-            border-radius: 24px;
-            z-index: -1;
-            opacity: 0.1;
-          }
-          
-          .choices-header {
-            animation: choicesSlideUp 0.8s ease-out 0.9s both;
-          }
-          
-          @keyframes sceneSlideIn {
-            from {
-              opacity: 0;
-              transform: translateY(50px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-          
-          @keyframes characterAppear {
-            from {
-              opacity: 0;
-              transform: scale(0.8) translateY(30px);
-            }
-            to {
-              opacity: 1;
-              transform: scale(1) translateY(0);
-            }
-          }
-          
-          @keyframes textFadeIn {
-            from {
-              opacity: 0;
-              transform: translateY(20px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-          
-          @keyframes choicesSlideUp {
-            from {
-              opacity: 0;
-              transform: translateY(30px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-        `}</style>
-      </main>
-    </div>
+      </div>
+    </PageLayout>
   );
 };
 

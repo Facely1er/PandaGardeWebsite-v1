@@ -55,10 +55,10 @@ const GetStartedPage: React.FC = () => {
       badge="GET STARTED"
       breadcrumbs={true}
     >
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           {/* Steps Section */}
           <section style={{ padding: '2rem 0', marginBottom: '3rem' }} aria-labelledby="steps-heading">
-            <div style={{ maxWidth: '896px', margin: '0 auto' }}>
+            <div style={{ maxWidth: '100%', margin: '0 auto' }}>
               <h2 
                 id="steps-heading" 
                 style={{
@@ -163,7 +163,7 @@ const GetStartedPage: React.FC = () => {
             borderRadius: '0.5rem',
             marginBottom: '3rem'
           }} aria-labelledby="quick-start-heading">
-            <div style={{ maxWidth: '1024px', margin: '0 auto', padding: '0 1rem' }}>
+            <div style={{ maxWidth: '100%', margin: '0 auto' }}>
               <h2 
                 id="quick-start-heading" 
                 style={{
@@ -189,7 +189,7 @@ const GetStartedPage: React.FC = () => {
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
                 gap: '1.5rem',
-                maxWidth: '896px',
+                maxWidth: '100%',
                 margin: '0 auto'
               }}>
                 <Link
@@ -327,7 +327,7 @@ const GetStartedPage: React.FC = () => {
             }}
             aria-labelledby="cta-heading"
           >
-            <div style={{ maxWidth: '768px', margin: '0 auto', padding: '0 1rem' }}>
+            <div style={{ maxWidth: '100%', margin: '0 auto' }}>
               <h2 
                 id="cta-heading" 
                 style={{

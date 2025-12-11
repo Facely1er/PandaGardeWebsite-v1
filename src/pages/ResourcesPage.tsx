@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, MessageCircle, FileText, Shield, Download, Users, Award, Eye, Heart, Brain, BookOpen, Globe, ArrowRight } from 'lucide-react';
+import { MessageCircle, FileText, Shield, Download, Users, Award, Eye, Heart, Brain, BookOpen, Globe, ArrowRight } from 'lucide-react';
 import PageLayout from '../components/layout/PageLayout';
 
 const ResourcesPage: React.FC = () => {
@@ -21,7 +21,7 @@ const ResourcesPage: React.FC = () => {
 
       {/* Resource Categories */}
       <section className="resources-section" id="parent-resources" style={{ padding: '2rem 0', background: '#ffffff' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div className="resources-tabs" style={{ 
             display: 'flex', 
             gap: '0.5rem', 
@@ -78,7 +78,7 @@ const ResourcesPage: React.FC = () => {
               <p style={{
                 fontSize: '1.125rem',
                 color: '#64748b',
-                maxWidth: '800px',
+                maxWidth: '100%',
                 margin: '0 auto',
                 lineHeight: '1.6'
               }}>In-depth guides covering all aspects of digital privacy education for families and educators. These comprehensive resources provide everything you need to teach children about online safety.</p>
@@ -159,7 +159,7 @@ const ResourcesPage: React.FC = () => {
               <p style={{
                 fontSize: '1.125rem',
                 color: '#64748b',
-                maxWidth: '800px',
+                maxWidth: '100%',
                 margin: '0 auto',
                 lineHeight: '1.6'
               }}>These discussion guides are designed to help you have meaningful conversations about digital privacy with children. Each guide includes age-appropriate language, example scenarios, and follow-up questions.</p>
@@ -198,7 +198,7 @@ const ResourcesPage: React.FC = () => {
               <p style={{
                 fontSize: '1.125rem',
                 color: '#64748b',
-                maxWidth: '800px',
+                maxWidth: '100%',
                 margin: '0 auto',
                 lineHeight: '1.6'
               }}>A collection of printable materials to support privacy education at home or in the classroom.</p>
@@ -263,7 +263,7 @@ const ResourcesPage: React.FC = () => {
               <p style={{
                 fontSize: '1.125rem',
                 color: '#64748b',
-                maxWidth: '800px',
+                maxWidth: '100%',
                 margin: '0 auto',
                 lineHeight: '1.6'
               }}>Expert advice to help parents and caregivers create a safe digital environment for children.</p>
@@ -308,7 +308,7 @@ const ResourcesPage: React.FC = () => {
               <p style={{
                 fontSize: '1.125rem',
                 color: '#64748b',
-                maxWidth: '800px',
+                maxWidth: '100%',
                 margin: '0 auto',
                 lineHeight: '1.6'
               }}>Hands-on activities, games, and practical tools to make privacy education engaging and effective for children of all ages.</p>

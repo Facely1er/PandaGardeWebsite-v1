@@ -223,7 +223,7 @@ const ActivityBookPage: React.FC = () => {
           }} />
         </div>
 
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', position: 'relative', zIndex: 10 }}>
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 md:px-4 py-2 rounded-full mb-4 md:mb-6">
               <Book size={14} className="md:w-4 md:h-4" />
@@ -260,7 +260,7 @@ const ActivityBookPage: React.FC = () => {
 
       {/* Navigation */}
       <div className="bg-gray-50 border-b border-gray-200" style={{ backgroundColor: 'var(--light)' }}>
-        <div className="container mx-auto px-4 md:px-6 py-3 md:py-4">
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0.75rem 1.5rem' }}>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <button
               onClick={() => window.history.back()}
@@ -283,7 +283,8 @@ const ActivityBookPage: React.FC = () => {
       </div>
 
       {/* Story Connection Section */}
-      <section className="container mx-auto px-4 md:px-6 py-8 md:py-12">
+      <section style={{ padding: '3rem 0' }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
         <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6 md:p-8 mb-8 md:mb-12 max-w-5xl mx-auto" style={{
           backgroundColor: theme === 'dark' ? 'rgba(16, 185, 129, 0.1)' : '#F0FDF4',
           borderColor: theme === 'dark' ? 'rgba(16, 185, 129, 0.3)' : '#BBF7D0'
@@ -325,8 +326,9 @@ const ActivityBookPage: React.FC = () => {
             </Link>
           </div>
         </div>
+        </div>
 
-        <div className="mb-8 md:mb-12 max-w-5xl mx-auto">
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', marginBottom: '3rem' }}>
           <ProgressDisplay
             completedCount={overallProgress.completedCount}
             totalCount={overallProgress.totalCount}
@@ -362,7 +364,8 @@ const ActivityBookPage: React.FC = () => {
       </section>
 
       {/* Activities Grid */}
-      <section className="container mx-auto px-4 md:px-6 pb-12 md:pb-16">
+      <section style={{ padding: '0 0 4rem 0' }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
         <div className="text-center mb-6 md:mb-8 max-w-4xl mx-auto">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4" style={{ color: 'var(--primary)' }}>
             Choose Your Activity
@@ -529,6 +532,7 @@ const ActivityBookPage: React.FC = () => {
           })
           )}
         </div>
+        </div>
       </section>
 
       {/* Interactive Activity */}
@@ -552,8 +556,8 @@ const ActivityBookPage: React.FC = () => {
       )}
 
       {/* Parent Resources Section */}
-      <section className="bg-gray-50 py-12 md:py-16" style={{ backgroundColor: 'var(--light)' }}>
-        <div className="container mx-auto px-4 md:px-6">
+      <section style={{ padding: '4rem 0', backgroundColor: 'var(--light)' }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4" style={{ color: 'var(--primary)' }}>
               For Parents & Educators
@@ -616,8 +620,8 @@ const ActivityBookPage: React.FC = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="bg-gradient-to-r from-green-600 to-green-500 text-white py-12 md:py-16">
-        <div className="container mx-auto px-4 md:px-6 text-center">
+      <section style={{ padding: '4rem 0', background: 'linear-gradient(to right, #16a34a, #22c55e)', color: 'white' }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', textAlign: 'center' }}>
           <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">
             Continue Your Privacy Learning Journey
           </h2>
