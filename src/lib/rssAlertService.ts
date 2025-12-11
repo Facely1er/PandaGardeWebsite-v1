@@ -201,17 +201,42 @@ class ChildRSSAlertService {
         throw fetchError;
       }
     } catch (error) {
-      // Use console.warn for expected network/CORS errors (less alarming than console.error)
-      // Only log in development or if it's not a network error
-      const isNetworkError = error instanceof TypeError && error.message.includes('fetch');
+      // Better error detection for network/CORS issues
+      const isNetworkError = error instanceof TypeError && (
+        error.message.includes('fetch') || 
+        error.message.includes('Failed to fetch') ||
+        error.message.includes('NetworkError') ||
+        error.message.includes('network')
+      );
       const isAbortError = error instanceof Error && error.name === 'AbortError';
-      const isDevMode = process.env['NODE_ENV'] === 'development' || 
-                        (typeof window !== 'undefined' && window.location.hostname === 'localhost');
+      const isTimeoutError = error instanceof Error && (
+        error.name === 'AbortError' || 
+        error.message.includes('timeout') ||
+        error.message.includes('aborted')
+      );
+      const isCorsError = error instanceof Error && (
+        error.message.includes('CORS') ||
+        error.message.includes('cross-origin') ||
+        error.message.includes('Access-Control')
+      );
+      const isHttpError = error instanceof Error && error.message.includes('HTTP');
       
-      if (isNetworkError || isAbortError) {
-        // Network errors are expected with CORS proxies - use warn level
+      const isExpectedError = isNetworkError || isAbortError || isTimeoutError || isCorsError;
+      const isDevMode = process.env['NODE_ENV'] === 'development' || 
+                        (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'));
+      
+      // Only log unexpected errors in production, or all errors in dev mode
+      if (isExpectedError) {
+        // Network/CORS/timeout errors are expected - only log in dev mode
         if (isDevMode) {
           console.warn(`[RSS Alert Service] Unable to fetch feed "${feed.name}" (${feed.id}). This is expected if the CORS proxy is unavailable or the request timed out.`);
+        }
+        // Silently fall back to cache in production
+      } else if (isHttpError) {
+        // HTTP errors (4xx, 5xx) - log in dev, minimal log in production
+        if (isDevMode) {
+          const errorMessage = error instanceof Error ? error.message : String(error);
+          console.warn(`[RSS Alert Service] HTTP error for feed "${feed.name}" (${feed.id}): ${errorMessage}`);
         }
       } else {
         // Other errors (like parsing errors) should be logged with more context
@@ -219,7 +244,7 @@ class ChildRSSAlertService {
         if (isDevMode) {
           console.warn(`[RSS Alert Service] Error processing feed "${feed.name}" (${feed.id}): ${errorMessage}`);
         } else {
-          // In production, only log a brief message
+          // In production, only log unexpected errors briefly
           console.warn(`[RSS Alert Service] Unable to process feed "${feed.name}" - using cached data if available`);
         }
       }

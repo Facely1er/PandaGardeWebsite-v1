@@ -91,16 +91,28 @@ const GetStartedPage: React.FC = () => {
   const completionPercentage = Math.round((completedSteps.length / steps.length) * 100);
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
+    <main id="main-content" style={{ minHeight: '100vh', paddingTop: '80px' }}>
+      {/* Back Navigation */}
+      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem 1.5rem' }}>
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+          style={{ textDecoration: 'none' }}
+        >
+          <ArrowLeft size={16} />
+          Back to Home
+        </Link>
+      </div>
+
       {/* Header */}
-      <header className="bg-gradient-to-r from-green-600 to-blue-600 text-white py-20 relative overflow-hidden">
+      <header className="bg-gradient-to-r from-green-600 to-blue-600 text-white py-20 relative overflow-hidden" style={{ padding: 'clamp(3rem, 6vw, 5rem) 0' }}>
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
           }} />
         </div>
 
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', position: 'relative', zIndex: 10 }}>
           <div className="flex items-center justify-center mb-8">
             <div className="w-20 h-20 mr-4">
               <Logo />
@@ -141,22 +153,9 @@ const GetStartedPage: React.FC = () => {
         </div>
       </header>
 
-      {/* Navigation */}
-      <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
-        <div className="container mx-auto px-6 py-4">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
-            style={{ color: 'var(--primary-light)' }}
-          >
-            <ArrowLeft size={16} />
-            Back to Home
-          </Link>
-        </div>
-      </div>
-
       {/* Progress Overview */}
-      <section className="container mx-auto px-6 py-12">
+      <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
         <div className="bg-white rounded-xl shadow-lg p-8 mb-12" style={{
           backgroundColor: 'var(--card-color)',
           boxShadow: 'var(--shadow-lg)'
@@ -179,7 +178,8 @@ const GetStartedPage: React.FC = () => {
       </section>
 
       {/* Steps */}
-      <section className="container mx-auto px-6 pb-16">
+      <section style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
@@ -304,8 +304,8 @@ const GetStartedPage: React.FC = () => {
       </section>
 
       {/* Quick Start Options */}
-      <section className="bg-gray-50 py-16" style={{ backgroundColor: 'var(--light)' }}>
-        <div className="container mx-auto px-6">
+      <section style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#f8fafc' }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
               Quick Start Options
@@ -371,8 +371,8 @@ const GetStartedPage: React.FC = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="bg-gradient-to-r from-green-600 to-blue-600 text-white py-16">
-        <div className="container mx-auto px-6 text-center">
+      <section style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)', color: 'white' }}>
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', textAlign: 'center' }}>
           <h2 className="text-3xl font-bold mb-4">
             Ready to Begin Your Privacy Education Journey?
           </h2>
@@ -397,7 +397,7 @@ const GetStartedPage: React.FC = () => {
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 };
 
