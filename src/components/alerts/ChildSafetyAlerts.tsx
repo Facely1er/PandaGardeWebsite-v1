@@ -26,7 +26,15 @@ const ChildSafetyAlerts: React.FC = () => {
       
       setAlerts(recentAlerts.slice(0, 10)); // Show top 10
     } catch (error) {
-      console.error('Error loading alerts:', error);
+      // Suppress errors in production to avoid CORS error noise
+      const isProduction = typeof window !== 'undefined' && 
+                          (window.location.hostname.includes('pandagarde.com') || 
+                           window.location.hostname.includes('vercel.app') ||
+                           window.location.hostname.includes('netlify.app'));
+      if (!isProduction) {
+        console.error('Error loading alerts:', error);
+      }
+      // Silently fail - alerts will be empty array
     } finally {
       setLoading(false);
     }

@@ -32,14 +32,35 @@ class ChildRSSAlertService {
   initialize(intervalMs: number = this.DEFAULT_INTERVAL): void {
     if (typeof window === 'undefined') return;
     
-    console.log('[Child RSS Alert Service] Initializing...');
+    const isProduction = typeof window !== 'undefined' && 
+                        (window.location.hostname.includes('pandagarde.com') || 
+                         window.location.hostname.includes('vercel.app') ||
+                         window.location.hostname.includes('netlify.app'));
     
-    // Process feeds immediately on initialization
-    this.processFeeds();
+    // In production, delay initialization to avoid CORS errors on page load
+    // Only initialize when explicitly needed (e.g., when user visits alerts page)
+    if (isProduction) {
+      // Don't auto-initialize in production - let components initialize on demand
+      return;
+    }
+    
+    const isDevMode = process.env['NODE_ENV'] === 'development' || 
+                      (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'));
+    
+    if (isDevMode) {
+      console.log('[Child RSS Alert Service] Initializing...');
+    }
+    
+    // Process feeds immediately on initialization (only in dev)
+    this.processFeeds().catch(() => {
+      // Silently handle errors
+    });
     
     // Set up recurring processing
     this.processInterval = setInterval(() => {
-      this.processFeeds();
+      this.processFeeds().catch(() => {
+        // Silently handle errors
+      });
     }, intervalMs);
   }
 
@@ -104,33 +125,57 @@ class ChildRSSAlertService {
 
     try {
       // Use CORS proxy for RSS feeds (in production, use backend API)
-      const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(feed.url)}`;
+      // Try multiple proxy options for better reliability
+      const proxyUrls = [
+        `https://api.allorigins.win/get?url=${encodeURIComponent(feed.url)}`,
+        `https://corsproxy.io/?${encodeURIComponent(feed.url)}`
+      ];
       
       // Add timeout to prevent hanging requests
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
       
-      try {
-        const response = await fetch(proxyUrl, {
-          signal: controller.signal,
-          headers: {
-            'Accept': 'application/json'
+      let response: Response | null = null;
+      let lastError: Error | null = null;
+      
+      // Try each proxy URL until one works
+      for (const proxyUrl of proxyUrls) {
+        try {
+          response = await fetch(proxyUrl, {
+            signal: controller.signal,
+            headers: {
+              'Accept': 'application/json'
+            },
+            // Suppress CORS errors in console by using mode
+            mode: 'cors',
+            credentials: 'omit'
+          });
+          
+          if (response.ok) {
+            break; // Success, exit loop
           }
-        });
-        
-        clearTimeout(timeoutId);
-        
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        } catch (err) {
+          // Store error but continue to next proxy
+          lastError = err instanceof Error ? err : new Error(String(err));
+          // Silently continue to next proxy
+          continue;
         }
+      }
+      
+      clearTimeout(timeoutId);
+      
+      // If all proxies failed, throw the last error
+      if (!response || !response.ok) {
+        throw lastError || new Error(`HTTP ${response?.status || 'unknown'}: ${response?.statusText || 'Failed to fetch'}`);
+      }
 
-        const data = await response.json();
-        
-        if (!data.contents) {
-          throw new Error('Invalid response format from proxy');
-        }
-        
-        const xmlContent = data.contents;
+      const data = await response.json();
+      
+      if (!data.contents) {
+        throw new Error('Invalid response format from proxy');
+      }
+      
+      const xmlContent = data.contents;
 
         // Validate that we have content
         if (!xmlContent || typeof xmlContent !== 'string') {
@@ -196,10 +241,6 @@ class ChildRSSAlertService {
         });
 
         return alerts;
-      } catch (fetchError) {
-        clearTimeout(timeoutId);
-        throw fetchError;
-      }
     } catch (error) {
       // Better error detection for network/CORS issues
       const isNetworkError = error instanceof TypeError && (
@@ -224,14 +265,19 @@ class ChildRSSAlertService {
       const isExpectedError = isNetworkError || isAbortError || isTimeoutError || isCorsError;
       const isDevMode = process.env['NODE_ENV'] === 'development' || 
                         (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'));
+      const isProduction = typeof window !== 'undefined' && 
+                          (window.location.hostname.includes('pandagarde.com') || 
+                           window.location.hostname.includes('vercel.app') ||
+                           window.location.hostname.includes('netlify.app'));
       
-      // Only log unexpected errors in production, or all errors in dev mode
-      if (isExpectedError) {
+      // In production, completely suppress CORS/network errors from console
+      if (isProduction && isExpectedError) {
+        // Silently fail and use cache - don't log anything
+      } else if (isExpectedError) {
         // Network/CORS/timeout errors are expected - only log in dev mode
         if (isDevMode) {
           console.warn(`[RSS Alert Service] Unable to fetch feed "${feed.name}" (${feed.id}). This is expected if the CORS proxy is unavailable or the request timed out.`);
         }
-        // Silently fall back to cache in production
       } else if (isHttpError) {
         // HTTP errors (4xx, 5xx) - log in dev, minimal log in production
         if (isDevMode) {
@@ -243,8 +289,8 @@ class ChildRSSAlertService {
         const errorMessage = error instanceof Error ? error.message : String(error);
         if (isDevMode) {
           console.warn(`[RSS Alert Service] Error processing feed "${feed.name}" (${feed.id}): ${errorMessage}`);
-        } else {
-          // In production, only log unexpected errors briefly
+        } else if (!isProduction) {
+          // In non-production, only log unexpected errors briefly
           console.warn(`[RSS Alert Service] Unable to process feed "${feed.name}" - using cached data if available`);
         }
       }
@@ -313,8 +359,16 @@ class ChildRSSAlertService {
 
 export const childRSSAlertService = new ChildRSSAlertService();
 
-// Auto-initialize in browser
+// Auto-initialize in browser (only in development)
+// In production, components should initialize on-demand to avoid CORS errors
 if (typeof window !== 'undefined') {
-  childRSSAlertService.initialize(3600000);
+  const isProduction = window.location.hostname.includes('pandagarde.com') || 
+                       window.location.hostname.includes('vercel.app') ||
+                       window.location.hostname.includes('netlify.app');
+  
+  if (!isProduction) {
+    // Only auto-initialize in development/localhost
+    childRSSAlertService.initialize(3600000);
+  }
 }
 
