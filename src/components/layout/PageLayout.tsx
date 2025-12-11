@@ -42,7 +42,11 @@ const PageLayout: React.FC<PageLayoutProps> = ({
         style={{
           padding: '1.5rem 0',
           backgroundColor: '#FFFFFF',
-          color: '#212121'
+          color: '#212121',
+          minHeight: '400px',
+          position: 'relative',
+          zIndex: 1,
+          paddingTop: '1.5rem'
         }}
       >
         <div 
@@ -51,7 +55,9 @@ const PageLayout: React.FC<PageLayoutProps> = ({
             maxWidth: '1200px',
             margin: '0 auto',
             padding: '0 1.5rem',
-            color: '#212121'
+            color: '#212121',
+            position: 'relative',
+            zIndex: 2
           }}
         >
           {children}

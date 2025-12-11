@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Users, BookOpen, Play, ShoppingBag, BarChart3, Rocket } from 'lucide-react';
-import PageLayout from '../components/layout/PageLayout';
 
 const GetStartedPage: React.FC = () => {
   const steps = [
@@ -48,171 +47,401 @@ const GetStartedPage: React.FC = () => {
   ];
 
   return (
-    <PageLayout
-      title="Get Started with PandaGarde"
-      subtitle="Follow our step-by-step guide to begin your family's digital privacy education journey."
-      icon={Rocket}
-      badge="GET STARTED"
-    >
-      <div className="max-w-7xl mx-auto">
+    <div style={{ 
+      minHeight: '100vh', 
+      backgroundColor: '#FFFFFF', 
+      paddingTop: '100px'
+    }}>
+      {/* Page Header */}
+      <div style={{
+        background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+        color: 'white',
+        padding: '2rem 0',
+        marginBottom: '2rem'
+      }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', textAlign: 'center' }}>
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            background: 'rgba(255, 255, 255, 0.2)',
+            backdropFilter: 'blur(10px)',
+            padding: '0.5rem 1rem',
+            borderRadius: '50px',
+            marginBottom: '1rem',
+            fontSize: '0.875rem',
+            fontWeight: 600
+          }}>
+            <Rocket size={16} />
+            GET STARTED
+          </div>
+          <h1 style={{
+            fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+            fontWeight: 800,
+            lineHeight: 1.2,
+            marginBottom: '0.75rem',
+            color: 'white'
+          }}>
+            Get Started with PandaGarde
+          </h1>
+          <p style={{
+            fontSize: '1.125rem',
+            opacity: 0.9,
+            maxWidth: '42rem',
+            margin: '0 auto',
+            lineHeight: 1.6
+          }}>
+            Follow our step-by-step guide to begin your family's digital privacy education journey.
+          </p>
+        </div>
+      </div>
 
-        {/* Steps Section */}
-        <section className="py-12 md:py-16" aria-labelledby="steps-heading">
-          <div className="max-w-4xl mx-auto">
-            <h2 
-              id="steps-heading" 
-              className="text-3xl font-bold text-center mb-3 text-[#1B5E20]"
-            >
-              Getting Started Steps
-            </h2>
-            <p className="text-lg text-gray-600 text-center mb-12">
-              Follow these steps to set up your family's privacy education journey.
-            </p>
+      {/* Main Content */}
+      <main style={{ padding: '2rem 0', backgroundColor: '#FFFFFF' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+          {/* Steps Section */}
+          <section style={{ padding: '2rem 0', marginBottom: '3rem' }} aria-labelledby="steps-heading">
+            <div style={{ maxWidth: '896px', margin: '0 auto' }}>
+              <h2 
+                id="steps-heading" 
+                style={{
+                  fontSize: '1.875rem',
+                  fontWeight: 700,
+                  textAlign: 'center',
+                  marginBottom: '0.75rem',
+                  color: '#1B5E20'
+                }}
+              >
+                Getting Started Steps
+              </h2>
+              <p style={{
+                fontSize: '1.125rem',
+                color: '#4B5563',
+                textAlign: 'center',
+                marginBottom: '3rem'
+              }}>
+                Follow these steps to set up your family's privacy education journey.
+              </p>
 
-            <div className="space-y-6" role="list" aria-label="Getting started steps">
-              {steps.map((step, index) => {
-                const Icon = step.icon;
-                return (
-                  <div
-                    key={step.id}
-                    role="listitem"
-                    className="bg-white rounded-xl p-6 shadow-md border border-gray-200 hover:shadow-lg transition-shadow"
-                  >
-                    <div className="flex flex-col sm:flex-row gap-6 items-start">
-                      <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] text-white flex items-center justify-center text-xl font-bold">
-                        {index + 1}
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-3 mb-3">
-                          <Icon size={24} className="text-[#1B5E20] flex-shrink-0" />
-                          <h3 className="text-xl font-bold text-[#1B5E20]">
-                            {step.title}
-                          </h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }} role="list" aria-label="Getting started steps">
+                {steps.map((step, index) => {
+                  const Icon = step.icon;
+                  return (
+                    <div
+                      key={step.id}
+                      role="listitem"
+                      style={{
+                        backgroundColor: '#FFFFFF',
+                        borderRadius: '0.75rem',
+                        padding: '1.5rem',
+                        boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+                        border: '1px solid #E5E7EB'
+                      }}
+                    >
+                      <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
+                        <div style={{
+                          flexShrink: 0,
+                          width: '4rem',
+                          height: '4rem',
+                          borderRadius: '50%',
+                          background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+                          color: '#FFFFFF',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '1.25rem',
+                          fontWeight: 700
+                        }}>
+                          {index + 1}
                         </div>
 
-                        <p className="text-gray-600 mb-4 leading-relaxed">
-                          {step.description}
-                        </p>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
+                            <Icon size={24} style={{ color: '#1B5E20', flexShrink: 0 }} />
+                            <h3 style={{
+                              fontSize: '1.25rem',
+                              fontWeight: 700,
+                              color: '#1B5E20'
+                            }}>
+                              {step.title}
+                            </h3>
+                          </div>
 
-                        <Link
-                          to={step.link}
-                          className="inline-block px-6 py-3 bg-gradient-to-r from-[#1B5E20] to-[#2E7D32] text-white rounded-lg font-semibold hover:opacity-90 transition-opacity"
-                          aria-label={`${step.action}: ${step.title}`}
-                        >
-                          {step.action}
-                        </Link>
+                          <p style={{
+                            color: '#4B5563',
+                            marginBottom: '1rem',
+                            lineHeight: 1.75
+                          }}>
+                            {step.description}
+                          </p>
+
+                          <Link
+                            to={step.link}
+                            style={{
+                              display: 'inline-block',
+                              padding: '0.75rem 1.5rem',
+                              background: 'linear-gradient(90deg, #1B5E20 0%, #2E7D32 100%)',
+                              color: '#FFFFFF',
+                              borderRadius: '0.5rem',
+                              fontWeight: 600,
+                              textDecoration: 'none'
+                            }}
+                            aria-label={`${step.action}: ${step.title}`}
+                          >
+                            {step.action}
+                          </Link>
+                        </div>
                       </div>
                     </div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+
+          {/* Quick Start Options */}
+          <section style={{
+            padding: '3rem 0',
+            backgroundColor: '#F9FAFB',
+            borderRadius: '0.5rem',
+            marginBottom: '3rem'
+          }} aria-labelledby="quick-start-heading">
+            <div style={{ maxWidth: '1024px', margin: '0 auto', padding: '0 1rem' }}>
+              <h2 
+                id="quick-start-heading" 
+                style={{
+                  fontSize: '1.875rem',
+                  fontWeight: 700,
+                  textAlign: 'center',
+                  marginBottom: '0.75rem',
+                  color: '#1B5E20'
+                }}
+              >
+                Quick Start Options
+              </h2>
+              <p style={{
+                fontSize: '1.125rem',
+                color: '#4B5563',
+                textAlign: 'center',
+                marginBottom: '3rem'
+              }}>
+                Jump right into specific areas or follow the complete guide.
+              </p>
+
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                gap: '1.5rem',
+                maxWidth: '896px',
+                margin: '0 auto'
+              }}>
+                <Link
+                  to="/activity-book"
+                  style={{
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: '0.75rem',
+                    padding: '2rem',
+                    textAlign: 'center',
+                    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+                    border: '1px solid #E5E7EB',
+                    textDecoration: 'none',
+                    display: 'block'
+                  }}
+                  aria-label="Start with Activities - Jump straight into interactive privacy activities"
+                >
+                  <div style={{
+                    width: '4rem',
+                    height: '4rem',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+                    color: '#FFFFFF',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: '0 auto 1rem'
+                  }}>
+                    <Play size={32} />
                   </div>
-                );
-              })}
+                  <h3 style={{
+                    fontSize: '1.25rem',
+                    fontWeight: 700,
+                    color: '#1B5E20',
+                    marginBottom: '0.5rem'
+                  }}>
+                    Start with Activities
+                  </h3>
+                  <p style={{ color: '#4B5563' }}>
+                    Jump straight into interactive privacy activities.
+                  </p>
+                </Link>
+
+                <Link
+                  to="/family-hub"
+                  style={{
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: '0.75rem',
+                    padding: '2rem',
+                    textAlign: 'center',
+                    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+                    border: '1px solid #E5E7EB',
+                    textDecoration: 'none',
+                    display: 'block'
+                  }}
+                  aria-label="Set Up Family Hub - Create your family profile and track progress"
+                >
+                  <div style={{
+                    width: '4rem',
+                    height: '4rem',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+                    color: '#FFFFFF',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: '0 auto 1rem'
+                  }}>
+                    <Users size={32} />
+                  </div>
+                  <h3 style={{
+                    fontSize: '1.25rem',
+                    fontWeight: 700,
+                    color: '#1B5E20',
+                    marginBottom: '0.5rem'
+                  }}>
+                    Set Up Family Hub
+                  </h3>
+                  <p style={{ color: '#4B5563' }}>
+                    Create your family profile and track progress.
+                  </p>
+                </Link>
+
+                <Link
+                  to="/story"
+                  style={{
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: '0.75rem',
+                    padding: '2rem',
+                    textAlign: 'center',
+                    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+                    border: '1px solid #E5E7EB',
+                    textDecoration: 'none',
+                    display: 'block'
+                  }}
+                  aria-label="Read Our Story - Learn about Privacy Panda through storytelling"
+                >
+                  <div style={{
+                    width: '4rem',
+                    height: '4rem',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+                    color: '#FFFFFF',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: '0 auto 1rem'
+                  }}>
+                    <BookOpen size={32} />
+                  </div>
+                  <h3 style={{
+                    fontSize: '1.25rem',
+                    fontWeight: 700,
+                    color: '#1B5E20',
+                    marginBottom: '0.5rem'
+                  }}>
+                    Read Our Story
+                  </h3>
+                  <p style={{ color: '#4B5563' }}>
+                    Learn about Privacy Panda through storytelling.
+                  </p>
+                </Link>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Quick Start Options */}
-        <section className="py-12 md:py-16 bg-gray-50 rounded-lg mb-12" aria-labelledby="quick-start-heading">
-          <div className="max-w-5xl mx-auto px-4">
-            <h2 
-              id="quick-start-heading" 
-              className="text-3xl font-bold text-center mb-3 text-[#1B5E20]"
-            >
-              Quick Start Options
-            </h2>
-            <p className="text-lg text-gray-600 text-center mb-12">
-              Jump right into specific areas or follow the complete guide.
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              <Link
-                to="/activity-book"
-                className="bg-white rounded-xl p-8 text-center shadow-md border border-gray-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
-                aria-label="Start with Activities - Jump straight into interactive privacy activities"
+          {/* Call to Action */}
+          <section 
+            style={{
+              padding: '3rem 0',
+              background: 'linear-gradient(90deg, #1B5E20 0%, #2E7D32 100%)',
+              color: '#FFFFFF',
+              textAlign: 'center',
+              borderRadius: '0.5rem',
+              marginBottom: '3rem'
+            }}
+            aria-labelledby="cta-heading"
+          >
+            <div style={{ maxWidth: '768px', margin: '0 auto', padding: '0 1rem' }}>
+              <h2 
+                id="cta-heading" 
+                style={{
+                  fontSize: 'clamp(1.875rem, 4vw, 2.25rem)',
+                  fontWeight: 700,
+                  marginBottom: '1rem',
+                  color: '#FFFFFF'
+                }}
               >
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] text-white flex items-center justify-center mx-auto mb-4">
-                  <Play size={32} />
-                </div>
-                <h3 className="text-xl font-bold text-[#1B5E20] mb-2">
-                  Start with Activities
-                </h3>
-                <p className="text-gray-600">
-                  Jump straight into interactive privacy activities.
-                </p>
-              </Link>
-
-              <Link
-                to="/family-hub"
-                className="bg-white rounded-xl p-8 text-center shadow-md border border-gray-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
-                aria-label="Set Up Family Hub - Create your family profile and track progress"
-              >
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] text-white flex items-center justify-center mx-auto mb-4">
-                  <Users size={32} />
-                </div>
-                <h3 className="text-xl font-bold text-[#1B5E20] mb-2">
-                  Set Up Family Hub
-                </h3>
-                <p className="text-gray-600">
-                  Create your family profile and track progress.
-                </p>
-              </Link>
-
-              <Link
-                to="/story"
-                className="bg-white rounded-xl p-8 text-center shadow-md border border-gray-200 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
-                aria-label="Read Our Story - Learn about Privacy Panda through storytelling"
-              >
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#1B5E20] to-[#2E7D32] text-white flex items-center justify-center mx-auto mb-4">
-                  <BookOpen size={32} />
-                </div>
-                <h3 className="text-xl font-bold text-[#1B5E20] mb-2">
-                  Read Our Story
-                </h3>
-                <p className="text-gray-600">
-                  Learn about Privacy Panda through storytelling.
-                </p>
-              </Link>
+                Ready to Begin Your Privacy Education Journey?
+              </h2>
+              <p style={{
+                fontSize: '1.25rem',
+                marginBottom: '2rem',
+                opacity: 0.9,
+                color: '#FFFFFF'
+              }}>
+                Join thousands of families who are already learning about digital privacy with PandaGarde.
+              </p>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1rem',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+                <Link
+                  to="/activity-book"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    backgroundColor: '#FFFFFF',
+                    color: '#1B5E20',
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '0.5rem',
+                    fontWeight: 600,
+                    textDecoration: 'none'
+                  }}
+                  aria-label="Start Learning - Begin interactive privacy activities"
+                >
+                  <Play size={20} />
+                  <span>Start Learning</span>
+                </Link>
+                <Link
+                  to="/family-hub"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    backgroundColor: '#2E7D32',
+                    color: '#FFFFFF',
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '0.5rem',
+                    fontWeight: 600,
+                    border: '2px solid #FFFFFF',
+                    textDecoration: 'none'
+                  }}
+                  aria-label="Family Hub - Create your family profile"
+                >
+                  <Users size={20} />
+                  <span>Family Hub</span>
+                </Link>
+              </div>
             </div>
-          </div>
-        </section>
-
-        {/* Call to Action */}
-        <section 
-          className="py-12 md:py-16 bg-gradient-to-r from-[#1B5E20] to-[#2E7D32] text-white text-center rounded-lg mb-12"
-          aria-labelledby="cta-heading"
-        >
-          <div className="max-w-3xl mx-auto px-4">
-            <h2 
-              id="cta-heading" 
-              className="text-3xl md:text-4xl font-bold mb-4"
-            >
-              Ready to Begin Your Privacy Education Journey?
-            </h2>
-            <p className="text-xl mb-8 opacity-90">
-              Join thousands of families who are already learning about digital privacy with PandaGarde.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/activity-book"
-                className="inline-flex items-center justify-center gap-2 bg-white text-[#1B5E20] px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity"
-                aria-label="Start Learning - Begin interactive privacy activities"
-              >
-                <Play size={20} />
-                <span>Start Learning</span>
-              </Link>
-              <Link
-                to="/family-hub"
-                className="inline-flex items-center justify-center gap-2 bg-[#2E7D32] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1B5E20] transition-colors border-2 border-white"
-                aria-label="Family Hub - Create your family profile"
-              >
-                <Users size={20} />
-                <span>Family Hub</span>
-              </Link>
-            </div>
-          </div>
-        </section>
-      </div>
-    </PageLayout>
+          </section>
+        </div>
+      </main>
+    </div>
   );
 };
 
