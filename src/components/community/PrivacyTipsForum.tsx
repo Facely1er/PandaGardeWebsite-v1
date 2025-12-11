@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { MessageCircle, Plus, Search, ArrowRight, Heart, CheckCircle, User, Shield, Lock, GraduationCap, Briefcase, UserCircle, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { MessageCircle, Plus, Search, ArrowRight, Heart, CheckCircle, User, Shield, Lock, GraduationCap, Briefcase, UserCircle, X, ArrowLeft } from 'lucide-react';
 import { communityStorage, ForumTopic, ForumPost, ForumUser } from '../../utils/communityStorageManager';
 
 interface PrivacyTipsForumProps {
@@ -237,6 +238,14 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
 
   return (
     <main id="main-content" style={{ minHeight: '100vh', paddingTop: '80px' }}>
+      {/* Back Navigation */}
+      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem 1.5rem' }}>
+        <Link to="/" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors" style={{ textDecoration: 'none' }}>
+          <ArrowLeft size={16} />
+          Back to Home
+        </Link>
+      </div>
+
       {/* Page Header */}
       <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>

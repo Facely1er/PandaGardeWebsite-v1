@@ -10,7 +10,7 @@ const ResourcesPage: React.FC = () => {
   };
 
   return (
-    <main id="main-content">
+    <main id="main-content" style={{ minHeight: '100vh', paddingTop: '80px' }}>
       {/* Back Navigation */}
       <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem 1.5rem' }}>
         <Link to="/" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors" style={{ textDecoration: 'none' }}>
@@ -21,7 +21,7 @@ const ResourcesPage: React.FC = () => {
 
       {/* Page Header */}
       <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
-        <div className="container">
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div className="text-center fade-in" style={{ textAlign: 'center' }}>
             <h1 style={{
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',

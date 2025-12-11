@@ -74,7 +74,7 @@ class ChildRSSAlertService {
       
       const results = await Promise.allSettled(feedPromises);
       
-      results.forEach((result, index) => {
+      results.forEach((result) => {
         if (result.status === 'fulfilled') {
           allAlerts.push(...result.value);
         }
@@ -132,6 +132,17 @@ class ChildRSSAlertService {
         
         const xmlContent = data.contents;
 
+        // Validate that we have content
+        if (!xmlContent || typeof xmlContent !== 'string') {
+          throw new Error('Invalid or empty XML content received from feed');
+        }
+
+        // Check if content looks like XML (basic validation)
+        const trimmedContent = xmlContent.trim();
+        if (!trimmedContent.startsWith('<?xml') && !trimmedContent.startsWith('<rss') && !trimmedContent.startsWith('<feed')) {
+          throw new Error('Response does not appear to be valid RSS/XML format');
+        }
+
         // Parse XML
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlContent, 'text/xml');
@@ -139,7 +150,11 @@ class ChildRSSAlertService {
         // Check for parsing errors
         const parseError = xmlDoc.querySelector('parsererror');
         if (parseError) {
-          throw new Error('Failed to parse RSS XML');
+          const errorText = parseError.textContent || 'Unknown parsing error';
+          // Extract first line of error for cleaner logging
+          const firstLine = errorText.split('\n')[0];
+          const errorMessage = firstLine ? firstLine.trim() : errorText.trim();
+          throw new Error(`Failed to parse RSS XML: ${errorMessage}`);
         }
 
         // Extract items
@@ -156,7 +171,7 @@ class ChildRSSAlertService {
           return [];
         }
 
-        // Convert to alerts
+        // Convert to alerts, and and 
         const alerts: ChildSafetyAlert[] = items.map(item => {
           const severity = this.determineSeverity(item.title, item.description);
           const relatedServices = this.findRelatedServices(item.title, item.description, feed);
@@ -189,17 +204,24 @@ class ChildRSSAlertService {
       // Use console.warn for expected network/CORS errors (less alarming than console.error)
       // Only log in development or if it's not a network error
       const isNetworkError = error instanceof TypeError && error.message.includes('fetch');
-      const isDevMode = process.env.NODE_ENV === 'development' || 
+      const isAbortError = error instanceof Error && error.name === 'AbortError';
+      const isDevMode = process.env['NODE_ENV'] === 'development' || 
                         (typeof window !== 'undefined' && window.location.hostname === 'localhost');
       
-      if (isNetworkError) {
+      if (isNetworkError || isAbortError) {
         // Network errors are expected with CORS proxies - use warn level
         if (isDevMode) {
-          console.warn(`[RSS Alert Service] Unable to fetch feed "${feed.name}" (${feed.id}). This is expected if the CORS proxy is unavailable.`, error);
+          console.warn(`[RSS Alert Service] Unable to fetch feed "${feed.name}" (${feed.id}). This is expected if the CORS proxy is unavailable or the request timed out.`);
         }
       } else {
-        // Other errors should be logged
-        console.warn(`[RSS Alert Service] Error processing feed "${feed.name}" (${feed.id}):`, error);
+        // Other errors (like parsing errors) should be logged with more context
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        if (isDevMode) {
+          console.warn(`[RSS Alert Service] Error processing feed "${feed.name}" (${feed.id}): ${errorMessage}`);
+        } else {
+          // In production, only log a brief message
+          console.warn(`[RSS Alert Service] Unable to process feed "${feed.name}" - using cached data if available`);
+        }
       }
       
       // Return cached data if available, otherwise empty array

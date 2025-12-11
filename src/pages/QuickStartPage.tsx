@@ -144,7 +144,7 @@ const QuickStartPage: React.FC = () => {
 
       {/* Page Header */}
       <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
-        <div className="container">
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div className="text-center fade-in" style={{ textAlign: 'center' }}>
             <h1 style={{
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',
@@ -170,7 +170,7 @@ const QuickStartPage: React.FC = () => {
 
       {/* Quick Actions */}
       <section className="quick-actions" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0' }}>
-        <div className="container">
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div className="section-header fade-in" style={{ marginBottom: '3rem', textAlign: 'center' }}>
             <h2 style={{
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',
@@ -219,7 +219,7 @@ const QuickStartPage: React.FC = () => {
 
       {/* Age Group Paths */}
       <section className="age-paths" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#f8fafc' }}>
-        <div className="container">
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div className="section-header fade-in" style={{ marginBottom: '3rem', textAlign: 'center' }}>
             <h2 style={{
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',
@@ -271,7 +271,7 @@ const QuickStartPage: React.FC = () => {
 
       {/* Parent Quick Steps */}
       <section className="parent-steps" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
-        <div className="container">
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div className="section-header fade-in" style={{ marginBottom: '3rem', textAlign: 'center' }}>
             <h2 style={{
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',
@@ -447,7 +447,7 @@ const QuickStartPage: React.FC = () => {
 
       {/* Success Tips */}
       <section className="success-tips" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#f8fafc' }}>
-        <div className="container">
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div className="section-header fade-in" style={{ marginBottom: '3rem', textAlign: 'center' }}>
             <h2 style={{
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',
@@ -502,7 +502,7 @@ const QuickStartPage: React.FC = () => {
 
       {/* CTA Section */}
       <section className="cta-section" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)', color: 'white' }}>
-        <div className="container">
+        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div className="fade-in text-center">
             <h2 style={{
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',
