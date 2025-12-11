@@ -1,57 +1,16 @@
 import React from 'react';
 import { Shield, FileText, Calendar, AlertTriangle, CheckCircle } from 'lucide-react';
-import Logo from '../components/Logo';
+import PageLayout from '../components/layout/PageLayout';
 
 const TermsPage: React.FC = () => {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
-      {/* Header */}
-      <header className="bg-gradient-to-r from-green-600 to-blue-600 text-white py-20 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
-          }} />
-        </div>
-
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="flex items-center justify-center mb-8">
-            <div className="w-20 h-20 mr-4">
-              <Logo />
-            </div>
-          </div>
-
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
-              <FileText size={16} />
-              <span className="text-sm font-semibold">LEGAL</span>
-            </div>
-
-            <h1 className="text-5xl font-bold mb-6 leading-tight">
-              Terms of Service
-              <span className="block text-yellow-300">PandaGarde Platform</span>
-            </h1>
-
-            <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              Please read these terms carefully before using our digital privacy education platform.
-            </p>
-
-            <div className="flex items-center justify-center gap-6 text-sm">
-              <div className="flex items-center gap-2">
-                <Calendar size={16} />
-                <span>Last updated: December 2024</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Shield size={16} />
-                <span>Privacy Focused</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Content */}
-      <div className="container mx-auto px-6 py-16">
-        <div className="max-w-4xl mx-auto">
+    <PageLayout
+      title="Terms of Service"
+      subtitle="Please read these terms carefully before using our digital privacy education platform. Last updated: December 2024"
+      icon={FileText}
+      badge="LEGAL"
+    >
+      <div className="max-w-4xl mx-auto">
           <div className="prose prose-lg max-w-none">
 
             {/* Introduction */}
@@ -322,8 +281,7 @@ const TermsPage: React.FC = () => {
 
           </div>
         </div>
-      </div>
-    </div>
+    </PageLayout>
   );
 };
 

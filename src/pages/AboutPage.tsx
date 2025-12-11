@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, GraduationCap, Accessibility as UniversalAccess, Gamepad2, Lock, Users, Shield, School, Rocket, ArrowLeft } from 'lucide-react';
-import Logo from '../components/Logo';
+import { Heart, GraduationCap, Accessibility as UniversalAccess, Gamepad2, Lock, Users, Shield, School, Rocket } from 'lucide-react';
+import PageLayout from '../components/layout/PageLayout';
 
 const AboutPage: React.FC = () => {
 
@@ -44,53 +44,13 @@ const AboutPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
-      {/* Page Header */}
-      <header className="bg-gradient-to-r from-green-800 via-green-600 to-green-500 text-white py-24 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 20% 50%, rgba(76, 175, 80, 0.3) 0%, transparent 50%),
-                            radial-gradient(circle at 80% 20%, rgba(129, 199, 132, 0.3) 0%, transparent 50%)`
-          }} />
-        </div>
-
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="text-center">
-            <div className="flex items-center justify-center mb-8">
-              <div className="w-20 h-20 mr-4">
-                <Logo />
-              </div>
-            </div>
-
-            <h1 className="text-5xl font-bold mb-6 leading-tight">
-              About PandaGarde
-            </h1>
-
-            <p className="text-xl opacity-90 max-w-3xl mx-auto leading-relaxed">
-              We're on a mission to build privacy skills for tomorrow's world through comprehensive,
-              engaging, and age-appropriate digital privacy education.
-            </p>
-          </div>
-        </div>
-      </header>
-
-      {/* Navigation */}
-      <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
-        <div className="container mx-auto px-6 py-4">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
-            style={{ color: 'var(--primary-light)' }}
-          >
-            <ArrowLeft size={16} />
-            Back to Home
-          </Link>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <main id="main-content" className="py-20">
-        <div className="container mx-auto px-6">
+    <PageLayout
+      title="About PandaGarde"
+      subtitle="We're on a mission to build privacy skills for tomorrow's world through comprehensive, engaging, and age-appropriate digital privacy education."
+      icon={Shield}
+      badge="ABOUT US"
+    >
+      <div className="max-w-6xl mx-auto">
 
           {/* Mission Section */}
           <section className="mb-20">
@@ -253,8 +213,7 @@ const AboutPage: React.FC = () => {
             </div>
           </section>
         </div>
-      </main>
-    </div>
+    </PageLayout>
   );
 };
 

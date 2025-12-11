@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Users, Shield, Wrench, Check, BookOpen, Heart, Brain, Play, Baby, ArrowRight, ShoppingBag, BarChart3, Unlock, User, GraduationCap, UsersRound } from 'lucide-react';
+import { Users, Shield, Wrench, Check, BookOpen, Heart, Brain, Play, Baby, ArrowRight, ShoppingBag, BarChart3, Unlock, User, GraduationCap, UsersRound, Info } from 'lucide-react';
+import PageLayout from '../components/layout/PageLayout';
 
 const OverviewPage: React.FC = () => {
   useEffect(() => {
@@ -170,40 +171,12 @@ const OverviewPage: React.FC = () => {
   ];
 
   return (
-    <main id="main-content">
-      {/* Back Navigation */}
-      <div className="container py-6">
-        <Link to="/" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors">
-          <ArrowLeft size={16} />
-          Back to Home
-        </Link>
-      </div>
-
-      {/* Page Header */}
-      <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
-        <div className="container">
-          <div className="text-center fade-in" style={{ textAlign: 'center' }}>
-            <h1 style={{
-              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
-              fontWeight: '800',
-              lineHeight: '1.1',
-              marginBottom: '1rem',
-              color: '#0f172a'
-            }}>
-              Everything Your Family Needs for Digital Privacy
-            </h1>
-            <p style={{
-              fontSize: '1.125rem',
-              color: '#64748b',
-              maxWidth: '48rem',
-              margin: '0 auto',
-              lineHeight: '1.6'
-            }}>
-              Our comprehensive platform provides age-appropriate education, interactive tools, and community support to help families navigate the digital world safely and confidently.
-            </p>
-          </div>
-        </div>
-      </section>
+    <PageLayout
+      title="Everything Your Family Needs for Digital Privacy"
+      subtitle="Our comprehensive platform provides age-appropriate education, interactive tools, and community support to help families navigate the digital world safely and confidently."
+      icon={Info}
+      badge="OVERVIEW"
+    >
 
       {/* Customer Journey */}
       <section className="parent-steps">
@@ -405,7 +378,7 @@ const OverviewPage: React.FC = () => {
           </div>
         </div>
       </section>
-    </main>
+    </PageLayout>
   );
 };
 
