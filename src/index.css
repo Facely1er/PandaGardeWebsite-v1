@@ -4065,7 +4065,8 @@ body {
   text-decoration: none;
   font-weight: 600;
   transition: var(--transition);
-  pointer-events: none;
+  /* Links must remain clickable */
+  pointer-events: auto;
 }
 
 .action-button:hover {
