@@ -339,13 +339,14 @@ const HomePage: React.FC = () => {
                 color: '#0f172a',
                 letterSpacing: '-0.02em'
               }}>
-                Help Your Family Learn<br />
+                <span style={{ whiteSpace: 'nowrap', display: 'block' }}>Help Your Family Learn</span>
                 <span className="highlight" style={{
                   background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #66BB6A 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
-                  display: 'block'
+                  display: 'block',
+                  whiteSpace: 'nowrap'
                 }}>
                   About Online Privacy
                 </span>
