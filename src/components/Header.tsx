@@ -49,12 +49,12 @@ const Header: React.FC = () => {
 
   // Enhanced navigation structure with better organization
   const navItems = [
-    { icon: Home, label: 'Home', href: '/', isExternal: false },
-    { icon: Sparkles, label: 'Features', href: '/overview', isExternal: false },
-    { icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false },
-    { icon: Users, label: 'Get Started', href: '/get-started', isExternal: false },
-    { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
-    { icon: MessageCircle, label: 'Community', href: '/community/forum', isExternal: false },
+    { icon: Home, label: 'Home', href: '/', isExternal: false, hideOnMedium: true },
+    { icon: Sparkles, label: 'Features', href: '/overview', isExternal: false, hideOnMedium: false },
+    { icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false, hideOnMedium: false },
+    { icon: Users, label: 'Get Started', href: '/get-started', isExternal: false, hideOnMedium: false },
+    { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false, hideOnMedium: false },
+    { icon: MessageCircle, label: 'Community', href: '/community/forum', isExternal: false, hideOnMedium: true },
   ];
 
   // Mobile navigation with organized sections
@@ -193,7 +193,7 @@ const Header: React.FC = () => {
             aria-label="Main navigation menu"
           >
             {navItems.map((item) => (
-              <li key={item.label} role="none">
+              <li key={item.label} role="none" className={item.hideOnMedium ? 'hide-on-medium' : ''}>
                 {item.href.startsWith('#') ? (
                   <a
                     href={item.href}
@@ -209,8 +209,8 @@ const Header: React.FC = () => {
                     {item.label}
                   </a>
                 ) : (
-                  <Link 
-                    to={item.href} 
+                  <Link
+                    to={item.href}
                     className={`nav-link ${isActive(item.href) ? 'active' : ''}`}
                     role="menuitem"
                     aria-label={`Navigate to ${item.label} page`}
