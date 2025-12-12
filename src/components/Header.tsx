@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, Home, Users, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search, Bell, MessageCircle, Heart, Globe, Book } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
@@ -48,25 +48,48 @@ function Header() {
   }, [isMobileMenuOpen, isSearchModalOpen]);
 
   // Enhanced navigation structure with better organization
-  const navItems = [
-    { icon: Home, label: 'Home', href: '/', isExternal: false, hideOnMedium: true },
-    { icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false, hideOnMedium: false },
-    { icon: Users, label: 'Get Started', href: '/get-started', isExternal: false, hideOnMedium: false },
-    { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false, hideOnMedium: false },
-    { icon: MessageCircle, label: 'Community', href: '/community/forum', isExternal: false, hideOnMedium: true },
-  ];
+  // Using useMemo to prevent recreation and ensure uniqueness
+  const navItems = useMemo(() => {
+    const items = [
+      { icon: Home, label: 'Home', href: '/', isExternal: false, hideOnMedium: true },
+      { icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false, hideOnMedium: false },
+      { icon: Users, label: 'Get Started', href: '/get-started', isExternal: false, hideOnMedium: false },
+      { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false, hideOnMedium: false },
+      { icon: MessageCircle, label: 'Community', href: '/community/forum', isExternal: false, hideOnMedium: true },
+    ];
+    // Remove duplicates based on href
+    const seen = new Set<string>();
+    return items.filter(item => {
+      if (seen.has(item.href)) {
+        return false;
+      }
+      seen.add(item.href);
+      return true;
+    });
+  }, []);
 
   // Mobile navigation with organized sections
-  const mobileNavItems = [
-    { icon: Home, label: 'Home', href: '/', isExternal: false },
-    { icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false },
-    { icon: Users, label: 'Get Started', href: '/get-started', isExternal: false },
-    { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
-    { icon: MessageCircle, label: 'Community Forum', href: '/community/forum', isExternal: false },
-    { icon: Heart, label: 'Success Stories', href: '/community/stories', isExternal: false },
-    { icon: Globe, label: 'Community Resources', href: '/community/resources', isExternal: false },
-    { icon: Info, label: 'About', href: '/about', isExternal: false },
-  ];
+  const mobileNavItems = useMemo(() => {
+    const items = [
+      { icon: Home, label: 'Home', href: '/', isExternal: false },
+      { icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false },
+      { icon: Users, label: 'Get Started', href: '/get-started', isExternal: false },
+      { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
+      { icon: MessageCircle, label: 'Community Forum', href: '/community/forum', isExternal: false },
+      { icon: Heart, label: 'Success Stories', href: '/community/stories', isExternal: false },
+      { icon: Globe, label: 'Community Resources', href: '/community/resources', isExternal: false },
+      { icon: Info, label: 'About', href: '/about', isExternal: false },
+    ];
+    // Remove duplicates based on href
+    const seen = new Set<string>();
+    return items.filter(item => {
+      if (seen.has(item.href)) {
+        return false;
+      }
+      seen.add(item.href);
+      return true;
+    });
+  }, []);
 
 
   const isActive = (href: string) => {
@@ -191,7 +214,7 @@ function Header() {
             aria-label="Main navigation menu"
           >
             {navItems.map((item, index) => (
-              <li key={`desktop-${item.href}-${index}`} role="none" className={item.hideOnMedium ? 'hide-on-medium' : ''}>
+              <li key={`nav-${item.href}-${item.label}-${index}`} role="none" className={item.hideOnMedium ? 'hide-on-medium' : ''}>
                 {item.href.startsWith('#') ? (
                   <a
                     href={item.href}
@@ -230,7 +253,7 @@ function Header() {
             onKeyDown={handleMobileMenuKeyDown}
           >
             {mobileNavItems.map((item, index) => (
-              <li key={`mobile-${item.href}-${index}`} role="none">
+              <li key={`mobile-nav-${item.href}-${item.label}-${index}`} role="none">
                 {item.href.startsWith('#') ? (
                   <a
                     href={item.href}
