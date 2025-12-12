@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search, Bell, MessageCircle, Heart, Globe, Book, Sparkles } from 'lucide-react';
+import { Menu, X, Home, Users, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search, Bell, MessageCircle, Heart, Globe, Book, Sparkles } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import SearchModal from './SearchModal';
 import OfflineIndicator from './OfflineIndicator';
-import ServiceNotificationCenter from './ServiceNotificationCenter';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
