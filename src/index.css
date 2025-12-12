@@ -863,9 +863,17 @@ body {
   min-width: 0;
   position: relative;
   z-index: 1;
-  overflow: hidden;
+  /* Avoid truncating last items (e.g. "Community") when space is tight */
+  overflow-x: auto;
+  overflow-y: visible;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge legacy */
   max-width: 100%;
   width: 100%;
+}
+
+.nav-menu::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
 /* Large screens - more spacing */
@@ -988,8 +996,13 @@ body {
 }
 
 /* Mobile Navigation */
-.mobile-nav {
+.nav-menu.mobile-nav {
+  /* Must override `.nav-menu { display: flex !important; }` */
   display: none !important;
+}
+
+.nav-menu.mobile-nav.active {
+  display: flex !important;
 }
 
 /* Hide desktop nav on tablets and mobile */
@@ -1114,6 +1127,21 @@ body {
   align-items: center;
   gap: 8px;
   font-size: 14px;
+}
+
+.family-hub-button-text {
+  display: inline;
+}
+
+/* Give the desktop nav a bit more room on common laptop widths */
+@media (min-width: 1401px) and (max-width: 1600px) {
+  .family-hub-button-text {
+    display: none;
+  }
+
+  .family-hub-button {
+    padding: 10px;
+  }
 }
 
 .family-hub-button:hover {

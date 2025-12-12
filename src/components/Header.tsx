@@ -354,7 +354,7 @@ function Header() {
               title="Connect with other families and access exclusive resources"
             >
               <Users size={16} aria-hidden="true" />
-              Family Hub
+              <span className="family-hub-button-text">Family Hub</span>
             </Link>
           </div>
           
