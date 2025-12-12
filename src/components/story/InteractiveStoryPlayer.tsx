@@ -23,6 +23,8 @@ interface InteractiveStoryPlayerProps {
   onStoryComplete?: () => void;
   onChoiceMade?: (choice: { text: string; nextScene: string; consequence?: string }) => void;
   hideControls?: boolean;
+  currentSceneIndex?: number;
+  onSceneIndexChange?: (index: number) => void;
 }
 
 const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
@@ -30,10 +32,16 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
   onSceneChange,
   onStoryComplete,
   onChoiceMade,
-  hideControls = false
+  hideControls = false,
+  currentSceneIndex: controlledSceneIndex,
+  onSceneIndexChange
 }) => {
   const { theme } = useTheme();
-  const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
+  const [internalSceneIndex, setInternalSceneIndex] = useState(0);
+  
+  // Use controlled index if provided, otherwise use internal state
+  const currentSceneIndex = controlledSceneIndex !== undefined ? controlledSceneIndex : internalSceneIndex;
+  const setCurrentSceneIndex = onSceneIndexChange || setInternalSceneIndex;
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -85,7 +93,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
     } else {
       onStoryComplete?.();
     }
-  }, [currentSceneIndex, scenes, onSceneChange, onStoryComplete]);
+  }, [currentSceneIndex, scenes, onSceneChange, onStoryComplete, setCurrentSceneIndex]);
 
   // Auto-advance functionality - wait for text-to-speech to complete
   useEffect(() => {
@@ -196,7 +204,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
     }
-  }, []);
+  }, [setCurrentSceneIndex]);
 
   const prevScene = useCallback(() => {
     if (currentSceneIndex > 0) {
@@ -205,7 +213,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
       setSelectedChoice(null);
       onSceneChange?.(scenes[prevIndex].id);
     }
-  }, [currentSceneIndex, scenes, onSceneChange]);
+  }, [currentSceneIndex, scenes, onSceneChange, setCurrentSceneIndex]);
 
   const handleChoice = useCallback((choice: { text: string; nextScene: string; consequence?: string }) => {
     setSelectedChoice(choice.text);
@@ -217,7 +225,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         onSceneChange?.(choice.nextScene);
       }, 1000);
     }
-  }, [scenes, onSceneChange, onChoiceMade]);
+  }, [scenes, onSceneChange, onChoiceMade, setCurrentSceneIndex]);
 
   // Auto-speak when scene changes
   useEffect(() => {

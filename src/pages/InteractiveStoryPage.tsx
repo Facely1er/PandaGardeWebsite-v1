@@ -864,6 +864,8 @@ const InteractiveStoryPage: React.FC = () => {
         <div style={{ marginBottom: '2rem' }}>
           <InteractiveStoryPlayer
             scenes={storyScenes}
+            currentSceneIndex={currentSceneIndex}
+            onSceneIndexChange={setCurrentSceneIndex}
             onSceneChange={handleSceneChange}
             onStoryComplete={handleStoryComplete}
             onChoiceMade={handleChoiceMade}
