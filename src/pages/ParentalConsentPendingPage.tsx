@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Clock, Shield, CheckCircle } from 'lucide-react';
 
 const ParentalConsentPendingPage: React.FC = () => {
@@ -65,14 +65,12 @@ const ParentalConsentPendingPage: React.FC = () => {
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 PandaGarde complies with COPPA (Children's Online Privacy Protection Act). We require verifiable parental consent before collecting any personal information from children under 13. This protects your privacy and keeps you safe online.
               </p>
-              <a
-                href="/privacy-policy"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/privacy"
                 className="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium"
               >
                 Read our Privacy Policy →
-              </a>
+              </Link>
             </div>
 
             <div className="flex gap-4">

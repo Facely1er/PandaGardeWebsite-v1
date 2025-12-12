@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Shield, FileText, Calendar, AlertTriangle, CheckCircle } from 'lucide-react';
 import PageLayout from '../components/layout/PageLayout';
 
@@ -259,7 +260,10 @@ const TermsPage: React.FC = () => {
                   <strong>Email:</strong> legal@pandagarde.com
                 </p>
                 <p className="mb-2" style={{ color: 'var(--gray-600)' }}>
-                  <strong>Website:</strong> <a href="/contact" className="text-blue-600 hover:underline">pandagarde.com/contact</a>
+                  <strong>Website:</strong>{' '}
+                  <Link to="/contact" className="text-blue-600 hover:underline">
+                    pandagarde.com/contact
+                  </Link>
                 </p>
                 <p style={{ color: 'var(--gray-600)' }}>
                   <strong>Address:</strong> PandaGarde Legal Department, Privacy Education Center

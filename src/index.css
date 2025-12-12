@@ -1183,6 +1183,8 @@ body {
   min-height: 44px;
   align-items: center;
   justify-content: center;
+  position: relative;
+  z-index: 1002;
 }
 
 .mobile-menu-toggle:hover {
@@ -3011,6 +3013,34 @@ body {
 
   .mobile-menu-toggle {
     display: flex !important;
+  }
+
+  /* Mobile drawer should work on tablets too (<=1024px) */
+  .nav-menu.mobile-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--white);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    z-index: 1001;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    padding: 1.5rem;
+    padding-top: 5rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    max-height: 100vh;
+    max-width: 100vw;
+  }
+
+  .nav-menu.mobile-nav.active {
+    transform: translateX(0);
   }
 
   .logo {

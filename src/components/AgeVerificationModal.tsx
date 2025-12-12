@@ -253,7 +253,7 @@ const AgeVerificationModal: React.FC = () => {
             <Users size={16} />
             <p>
               <strong>Privacy Notice:</strong> For users under 13, we require verifiable parental consent before collecting any personal information. 
-              <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" style={{ marginLeft: '0.5rem', color: '#3b82f6' }}>
+              <a href="/privacy" target="_blank" rel="noopener noreferrer" style={{ marginLeft: '0.5rem', color: '#3b82f6' }}>
                 Read our Privacy Policy
               </a>
             </p>
