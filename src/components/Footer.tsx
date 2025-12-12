@@ -8,14 +8,14 @@ const Footer: React.FC = () => {
   const productLinks = [
     { icon: Users, href: '/family-hub', label: 'Family Hub', isExternal: false },
     { icon: Shield, href: '/privacy-panda', label: 'Privacy Panda' },
-    { icon: Wrench, href: '/parent-resources', label: 'Parent Toolkit' }
+    { icon: Wrench, href: '/resources', label: 'Parent Toolkit' }
   ];
 
   const curriculumLinks = [
     { icon: Child, href: '/privacy-explorers', label: 'Ages 5-8' },
     { icon: User, href: '/privacy-handbook', label: 'Ages 9-12' },
     { icon: UserCheck, href: '/teen-handbook', label: 'Ages 13-17' },
-    { icon: Users, href: '/parent-resources', label: 'Parents' }
+    { icon: Users, href: '/resources', label: 'Parents' }
   ];
 
   const connectLinks = [

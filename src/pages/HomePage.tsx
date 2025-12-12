@@ -968,8 +968,8 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Customer Journey */}
-      <section className="parent-steps" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#f8fafc' }}>
+      {/* How It Works - Preview (Links to Overview) */}
+      <section className="how-it-works-preview" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
         <div className="container">
           <div className="section-header fade-in" style={{ marginBottom: '3rem' }}>
             <h2 style={{
@@ -989,124 +989,115 @@ const HomePage: React.FC = () => {
             }}>Four simple steps to help your family learn about digital privacy and online safety.</p>
           </div>
 
-          {/* Journey Steps with Visual Flow */}
-          <div className="journey-container" style={{ position: 'relative', marginTop: '3rem' }}>
-            <div className="parent-steps-grid journey-steps-enhanced">
-              {customerJourney.map((step, index) => {
-                const isCompleted = isStepCompleted(step.step);
-                const isVisited = isStepVisited(step.step);
-                const isRecommended = progress.nextRecommendedStep === step.step;
-                const isFoundation = step.isFoundation;
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+            gap: '1.5rem',
+            maxWidth: '1000px',
+            margin: '0 auto 2rem'
+          }}>
+            {customerJourney.slice(0, 3).map((step, index) => (
+              <div 
+                key={index} 
+                className="fade-in" 
+                style={{ 
+                  animationDelay: `${index * 0.1}s`,
+                  background: 'white',
+                  borderRadius: '16px',
+                  padding: '2rem',
+                  border: '1px solid #e2e8f0',
+                  textAlign: 'center',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#1B5E20';
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 12px 24px rgba(0, 0, 0, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#e2e8f0';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                <div style={{
+                  width: '64px',
+                  height: '64px',
+                  borderRadius: '16px',
+                  background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 1.5rem'
+                }}>
+                  <step.icon size={28} className="text-white" />
+                </div>
+                <div style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+                  color: 'white',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 1rem',
+                  fontWeight: '700',
+                  fontSize: '1rem'
+                }}>
+                  {step.step}
+                </div>
+                <h3 style={{
+                  fontSize: '1.125rem',
+                  fontWeight: '700',
+                  color: '#0f172a',
+                  marginBottom: '0.75rem'
+                }}>
+                  {step.title}
+                </h3>
+                <p style={{
+                  fontSize: '0.9375rem',
+                  color: '#64748b',
+                  lineHeight: '1.6'
+                }}>
+                  {step.description}
+                </p>
+              </div>
+            ))}
+          </div>
 
-                return (
-                  <Link 
-                    key={index} 
-                    to={step.link}
-                    onClick={() => markStepVisited(step.step)}
-                    className={`parent-step-card fade-in ${isFoundation ? 'foundation-step' : ''} ${isCompleted ? 'step-completed' : ''} ${isRecommended ? 'step-recommended' : ''}`} 
-                    style={{ 
-                      animationDelay: `${index * 0.1}s`,
-                      position: 'relative'
-                    }}
-                  >
-                    {/* Completion Checkmark */}
-                    {isCompleted && (
-                      <div style={{
-                        position: 'absolute',
-                        top: '-10px',
-                        right: '-10px',
-                        width: '32px',
-                        height: '32px',
-                        background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
-                        borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        boxShadow: '0 4px 8px rgba(34, 197, 94, 0.3)',
-                        zIndex: 10
-                      }}>
-                        <CheckCircle size={18} className="text-white" style={{ strokeWidth: 3 }} />
-                      </div>
-                    )}
-
-                    {/* Recommended Badge */}
-                    {isRecommended && !isCompleted && (
-                      <div style={{
-                        position: 'absolute',
-                        top: '-12px',
-                        left: '-12px',
-                        background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-                        color: 'white',
-                        padding: '4px 10px',
-                        borderRadius: '12px',
-                        fontSize: '10px',
-                        fontWeight: '700',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.5px',
-                        boxShadow: '0 4px 8px rgba(245, 158, 11, 0.3)',
-                        zIndex: 10
-                      }}>
-                        Next Step
-                      </div>
-                    )}
-
-                    <div className="step-number">
-                      {step.isFoundation && <Unlock size={12} style={{ position: 'absolute', top: '-5px', right: '-5px' }} />}
-                      {isCompleted ? (
-                        <CheckCircle size={20} className="text-white" style={{ strokeWidth: 3 }} />
-                      ) : (
-                        <span>{step.step}</span>
-                      )}
-                    </div>
-                    <div className="step-content">
-                      <div className="step-header">
-                        <div className="step-icon" style={{
-                          background: isCompleted ? 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)' : undefined,
-                          color: isCompleted ? 'white' : undefined
-                        }}>
-                          <step.icon size={24} />
-                        </div>
-                        {step.platform && (
-                          <span className={`platform-badge ${step.platform === 'Privacy Panda' ? 'privacy-panda' : 'pandagarde'}`}>
-                            {step.platform}
-                          </span>
-                        )}
-                      </div>
-                      <h3>{step.title}</h3>
-                      <p>{step.description}</p>
-                      
-                      {/* Show what this step enables */}
-                      {step.enables && step.enables.length > 0 && (
-                        <div className="enables-list">
-                          <div className="enables-label">
-                            <Unlock size={14} />
-                            <span>Unlocks:</span>
-                          </div>
-                          <div className="enables-items">
-                            {step.enables.map((feature, idx) => (
-                              <span key={idx} className="enable-badge">{feature}</span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      
-                      {/* Show requirements */}
-                      {step.requires && (
-                        <div className="requires-badge">
-                          <Shield size={14} />
-                          <span>Requires: {step.requires}</span>
-                        </div>
-                      )}
-                      
-                      <div className="step-link">
-                        {isCompleted ? 'View Again' : isVisited ? 'Continue' : 'Get Started'}
-                        <ArrowRight size={16} />
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
+          <div style={{ textAlign: 'center' }}>
+            <Link 
+              to="/overview" 
+              className="button secondary"
+              style={{ 
+                display: 'inline-flex', 
+                alignItems: 'center', 
+                gap: '0.5rem',
+                fontSize: '1rem',
+                padding: '0.875rem 2rem',
+                background: 'white',
+                color: '#1B5E20',
+                fontWeight: '600',
+                borderRadius: '10px',
+                textDecoration: 'none',
+                border: '2px solid #1B5E20',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#1B5E20';
+                e.currentTarget.style.color = 'white';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'white';
+                e.currentTarget.style.color = '#1B5E20';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              View Complete Journey
+              <ArrowRight size={16} />
+            </Link>
           </div>
         </div>
       </section>
@@ -1173,6 +1164,41 @@ const HomePage: React.FC = () => {
                 </Link>
               );
             })}
+          </div>
+          
+          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+            <Link 
+              to="/overview" 
+              className="button secondary"
+              style={{ 
+                display: 'inline-flex', 
+                alignItems: 'center', 
+                gap: '0.5rem',
+                fontSize: '1rem',
+                padding: '0.875rem 2rem',
+                background: 'white',
+                color: '#1B5E20',
+                fontWeight: '600',
+                borderRadius: '10px',
+                textDecoration: 'none',
+                border: '2px solid #1B5E20',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#1B5E20';
+                e.currentTarget.style.color = 'white';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'white';
+                e.currentTarget.style.color = '#1B5E20';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              <BookOpen size={20} />
+              View Detailed Curriculum
+              <ArrowRight size={16} />
+            </Link>
           </div>
         </div>
       </section>
@@ -1283,7 +1309,7 @@ const HomePage: React.FC = () => {
               </div>
             </Link>
 
-            <Link to="/parent-resources" className="learn-more-card fade-in">
+            <Link to="/resources" className="learn-more-card fade-in">
               <div className="card-icon">
                 <BookOpen size={24} />
               </div>

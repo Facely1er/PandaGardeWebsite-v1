@@ -28,11 +28,11 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className = '' }) => {
     '/quick-start': 'Quick Start',
     '/get-started': 'Get Started',
     '/resources': 'Resources',
+    '/parent-resources': 'Resources', // Redirected to consolidated resources
     '/newsletter': 'Newsletter',
     '/support': 'Support',
     '/family-hub': 'Family Hub',
     '/story': 'PrivacyPanda',
-    '/parent-resources': 'Parent Toolkit',
     '/privacy-explorers': 'Ages 5-8',
     '/privacy-handbook': 'Ages 9-12',
     '/teen-handbook': 'Ages 13-17',
