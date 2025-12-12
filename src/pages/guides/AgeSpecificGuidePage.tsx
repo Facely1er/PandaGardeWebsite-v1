@@ -442,14 +442,14 @@ const AgeSpecificGuidePage: React.FC = () => {
           </section>
 
         {/* Call to Action */}
-        <div style={{
-          background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
-          borderRadius: '16px',
-          padding: '2rem',
-          color: 'white',
-          textAlign: 'center',
-          marginTop: 'clamp(2rem, 4vw, 3rem)'
-        }}>
+        <section style={{ marginTop: 'clamp(2rem, 4vw, 3rem)' }}>
+          <div style={{
+            background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+            borderRadius: '16px',
+            padding: '2rem',
+            color: 'white',
+            textAlign: 'center'
+          }}>
           <h2 style={{ 
             fontSize: 'clamp(1.5rem, 3vw, 1.875rem)', 
             fontWeight: 700, 
@@ -517,7 +517,8 @@ const AgeSpecificGuidePage: React.FC = () => {
               Download Family Agreement
             </Link>
           </div>
-        </div>
+          </div>
+        </section>
       </div>
     </PageLayout>
   );
