@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Home, Users, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search, Bell, MessageCircle, Heart, Globe, Book, Sparkles } from 'lucide-react';
+import { Menu, X, Home, Users, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search, Bell, MessageCircle, Heart, Globe, Book } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import SearchModal from './SearchModal';
 import OfflineIndicator from './OfflineIndicator';
 
-const Header: React.FC = () => {
+function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
@@ -50,16 +50,10 @@ const Header: React.FC = () => {
   // Enhanced navigation structure with better organization
   const navItems = [
     { icon: Home, label: 'Home', href: '/', isExternal: false, hideOnMedium: true },
-    { icon: Sparkles, label: 'Features', href: '/overview', isExternal: false, hideOnMedium: false },
     { icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false, hideOnMedium: false },
     { icon: Users, label: 'Get Started', href: '/get-started', isExternal: false, hideOnMedium: false },
     { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false, hideOnMedium: false },
     { icon: MessageCircle, label: 'Community', href: '/community/forum', isExternal: false, hideOnMedium: true },
-    { icon: Home, label: 'Home', href: '/', isExternal: false },
-    { icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false },
-    { icon: Users, label: 'Get Started', href: '/get-started', isExternal: false },
-    { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
-    { icon: MessageCircle, label: 'Community', href: '/community/forum', isExternal: false },
   ];
 
   // Mobile navigation with organized sections
@@ -363,6 +357,6 @@ const Header: React.FC = () => {
       </header>
     </>
   );
-};
+}
 
 export default Header;
