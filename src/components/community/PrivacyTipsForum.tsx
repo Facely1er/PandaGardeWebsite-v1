@@ -839,8 +839,17 @@ const UserRegistrationForm: React.FC<UserRegistrationFormProps> = ({ onSubmit, o
   return (
     <div className={`${required ? 'fixed inset-0 z-50 overflow-y-auto' : ''}`}>
       <div className={`${required ? 'flex min-h-screen items-center justify-center p-4' : ''}`}>
-        {required && <div className="fixed inset-0 bg-black bg-opacity-50" />}
+        {required && <div className="fixed inset-0 bg-black bg-opacity-50" onClick={onCancel} />}
         <div className={`relative bg-white rounded-lg shadow-xl ${required ? 'max-w-md w-full' : 'w-full'} p-6`} style={{ backgroundColor: 'var(--card-color)' }}>
+          {required && (
+            <button
+              onClick={onCancel}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+              aria-label="Close modal"
+            >
+              <X size={24} />
+            </button>
+          )}
           <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
             Join Privacy Tips Forum
           </h2>
