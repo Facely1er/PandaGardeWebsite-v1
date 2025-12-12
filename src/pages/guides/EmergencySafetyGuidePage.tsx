@@ -1,71 +1,35 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft, Shield, AlertTriangle, Phone, Users, FileText, CheckCircle } from 'lucide-react';
-import Logo from '../../components/Logo';
+import React from 'react';
+import { AlertTriangle, Phone, Users, FileText, CheckCircle } from 'lucide-react';
+import PageLayout from '../../components/layout/PageLayout';
 
 const EmergencySafetyGuidePage: React.FC = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
-      {/* Page Header */}
-      <header className="bg-gradient-to-r from-red-600 to-red-500 text-white py-20 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
-          }} />
-        </div>
-
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="flex items-center justify-center mb-8">
-            <div className="w-20 h-20 mr-4">
-              <Logo />
-            </div>
-          </div>
-
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
-              <AlertTriangle size={16} />
-              <span className="text-sm font-semibold">EMERGENCY GUIDE</span>
-            </div>
-
-            <h1 className="text-5xl font-bold mb-6 leading-tight">
-              Digital Safety Emergency Guide
-            </h1>
-
-            <p className="text-xl opacity-90 max-w-2xl mx-auto">
-              Step-by-step instructions for handling privacy breaches, cyberbullying, and other digital safety emergencies. Includes legal considerations and recovery strategies.
-            </p>
-          </div>
-        </div>
-      </header>
-
-      {/* Navigation */}
-      <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
-        <div className="container mx-auto px-6 py-4">
-          <Link
-            to="/parent-resources"
-            className="inline-flex items-center gap-2 text-red-600 hover:text-red-700 font-medium transition-colors"
-            style={{ color: 'var(--primary-light)' }}
-          >
-            <ArrowLeft size={16} />
-            Back to Parent Resources
-          </Link>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <main className="container mx-auto px-6 py-20">
-        <div className="max-w-4xl mx-auto">
+    <PageLayout
+      title="Digital Safety Emergency Guide"
+      subtitle="Step-by-step instructions for handling privacy breaches, cyberbullying, and other digital safety emergencies. Includes legal considerations and recovery strategies."
+      icon={AlertTriangle}
+      badge="EMERGENCY GUIDE"
+      breadcrumbs={true}
+    >
+      <div style={{ maxWidth: '56rem', margin: '0 auto' }}>
           
-          {/* Emergency Contacts */}
-          <section className="mb-16">
-            <div className="bg-red-50 border border-red-200 rounded-xl p-6 mb-8" style={{ backgroundColor: 'var(--light)' }}>
-              <h2 className="text-2xl font-bold mb-4 text-red-800">
-                🚨 Emergency Contacts
-              </h2>
+        {/* Emergency Contacts */}
+        <section style={{ marginBottom: 'clamp(3rem, 6vw, 4rem)' }}>
+          <div style={{
+            backgroundColor: '#fef2f2',
+            border: '1px solid #fecaca',
+            borderRadius: '16px',
+            padding: '1.5rem',
+            marginBottom: '2rem'
+          }}>
+            <h2 style={{ 
+              fontSize: 'clamp(1.5rem, 3vw, 1.875rem)', 
+              fontWeight: 700, 
+              marginBottom: '1rem',
+              color: '#991b1b'
+            }}>
+              🚨 Emergency Contacts
+            </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <h3 className="font-semibold text-red-700 mb-2">National Emergency Numbers</h3>
@@ -392,33 +356,86 @@ const EmergencySafetyGuidePage: React.FC = () => {
             </div>
           </section>
 
-          {/* Call to Action */}
-          <div className="bg-gradient-to-r from-red-500 to-red-600 rounded-xl p-8 text-white text-center">
-            <h2 className="text-2xl font-bold mb-4">
-              Remember: You're Not Alone
-            </h2>
-            <p className="text-lg mb-6 opacity-90">
-              If you're dealing with a digital safety emergency, reach out for help immediately. 
-              There are resources and people who can support you and your family.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <a
-                href="tel:911"
-                className="bg-white text-red-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
-              >
-                Call 911 (Emergency)
-              </a>
-              <a
-                href="tel:1-800-843-5678"
-                className="bg-red-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-800 transition-colors"
-              >
-                CyberTipline
-              </a>
-            </div>
+        {/* Call to Action */}
+        <div style={{
+          background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
+          borderRadius: '16px',
+          padding: '2rem',
+          color: 'white',
+          textAlign: 'center',
+          marginTop: 'clamp(2rem, 4vw, 3rem)'
+        }}>
+          <h2 style={{ 
+            fontSize: 'clamp(1.5rem, 3vw, 1.875rem)', 
+            fontWeight: 700, 
+            marginBottom: '1rem'
+          }}>
+            Remember: You're Not Alone
+          </h2>
+          <p style={{ 
+            fontSize: '1.125rem', 
+            marginBottom: '1.5rem', 
+            opacity: 0.9,
+            lineHeight: 1.6
+          }}>
+            If you're dealing with a digital safety emergency, reach out for help immediately. 
+            There are resources and people who can support you and your family.
+          </p>
+          <div style={{ 
+            display: 'flex', 
+            flexWrap: 'wrap', 
+            gap: '1rem', 
+            justifyContent: 'center' 
+          }}>
+            <a
+              href="tel:911"
+              style={{
+                background: 'white',
+                color: '#dc2626',
+                padding: '0.875rem 1.5rem',
+                borderRadius: '12px',
+                fontWeight: 600,
+                textDecoration: 'none',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#f3f4f6';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'white';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              Call 911 (Emergency)
+            </a>
+            <a
+              href="tel:1-800-843-5678"
+              style={{
+                background: 'rgba(255, 255, 255, 0.2)',
+                color: 'white',
+                padding: '0.875rem 1.5rem',
+                borderRadius: '12px',
+                fontWeight: 600,
+                textDecoration: 'none',
+                border: '2px solid white',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              CyberTipline
+            </a>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </PageLayout>
   );
 };
 

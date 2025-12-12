@@ -1,80 +1,53 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Heart, Users, Shield, BookOpen, Download, CheckCircle } from 'lucide-react';
-import Logo from '../../components/Logo';
+import { Heart, Users, Shield, BookOpen, Download, CheckCircle } from 'lucide-react';
+import PageLayout from '../../components/layout/PageLayout';
 
 const FamilyPrivacyGuidePage: React.FC = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
-      {/* Page Header */}
-      <header className="bg-gradient-to-r from-green-600 to-green-500 text-white py-20 relative overflow-hidden">
-        {/* Subtle logo watermark pattern */}
-        <div className="absolute inset-0 opacity-5" style={{
-          backgroundImage: 'radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.1) 0%, transparent 50%)',
-          backgroundSize: '400px 400px',
-          backgroundRepeat: 'repeat'
-        }} />
-
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="flex items-center justify-center mb-8">
-            <div className="w-20 h-20 mr-4">
-              <Logo />
-            </div>
-          </div>
-
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
-              <Heart size={16} />
-              <span className="text-sm font-semibold">FAMILY GUIDE</span>
-            </div>
-
-            <h1 className="text-5xl font-bold mb-6 leading-tight">
-              Complete Family Privacy Guide
-            </h1>
-
-            <p className="text-xl opacity-90 max-w-2xl mx-auto">
-              Everything parents need to know about teaching digital privacy to children of all ages. Includes age-specific strategies, conversation starters, and practical implementation tips.
-            </p>
-          </div>
-        </div>
-      </header>
-
-      {/* Navigation */}
-      <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
-        <div className="container mx-auto px-6 py-4">
-          <Link
-            to="/parent-resources"
-            className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
-            style={{ color: 'var(--primary-light)' }}
-          >
-            <ArrowLeft size={16} />
-            Back to Parent Resources
-          </Link>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <main className="container mx-auto px-6 py-20">
-        <div className="max-w-4xl mx-auto">
+    <PageLayout
+      title="Complete Family Privacy Guide"
+      subtitle="Everything parents need to know about teaching digital privacy to children of all ages. Includes age-specific strategies, conversation starters, and practical implementation tips."
+      icon={Heart}
+      badge="FAMILY GUIDE"
+      breadcrumbs={true}
+    >
+      <div style={{ maxWidth: '56rem', margin: '0 auto' }}>
           
-          {/* Introduction */}
-          <section className="mb-16">
-            <h2 className="text-3xl font-bold mb-6" style={{ color: 'var(--primary)' }}>
-              Why Digital Privacy Education Matters
-            </h2>
-            <p className="text-lg leading-relaxed mb-6" style={{ color: 'var(--gray-600)' }}>
-              In today's digital world, children are growing up with technology as a natural part of their lives. 
-              Teaching them about digital privacy from an early age helps them develop healthy online habits and 
-              protects them from potential risks.
-            </p>
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-6" style={{ backgroundColor: 'var(--light)' }}>
-              <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--primary)' }}>
-                Key Benefits of Early Privacy Education
-              </h3>
+        {/* Introduction */}
+        <section style={{ marginBottom: 'clamp(3rem, 6vw, 4rem)' }}>
+          <h2 style={{ 
+            fontSize: 'clamp(1.875rem, 3vw, 2.25rem)', 
+            fontWeight: 700, 
+            marginBottom: '1.5rem',
+            color: '#1B5E20'
+          }}>
+            Why Digital Privacy Education Matters
+          </h2>
+          <p style={{ 
+            fontSize: '1.125rem', 
+            lineHeight: 1.7, 
+            marginBottom: '1.5rem',
+            color: '#64748b'
+          }}>
+            In today's digital world, children are growing up with technology as a natural part of their lives. 
+            Teaching them about digital privacy from an early age helps them develop healthy online habits and 
+            protects them from potential risks.
+          </p>
+          <div style={{
+            backgroundColor: '#eff6ff',
+            border: '1px solid #bfdbfe',
+            borderRadius: '16px',
+            padding: '1.5rem'
+          }}>
+            <h3 style={{ 
+              fontSize: 'clamp(1.25rem, 2vw, 1.5rem)', 
+              fontWeight: 600, 
+              marginBottom: '1rem',
+              color: '#1B5E20'
+            }}>
+              Key Benefits of Early Privacy Education
+            </h3>
               <ul className="space-y-2">
                 <li className="flex items-start gap-3">
                   <CheckCircle size={20} className="text-green-600 mt-1 flex-shrink-0" />
@@ -96,8 +69,8 @@ const FamilyPrivacyGuidePage: React.FC = () => {
             </div>
           </section>
 
-          {/* Age-Specific Strategies */}
-          <section className="mb-16">
+        {/* Age-Specific Strategies */}
+        <section style={{ marginBottom: 'clamp(3rem, 6vw, 4rem)' }}>
             <h2 className="text-3xl font-bold mb-8" style={{ color: 'var(--primary)' }}>
               Age-Specific Teaching Strategies
             </h2>
@@ -358,32 +331,85 @@ const FamilyPrivacyGuidePage: React.FC = () => {
             </div>
           </section>
 
-          {/* Call to Action */}
-          <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-8 text-white text-center">
-            <h2 className="text-2xl font-bold mb-4">
-              Ready to Start Your Family's Privacy Journey?
-            </h2>
-            <p className="text-lg mb-6 opacity-90">
-              Download our family agreement template and start having meaningful conversations about digital privacy today.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link
-                to="/downloads/family-agreement"
-                className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
-              >
-                Download Family Agreement
-              </Link>
-              <Link
-                to="/parent-resources"
-                className="bg-green-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors"
-              >
-                Explore More Resources
-              </Link>
-            </div>
+        {/* Call to Action */}
+        <div style={{
+          background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+          borderRadius: '16px',
+          padding: '2rem',
+          color: 'white',
+          textAlign: 'center',
+          marginTop: 'clamp(2rem, 4vw, 3rem)'
+        }}>
+          <h2 style={{ 
+            fontSize: 'clamp(1.5rem, 3vw, 1.875rem)', 
+            fontWeight: 700, 
+            marginBottom: '1rem'
+          }}>
+            Ready to Start Your Family's Privacy Journey?
+          </h2>
+          <p style={{ 
+            fontSize: '1.125rem', 
+            marginBottom: '1.5rem', 
+            opacity: 0.9,
+            lineHeight: 1.6
+          }}>
+            Download our family agreement template and start having meaningful conversations about digital privacy today.
+          </p>
+          <div style={{ 
+            display: 'flex', 
+            flexWrap: 'wrap', 
+            gap: '1rem', 
+            justifyContent: 'center' 
+          }}>
+            <Link
+              to="/downloads/family-agreement"
+              style={{
+                background: 'white',
+                color: '#1B5E20',
+                padding: '0.875rem 1.5rem',
+                borderRadius: '12px',
+                fontWeight: 600,
+                textDecoration: 'none',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#f3f4f6';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'white';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              Download Family Agreement
+            </Link>
+            <Link
+              to="/resources"
+              style={{
+                background: 'rgba(255, 255, 255, 0.2)',
+                color: 'white',
+                padding: '0.875rem 1.5rem',
+                borderRadius: '12px',
+                fontWeight: 600,
+                textDecoration: 'none',
+                border: '2px solid white',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              Explore More Resources
+            </Link>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </PageLayout>
   );
 };
 

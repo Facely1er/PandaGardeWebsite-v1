@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Users, BookOpen, Shield, Heart, Brain, CheckCircle } from 'lucide-react';
-import Logo from '../../components/Logo';
+import { Users, BookOpen, Shield, Heart, Brain, CheckCircle } from 'lucide-react';
+import PageLayout from '../../components/layout/PageLayout';
 
 const AgeSpecificGuidePage: React.FC = () => {
   const [selectedAgeGroup, setSelectedAgeGroup] = useState<string>('5-8');
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   const ageGroups = [
     {
@@ -129,9 +125,16 @@ const AgeSpecificGuidePage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
-      {/* Page Header */}
-      <header className="bg-gradient-to-r from-green-600 to-green-500 text-white py-20 relative overflow-hidden">
+    <PageLayout
+      title="Age-Specific Privacy Education Guide"
+      subtitle="Tailored privacy education strategies for different age groups. Learn age-appropriate concepts, activities, and conversation starters for children ages 5-17."
+      icon={Users}
+      badge="AGE-SPECIFIC GUIDE"
+      breadcrumbs={true}
+    >
+      <div style={{ maxWidth: '56rem', margin: '0 auto' }}>
+        {/* Age Group Selector */}
+        <section style={{ marginBottom: 'clamp(3rem, 6vw, 4rem)' }}>
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
@@ -160,25 +163,14 @@ const AgeSpecificGuidePage: React.FC = () => {
             </p>
           </div>
         </div>
-      </header>
-
-      {/* Navigation */}
-      <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
-        <div className="container mx-auto px-6 py-4">
-          <Link
-            to="/parent-resources"
-            className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
-            style={{ color: 'var(--primary-light)' }}
-          >
-            <ArrowLeft size={16} />
-            Back to Parent Resources
-          </Link>
-        </div>
-      </div>
-
       {/* Age Group Selector */}
-      <div className="bg-white border-b" style={{ backgroundColor: 'var(--card-color)' }}>
-        <div className="container mx-auto px-6 py-6">
+      <div style={{
+        backgroundColor: '#ffffff',
+        borderBottom: '1px solid #e5e7eb',
+        padding: '1.5rem 0',
+        marginBottom: 'clamp(2rem, 4vw, 3rem)'
+      }}>
+        <div style={{ maxWidth: '56rem', margin: '0 auto', padding: '0 1.5rem' }}>
           <div className="flex flex-wrap gap-4 justify-center">
             {ageGroups.map((group) => {
               const IconComponent = group.icon;
@@ -205,9 +197,6 @@ const AgeSpecificGuidePage: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Content */}
-      <main className="container mx-auto px-6 py-20">
-        <div className="max-w-4xl mx-auto">
           
           {/* Selected Age Group Content */}
           <section className="mb-16">
@@ -451,32 +440,85 @@ const AgeSpecificGuidePage: React.FC = () => {
             </div>
           </section>
 
-          {/* Call to Action */}
-          <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-8 text-white text-center">
-            <h2 className="text-2xl font-bold mb-4">
-              Ready to Start Teaching Privacy?
-            </h2>
-            <p className="text-lg mb-6 opacity-90">
-              Choose the resources that best fit your child's age and start having meaningful conversations about digital privacy today.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link
-                to="/parent-resources"
-                className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
-              >
-                Explore All Resources
-              </Link>
-              <Link
-                to="/downloads/family-agreement"
-                className="bg-green-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors"
-              >
-                Download Family Agreement
-              </Link>
-            </div>
+        {/* Call to Action */}
+        <div style={{
+          background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+          borderRadius: '16px',
+          padding: '2rem',
+          color: 'white',
+          textAlign: 'center',
+          marginTop: 'clamp(2rem, 4vw, 3rem)'
+        }}>
+          <h2 style={{ 
+            fontSize: 'clamp(1.5rem, 3vw, 1.875rem)', 
+            fontWeight: 700, 
+            marginBottom: '1rem'
+          }}>
+            Ready to Start Teaching Privacy?
+          </h2>
+          <p style={{ 
+            fontSize: '1.125rem', 
+            marginBottom: '1.5rem', 
+            opacity: 0.9,
+            lineHeight: 1.6
+          }}>
+            Choose the resources that best fit your child's age and start having meaningful conversations about digital privacy today.
+          </p>
+          <div style={{ 
+            display: 'flex', 
+            flexWrap: 'wrap', 
+            gap: '1rem', 
+            justifyContent: 'center' 
+          }}>
+            <Link
+              to="/resources"
+              style={{
+                background: 'white',
+                color: '#1B5E20',
+                padding: '0.875rem 1.5rem',
+                borderRadius: '12px',
+                fontWeight: 600,
+                textDecoration: 'none',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#f3f4f6';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'white';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              Explore All Resources
+            </Link>
+            <Link
+              to="/downloads/family-agreement"
+              style={{
+                background: 'rgba(255, 255, 255, 0.2)',
+                color: 'white',
+                padding: '0.875rem 1.5rem',
+                borderRadius: '12px',
+                fontWeight: 600,
+                textDecoration: 'none',
+                border: '2px solid white',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              Download Family Agreement
+            </Link>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </PageLayout>
   );
 };
 

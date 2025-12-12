@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Smartphone, Shield, Lock, CheckCircle, Star, Trophy, Clock, BookOpen, Users, Globe, Settings } from 'lucide-react';
-import Logo from '../components/Logo';
+import { Smartphone, Shield, Lock, CheckCircle, Star, Trophy, Clock, BookOpen, Users, Globe, Settings } from 'lucide-react';
+import PageLayout from '../components/layout/PageLayout';
 
 interface Chapter {
   id: string;
@@ -227,72 +227,16 @@ const TeenHandbookPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
-      {/* Header */}
-      <header className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-20 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
-          }} />
-        </div>
-
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="flex items-center justify-center mb-8">
-            <div className="w-20 h-20 mr-4">
-              <Logo />
-            </div>
-          </div>
-
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
-              <Smartphone size={16} />
-              <span className="text-sm font-semibold">TEEN PRIVACY HANDBOOK</span>
-            </div>
-
-            <h1 className="text-5xl font-bold mb-6 leading-tight">
-              Teen Privacy Handbook
-              <span className="block text-yellow-300">Ages 13-17</span>
-            </h1>
-
-            <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              Comprehensive privacy guide for teenagers covering social media, data rights,
-              online reputation, and advanced security concepts. Take control of your digital life!
-            </p>
-
-            <div className="flex items-center justify-center gap-6 text-sm">
-              <div className="flex items-center gap-2">
-                <Star size={16} />
-                <span>Ages 13-17</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <BookOpen size={16} />
-                <span>6 Comprehensive Chapters</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Trophy size={16} />
-                <span>Advanced Concepts</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Navigation */}
-      <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
-        <div className="container mx-auto px-6 py-4">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 font-medium transition-colors"
-            style={{ color: 'var(--primary-light)' }}
-          >
-            <ArrowLeft size={16} />
-            Back to Home
-          </Link>
-        </div>
-      </div>
-
-      {/* Progress Section */}
-      <section className="container mx-auto px-6 py-12">
+    <PageLayout
+      title="Teen Privacy Handbook"
+      subtitle="Comprehensive privacy guide for teenagers covering social media, data rights, online reputation, and advanced security concepts. Take control of your digital life!"
+      icon={Smartphone}
+      badge="TEEN PRIVACY HANDBOOK - AGES 13-17"
+      breadcrumbs={true}
+    >
+      <div style={{ maxWidth: '75rem', margin: '0 auto' }}>
+        {/* Progress Section */}
+        <section style={{ padding: 'clamp(2rem, 4vw, 3rem) 0' }}>
         <div className="bg-white rounded-xl shadow-lg p-8 mb-12" style={{
           backgroundColor: 'var(--card-color)',
           boxShadow: 'var(--shadow-lg)'
@@ -497,33 +441,94 @@ const TeenHandbookPage: React.FC = () => {
         </div>
       )}
 
-      {/* Call to Action */}
-      <section className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-16">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold mb-4">
+        {/* Call to Action */}
+        <section style={{
+          background: 'linear-gradient(135deg, #4f46e5 0%, #9333ea 100%)',
+          color: 'white',
+          padding: 'clamp(3rem, 6vw, 4rem) 0',
+          marginTop: 'clamp(2rem, 4vw, 3rem)',
+          textAlign: 'center'
+        }}>
+          <h2 style={{ 
+            fontSize: 'clamp(1.875rem, 3vw, 2.25rem)', 
+            fontWeight: 700, 
+            marginBottom: '1rem'
+          }}>
             Ready to Take Control of Your Privacy?
           </h2>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+          <p style={{ 
+            fontSize: '1.125rem', 
+            marginBottom: '2rem', 
+            opacity: 0.9,
+            maxWidth: '42rem',
+            margin: '0 auto 2rem',
+            lineHeight: 1.6
+          }}>
             Start your journey to becoming a privacy-savvy teenager. Learn the skills you need to protect yourself and your data online.
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
+          <div style={{ 
+            display: 'flex', 
+            flexWrap: 'wrap', 
+            gap: '1rem', 
+            justifyContent: 'center' 
+          }}>
             <Link
               to="/privacy-tools"
-              className="bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
+              style={{
+                background: 'white',
+                color: '#4f46e5',
+                padding: '0.875rem 1.5rem',
+                borderRadius: '12px',
+                fontWeight: 600,
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#f3f4f6';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'white';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
             >
               <Settings size={20} />
               Privacy Tools
             </Link>
-            <Link to="/family-hub"
-              className="bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-800 transition-colors inline-flex items-center gap-2"
+            <Link 
+              to="/family-hub"
+              style={{
+                background: 'rgba(255, 255, 255, 0.2)',
+                color: 'white',
+                padding: '0.875rem 1.5rem',
+                borderRadius: '12px',
+                fontWeight: 600,
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                border: '2px solid white',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
             >
               <Users size={20} />
               Family Hub
             </Link>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </PageLayout>
   );
 };
 
