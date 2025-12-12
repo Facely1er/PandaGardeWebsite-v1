@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Book, ArrowLeft, Heart, Star, Play } from 'lucide-react';
+import { Book, ArrowLeft, Heart, Star, Play, Sparkles, Trophy } from 'lucide-react';
 import InteractiveStoryPlayer from '../components/story/InteractiveStoryPlayer';
 import StoryProgress from '../components/story/StoryProgress';
 import PageLayout from '../components/layout/PageLayout';
 import Logo from '../components/Logo';
-import { storyScenes, StorySceneData } from '../data/storyScenes';
+import { storyScenes } from '../data/storyScenes';
 
 interface Achievement {
   id: string;
@@ -400,27 +400,55 @@ const InteractiveStoryPage: React.FC = () => {
       breadcrumbs={true}
     >
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', position: 'relative' }}>
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
+          <div className="absolute top-20 left-10 w-32 h-32 bg-green-200 rounded-full opacity-20 animate-pulse" style={{ animationDuration: '3s' }}></div>
+          <div className="absolute top-40 right-20 w-24 h-24 bg-blue-200 rounded-full opacity-20 animate-pulse" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
+          <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-purple-200 rounded-full opacity-15 animate-pulse" style={{ animationDuration: '5s', animationDelay: '2s' }}></div>
+          <div className="absolute top-1/2 right-1/4 w-28 h-28 bg-yellow-200 rounded-full opacity-20 animate-pulse" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}></div>
+        </div>
+
         {/* Intro Section with Feature Grid and CTA */}
-        <div className="grid md:grid-cols-2 gap-6 items-center mb-8" style={{ marginTop: '2rem' }}>
+        <div className="grid md:grid-cols-2 gap-6 items-center mb-8 relative z-10" style={{ marginTop: '2rem' }}>
           {/* Left Column - Feature Grid and CTA */}
           <div className="text-left">
-            {/* Compact Feature Grid */}
-            <div className="grid grid-cols-2 gap-3 mb-6">
-              <div className="flex items-center gap-2 bg-green-50 px-3 py-2 rounded-lg border border-green-200">
-                <Star size={16} className="text-yellow-500" />
-                <span className="font-semibold text-sm" style={{ color: 'var(--gray-800)' }}>Ages 5-12</span>
+            {/* Enhanced Feature Grid with Icons */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="flex items-center gap-3 bg-gradient-to-br from-yellow-50 to-yellow-100 px-4 py-3 rounded-xl border-2 border-yellow-300 shadow-md hover:shadow-lg transition-all transform hover:scale-105">
+                <div className="bg-yellow-400 p-2 rounded-lg">
+                  <Star size={20} className="text-yellow-900" fill="currentColor" />
+                </div>
+                <div>
+                  <div className="font-bold text-sm" style={{ color: 'var(--gray-800)' }}>Ages 5-12</div>
+                  <div className="text-xs text-gray-600">Perfect Age</div>
+                </div>
               </div>
-              <div className="flex items-center gap-2 bg-blue-50 px-3 py-2 rounded-lg border border-blue-200">
-                <Book size={16} className="text-blue-500" />
-                <span className="font-semibold text-sm" style={{ color: 'var(--gray-800)' }}>Interactive</span>
+              <div className="flex items-center gap-3 bg-gradient-to-br from-blue-50 to-blue-100 px-4 py-3 rounded-xl border-2 border-blue-300 shadow-md hover:shadow-lg transition-all transform hover:scale-105">
+                <div className="bg-blue-400 p-2 rounded-lg">
+                  <Book size={20} className="text-blue-900" />
+                </div>
+                <div>
+                  <div className="font-bold text-sm" style={{ color: 'var(--gray-800)' }}>Interactive</div>
+                  <div className="text-xs text-gray-600">Engaging</div>
+                </div>
               </div>
-              <div className="flex items-center gap-2 bg-red-50 px-3 py-2 rounded-lg border border-red-200">
-                <Heart size={16} className="text-red-500" />
-                <span className="font-semibold text-sm" style={{ color: 'var(--gray-800)' }}>Educational</span>
+              <div className="flex items-center gap-3 bg-gradient-to-br from-red-50 to-red-100 px-4 py-3 rounded-xl border-2 border-red-300 shadow-md hover:shadow-lg transition-all transform hover:scale-105">
+                <div className="bg-red-400 p-2 rounded-lg">
+                  <Heart size={20} className="text-red-900" fill="currentColor" />
+                </div>
+                <div>
+                  <div className="font-bold text-sm" style={{ color: 'var(--gray-800)' }}>Educational</div>
+                  <div className="text-xs text-gray-600">Learning</div>
+                </div>
               </div>
-              <div className="flex items-center gap-2 bg-purple-50 px-3 py-2 rounded-lg border border-purple-200">
-                <span className="text-lg">🎮</span>
-                <span className="font-semibold text-sm" style={{ color: 'var(--gray-800)' }}>Make Choices</span>
+              <div className="flex items-center gap-3 bg-gradient-to-br from-purple-50 to-purple-100 px-4 py-3 rounded-xl border-2 border-purple-300 shadow-md hover:shadow-lg transition-all transform hover:scale-105">
+                <div className="bg-purple-400 p-2 rounded-lg">
+                  <span className="text-2xl">🎮</span>
+                </div>
+                <div>
+                  <div className="font-bold text-sm" style={{ color: 'var(--gray-800)' }}>Make Choices</div>
+                  <div className="text-xs text-gray-600">Decisions</div>
+                </div>
               </div>
             </div>
 
@@ -442,31 +470,65 @@ const InteractiveStoryPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column - Visual Element */}
+          {/* Right Column - Enhanced Visual Element */}
           <div className="relative hidden md:block">
             <div className="relative">
-              {/* Main Panda Illustration Area */}
-              <div className="relative bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 border-2 border-green-200">
-                <div className="text-center">
+              {/* Main Panda Illustration Area with Enhanced Visuals */}
+              <div className="relative bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 rounded-3xl p-8 border-4 border-green-300 shadow-2xl overflow-hidden">
+                {/* Animated Background Pattern */}
+                <div className="absolute inset-0 opacity-10">
+                  <div className="absolute top-0 left-0 w-full h-full" style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2316a34a' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                    backgroundSize: '60px 60px'
+                  }}></div>
+                </div>
+                
+                <div className="text-center relative z-10">
                   <div className="flex justify-center mb-4 animate-bounce" style={{ animationDuration: '2s' }}>
-                    <div style={{ width: '120px', height: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <div style={{ width: '100%', height: '100%' }}>
+                    <div style={{ 
+                      width: '140px', 
+                      height: '140px', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center',
+                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1))',
+                      borderRadius: '50%',
+                      border: '4px solid rgba(16, 185, 129, 0.3)',
+                      boxShadow: '0 8px 24px rgba(16, 185, 129, 0.2)'
+                    }}>
+                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <Logo />
                       </div>
                     </div>
                   </div>
-                  <div className="flex justify-center gap-2 mb-4">
-                    <span className="text-3xl animate-pulse">🛡️</span>
-                    <span className="text-3xl animate-pulse" style={{ animationDelay: '0.2s' }}>🔒</span>
-                    <span className="text-3xl animate-pulse" style={{ animationDelay: '0.4s' }}>⭐</span>
+                  
+                  {/* Enhanced Icon Row */}
+                  <div className="flex justify-center gap-3 mb-4">
+                    <div className="bg-white p-3 rounded-full shadow-lg animate-pulse" style={{ animationDelay: '0s' }}>
+                      <span className="text-3xl">🛡️</span>
+                    </div>
+                    <div className="bg-white p-3 rounded-full shadow-lg animate-pulse" style={{ animationDelay: '0.2s' }}>
+                      <span className="text-3xl">🔒</span>
+                    </div>
+                    <div className="bg-white p-3 rounded-full shadow-lg animate-pulse" style={{ animationDelay: '0.4s' }}>
+                      <span className="text-3xl">⭐</span>
+                    </div>
                   </div>
-                  <p className="text-sm font-medium" style={{ color: 'var(--gray-700)' }}>Ready to protect your digital privacy?</p>
+                  
+                  <p className="text-base font-semibold mb-2" style={{ color: 'var(--gray-800)' }}>Ready to protect your digital privacy?</p>
+                  <div className="flex justify-center gap-1 mt-2">
+                    <Sparkles size={16} className="text-yellow-500" />
+                    <span className="text-xs text-gray-600">Interactive Learning Adventure</span>
+                    <Sparkles size={16} className="text-yellow-500" />
+                  </div>
                 </div>
+                
+                {/* Floating Decorative Elements */}
+                <div className="absolute -top-6 -right-6 text-5xl opacity-40 animate-float" style={{ animationDuration: '3s' }}>🌿</div>
+                <div className="absolute -bottom-6 -left-6 text-5xl opacity-40 animate-float" style={{ animationDuration: '4s', animationDelay: '1s' }}>🎋</div>
+                <div className="absolute top-1/2 -left-8 text-4xl opacity-30 animate-float" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}>🐼</div>
+                <div className="absolute top-1/4 -right-8 text-4xl opacity-30 animate-float" style={{ animationDuration: '4.5s', animationDelay: '1.5s' }}>🦉</div>
               </div>
-              
-              {/* Decorative Elements */}
-              <div className="absolute -top-4 -right-4 text-4xl opacity-50 animate-float">🌿</div>
-              <div className="absolute -bottom-4 -left-4 text-4xl opacity-50 animate-float" style={{ animationDelay: '1s' }}>🎋</div>
             </div>
           </div>
         </div>
@@ -475,24 +537,31 @@ const InteractiveStoryPage: React.FC = () => {
       {/* Main Content Section */}
       <div id="main-content" style={{ marginTop: '2rem' }}>
 
-      {/* Floating Action Buttons */}
+      {/* Enhanced Floating Action Buttons */}
       <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
         <button
           onClick={() => setShowKeyboardHelp(!showKeyboardHelp)}
-          className="bg-yellow-500 hover:bg-yellow-600 text-white p-3 rounded-full shadow-lg transition-all transform hover:scale-110"
+          className="bg-gradient-to-br from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-white p-4 rounded-full shadow-xl transition-all transform hover:scale-110 hover:rotate-12 relative overflow-hidden group"
           title="Help (H)"
           aria-label="Show keyboard shortcuts"
         >
-          <span className="text-xl font-bold">?</span>
+          <span className="relative z-10 text-2xl font-bold">?</span>
+          <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
         </button>
         <button
           onClick={() => setShowBookmarks(!showBookmarks)}
-          className="bg-indigo-500 hover:bg-indigo-600 text-white p-3 rounded-full shadow-lg transition-all transform hover:scale-110"
+          className="bg-gradient-to-br from-indigo-400 to-indigo-600 hover:from-indigo-500 hover:to-indigo-700 text-white p-4 rounded-full shadow-xl transition-all transform hover:scale-110 hover:rotate-12 relative overflow-hidden group"
           title="Bookmarks (B)"
           aria-label="Show bookmarks"
         >
-          <span className="text-xl">🔖</span>
+          <span className="relative z-10 text-2xl">🔖</span>
+          <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
         </button>
+        {bookmarks.size > 0 && (
+          <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-lg animate-pulse">
+            {bookmarks.size}
+          </div>
+        )}
       </div>
 
       {/* Keyboard Help Panel */}
@@ -598,8 +667,44 @@ const InteractiveStoryPage: React.FC = () => {
         </div>
       )}
 
+        {/* Visual Achievement Showcase */}
+        <div className="mb-6 relative z-10">
+          <div className="bg-gradient-to-r from-purple-50 via-pink-50 to-orange-50 rounded-2xl p-6 border-2 border-purple-200 shadow-lg">
+            <h3 className="text-xl font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--gray-800)' }}>
+              <Trophy className="text-yellow-500" size={24} />
+              Your Achievements
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {achievements.map((achievement) => (
+                <div
+                  key={achievement.id}
+                  className={`relative p-4 rounded-xl border-2 transition-all transform hover:scale-105 ${
+                    achievement.unlocked
+                      ? 'bg-gradient-to-br from-yellow-50 to-orange-50 border-yellow-400 shadow-md'
+                      : 'bg-gray-100 border-gray-300 opacity-60'
+                  }`}
+                >
+                  <div className="text-center">
+                    <div className="text-4xl mb-2">{achievement.icon}</div>
+                    <div className={`font-bold text-sm ${achievement.unlocked ? 'text-gray-800' : 'text-gray-500'}`}>
+                      {achievement.name}
+                    </div>
+                    {achievement.unlocked && (
+                      <div className="absolute -top-2 -right-2">
+                        <div className="bg-green-500 rounded-full p-1">
+                          <Star size={12} className="text-white" fill="currentColor" />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* Enhanced Progress Component */}
-        <div style={{ marginBottom: '2rem' }}>
+        <div style={{ marginBottom: '2rem' }} className="relative z-10">
           <StoryProgress
             currentScene={currentSceneIndex + 1}
             totalScenes={storyScenes.length}
@@ -622,71 +727,110 @@ const InteractiveStoryPage: React.FC = () => {
           />
         </div>
 
-        {/* Enhanced Call to Action */}
-        <div style={{ marginTop: '3rem', textAlign: 'center' }}>
+        {/* Enhanced Call to Action with Visuals */}
+        <div style={{ marginTop: '3rem', textAlign: 'center' }} className="relative z-10">
           <div style={{
             background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #15803d 100%)',
             color: 'white',
             padding: '3rem',
-            borderRadius: '1rem',
-            boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+            borderRadius: '1.5rem',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
             position: 'relative',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            border: '3px solid rgba(255, 255, 255, 0.2)'
           }}>
-            <div style={{ position: 'absolute', inset: 0, opacity: 0.1 }}>
-              <div style={{ position: 'absolute', top: '1rem', left: '1rem', fontSize: '2rem' }}>🐼</div>
-              <div style={{ position: 'absolute', top: '1rem', right: '1rem', fontSize: '1.5rem' }}>🛡️</div>
-              <div style={{ position: 'absolute', bottom: '1rem', left: '2rem', fontSize: '1.5rem' }}>⭐</div>
-              <div style={{ position: 'absolute', bottom: '1rem', right: '2rem', fontSize: '2rem' }}>🌿</div>
+            {/* Animated Background Pattern */}
+            <div style={{ 
+              position: 'absolute', 
+              inset: 0, 
+              opacity: 0.15,
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23 11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 4c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm32-24c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+              backgroundSize: '100px 100px'
+            }}></div>
+            
+            {/* Floating Icons */}
+            <div style={{ position: 'absolute', inset: 0, opacity: 0.2 }}>
+              <div className="animate-float" style={{ position: 'absolute', top: '1rem', left: '1rem', fontSize: '2.5rem', animationDuration: '3s' }}>🐼</div>
+              <div className="animate-float" style={{ position: 'absolute', top: '1rem', right: '1rem', fontSize: '2rem', animationDuration: '4s', animationDelay: '0.5s' }}>🛡️</div>
+              <div className="animate-float" style={{ position: 'absolute', bottom: '1rem', left: '2rem', fontSize: '2rem', animationDuration: '3.5s', animationDelay: '1s' }}>⭐</div>
+              <div className="animate-float" style={{ position: 'absolute', bottom: '1rem', right: '2rem', fontSize: '2.5rem', animationDuration: '4.5s', animationDelay: '1.5s' }}>🌿</div>
+              <div className="animate-float" style={{ position: 'absolute', top: '50%', left: '10%', fontSize: '1.5rem', animationDuration: '3s', animationDelay: '0.3s' }}>🔒</div>
+              <div className="animate-float" style={{ position: 'absolute', top: '50%', right: '10%', fontSize: '1.5rem', animationDuration: '3.5s', animationDelay: '0.7s' }}>📚</div>
             </div>
             
             <div style={{ position: 'relative', zIndex: 10 }}>
-              <h2 style={{ fontSize: '1.875rem', fontWeight: 700, marginBottom: '1rem' }}>Continue Learning with Privacy Panda!</h2>
-              <p style={{ fontSize: '1.125rem', opacity: 0.95, maxWidth: '42rem', margin: '0 auto 2rem', lineHeight: 1.6 }}>
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <Sparkles className="text-yellow-300" size={24} />
+                <h2 style={{ fontSize: '2rem', fontWeight: 700, margin: 0, textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
+                  Continue Learning with Privacy Panda!
+                </h2>
+                <Sparkles className="text-yellow-300" size={24} />
+              </div>
+              <p style={{ fontSize: '1.125rem', opacity: 0.95, maxWidth: '42rem', margin: '0 auto 2rem', lineHeight: 1.6, textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
                 Explore more activities, games, and resources to help children learn about digital privacy and online safety.
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center' }}>
                 <Link
                   to="/activity-book"
+                  className="group"
                   style={{
                     background: 'white',
                     color: '#16a34a',
-                    padding: '0.75rem 2rem',
-                    borderRadius: '0.75rem',
+                    padding: '0.875rem 2.25rem',
+                    borderRadius: '0.875rem',
                     fontWeight: 700,
                     textDecoration: 'none',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '0.5rem',
-                    transition: 'all 0.2s',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                    gap: '0.75rem',
+                    transition: 'all 0.3s',
+                    boxShadow: '0 6px 16px rgba(0,0,0,0.15)',
+                    border: '2px solid rgba(255, 255, 255, 0.3)'
                   }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = '#f3f4f6'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#f0fdf4';
+                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.05)';
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.2)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'white';
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                    e.currentTarget.style.boxShadow = '0 6px 16px rgba(0,0,0,0.15)';
+                  }}
                 >
-                  <Book size={20} />
+                  <Book size={22} className="group-hover:rotate-12 transition-transform" />
                   Activity Book
                 </Link>
                 <button
                   onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  className="group"
                   style={{
-                    background: '#15803d',
+                    background: 'rgba(255, 255, 255, 0.2)',
                     color: 'white',
-                    padding: '0.75rem 2rem',
-                    borderRadius: '0.75rem',
+                    padding: '0.875rem 2.25rem',
+                    borderRadius: '0.875rem',
                     fontWeight: 700,
-                    border: 'none',
+                    border: '2px solid rgba(255, 255, 255, 0.3)',
                     cursor: 'pointer',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '0.5rem',
-                    transition: 'all 0.2s',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                    gap: '0.75rem',
+                    transition: 'all 0.3s',
+                    boxShadow: '0 6px 16px rgba(0,0,0,0.15)',
+                    backdropFilter: 'blur(10px)'
                   }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = '#166534'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = '#15803d'}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
+                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.05)';
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.2)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                    e.currentTarget.style.boxShadow = '0 6px 16px rgba(0,0,0,0.15)';
+                  }}
                 >
-                  <ArrowLeft size={20} />
+                  <ArrowLeft size={22} className="group-hover:-translate-x-1 transition-transform" />
                   Back to Top
                 </button>
               </div>
@@ -695,6 +839,42 @@ const InteractiveStoryPage: React.FC = () => {
         </div>
       </div>
       </div>
+      
+      {/* Custom Animations */}
+      <style>{`
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-20px) rotate(5deg);
+          }
+        }
+        
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+          0% {
+            background-position: -1000px 0;
+          }
+          100% {
+            background-position: 1000px 0;
+          }
+        }
+        
+        .shimmer-effect {
+          background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.3) 50%,
+            rgba(255, 255, 255, 0) 100%
+          );
+          background-size: 1000px 100%;
+          animation: shimmer 3s infinite;
+        }
+      `}</style>
     </PageLayout>
   );
 };
