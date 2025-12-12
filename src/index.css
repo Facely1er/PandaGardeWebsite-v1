@@ -793,12 +793,14 @@ body {
 .nav {
   display: flex !important;
   align-items: center;
+  justify-content: space-between;
   padding: 0.75rem 0;
   min-height: 60px;
   width: 100%;
   position: relative;
   overflow: visible;
   box-sizing: border-box;
+  gap: 0;
 }
 
 .logo {
@@ -814,7 +816,7 @@ body {
   white-space: nowrap;
   margin: 0 !important;
   padding: 0 !important;
-  margin-right: 2.5rem !important;
+  margin-right: 3rem !important;
   z-index: 1;
 }
 
@@ -854,11 +856,11 @@ body {
   margin: 0 !important;
   padding: 0 !important;
   flex-wrap: nowrap;
-  flex: 1 1 0 !important;
+  flex: 0 1 auto !important;
   justify-content: center !important;
   min-width: 0;
-  margin-left: 1.5rem !important;
-  margin-right: 1.5rem !important;
+  margin-left: 3rem !important;
+  margin-right: 3rem !important;
   position: relative;
   z-index: 1;
   overflow: visible;
@@ -867,13 +869,13 @@ body {
 /* Prevent menu items from overlapping on medium screens */
 @media (min-width: 769px) and (max-width: 1200px) {
   .logo {
-    margin-right: 2rem !important;
+    margin-right: 2.5rem !important;
   }
   
   .nav-menu {
     gap: clamp(0.5rem, 1vw, 1rem);
-    margin-left: 1rem !important;
-    margin-right: 1rem !important;
+    margin-left: 2.5rem !important;
+    margin-right: 2.5rem !important;
   }
   
   .nav-link {
@@ -882,7 +884,7 @@ body {
   }
   
   .nav-actions {
-    margin-left: 2rem !important;
+    margin-left: 2.5rem !important;
   }
 }
 
@@ -965,7 +967,7 @@ body {
   flex-wrap: nowrap;
   margin: 0 !important;
   padding: 0 !important;
-  margin-left: 2.5rem !important;
+  margin-left: 3rem !important;
   z-index: 1;
 }
 
@@ -2893,14 +2895,14 @@ body {
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 1024px) {
   .logo {
-    margin-right: 1.5rem !important;
+    margin-right: 2rem !important;
     font-size: 1.125rem;
   }
   
   .nav-menu {
     gap: clamp(0.5rem, 1vw, 0.875rem);
-    margin-left: 1rem !important;
-    margin-right: 1rem !important;
+    margin-left: 2rem !important;
+    margin-right: 2rem !important;
   }
   
   .nav-link {
@@ -2910,7 +2912,7 @@ body {
   
   .nav-actions {
     gap: 0.625rem;
-    margin-left: 1.5rem !important;
+    margin-left: 2rem !important;
   }
   
   .family-hub-button {
