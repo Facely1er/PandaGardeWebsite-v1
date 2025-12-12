@@ -345,7 +345,7 @@ const HomePage: React.FC = () => {
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
-                  display: 'inline-block'
+                  display: 'block'
                 }}>
                   About Online Privacy
                 </span>
