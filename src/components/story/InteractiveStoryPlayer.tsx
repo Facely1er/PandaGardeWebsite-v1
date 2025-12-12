@@ -65,6 +65,8 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
   const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(null);
   const [viewMode, setViewMode] = useState<'interactive' | 'fulltext'>(initialViewMode);
+  const [isMobile, setIsMobile] = useState(false);
+  const [showGestureHint, setShowGestureHint] = useState(true);
   
   const audioRef = useRef<HTMLAudioElement>(null);
   const animationRef = useRef<HTMLDivElement>(null);
@@ -87,6 +89,25 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
       setCurrentSceneIndex(0);
     }
   }, [currentSceneIndex, scenes.length, setCurrentSceneIndex]);
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768 || ('ontouchstart' in window));
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Hide gesture hint after first interaction or after 5 seconds
+  useEffect(() => {
+    if (isMobile && showGestureHint) {
+      const timer = setTimeout(() => setShowGestureHint(false), 5000);
+      return () => clearTimeout(timer);
+    }
+    return undefined;
+  }, [isMobile, showGestureHint]);
   
   const currentScene = scenes[currentSceneIndex];
   
@@ -302,6 +323,11 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
     const deltaX = touchEnd.x - touchStart.x;
     const deltaY = touchEnd.y - touchStart.y;
     const minSwipeDistance = 50;
+    
+    // Hide gesture hint on first interaction
+    if (showGestureHint) {
+      setShowGestureHint(false);
+    }
     
     // Horizontal swipe
     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
@@ -592,13 +618,15 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         </div>
       )}
 
-      {/* Mobile gesture hint */}
-      <div className="mobile-gesture-hint">
-        <div className="gesture-hint-content">
-          <span className="gesture-icon">👆</span>
-          <span className="gesture-text">Swipe left/right to navigate, swipe up to play/pause</span>
+      {/* Mobile gesture hint - only show on mobile and when enabled */}
+      {isMobile && showGestureHint && (
+        <div className="mobile-gesture-hint">
+          <div className="gesture-hint-content">
+            <span className="gesture-icon">👆</span>
+            <span className="gesture-text">Swipe left/right to navigate, swipe up to play/pause</span>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Enhanced Story Content */}
       <div 
@@ -721,6 +749,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           overflow: hidden;
           border: 1px solid ${theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'};
           position: relative;
+          width: 100%;
         }
 
         .interactive-story-player::before {
@@ -780,9 +809,10 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         }
 
         .progress-text {
-          font-size: 0.9rem;
+          font-size: clamp(0.75rem, 2vw, 0.9rem);
           font-weight: 500;
           white-space: nowrap;
+          min-width: fit-content;
         }
 
         .story-controls {
@@ -804,6 +834,10 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           backdrop-filter: blur(10px);
           position: relative;
           overflow: hidden;
+          min-width: 44px;
+          min-height: 44px;
+          touch-action: manipulation;
+          -webkit-tap-highlight-color: transparent;
         }
 
         .control-btn::before {
@@ -912,13 +946,14 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         }
 
         .story-content {
-          padding: 3rem 2rem;
+          padding: clamp(1rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
           background: linear-gradient(135deg, 
             ${theme === 'dark' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.8)'}, 
             ${theme === 'dark' ? 'rgba(0, 0, 0, 0.1)' : 'rgba(248, 250, 252, 0.9)'}
           );
           backdrop-filter: blur(10px);
           position: relative;
+          min-height: 200px;
         }
 
         .story-content::before {
@@ -940,9 +975,9 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         }
 
         .scene-title {
-          font-size: 2.5rem;
+          font-size: clamp(1.5rem, 5vw, 2.5rem);
           font-weight: bold;
-          margin-bottom: 2rem;
+          margin-bottom: clamp(1rem, 3vw, 2rem);
           color: var(--primary);
           text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
           background: linear-gradient(135deg, var(--primary), var(--primary-light));
@@ -950,6 +985,8 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           -webkit-text-fill-color: transparent;
           background-clip: text;
           animation: titleGlow 3s ease-in-out infinite alternate;
+          line-height: 1.2;
+          word-wrap: break-word;
         }
 
         .character-display {
@@ -1006,7 +1043,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         .story-image-container {
           width: 100%;
           max-width: 800px;
-          margin: 2rem auto;
+          margin: clamp(1rem, 3vw, 2rem) auto;
           border-radius: 16px;
           overflow: hidden;
           box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -1022,11 +1059,13 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         }
 
         .story-text {
-          font-size: 1.2rem;
+          font-size: clamp(1rem, 3vw, 1.2rem);
           line-height: 1.8;
-          margin: 2rem 0;
+          margin: clamp(1rem, 3vw, 2rem) 0;
           text-align: left;
           animation: fadeInUp 0.8s ease-out;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
         }
 
         .story-choices {
@@ -1050,7 +1089,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           background: ${theme === 'dark' ? 'var(--gray-700)' : 'white'};
           border: 2px solid var(--primary-light);
           color: ${theme === 'dark' ? 'var(--gray-200)' : 'var(--gray-800)'};
-          padding: 1.5rem;
+          padding: clamp(1rem, 3vw, 1.5rem);
           border-radius: 16px;
           cursor: pointer;
           transition: all 0.3s ease;
@@ -1061,6 +1100,9 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           position: relative;
           overflow: hidden;
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          min-height: 60px;
+          touch-action: manipulation;
+          -webkit-tap-highlight-color: transparent;
         }
 
         .choice-btn::before {
@@ -1198,18 +1240,21 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           z-index: 50;
           opacity: 0.8;
           animation: fadeInOut 3s ease-in-out;
+          pointer-events: none;
+          max-width: calc(100vw - 2rem);
         }
 
         .gesture-hint-content {
-          background: rgba(0, 0, 0, 0.8);
+          background: rgba(0, 0, 0, 0.85);
           color: white;
-          padding: 0.5rem 1rem;
+          padding: clamp(0.5rem, 2vw, 0.75rem) clamp(0.75rem, 3vw, 1rem);
           border-radius: 20px;
           display: flex;
           align-items: center;
           gap: 0.5rem;
-          font-size: 0.9rem;
+          font-size: clamp(0.75rem, 2.5vw, 0.9rem);
           white-space: nowrap;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         .gesture-icon {
@@ -1268,39 +1313,86 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         }
 
         @media (max-width: 768px) {
+          .interactive-story-player {
+            border-radius: 12px;
+            margin: 0.5rem;
+            max-width: calc(100% - 1rem);
+          }
+
           .story-header {
             flex-direction: column;
             align-items: stretch;
-            padding: 0.75rem;
+            padding: 1rem 0.75rem;
+            gap: 0.75rem;
+          }
+
+          .story-progress {
+            width: 100%;
+            gap: 0.75rem;
+          }
+
+          .progress-bar {
+            min-width: 0;
+            flex: 1;
+          }
+
+          .progress-text {
+            font-size: 0.8rem;
+            flex-shrink: 0;
           }
 
           .story-controls {
             justify-content: center;
             flex-wrap: wrap;
-            gap: 0.25rem;
+            gap: 0.5rem;
+            width: 100%;
           }
 
           .control-btn {
             padding: 0.75rem;
             min-width: 44px;
             min-height: 44px;
+            flex: 0 0 auto;
+          }
+
+          .control-btn svg {
+            width: 18px;
+            height: 18px;
+          }
+
+          .play-btn {
+            padding: 0.875rem;
           }
 
           .story-settings {
             flex-direction: column;
             gap: 1rem;
             padding: 1rem;
+            max-height: 60vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
           }
 
           .setting-group {
             flex-direction: column;
             align-items: flex-start;
             gap: 0.5rem;
+            width: 100%;
+          }
+
+          .setting-group label {
+            font-size: 0.9rem;
           }
 
           .setting-group input[type="range"] {
             width: 100%;
-            max-width: 200px;
+            max-width: 100%;
+          }
+
+          .setting-group select {
+            width: 100%;
+            max-width: 100%;
+            padding: 0.5rem;
           }
 
           .choices-grid {
@@ -1310,17 +1402,19 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
 
           .choice-btn {
             padding: 1.25rem;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 3vw, 1rem);
             min-height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
+            width: 100%;
           }
 
           .skip-button-container {
             bottom: 10px;
             right: 10px;
+            left: auto;
           }
 
           .skip-button {
@@ -1328,36 +1422,84 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
             font-size: 0.9rem;
             min-width: 44px;
             min-height: 44px;
+            border-radius: 20px;
           }
 
           .story-content {
             padding: 1rem;
             touch-action: pan-y;
+            min-height: auto;
           }
 
           .story-scene {
             text-align: center;
           }
 
-          .scene-title {
-            font-size: 1.75rem;
-            margin-bottom: 1rem;
-          }
-
-          .story-text {
-            font-size: 1.1rem;
-            line-height: 1.6;
+          .character-display {
             margin: 1.5rem 0;
-            text-align: left;
           }
 
           .character-icon {
-            font-size: 3rem;
+            font-size: clamp(2.5rem, 8vw, 3rem);
+          }
+
+          .story-image-container {
+            margin: 1rem auto;
+            border-radius: 12px;
+          }
+
+          .story-choices {
+            margin-top: 1.5rem;
           }
 
           .story-choices h3 {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 4vw, 1.2rem);
             margin-bottom: 1rem;
+          }
+
+          .full-story-text {
+            padding: 0;
+          }
+
+          .full-story-header {
+            margin-bottom: 2rem;
+          }
+
+          .full-story-title {
+            font-size: clamp(1.5rem, 6vw, 2rem);
+          }
+
+          .full-story-intro {
+            font-size: clamp(0.95rem, 3vw, 1.125rem);
+            padding: 0 0.5rem;
+          }
+
+          .full-story-body {
+            font-size: clamp(0.95rem, 3vw, 1.125rem);
+          }
+
+          .scene-heading {
+            font-size: clamp(1.25rem, 4vw, 1.5rem);
+          }
+
+          .scene-paragraph {
+            font-size: clamp(0.95rem, 3vw, 1.125rem);
+          }
+
+          .mobile-gesture-hint {
+            bottom: 70px;
+            max-width: calc(100vw - 1rem);
+          }
+
+          .gesture-hint-content {
+            white-space: normal;
+            text-align: center;
+            flex-wrap: wrap;
+            justify-content: center;
+          }
+
+          .gesture-text {
+            font-size: clamp(0.7rem, 2.5vw, 0.85rem);
           }
         }
 
@@ -1427,34 +1569,180 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         }
 
         @media (max-width: 480px) {
+          .interactive-story-player {
+            margin: 0.25rem;
+            border-radius: 8px;
+            max-width: calc(100% - 0.5rem);
+          }
+
           .story-header {
-            padding: 0.5rem;
+            padding: 0.75rem 0.5rem;
+            gap: 0.5rem;
+          }
+
+          .story-progress {
+            gap: 0.5rem;
+          }
+
+          .progress-text {
+            font-size: 0.75rem;
           }
 
           .story-controls {
-            gap: 0.125rem;
+            gap: 0.375rem;
+            justify-content: space-around;
           }
 
           .control-btn {
-            padding: 0.5rem;
-            min-width: 40px;
-            min-height: 40px;
+            padding: 0.625rem;
+            min-width: 44px;
+            min-height: 44px;
+            flex: 1 1 auto;
+            max-width: calc(25% - 0.375rem);
+          }
+
+          .control-btn svg {
+            width: 16px;
+            height: 16px;
+          }
+
+          .play-btn {
+            padding: 0.75rem;
+            max-width: calc(25% - 0.375rem);
+          }
+
+          .story-settings {
+            padding: 0.75rem;
+            gap: 0.75rem;
+          }
+
+          .setting-group {
+            gap: 0.375rem;
+          }
+
+          .setting-group label {
+            font-size: 0.85rem;
           }
 
           .story-content {
             padding: 0.75rem;
           }
 
-          .scene-title {
-            font-size: 1.5rem;
-          }
-
-          .story-text {
-            font-size: 1rem;
+          .character-display {
+            margin: 1rem 0;
           }
 
           .character-icon {
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 10vw, 2.5rem);
+          }
+
+          .story-image-container {
+            margin: 0.75rem auto;
+            border-radius: 8px;
+          }
+
+          .choice-btn {
+            padding: 1rem;
+            font-size: 0.9rem;
+            min-height: 56px;
+          }
+
+          .skip-button {
+            padding: 0.625rem 1rem;
+            font-size: 0.85rem;
+            border-radius: 18px;
+          }
+
+          .skip-button-container {
+            bottom: 8px;
+            right: 8px;
+          }
+
+          .mobile-gesture-hint {
+            bottom: 60px;
+            max-width: calc(100vw - 0.5rem);
+          }
+
+          .gesture-hint-content {
+            padding: 0.5rem 0.75rem;
+            gap: 0.375rem;
+          }
+
+          .gesture-icon {
+            font-size: 1rem;
+          }
+
+          .gesture-text {
+            font-size: 0.7rem;
+            line-height: 1.3;
+          }
+
+          .full-story-title {
+            font-size: clamp(1.25rem, 7vw, 1.75rem);
+            margin-bottom: 0.75rem;
+          }
+
+          .full-story-intro {
+            font-size: 0.9rem;
+            padding: 0;
+          }
+
+          .full-story-body {
+            font-size: 0.95rem;
+          }
+
+          .scene-heading {
+            font-size: clamp(1.1rem, 5vw, 1.35rem);
+          }
+
+          .scene-paragraph {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+          }
+
+          .story-ending {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+          }
+
+          .ending-text {
+            font-size: clamp(1.25rem, 5vw, 1.5rem);
+          }
+        }
+
+        /* Landscape mobile orientation */
+        @media (max-width: 768px) and (orientation: landscape) {
+          .story-content {
+            padding: 1.5rem;
+          }
+
+          .story-header {
+            padding: 0.75rem;
+          }
+
+          .mobile-gesture-hint {
+            bottom: 10px;
+          }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+          .control-btn:hover:not(:disabled) {
+            transform: none;
+          }
+
+          .control-btn:active:not(:disabled) {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.3);
+          }
+
+          .choice-btn:hover:not(:disabled) {
+            transform: none;
+          }
+
+          .choice-btn:active:not(:disabled) {
+            transform: scale(0.98);
+            background: var(--primary-light);
           }
         }
       `}</style>
