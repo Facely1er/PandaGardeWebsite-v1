@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { GraduationCap, BookOpen, Users, Download, CheckCircle, Clock, FileText, Presentation, Award } from 'lucide-react';
 import PageLayout from '../components/layout/PageLayout';
+import ResourceModal from '../components/ResourceModal';
 
 interface Resource {
   id: string;
@@ -376,72 +377,31 @@ const EducatorToolsPage: React.FC = () => {
         </div>
 
         {/* Resource Modal */}
-        {showResource && selectedResource && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto" style={{ backgroundColor: 'var(--card-color)' }}>
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-2xl font-bold" style={{ color: 'var(--primary)' }}>
-                    {selectedResource.title}
-                  </h3>
-                  <button
-                    onClick={() => setShowResource(false)}
-                    className="text-gray-500 hover:text-gray-700 text-2xl"
-                  >
-                    ×
-                  </button>
-                </div>
-
-                <div className="mb-6">
-                  <p className="text-lg mb-6" style={{ color: 'var(--gray-600)' }}>
-                    {selectedResource.description}
-                  </p>
-
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-                    <h4 className="font-semibold mb-4" style={{ color: 'var(--primary)' }}>
-                      What's Included:
-                    </h4>
-                    <ul className="list-disc pl-6 space-y-2" style={{ color: 'var(--gray-600)' }}>
-                      {selectedResource.preview.map((item, index) => (
-                        <li key={index}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
-                      <span className="flex items-center gap-1">
-                        <Clock size={16} />
-                        {selectedResource.duration}
-                      </span>
-                      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getGradeLevelColor(selectedResource.gradeLevel)}`}>
-                        {selectedResource.gradeLevel}
-                      </span>
-                    </div>
-
-                    <div className="flex gap-3">
-                      {selectedResource.downloadUrl && (
-                        <button
-                          onClick={() => alert('Download would start here')}
-                          className="bg-green-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-600 transition-all flex items-center gap-2"
-                        >
-                          <Download size={16} />
-                          Download
-                        </button>
-                      )}
-                      <button
-                        onClick={() => handleResourceComplete(selectedResource.id)}
-                        className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-green-600 hover:to-emerald-700 transition-all"
-                      >
-                        Mark as Used
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        <ResourceModal
+          isOpen={showResource && selectedResource !== null}
+          onClose={() => {
+            setShowResource(false);
+            setSelectedResource(null);
+          }}
+          title={selectedResource?.title || ''}
+          description={selectedResource?.description || ''}
+          preview={selectedResource?.preview}
+          duration={selectedResource?.duration}
+          gradeLevel={selectedResource?.gradeLevel}
+          downloadUrl={selectedResource?.downloadUrl}
+          onDownload={() => {
+            if (selectedResource?.downloadUrl) {
+              alert('Download would start here');
+            }
+          }}
+          onComplete={() => {
+            if (selectedResource) {
+              handleResourceComplete(selectedResource.id);
+            }
+          }}
+          completeButtonText="Mark as Used"
+          getGradeLevelColor={getGradeLevelColor}
+        />
 
         {/* Call to Action */}
         <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl p-8 text-center mt-8 mb-8">

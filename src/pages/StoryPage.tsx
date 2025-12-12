@@ -3,6 +3,7 @@ import { Book, ArrowLeft, Heart, Star, Play, Pause, Volume2, VolumeX, RotateCcw,
 import { Link } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import Logo from '../components/Logo';
+import InteractiveStoryPlayer from '../components/story/InteractiveStoryPlayer';
 
 const StoryPage: React.FC = () => {
   const { theme } = useTheme();

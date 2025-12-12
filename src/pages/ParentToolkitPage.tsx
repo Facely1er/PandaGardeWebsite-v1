@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Wrench, ArrowLeft, Download, FileText, Shield, MessageCircle, CheckCircle, Users, BookOpen, Settings, Lock, Eye, AlertTriangle, Search, Filter, Star, Clock } from 'lucide-react';
 import PageLayout from '../components/layout/PageLayout';
+import ResourceModal from '../components/ResourceModal';
 
 interface ToolkitResource {
   id: string;
@@ -419,85 +420,24 @@ const ParentToolkitPage: React.FC = () => {
         </div>
 
         {/* Resource Modal */}
-        {selectedResource && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setSelectedResource(null)}>
-            <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()} style={{ backgroundColor: 'var(--card-color)' }}>
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center text-white">
-                      {React.createElement(selectedResource.icon, { size: 24 })}
-                    </div>
-                    <h3 className="text-2xl font-bold" style={{ color: 'var(--primary)' }}>
-                      {selectedResource.title}
-                    </h3>
-                  </div>
-                  <button
-                    onClick={() => setSelectedResource(null)}
-                    className="text-gray-500 hover:text-gray-700 text-2xl"
-                  >
-                    ×
-                  </button>
-                </div>
-
-                <p className="text-lg mb-6" style={{ color: 'var(--gray-600)' }}>
-                  {selectedResource.description}
-                </p>
-
-                {selectedResource.preview && (
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-                    <h4 className="font-semibold mb-4" style={{ color: 'var(--primary)' }}>
-                      What's Included:
-                    </h4>
-                    <ul className="list-disc pl-6 space-y-2" style={{ color: 'var(--gray-600)' }}>
-                      {selectedResource.preview.map((item, index) => (
-                        <li key={index}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4 text-sm" style={{ color: 'var(--gray-600)' }}>
-                    {selectedResource.duration && (
-                      <span className="flex items-center gap-1">
-                        <Clock size={16} />
-                        {selectedResource.duration}
-                      </span>
-                    )}
-                    <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getCategoryColor(selectedResource.category)}`}>
-                      {selectedResource.category}
-                    </span>
-                  </div>
-
-                  <div className="flex gap-3">
-                    {selectedResource.downloadUrl && (
-                      <button
-                        onClick={() => {
-                          if (selectedResource.downloadUrl === '/downloads/family-agreement') {
-                            window.location.href = '/downloads/family-agreement';
-                          } else {
-                            alert('Download would start here');
-                          }
-                        }}
-                        className="bg-green-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-600 transition-all flex items-center gap-2"
-                      >
-                        <Download size={16} />
-                        Download
-                      </button>
-                    )}
-                    <button
-                      onClick={() => setSelectedResource(null)}
-                      className="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg font-semibold hover:bg-gray-300 transition-all"
-                    >
-                      Close
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        <ResourceModal
+          isOpen={selectedResource !== null}
+          onClose={() => setSelectedResource(null)}
+          title={selectedResource?.title || ''}
+          description={selectedResource?.description || ''}
+          preview={selectedResource?.preview}
+          duration={selectedResource?.duration}
+          downloadUrl={selectedResource?.downloadUrl}
+          onDownload={() => {
+            if (selectedResource?.downloadUrl) {
+              if (selectedResource.downloadUrl === '/downloads/family-agreement') {
+                window.location.href = '/downloads/family-agreement';
+              } else {
+                alert('Download would start here');
+              }
+            }
+          }}
+        />
 
         {/* Call to Action */}
         <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl p-8 text-center mb-8">

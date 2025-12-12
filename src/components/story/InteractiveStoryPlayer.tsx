@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Play, Pause, Volume2, VolumeX, RotateCcw, ChevronLeft, ChevronRight, Settings } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, RotateCcw, ChevronLeft, ChevronRight, Settings, BookOpen, Grid } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 
 interface StoryScene {
@@ -25,6 +25,7 @@ interface InteractiveStoryPlayerProps {
   hideControls?: boolean;
   currentSceneIndex?: number;
   onSceneIndexChange?: (index: number) => void;
+  initialViewMode?: 'interactive' | 'fulltext';
 }
 
 const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
@@ -34,7 +35,8 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
   onChoiceMade,
   hideControls = false,
   currentSceneIndex: controlledSceneIndex,
-  onSceneIndexChange
+  onSceneIndexChange,
+  initialViewMode = 'interactive'
 }) => {
   const { theme } = useTheme();
   const [internalSceneIndex, setInternalSceneIndex] = useState(0);
@@ -57,6 +59,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
   const [speechVoice, setSpeechVoice] = useState<SpeechSynthesisVoice | null>(null);
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
   const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(null);
+  const [viewMode, setViewMode] = useState<'interactive' | 'fulltext'>(initialViewMode);
   
   const audioRef = useRef<HTMLAudioElement>(null);
   const animationRef = useRef<HTMLDivElement>(null);
@@ -420,6 +423,14 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
             </button>
 
             <button
+              onClick={() => setViewMode(viewMode === 'interactive' ? 'fulltext' : 'interactive')}
+              className="control-btn"
+              title={viewMode === 'interactive' ? 'View Full Story' : 'View Interactive'}
+            >
+              {viewMode === 'interactive' ? <BookOpen size={20} /> : <Grid size={20} />}
+            </button>
+
+            <button
               onClick={resetStory}
               className="control-btn"
               title="Reset Story"
@@ -555,71 +566,96 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {currentScene && (
-          <div className="story-scene">
-            <h2 className="scene-title">{currentScene.title}</h2>
-            
-            {/* Enhanced Character animation area */}
-            {currentScene.character && (
-              <div 
-                ref={animationRef}
-                className={`character-display ${isAnimating ? 'animating' : ''} ${isSpeaking ? 'speaking' : ''}`}
-              >
-                <div className="character-icon">
-                  {currentScene.character === 'panda' && '🐼'}
-                  {currentScene.character === 'turtle' && '🐢'}
-                  {currentScene.character === 'monkey' && '🐵'}
-                  {currentScene.character === 'beaver' && '🦫'}
-                  {currentScene.character === 'rabbit' && '🐰'}
-                  {currentScene.character === 'owl' && '🦉'}
-                  {currentScene.character === 'fox' && '🦊'}
-                </div>
-                {isSpeaking && (
-                  <div className="speaking-indicator">
-                    <div className="speech-bubble">
-                      <div className="bubble-dot"></div>
-                      <div className="bubble-dot"></div>
-                      <div className="bubble-dot"></div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Enhanced Story text */}
-            <div 
-              ref={textRef}
-              className="story-text"
-              style={{ 
-                animationDuration: `${2 / readingSpeed}s`,
-                color: theme === 'dark' ? 'var(--gray-200)' : 'var(--gray-800)'
-              }}
-            >
-              {currentScene.content}
+        {viewMode === 'fulltext' ? (
+          /* Full Story Text View */
+          <div className="full-story-text">
+            <div className="full-story-header">
+              <h2 className="full-story-title">Privacy Panda and the Digital Bamboo Forest</h2>
+              <p className="full-story-intro" style={{ color: theme === 'dark' ? 'var(--gray-300)' : 'var(--gray-600)' }}>
+                Join Po the Panda on an adventure through the Digital Bamboo Forest as he learns about privacy, sharing, and staying safe online.
+              </p>
             </div>
-
-            {/* Enhanced Interactive choices */}
-            {currentScene.choices && currentScene.choices.length > 0 && (
-              <div className="story-choices">
-                <h3>What should happen next?</h3>
-                <div className="choices-grid">
-                  {currentScene.choices.map((choice, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleChoice(choice)}
-                      className={`choice-btn ${selectedChoice === choice.text ? 'selected' : ''}`}
-                      disabled={selectedChoice !== null}
-                    >
-                      {choice.text}
-                      {choice.consequence && (
-                        <span className="choice-consequence">{choice.consequence}</span>
-                      )}
-                    </button>
-                  ))}
+            <div className="full-story-body" style={{ color: theme === 'dark' ? 'var(--gray-200)' : 'var(--gray-800)' }}>
+              {scenes.map((scene, index) => (
+                <div key={scene.id} className="full-story-scene">
+                  {index > 0 && <div className="scene-divider"></div>}
+                  <h3 className="scene-heading">{scene.title}</h3>
+                  <p className="scene-paragraph">{scene.content}</p>
                 </div>
+              ))}
+              <div className="story-ending">
+                <p className="ending-text">The End</p>
               </div>
-            )}
+            </div>
           </div>
+        ) : (
+          /* Interactive Scene View */
+          currentScene && (
+            <div className="story-scene">
+              <h2 className="scene-title">{currentScene.title}</h2>
+              
+              {/* Enhanced Character animation area */}
+              {currentScene.character && (
+                <div 
+                  ref={animationRef}
+                  className={`character-display ${isAnimating ? 'animating' : ''} ${isSpeaking ? 'speaking' : ''}`}
+                >
+                  <div className="character-icon">
+                    {currentScene.character === 'panda' && '🐼'}
+                    {currentScene.character === 'turtle' && '🐢'}
+                    {currentScene.character === 'monkey' && '🐵'}
+                    {currentScene.character === 'beaver' && '🦫'}
+                    {currentScene.character === 'rabbit' && '🐰'}
+                    {currentScene.character === 'owl' && '🦉'}
+                    {currentScene.character === 'fox' && '🦊'}
+                  </div>
+                  {isSpeaking && (
+                    <div className="speaking-indicator">
+                      <div className="speech-bubble">
+                        <div className="bubble-dot"></div>
+                        <div className="bubble-dot"></div>
+                        <div className="bubble-dot"></div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Enhanced Story text */}
+              <div 
+                ref={textRef}
+                className="story-text"
+                style={{ 
+                  animationDuration: `${2 / readingSpeed}s`,
+                  color: theme === 'dark' ? 'var(--gray-200)' : 'var(--gray-800)'
+                }}
+              >
+                {currentScene.content}
+              </div>
+
+              {/* Enhanced Interactive choices */}
+              {currentScene.choices && currentScene.choices.length > 0 && (
+                <div className="story-choices">
+                  <h3>What should happen next?</h3>
+                  <div className="choices-grid">
+                    {currentScene.choices.map((choice, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleChoice(choice)}
+                        className={`choice-btn ${selectedChoice === choice.text ? 'selected' : ''}`}
+                        disabled={selectedChoice !== null}
+                      >
+                        {choice.text}
+                        {choice.consequence && (
+                          <span className="choice-consequence">{choice.consequence}</span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )
         )}
       </div>
 
@@ -1253,6 +1289,71 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
             font-size: 1.2rem;
             margin-bottom: 1rem;
           }
+        }
+
+        .full-story-text {
+          text-align: left;
+          max-width: 800px;
+          margin: 0 auto;
+        }
+
+        .full-story-header {
+          text-align: center;
+          margin-bottom: 3rem;
+        }
+
+        .full-story-title {
+          font-size: 2.5rem;
+          font-weight: bold;
+          margin-bottom: 1rem;
+          color: var(--primary);
+        }
+
+        .full-story-intro {
+          font-size: 1.125rem;
+          line-height: 1.7;
+          max-width: 600px;
+          margin: 0 auto;
+        }
+
+        .full-story-body {
+          line-height: 1.8;
+          font-size: 1.125rem;
+        }
+
+        .full-story-scene {
+          margin-bottom: 2rem;
+        }
+
+        .scene-divider {
+          height: 2px;
+          background: linear-gradient(90deg, transparent, var(--primary-light), transparent);
+          margin: 2rem 0;
+        }
+
+        .scene-heading {
+          font-size: 1.5rem;
+          font-weight: bold;
+          margin-bottom: 1rem;
+          color: var(--primary);
+        }
+
+        .scene-paragraph {
+          margin-bottom: 1.5rem;
+          line-height: 1.8;
+        }
+
+        .story-ending {
+          text-align: center;
+          margin-top: 3rem;
+          padding-top: 2rem;
+          border-top: 2px solid var(--primary-light);
+        }
+
+        .ending-text {
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: var(--primary);
         }
 
         @media (max-width: 480px) {
