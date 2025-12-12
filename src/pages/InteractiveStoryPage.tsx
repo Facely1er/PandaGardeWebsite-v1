@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Book, ArrowLeft, Heart, Star, Play, Pause, Volume2, VolumeX, RotateCcw } from 'lucide-react';
 import InteractiveStoryPlayer from '../components/story/InteractiveStoryPlayer';
 import StoryProgress from '../components/story/StoryProgress';
@@ -933,8 +934,8 @@ const InteractiveStoryPage: React.FC = () => {
                 Explore more activities, games, and resources to help children learn about digital privacy and online safety.
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center' }}>
-                <a
-                  href="/activity-book"
+                <Link
+                  to="/activity-book"
                   style={{
                     background: 'white',
                     color: '#16a34a',
@@ -953,7 +954,7 @@ const InteractiveStoryPage: React.FC = () => {
                 >
                   <Book size={20} />
                   Activity Book
-                </a>
+                </Link>
                 <button
                   onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                   style={{

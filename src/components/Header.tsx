@@ -354,20 +354,21 @@ function Header() {
               title="Connect with other families and access exclusive resources"
             >
               <Users size={16} aria-hidden="true" />
-              Family Hub
+              <span className="family-hub-button-text">Family Hub</span>
             </Link>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              className="mobile-menu-toggle"
+              onClick={handleMobileMenuToggle}
+              aria-label={isMobileMenuOpen ? "Close mobile menu" : "Open mobile menu"}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
+              title={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            >
+              {isMobileMenuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
+            </button>
           </div>
-          
-          <button
-            className="mobile-menu-toggle"
-            onClick={handleMobileMenuToggle}
-            aria-label={isMobileMenuOpen ? "Close mobile menu" : "Open mobile menu"}
-            aria-expanded={isMobileMenuOpen}
-            aria-controls="mobile-menu"
-            title={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-          >
-            {isMobileMenuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
-          </button>
         </nav>
       </div>
       

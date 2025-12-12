@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Cookie, Shield, Settings, Info, CheckCircle, AlertTriangle } from 'lucide-react';
 import PageLayout from '../components/layout/PageLayout';
 
@@ -255,7 +256,10 @@ const CookiesPage: React.FC = () => {
                   <strong>Email:</strong> privacy@pandagarde.com
                 </p>
                 <p className="mb-2" style={{ color: 'var(--gray-600)' }}>
-                  <strong>Website:</strong> <a href="/contact" className="text-blue-600 hover:underline">pandagarde.com/contact</a>
+                  <strong>Website:</strong>{' '}
+                  <Link to="/contact" className="text-blue-600 hover:underline">
+                    pandagarde.com/contact
+                  </Link>
                 </p>
                 <p style={{ color: 'var(--gray-600)' }}>
                   <strong>Subject Line:</strong> Cookie Policy Inquiry

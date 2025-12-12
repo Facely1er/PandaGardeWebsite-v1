@@ -964,10 +964,8 @@ const FamilyHubPage: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <a 
-                href="/family-hub" 
-                target="_blank" 
-                rel="noopener noreferrer"
+              <Link 
+                to="/family-hub"
                 className="bg-white rounded-xl p-6 hover:shadow-lg transition-all block"
                 style={{ backgroundColor: 'var(--card-color)' }}
               >
@@ -983,7 +981,7 @@ const FamilyHubPage: React.FC = () => {
                 <div className="text-orange-600 font-semibold hover:text-orange-700 transition-colors">
                   Launch App →
                 </div>
-              </a>
+              </Link>
 
               <div className="bg-white rounded-xl p-6" style={{ backgroundColor: 'var(--card-color)' }}>
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
