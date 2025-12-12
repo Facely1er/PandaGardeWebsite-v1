@@ -55,6 +55,11 @@ const Header: React.FC = () => {
     { icon: Users, label: 'Get Started', href: '/get-started', isExternal: false, hideOnMedium: false },
     { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false, hideOnMedium: false },
     { icon: MessageCircle, label: 'Community', href: '/community/forum', isExternal: false, hideOnMedium: true },
+    { icon: Home, label: 'Home', href: '/', isExternal: false },
+    { icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false },
+    { icon: Users, label: 'Get Started', href: '/get-started', isExternal: false },
+    { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
+    { icon: MessageCircle, label: 'Community', href: '/community/forum', isExternal: false },
   ];
 
   // Mobile navigation with organized sections
