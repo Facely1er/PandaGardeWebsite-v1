@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield as Child, User, UserCheck, BookOpen, Palette, Puzzle, Shield, Globe, Smartphone, Wrench, Scale, ArrowRight } from 'lucide-react';
+import { Shield as Child, User, UserCheck, BookOpen, Palette, Puzzle, Shield, Globe, Smartphone, Wrench, Scale, ArrowRight, Users } from 'lucide-react';
+import PageLayout from '../components/layout/PageLayout';
 
 const ageGroups = [
   {
@@ -19,7 +20,7 @@ const ageGroups = [
         icon: Palette,
         title: "Privacy Panda Tales",
         description: "Illustrated stories that teach privacy lessons through Panda's adventures in the Digital Bamboo Forest. Age-appropriate language and concepts.",
-        link: '/story'
+        link: '/privacy-panda'
       }
     ]
   },
@@ -90,32 +91,13 @@ const AgeGroupsPage: React.FC = () => {
   };
 
   return (
-    <main id="main-content">
-      {/* Page Header */}
-      <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
-        <div className="container">
-          <div className="text-center fade-in" style={{ textAlign: 'center' }}>
-            <h1 style={{
-              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
-              fontWeight: '800',
-              lineHeight: '1.1',
-              marginBottom: '1rem',
-              color: '#0f172a'
-            }}>
-              Age-Appropriate Learning Paths
-            </h1>
-            <p style={{
-              fontSize: '1.125rem',
-              color: '#64748b',
-              maxWidth: '48rem',
-              margin: '0 auto',
-              lineHeight: '1.6'
-            }}>
-              Tailored content and interactions designed specifically for different developmental stages. Each age group has unique learning needs and capabilities when it comes to understanding digital privacy.
-            </p>
-          </div>
-        </div>
-      </section>
+    <PageLayout
+      title="Age-Appropriate Learning Paths"
+      subtitle="Tailored content and interactions designed specifically for different developmental stages. Each age group has unique learning needs and capabilities when it comes to understanding digital privacy."
+      icon={Users}
+      badge="LEARNING PATHS"
+      breadcrumbs={true}
+    >
 
       <section className="age-group-section">
         <div className="container">
@@ -198,7 +180,7 @@ const AgeGroupsPage: React.FC = () => {
               </button>
               <button 
                 className="button secondary"
-                onClick={() => navigate('/story')}
+                onClick={() => navigate('/privacy-panda')}
               >
                 Read Privacy Panda Tales
               </button>
@@ -206,7 +188,7 @@ const AgeGroupsPage: React.FC = () => {
           </div>
         </div>
       </section>
-    </main>
+    </PageLayout>
   );
 };
 

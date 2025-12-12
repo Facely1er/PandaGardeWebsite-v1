@@ -406,7 +406,7 @@ const HomePage: React.FC = () => {
 
               <div className="hero-buttons">
                 <Link 
-                  to="/quick-start" 
+                  to="/get-started" 
                   className="button primary"
                   style={{
                     background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',

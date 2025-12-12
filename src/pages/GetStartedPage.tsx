@@ -273,7 +273,7 @@ const GetStartedPage: React.FC = () => {
                 </Link>
 
                 <Link
-                  to="/story"
+                  to="/privacy-panda"
                   style={{
                     backgroundColor: '#FFFFFF',
                     borderRadius: '0.75rem',

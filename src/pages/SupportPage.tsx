@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Headphones, Mail, MessageCircle, HelpCircle, Search, Clock, Star, Users, BookOpen, Shield } from 'lucide-react';
+import PageLayout from '../components/layout/PageLayout';
 
 interface FAQItem {
   id: string;
@@ -130,63 +131,13 @@ const SupportPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
-      {/* Header */}
-      <header className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-20 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
-          }} />
-        </div>
-
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
-              <Headphones size={16} />
-              <span className="text-sm font-semibold">SUPPORT CENTER</span>
-            </div>
-
-            <h1 className="text-5xl font-bold mb-6 leading-tight">
-              Help & Support
-              <span className="block text-yellow-300">We're Here to Help</span>
-            </h1>
-
-            <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              Get help and support for using PandaGarde resources. Find answers to common questions,
-              troubleshoot issues, and connect with our support team.
-            </p>
-
-            <div className="flex items-center justify-center gap-6 text-sm">
-              <div className="flex items-center gap-2">
-                <Star size={16} />
-                <span>24/7 Support</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock size={16} />
-                <span>Quick Response</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Shield size={16} />
-                <span>Privacy-First</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Navigation */}
-      <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
-        <div className="container mx-auto px-6 py-4">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 font-medium transition-colors"
-            style={{ color: 'var(--primary-light)' }}
-          >
-            <ArrowLeft size={16} />
-            Back to Home
-          </Link>
-        </div>
-      </div>
+    <PageLayout
+      title="Help & Support"
+      subtitle="Get help and support for using PandaGarde resources. Find answers to common questions, troubleshoot issues, and connect with our support team."
+      icon={Headphones}
+      badge="SUPPORT"
+      breadcrumbs={true}
+    >
 
       {/* Support Options */}
       <section className="container mx-auto px-6 py-16">
@@ -390,7 +341,7 @@ const SupportPage: React.FC = () => {
           </div>
         </div>
       </section>
-    </div>
+    </PageLayout>
   );
 };
 

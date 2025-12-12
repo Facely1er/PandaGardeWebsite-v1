@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Clock, Users, BookOpen, CheckCircle, ArrowRight } from 'lucide-react';
+import { Clock, Users, BookOpen, CheckCircle, ArrowRight, Calendar } from 'lucide-react';
+import PageLayout from '../components/layout/PageLayout';
 
 const timelines = {
   classroom: {
@@ -141,32 +142,13 @@ const ImplementationPage: React.FC = () => {
   const [activeTimeline, setActiveTimeline] = useState<keyof typeof timelines>('classroom');
 
   return (
-    <main id="main-content">
-      {/* Page Header */}
-      <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
-        <div className="container">
-          <div className="text-center fade-in" style={{ textAlign: 'center' }}>
-            <h1 style={{
-              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
-              fontWeight: '800',
-              lineHeight: '1.1',
-              marginBottom: '1rem',
-              color: '#0f172a'
-            }}>
-              Implementation Timeline
-            </h1>
-            <p style={{
-              fontSize: '1.125rem',
-              color: '#64748b',
-              maxWidth: '48rem',
-              margin: '0 auto',
-              lineHeight: '1.6'
-            }}>
-              Flexible guides to implementing Privacy Panda education in various settings. Choose the implementation model that best fits your needs and schedule.
-            </p>
-          </div>
-        </div>
-      </section>
+    <PageLayout
+      title="Implementation Timeline"
+      subtitle="Flexible guides to implementing Privacy Panda education in various settings. Choose the implementation model that best fits your needs and schedule."
+      icon={Calendar}
+      badge="IMPLEMENTATION"
+      breadcrumbs={true}
+    >
 
       <section className="timeline-section">
         <div className="container">
@@ -300,7 +282,7 @@ const ImplementationPage: React.FC = () => {
           </div>
         </div>
       </section>
-    </main>
+    </PageLayout>
   );
 };
 

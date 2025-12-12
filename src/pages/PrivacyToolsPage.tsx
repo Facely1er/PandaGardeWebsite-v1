@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { Wrench } from 'lucide-react';
 import AppPermissionsAnalyzer from '../tools/AppPermissionsAnalyzer';
 import DigitalFootprintTimeline from '../tools/DigitalFootprintTimeline';
 import GamificationDashboard from '../components/GamificationDashboard';
 import Card from '../components/Card';
+import PageLayout from '../components/layout/PageLayout';
 
 const PrivacyToolsPage: React.FC = () => {
   const [selectedTool, setSelectedTool] = useState<'dashboard' | 'permissions' | 'footprint'>('dashboard');
@@ -34,16 +36,14 @@ const PrivacyToolsPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Privacy Learning Tools</h1>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Interactive tools designed specifically for teens to learn about digital privacy, 
-            security, and responsible online behavior. Complete missions, earn XP, and become a privacy expert!
-          </p>
-        </div>
+    <PageLayout
+      title="Privacy Learning Tools"
+      subtitle="Interactive tools designed specifically for teens to learn about digital privacy, security, and responsible online behavior. Complete missions, earn XP, and become a privacy expert!"
+      icon={Wrench}
+      badge="TOOLS"
+      breadcrumbs={true}
+    >
+      <div className="max-w-7xl mx-auto">
 
         {/* Tool Selection */}
         <div className="mb-8">
@@ -139,7 +139,7 @@ const PrivacyToolsPage: React.FC = () => {
           </div>
         </Card>
       </div>
-    </div>
+    </PageLayout>
   );
 };
 

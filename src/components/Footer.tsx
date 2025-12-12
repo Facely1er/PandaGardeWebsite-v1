@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
 
   const productLinks = [
     { icon: Users, href: '/family-hub', label: 'Family Hub', isExternal: false },
-    { icon: Shield, href: '/story', label: 'PrivacyPanda' },
+    { icon: Shield, href: '/privacy-panda', label: 'Privacy Panda' },
     { icon: Wrench, href: '/parent-resources', label: 'Parent Toolkit' }
   ];
 
@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
 
   const quickLinks = [
     { icon: BookOpen, href: '/overview', label: 'Overview' },
-    { icon: Users, href: '/quick-start', label: 'Quick Start' },
+    { icon: Users, href: '/get-started', label: 'Get Started' },
     { icon: GraduationCap, href: '/resources', label: 'Resources' },
     { icon: Info, href: '/about', label: 'About' }
   ];

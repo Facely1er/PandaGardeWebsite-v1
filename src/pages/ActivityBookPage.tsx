@@ -318,7 +318,7 @@ const ActivityBookPage: React.FC = () => {
           
           <div className="text-center">
             <Link
-              to="/story"
+              to="/privacy-panda"
               className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-flex items-center gap-2 text-sm md:text-base"
             >
               <Book size={20} />

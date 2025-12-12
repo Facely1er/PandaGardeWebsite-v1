@@ -146,7 +146,7 @@ function App() {
             {/* General Pages */}
             <Route path="/overview" element={<OverviewPage />} />
             <Route path="/resources" element={<ResourcesPage />} />
-            <Route path="/quick-start" element={<QuickStartPage />} />
+            <Route path="/quick-start" element={<GetStartedPage />} />
             <Route path="/educator-tools" element={<EducatorToolsPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/faq" element={<FAQPage />} />
