@@ -51,13 +51,13 @@ function Header() {
   // Using useMemo to prevent recreation and ensure uniqueness
   const navItems = useMemo(() => {
     const items = [
-      { icon: Home, label: 'Home', href: '/', isExternal: false, hideOnMedium: true },
-      { icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false, hideOnMedium: false },
-      { icon: Users, label: 'Get Started', href: '/get-started', isExternal: false, hideOnMedium: false },
-      { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false, hideOnMedium: false },
-      { icon: MessageCircle, label: 'Community', href: '/community/forum', isExternal: false, hideOnMedium: true },
+      { id: 'nav-home', icon: Home, label: 'Home', href: '/', isExternal: false, hideOnMedium: true },
+      { id: 'nav-privacy-panda', icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false, hideOnMedium: false },
+      { id: 'nav-get-started', icon: Users, label: 'Get Started', href: '/get-started', isExternal: false, hideOnMedium: false },
+      { id: 'nav-resources', icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false, hideOnMedium: false },
+      { id: 'nav-community', icon: MessageCircle, label: 'Community', href: '/community/forum', isExternal: false, hideOnMedium: true },
     ];
-    // Remove duplicates based on href
+    // Remove duplicates based on href to ensure uniqueness
     const seen = new Set<string>();
     return items.filter(item => {
       if (seen.has(item.href)) {
@@ -71,16 +71,16 @@ function Header() {
   // Mobile navigation with organized sections
   const mobileNavItems = useMemo(() => {
     const items = [
-      { icon: Home, label: 'Home', href: '/', isExternal: false },
-      { icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false },
-      { icon: Users, label: 'Get Started', href: '/get-started', isExternal: false },
-      { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
-      { icon: MessageCircle, label: 'Community Forum', href: '/community/forum', isExternal: false },
-      { icon: Heart, label: 'Success Stories', href: '/community/stories', isExternal: false },
-      { icon: Globe, label: 'Community Resources', href: '/community/resources', isExternal: false },
-      { icon: Info, label: 'About', href: '/about', isExternal: false },
+      { id: 'mobile-nav-home', icon: Home, label: 'Home', href: '/', isExternal: false },
+      { id: 'mobile-nav-privacy-panda', icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false },
+      { id: 'mobile-nav-get-started', icon: Users, label: 'Get Started', href: '/get-started', isExternal: false },
+      { id: 'mobile-nav-resources', icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
+      { id: 'mobile-nav-community', icon: MessageCircle, label: 'Community Forum', href: '/community/forum', isExternal: false },
+      { id: 'mobile-nav-stories', icon: Heart, label: 'Success Stories', href: '/community/stories', isExternal: false },
+      { id: 'mobile-nav-community-resources', icon: Globe, label: 'Community Resources', href: '/community/resources', isExternal: false },
+      { id: 'mobile-nav-about', icon: Info, label: 'About', href: '/about', isExternal: false },
     ];
-    // Remove duplicates based on href
+    // Remove duplicates based on href to ensure uniqueness
     const seen = new Set<string>();
     return items.filter(item => {
       if (seen.has(item.href)) {
@@ -213,8 +213,8 @@ function Header() {
             role="menubar"
             aria-label="Main navigation menu"
           >
-            {navItems.map((item, index) => (
-              <li key={`nav-${item.href}-${item.label}-${index}`} role="none" className={item.hideOnMedium ? 'hide-on-medium' : ''}>
+            {navItems.map((item) => (
+              <li key={item.id} role="none" className={item.hideOnMedium ? 'hide-on-medium' : ''}>
                 {item.href.startsWith('#') ? (
                   <a
                     href={item.href}
@@ -252,8 +252,8 @@ function Header() {
             aria-label="Main navigation menu"
             onKeyDown={handleMobileMenuKeyDown}
           >
-            {mobileNavItems.map((item, index) => (
-              <li key={`mobile-nav-${item.href}-${item.label}-${index}`} role="none">
+            {mobileNavItems.map((item) => (
+              <li key={item.id} role="none">
                 {item.href.startsWith('#') ? (
                   <a
                     href={item.href}
