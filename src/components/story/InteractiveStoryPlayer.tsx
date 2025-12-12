@@ -8,6 +8,7 @@ interface StoryScene {
   content: string;
   character?: string;
   animation?: string;
+  imageUrl?: string;
   choices?: Array<{
     text: string;
     nextScene: string;
@@ -71,7 +72,31 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
   const skipTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const speechRef = useRef<SpeechSynthesisUtterance | null>(null);
 
+  // Safety check: ensure we have valid scenes
+  if (!scenes || scenes.length === 0) {
+    return (
+      <div className="interactive-story-player" style={{ padding: '2rem', textAlign: 'center' }}>
+        <p>No story scenes available. Please check the story data.</p>
+      </div>
+    );
+  }
+  
+  // Ensure currentSceneIndex is within bounds
+  useEffect(() => {
+    if (currentSceneIndex < 0 || currentSceneIndex >= scenes.length) {
+      setCurrentSceneIndex(0);
+    }
+  }, [currentSceneIndex, scenes.length, setCurrentSceneIndex]);
+  
   const currentScene = scenes[currentSceneIndex];
+  
+  if (!currentScene) {
+    return (
+      <div className="interactive-story-player" style={{ padding: '2rem', textAlign: 'center' }}>
+        <p>Scene not found. Please check the story data.</p>
+      </div>
+    );
+  }
 
   const nextScene = useCallback(() => {
     if (currentSceneIndex < scenes.length - 1) {
@@ -91,11 +116,14 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
       
       // Simulate loading time for better UX
       setTimeout(() => {
-        setCurrentSceneIndex(nextIndex);
-        setSelectedChoice(null);
-        setIsLoading(false);
-        setShowSkipButton(false);
-        onSceneChange?.(scenes[nextIndex].id);
+        const nextScene = scenes[nextIndex];
+        if (nextScene) {
+          setCurrentSceneIndex(nextIndex);
+          setSelectedChoice(null);
+          setIsLoading(false);
+          setShowSkipButton(false);
+          onSceneChange?.(nextScene.id);
+        }
       }, 800);
     } else {
       onStoryComplete?.();
@@ -108,7 +136,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
       // If text-to-speech is available and playing, wait for it to complete
       if ('speechSynthesis' in window && !isMuted) {
         // The speech synthesis will trigger nextScene() via its onend callback
-        return;
+        return undefined;
       }
       
       // Fallback to duration-based timing if no text-to-speech
@@ -117,6 +145,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
       }, (currentScene.duration || 8) * 1000 / readingSpeed);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [isPlaying, autoAdvance, currentScene?.content, currentScene?.duration, readingSpeed, nextScene, isMuted]);
 
   // Audio playback
@@ -138,6 +167,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
       const timer = setTimeout(() => setIsAnimating(false), 2000);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [currentScene?.animation]);
 
   // Text-to-speech functionality
@@ -216,9 +246,12 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
   const prevScene = useCallback(() => {
     if (currentSceneIndex > 0) {
       const prevIndex = currentSceneIndex - 1;
-      setCurrentSceneIndex(prevIndex);
-      setSelectedChoice(null);
-      onSceneChange?.(scenes[prevIndex].id);
+      const prevScene = scenes[prevIndex];
+      if (prevScene) {
+        setCurrentSceneIndex(prevIndex);
+        setSelectedChoice(null);
+        onSceneChange?.(prevScene.id);
+      }
     }
   }, [currentSceneIndex, scenes, onSceneChange, setCurrentSceneIndex]);
 
@@ -248,13 +281,17 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
   // Touch gesture handling
   const handleTouchStart = (e: React.TouchEvent) => {
     const touch = e.touches[0];
-    setTouchStart({ x: touch.clientX, y: touch.clientY });
-    setTouchEnd(null);
+    if (touch) {
+      setTouchStart({ x: touch.clientX, y: touch.clientY });
+      setTouchEnd(null);
+    }
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     const touch = e.touches[0];
-    setTouchEnd({ x: touch.clientX, y: touch.clientY });
+    if (touch) {
+      setTouchEnd({ x: touch.clientX, y: touch.clientY });
+    }
   };
 
   const handleTouchEnd = () => {
@@ -674,7 +711,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         )}
       </div>
 
-      <style jsx>{`
+      <style>{`
         .interactive-story-player {
           max-width: 900px;
           margin: 0 auto;
