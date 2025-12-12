@@ -300,12 +300,7 @@ const HomePage: React.FC = () => {
       )}
 
       {/* Hero Section - Two Column Layout */}
-      <section className="hero-simple" style={{
-        background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
-        position: 'relative',
-        overflow: 'hidden',
-        padding: '2rem 0 2.5rem'
-      }}>
+      <section className="hero-simple">
         {/* Subtle background elements */}
         <div style={{
           position: 'absolute',
@@ -319,14 +314,7 @@ const HomePage: React.FC = () => {
         }} />
         
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1.1fr 0.9fr',
-            gap: '2rem',
-            alignItems: 'flex-start',
-            maxWidth: '1200px',
-            margin: '0 auto'
-          }}>
+          <div className="hero-content">
             {/* Left Column - Text Content */}
             <div className="hero-text slide-in-left" style={{ textAlign: 'left' }}>
               <span className="badge" style={{
@@ -362,37 +350,23 @@ const HomePage: React.FC = () => {
                   Safe Online
                 </span>
               </h1>
-              <div style={{ 
-                minHeight: 'clamp(5.5rem, 8vw, 6.5rem)',
-                marginBottom: '2.5rem',
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'flex-start'
-              }}>
-                <p 
-                  className="hero-description" 
-                  style={{
-                    fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
-                    lineHeight: '1.7',
-                    color: '#64748b',
-                    margin: 0,
-                    maxWidth: '100%',
-                    width: '100%',
-                    opacity: isTransitioning ? 0 : 1,
-                    transform: isTransitioning ? 'translateY(10px)' : 'translateY(0)',
-                    transition: 'opacity 0.6s ease, transform 0.6s ease',
-                    position: 'absolute',
-                    top: 0,
-                    left: 0
-                  }}
-                  key={currentMessageIndex}
-                >
-                  {familyPersona 
-                    ? `${familyPersona.description}. Get personalized recommendations tailored for your family's privacy needs.`
-                    : heroMessages[currentMessageIndex]
-                  }
-                </p>
-              </div>
+              <p
+                className="hero-description"
+                style={{
+                  fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
+                  lineHeight: '1.7',
+                  color: '#64748b',
+                  opacity: isTransitioning ? 0 : 1,
+                  transform: isTransitioning ? 'translateY(10px)' : 'translateY(0)',
+                  transition: 'opacity 0.6s ease, transform 0.6s ease'
+                }}
+                key={currentMessageIndex}
+              >
+                {familyPersona
+                  ? `${familyPersona.description}. Get personalized recommendations tailored for your family's privacy needs.`
+                  : heroMessages[currentMessageIndex]
+                }
+              </p>
 
               {/* Simplified Journey Progress - Only show if significant progress */}
               {progress.overallProgress > 25 && (
@@ -430,14 +404,7 @@ const HomePage: React.FC = () => {
                 </div>
               )}
 
-              <div className="hero-buttons" style={{
-                display: 'flex',
-                gap: '0.875rem',
-                flexWrap: 'wrap',
-                justifyContent: 'flex-start',
-                marginTop: '0.5rem',
-                marginBottom: '2rem'
-              }}>
+              <div className="hero-buttons">
                 <Link 
                   to="/quick-start" 
                   className="button primary"
@@ -506,14 +473,7 @@ const HomePage: React.FC = () => {
               </div>
 
               {/* Simplified Stats */}
-              <div className="hero-stats" style={{
-                display: 'flex',
-                gap: '2.5rem',
-                flexWrap: 'wrap',
-                justifyContent: 'flex-start',
-                paddingTop: '1.5rem',
-                borderTop: '1px solid #e2e8f0'
-              }}>
+              <div className="hero-stats" style={{ paddingTop: '1.5rem', borderTop: '1px solid #e2e8f0' }}>
                 <div className="stat-item">
                   <span className="stat-number" style={{
                     display: 'block',
@@ -554,7 +514,7 @@ const HomePage: React.FC = () => {
             </div>
 
             {/* Right Column - Logo/Image */}
-            <div className="hero-image slide-in-right" style={{
+            <div className="slide-in-right" style={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
