@@ -133,36 +133,36 @@ const AgeSpecificGuidePage: React.FC = () => {
       breadcrumbs={true}
     >
       <div style={{ maxWidth: '56rem', margin: '0 auto' }}>
-        {/* Age Group Selector */}
+        {/* Header Section */}
         <section style={{ marginBottom: 'clamp(3rem, 6vw, 4rem)' }}>
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
-          }} />
-        </div>
-
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="flex items-center justify-center mb-8">
-            <div className="w-20 h-20 mr-4">
-              <Users size={40} className="text-green-600" />
-            </div>
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
+            }} />
           </div>
 
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
-              <Users size={16} />
-              <span className="text-sm font-semibold">AGE-SPECIFIC GUIDES</span>
+          <div className="container mx-auto px-6 relative z-10">
+            <div className="flex items-center justify-center mb-8">
+              <div className="w-20 h-20 mr-4">
+                <Users size={40} className="text-green-600" />
+              </div>
             </div>
 
-            <h1 className="text-5xl font-bold mb-6 leading-tight">
-              Age-Specific Privacy Guides
-            </h1>
+            <div className="text-center">
+              <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
+                <Users size={16} />
+                <span className="text-sm font-semibold">AGE-SPECIFIC GUIDES</span>
+              </div>
 
-            <p className="text-xl opacity-90 max-w-2xl mx-auto">
-              Tailored guides for different age groups, covering developmentally appropriate concepts and teaching strategies for each stage.
-            </p>
+              <h1 className="text-5xl font-bold mb-6 leading-tight">
+                Age-Specific Privacy Guides
+              </h1>
+
+              <p className="text-xl opacity-90 max-w-2xl mx-auto">
+                Tailored guides for different age groups, covering developmentally appropriate concepts and teaching strategies for each stage.
+              </p>
+            </div>
           </div>
-        </div>
         </section>
       {/* Age Group Selector */}
       <div style={{
