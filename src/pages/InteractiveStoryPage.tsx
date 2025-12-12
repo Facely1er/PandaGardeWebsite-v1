@@ -589,114 +589,74 @@ const InteractiveStoryPage: React.FC = () => {
       badge="INTERACTIVE STORY"
       breadcrumbs={true}
     >
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='bamboo' width='20' height='40' patternUnits='userSpaceOnUse'><rect x='8' y='0' width='4' height='40' fill='rgba(255,255,255,0.1)'/><rect x='6' y='5' width='8' height='2' fill='rgba(255,255,255,0.05)'/><rect x='6' y='15' width='8' height='2' fill='rgba(255,255,255,0.05)'/><rect x='6' y='25' width='8' height='2' fill='rgba(255,255,255,0.05)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23bamboo)'/></svg>")`
-          }} />
-        </div>
-        
-        {/* Enhanced Floating Elements with More Variety */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="floating-panda">🐼</div>
-          <div className="floating-leaf">🍃</div>
-          <div className="floating-star">⭐</div>
-          <div className="floating-shield">🛡️</div>
-          <div className="floating-bamboo">🎋</div>
-          <div className="floating-lock">🔒</div>
-          <div className="floating-heart">💚</div>
-        </div>
-
-        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', position: 'relative', zIndex: 10 }}>
-          {/* Compact Logo and Badge Row */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="w-14 h-14 animate-bounce">
-              <Logo />
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', position: 'relative' }}>
+        {/* Intro Section with Feature Grid and CTA */}
+        <div className="grid md:grid-cols-2 gap-6 items-center mb-8" style={{ marginTop: '2rem' }}>
+          {/* Left Column - Feature Grid and CTA */}
+          <div className="text-left">
+            {/* Compact Feature Grid */}
+            <div className="grid grid-cols-2 gap-3 mb-6">
+              <div className="flex items-center gap-2 bg-green-50 px-3 py-2 rounded-lg border border-green-200">
+                <Star size={16} className="text-yellow-500" />
+                <span className="font-semibold text-sm" style={{ color: 'var(--gray-800)' }}>Ages 5-12</span>
+              </div>
+              <div className="flex items-center gap-2 bg-blue-50 px-3 py-2 rounded-lg border border-blue-200">
+                <Book size={16} className="text-blue-500" />
+                <span className="font-semibold text-sm" style={{ color: 'var(--gray-800)' }}>Interactive</span>
+              </div>
+              <div className="flex items-center gap-2 bg-red-50 px-3 py-2 rounded-lg border border-red-200">
+                <Heart size={16} className="text-red-500" />
+                <span className="font-semibold text-sm" style={{ color: 'var(--gray-800)' }}>Educational</span>
+              </div>
+              <div className="flex items-center gap-2 bg-purple-50 px-3 py-2 rounded-lg border border-purple-200">
+                <span className="text-lg">🎮</span>
+                <span className="font-semibold text-sm" style={{ color: 'var(--gray-800)' }}>Make Choices</span>
+              </div>
             </div>
-            <div className="inline-flex items-center gap-2 bg-white/25 backdrop-blur-md px-4 py-2 rounded-full shadow-lg animate-pulse">
-              <Book size={14} className="animate-spin-slow" />
-              <span className="text-xs font-bold tracking-wider">INTERACTIVE STORY</span>
+
+            {/* CTA Buttons */}
+            <div className="flex gap-3">
+              <button 
+                onClick={() => document.getElementById('main-content')?.scrollIntoView({ behavior: 'smooth' })}
+                className="flex-1 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
+              >
+                <Play size={18} />
+                Start Adventure
+              </button>
+              <button 
+                onClick={() => setShowKeyboardHelp(true)}
+                className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-3 rounded-lg font-semibold transition-all border border-gray-300"
+              >
+                Help
+              </button>
             </div>
           </div>
 
-          {/* Main Content Grid Layout */}
-          <div className="grid md:grid-cols-2 gap-6 items-center">
-            {/* Left Column - Text Content */}
-            <div className="text-left md:text-left">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
-                <span className="block text-white drop-shadow-lg mb-1">Privacy Panda</span>
-                <span className="block text-yellow-300 drop-shadow-lg animate-glow">and the Digital Bamboo Forest</span>
-              </h1>
-
-              <p className="text-base md:text-lg opacity-95 mb-6 leading-relaxed">
-                Join Po the Panda on an interactive adventure through the Digital Bamboo Forest as he learns about privacy, sharing, and staying safe online.
-              </p>
-
-              {/* Compact Feature Grid */}
-              <div className="grid grid-cols-2 gap-3 mb-6">
-                <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-2 rounded-lg">
-                  <Star size={16} className="text-yellow-300" />
-                  <span className="font-semibold text-sm">Ages 5-12</span>
-                </div>
-                <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-2 rounded-lg">
-                  <Book size={16} className="text-blue-300" />
-                  <span className="font-semibold text-sm">Interactive</span>
-                </div>
-                <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-2 rounded-lg">
-                  <Heart size={16} className="text-red-300" />
-                  <span className="font-semibold text-sm">Educational</span>
-                </div>
-                <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-2 rounded-lg">
-                  <span className="text-lg">🎮</span>
-                  <span className="font-semibold text-sm">Make Choices</span>
-                </div>
-              </div>
-
-              {/* CTA Buttons */}
-              <div className="flex gap-3">
-                <button 
-                  onClick={() => document.getElementById('main-content')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-6 py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
-                >
-                  <Play size={18} />
-                  Start Adventure
-                </button>
-                <button 
-                  onClick={() => setShowKeyboardHelp(true)}
-                  className="bg-white/20 hover:bg-white/30 text-white px-4 py-3 rounded-lg font-semibold transition-all border border-white/30"
-                >
-                  Help
-                </button>
-              </div>
-            </div>
-
-            {/* Right Column - Visual Element */}
-            <div className="relative hidden md:block">
-              <div className="relative">
-                {/* Main Panda Illustration Area */}
-                <div className="relative bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
-                  <div className="text-center">
-                    <div className="flex justify-center mb-4 animate-bounce" style={{ animationDuration: '2s' }}>
-                      <div style={{ width: '120px', height: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <div style={{ width: '100%', height: '100%' }}>
-                          <Logo />
-                        </div>
+          {/* Right Column - Visual Element */}
+          <div className="relative hidden md:block">
+            <div className="relative">
+              {/* Main Panda Illustration Area */}
+              <div className="relative bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 border-2 border-green-200">
+                <div className="text-center">
+                  <div className="flex justify-center mb-4 animate-bounce" style={{ animationDuration: '2s' }}>
+                    <div style={{ width: '120px', height: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <div style={{ width: '100%', height: '100%' }}>
+                        <Logo />
                       </div>
                     </div>
-                    <div className="flex justify-center gap-2 mb-4">
-                      <span className="text-3xl animate-pulse">🛡️</span>
-                      <span className="text-3xl animate-pulse" style={{ animationDelay: '0.2s' }}>🔒</span>
-                      <span className="text-3xl animate-pulse" style={{ animationDelay: '0.4s' }}>⭐</span>
-                    </div>
-                    <p className="text-sm opacity-90 font-medium">Ready to protect your digital privacy?</p>
                   </div>
+                  <div className="flex justify-center gap-2 mb-4">
+                    <span className="text-3xl animate-pulse">🛡️</span>
+                    <span className="text-3xl animate-pulse" style={{ animationDelay: '0.2s' }}>🔒</span>
+                    <span className="text-3xl animate-pulse" style={{ animationDelay: '0.4s' }}>⭐</span>
+                  </div>
+                  <p className="text-sm font-medium" style={{ color: 'var(--gray-700)' }}>Ready to protect your digital privacy?</p>
                 </div>
-                
-                {/* Decorative Elements */}
-                <div className="absolute -top-4 -right-4 text-4xl opacity-50 animate-float">🌿</div>
-                <div className="absolute -bottom-4 -left-4 text-4xl opacity-50 animate-float" style={{ animationDelay: '1s' }}>🎋</div>
               </div>
+              
+              {/* Decorative Elements */}
+              <div className="absolute -top-4 -right-4 text-4xl opacity-50 animate-float">🌿</div>
+              <div className="absolute -bottom-4 -left-4 text-4xl opacity-50 animate-float" style={{ animationDelay: '1s' }}>🎋</div>
             </div>
           </div>
         </div>
