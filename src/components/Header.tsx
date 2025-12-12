@@ -51,11 +51,11 @@ function Header() {
   // Using useMemo to prevent recreation and ensure uniqueness
   const navItems = useMemo(() => {
     const items = [
-      { id: 'nav-home', icon: Home, label: 'Home', href: '/', isExternal: false, hideOnMedium: true },
-      { id: 'nav-privacy-panda', icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false, hideOnMedium: false },
+      { id: 'nav-home', icon: Home, label: 'Home', href: '/', isExternal: false, hideOnMedium: false },
       { id: 'nav-get-started', icon: Users, label: 'Get Started', href: '/get-started', isExternal: false, hideOnMedium: false },
+      { id: 'nav-privacy-panda', icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false, hideOnMedium: false },
       { id: 'nav-resources', icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false, hideOnMedium: false },
-      { id: 'nav-community', icon: MessageCircle, label: 'Community', href: '/community/forum', isExternal: false, hideOnMedium: true },
+      { id: 'nav-community', icon: MessageCircle, label: 'Forum', href: '/community/forum', isExternal: false, hideOnMedium: false },
     ];
     // Remove duplicates based on href to ensure uniqueness
     const seen = new Set<string>();
