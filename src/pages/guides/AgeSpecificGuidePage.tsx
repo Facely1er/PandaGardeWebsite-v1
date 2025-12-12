@@ -144,7 +144,7 @@ const AgeSpecificGuidePage: React.FC = () => {
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex items-center justify-center mb-8">
             <div className="w-20 h-20 mr-4">
-              <Logo />
+              <Users size={40} className="text-green-600" />
             </div>
           </div>
 
@@ -163,6 +163,7 @@ const AgeSpecificGuidePage: React.FC = () => {
             </p>
           </div>
         </div>
+        </section>
       {/* Age Group Selector */}
       <div style={{
         backgroundColor: '#ffffff',

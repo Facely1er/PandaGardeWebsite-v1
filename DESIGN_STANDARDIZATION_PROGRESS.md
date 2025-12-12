@@ -87,6 +87,91 @@
   - Added missing Clock import
   - Note: Pre-existing TypeScript type warnings in Guide interface (not related to standardization)
 
+### 8. ✅ ConversationApproachesPage.tsx - Standardized
+- **Before:** Simple layout with fixed typography (`fontSize: '2.5rem'`), custom back link
+- **After:** Uses `PageLayout` component
+- **Changes:**
+  - Migrated to `PageLayout` component
+  - Removed custom back link (now uses breadcrumbs)
+  - Standardized typography with responsive `clamp()` values
+  - Consistent container width and spacing
+
+### 9. ✅ SafetyNetPage.tsx - Standardized
+- **Before:** Simple layout with fixed typography (`fontSize: '2.5rem'`), custom back link
+- **After:** Uses `PageLayout` component
+- **Changes:**
+  - Migrated to `PageLayout` component
+  - Removed custom back link (now uses breadcrumbs)
+  - Standardized typography with responsive `clamp()` values
+  - Consistent container width and spacing
+
+### 10. ✅ AgeSpecificPrivacyPage.tsx - Standardized
+- **Before:** Simple layout with fixed typography (`fontSize: '2.5rem'`), custom back link
+- **After:** Uses `PageLayout` component
+- **Changes:**
+  - Migrated to `PageLayout` component
+  - Removed custom back link (now uses breadcrumbs)
+  - Standardized typography with responsive `clamp()` values
+  - Consistent container width and spacing
+
+### 11. ✅ DigitalCitizenshipPage.tsx - Standardized
+- **Before:** Custom header with Logo, fixed `text-5xl`, custom navigation
+- **After:** Uses `PageLayout` component
+- **Changes:**
+  - Migrated to `PageLayout` component
+  - Removed custom header and navigation sections
+  - Standardized typography with responsive `clamp()` values
+  - Updated progress section styling
+  - Improved call-to-action section with consistent button styling
+  - Updated color scheme to use consistent gradient values
+
+### 12. ✅ DigitalRightsPage.tsx - Standardized
+- **Before:** Custom header with Logo, fixed `text-5xl`, custom navigation
+- **After:** Uses `PageLayout` component
+- **Changes:**
+  - Migrated to `PageLayout` component
+  - Removed custom header and navigation sections
+  - Standardized typography with responsive `clamp()` values
+  - Updated progress section styling
+  - Improved call-to-action section with consistent button styling
+  - Updated color scheme to use consistent gradient values
+
+### 13. ✅ ModelingBehaviorGuidePage.tsx - Standardized
+- **Before:** Custom header with Logo, fixed `text-5xl`, custom navigation
+- **After:** Uses `PageLayout` component
+- **Changes:**
+  - Migrated to `PageLayout` component
+  - Removed custom header and navigation sections
+  - Standardized typography with responsive `clamp()` values
+  - Consistent container width and spacing
+
+### 14. ✅ PrivacyConcernsGuidePage.tsx - Standardized
+- **Before:** Custom header with Logo, fixed `text-5xl`, custom navigation
+- **After:** Uses `PageLayout` component
+- **Changes:**
+  - Migrated to `PageLayout` component
+  - Removed custom header and navigation sections
+  - Standardized typography with responsive `clamp()` values
+  - Consistent container width and spacing
+
+### 15. ✅ DeviceSetupGuidePage.tsx - Standardized
+- **Before:** Custom header with Logo, fixed `text-5xl`, custom navigation
+- **After:** Uses `PageLayout` component
+- **Changes:**
+  - Migrated to `PageLayout` component
+  - Removed custom header and navigation sections
+  - Standardized typography with responsive `clamp()` values
+  - Consistent container width and spacing
+
+### 16. ✅ AppSelectionGuidePage.tsx - Standardized
+- **Before:** Custom header with Logo, fixed `text-5xl`, custom navigation
+- **After:** Uses `PageLayout` component
+- **Changes:**
+  - Migrated to `PageLayout` component
+  - Removed custom header and navigation sections
+  - Standardized typography with responsive `clamp()` values
+  - Consistent container width and spacing
+
 ## Design Standards Applied
 
 ### Typography
@@ -119,7 +204,16 @@
 3. ✅ `AgeSpecificGuidePage.tsx` - **COMPLETED**
 4. ✅ `PrivacyHandbookPage.tsx` - **COMPLETED**
 5. ✅ `TeenHandbookPage.tsx` - **COMPLETED**
-6. ⏳ Other guide pages (ConversationApproachesPage, SafetyNetPage, AgeSpecificPrivacyPage, etc.)
+6. ✅ `ConversationApproachesPage.tsx` - **COMPLETED**
+7. ✅ `SafetyNetPage.tsx` - **COMPLETED**
+8. ✅ `AgeSpecificPrivacyPage.tsx` - **COMPLETED**
+9. ✅ `DigitalCitizenshipPage.tsx` - **COMPLETED**
+10. ✅ `DigitalRightsPage.tsx` - **COMPLETED**
+11. ✅ `ModelingBehaviorGuidePage.tsx` - **COMPLETED**
+12. ✅ `PrivacyConcernsGuidePage.tsx` - **COMPLETED**
+13. ✅ `DeviceSetupGuidePage.tsx` - **COMPLETED**
+14. ✅ `AppSelectionGuidePage.tsx` - **COMPLETED**
+15. ⏳ Other pages with custom headers (as identified in codebase search)
 
 ### Next Steps
 1. Continue migrating pages to `PageLayout` component
