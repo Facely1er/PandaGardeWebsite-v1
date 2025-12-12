@@ -598,8 +598,19 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
             <div className="story-scene">
               <h2 className="scene-title">{currentScene.title}</h2>
               
+              {/* Story Image Display */}
+              {currentScene.imageUrl && (
+                <div className="story-image-container">
+                  <img 
+                    src={currentScene.imageUrl} 
+                    alt={currentScene.title}
+                    className="story-image"
+                  />
+                </div>
+              )}
+              
               {/* Enhanced Character animation area */}
-              {currentScene.character && (
+              {currentScene.character && !currentScene.imageUrl && (
                 <div 
                   ref={animationRef}
                   className={`character-display ${isAnimating ? 'animating' : ''} ${isSpeaking ? 'speaking' : ''}`}
@@ -953,6 +964,24 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         .character-icon {
           font-size: 4rem;
           display: inline-block;
+        }
+
+        .story-image-container {
+          width: 100%;
+          max-width: 800px;
+          margin: 2rem auto;
+          border-radius: 16px;
+          overflow: hidden;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+          background: ${theme === 'dark' ? 'var(--gray-800)' : 'white'};
+          animation: fadeInUp 0.8s ease-out;
+        }
+
+        .story-image {
+          width: 100%;
+          height: auto;
+          display: block;
+          transition: opacity 0.5s ease-in-out;
         }
 
         .story-text {
