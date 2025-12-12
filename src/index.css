@@ -903,12 +903,19 @@ body {
 
 /* Desktop Navigation */
 .desktop-nav {
-  display: flex;
+  display: flex !important;
 }
 
 /* Mobile Navigation */
 .mobile-nav {
-  display: none;
+  display: none !important;
+}
+
+/* Hide desktop nav on tablets and mobile */
+@media (max-width: 1024px) {
+  .desktop-nav {
+    display: none !important;
+  }
 }
 
 .nav-link {
@@ -2888,27 +2895,27 @@ body {
 
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 1024px) {
+  .desktop-nav {
+    display: none !important;
+  }
+
+  .mobile-menu-toggle {
+    display: flex !important;
+  }
+
   .logo {
-    margin-right: 2rem !important;
     font-size: 1.125rem;
   }
-  
-  .nav-menu {
-    gap: clamp(0.5rem, 1vw, 0.875rem);
-    margin-left: 2rem !important;
-    margin-right: 2rem !important;
-  }
-  
+
   .nav-link {
     font-size: 0.875rem;
     padding: 0.5rem 0.75rem;
   }
-  
+
   .nav-actions {
     gap: 0.625rem;
-    margin-left: 2rem !important;
   }
-  
+
   .family-hub-button {
     font-size: 0.8125rem;
     padding: 0.5rem 0.875rem;
