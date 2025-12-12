@@ -867,6 +867,7 @@ const InteractiveStoryPage: React.FC = () => {
             onSceneChange={handleSceneChange}
             onStoryComplete={handleStoryComplete}
             onChoiceMade={handleChoiceMade}
+            hideControls={true}
           />
         </div>
 

@@ -22,13 +22,15 @@ interface InteractiveStoryPlayerProps {
   onSceneChange?: (sceneId: string) => void;
   onStoryComplete?: () => void;
   onChoiceMade?: (choice: { text: string; nextScene: string; consequence?: string }) => void;
+  hideControls?: boolean;
 }
 
 const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
   scenes,
   onSceneChange,
   onStoryComplete,
-  onChoiceMade
+  onChoiceMade,
+  hideControls = false
 }) => {
   const { theme } = useTheme();
   const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
@@ -352,71 +354,73 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
       )}
 
       {/* Enhanced Header with Controls */}
-      <div className="story-header">
-        <div className="story-progress">
-          <div className="progress-bar">
-            <div 
-              className="progress-fill" 
-              style={{ width: `${progress}%` }}
-            />
+      {!hideControls && (
+        <div className="story-header">
+          <div className="story-progress">
+            <div className="progress-bar">
+              <div 
+                className="progress-fill" 
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+            <span className="progress-text">
+              Scene {currentSceneIndex + 1} of {scenes.length}
+            </span>
           </div>
-          <span className="progress-text">
-            Scene {currentSceneIndex + 1} of {scenes.length}
-          </span>
+
+          <div className="story-controls">
+            <button
+              onClick={prevScene}
+              disabled={currentSceneIndex === 0}
+              className="control-btn"
+              title="Previous Scene"
+            >
+              <ChevronLeft size={20} />
+            </button>
+
+            <button
+              onClick={togglePlay}
+              className="control-btn play-btn"
+              title={isPlaying ? 'Pause' : 'Play'}
+            >
+              {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+            </button>
+
+            <button
+              onClick={nextScene}
+              disabled={currentSceneIndex === scenes.length - 1}
+              className="control-btn"
+              title="Next Scene"
+            >
+              <ChevronRight size={20} />
+            </button>
+
+            <button
+              onClick={toggleMute}
+              className="control-btn"
+              title={isMuted ? 'Unmute' : 'Mute'}
+            >
+              {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+            </button>
+
+            <button
+              onClick={() => setShowSettings(!showSettings)}
+              className="control-btn"
+              title="Settings"
+            >
+              <Settings size={20} />
+            </button>
+
+            <button
+              onClick={resetStory}
+              className="control-btn"
+              title="Reset Story"
+            >
+              <RotateCcw size={20} />
+            </button>
+          </div>
         </div>
-
-        <div className="story-controls">
-          <button
-            onClick={prevScene}
-            disabled={currentSceneIndex === 0}
-            className="control-btn"
-            title="Previous Scene"
-          >
-            <ChevronLeft size={20} />
-          </button>
-
-          <button
-            onClick={togglePlay}
-            className="control-btn play-btn"
-            title={isPlaying ? 'Pause' : 'Play'}
-          >
-            {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-          </button>
-
-          <button
-            onClick={nextScene}
-            disabled={currentSceneIndex === scenes.length - 1}
-            className="control-btn"
-            title="Next Scene"
-          >
-            <ChevronRight size={20} />
-          </button>
-
-          <button
-            onClick={toggleMute}
-            className="control-btn"
-            title={isMuted ? 'Unmute' : 'Mute'}
-          >
-            {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-          </button>
-
-          <button
-            onClick={() => setShowSettings(!showSettings)}
-            className="control-btn"
-            title="Settings"
-          >
-            <Settings size={20} />
-          </button>
-
-          <button
-            onClick={resetStory}
-            className="control-btn"
-            title="Reset Story"
-          >
-            <RotateCcw size={20} />
-          </button>
-        </div>
-      </div>
+      )}
 
       {/* Settings panel */}
       {showSettings && (
