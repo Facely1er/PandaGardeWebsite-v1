@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { GraduationCap, BookOpen, Users, Download, CheckCircle, Clock, FileText, Presentation, Award } from 'lucide-react';
 import PageLayout from '../components/layout/PageLayout';
 import ResourceModal from '../components/ResourceModal';
@@ -18,6 +18,7 @@ interface Resource {
 }
 
 const EducatorToolsPage: React.FC = () => {
+  const navigate = useNavigate();
   const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
   const [showResource, setShowResource] = useState(false);
   const [completedResources, setCompletedResources] = useState<string[]>([]);
@@ -76,6 +77,26 @@ const EducatorToolsPage: React.FC = () => {
         'Career preparation and digital literacy',
         'Research projects and presentations',
         'Community engagement activities'
+      ]
+    },
+    {
+      id: 'classroom-activities',
+      title: 'Privacy Panda Classroom Activities',
+      description: 'Chapter-by-chapter activities aligned with "Privacy Panda and the Digital Bamboo Forest" story. Perfect for educators teaching digital privacy to children ages 5-8.',
+      category: 'activities',
+      gradeLevel: 'K-3',
+      duration: '4-6 weeks',
+      completed: false,
+      icon: Presentation,
+      downloadUrl: '/downloads/classroom-activities.pdf',
+      preview: [
+        '8 hands-on activities (2 per chapter)',
+        'Chapter 1: Understanding Personal Information',
+        'Chapter 2: Privacy Settings & Digital Footprints',
+        'Chapter 3: Safe Sharing & Choosing What to Share',
+        'Chapter 4: Being a Privacy Hero',
+        'Assessment tools and cross-curricular connections',
+        'Story connections and discussion prompts'
       ]
     },
     {
@@ -193,6 +214,11 @@ const EducatorToolsPage: React.FC = () => {
   }, []);
 
   const handleResourceStart = (resource: Resource) => {
+    // Special handling for classroom activities - navigate to dedicated page
+    if (resource.id === 'classroom-activities') {
+      navigate('/classroom-activities');
+      return;
+    }
     setSelectedResource(resource);
     setShowResource(true);
   };
@@ -214,6 +240,7 @@ const EducatorToolsPage: React.FC = () => {
 
   const getGradeLevelColor = (gradeLevel: string) => {
     switch (gradeLevel) {
+      case 'K-3': return 'bg-green-100 text-green-800';
       case 'K-5': return 'bg-green-100 text-green-800';
       case '6-8': return 'bg-blue-100 text-blue-800';
       case '9-12': return 'bg-purple-100 text-purple-800';

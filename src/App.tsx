@@ -47,6 +47,7 @@ import SafetyNetPage from './pages/guides/SafetyNetPage';
 import AgeSpecificPrivacyPage from './pages/guides/AgeSpecificPrivacyPage';
 import FamilyPrivacyPlanPage from './pages/FamilyPrivacyPlanPage';
 import EducatorToolsPage from './pages/EducatorToolsPage';
+import ClassroomActivitiesPage from './pages/ClassroomActivitiesPage';
 import NewsletterPage from './pages/NewsletterPage';
 import UnsubscribePage from './pages/UnsubscribePage';
 import NewsletterArchivePage from './pages/NewsletterArchivePage';
@@ -151,6 +152,7 @@ function App() {
             <Route path="/parent-toolkit" element={<ParentToolkitPage />} />
             <Route path="/quick-start" element={<QuickStartPage />} />
             <Route path="/educator-tools" element={<EducatorToolsPage />} />
+            <Route path="/classroom-activities" element={<ClassroomActivitiesPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/newsletter" element={<NewsletterPage />} />

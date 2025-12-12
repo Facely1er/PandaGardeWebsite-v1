@@ -1,5 +1,5 @@
 import React from 'react';
-import { Book, Play, Heart, Star, Users, Sparkles } from 'lucide-react';
+import { Book, Play, Heart, Star, Users, Sparkles, GraduationCap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import InteractiveStoryPlayer from '../components/story/InteractiveStoryPlayer';
@@ -146,6 +146,13 @@ const StoryPage: React.FC = () => {
                 >
                   <Play size={20} />
                   Interactive Story
+                </Link>
+                <Link
+                  to="/classroom-activities"
+                  className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
+                >
+                  <GraduationCap size={20} />
+                  Classroom Activities
                 </Link>
               </div>
             </div>

@@ -19,8 +19,14 @@ General Tips for Teaching Digital Privacy
 •	Keep it positive, focusing on empowerment rather than fear
 ________________________________________
 Chapter 1 Activities: Understanding Personal Information
+
+**Story Connection:** This chapter aligns with the beginning of the story when Po accidentally shares all his personal information. In the story, Po's secret diary, embarrassing bamboo dance videos, and personal information like where he slept and what times he ate were suddenly visible to every animal in the forest. The story quote: *"All your information has been shared with the entire forest!"*
+
 Activity 1: "What Makes Me, Me?" Identity Collage
 Learning Objective: Students will identify and categorize different types of personal information.
+
+**Story Connection:** This activity connects to when Po's personal information was accidentally shared with everyone in the forest, helping students understand what information should remain private.
+
 Materials:
 •	Construction paper
 •	Magazines for cutting
@@ -45,6 +51,9 @@ Adaptations:
 •	For more advanced students: Add a third category for "Information to share only with close friends and family"
 Activity 2: "The Digital Bamboo Forest" Dramatic Play
 Learning Objective: Students will practice making safe choices about sharing information online through role-play.
+
+**Story Connection:** This activity uses the story characters (Miki the Monkey, Billy the Beaver, Ruby the Rabbit) who contacted Po after his information was shared, helping students practice responding to similar situations.
+
 Materials:
 •	Simple props (cardboard tablet or computer cutouts)
 •	Character headbands or masks (panda, tiger, rabbit, etc.)
@@ -70,9 +79,15 @@ Adaptations:
 •	For younger students: Use simpler scenarios and more teacher guidance
 •	For more advanced students: Let them create their own scenarios for the class to act out
 ________________________________________
-Chapter 2 Activities: Password Protection & Digital Footprints
-Activity 1: "Strong Password Workshop"
-Learning Objective: Students will understand the characteristics of strong passwords and practice creating them.
+Chapter 2 Activities: Privacy Settings & Digital Footprints
+
+**Story Connection:** This chapter aligns with when Turtle teaches Po about privacy settings, the Privacy Shield, and how information shared in the Digital Forest is difficult to remove once it's out there. The story quote: *"Information once shared is hard to take back," Turtle explained.* Turtle also shows Po the Privacy Shield and teaches him about privacy settings: *"We can use special privacy settings," he demonstrated, showing Po how to adjust controls on his tablet. "These are like fences around your digital bamboo garden."*
+
+Activity 1: "Create Your Privacy Shield" Workshop
+Learning Objective: Students will understand how privacy settings protect their information, similar to how the Privacy Shield protects Po.
+
+**Story Connection:** This activity directly connects to Turtle's lesson about the Privacy Shield, helping students understand that privacy settings are tools they can use to protect their information, just like Po learned.
+
 Materials:
 •	Construction paper "keys" in different shapes and colors
 •	Lock box or treasure chest
@@ -80,30 +95,33 @@ Materials:
 •	Whiteboard or chart paper
 •	Markers
 Instructions:
-1.	Read Chapter 2 of "Privacy Panda and the Digital Bamboo Forest" to the class.
-2.	Show students the treasure chest, explaining it contains important "digital treasures."
-3.	Discuss how passwords are like special keys that keep our digital information safe.
-4.	Create a class chart of "weak password" and "strong password" characteristics.
-5.	Show examples of weak passwords (simple words, names, birthdays) and strong passwords (mix of letters, numbers, symbols).
-6.	Have students design their own "password keys" on construction paper, following the strong password guidelines.
-7.	Test each password against the criteria and decide if it's strong enough to "unlock" the treasure chest.
+1.	Read the section where Turtle introduces the Privacy Shield to Po.
+2.	Discuss how the Privacy Shield helps protect information in the Digital Forest.
+3.	Explain that privacy settings on devices are like having a Privacy Shield.
+4.	Show students how to create their own physical Privacy Shield using the template.
+5.	Have students decorate their shields with symbols representing what they want to protect (home, family, personal information).
+6.	Create a class chart showing different privacy settings and what they protect.
+7.	Have students share their shields and explain what they chose to protect.
 Discussion Prompts:
-•	"Why would a birthday make a weak password?"
-•	"How is a password like a key to your house?"
-•	"Who should you share your passwords with?"
-Assessment: Evaluate student-created passwords against the established criteria for strength.
+•	"How is a Privacy Shield like the privacy settings on a tablet or computer?"
+•	"What information would you want your Privacy Shield to protect?"
+•	"Why did Turtle say it's important to protect your information?"
+Assessment: Evaluate students' understanding of privacy protection based on their shield designs and explanations.
 Adaptations:
-•	For younger students: Focus on simple concepts like "longer is stronger" and not using names
-•	For more advanced students: Introduce the concept of a passphrase with multiple words
+•	For younger students: Provide pre-decorated shield templates with simple symbols
+•	For more advanced students: Have students create a guide explaining how to use privacy settings on different devices
 Activity 2: "Digital Footprints Freeze Tag"
-Learning Objective: Students will understand that online actions leave lasting digital footprints.
+Learning Objective: Students will understand that online actions leave lasting digital footprints that are hard to erase.
+
+**Story Connection:** This activity demonstrates Turtle's important lesson that "information once shared is hard to take back," just like Po discovered when his information was shared with the entire forest.
+
 Materials:
 •	Blue paper footprints (10-15 per student)
 •	Masking tape
 •	Music player
 •	Large open space (gym or playground)
 Instructions:
-1.	Discuss the concept of digital footprints from Chapter 2.
+1.	Discuss the concept of digital footprints from Chapter 2, referencing Turtle's lesson: "Information once shared is hard to take back."
 2.	Give each student a stack of paper footprints representing "digital actions."
 3.	Explain that as the music plays, they'll move around the space, and when you call out a digital action (posting a photo, sending a message, playing a game), they must place a footprint on the floor with tape.
 4.	After several rounds, have students try to collect all their footprints when you call "Delete!"
@@ -117,14 +135,21 @@ Discussion Prompts:
 •	"What happened when you tried to remove all your footprints?"
 •	"Why were some footprints harder to remove than others?"
 •	"How does this game relate to what we do online?"
+•	"How does this game relate to what Turtle taught Po about information being hard to take back?"
 Assessment: Listen for connections students make between the activity and digital actions during discussion.
 Adaptations:
 •	For younger students: Use fewer footprints and simpler concepts
 •	For more advanced students: Add discussions about the different "sizes" of digital footprints depending on the action
 ________________________________________
-Chapter 3 Activities: Safe Sharing & Permission
+Chapter 3 Activities: Safe Sharing & Choosing What to Share
+
+**Story Connection:** This chapter aligns with when Po learns to share only what he wants to share, with only the animals he wants to see it. He discovers how to choose what information to share safely. The story quote: *"You have the right to protect your information, just like you protect your home," Turtle said.* Po learned: *"He learned how to share only what he wanted to share, with only the animals he wanted to see it."*
+
 Activity 1: "Permission Please!" Photo Booth
-Learning Objective: Students will practice asking for and giving permission before taking or sharing photos.
+Learning Objective: Students will practice asking for and giving permission before taking or sharing photos, learning to respect others' privacy choices.
+
+**Story Connection:** This activity connects to Po's lesson about sharing only what he wants to share, with only the animals he wants to see it, teaching students to respect others' privacy choices.
+
 Materials:
 •	Instant camera or digital camera/tablet (teacher operated)
 •	Photo props (silly hats, glasses, etc.)
@@ -132,8 +157,8 @@ Materials:
 •	"Permission Granted" stamps or stickers
 •	Photo display area
 Instructions:
-1.	Read Chapter 3 of "Privacy Panda and the Digital Bamboo Forest" to the class.
-2.	Discuss why Po needed to ask before taking and sharing Lily's photo.
+1.	Read the section where Po learns to share only what he wants to share, with only the animals he wants to see it.
+2.	Discuss how Po learned to be careful about what he shares and with whom.
 3.	Set up a simple "photo booth" area in the classroom.
 4.	Give each student "Yes" and "No" cards to respond to photo requests.
 5.	Model proper permission-asking: "May I take your photo?" and "May I share your photo on our class display?"
@@ -143,23 +168,28 @@ Discussion Prompts:
 •	"How did it feel when someone asked for your permission?"
 •	"Why might someone say 'no' to having their photo taken or shared?"
 •	"What should you do if someone doesn't want their photo taken?"
+•	"How does asking permission relate to what Po learned about choosing what to share?"
 Assessment: Observe students' ability to ask for permission respectfully and respect others' decisions.
 Adaptations:
 •	For younger students: Teacher can handle all photo-taking while students practice asking permission
 •	For more advanced students: Discuss different contexts where permission might change (school vs. home, etc.)
 Activity 2: "Share or Don't Share" Sorting Game
-Learning Objective: Students will evaluate what information is appropriate to share in different contexts.
+Learning Objective: Students will evaluate what information is appropriate to share in different contexts, learning to make thoughtful sharing decisions like Po did.
+
+**Story Connection:** This activity reinforces Po's learning about choosing what to share carefully, just like he learned to use privacy settings to control who sees his information.
+
 Materials:
 •	Large sorting mats labeled "Safe to Share," "Ask a Grown-Up First," and "Keep Private"
 •	Information cards with various types of information and scenarios
 •	Small baskets for group work
 Instructions:
-1.	Divide students into small groups.
-2.	Provide each group with a set of sorting mats and information cards.
-3.	Read each information card and discuss where it belongs.
-4.	Have groups sort their cards onto the appropriate mats.
-5.	Come together as a class to compare answers and discuss any differences.
-6.	Create a class chart summarizing the guidelines for sharing.
+1.	Discuss how Po learned to think carefully about what information to share.
+2.	Divide students into small groups.
+3.	Provide each group with a set of sorting mats and information cards.
+4.	Read each information card and discuss where it belongs.
+5.	Have groups sort their cards onto the appropriate mats.
+6.	Come together as a class to compare answers and discuss any differences.
+7.	Create a class chart summarizing the guidelines for sharing, similar to how Po learned to use privacy settings.
 Information Card Examples:
 •	"Your favorite animal"
 •	"Your home address"
@@ -170,14 +200,21 @@ Discussion Prompts:
 •	"Why might some information be okay to share in one situation but not another?"
 •	"Who are the grown-ups you can ask for help about sharing?"
 •	"What questions can you ask yourself before sharing something?"
+•	"How did Po learn to decide what to share?"
 Assessment: Review group sorting decisions and listen to reasoning during discussions.
 Adaptations:
 •	For younger students: Use pictures instead of written cards and fewer categories
 •	For more advanced students: Add more nuanced scenarios and contexts for sharing decisions
 ________________________________________
 Chapter 4 Activities: Being a Privacy Hero
+
+**Story Connection:** This chapter aligns with when Po becomes Privacy Panda, teaching other animals about online safety and helping them navigate the Digital Forest safely. The story quote: *"Remember," Privacy Panda would tell his friends, "in the Digital Bamboo Forest, we must be as careful with our information as we are with our real bamboo treasures!"* In the story, animals begin coming to Po with questions: *"Po, how do I stop strangers from seeing my photos?" asked Owen the Owl. "Po, someone is pretending to be me online! What should I do?" worried Fiona the Fox.* Po becomes known as "Privacy Panda" – the forest's expert on staying safe in the digital world.
+
 Activity 1: "Privacy Panda Badges"
-Learning Objective: Students will identify ways they can be "privacy heroes" in their own lives.
+Learning Objective: Students will identify ways they can be "privacy heroes" in their own lives, just like Po became Privacy Panda.
+
+**Story Connection:** This activity directly connects to Po's transformation into Privacy Panda, encouraging students to become privacy heroes who help others, just like Po did.
+
 Materials:
 •	Red construction paper circles (for badges)
 •	Yarn or safety pins (to wear badges)
@@ -196,12 +233,16 @@ Discussion Prompts:
 •	"How did Po help others in the story?"
 •	"What privacy skills are you good at that you could teach others?"
 •	"Why is it important to help others learn about privacy?"
+•	"What makes someone a Privacy Hero?"
 Assessment: Evaluate students' understanding of privacy concepts based on their hero statements.
 Adaptations:
 •	For younger students: Provide sentence stems or specific action choices
 •	For more advanced students: Have them write or draw a short "privacy hero" comic showing how they would help someone
 Activity 2: "Privacy Panda Club Meeting"
-Learning Objective: Students will apply and share their knowledge of digital privacy through collaborative problem-solving.
+Learning Objective: Students will apply and share their knowledge of digital privacy through collaborative problem-solving, like Privacy Panda does in the story.
+
+**Story Connection:** This activity mirrors Privacy Panda's role as a teacher and helper in the story, where animals come to him with questions about staying safe online, and he helps them solve privacy problems.
+
 Materials:
 •	Privacy problem scenario cards
 •	Chart paper for solutions
@@ -211,10 +252,10 @@ Instructions:
 1.	Set up a special area for the "Privacy Panda Club Meeting."
 2.	Provide each student with a club membership card.
 3.	Use a Privacy Panda puppet as the "club leader" (teacher or student can operate).
-4.	Present privacy problem scenarios similar to those in Chapter 4.
+4.	Present privacy problem scenarios similar to those Privacy Panda helps solve in the story (like Owen the Owl's question about stopping strangers from seeing photos, or Fiona the Fox's concern about someone pretending to be her online).
 5.	Have students work in small groups to discuss solutions.
 6.	Come together to share solutions and create a class "Privacy Wisdom Book."
-7.	End with a club pledge to protect privacy and help others.
+7.	End with a club pledge to protect privacy and help others, just like Privacy Panda does.
 Scenario Examples:
 •	"A friend shared your birthday on a public website without asking."
 •	"Someone asks for your home address to send you a game."
@@ -223,6 +264,7 @@ Discussion Prompts:
 •	"What would Privacy Panda say about this problem?"
 •	"How could you help someone understand why privacy matters?"
 •	"What is the most important privacy lesson you've learned?"
+•	"How can we be like Privacy Panda and help others stay safe?"
 Assessment: Observe students' ability to apply privacy concepts to new scenarios and their collaborative problem-solving skills.
 Adaptations:
 •	For younger students: Simplify scenarios and provide more teacher guidance
@@ -253,7 +295,7 @@ ________________________________________
 Assessment Tools
 Observation Checklist
 •	Student demonstrates understanding of public vs. private information
-•	Student can identify characteristics of strong passwords
+•	Student can identify characteristics of privacy protection (like the Privacy Shield)
 •	Student asks for permission before sharing information about others
 •	Student applies privacy concepts to new situations
 •	Student articulates privacy concepts in their own words
