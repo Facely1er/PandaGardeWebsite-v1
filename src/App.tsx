@@ -48,6 +48,8 @@ import AgeSpecificPrivacyPage from './pages/guides/AgeSpecificPrivacyPage';
 import FamilyPrivacyPlanPage from './pages/FamilyPrivacyPlanPage';
 import EducatorToolsPage from './pages/EducatorToolsPage';
 import NewsletterPage from './pages/NewsletterPage';
+import UnsubscribePage from './pages/UnsubscribePage';
+import NewsletterArchivePage from './pages/NewsletterArchivePage';
 import SupportPage from './pages/SupportPage';
 import ImplementationGuidePage from './pages/ImplementationGuidePage';
 import OverviewPage from './pages/OverviewPage';
@@ -152,6 +154,8 @@ function App() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/newsletter" element={<NewsletterPage />} />
+            <Route path="/newsletter/archive" element={<NewsletterArchivePage />} />
+            <Route path="/newsletter/unsubscribe" element={<UnsubscribePage />} />
             <Route path="/support" element={<SupportPage />} />
             <Route path="/pilot" element={<PilotPage />} />
             <Route path="/join-pilot" element={<PilotPage />} />

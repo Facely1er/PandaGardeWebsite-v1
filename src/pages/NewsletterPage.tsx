@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, Mail, CheckCircle, Star, Users, Calendar, BookOpen, Shield } from 'lucide-react';
 import PageLayout from '../components/layout/PageLayout';
 import { useToast } from '../contexts/ToastContext';
+import { newsletterArchive } from '../data/newsletters';
 
 const NewsletterPage: React.FC = () => {
   const { showSuccess, showError } = useToast();
@@ -26,14 +27,24 @@ const NewsletterPage: React.FC = () => {
     setIsSubscribing(true);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      setIsSubscribed(true);
-      showSuccess('Successfully Subscribed!', 'Thank you for joining our privacy education newsletter.');
-      setEmail('');
-    } catch {
-      showError('Subscription Failed', 'There was an error subscribing. Please try again.');
+      const { newsletterService } = await import('../lib/database');
+      const result = await newsletterService.subscribe(email);
+      
+      if (result) {
+        setIsSubscribed(true);
+        showSuccess('Successfully Subscribed!', 'Thank you for joining our privacy education newsletter.');
+        setEmail('');
+      } else {
+        showError('Subscription Failed', 'There was an error subscribing. Please try again.');
+      }
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      if (errorMessage.includes('Invalid email')) {
+        showError('Invalid Email', 'Please enter a valid email address.');
+      } else {
+        showError('Subscription Failed', 'There was an error subscribing. Please try again.');
+      }
     } finally {
       setIsSubscribing(false);
     }
@@ -62,26 +73,19 @@ const NewsletterPage: React.FC = () => {
     }
   ];
 
-  const recentNewsletters = [
-    {
-      title: 'December 2024: Holiday Privacy Safety',
-      date: 'December 15, 2024',
-      preview: 'Learn how to protect your family\'s privacy during the holiday season...',
-      featured: true
-    },
-    {
-      title: 'November 2024: Social Media Privacy for Teens',
-      date: 'November 15, 2024',
-      preview: 'Essential tips for helping teenagers navigate social media safely...',
-      featured: false
-    },
-    {
-      title: 'October 2024: Back to School Privacy',
-      date: 'October 15, 2024',
-      preview: 'Privacy considerations for students returning to school...',
-      featured: false
-    }
-  ];
+  // Use newsletter data from archive
+  const recentNewsletters = newsletterArchive.map(newsletter => ({
+    id: newsletter.id,
+    title: `${newsletter.month} ${newsletter.year}: ${newsletter.title}`,
+    date: new Date(newsletter.publishedAt).toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    }),
+    preview: newsletter.featuredTopic.description.substring(0, 80) + '...',
+    featured: newsletter.featured || false,
+    url: `/newsletter/${newsletter.id}`
+  }));
 
   return (
     <PageLayout
@@ -123,7 +127,11 @@ const NewsletterPage: React.FC = () => {
                 </button>
               </div>
               <p className="text-sm text-gray-500 mt-4">
-                We respect your privacy. Unsubscribe at any time.
+                We respect your privacy.{' '}
+                <Link to="/newsletter/unsubscribe" className="text-pink-600 hover:text-pink-700 underline">
+                  Unsubscribe at any time
+                </Link>
+                .
               </p>
             </form>
           ) : (
@@ -165,16 +173,22 @@ const NewsletterPage: React.FC = () => {
             <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
               Recent Newsletters
             </h2>
-            <p className="text-lg" style={{ color: 'var(--gray-600)' }}>
+            <p className="text-lg mb-4" style={{ color: 'var(--gray-600)' }}>
               See what our community has been learning about digital privacy.
             </p>
+            <Link
+              to="/newsletter/archive"
+              className="text-pink-600 hover:text-pink-700 font-semibold underline"
+            >
+              View All Newsletters →
+            </Link>
           </div>
 
           <div className="max-w-4xl mx-auto">
             <div className="space-y-6">
-              {recentNewsletters.map((newsletter, index) => (
+              {recentNewsletters.map((newsletter) => (
                 <div
-                  key={index}
+                  key={newsletter.id}
                   className={`bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all ${
                     newsletter.featured ? 'border-2 border-pink-500' : ''
                   }`}
@@ -195,9 +209,12 @@ const NewsletterPage: React.FC = () => {
                       <p className="text-sm text-gray-500 mb-2">{newsletter.date}</p>
                       <p className="text-gray-600">{newsletter.preview}</p>
                     </div>
-                    <button className="ml-4 bg-gradient-to-r from-pink-500 to-rose-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-pink-600 hover:to-rose-700 transition-all">
+                    <Link
+                      to={newsletter.url || '/newsletter'}
+                      className="ml-4 bg-gradient-to-r from-pink-500 to-rose-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-pink-600 hover:to-rose-700 transition-all inline-block"
+                    >
                       Read More
-                    </button>
+                    </Link>
                   </div>
                 </div>
               ))}
@@ -232,7 +249,9 @@ const NewsletterPage: React.FC = () => {
                 Easy Unsubscribe
               </h3>
               <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
-                Unsubscribe anytime with one click. We respect your inbox.
+                <Link to="/newsletter/unsubscribe" className="text-pink-600 hover:text-pink-700 underline">
+                  Unsubscribe anytime
+                </Link> with one click. We respect your inbox.
               </p>
             </div>
             <div className="text-center">

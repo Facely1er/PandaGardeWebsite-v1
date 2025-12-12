@@ -110,19 +110,210 @@ export const contactService = {
   }
 }
 
-// Newsletter functions - Frontend-only mode
+// Newsletter functions - Supports both Supabase and frontend-only mode
 export const newsletterService = {
-  // Subscribe to newsletter - logs subscription in frontend-only mode
+  // Subscribe to newsletter
   async subscribe(email: string): Promise<NewsletterSubscriber | null> {
-    console.log('Frontend-only mode: Newsletter subscription logged:', email)
-    // In a real frontend-only setup, you might want to send this to an external service
-    return null
+    // Validate email format
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      throw new Error('Invalid email address')
+    }
+
+    const normalizedEmail = email.toLowerCase().trim()
+
+    // Try Supabase first if available
+    try {
+      const { supabase, isSupabaseAvailable } = await import('./supabase')
+      
+      if (isSupabaseAvailable() && supabase) {
+        // Check if email already exists
+        const { data: existing } = await supabase
+          .from('pandagarde_newsletter_subscribers')
+          .select('id, subscribed')
+          .eq('email', normalizedEmail)
+          .maybeSingle()
+
+        if (existing) {
+          // If exists but unsubscribed, resubscribe
+          if (!existing.subscribed) {
+            const { data, error } = await supabase
+              .from('pandagarde_newsletter_subscribers')
+              .update({ 
+                subscribed: true, 
+                subscribed_at: new Date().toISOString(),
+                unsubscribed_at: null 
+              })
+              .eq('id', existing.id)
+              .select()
+              .single()
+
+            if (error) throw error
+            return data
+          }
+          // Already subscribed - return existing record
+          return existing as NewsletterSubscriber
+        }
+
+        // New subscription
+        const { data, error } = await supabase
+          .from('pandagarde_newsletter_subscribers')
+          .insert({
+            email: normalizedEmail,
+            subscribed: true,
+            subscribed_at: new Date().toISOString()
+          })
+          .select()
+          .single()
+
+        if (error) throw error
+        return data
+      }
+    } catch (error) {
+      console.error('Supabase newsletter subscription error:', error)
+      // Fall through to localStorage fallback
+    }
+
+    // Frontend-only mode: Use localStorage
+    try {
+      const subscriptions = JSON.parse(
+        localStorage.getItem('pandagarde_newsletter_subscriptions') || '[]'
+      )
+      
+      const existingIndex = subscriptions.findIndex(
+        (s: any) => s.email.toLowerCase() === normalizedEmail
+      )
+
+      const subscriptionData: NewsletterSubscriber = {
+        id: crypto.randomUUID(),
+        email: normalizedEmail,
+        subscribed: true,
+        subscribed_at: new Date().toISOString(),
+        unsubscribed_at: null
+      }
+
+      if (existingIndex >= 0) {
+        // Update existing
+        subscriptions[existingIndex] = {
+          ...subscriptions[existingIndex],
+          ...subscriptionData,
+          subscribed: true,
+          unsubscribed_at: null
+        }
+      } else {
+        // Add new
+        subscriptions.push(subscriptionData)
+      }
+
+      localStorage.setItem(
+        'pandagarde_newsletter_subscriptions',
+        JSON.stringify(subscriptions)
+      )
+      
+      console.log('Frontend-only mode: Newsletter subscription saved:', subscriptionData)
+      return subscriptionData
+    } catch (error) {
+      console.error('LocalStorage newsletter subscription error:', error)
+      throw new Error('Failed to save newsletter subscription')
+    }
   },
 
-  // Unsubscribe from newsletter - logs unsubscription in frontend-only mode
+  // Unsubscribe from newsletter
   async unsubscribe(email: string): Promise<boolean> {
-    console.log('Frontend-only mode: Newsletter unsubscription logged:', email)
-    return true
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      throw new Error('Invalid email address')
+    }
+
+    const normalizedEmail = email.toLowerCase().trim()
+
+    // Try Supabase first if available
+    try {
+      const { supabase, isSupabaseAvailable } = await import('./supabase')
+      
+      if (isSupabaseAvailable() && supabase) {
+        const { error } = await supabase
+          .from('pandagarde_newsletter_subscribers')
+          .update({ 
+            subscribed: false,
+            unsubscribed_at: new Date().toISOString()
+          })
+          .eq('email', normalizedEmail)
+
+        if (error) throw error
+        return true
+      }
+    } catch (error) {
+      console.error('Supabase unsubscribe error:', error)
+      // Fall through to localStorage fallback
+    }
+
+    // Frontend-only mode
+    try {
+      const subscriptions = JSON.parse(
+        localStorage.getItem('pandagarde_newsletter_subscriptions') || '[]'
+      )
+      
+      const index = subscriptions.findIndex(
+        (s: any) => s.email.toLowerCase() === normalizedEmail
+      )
+
+      if (index >= 0) {
+        subscriptions[index].subscribed = false
+        subscriptions[index].unsubscribed_at = new Date().toISOString()
+        localStorage.setItem(
+          'pandagarde_newsletter_subscriptions',
+          JSON.stringify(subscriptions)
+        )
+      }
+      
+      console.log('Frontend-only mode: Newsletter unsubscription saved:', normalizedEmail)
+      return true
+    } catch (error) {
+      console.error('LocalStorage unsubscribe error:', error)
+      return false
+    }
+  },
+
+  // Check subscription status
+  async checkSubscription(email: string): Promise<boolean> {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return false
+    }
+
+    const normalizedEmail = email.toLowerCase().trim()
+
+    // Try Supabase first if available
+    try {
+      const { supabase, isSupabaseAvailable } = await import('./supabase')
+      
+      if (isSupabaseAvailable() && supabase) {
+        const { data } = await supabase
+          .from('pandagarde_newsletter_subscribers')
+          .select('subscribed')
+          .eq('email', normalizedEmail)
+          .maybeSingle()
+
+        return data?.subscribed ?? false
+      }
+    } catch (error) {
+      console.error('Supabase check subscription error:', error)
+      // Fall through to localStorage fallback
+    }
+
+    // Frontend-only mode
+    try {
+      const subscriptions = JSON.parse(
+        localStorage.getItem('pandagarde_newsletter_subscriptions') || '[]'
+      )
+      
+      const subscription = subscriptions.find(
+        (s: any) => s.email.toLowerCase() === normalizedEmail
+      )
+      
+      return subscription?.subscribed ?? false
+    } catch (error) {
+      console.error('LocalStorage check subscription error:', error)
+      return false
+    }
   }
 }
 
