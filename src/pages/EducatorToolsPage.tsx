@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, GraduationCap, BookOpen, Users, Download, CheckCircle, Star, Trophy, Clock, FileText, Presentation, Award } from 'lucide-react';
-import Logo from '../components/Logo';
+import { GraduationCap, BookOpen, Users, Download, CheckCircle, Clock, FileText, Presentation, Award } from 'lucide-react';
+import PageLayout from '../components/layout/PageLayout';
 
 interface Resource {
   id: string;
@@ -222,135 +222,80 @@ const EducatorToolsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
-      {/* Header */}
-      <header className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-20 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
-          }} />
-        </div>
+    <PageLayout
+      title="Educator Tools"
+      subtitle="Comprehensive resources and materials for teachers and educators to teach digital privacy and online safety in the classroom. Everything you need to educate the next generation!"
+      icon={GraduationCap}
+      badge="EDUCATOR TOOLS"
+      breadcrumbs={true}
+    >
 
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="flex items-center justify-center mb-8">
-            <div className="w-20 h-20 mr-4">
-              <Logo />
-            </div>
-          </div>
-
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
-              <GraduationCap size={16} />
-              <span className="text-sm font-semibold">EDUCATOR TOOLS</span>
-            </div>
-
-            <h1 className="text-5xl font-bold mb-6 leading-tight">
-              Educator Tools
-              <span className="block text-yellow-300">For Teachers & Schools</span>
-            </h1>
-
-            <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              Comprehensive resources and materials for teachers and educators to teach digital privacy
-              and online safety in the classroom. Everything you need to educate the next generation!
-            </p>
-
-            <div className="flex items-center justify-center gap-6 text-sm">
-              <div className="flex items-center gap-2">
-                <Star size={16} />
-                <span>K-12 Resources</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <BookOpen size={16} />
-                <span>8 Resource Categories</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Trophy size={16} />
-                <span>Standards Aligned</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Navigation */}
-      <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
-        <div className="container mx-auto px-6 py-4">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
-            style={{ color: 'var(--primary-light)' }}
-          >
-            <ArrowLeft size={16} />
-            Back to Home
-          </Link>
-        </div>
-      </div>
-
-      {/* Progress Section */}
-      <section className="container mx-auto px-6 py-12">
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-12" style={{
-          backgroundColor: 'var(--card-color)',
-          boxShadow: 'var(--shadow-lg)'
-        }}>
-          <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
-              Your Resource Library
-            </h2>
-            <div className="flex items-center justify-center gap-8 mb-6">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-emerald-600">{completedResources.length}</div>
-                <div className="text-sm text-gray-600">Resources Used</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-teal-600">{resources.length}</div>
-                <div className="text-sm text-gray-600">Total Resources</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-green-600">
-                  {Math.round((completedResources.length / resources.length) * 100)}%
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+        {/* Progress Section */}
+        <div className="py-8">
+          <div className="bg-white rounded-xl shadow-lg p-8 mb-8" style={{
+            backgroundColor: 'var(--card-color)',
+            boxShadow: 'var(--shadow-lg)'
+          }}>
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
+                Your Resource Library
+              </h2>
+              <div className="flex items-center justify-center gap-8 mb-6">
+                <div className="text-center">
+                  <div className="text-3xl font-bold" style={{ color: 'var(--primary)' }}>{completedResources.length}</div>
+                  <div className="text-sm" style={{ color: 'var(--gray-600)' }}>Resources Used</div>
                 </div>
-                <div className="text-sm text-gray-600">Library Usage</div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold" style={{ color: 'var(--primary-light)' }}>{resources.length}</div>
+                  <div className="text-sm" style={{ color: 'var(--gray-600)' }}>Total Resources</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold" style={{ color: 'var(--primary)' }}>
+                    {Math.round((completedResources.length / resources.length) * 100)}%
+                  </div>
+                  <div className="text-sm" style={{ color: 'var(--gray-600)' }}>Library Usage</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* Category Filter */}
-      <section className="container mx-auto px-6 mb-8">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold mb-6" style={{ color: 'var(--primary)' }}>
-            Browse by Category
-          </h2>
-          <div className="flex flex-wrap gap-3 justify-center">
-            {categories.map((category) => {
-              const Icon = category.icon;
-              return (
-                <button
-                  key={category.id}
-                  onClick={() => setActiveCategory(category.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all ${
-                    activeCategory === category.id
-                      ? 'bg-emerald-500 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                  style={{
-                    backgroundColor: activeCategory === category.id ? 'var(--primary-light)' : undefined,
-                    color: activeCategory === category.id ? 'white' : undefined
-                  }}
-                >
-                  <Icon size={16} />
-                  {category.label}
-                </button>
-              );
-            })}
+        {/* Category Filter */}
+        <div className="mb-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold mb-6" style={{ color: 'var(--primary)' }}>
+              Browse by Category
+            </h2>
+            <div className="flex flex-wrap gap-3 justify-center">
+              {categories.map((category) => {
+                const Icon = category.icon;
+                return (
+                  <button
+                    key={category.id}
+                    onClick={() => setActiveCategory(category.id)}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all ${
+                      activeCategory === category.id
+                        ? 'bg-green-600 text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                    style={{
+                      backgroundColor: activeCategory === category.id ? 'var(--primary-light)' : undefined,
+                      color: activeCategory === category.id ? 'white' : undefined
+                    }}
+                  >
+                    <Icon size={16} />
+                    {category.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
-      </section>
 
-      {/* Resources Grid */}
-      <section className="container mx-auto px-6 pb-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Resources Grid */}
+        <div className="pb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredResources.map((resource) => {
             const Icon = resource.icon;
             const CategoryIcon = getCategoryIcon(resource.category);
@@ -370,7 +315,7 @@ const EducatorToolsPage: React.FC = () => {
               >
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 flex items-center justify-center text-white">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center text-white">
                       <Icon size={24} />
                     </div>
                     {isCompleted && (
@@ -402,7 +347,7 @@ const EducatorToolsPage: React.FC = () => {
 
                   <div className="flex gap-2">
                     <button
-                      className="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-emerald-600 hover:to-teal-700 transition-all"
+                      className="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-green-600 hover:to-emerald-700 transition-all"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleResourceStart(resource);
@@ -427,10 +372,10 @@ const EducatorToolsPage: React.FC = () => {
               </div>
             );
           })}
+          </div>
         </div>
-      </section>
 
-      {/* Resource Modal */}
+        {/* Resource Modal */}
       {showResource && selectedResource && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
@@ -478,7 +423,7 @@ const EducatorToolsPage: React.FC = () => {
                     {selectedResource.downloadUrl && (
                       <button
                         onClick={() => alert('Download would start here')}
-                        className="bg-emerald-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-emerald-600 transition-all flex items-center gap-2"
+                        className="bg-green-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-600 transition-all flex items-center gap-2"
                       >
                         <Download size={16} />
                         Download
@@ -486,7 +431,7 @@ const EducatorToolsPage: React.FC = () => {
                     )}
                     <button
                       onClick={() => handleResourceComplete(selectedResource.id)}
-                      className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-emerald-600 hover:to-teal-700 transition-all"
+                      className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-green-600 hover:to-emerald-700 transition-all"
                     >
                       Mark as Used
                     </button>
@@ -494,37 +439,38 @@ const EducatorToolsPage: React.FC = () => {
                 </div>
               </div>
             </div>
+            </div>
           </div>
         </div>
       )}
 
-      {/* Call to Action */}
-      <section className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-16">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold mb-4">
+        {/* Call to Action */}
+        <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl p-8 text-center mt-8 mb-8">
+          <h2 className="text-2xl font-bold mb-4">
             Ready to Teach Digital Privacy?
           </h2>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+          <p className="text-lg mb-6 opacity-90 max-w-2xl mx-auto">
             Access our comprehensive educator resources and start teaching digital privacy and online safety in your classroom today.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link to="/family-hub"
-              className="bg-white text-emerald-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
+            <Link
+              to="/family-hub"
+              className="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
             >
               <Users size={20} />
               Family Hub
             </Link>
             <Link
               to="/contact"
-              className="bg-emerald-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-800 transition-colors inline-flex items-center gap-2"
+              className="bg-green-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors inline-flex items-center gap-2"
             >
               <Award size={20} />
               Contact Us
             </Link>
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </PageLayout>
   );
 };
 

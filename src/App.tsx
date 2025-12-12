@@ -53,6 +53,7 @@ import ImplementationGuidePage from './pages/ImplementationGuidePage';
 import OverviewPage from './pages/OverviewPage';
 import ResourcesPage from './pages/ResourcesPage';
 import QuickStartPage from './pages/QuickStartPage';
+import ParentToolkitPage from './pages/ParentToolkitPage';
 import PlaceholderPage from './pages/PlaceholderPage';
 import PilotPage from './pages/PilotPage';
 import ChildSafetyAlertsPage from './pages/ChildSafetyAlertsPage';
@@ -145,6 +146,7 @@ function App() {
             <Route path="/overview" element={<OverviewPage />} />
             <Route path="/resources" element={<ResourcesPage />} />
             <Route path="/parent-resources" element={<ResourcesPage />} /> {/* Redirect to consolidated resources */}
+            <Route path="/parent-toolkit" element={<ParentToolkitPage />} />
             <Route path="/quick-start" element={<QuickStartPage />} />
             <Route path="/educator-tools" element={<EducatorToolsPage />} />
             <Route path="/contact" element={<ContactPage />} />
