@@ -23,10 +23,10 @@ const HomePage: React.FC = () => {
 
   // Hero text carousel messages
   const heroMessages = [
-    'Teach your children digital privacy and online safety through fun, interactive activities. Everything you need to protect your family—all in one place, completely free.',
-    'Empower your family with age-appropriate privacy education. Interactive games, activities, and resources designed to keep kids safe online.',
+    'Teach your children digital privacy and online safety through fun, interactive activities. Educational resources to help your family learn about privacy—all in one place, completely free.',
+    'Empower your family with age-appropriate privacy education. Interactive games, activities, and resources designed to help kids learn about online safety.',
     'Build digital citizenship skills through engaging content. From privacy basics to advanced safety strategies—all tailored for your family.',
-    'Join thousands of families learning together. Free resources, expert guidance, and a supportive community to help you navigate digital privacy.'
+    'Join families learning together. Free resources, helpful guidance, and a supportive community to help you navigate digital privacy education.'
   ];
 
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
@@ -188,7 +188,7 @@ const HomePage: React.FC = () => {
     {
       step: 2,
       title: 'Add Services for Digital Footprint Analysis',
-      description: 'Tell us which apps and services your family uses. This enables Digital Footprint Analysis, privacy recommendations, and safety alerts',
+      description: 'Tell us which apps and services your family uses. This enables Digital Footprint Analysis, educational privacy recommendations, and informational alerts',
       icon: ShoppingBag,
       link: '/service-catalog',
       platform: 'PandaGarde',
@@ -206,7 +206,7 @@ const HomePage: React.FC = () => {
     {
       step: 4,
       title: 'View Your Digital Footprint Analysis',
-      description: 'See your family\'s privacy exposure across all services and get personalized recommendations to improve your privacy',
+      description: 'See your family\'s privacy exposure across all services and get personalized educational recommendations to help improve your privacy practices',
       icon: BarChart3,
       link: '/digital-footprint',
       platform: 'PandaGarde',
@@ -339,7 +339,7 @@ const HomePage: React.FC = () => {
                 color: '#0f172a',
                 letterSpacing: '-0.02em'
               }}>
-                Keep Your Family<br />
+                Help Your Family Learn<br />
                 <span className="highlight" style={{
                   background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #66BB6A 100%)',
                   WebkitBackgroundClip: 'text',
@@ -347,7 +347,7 @@ const HomePage: React.FC = () => {
                   backgroundClip: 'text',
                   display: 'inline-block'
                 }}>
-                  Safe Online
+                  About Online Privacy
                 </span>
               </h1>
               <p
@@ -508,7 +508,7 @@ const HomePage: React.FC = () => {
                     fontSize: '0.875rem',
                     color: '#64748b',
                     fontWeight: '500'
-                  }}>Free Forever</span>
+                  }}>Free to Use</span>
                 </div>
               </div>
             </div>
@@ -675,7 +675,7 @@ const HomePage: React.FC = () => {
                 Enable Digital Footprint Analysis
               </h3>
               <p style={{ fontSize: '1rem', color: '#64748b', lineHeight: '1.6', marginBottom: '2rem' }}>
-                Add your family's apps and services to unlock privacy analysis, personalized recommendations, and safety alerts.
+                Add your family's apps and services to unlock privacy analysis, personalized educational recommendations, and informational alerts.
               </p>
               <Link 
                 to="/service-catalog" 
@@ -1230,7 +1230,7 @@ const HomePage: React.FC = () => {
                 <Shield size={32} className="text-green-500" />
               </div>
               <h3>Age-Appropriate Content</h3>
-              <p>Carefully designed activities and lessons for children ages 5-17. Each age group gets content that matches their understanding and needs.</p>
+              <p>Educational activities and lessons designed for children ages 5-17. Each age group gets content that matches their understanding and needs.</p>
             </div>
 
             <div className="feature-card fade-in">
@@ -1246,7 +1246,7 @@ const HomePage: React.FC = () => {
                 <Star size={32} className="text-yellow-500" />
               </div>
               <h3>Fun & Engaging Activities</h3>
-              <p>8 interactive activities including games, stories, and hands-on learning. Your children will enjoy learning about privacy and online safety.</p>
+              <p>Interactive activities including games, stories, and hands-on learning designed to help children learn about privacy and online safety.</p>
             </div>
 
             <div className="feature-card fade-in">
@@ -1254,7 +1254,7 @@ const HomePage: React.FC = () => {
                 <BookOpen size={32} className="text-blue-500" />
               </div>
               <h3>Practical Tools & Resources</h3>
-              <p>Downloadable guides, printable materials, and step-by-step instructions to help you protect your family's privacy in real life.</p>
+              <p>Downloadable guides, printable materials, and step-by-step instructions to help you teach your family about privacy in real life.</p>
             </div>
 
             <div className="feature-card fade-in">
@@ -1262,15 +1262,15 @@ const HomePage: React.FC = () => {
                 <Users size={32} className="text-purple-500" />
               </div>
               <h3>Track Your Family's Progress</h3>
-              <p>See what your children are learning, celebrate their achievements, and monitor their understanding of digital privacy concepts.</p>
+              <p>See what your children are learning, celebrate their achievements, and track their understanding of digital privacy concepts.</p>
             </div>
 
             <div className="feature-card fade-in">
               <div className="feature-icon">
                 <CheckCircle size={32} className="text-emerald-500" />
               </div>
-              <h3>100% Free Forever</h3>
-              <p>All features, activities, and resources are completely free. No hidden costs, no premium tiers—just quality privacy education for every family.</p>
+              <h3>100% Free to Use</h3>
+              <p>All features, activities, and resources are currently free. No hidden costs, no premium tiers—just quality privacy education for every family.</p>
             </div>
           </div>
         </div>
@@ -1353,7 +1353,7 @@ const HomePage: React.FC = () => {
               textAlign: 'center',
               lineHeight: '1.6'
             }}>
-              Connect with other families and discover privacy resources—all while maintaining complete privacy.
+              Connect with other families and discover privacy resources—all while maintaining your privacy through local storage.
             </p>
           </div>
 
@@ -1401,7 +1401,7 @@ const HomePage: React.FC = () => {
           <div className="mt-8 text-center">
             <div className="bg-green-50 border border-green-200 rounded-lg p-4 inline-block">
               <p className="text-sm text-green-800">
-                <strong>Privacy First:</strong> All community features use localStorage—your data never leaves your device. No backend required, completely anonymous.
+                <strong>Privacy First:</strong> All community features use localStorage—your data stays on your device. No backend required, designed for privacy.
               </p>
             </div>
           </div>
@@ -1418,7 +1418,7 @@ const HomePage: React.FC = () => {
               color: 'white',
               marginBottom: '1rem',
               textAlign: 'center'
-            }}>Start Protecting Your Family Today</h2>
+            }}>Start Teaching Your Family About Privacy Today</h2>
             <p style={{
               fontSize: '1.125rem',
               color: 'rgba(255, 255, 255, 0.9)',
