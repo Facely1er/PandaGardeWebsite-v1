@@ -21,12 +21,14 @@ interface InteractiveStoryPlayerProps {
   scenes: StoryScene[];
   onSceneChange?: (sceneId: string) => void;
   onStoryComplete?: () => void;
+  onChoiceMade?: (choice: { text: string; nextScene: string; consequence?: string }) => void;
 }
 
 const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
   scenes,
   onSceneChange,
-  onStoryComplete
+  onStoryComplete,
+  onChoiceMade
 }) => {
   const { theme } = useTheme();
   const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
@@ -205,6 +207,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
 
   const handleChoice = useCallback((choice: { text: string; nextScene: string; consequence?: string }) => {
     setSelectedChoice(choice.text);
+    onChoiceMade?.(choice);
     const nextSceneIndex = scenes.findIndex(scene => scene.id === choice.nextScene);
     if (nextSceneIndex !== -1) {
       setTimeout(() => {
@@ -212,7 +215,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         onSceneChange?.(choice.nextScene);
       }, 1000);
     }
-  }, [scenes, onSceneChange]);
+  }, [scenes, onSceneChange, onChoiceMade]);
 
   // Auto-speak when scene changes
   useEffect(() => {

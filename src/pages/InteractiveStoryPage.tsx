@@ -40,7 +40,6 @@ const InteractiveStoryPage: React.FC = () => {
   const [showKeyboardHelp, setShowKeyboardHelp] = useState(false);
   const [bookmarks, setBookmarks] = useState<Set<string>>(new Set());
   const [showBookmarks, setShowBookmarks] = useState(false);
-  const [userAgeGroup, setUserAgeGroup] = useState<'ages-5-8' | 'ages-9-12' | 'ages-13-17' | null>(null);
   const [achievements, setAchievements] = useState([
     {
       id: 'first-scene',
@@ -250,7 +249,22 @@ const InteractiveStoryPage: React.FC = () => {
     }
   };
 
-  const checkChoiceAchievements = (_choiceIndex: number, _consequence?: string) => {
+  const handleChoiceMade = (choice: { text: string; nextScene: string; consequence?: string }) => {
+    // Save choice to localStorage
+    const savedChoices = JSON.parse(localStorage.getItem('story-choices') || '[]');
+    savedChoices.push({
+      text: choice.text,
+      nextScene: choice.nextScene,
+      consequence: choice.consequence,
+      timestamp: Date.now()
+    });
+    localStorage.setItem('story-choices', JSON.stringify(savedChoices));
+    
+    // Check for achievements
+    checkChoiceAchievements();
+  };
+
+  const checkChoiceAchievements = () => {
     const savedChoices = JSON.parse(localStorage.getItem('story-choices') || '[]');
     const privacyChoices = savedChoices.filter((choice: any) => 
       choice.consequence && choice.consequence.includes('privacy')
@@ -455,9 +469,6 @@ const InteractiveStoryPage: React.FC = () => {
     `;
     document.head.appendChild(fadeOutStyle);
   };
-
-
-  const currentScene = storyScenes[currentSceneIndex];
 
   // Unlock first scene achievement
   useEffect(() => {
@@ -894,6 +905,7 @@ const InteractiveStoryPage: React.FC = () => {
             scenes={storyScenes}
             onSceneChange={handleSceneChange}
             onStoryComplete={handleStoryComplete}
+            onChoiceMade={handleChoiceMade}
           />
         </div>
 
