@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, Baby, User, GraduationCap, ShoppingBag, BarChart3, Unlock, AlertTriangle, Target, Settings, CheckCircle, MessageCircle, Globe, X } from 'lucide-react';
+import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, Baby, User, GraduationCap, ShoppingBag, BarChart3, AlertTriangle, Target, Settings, CheckCircle, MessageCircle, Globe, X } from 'lucide-react';
 import { getAllPersonas, FamilyPersonaProfiles, type FamilyPersonaProfile } from '../data/familyPersonaProfiles';
 import { useJourneyProgress } from '../hooks/useJourneyProgress';
 import { useFamily } from '../contexts/FamilyContext';
@@ -11,7 +11,7 @@ import { trackEvent, AnalyticsEvents } from '../lib/analytics';
 
 const HomePage: React.FC = () => {
   const personas = getAllPersonas();
-  const { progress, markStepVisited, isStepCompleted, isStepVisited } = useJourneyProgress();
+  const { progress, markStepVisited } = useJourneyProgress();
   const { familyMembers, currentFamily } = useFamily();
   const [familyPersona, setFamilyPersona] = useState<FamilyPersonaProfile | null>(null);
   const [showUnlockCelebration, setShowUnlockCelebration] = useState(false);
