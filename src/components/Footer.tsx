@@ -1,35 +1,48 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Shield as Child, User, UserCheck, Mail, HelpCircle, Newspaper, Headphones, Users, Shield, Wrench, BookOpen, GraduationCap, Info } from 'lucide-react';
+import { Shield as Child, User, UserCheck, Mail, HelpCircle, Newspaper, Headphones, Users, Shield, Wrench, BookOpen, GraduationCap, Info, Heart, Globe, MessageCircle, Download, FileText, Target, AlertCircle, Briefcase } from 'lucide-react';
 
 const Footer: React.FC = () => {
   // Social media links removed - no active social media accounts
 
-  const productLinks = [
-    { icon: Users, href: '/family-hub', label: 'Family Hub', isExternal: false },
-    { icon: Shield, href: '/story', label: 'PrivacyPanda' },
-    { icon: Wrench, href: '/parent-resources', label: 'Parent Toolkit' }
+  const learnLinks = [
+    { icon: Child, href: '/privacy-explorers', label: 'Privacy Explorers (5-8)' },
+    { icon: User, href: '/privacy-handbook', label: 'Privacy Handbook (9-12)' },
+    { icon: UserCheck, href: '/teen-handbook', label: 'Teen Handbook (13-17)' },
+    { icon: Users, href: '/parent-resources', label: 'Parent Resources' },
+    { icon: GraduationCap, href: '/educator-tools', label: 'Educator Tools' }
   ];
 
-  const curriculumLinks = [
-    { icon: Child, href: '/privacy-explorers', label: 'Ages 5-8' },
-    { icon: User, href: '/privacy-handbook', label: 'Ages 9-12' },
-    { icon: UserCheck, href: '/teen-handbook', label: 'Ages 13-17' },
-    { icon: Users, href: '/parent-resources', label: 'Parents' }
+  const communityLinks = [
+    { icon: MessageCircle, href: '/community/forum', label: 'Privacy Tips Forum' },
+    { icon: Heart, href: '/community/stories', label: 'Success Stories' },
+    { icon: Globe, href: '/community/resources', label: 'Community Resources' },
+    { icon: Users, href: '/family-hub', label: 'Family Hub' }
   ];
 
-  const connectLinks = [
-    { icon: Mail, href: '/contact', label: 'Contact Us' },
+  const guidesLinks = [
+    { icon: Shield, href: '/guides/family-privacy', label: 'Family Privacy Guide' },
+    { icon: Wrench, href: '/guides/device-setup', label: 'Device Setup' },
+    { icon: BookOpen, href: '/guides/app-selection', label: 'App Selection' },
+    { icon: AlertCircle, href: '/guides/emergency-safety', label: 'Emergency Safety' },
+    { icon: FileText, href: '/guides/age-specific', label: 'Age-Specific Guides' }
+  ];
+
+  const toolsLinks = [
+    { icon: Target, href: '/privacy-assessment', label: 'Privacy Assessment' },
+    { icon: Target, href: '/quick-assessment', label: 'Quick Assessment' },
+    { icon: Shield, href: '/privacy-goals', label: 'Privacy Goals' },
+    { icon: Download, href: '/downloads/coloring-sheets', label: 'Coloring Sheets' },
+    { icon: Download, href: '/downloads/certificates', label: 'Certificates' }
+  ];
+
+  const supportLinks = [
+    { icon: Info, href: '/about', label: 'About Us' },
     { icon: HelpCircle, href: '/faq', label: 'FAQ' },
+    { icon: Mail, href: '/contact', label: 'Contact Us' },
+    { icon: Headphones, href: '/support', label: 'Support' },
     { icon: Newspaper, href: '/newsletter', label: 'Newsletter' },
-    { icon: Headphones, href: '/support', label: 'Support' }
-  ];
-
-  const quickLinks = [
-    { icon: BookOpen, href: '/overview', label: 'Overview' },
-    { icon: Users, href: '/quick-start', label: 'Quick Start' },
-    { icon: GraduationCap, href: '/resources', label: 'Resources' },
-    { icon: Info, href: '/about', label: 'About' }
+    { icon: Briefcase, href: '/pilot', label: 'Join Pilot Program' }
   ];
 
   return (
@@ -51,9 +64,9 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="footer-column">
-            <h4>Quick Links</h4>
+            <h4>Learn</h4>
             <ul>
-              {quickLinks.map((link, index) => (
+              {learnLinks.map((link, index) => (
                 <li key={index}>
                   <Link to={link.href}>
                     <link.icon size={16} />
@@ -65,30 +78,37 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="footer-column">
-            <h4>Products</h4>
+            <h4>Community</h4>
             <ul>
-              {productLinks.map((link, index) => (
+              {communityLinks.map((link, index) => (
                 <li key={index}>
-                  {link.isExternal ? (
-                    <a href={link.href} target="_blank" rel="noopener noreferrer">
-                      <link.icon size={16} />
-                      {link.label}
-                    </a>
-                  ) : (
-                    <Link to={link.href}>
-                      <link.icon size={16} />
-                      {link.label}
-                    </Link>
-                  )}
+                  <Link to={link.href}>
+                    <link.icon size={16} />
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
           <div className="footer-column">
-            <h4>Curriculum</h4>
+            <h4>Guides</h4>
             <ul>
-              {curriculumLinks.map((link, index) => (
+              {guidesLinks.map((link, index) => (
+                <li key={index}>
+                  <Link to={link.href}>
+                    <link.icon size={16} />
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="footer-column">
+            <h4>Tools & Resources</h4>
+            <ul>
+              {toolsLinks.map((link, index) => (
                 <li key={index}>
                   <Link to={link.href}>
                     <link.icon size={16} />
@@ -102,7 +122,7 @@ const Footer: React.FC = () => {
           <div className="footer-column">
             <h4>Support</h4>
             <ul>
-              {connectLinks.map((link, index) => (
+              {supportLinks.map((link, index) => (
                 <li key={index}>
                  <Link to={link.href}>
                    <link.icon size={16} />
