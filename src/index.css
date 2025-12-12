@@ -792,10 +792,10 @@ body {
 
 .nav {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   padding: 0.75rem 0;
-  column-gap: 3rem;
+  column-gap: 2rem;
   row-gap: 0;
   flex-wrap: nowrap;
   min-height: 60px;
@@ -816,9 +816,9 @@ body {
   min-width: fit-content;
   white-space: nowrap;
   grid-column: 1;
-  justify-self: start;
-  margin-right: 1rem;
-  padding-right: 0;
+  justify-self: end;
+  margin: 0;
+  padding: 0;
 }
 
 .logo span {
@@ -855,7 +855,7 @@ body {
   align-items: center;
   gap: clamp(1rem, 2vw, 1.5rem);
   margin: 0;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
   flex-wrap: nowrap;
   justify-content: center;
   min-width: 0;
@@ -863,22 +863,22 @@ body {
   max-width: 100%;
   grid-column: 2;
   justify-self: center;
-  width: 100%;
+  width: auto;
 }
 
 /* Prevent menu items from overlapping on medium screens */
 @media (min-width: 769px) and (max-width: 1200px) {
   .nav {
-    column-gap: 2.5rem;
+    column-gap: 1.5rem;
   }
   
   .logo {
-    margin-right: 0.75rem;
+    margin: 0;
   }
   
   .nav-menu {
     gap: clamp(0.75rem, 1.5vw, 1.25rem);
-    padding: 0 1.5rem;
+    padding: 0 1rem;
   }
   
   .nav-link {
@@ -887,7 +887,7 @@ body {
   }
   
   .nav-actions {
-    margin-left: 0.75rem;
+    margin: 0;
   }
 }
 
@@ -969,9 +969,9 @@ body {
   flex-shrink: 0;
   flex-wrap: nowrap;
   grid-column: 3;
-  justify-self: end;
-  margin-left: 1rem;
-  padding-left: 0;
+  justify-self: start;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-actions button,
@@ -2898,12 +2898,12 @@ body {
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 1024px) {
   .nav {
-    column-gap: 2rem;
-    grid-template-columns: auto 1fr auto;
+    column-gap: 1.5rem;
+    grid-template-columns: 1fr auto 1fr;
   }
   
   .logo {
-    margin-right: 0.75rem;
+    margin: 0;
   }
   
   .nav-menu {
@@ -2918,8 +2918,8 @@ body {
   
   .nav-actions {
     gap: 0.625rem;
-    margin-left: 0.75rem;
-    padding-left: 0;
+    margin: 0;
+    padding: 0;
   }
   
   .family-hub-button {
@@ -2940,12 +2940,12 @@ body {
   }
   
   .nav {
-    grid-template-columns: auto 1fr auto;
-    column-gap: 1.5rem;
+    grid-template-columns: 1fr auto 1fr;
+    column-gap: 1rem;
   }
   
   .logo {
-    margin-right: 0.5rem;
+    margin: 0;
   }
   
   .nav-menu {
@@ -2954,8 +2954,8 @@ body {
   
   .nav-actions {
     gap: 0.5rem;
-    margin-left: 0.5rem;
-    padding-left: 0;
+    margin: 0;
+    padding: 0;
   }
   
   .nav-actions button,
