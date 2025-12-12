@@ -15,6 +15,10 @@ interface StoryScene {
   }>;
   audioUrl?: string;
   duration?: number;
+  background?: string;
+  timeOfDay?: string;
+  weather?: string;
+  mood?: string;
 }
 
 interface InteractiveStoryPlayerProps {
