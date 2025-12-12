@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Book, ArrowLeft, Heart, Star, Play, Pause, Volume2, VolumeX, RotateCcw } from 'lucide-react';
+import { Book, ArrowLeft, Heart, Star, Play } from 'lucide-react';
 import InteractiveStoryPlayer from '../components/story/InteractiveStoryPlayer';
 import StoryProgress from '../components/story/StoryProgress';
 import PageLayout from '../components/layout/PageLayout';
@@ -17,8 +17,6 @@ interface Achievement {
 
 const InteractiveStoryPage: React.FC = () => {
   const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
   const [points, setPoints] = useState(0);
   const [showKeyboardHelp, setShowKeyboardHelp] = useState(false);
   const [bookmarks, setBookmarks] = useState<Set<string>>(new Set());
@@ -474,88 +472,27 @@ const InteractiveStoryPage: React.FC = () => {
         </div>
 
 
-      {/* Story Controls Navigation */}
-      <div id="main-content" className="bg-gray-50 border-b border-gray-200" style={{ backgroundColor: 'var(--light)', marginTop: '2rem', marginBottom: '2rem' }}>
-        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '1rem 1.5rem' }}>
-          <div className="flex items-center justify-between flex-wrap gap-3">
+      {/* Main Content Section */}
+      <div id="main-content" style={{ marginTop: '2rem' }}>
 
-            <div className="flex items-center gap-4 flex-wrap">
-              {/* Compact Progress Indicator */}
-              <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg shadow-sm">
-                <div className="w-7 h-7 bg-green-100 rounded-full flex items-center justify-center">
-                  <span className="text-xs font-bold text-green-600">{currentSceneIndex + 1}</span>
-                </div>
-                <span className="text-xs font-medium text-gray-600 hidden sm:inline">/{storyScenes.length}</span>
-                <div className="w-20 h-1.5 bg-gray-200 rounded-full overflow-hidden hidden md:block">
-                  <div
-                    className="h-full bg-gradient-to-r from-green-500 to-green-600 transition-all duration-500 ease-out"
-                    style={{ width: `${((currentSceneIndex + 1) / storyScenes.length) * 100}%` }}
-                  />
-                </div>
-              </div>
-
-              {/* Compact Enhanced Controls */}
-              <div className="flex items-center gap-1 bg-white rounded-full px-1 py-1 shadow-lg border border-gray-200" role="group" aria-label="Story Controls">
-                <button
-                  onClick={() => setIsPlaying(!isPlaying)}
-                  className={`p-2.5 rounded-full transition-all transform hover:scale-110 ${
-                    isPlaying 
-                      ? 'bg-red-100 text-red-600 hover:bg-red-200' 
-                      : 'bg-green-100 text-green-600 hover:bg-green-200'
-                  }`}
-                  title={isPlaying ? 'Pause (P)' : 'Play (P)'}
-                  aria-label={isPlaying ? 'Pause story' : 'Play story'}
-                >
-                  {isPlaying ? <Pause size={18} /> : <Play size={18} />}
-                </button>
-                
-                <div className="w-px h-6 bg-gray-300"></div>
-                
-                <button
-                  onClick={() => setIsMuted(!isMuted)}
-                  className={`p-2.5 rounded-full transition-all transform hover:scale-110 ${
-                    isMuted 
-                      ? 'bg-orange-100 text-orange-600 hover:bg-orange-200' 
-                      : 'bg-blue-100 text-blue-600 hover:bg-blue-200'
-                  }`}
-                  title={isMuted ? 'Unmute (M)' : 'Mute (M)'}
-                  aria-label={isMuted ? 'Unmute audio' : 'Mute audio'}
-                >
-                  {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
-                </button>
-                
-                <button
-                  onClick={() => setCurrentSceneIndex(0)}
-                  className="p-2.5 rounded-full bg-purple-100 text-purple-600 hover:bg-purple-200 transition-all transform hover:scale-110 hidden sm:block"
-                  title="Reset (R)"
-                  aria-label="Reset story"
-                >
-                  <RotateCcw size={18} />
-                </button>
-                
-                <div className="w-px h-6 bg-gray-300 hidden sm:block"></div>
-                
-                <button
-                  onClick={() => setShowKeyboardHelp(!showKeyboardHelp)}
-                  className="p-2.5 rounded-full bg-yellow-100 text-yellow-600 hover:bg-yellow-200 transition-all transform hover:scale-110"
-                  title="Help (H)"
-                  aria-label="Show keyboard shortcuts"
-                >
-                  <span className="text-xs font-bold">?</span>
-                </button>
-                
-                <button
-                  onClick={() => setShowBookmarks(!showBookmarks)}
-                  className="p-2.5 rounded-full bg-indigo-100 text-indigo-600 hover:bg-indigo-200 transition-all transform hover:scale-110"
-                  title="Bookmarks (B)"
-                  aria-label="Show bookmarks"
-                >
-                  <span className="text-base">🔖</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+      {/* Floating Action Buttons */}
+      <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
+        <button
+          onClick={() => setShowKeyboardHelp(!showKeyboardHelp)}
+          className="bg-yellow-500 hover:bg-yellow-600 text-white p-3 rounded-full shadow-lg transition-all transform hover:scale-110"
+          title="Help (H)"
+          aria-label="Show keyboard shortcuts"
+        >
+          <span className="text-xl font-bold">?</span>
+        </button>
+        <button
+          onClick={() => setShowBookmarks(!showBookmarks)}
+          className="bg-indigo-500 hover:bg-indigo-600 text-white p-3 rounded-full shadow-lg transition-all transform hover:scale-110"
+          title="Bookmarks (B)"
+          aria-label="Show bookmarks"
+        >
+          <span className="text-xl">🔖</span>
+        </button>
       </div>
 
       {/* Keyboard Help Panel */}
@@ -681,7 +618,7 @@ const InteractiveStoryPage: React.FC = () => {
             onSceneChange={handleSceneChange}
             onStoryComplete={handleStoryComplete}
             onChoiceMade={handleChoiceMade}
-            hideControls={true}
+            hideControls={false}
           />
         </div>
 
@@ -756,6 +693,7 @@ const InteractiveStoryPage: React.FC = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </PageLayout>
   );
