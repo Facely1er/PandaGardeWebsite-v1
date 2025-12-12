@@ -16,7 +16,6 @@ import ActivityBookPage from './pages/ActivityBookPage';
 import AboutPage from './pages/AboutPage';
 import AgeGroupsPage from './pages/AgeGroupsPage';
 import ImplementationPage from './pages/ImplementationPage';
-import ParentResourcesPage from './pages/ParentResourcesPage';
 import FamilyHubWrapper from './pages/family-hub/FamilyHubWrapper';
 import ContactPage from './pages/ContactPage';
 import GetStartedPage from './pages/GetStartedPage';
@@ -132,7 +131,6 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/age-groups" element={<AgeGroupsPage />} />
             <Route path="/implementation" element={<ImplementationPage />} />
-            <Route path="/parent-resources" element={<ParentResourcesPage />} />
             <Route path="/family-hub/*" element={<FamilyHubWrapper />} />
             
             {/* Age Group Pages */}
