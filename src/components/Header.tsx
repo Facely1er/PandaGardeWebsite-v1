@@ -190,8 +190,8 @@ function Header() {
             role="menubar"
             aria-label="Main navigation menu"
           >
-            {navItems.map((item) => (
-              <li key={item.label} role="none" className={item.hideOnMedium ? 'hide-on-medium' : ''}>
+            {navItems.map((item, index) => (
+              <li key={`desktop-${item.href}-${index}`} role="none" className={item.hideOnMedium ? 'hide-on-medium' : ''}>
                 {item.href.startsWith('#') ? (
                   <a
                     href={item.href}
@@ -229,8 +229,8 @@ function Header() {
             aria-label="Main navigation menu"
             onKeyDown={handleMobileMenuKeyDown}
           >
-            {mobileNavItems.map((item) => (
-              <li key={item.label} role="none">
+            {mobileNavItems.map((item, index) => (
+              <li key={`mobile-${item.href}-${index}`} role="none">
                 {item.href.startsWith('#') ? (
                   <a
                     href={item.href}
