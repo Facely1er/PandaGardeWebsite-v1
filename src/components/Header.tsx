@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search, Bell, MessageCircle, Heart, Globe, Book } from 'lucide-react';
+import { Menu, X, Home, BookOpen, Users, Calendar, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search, Bell, MessageCircle, Heart, Globe, Book, Sparkles } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import SearchModal from './SearchModal';
 import OfflineIndicator from './OfflineIndicator';
@@ -51,9 +51,9 @@ const Header: React.FC = () => {
   // Enhanced navigation structure with better organization
   const navItems = [
     { icon: Home, label: 'Home', href: '/', isExternal: false },
-    { icon: BookOpen, label: 'Learn', href: '/overview', isExternal: false },
-    { icon: Users, label: 'Get Started', href: '/get-started', isExternal: false },
+    { icon: Sparkles, label: 'Features', href: '/overview', isExternal: false },
     { icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false },
+    { icon: Users, label: 'Get Started', href: '/get-started', isExternal: false },
     { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
     { icon: MessageCircle, label: 'Community', href: '/community/forum', isExternal: false },
   ];
@@ -61,9 +61,9 @@ const Header: React.FC = () => {
   // Mobile navigation with organized sections
   const mobileNavItems = [
     { icon: Home, label: 'Home', href: '/', isExternal: false },
-    { icon: BookOpen, label: 'Learn', href: '/overview', isExternal: false },
-    { icon: Users, label: 'Get Started', href: '/get-started', isExternal: false },
+    { icon: Sparkles, label: 'Features', href: '/overview', isExternal: false },
     { icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false },
+    { icon: Users, label: 'Get Started', href: '/get-started', isExternal: false },
     { icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
     { icon: MessageCircle, label: 'Community Forum', href: '/community/forum', isExternal: false },
     { icon: Heart, label: 'Success Stories', href: '/community/stories', isExternal: false },
