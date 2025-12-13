@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { 
-  Users, Shield, Award, Plus, User, Trash2, CheckCircle, X, MessageSquare, Eye
+  Users, Shield, Award, Plus, User, Trash2, CheckCircle, X, MessageSquare, Eye, ArrowLeft, TrendingUp, Clock
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import Logo from './Logo';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { useFamilyProgress } from '../contexts/FamilyProgressContext';
 import { trackEvent, AnalyticsEvents } from '../lib/analytics';
@@ -250,21 +252,77 @@ const FamilyDashboard = () => {
   }
 
   return (
-    <div className="space-y-4 sm:space-y-6 md:space-y-8 p-4 sm:p-6 min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Header - Mobile Optimized */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div className="flex-1">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-gray-100 mb-1 sm:mb-2">Family Privacy Dashboard</h1>
-          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Manage your family's privacy learning journey and track progress together</p>
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--light)', color: 'var(--gray-800)' }}>
+      {/* Header */}
+      <header className="bg-gradient-to-r from-green-600 via-green-500 to-green-600 text-white py-12 sm:py-20 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
+          }} />
         </div>
-        <button
-          onClick={() => setShowFeedback(true)}
-          className="flex items-center justify-center space-x-2 px-4 py-3 sm:py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 active:bg-green-800 transition-colors touch-manipulation min-h-[44px] w-full sm:w-auto"
-        >
-          <MessageSquare size={18} />
-          <span>Feedback</span>
-        </button>
+        
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <div className="flex items-center justify-center mb-6 sm:mb-8">
+            <div className="w-16 h-16 sm:w-20 sm:h-20">
+              <Logo />
+            </div>
+          </div>
+          
+          <div className="text-center">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 leading-tight">
+              Privacy Panda
+              <span className="block text-yellow-300 mt-1">Family Hub</span>
+            </h1>
+            
+            <p className="text-base sm:text-lg lg:text-xl opacity-90 max-w-2xl mx-auto mb-6 sm:mb-8 px-4">
+              Your central dashboard for family privacy education, progress tracking, and personalized learning paths.
+            </p>
+            
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs sm:text-sm px-4">
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                <Users size={14} className="sm:w-4 sm:h-4" />
+                <span className="font-medium">{familyMembers.length} Family {familyMembers.length === 1 ? 'Member' : 'Members'}</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                <Award size={14} className="sm:w-4 sm:h-4" />
+                <span className="font-medium">{calculateFamilyScore()}/100 Privacy Score</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                <Clock size={14} className="sm:w-4 sm:h-4" />
+                <span className="font-medium">Active Learning</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Navigation */}
+      <div className="bg-white border-b sticky top-0 z-40" style={{ backgroundColor: 'var(--card-color)' }}>
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-3 sm:py-4 gap-3 sm:gap-0">
+            <Link 
+              to="/"
+              className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors text-sm sm:text-base"
+              style={{ color: 'var(--primary-light)' }}
+            >
+              <ArrowLeft size={16} />
+              <span className="hidden sm:inline">Back to Main Site</span>
+              <span className="sm:hidden">Back</span>
+            </Link>
+            
+            <button
+              onClick={() => setShowFeedback(true)}
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors text-sm sm:text-base"
+            >
+              <MessageSquare size={16} />
+              <span>Feedback</span>
+            </button>
+          </div>
+        </div>
       </div>
+
+      {/* Main Content */}
+      <main className="container mx-auto px-4 sm:px-6 py-6 sm:py-12">
 
       {/* Family Overview Cards - Mobile First: 2 cols on mobile, 4 on tablet+ */}
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
