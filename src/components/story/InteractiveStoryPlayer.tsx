@@ -743,11 +743,17 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         .interactive-story-player {
           max-width: 900px;
           margin: 0 auto;
-          background: ${theme === 'dark' ? 'var(--gray-800)' : 'white'};
+          background: ${theme === 'dark' 
+            ? 'linear-gradient(135deg, #0D1117 0%, #161B22 50%, #1C2128 100%)' 
+            : 'white'};
           border-radius: 20px;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+          box-shadow: ${theme === 'dark' 
+            ? '0 20px 60px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(102, 187, 106, 0.1)' 
+            : '0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)'};
           overflow: hidden;
-          border: 1px solid ${theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'};
+          border: ${theme === 'dark' 
+            ? '1px solid rgba(102, 187, 106, 0.2)' 
+            : '1px solid rgba(0, 0, 0, 0.05)'};
           position: relative;
           width: 100%;
         }
@@ -759,8 +765,13 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           left: 0;
           right: 0;
           height: 4px;
-          background: linear-gradient(90deg, #10b981, #059669, #047857, #065f46);
+          background: ${theme === 'dark' 
+            ? 'linear-gradient(90deg, #66BB6A, #81C784, #4CAF50, #66BB6A)' 
+            : 'linear-gradient(90deg, #10b981, #059669, #047857, #065f46)'};
           z-index: 1;
+          box-shadow: ${theme === 'dark' 
+            ? '0 0 20px rgba(102, 187, 106, 0.5), 0 0 40px rgba(102, 187, 106, 0.3)' 
+            : 'none'};
         }
 
         .story-header {
@@ -821,8 +832,12 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         }
 
         .control-btn {
-          background: rgba(255, 255, 255, 0.15);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          background: ${theme === 'dark' 
+            ? 'rgba(110, 231, 183, 0.12)' 
+            : 'rgba(255, 255, 255, 0.15)'};
+          border: 1px solid ${theme === 'dark' 
+            ? 'rgba(110, 231, 183, 0.25)' 
+            : 'rgba(255, 255, 255, 0.2)'};
           color: white;
           padding: 0.75rem;
           border-radius: 12px;
@@ -847,7 +862,9 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           left: -100%;
           width: 100%;
           height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+          background: linear-gradient(90deg, transparent, ${theme === 'dark' 
+            ? 'rgba(110, 231, 183, 0.25)' 
+            : 'rgba(255, 255, 255, 0.2)'}, transparent);
           transition: left 0.5s ease;
         }
 
@@ -856,9 +873,16 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         }
 
         .control-btn:hover:not(:disabled) {
-          background: rgba(255, 255, 255, 0.25);
+          background: ${theme === 'dark' 
+            ? 'rgba(110, 231, 183, 0.25)' 
+            : 'rgba(255, 255, 255, 0.25)'};
           transform: translateY(-2px) scale(1.05);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+          box-shadow: ${theme === 'dark' 
+            ? '0 4px 20px rgba(110, 231, 183, 0.5), 0 0 24px rgba(110, 231, 183, 0.3)' 
+            : '0 4px 12px rgba(0, 0, 0, 0.2)'};
+          border-color: ${theme === 'dark' 
+            ? 'rgba(110, 231, 183, 0.5)' 
+            : 'rgba(255, 255, 255, 0.3)'};
         }
 
         .control-btn:active:not(:disabled) {
@@ -872,24 +896,47 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         }
 
         .play-btn {
-          background: rgba(255, 255, 255, 0.25);
+          background: ${theme === 'dark' 
+            ? 'linear-gradient(135deg, rgba(110, 231, 183, 0.25) 0%, rgba(134, 239, 172, 0.25) 100%)' 
+            : 'rgba(255, 255, 255, 0.25)'};
           padding: 1rem;
           border-radius: 50%;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+          box-shadow: ${theme === 'dark' 
+            ? '0 4px 24px rgba(110, 231, 183, 0.5), 0 0 36px rgba(110, 231, 183, 0.3)' 
+            : '0 4px 16px rgba(0, 0, 0, 0.2)'};
+          border: ${theme === 'dark' 
+            ? '1px solid rgba(110, 231, 183, 0.3)' 
+            : 'none'};
         }
 
         .play-btn:hover:not(:disabled) {
-          background: rgba(255, 255, 255, 0.35);
+          background: ${theme === 'dark' 
+            ? 'linear-gradient(135deg, rgba(110, 231, 183, 0.35) 0%, rgba(134, 239, 172, 0.35) 100%)' 
+            : 'rgba(255, 255, 255, 0.35)'};
           transform: translateY(-3px) scale(1.1);
+          box-shadow: ${theme === 'dark' 
+            ? '0 6px 32px rgba(110, 231, 183, 0.6), 0 0 48px rgba(110, 231, 183, 0.4)' 
+            : '0 6px 20px rgba(0, 0, 0, 0.3)'};
+          border-color: ${theme === 'dark' 
+            ? 'rgba(110, 231, 183, 0.5)' 
+            : 'transparent'};
         }
 
         .story-settings {
-          background: ${theme === 'dark' ? 'var(--gray-700)' : 'var(--light)'};
+          background: ${theme === 'dark' 
+            ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.98) 0%, rgba(51, 65, 85, 0.98) 100%)' 
+            : 'var(--light)'};
           padding: 1rem;
-          border-top: 1px solid ${theme === 'dark' ? 'var(--gray-600)' : 'var(--gray-200)'};
+          border-top: 1px solid ${theme === 'dark' 
+            ? 'rgba(110, 231, 183, 0.2)' 
+            : 'var(--gray-200)'};
           display: flex;
           gap: 2rem;
           flex-wrap: wrap;
+          backdrop-filter: ${theme === 'dark' ? 'blur(12px) saturate(180%)' : 'none'};
+          box-shadow: ${theme === 'dark' 
+            ? '0 -4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(110, 231, 183, 0.1)' 
+            : 'none'};
         }
 
         .setting-group {
@@ -900,7 +947,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
 
         .setting-group label {
           font-weight: 500;
-          color: ${theme === 'dark' ? 'var(--gray-200)' : 'var(--gray-700)'};
+          color: ${theme === 'dark' ? 'var(--gray-300)' : 'var(--gray-700)'};
         }
 
         .setting-group input[type="range"] {
@@ -909,11 +956,32 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
 
         .setting-group select {
           padding: 0.25rem 0.5rem;
-          border: 1px solid ${theme === 'dark' ? 'var(--gray-600)' : 'var(--gray-300)'};
+          border: 1px solid ${theme === 'dark' 
+            ? 'rgba(102, 187, 106, 0.2)' 
+            : 'var(--gray-300)'};
           border-radius: 4px;
-          background: ${theme === 'dark' ? 'var(--gray-700)' : 'white'};
-          color: ${theme === 'dark' ? 'var(--gray-200)' : 'var(--gray-800)'};
+          background: ${theme === 'dark' 
+            ? 'rgba(22, 27, 34, 0.8)' 
+            : 'white'};
+          color: ${theme === 'dark' ? 'var(--gray-300)' : 'var(--gray-800)'};
           font-size: 0.9rem;
+          transition: all 0.2s ease;
+        }
+
+        .setting-group select:hover {
+          border-color: ${theme === 'dark' 
+            ? 'rgba(102, 187, 106, 0.4)' 
+            : 'var(--gray-400)'};
+        }
+
+        .setting-group select:focus {
+          outline: none;
+          border-color: ${theme === 'dark' 
+            ? 'var(--primary)' 
+            : 'var(--primary-light)'};
+          box-shadow: ${theme === 'dark' 
+            ? '0 0 0 3px rgba(102, 187, 106, 0.2)' 
+            : '0 0 0 3px rgba(27, 94, 32, 0.1)'};
         }
 
         .speech-button {
@@ -947,10 +1015,9 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
 
         .story-content {
           padding: clamp(1rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
-          background: linear-gradient(135deg, 
-            ${theme === 'dark' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.8)'}, 
-            ${theme === 'dark' ? 'rgba(0, 0, 0, 0.1)' : 'rgba(248, 250, 252, 0.9)'}
-          );
+          background: ${theme === 'dark' 
+            ? 'linear-gradient(135deg, rgba(15, 23, 42, 0.7) 0%, rgba(30, 41, 59, 0.85) 50%, rgba(51, 65, 85, 0.7) 100%)' 
+            : 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 250, 252, 0.9) 100%)'};
           backdrop-filter: blur(10px);
           position: relative;
           min-height: 200px;
@@ -963,8 +1030,10 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           left: 0;
           right: 0;
           bottom: 0;
-          background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='subtle' width='40' height='40' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='0.5' fill='rgba(16, 185, 129, 0.05)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23subtle)'/></svg>");
-          opacity: 0.5;
+          background: ${theme === 'dark' 
+            ? "url(\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='subtle' width='40' height='40' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='0.5' fill='rgba(110, 231, 183, 0.12)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23subtle)'/></svg>\")"
+            : "url(\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='subtle' width='40' height='40' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='0.5' fill='rgba(16, 185, 129, 0.05)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23subtle)'/></svg>\")"};
+          opacity: ${theme === 'dark' ? '0.7' : '0.5'};
           z-index: 0;
         }
 
@@ -1046,8 +1115,15 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           margin: clamp(1rem, 3vw, 2rem) auto;
           border-radius: 16px;
           overflow: hidden;
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-          background: ${theme === 'dark' ? 'var(--gray-800)' : 'white'};
+          box-shadow: ${theme === 'dark' 
+            ? '0 12px 48px rgba(0, 0, 0, 0.7), 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 24px rgba(110, 231, 183, 0.15), inset 0 1px 0 rgba(110, 231, 183, 0.2)' 
+            : '0 8px 24px rgba(0, 0, 0, 0.15)'};
+          background: ${theme === 'dark' 
+            ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(51, 65, 85, 0.95) 100%)' 
+            : 'white'};
+          border: ${theme === 'dark' 
+            ? '1px solid rgba(110, 231, 183, 0.2)' 
+            : 'none'};
           animation: fadeInUp 0.8s ease-out;
         }
 
@@ -1077,6 +1153,9 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           font-size: 1.3rem;
           margin-bottom: 1rem;
           color: var(--primary);
+          text-shadow: ${theme === 'dark' 
+            ? '0 0 16px rgba(110, 231, 183, 0.4), 0 2px 8px rgba(110, 231, 183, 0.2)' 
+            : 'none'};
         }
 
         .choices-grid {
@@ -1086,9 +1165,13 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         }
 
         .choice-btn {
-          background: ${theme === 'dark' ? 'var(--gray-700)' : 'white'};
-          border: 2px solid var(--primary-light);
-          color: ${theme === 'dark' ? 'var(--gray-200)' : 'var(--gray-800)'};
+          background: ${theme === 'dark' 
+            ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(51, 65, 85, 0.9) 100%)' 
+            : 'white'};
+          border: 2px solid ${theme === 'dark' 
+            ? 'rgba(110, 231, 183, 0.3)' 
+            : 'var(--primary-light)'};
+          color: ${theme === 'dark' ? 'var(--gray-700)' : 'var(--gray-800)'};
           padding: clamp(1rem, 3vw, 1.5rem);
           border-radius: 16px;
           cursor: pointer;
@@ -1099,7 +1182,9 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           gap: 0.75rem;
           position: relative;
           overflow: hidden;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          box-shadow: ${theme === 'dark' 
+            ? '0 4px 20px rgba(0, 0, 0, 0.5), 0 0 12px rgba(110, 231, 183, 0.1), inset 0 1px 0 rgba(110, 231, 183, 0.15)' 
+            : '0 2px 8px rgba(0, 0, 0, 0.1)'};
           min-height: 60px;
           touch-action: manipulation;
           -webkit-tap-highlight-color: transparent;
@@ -1112,7 +1197,9 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           left: -100%;
           width: 100%;
           height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent);
+          background: linear-gradient(90deg, transparent, ${theme === 'dark' 
+            ? 'rgba(110, 231, 183, 0.2)' 
+            : 'rgba(16, 185, 129, 0.1)'}, transparent);
           transition: left 0.6s ease;
         }
 
@@ -1121,11 +1208,17 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         }
 
         .choice-btn:hover:not(:disabled) {
-          background: var(--primary-light);
-          color: white;
+          background: ${theme === 'dark' 
+            ? 'linear-gradient(135deg, rgba(110, 231, 183, 0.25) 0%, rgba(134, 239, 172, 0.25) 100%)' 
+            : 'var(--primary-light)'};
+          color: ${theme === 'dark' ? 'var(--gray-800)' : 'white'};
           transform: translateY(-4px) scale(1.02);
-          box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
-          border-color: var(--primary);
+          box-shadow: ${theme === 'dark' 
+            ? '0 12px 40px rgba(110, 231, 183, 0.5), 0 4px 20px rgba(110, 231, 183, 0.3), inset 0 1px 0 rgba(110, 231, 183, 0.3), 0 0 24px rgba(110, 231, 183, 0.2)' 
+            : '0 8px 24px rgba(16, 185, 129, 0.3)'};
+          border-color: ${theme === 'dark' 
+            ? 'rgba(110, 231, 183, 0.6)' 
+            : 'var(--primary)'};
         }
 
         .choice-btn:active:not(:disabled) {
@@ -1133,11 +1226,17 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         }
 
         .choice-btn.selected {
-          background: var(--primary);
-          color: white;
-          border-color: var(--primary);
+          background: ${theme === 'dark' 
+            ? 'linear-gradient(135deg, rgba(110, 231, 183, 0.35) 0%, rgba(134, 239, 172, 0.35) 100%)' 
+            : 'var(--primary)'};
+          color: ${theme === 'dark' ? 'var(--white)' : 'white'};
+          border-color: ${theme === 'dark' 
+            ? 'rgba(110, 231, 183, 0.8)' 
+            : 'var(--primary)'};
           transform: scale(1.05);
-          box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+          box-shadow: ${theme === 'dark' 
+            ? '0 12px 48px rgba(110, 231, 183, 0.6), 0 4px 24px rgba(110, 231, 183, 0.4), inset 0 1px 0 rgba(110, 231, 183, 0.5), 0 0 32px rgba(110, 231, 183, 0.3)' 
+            : '0 8px 24px rgba(16, 185, 129, 0.4)'};
         }
 
         .choice-btn:disabled {
@@ -1181,7 +1280,10 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(0, 0, 0, 0.7);
+          background: ${theme === 'dark' 
+            ? 'rgba(13, 17, 23, 0.9)' 
+            : 'rgba(0, 0, 0, 0.7)'};
+          backdrop-filter: blur(8px);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1189,11 +1291,19 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         }
 
         .loading-spinner {
-          background: white;
+          background: ${theme === 'dark' 
+            ? 'linear-gradient(135deg, rgba(22, 27, 34, 0.95) 0%, rgba(28, 33, 40, 0.95) 100%)' 
+            : 'white'};
           padding: 2rem;
           border-radius: 12px;
           text-align: center;
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+          box-shadow: ${theme === 'dark' 
+            ? '0 20px 60px rgba(0, 0, 0, 0.8), 0 8px 24px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(102, 187, 106, 0.2)' 
+            : '0 8px 25px rgba(0, 0, 0, 0.3)'};
+          border: ${theme === 'dark' 
+            ? '1px solid rgba(102, 187, 106, 0.2)' 
+            : 'none'};
+          color: ${theme === 'dark' ? 'var(--gray-300)' : 'inherit'};
         }
 
         .spinner {
@@ -1214,22 +1324,33 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         }
 
         .skip-button {
-          background: var(--primary);
+          background: ${theme === 'dark' 
+            ? 'linear-gradient(135deg, rgba(102, 187, 106, 0.9) 0%, rgba(129, 199, 132, 0.9) 100%)' 
+            : 'var(--primary)'};
           color: white;
           border: none;
           padding: 0.75rem 1.5rem;
           border-radius: 25px;
           cursor: pointer;
           font-weight: 600;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+          box-shadow: ${theme === 'dark' 
+            ? '0 4px 16px rgba(102, 187, 106, 0.5), 0 0 30px rgba(102, 187, 106, 0.3)' 
+            : '0 4px 12px rgba(0, 0, 0, 0.2)'};
           transition: all 0.2s ease;
           animation: pulse 2s infinite;
+          border: ${theme === 'dark' 
+            ? '1px solid rgba(102, 187, 106, 0.5)' 
+            : 'none'};
         }
 
         .skip-button:hover {
-          background: var(--primary-light);
+          background: ${theme === 'dark' 
+            ? 'linear-gradient(135deg, rgba(102, 187, 106, 1) 0%, rgba(129, 199, 132, 1) 100%)' 
+            : 'var(--primary-light)'};
           transform: translateY(-2px);
-          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+          box-shadow: ${theme === 'dark' 
+            ? '0 6px 24px rgba(102, 187, 106, 0.6), 0 0 40px rgba(102, 187, 106, 0.4)' 
+            : '0 6px 16px rgba(0, 0, 0, 0.3)'};
         }
 
         .mobile-gesture-hint {
@@ -1245,8 +1366,10 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         }
 
         .gesture-hint-content {
-          background: rgba(0, 0, 0, 0.85);
-          color: white;
+          background: ${theme === 'dark' 
+            ? 'linear-gradient(135deg, rgba(22, 27, 34, 0.95) 0%, rgba(28, 33, 40, 0.95) 100%)' 
+            : 'rgba(0, 0, 0, 0.85)'};
+          color: ${theme === 'dark' ? 'var(--gray-300)' : 'white'};
           padding: clamp(0.5rem, 2vw, 0.75rem) clamp(0.75rem, 3vw, 1rem);
           border-radius: 20px;
           display: flex;
@@ -1254,7 +1377,13 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           gap: 0.5rem;
           font-size: clamp(0.75rem, 2.5vw, 0.9rem);
           white-space: nowrap;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+          box-shadow: ${theme === 'dark' 
+            ? '0 8px 24px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(102, 187, 106, 0.2)' 
+            : '0 4px 12px rgba(0, 0, 0, 0.3)'};
+          border: ${theme === 'dark' 
+            ? '1px solid rgba(102, 187, 106, 0.2)' 
+            : 'none'};
+          backdrop-filter: ${theme === 'dark' ? 'blur(10px)' : 'none'};
         }
 
         .gesture-icon {
@@ -1277,12 +1406,16 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
 
         @keyframes titleGlow {
           from { 
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: ${theme === 'dark' 
+              ? '2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 8px rgba(102, 187, 106, 0.2)' 
+              : '2px 2px 4px rgba(0, 0, 0, 0.1)'};
             filter: brightness(1);
           }
           to { 
-            text-shadow: 2px 2px 8px rgba(16, 185, 129, 0.3), 0 0 16px rgba(16, 185, 129, 0.2);
-            filter: brightness(1.1);
+            text-shadow: ${theme === 'dark' 
+              ? '2px 2px 8px rgba(102, 187, 106, 0.5), 0 0 20px rgba(102, 187, 106, 0.4), 0 0 30px rgba(102, 187, 106, 0.2)' 
+              : '2px 2px 8px rgba(16, 185, 129, 0.3), 0 0 16px rgba(16, 185, 129, 0.2)'};
+            filter: brightness(${theme === 'dark' ? '1.15' : '1.1'});
           }
         }
 
@@ -1519,6 +1652,9 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           font-weight: bold;
           margin-bottom: 1rem;
           color: var(--primary);
+          text-shadow: ${theme === 'dark' 
+            ? '0 0 20px rgba(102, 187, 106, 0.4), 0 0 40px rgba(102, 187, 106, 0.2)' 
+            : 'none'};
         }
 
         .full-story-intro {
@@ -1541,6 +1677,9 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           height: 2px;
           background: linear-gradient(90deg, transparent, var(--primary-light), transparent);
           margin: 2rem 0;
+          box-shadow: ${theme === 'dark' 
+            ? '0 0 10px rgba(102, 187, 106, 0.3)' 
+            : 'none'};
         }
 
         .scene-heading {
@@ -1548,6 +1687,9 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           font-weight: bold;
           margin-bottom: 1rem;
           color: var(--primary);
+          text-shadow: ${theme === 'dark' 
+            ? '0 0 10px rgba(102, 187, 106, 0.3)' 
+            : 'none'};
         }
 
         .scene-paragraph {
@@ -1560,12 +1702,18 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           margin-top: 3rem;
           padding-top: 2rem;
           border-top: 2px solid var(--primary-light);
+          box-shadow: ${theme === 'dark' 
+            ? '0 -2px 10px rgba(102, 187, 106, 0.2)' 
+            : 'none'};
         }
 
         .ending-text {
           font-size: 1.5rem;
           font-weight: bold;
           color: var(--primary);
+          text-shadow: ${theme === 'dark' 
+            ? '0 0 15px rgba(102, 187, 106, 0.4), 0 0 30px rgba(102, 187, 106, 0.2)' 
+            : 'none'};
         }
 
         @media (max-width: 480px) {
