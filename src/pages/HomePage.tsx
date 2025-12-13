@@ -261,8 +261,9 @@ const HomePage: React.FC = () => {
         <section className="fade-in" style={{ 
           background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
           color: 'white',
-          padding: '1rem 0',
-          marginBottom: '0'
+          padding: '0.875rem 0',
+          marginBottom: 0,
+          marginTop: 0
         }}>
           <div className="container">
             <div style={{ 
@@ -300,7 +301,10 @@ const HomePage: React.FC = () => {
       )}
 
       {/* Hero Section - Two Column Layout */}
-      <section className="hero-simple">
+      <section className="hero-simple" style={{ 
+        paddingTop: familyPersona ? '1.5rem' : 'clamp(2rem, 4vw, 3rem)',
+        paddingBottom: 'clamp(4rem, 8vw, 6rem)'
+      }}>
         {/* Subtle background elements */}
         <div style={{
           position: 'absolute',
