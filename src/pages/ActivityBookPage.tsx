@@ -285,50 +285,48 @@ const ActivityBookPage: React.FC = () => {
       {/* Story Connection Section */}
       <section style={{ padding: '3rem 0' }}>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-        <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6 md:p-8 mb-8 md:mb-12 max-w-5xl mx-auto" style={{
-          backgroundColor: theme === 'dark' ? 'rgba(16, 185, 129, 0.1)' : '#F0FDF4',
-          borderColor: theme === 'dark' ? 'rgba(16, 185, 129, 0.3)' : '#BBF7D0'
-        }}>
-          <div className="text-center mb-6">
-            <div className="w-16 h-16 md:w-20 md:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-3xl md:text-4xl">🐼</span>
-            </div>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3" style={{ color: theme === 'dark' ? '#6EE7B7' : '#059669' }}>
-              Continue Po's Journey
-            </h2>
-            <p className="text-base md:text-lg lg:text-xl max-w-2xl mx-auto px-4" style={{ color: theme === 'dark' ? '#6EE7B7' : '#059669' }}>
-              These activities extend the story of Privacy Panda. Practice the privacy concepts Po learned in the Digital Bamboo Forest through hands-on games and exercises.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
-            <div className="bg-white rounded-lg p-4 md:p-6 shadow-sm">
-              <h3 className="font-semibold mb-2 text-base md:text-lg" style={{ color: 'var(--primary)' }}>📖 Story Connection</h3>
-              <p className="text-sm md:text-base" style={{ color: 'var(--gray-600)' }}>
-                Each activity relates to a part of Po's adventure, reinforcing the privacy lessons he learned.
+          <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6 md:p-8 mb-8 md:mb-12 max-w-5xl mx-auto" style={{
+            backgroundColor: theme === 'dark' ? 'rgba(16, 185, 129, 0.1)' : '#F0FDF4',
+            borderColor: theme === 'dark' ? 'rgba(16, 185, 129, 0.3)' : '#BBF7D0'
+          }}>
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 md:w-20 md:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-3xl md:text-4xl">🐼</span>
+              </div>
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3" style={{ color: theme === 'dark' ? '#6EE7B7' : '#059669' }}>
+                Continue Po's Journey
+              </h2>
+              <p className="text-base md:text-lg lg:text-xl max-w-2xl mx-auto px-4" style={{ color: theme === 'dark' ? '#6EE7B7' : '#059669' }}>
+                These activities extend the story of Privacy Panda. Practice the privacy concepts Po learned in the Digital Bamboo Forest through hands-on games and exercises.
               </p>
             </div>
-            <div className="bg-white rounded-lg p-4 md:p-6 shadow-sm">
-              <h3 className="font-semibold mb-2 text-base md:text-lg" style={{ color: 'var(--primary)' }}>🎯 Learning Goals</h3>
-              <p className="text-sm md:text-base" style={{ color: 'var(--gray-600)' }}>
-                Develop practical skills for protecting personal information and staying safe online.
-              </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
+              <div className="bg-white rounded-lg p-4 md:p-6 shadow-sm">
+                <h3 className="font-semibold mb-2 text-base md:text-lg" style={{ color: 'var(--primary)' }}>📖 Story Connection</h3>
+                <p className="text-sm md:text-base" style={{ color: 'var(--gray-600)' }}>
+                  Each activity relates to a part of Po's adventure, reinforcing the privacy lessons he learned.
+                </p>
+              </div>
+              <div className="bg-white rounded-lg p-4 md:p-6 shadow-sm">
+                <h3 className="font-semibold mb-2 text-base md:text-lg" style={{ color: 'var(--primary)' }}>🎯 Learning Goals</h3>
+                <p className="text-sm md:text-base" style={{ color: 'var(--gray-600)' }}>
+                  Develop practical skills for protecting personal information and staying safe online.
+                </p>
+              </div>
+            </div>
+            
+            <div className="text-center">
+              <Link
+                to="/privacy-panda"
+                className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-flex items-center gap-2 text-sm md:text-base"
+              >
+                <Book size={20} />
+                <span>Read Privacy Panda's Story First</span>
+              </Link>
             </div>
           </div>
-          
-          <div className="text-center">
-            <Link
-              to="/privacy-panda"
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-flex items-center gap-2 text-sm md:text-base"
-            >
-              <Book size={20} />
-              <span>Read Privacy Panda's Story First</span>
-            </Link>
-          </div>
-        </div>
-        </div>
 
-        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', marginBottom: '3rem' }}>
           <ProgressDisplay
             completedCount={overallProgress.completedCount}
             totalCount={overallProgress.totalCount}
@@ -337,127 +335,126 @@ const ActivityBookPage: React.FC = () => {
             averageScore={overallProgress.averageScore}
             showDetails={true}
           />
-        </div>
 
-        {overallProgress.percentage === 100 && (
-          <div className="text-center bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-8"
-               style={{
-                 backgroundColor: theme === 'dark' ? 'rgba(251, 191, 36, 0.1)' : '#FFFBEB',
-                 borderColor: 'var(--warning)'
-               }}>
-            <Award className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--warning)' }} />
-            <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--primary)' }}>
-              Congratulations! 🎉
-            </h3>
-            <p style={{ color: 'var(--gray-700)' }}>
-              You've completed all activities and earned your Privacy Champion certificate!
-            </p>
-            <button 
-              onClick={() => navigate('/family-hub')}
-              className="mt-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105"
-            >
-              <Award size={20} className="inline mr-2" />
-              Generate Certificate
-            </button>
-          </div>
-        )}
+          {overallProgress.percentage === 100 && (
+            <div className="text-center bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-8 max-w-3xl mx-auto mt-8" style={{
+              backgroundColor: theme === 'dark' ? 'rgba(251, 191, 36, 0.1)' : '#FFFBEB',
+              borderColor: 'var(--warning)'
+            }}>
+              <Award className="w-16 h-16 mx-auto mb-4" style={{ color: 'var(--warning)' }} />
+              <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--primary)' }}>
+                Congratulations! 🎉
+              </h3>
+              <p style={{ color: 'var(--gray-700)' }}>
+                You've completed all activities and earned your Privacy Champion certificate!
+              </p>
+              <button 
+                onClick={() => navigate('/family-hub')}
+                className="mt-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105"
+              >
+                <Award size={20} className="inline mr-2" />
+                Generate Certificate
+              </button>
+            </div>
+          )}
+        </div>
       </section>
 
       {/* Activities Grid */}
       <section style={{ padding: '0 0 4rem 0' }}>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-        <div className="text-center mb-6 md:mb-8 max-w-4xl mx-auto">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4" style={{ color: 'var(--primary)' }}>
-            Choose Your Activity
-          </h2>
-          <p className="text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-6 md:mb-8 px-4" style={{ color: 'var(--gray-600)' }}>
-            Click on any activity to start learning about digital privacy through interactive games and exercises.
-          </p>
+          <div className="text-center mb-6 md:mb-8 max-w-4xl mx-auto">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4" style={{ color: 'var(--primary)' }}>
+              Choose Your Activity
+            </h2>
+            <p className="text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-6 md:mb-8 px-4" style={{ color: 'var(--gray-600)' }}>
+              Click on any activity to start learning about digital privacy through interactive games and exercises.
+            </p>
 
-          {/* Interactive Controls */}
-          <div className="bg-white rounded-xl shadow-lg p-4 md:p-6 mb-6 md:mb-8 max-w-5xl mx-auto" style={{ backgroundColor: 'var(--card-color)' }}>
-            <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
-              {/* Search */}
-              <div className="flex-1 min-w-0">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-                  <input
-                    type="text"
-                    placeholder="Search activities..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm md:text-base"
+            {/* Interactive Controls */}
+            <div className="bg-white rounded-xl shadow-lg p-4 md:p-6 mb-6 md:mb-8 max-w-5xl mx-auto" style={{ backgroundColor: 'var(--card-color)' }}>
+              <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+                {/* Search */}
+                <div className="flex-1 min-w-0">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                    <input
+                      type="text"
+                      placeholder="Search activities..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm md:text-base"
+                      style={{ backgroundColor: 'var(--white)' }}
+                    />
+                  </div>
+                </div>
+
+                {/* Filter and Sort */}
+                <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
+                  <button
+                    onClick={() => setShowFilters(!showFilters)}
+                    className="flex items-center gap-2 px-3 md:px-4 py-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-sm md:text-base whitespace-nowrap"
+                  >
+                    <Filter size={16} className="md:w-4 md:h-4" />
+                    <span className="hidden sm:inline">Filter</span>
+                  </button>
+
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as 'name' | 'difficulty' | 'duration')}
+                    className="px-3 md:px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm md:text-base"
                     style={{ backgroundColor: 'var(--white)' }}
-                  />
+                  >
+                    <option value="name">Sort by Name</option>
+                    <option value="difficulty">Sort by Difficulty</option>
+                    <option value="duration">Sort by Duration</option>
+                  </select>
                 </div>
               </div>
 
-              {/* Filter and Sort */}
-              <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
-                <button
-                  onClick={() => setShowFilters(!showFilters)}
-                  className="flex items-center gap-2 px-3 md:px-4 py-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-sm md:text-base whitespace-nowrap"
-                >
-                  <Filter size={16} className="md:w-4 md:h-4" />
-                  <span className="hidden sm:inline">Filter</span>
-                </button>
-
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as 'name' | 'difficulty' | 'duration')}
-                  className="px-3 md:px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm md:text-base"
-                  style={{ backgroundColor: 'var(--white)' }}
-                >
-                  <option value="name">Sort by Name</option>
-                  <option value="difficulty">Sort by Difficulty</option>
-                  <option value="duration">Sort by Duration</option>
-                </select>
-              </div>
+              {/* Filter Options */}
+              {showFilters && (
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                    <button
+                      onClick={() => setFilter('all')}
+                      className={`px-3 md:px-4 py-2 rounded-lg transition-colors text-sm md:text-base ${
+                        filter === 'all' ? 'bg-green-500 text-white' : 'bg-gray-100 hover:bg-gray-200'
+                      }`}
+                    >
+                      All Activities
+                    </button>
+                    <button
+                      onClick={() => setFilter('easy')}
+                      className={`px-3 md:px-4 py-2 rounded-lg transition-colors text-sm md:text-base ${
+                        filter === 'easy' ? 'bg-green-500 text-white' : 'bg-gray-100 hover:bg-gray-200'
+                      }`}
+                    >
+                      Easy
+                    </button>
+                    <button
+                      onClick={() => setFilter('medium')}
+                      className={`px-3 md:px-4 py-2 rounded-lg transition-colors text-sm md:text-base ${
+                        filter === 'medium' ? 'bg-green-500 text-white' : 'bg-gray-100 hover:bg-gray-200'
+                      }`}
+                    >
+                      Medium
+                    </button>
+                    <button
+                      onClick={() => setFilter('hard')}
+                      className={`px-3 md:px-4 py-2 rounded-lg transition-colors text-sm md:text-base ${
+                        filter === 'hard' ? 'bg-green-500 text-white' : 'bg-gray-100 hover:bg-gray-200'
+                      }`}
+                    >
+                      Hard
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
-
-            {/* Filter Options */}
-            {showFilters && (
-              <div className="mt-4 pt-4 border-t border-gray-200">
-                <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-                  <button
-                    onClick={() => setFilter('all')}
-                    className={`px-3 md:px-4 py-2 rounded-lg transition-colors text-sm md:text-base ${
-                      filter === 'all' ? 'bg-green-500 text-white' : 'bg-gray-100 hover:bg-gray-200'
-                    }`}
-                  >
-                    All Activities
-                  </button>
-                  <button
-                    onClick={() => setFilter('easy')}
-                    className={`px-3 md:px-4 py-2 rounded-lg transition-colors text-sm md:text-base ${
-                      filter === 'easy' ? 'bg-green-500 text-white' : 'bg-gray-100 hover:bg-gray-200'
-                    }`}
-                  >
-                    Easy
-                  </button>
-                  <button
-                    onClick={() => setFilter('medium')}
-                    className={`px-3 md:px-4 py-2 rounded-lg transition-colors text-sm md:text-base ${
-                      filter === 'medium' ? 'bg-green-500 text-white' : 'bg-gray-100 hover:bg-gray-200'
-                    }`}
-                  >
-                    Medium
-                  </button>
-                  <button
-                    onClick={() => setFilter('hard')}
-                    className={`px-3 md:px-4 py-2 rounded-lg transition-colors text-sm md:text-base ${
-                      filter === 'hard' ? 'bg-green-500 text-white' : 'bg-gray-100 hover:bg-gray-200'
-                    }`}
-                  >
-                    Hard
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {filteredActivities.length === 0 ? (
             <div className="col-span-full text-center py-12">
               <div className="text-6xl mb-4">🔍</div>
@@ -531,7 +528,7 @@ const ActivityBookPage: React.FC = () => {
             );
           })
           )}
-        </div>
+          </div>
         </div>
       </section>
 
