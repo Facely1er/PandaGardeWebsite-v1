@@ -6,18 +6,21 @@ import ProfilePage from '../ProfilePage';
 import CertificatePage from '../CertificatePage';
 import LearningHub from '../../components/family/LearningHub';
 import JourneyHub from '../../components/journey/JourneyHub';
+import { AuthProvider } from './AuthWrapper';
 
 const FamilyHubWrapper: React.FC = () => {
   return (
-    <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/" element={<FamilyDashboard />} />
-      <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/certificates" element={<CertificatePage />} />
-      <Route path="/learning" element={<LearningHub />} />
-      <Route path="/games" element={<LearningHub />} />
-      <Route path="/journeys" element={<JourneyHub />} />
-    </Routes>
+    <AuthProvider>
+      <Routes>
+        <Route path="login" element={<LoginPage />} />
+        <Route index element={<FamilyDashboard />} />
+        <Route path="profile" element={<ProfilePage />} />
+        <Route path="certificates" element={<CertificatePage />} />
+        <Route path="learning" element={<LearningHub />} />
+        <Route path="games" element={<LearningHub />} />
+        <Route path="journeys" element={<JourneyHub />} />
+      </Routes>
+    </AuthProvider>
   );
 };
 
