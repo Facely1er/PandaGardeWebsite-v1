@@ -239,7 +239,7 @@ const HomePage: React.FC = () => {
   ];
 
   return (
-    <main id="main-content">
+    <div id="main-content">
       <OnboardingFlow />
       
       {/* Feature Unlock Celebration */}
@@ -302,7 +302,7 @@ const HomePage: React.FC = () => {
 
       {/* Hero Section - Two Column Layout */}
       <section className="hero-simple" style={{ 
-        paddingTop: familyPersona ? '0.5rem' : 'clamp(0.5rem, 1vw, 1rem)',
+        paddingTop: familyPersona ? '1rem' : 'clamp(1rem, 2vw, 1.5rem)',
         paddingBottom: 'clamp(4rem, 8vw, 6rem)'
       }}>
         {/* Subtle background elements */}
@@ -1448,7 +1448,7 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 };
 

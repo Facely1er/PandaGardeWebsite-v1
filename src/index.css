@@ -719,8 +719,8 @@ body {
 
 /* Main content spacing */
 #main-content {
-  padding-top: 80px;
-  min-height: calc(100vh - 80px);
+  /* padding handled by .main-content-wrapper */
+  min-height: calc(100vh - 84px);
 }
 
 /* Ensure content after fixed header has proper spacing */
@@ -730,8 +730,8 @@ body {
 
 @media (max-width: 768px) {
   #main-content {
-    padding-top: 70px;
-    min-height: calc(100vh - 70px);
+    /* padding handled by .main-content-wrapper */
+    min-height: calc(100vh - 72px);
   }
   
   .main-content-wrapper {
