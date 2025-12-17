@@ -123,6 +123,19 @@ const ConditionalHeader: React.FC = () => {
   return <Header />;
 };
 
+// Component to conditionally render footer based on route
+const ConditionalFooter: React.FC = () => {
+  const location = useLocation();
+  const isFamilyHub = location.pathname.startsWith('/family-hub');
+  
+  // Don't render main footer on Family Hub pages (they have their own footer)
+  if (isFamilyHub) {
+    return null;
+  }
+  
+  return <Footer />;
+};
+
 function App() {
   return (
     <ThemeProvider>
@@ -242,7 +255,7 @@ function App() {
             {/* 404 Fallback */}
             <Route path="*" element={<HomePage />} />
                         </Routes>
-                        <Footer />
+                        <ConditionalFooter />
                         <BackToTop />
                       </main>
                     </div>
