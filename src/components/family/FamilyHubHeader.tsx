@@ -80,7 +80,7 @@ const FamilyHubHeader: React.FC = () => {
           className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-3 group z-10"
           aria-label="Family Hub - Go to dashboard"
         >
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-white/20 backdrop-blur-sm p-2 group-hover:bg-white/30 transition-colors shadow-lg">
+          <div className="w-12 h-12 flex-shrink-0">
             <Logo />
           </div>
           <div className="hidden sm:block">
@@ -90,7 +90,7 @@ const FamilyHubHeader: React.FC = () => {
         </Link>
 
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-20 pl-20 sm:pl-48">
+          <div className="flex items-center justify-between h-16 pl-16 sm:pl-44">
             {/* Spacer for logo */}
             <div className="flex-shrink-0" />
 

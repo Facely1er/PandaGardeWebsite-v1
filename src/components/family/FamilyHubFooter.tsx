@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Home, Gamepad2, Map, Award, ArrowLeft,
-  Mail, HelpCircle, Shield, Heart, ExternalLink
+  Mail, HelpCircle, Shield, ExternalLink
 } from 'lucide-react';
 import Logo from '../Logo';
 
@@ -25,7 +25,7 @@ const FamilyHubFooter: React.FC = () => {
       {/* Wave separator */}
       <div className="w-full overflow-hidden leading-none">
         <svg 
-          className="relative block w-full h-12"
+          className="relative block w-full h-8"
           xmlns="http://www.w3.org/2000/svg" 
           viewBox="0 0 1200 120" 
           preserveAspectRatio="none"
@@ -37,43 +37,38 @@ const FamilyHubFooter: React.FC = () => {
         </svg>
       </div>
 
-      <div className="container mx-auto px-4 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="container mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Brand Section */}
           <div className="lg:col-span-1">
-            <Link to="/family-hub" className="flex items-center gap-3 group mb-4">
-              <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm p-2 group-hover:bg-white/30 transition-colors">
+            <Link to="/family-hub" className="flex items-center gap-3 group mb-3">
+              <div className="w-12 h-12 flex-shrink-0">
                 <Logo />
               </div>
               <div>
-                <span className="text-white font-bold text-xl">Family Hub</span>
-                <span className="block text-purple-200 text-sm">Privacy Learning</span>
+                <span className="text-white font-bold text-lg">Family Hub</span>
+                <span className="block text-purple-200 text-xs">Privacy Learning</span>
               </div>
             </Link>
-            <p className="text-purple-200 text-sm leading-relaxed mb-4">
-              Teaching digital privacy skills through fun, interactive games and activities. 
-              Helping families build a safer online future together.
+            <p className="text-purple-200 text-sm leading-relaxed">
+              Teaching digital privacy through fun, interactive games.
             </p>
-            <div className="flex items-center gap-2 text-purple-300 text-sm">
-              <Heart size={16} className="text-pink-400" />
-              <span>Made for families</span>
-            </div>
           </div>
 
           {/* Hub Navigation */}
           <div>
-            <h4 className="text-white font-semibold text-lg mb-4 flex items-center gap-2">
-              <Gamepad2 size={18} className="text-purple-300" />
+            <h4 className="text-white font-semibold mb-2 flex items-center gap-2">
+              <Gamepad2 size={16} className="text-purple-300" />
               Family Hub
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               {hubLinks.map((link, index) => (
                 <li key={index}>
                   <Link 
                     to={link.href}
-                    className="flex items-center gap-2 text-purple-200 hover:text-white transition-colors py-1"
+                    className="flex items-center gap-2 text-purple-200 hover:text-white transition-colors text-sm py-0.5"
                   >
-                    <link.icon size={16} />
+                    <link.icon size={14} />
                     {link.label}
                   </Link>
                 </li>
@@ -83,18 +78,18 @@ const FamilyHubFooter: React.FC = () => {
 
           {/* Support Links */}
           <div>
-            <h4 className="text-white font-semibold text-lg mb-4 flex items-center gap-2">
-              <HelpCircle size={18} className="text-purple-300" />
+            <h4 className="text-white font-semibold mb-2 flex items-center gap-2">
+              <HelpCircle size={16} className="text-purple-300" />
               Help & Support
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               {supportLinks.map((link, index) => (
                 <li key={index}>
                   <Link 
                     to={link.href}
-                    className="flex items-center gap-2 text-purple-200 hover:text-white transition-colors py-1"
+                    className="flex items-center gap-2 text-purple-200 hover:text-white transition-colors text-sm py-0.5"
                   >
-                    <link.icon size={16} />
+                    <link.icon size={14} />
                     {link.label}
                   </Link>
                 </li>
@@ -104,30 +99,30 @@ const FamilyHubFooter: React.FC = () => {
 
           {/* Back to Main Site */}
           <div>
-            <h4 className="text-white font-semibold text-lg mb-4 flex items-center gap-2">
-              <ExternalLink size={18} className="text-purple-300" />
+            <h4 className="text-white font-semibold mb-2 flex items-center gap-2">
+              <ExternalLink size={16} className="text-purple-300" />
               PandaGarde
             </h4>
-            <p className="text-purple-200 text-sm mb-4">
-              Visit the main PandaGarde website for more resources, guides, and educational content.
+            <p className="text-purple-200 text-sm mb-2">
+              Visit the main site for more resources.
             </p>
             <Link 
               to="/"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white transition-colors"
+              className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-white text-sm transition-colors"
             >
-              <ArrowLeft size={16} />
+              <ArrowLeft size={14} />
               Main Website
             </Link>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/10 mt-8 pt-6">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-purple-300 text-sm">
+        <div className="border-t border-white/10 mt-4 pt-4">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
+            <p className="text-purple-300 text-xs">
               © 2025 PandaGarde Family Hub. All rights reserved.
             </p>
-            <div className="flex items-center gap-4 text-sm">
+            <div className="flex items-center gap-4 text-xs">
               <Link to="/privacy" className="text-purple-300 hover:text-white transition-colors">
                 Privacy
               </Link>
