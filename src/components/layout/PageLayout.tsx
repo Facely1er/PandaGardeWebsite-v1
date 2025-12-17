@@ -1,6 +1,7 @@
 import React from 'react';
 import { LucideIcon } from 'lucide-react';
 import PageHeader from './PageHeader';
+import { useTheme } from '../../contexts/ThemeContext';
 
 interface PageLayoutProps {
   title: string;
@@ -21,13 +22,15 @@ const PageLayout: React.FC<PageLayoutProps> = ({
   children,
   className = ''
 }) => {
+  const { theme } = useTheme();
+  
   return (
     <div 
       className={`page-layout ${className}`}
       style={{
         minHeight: '100vh',
-        backgroundColor: '#FFFFFF',
-        color: '#212121'
+        backgroundColor: theme === 'dark' ? 'var(--white)' : '#FFFFFF',
+        color: theme === 'dark' ? 'var(--gray-800)' : '#212121'
       }}
     >
       <PageHeader
@@ -41,8 +44,8 @@ const PageLayout: React.FC<PageLayoutProps> = ({
       <main 
         style={{
           padding: '1.5rem 0',
-          backgroundColor: '#FFFFFF',
-          color: '#212121',
+          backgroundColor: theme === 'dark' ? 'var(--white)' : '#FFFFFF',
+          color: theme === 'dark' ? 'var(--gray-800)' : '#212121',
           minHeight: '400px',
           position: 'relative',
           zIndex: 1,
@@ -55,7 +58,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({
             maxWidth: '1200px',
             margin: '0 auto',
             padding: '0 1.5rem',
-            color: '#212121',
+            color: theme === 'dark' ? 'var(--gray-800)' : '#212121',
             position: 'relative',
             zIndex: 2
           }}

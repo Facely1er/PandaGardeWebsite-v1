@@ -775,7 +775,9 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
         }
 
         .story-header {
-          background: linear-gradient(135deg, var(--primary), var(--primary-light));
+          background: ${theme === 'dark' 
+            ? 'linear-gradient(135deg, #1a2e1a 0%, #243524 50%, #2d4a2d 100%)' 
+            : 'linear-gradient(135deg, var(--primary), var(--primary-light))'};
           color: white;
           padding: 1.5rem;
           display: flex;
@@ -785,6 +787,9 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
           gap: 1rem;
           position: relative;
           overflow: hidden;
+          border-bottom: ${theme === 'dark' 
+            ? '1px solid rgba(102, 187, 106, 0.3)' 
+            : 'none'};
         }
 
         .story-header::before {
@@ -821,9 +826,16 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
 
         .progress-text {
           font-size: clamp(0.75rem, 2vw, 0.9rem);
-          font-weight: 500;
+          font-weight: 700;
           white-space: nowrap;
           min-width: fit-content;
+          color: #ffffff !important;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.3);
+          background: rgba(0, 0, 0, 0.35);
+          padding: 0.35rem 0.85rem;
+          border-radius: 12px;
+          backdrop-filter: blur(4px);
+          letter-spacing: 0.02em;
         }
 
         .story-controls {
