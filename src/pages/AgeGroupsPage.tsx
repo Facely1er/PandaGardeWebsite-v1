@@ -127,37 +127,35 @@ const AgeGroupsPage: React.FC = () => {
                   <p>{group.description}</p>
                 </div>
                 
-                <div className="featured-grid">
+                <div className="featured-grid" role="list">
                   {group.resources.map((resource, index) => (
-                    <div 
+                    <article 
                       key={index} 
                       className="feature-card"
-                      onClick={() => handleCardClick(resource.link)}
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          handleCardClick(resource.link);
-                        }
-                      }}
+                      role="listitem"
                     >
-                      <div className="card-image">
-                        <resource.icon size={80} />
-                      </div>
-                      <div className="card-content">
-                        <h3><resource.icon size={20} /> {resource.title}</h3>
-                        <p>{resource.description}</p>
-                        <div className="card-link">
-                          {resource.title.includes('Explore') ? 'Explore' : 
-                           resource.title.includes('Start') ? 'Start' : 
-                           resource.title.includes('Enter') ? 'Enter' : 
-                           resource.title.includes('Read') ? 'Read' : 
-                           resource.title.includes('Access') ? 'Access' : 'Learn More'}
-                          <ArrowRight size={16} />
+                      <button
+                        className="feature-card-button"
+                        onClick={() => handleCardClick(resource.link)}
+                        aria-label={`${resource.title}: ${resource.description.substring(0, 100)}...`}
+                      >
+                        <div className="card-image" aria-hidden="true">
+                          <resource.icon size={80} />
                         </div>
-                      </div>
-                    </div>
+                        <div className="card-content">
+                          <h3><resource.icon size={20} aria-hidden="true" /> {resource.title}</h3>
+                          <p>{resource.description}</p>
+                          <div className="card-link" aria-hidden="true">
+                            {resource.title.includes('Explore') ? 'Explore' : 
+                             resource.title.includes('Start') ? 'Start' : 
+                             resource.title.includes('Enter') ? 'Enter' : 
+                             resource.title.includes('Read') ? 'Read' : 
+                             resource.title.includes('Access') ? 'Access' : 'Learn More'}
+                            <ArrowRight size={16} />
+                          </div>
+                        </div>
+                      </button>
+                    </article>
                   ))}
                 </div>
               </div>

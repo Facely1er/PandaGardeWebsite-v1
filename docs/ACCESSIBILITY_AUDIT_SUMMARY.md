@@ -205,14 +205,24 @@ pa11y http://localhost:5173
 
 ## Sign-Off Checklist for Production
 
-- [ ] All 4 critical modal/canvas issues fixed
-- [ ] Focus trap implemented and tested
-- [ ] aria-live regions added to alerts
-- [ ] Canvas elements have descriptions
-- [ ] Dialog roles properly marked
+- [x] All 4 critical modal/canvas issues fixed
+- [x] Focus trap implemented and tested
+- [x] aria-live regions added to alerts
+- [x] Canvas elements have descriptions
+- [x] Dialog roles properly marked
+- [x] AgeGroupsPage feature cards refactored to use proper button elements
+- [x] QuizActivity timer made pausable/disableable for accessibility
+- [x] MazeActivity legend expanded with text descriptions
 - [ ] NVDA/JAWS screen reader testing passed
 - [ ] Keyboard-only navigation tested
 - [ ] High contrast mode verified
 - [ ] Mobile accessibility verified
 - [ ] WCAG 2.1 AA formal audit passed
+
+### Recent Fixes (2025-12-17)
+- Canvas accessibility: Added aria-labels and role="img" to MazeActivity canvas
+- Screen reader support: Added aria-live regions for maze position announcements
+- Color-blind support: Added text labels to all legend items with color descriptions
+- Cognitive accessibility: Made QuizActivity timer optional and pausable
+- Semantic HTML: Converted feature cards from div+role="button" to proper button elements
 

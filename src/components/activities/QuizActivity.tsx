@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { RotateCcw, CheckCircle, ArrowRight, ArrowLeft, Star, Clock } from 'lucide-react';
+import { RotateCcw, CheckCircle, ArrowRight, ArrowLeft, Star, Clock, Pause, Play, TimerOff } from 'lucide-react';
 
 interface QuizActivityProps {
   onComplete: () => void;
@@ -23,6 +23,8 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
   const [isCompleted, setIsCompleted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(30);
   const [quizStarted, setQuizStarted] = useState(false);
+  const [timerPaused, setTimerPaused] = useState(false);
+  const [timerEnabled, setTimerEnabled] = useState(true);
 
   const questions: Question[] = useMemo(() => [
     {
@@ -139,15 +141,26 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    if (quizStarted && timeLeft > 0 && !showResult && !isCompleted) {
+    if (timerEnabled && quizStarted && timeLeft > 0 && !showResult && !isCompleted && !timerPaused) {
       interval = setInterval(() => {
         setTimeLeft(prev => prev - 1);
       }, 1000);
-    } else if (timeLeft === 0 && !showResult) {
+    } else if (timerEnabled && timeLeft === 0 && !showResult) {
       handleAnswerSubmit();
     }
     return () => clearInterval(interval);
-  }, [timeLeft, quizStarted, showResult, isCompleted, handleAnswerSubmit]);
+  }, [timeLeft, quizStarted, showResult, isCompleted, handleAnswerSubmit, timerPaused, timerEnabled]);
+
+  const toggleTimer = () => {
+    setTimerPaused(prev => !prev);
+  };
+
+  const toggleTimerEnabled = () => {
+    setTimerEnabled(prev => !prev);
+    if (!timerEnabled) {
+      setTimeLeft(30);
+    }
+  };
 
   const handleNext = () => {
     if (currentQuestion < questions.length - 1) {
@@ -217,18 +230,37 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
             <p>Answer {questions.length} questions about online privacy and safety.</p>
             <div className="quiz-info">
               <div className="info-item">
-                <Clock size={20} />
-                <span>30 seconds per question</span>
+                <Clock size={20} aria-hidden="true" />
+                <span>30 seconds per question (optional)</span>
               </div>
               <div className="info-item">
-                <Star size={20} />
+                <Star size={20} aria-hidden="true" />
                 <span>Different difficulty levels</span>
               </div>
               <div className="info-item">
-                <CheckCircle size={20} />
+                <CheckCircle size={20} aria-hidden="true" />
                 <span>Learn with explanations</span>
               </div>
             </div>
+
+            <div className="accessibility-options">
+              <h4>Accessibility Options</h4>
+              <label className="timer-toggle">
+                <input
+                  type="checkbox"
+                  checked={timerEnabled}
+                  onChange={toggleTimerEnabled}
+                  aria-describedby="timer-description"
+                />
+                <span>Enable Timer</span>
+              </label>
+              <p id="timer-description" className="timer-description">
+                {timerEnabled 
+                  ? "Timer is enabled. You can pause it during the quiz." 
+                  : "Timer is disabled. Take your time answering questions."}
+              </p>
+            </div>
+
             <button onClick={startQuiz} className="start-quiz-button">
               Start Quiz
             </button>
@@ -329,6 +361,41 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
 
           .start-quiz-button:hover {
             background: #45a049;
+          }
+
+          .accessibility-options {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: left;
+          }
+
+          .accessibility-options h4 {
+            margin: 0 0 15px 0;
+            color: #2C3E50;
+            font-size: 16px;
+          }
+
+          .timer-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #2C3E50;
+          }
+
+          .timer-toggle input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+          }
+
+          .timer-description {
+            margin: 10px 0 0 0;
+            font-size: 14px;
+            color: #666;
           }
         `}</style>
       </div>
@@ -497,7 +564,26 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
         <div className="quiz-progress">
           <div className="progress-info">
             <span className="question-number">Question {currentQuestion + 1} of {questions.length}</span>
-            <span className="time-left">⏰ {timeLeft}s</span>
+            {timerEnabled && (
+              <div className="timer-controls">
+                <button 
+                  onClick={toggleTimer} 
+                  className="timer-button"
+                  aria-label={timerPaused ? "Resume timer" : "Pause timer"}
+                  title={timerPaused ? "Resume timer" : "Pause timer"}
+                >
+                  {timerPaused ? <Play size={16} aria-hidden="true" /> : <Pause size={16} aria-hidden="true" />}
+                </button>
+                <span className={`time-left ${timerPaused ? 'paused' : ''}`} aria-live="polite">
+                  ⏰ {timeLeft}s {timerPaused && '(Paused)'}
+                </span>
+              </div>
+            )}
+            {!timerEnabled && (
+              <span className="time-left disabled" aria-label="Timer disabled">
+                <TimerOff size={16} aria-hidden="true" /> No time limit
+              </span>
+            )}
           </div>
           <div className="progress-bar">
             <div 
@@ -634,9 +720,50 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
           color: #2C3E50;
         }
 
+        .timer-controls {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .timer-button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 32px;
+          height: 32px;
+          padding: 0;
+          border: 1px solid #ddd;
+          background: white;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .timer-button:hover {
+          background: #f0f0f0;
+          border-color: #4CAF50;
+        }
+
+        .timer-button:focus {
+          outline: 2px solid #4CAF50;
+          outline-offset: 2px;
+        }
+
         .time-left {
           color: #f44336;
           font-weight: bold;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+        }
+
+        .time-left.paused {
+          color: #FF9800;
+        }
+
+        .time-left.disabled {
+          color: #666;
         }
 
         .progress-bar {

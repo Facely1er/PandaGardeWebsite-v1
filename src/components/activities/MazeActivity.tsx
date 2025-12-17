@@ -225,24 +225,42 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
       <div className="activity-content">
         <div className="instructions">
           <p>Help Privacy Panda navigate through the digital world safely! Use arrow keys or buttons to move.</p>
-          <div className="legend">
-            <div className="legend-item">
-              <div className="legend-color start"></div>
-              <span>Start (Safe Zone)</span>
+          <div className="legend" role="list" aria-label="Maze legend">
+            <div className="legend-item" role="listitem">
+              <div className="legend-color start" aria-hidden="true"></div>
+              <span>Start - Green (Safe Zone)</span>
             </div>
-            <div className="legend-item">
-              <div className="legend-color end"></div>
-              <span>End (Privacy Goal)</span>
+            <div className="legend-item" role="listitem">
+              <div className="legend-color end" aria-hidden="true"></div>
+              <span>End - Red (Privacy Goal)</span>
             </div>
-            <div className="legend-item">
-              <div className="legend-color wall"></div>
-              <span>Danger (Avoid)</span>
+            <div className="legend-item" role="listitem">
+              <div className="legend-color wall" aria-hidden="true"></div>
+              <span>Walls - Dark (Avoid)</span>
+            </div>
+            <div className="legend-item" role="listitem">
+              <div className="legend-color path" aria-hidden="true"></div>
+              <span>Path - Light Gray (Safe to walk)</span>
             </div>
           </div>
         </div>
 
         <div className="maze-container">
-          <canvas ref={canvasRef} className="maze-canvas" />
+          <canvas 
+            ref={canvasRef} 
+            className="maze-canvas"
+            role="img"
+            aria-label={`Privacy Panda maze game. Navigate from the green start zone to the red goal. Current position: row ${playerPos.y + 1}, column ${playerPos.x + 1}. Moves made: ${moves}. ${isCompleted ? 'Maze completed!' : 'Use arrow keys or WASD to move.'}`}
+            tabIndex={0}
+          />
+          {/* Screen reader announcements */}
+          <div 
+            role="status" 
+            aria-live="polite" 
+            className="sr-only"
+          >
+            {isCompleted ? 'Congratulations! You completed the maze!' : `Current position: row ${playerPos.y + 1}, column ${playerPos.x + 1}. Moves: ${moves}`}
+          </div>
 
           {isCompleted && (
             <div className="completion-overlay">
@@ -387,6 +405,22 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
 
         .legend-color.wall {
           background: #2C3E50;
+        }
+
+        .legend-color.path {
+          background: #f8f9fa;
+        }
+
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
         }
 
         .maze-container {
