@@ -79,7 +79,7 @@ const SocialMediaAudit: React.FC<SocialMediaAuditProps> = ({ onBack }) => {
 
   if (completed) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 dark:from-indigo-900/20 dark:to-purple-900/20 p-6">
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-6">
         <div className="max-w-4xl mx-auto">
           <button onClick={onBack} className="mb-6 flex items-center space-x-2 text-gray-600 dark:text-gray-300">
             <ArrowLeft size={20} /><span>Back to Learning Hub</span>
@@ -106,7 +106,7 @@ const SocialMediaAudit: React.FC<SocialMediaAuditProps> = ({ onBack }) => {
   const item = auditItems[currentItem];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 dark:from-indigo-900/20 dark:to-purple-900/20 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-6">
       <div className="max-w-4xl mx-auto">
         <button onClick={onBack} className="mb-6 flex items-center space-x-2 text-gray-600 dark:text-gray-300">
           <ArrowLeft size={20} /><span>Back to Learning Hub</span>

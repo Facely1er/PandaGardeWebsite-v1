@@ -89,7 +89,7 @@ const PrivacyPolicyDecoder: React.FC<PrivacyPolicyDecoderProps> = ({ onBack }) =
 
   if (completed) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-red-50 to-rose-100 dark:from-red-900/20 dark:to-rose-900/20 p-6">
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-6">
         <div className="max-w-4xl mx-auto">
           <button onClick={onBack} className="mb-6 flex items-center space-x-2 text-gray-600 dark:text-gray-300">
             <ArrowLeft size={20} /><span>Back to Learning Hub</span>

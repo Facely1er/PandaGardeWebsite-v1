@@ -128,7 +128,7 @@ const PhishingDetective: React.FC<PhishingDetectiveProps> = ({ onBack }) => {
   const isCorrect = userAnswer === email.isPhishing;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-100 dark:from-orange-900/20 dark:to-red-900/20 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-6">
       <div className="max-w-6xl mx-auto">
         <button
           onClick={onBack}

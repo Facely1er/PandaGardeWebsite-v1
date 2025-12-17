@@ -127,7 +127,7 @@ const DigitalRightsQuiz: React.FC<DigitalRightsQuizProps> = ({ onBack }) => {
     const percentage = Math.round((score / questions.length) * 100);
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/20 p-6">
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-6">
         <div className="max-w-4xl mx-auto">
           <button
             onClick={onBack}
@@ -218,7 +218,7 @@ const DigitalRightsQuiz: React.FC<DigitalRightsQuizProps> = ({ onBack }) => {
   const question = questions[currentQuestion];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/20 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-6">
       <div className="max-w-4xl mx-auto">
         <button
           onClick={onBack}

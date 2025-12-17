@@ -80,7 +80,7 @@ const PrivacySettingsTrainer: React.FC<PrivacySettingsTrainerProps> = ({ onBack 
   if (completed) {
     const percentage = score;
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-slate-100 dark:from-gray-900/20 dark:to-slate-900/20 p-6">
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-6">
         <div className="max-w-4xl mx-auto">
           <button onClick={onBack} className="mb-6 flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 transition-colors">
             <ArrowLeft size={20} /><span>Back to Learning Hub</span>
@@ -109,7 +109,7 @@ const PrivacySettingsTrainer: React.FC<PrivacySettingsTrainerProps> = ({ onBack 
   const setting = settings[currentStep];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-slate-100 dark:from-gray-900/20 dark:to-slate-900/20 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-6">
       <div className="max-w-4xl mx-auto">
         <button onClick={onBack} className="mb-6 flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 transition-colors">
           <ArrowLeft size={20} /><span>Back to Learning Hub</span>
