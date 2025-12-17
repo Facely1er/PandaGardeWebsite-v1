@@ -11,15 +11,17 @@ import { AuthProvider } from './AuthWrapper';
 const FamilyHubWrapper: React.FC = () => {
   return (
     <AuthProvider>
-      <Routes>
-        <Route path="login" element={<LoginPage />} />
-        <Route index element={<FamilyDashboard />} />
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="certificates" element={<CertificatePage />} />
-        <Route path="learning" element={<LearningHub />} />
-        <Route path="games" element={<LearningHub />} />
-        <Route path="journeys" element={<JourneyHub />} />
-      </Routes>
+      <div className="family-hub-theme family-hub-wrapper">
+        <Routes>
+          <Route path="login" element={<LoginPage />} />
+          <Route index element={<FamilyDashboard />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="certificates" element={<CertificatePage />} />
+          <Route path="learning" element={<LearningHub />} />
+          <Route path="games" element={<LearningHub />} />
+          <Route path="journeys" element={<JourneyHub />} />
+        </Routes>
+      </div>
     </AuthProvider>
   );
 };

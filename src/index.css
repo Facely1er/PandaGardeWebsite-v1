@@ -64,6 +64,157 @@
   --wiggle: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+/* ===== FAMILY HUB THEME ===== */
+/* Distinct purple/indigo theme for Family Hub section */
+.family-hub-theme {
+  /* Family Hub primary colors - Purple/Indigo palette */
+  --fh-primary: #5B21B6;
+  --fh-primary-light: #7C3AED;
+  --fh-primary-dark: #4C1D95;
+  --fh-secondary: #8B5CF6;
+  --fh-tertiary: #A78BFA;
+  --fh-accent: #EC4899;
+  --fh-accent-light: #F472B6;
+  
+  /* Family Hub specific backgrounds */
+  --fh-bg-gradient: linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 50%, #C4B5FD 100%);
+  --fh-bg-light: #F5F3FF;
+  --fh-bg-card: #FFFFFF;
+  --fh-bg-dark: #1E1B4B;
+  
+  /* Family Hub header gradient */
+  --fh-header-gradient: linear-gradient(135deg, #5B21B6 0%, #7C3AED 50%, #8B5CF6 100%);
+  
+  /* Family Hub shadows with purple tint */
+  --fh-shadow-sm: 0 2px 8px rgba(91, 33, 182, 0.08);
+  --fh-shadow-md: 0 4px 16px rgba(91, 33, 182, 0.12);
+  --fh-shadow-lg: 0 8px 32px rgba(91, 33, 182, 0.16);
+  
+  /* Override primary for this scope */
+  --primary: #5B21B6;
+  --primary-light: #7C3AED;
+  --primary-dark: #4C1D95;
+  --secondary: #8B5CF6;
+  --tertiary: #A78BFA;
+}
+
+/* Family Hub page wrapper styles */
+.family-hub-wrapper {
+  min-height: 100vh;
+  background: var(--fh-bg-gradient);
+}
+
+/* Family Hub header/banner */
+.family-hub-header {
+  background: var(--fh-header-gradient);
+  color: white;
+  padding: 2rem 1rem;
+  border-radius: 0 0 2rem 2rem;
+  box-shadow: var(--fh-shadow-lg);
+}
+
+/* Family Hub cards */
+.family-hub-card {
+  background: var(--fh-bg-card);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--fh-shadow-md);
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  transition: var(--transition);
+}
+
+.family-hub-card:hover {
+  box-shadow: var(--fh-shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* Family Hub buttons */
+.family-hub-btn-primary {
+  background: linear-gradient(135deg, var(--fh-primary) 0%, var(--fh-primary-light) 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--fh-shadow-sm);
+}
+
+.family-hub-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--fh-shadow-md);
+}
+
+.family-hub-btn-secondary {
+  background: var(--fh-bg-light);
+  color: var(--fh-primary);
+  border: 2px solid var(--fh-secondary);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.family-hub-btn-secondary:hover {
+  background: var(--fh-secondary);
+  color: white;
+}
+
+/* Family Hub stat boxes */
+.family-hub-stat {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(167, 139, 250, 0.1) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+}
+
+/* Family Hub progress bars */
+.family-hub-progress {
+  background: rgba(139, 92, 246, 0.2);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.family-hub-progress-bar {
+  background: linear-gradient(90deg, var(--fh-primary) 0%, var(--fh-accent) 100%);
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.5s ease-out;
+}
+
+/* Family Hub Learning Hub specific */
+.learning-hub-game-card {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--fh-shadow-sm);
+  border: 2px solid transparent;
+  transition: var(--transition);
+}
+
+.learning-hub-game-card:hover {
+  border-color: var(--fh-secondary);
+  box-shadow: var(--fh-shadow-md);
+  transform: translateY(-4px);
+}
+
+/* Family Hub navigation pills */
+.family-hub-nav-pill {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.family-hub-nav-pill:hover,
+.family-hub-nav-pill.active {
+  background: white;
+  color: var(--fh-primary);
+}
+
 /* Child-friendly animations */
 @keyframes bounce {
   0%, 20%, 53%, 80%, 100% {

@@ -553,12 +553,12 @@ const FamilyDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--light)', color: 'var(--gray-800)' }}>
-      {/* Header */}
-      <header className="bg-gradient-to-r from-green-600 via-green-500 to-green-600 text-white py-8 sm:py-16 relative overflow-hidden">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--fh-bg-light, #F5F3FF)', color: 'var(--gray-800)' }}>
+      {/* Header - Purple/Indigo Theme */}
+      <header className="family-hub-header bg-gradient-to-r from-violet-700 via-purple-600 to-indigo-600 text-white py-8 sm:py-16 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
+            backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='60' cy='60' r='1.5' fill='rgba(255,255,255,0.08)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
           }} />
         </div>
         
@@ -572,7 +572,7 @@ const FamilyDashboard = () => {
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 leading-tight">
               Privacy Panda
-              <span className="block text-yellow-300 mt-1">Family Hub</span>
+              <span className="block text-amber-300 mt-1">Family Hub</span>
             </h1>
             
             <p className="text-base sm:text-lg lg:text-xl opacity-90 max-w-2xl mx-auto mb-4 sm:mb-6 px-4">
@@ -597,14 +597,13 @@ const FamilyDashboard = () => {
         </div>
       </header>
 
-      {/* Navigation */}
-      <div className="bg-white border-b sticky top-0 z-40" style={{ backgroundColor: 'var(--card-color)' }}>
+      {/* Navigation - Purple Theme */}
+      <div className="bg-white border-b border-purple-100 sticky top-0 z-40" style={{ backgroundColor: 'var(--card-color)' }}>
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-2.5 sm:py-3 gap-3 sm:gap-0">
             <Link 
               to="/"
-              className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors text-sm sm:text-base"
-              style={{ color: 'var(--primary-light)' }}
+              className="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium transition-colors text-sm sm:text-base"
             >
               <ArrowLeft size={16} />
               <span className="hidden sm:inline">Back to Main Site</span>
@@ -613,7 +612,7 @@ const FamilyDashboard = () => {
             
             <button
               onClick={() => setShowFeedback(true)}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors text-sm sm:text-base"
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors text-sm sm:text-base"
             >
               <MessageSquare size={16} />
               <span>Feedback</span>
@@ -624,88 +623,88 @@ const FamilyDashboard = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
-        {/* Family Overview Cards */}
+        {/* Family Overview Cards - Purple Theme */}
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <div 
-            className="bg-white p-4 sm:p-5 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-green-200"
+            className="family-hub-card bg-white p-4 sm:p-5 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-purple-200"
             style={{ 
               backgroundColor: 'var(--card-color)',
-              boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
+              boxShadow: '0 1px 3px 0 rgba(91, 33, 182, 0.08), 0 1px 2px 0 rgba(91, 33, 182, 0.04)'
             }}
           >
             <div className="flex items-center justify-between mb-2 sm:mb-3">
-              <div className="w-9 h-9 sm:w-11 sm:h-11 bg-blue-100 rounded-xl flex items-center justify-center">
-                <Users className="text-blue-600" size={18} />
+              <div className="w-9 h-9 sm:w-11 sm:h-11 bg-violet-100 rounded-xl flex items-center justify-center">
+                <Users className="text-violet-600" size={18} />
               </div>
-              <span className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--primary)' }}>
+              <span className="text-xl sm:text-2xl font-bold text-purple-700">
                 {familyMembers.length}
               </span>
             </div>
-            <h3 className="font-semibold text-xs sm:text-sm mb-0.5 sm:mb-1" style={{ color: 'var(--primary)' }}>Family Members</h3>
+            <h3 className="font-semibold text-xs sm:text-sm mb-0.5 sm:mb-1 text-purple-700">Family Members</h3>
             <p className="text-xs" style={{ color: 'var(--gray-600)' }}>Active participants</p>
           </div>
 
           <div 
-            className="bg-white p-4 sm:p-5 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-green-200"
+            className="family-hub-card bg-white p-4 sm:p-5 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-purple-200"
             style={{ 
               backgroundColor: 'var(--card-color)',
-              boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
+              boxShadow: '0 1px 3px 0 rgba(91, 33, 182, 0.08), 0 1px 2px 0 rgba(91, 33, 182, 0.04)'
             }}
           >
             <div className="flex items-center justify-between mb-2 sm:mb-3">
-              <div className="w-9 h-9 sm:w-11 sm:h-11 bg-green-100 rounded-xl flex items-center justify-center">
-                <Shield className="text-green-600" size={18} />
+              <div className="w-9 h-9 sm:w-11 sm:h-11 bg-indigo-100 rounded-xl flex items-center justify-center">
+                <Shield className="text-indigo-600" size={18} />
               </div>
-              <span className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--primary)' }}>
+              <span className="text-xl sm:text-2xl font-bold text-purple-700">
                 {calculateFamilyScore()}
               </span>
             </div>
-            <h3 className="font-semibold text-xs sm:text-sm mb-0.5 sm:mb-1" style={{ color: 'var(--primary)' }}>Privacy Score</h3>
+            <h3 className="font-semibold text-xs sm:text-sm mb-0.5 sm:mb-1 text-purple-700">Privacy Score</h3>
             <p className="text-xs" style={{ color: 'var(--gray-600)' }}>Family average</p>
           </div>
 
           <div 
-            className="bg-white p-4 sm:p-5 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-green-200"
+            className="family-hub-card bg-white p-4 sm:p-5 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-purple-200"
             style={{ 
               backgroundColor: 'var(--card-color)',
-              boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
+              boxShadow: '0 1px 3px 0 rgba(91, 33, 182, 0.08), 0 1px 2px 0 rgba(91, 33, 182, 0.04)'
             }}
           >
             <div className="flex items-center justify-between mb-2 sm:mb-3">
-              <div className="w-9 h-9 sm:w-11 sm:h-11 bg-purple-100 rounded-xl flex items-center justify-center">
-                <Award className="text-purple-600" size={18} />
+              <div className="w-9 h-9 sm:w-11 sm:h-11 bg-fuchsia-100 rounded-xl flex items-center justify-center">
+                <Award className="text-fuchsia-600" size={18} />
               </div>
-              <span className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--primary)' }}>
+              <span className="text-xl sm:text-2xl font-bold text-purple-700">
                 {familyMembers.reduce((sum, member) => sum + member.completedActivities, 0)}
               </span>
             </div>
-            <h3 className="font-semibold text-xs sm:text-sm mb-0.5 sm:mb-1" style={{ color: 'var(--primary)' }}>Activities Done</h3>
+            <h3 className="font-semibold text-xs sm:text-sm mb-0.5 sm:mb-1 text-purple-700">Activities Done</h3>
             <p className="text-xs" style={{ color: 'var(--gray-600)' }}>Total completed</p>
           </div>
 
           <div 
-            className="bg-white p-4 sm:p-5 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-green-200"
+            className="family-hub-card bg-white p-4 sm:p-5 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-purple-200"
             style={{ 
               backgroundColor: 'var(--card-color)',
-              boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
+              boxShadow: '0 1px 3px 0 rgba(91, 33, 182, 0.08), 0 1px 2px 0 rgba(91, 33, 182, 0.04)'
             }}
           >
             <div className="flex items-center justify-between mb-2 sm:mb-3">
-              <div className="w-9 h-9 sm:w-11 sm:h-11 bg-orange-100 rounded-xl flex items-center justify-center">
-                <CheckCircle className="text-orange-600" size={18} />
+              <div className="w-9 h-9 sm:w-11 sm:h-11 bg-pink-100 rounded-xl flex items-center justify-center">
+                <CheckCircle className="text-pink-600" size={18} />
               </div>
-              <span className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--primary)' }}>
+              <span className="text-xl sm:text-2xl font-bold text-purple-700">
                 {familyGoals.filter(goal => goal.completed).length}/{familyGoals.length}
               </span>
             </div>
-            <h3 className="font-semibold text-xs sm:text-sm mb-0.5 sm:mb-1" style={{ color: 'var(--primary)' }}>Goals Achieved</h3>
+            <h3 className="font-semibold text-xs sm:text-sm mb-0.5 sm:mb-1 text-purple-700">Goals Achieved</h3>
             <p className="text-xs" style={{ color: 'var(--gray-600)' }}>Privacy goals</p>
           </div>
         </div>
 
-        {/* Learning Hub Quick Access */}
+        {/* Learning Hub Quick Access - Purple Theme */}
         <div 
-          className="bg-gradient-to-r from-green-600 via-green-500 to-teal-500 rounded-xl shadow-lg p-5 sm:p-6 mb-6 sm:mb-8 text-white relative overflow-hidden"
+          className="bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 rounded-xl shadow-lg p-5 sm:p-6 mb-6 sm:mb-8 text-white relative overflow-hidden"
         >
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0" style={{
@@ -720,7 +719,7 @@ const FamilyDashboard = () => {
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <Sparkles className="text-yellow-300" size={18} />
+                  <Sparkles className="text-amber-300" size={18} />
                   <h3 className="text-xl sm:text-2xl font-bold">Learning Hub</h3>
                 </div>
                 <p className="text-white/80 text-sm sm:text-base">
@@ -731,7 +730,7 @@ const FamilyDashboard = () => {
             
             <button
               onClick={() => navigate('/family-hub/learning')}
-              className="flex items-center gap-2 bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 hover:text-green-700 transition-all shadow-md hover:shadow-lg w-full md:w-auto justify-center"
+              className="flex items-center gap-2 bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-amber-300 hover:text-purple-700 transition-all shadow-md hover:shadow-lg w-full md:w-auto justify-center"
             >
               <Play size={18} />
               <span>Start Learning</span>
@@ -769,7 +768,7 @@ const FamilyDashboard = () => {
               <h2 className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--primary)' }}>Family Members</h2>
               <button 
                 onClick={() => setShowAddMember(true)}
-                className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 active:bg-green-800 transition-colors flex items-center justify-center gap-2 touch-manipulation min-h-[44px] w-full sm:w-auto font-medium"
+                className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 active:bg-purple-800 transition-colors flex items-center justify-center gap-2 touch-manipulation min-h-[44px] w-full sm:w-auto font-medium"
               >
                 <Plus size={16} />
                 <span>Add Member</span>
@@ -788,7 +787,7 @@ const FamilyDashboard = () => {
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <button 
                     onClick={() => setShowAddMember(true)}
-                    className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold shadow-sm hover:shadow-md active:scale-[0.98]"
+                    className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors font-semibold shadow-sm hover:shadow-md active:scale-[0.98]"
                   >
                     Add Your First Member
                   </button>
@@ -814,7 +813,7 @@ const FamilyDashboard = () => {
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                       <div className="flex items-center gap-4 flex-1">
-                        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center text-white text-lg sm:text-xl font-bold shadow-sm flex-shrink-0">
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-r from-purple-500 to-violet-600 flex items-center justify-center text-white text-lg sm:text-xl font-bold shadow-sm flex-shrink-0">
                           {member.name.charAt(0).toUpperCase()}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -894,7 +893,7 @@ const FamilyDashboard = () => {
               <h2 className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--primary)' }}>Privacy Goals</h2>
               <button 
                 onClick={() => setShowAddGoal(true)}
-                className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 active:bg-green-800 transition-colors flex items-center justify-center gap-2 touch-manipulation min-h-[44px] w-full sm:w-auto font-medium"
+                className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 active:bg-purple-800 transition-colors flex items-center justify-center gap-2 touch-manipulation min-h-[44px] w-full sm:w-auto font-medium"
               >
                 <Plus size={16} />
                 <span>Add Goal</span>
@@ -913,7 +912,7 @@ const FamilyDashboard = () => {
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <button 
                     onClick={() => setShowAddGoal(true)}
-                    className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold shadow-sm hover:shadow-md active:scale-[0.98]"
+                    className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors font-semibold shadow-sm hover:shadow-md active:scale-[0.98]"
                   >
                     Set Your First Goal
                   </button>
@@ -1016,7 +1015,7 @@ const FamilyDashboard = () => {
                   type="text"
                   value={newMember.name}
                   onChange={(e) => setNewMember({...newMember, name: e.target.value})}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   style={{ backgroundColor: 'var(--card-color)', color: 'var(--gray-900)' }}
                   placeholder="Enter family member's name"
                   maxLength={50}
@@ -1030,7 +1029,7 @@ const FamilyDashboard = () => {
                   type="number"
                   value={newMember.age || ''}
                   onChange={(e) => setNewMember({...newMember, age: parseInt(e.target.value, 10) || 0})}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   style={{ backgroundColor: 'var(--card-color)', color: 'var(--gray-900)' }}
                   placeholder="Enter age"
                   min="1"
@@ -1044,7 +1043,7 @@ const FamilyDashboard = () => {
                 <select
                   value={newMember.role}
                   onChange={(e) => setNewMember({...newMember, role: e.target.value})}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   style={{ backgroundColor: 'var(--card-color)', color: 'var(--gray-900)' }}
                 >
                   <option value="Parent">Parent</option>
@@ -1065,7 +1064,7 @@ const FamilyDashboard = () => {
                 <button
                   type="button"
                   onClick={addFamilyMember}
-                  className="flex-1 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 active:bg-green-800 transition-colors touch-manipulation min-h-[44px] font-medium"
+                  className="flex-1 bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 active:bg-purple-800 transition-colors touch-manipulation min-h-[44px] font-medium"
                 >
                   Add Member
                 </button>
@@ -1099,7 +1098,7 @@ const FamilyDashboard = () => {
                   type="text"
                   value={newGoal.title}
                   onChange={(e) => setNewGoal({...newGoal, title: e.target.value})}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   style={{ backgroundColor: 'var(--card-color)', color: 'var(--gray-900)' }}
                   placeholder="e.g., Set up 2FA for all accounts"
                   required
@@ -1111,7 +1110,7 @@ const FamilyDashboard = () => {
                 <textarea
                   value={newGoal.description}
                   onChange={(e) => setNewGoal({...newGoal, description: e.target.value})}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   style={{ backgroundColor: 'var(--card-color)', color: 'var(--gray-900)' }}
                   placeholder="Describe what needs to be done..."
                   rows={3}
@@ -1124,7 +1123,7 @@ const FamilyDashboard = () => {
                   type="date"
                   value={newGoal.targetDate}
                   onChange={(e) => setNewGoal({...newGoal, targetDate: e.target.value})}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   style={{ backgroundColor: 'var(--card-color)', color: 'var(--gray-900)' }}
                 />
               </div>
@@ -1134,7 +1133,7 @@ const FamilyDashboard = () => {
                 <select
                   value={newGoal.priority}
                   onChange={(e) => setNewGoal({...newGoal, priority: e.target.value})}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   style={{ backgroundColor: 'var(--card-color)', color: 'var(--gray-900)' }}
                 >
                   <option value="Low">Low Priority</option>
@@ -1154,7 +1153,7 @@ const FamilyDashboard = () => {
                 <button
                   type="button"
                   onClick={addFamilyGoal}
-                  className="flex-1 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 active:bg-green-800 transition-colors touch-manipulation min-h-[44px] font-medium"
+                  className="flex-1 bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 active:bg-purple-800 transition-colors touch-manipulation min-h-[44px] font-medium"
                 >
                   Add Goal
                 </button>
