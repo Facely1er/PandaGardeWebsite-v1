@@ -355,7 +355,7 @@ const ParentResourcesPage: React.FC = () => {
               <Link to="/contact" className="button primary">
                 Contact Our Team
               </Link>
-              <Link to="/faq" className="button secondary">
+              <Link to="/faq" className="button secondary" style={{ background: 'rgba(255,255,255,0.2)', color: 'white', border: '2px solid white' }}>
                 View FAQ
               </Link>
             </div>

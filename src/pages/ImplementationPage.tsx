@@ -275,7 +275,7 @@ const ImplementationPage: React.FC = () => {
               <Link to="/get-started" className="button primary">
                 Start Implementation
               </Link>
-              <Link to="/contact" className="button secondary">
+              <Link to="/contact" className="button secondary" style={{ background: 'rgba(255,255,255,0.2)', color: 'white', border: '2px solid white' }}>
                 Contact Us for Support
               </Link>
             </div>
