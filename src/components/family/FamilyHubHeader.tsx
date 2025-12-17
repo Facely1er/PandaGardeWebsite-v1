@@ -74,24 +74,25 @@ const FamilyHubHeader: React.FC = () => {
         }`}
         role="banner"
       >
+        {/* Logo - Outside container for larger size */}
+        <Link 
+          to="/family-hub"
+          className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-3 group z-10"
+          aria-label="Family Hub - Go to dashboard"
+        >
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-white/20 backdrop-blur-sm p-2 group-hover:bg-white/30 transition-colors shadow-lg">
+            <Logo />
+          </div>
+          <div className="hidden sm:block">
+            <span className="text-white font-bold text-xl">Family Hub</span>
+            <span className="block text-purple-200 text-sm">Privacy Learning</span>
+          </div>
+        </Link>
+
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo and Brand */}
-            <div className="flex items-center gap-3">
-              <Link 
-                to="/family-hub"
-                className="flex items-center gap-2 group"
-                aria-label="Family Hub - Go to dashboard"
-              >
-                <div className="w-10 h-10 rounded-lg bg-white/20 backdrop-blur-sm p-1.5 group-hover:bg-white/30 transition-colors">
-                  <Logo />
-                </div>
-                <div className="hidden sm:block">
-                  <span className="text-white font-bold text-lg">Family Hub</span>
-                  <span className="block text-purple-200 text-xs">Privacy Learning</span>
-                </div>
-              </Link>
-            </div>
+          <div className="flex items-center justify-between h-20 pl-20 sm:pl-48">
+            {/* Spacer for logo */}
+            <div className="flex-shrink-0" />
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-1" role="navigation" aria-label="Family Hub navigation">
