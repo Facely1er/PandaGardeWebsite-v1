@@ -39,6 +39,285 @@ interface FamilyGoal {
   progress: number;
 }
 
+// Demo data for demonstration purposes
+const demoFamilyMembers: FamilyMember[] = [
+  {
+    id: 1,
+    name: 'Emma',
+    age: 8,
+    role: 'Child',
+    privacyScore: 72,
+    completedActivities: 4,
+    badges: ['Password Pro', 'Safe Surfer'],
+    lastActive: new Date().toISOString()
+  },
+  {
+    id: 2,
+    name: 'Lucas',
+    age: 12,
+    role: 'Child',
+    privacyScore: 78,
+    completedActivities: 7,
+    badges: ['Password Pro', 'Privacy Champion', 'Phishing Fighter'],
+    lastActive: new Date().toISOString()
+  },
+  {
+    id: 3,
+    name: 'Sarah',
+    age: 15,
+    role: 'Teen',
+    privacyScore: 85,
+    completedActivities: 10,
+    badges: ['Password Pro', 'Privacy Champion', 'Social Media Expert', 'Digital Citizen'],
+    lastActive: new Date().toISOString()
+  }
+];
+
+// Demo activity progress data - realistic completed activities for each member
+const demoProgressData: Record<number, {
+  memberId: number;
+  activities: Array<{
+    activityId: string;
+    activityName: string;
+    activityType: 'game' | 'journey' | 'module';
+    score: number;
+    maxScore: number;
+    completedAt: string;
+  }>;
+  totalScore: number;
+  completedCount: number;
+  lastActive: string;
+}> = {
+  // Emma (age 8) - Elementary level games
+  1: {
+    memberId: 1,
+    activities: [
+      {
+        activityId: 'password-strength',
+        activityName: 'Password Strength Lab',
+        activityType: 'game',
+        score: 85,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        activityId: 'password-pet',
+        activityName: 'Password Pet Creator',
+        activityType: 'game',
+        score: 90,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        activityId: 'safe-unsafe',
+        activityName: 'Safe vs Unsafe Sorting',
+        activityType: 'game',
+        score: 70,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        activityId: 'privacy-story',
+        activityName: 'Privacy Story Adventure',
+        activityType: 'game',
+        score: 45,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString()
+      }
+    ],
+    totalScore: 72,
+    completedCount: 4,
+    lastActive: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
+  },
+  // Lucas (age 12) - Middle school level games
+  2: {
+    memberId: 2,
+    activities: [
+      {
+        activityId: 'password-strength',
+        activityName: 'Password Strength Lab',
+        activityType: 'game',
+        score: 95,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        activityId: 'safe-unsafe',
+        activityName: 'Safe vs Unsafe Sorting',
+        activityType: 'game',
+        score: 80,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        activityId: 'phishing-detective',
+        activityName: 'Phishing Detective',
+        activityType: 'game',
+        score: 75,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        activityId: 'digital-footprint',
+        activityName: 'Digital Footprint Visualizer',
+        activityType: 'game',
+        score: 70,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        activityId: 'privacy-settings',
+        activityName: 'Privacy Settings Trainer',
+        activityType: 'game',
+        score: 85,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        activityId: 'social-media-audit',
+        activityName: 'Social Media Audit',
+        activityType: 'game',
+        score: 65,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        activityId: 'password-fortress',
+        activityName: 'Password Fortress Builder',
+        activityType: 'game',
+        score: 78,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
+      }
+    ],
+    totalScore: 78,
+    completedCount: 7,
+    lastActive: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
+  },
+  // Sarah (age 15) - High school level including hard games
+  3: {
+    memberId: 3,
+    activities: [
+      {
+        activityId: 'password-strength',
+        activityName: 'Password Strength Lab',
+        activityType: 'game',
+        score: 100,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        activityId: 'safe-unsafe',
+        activityName: 'Safe vs Unsafe Sorting',
+        activityType: 'game',
+        score: 95,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 9 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        activityId: 'phishing-detective',
+        activityName: 'Phishing Detective',
+        activityType: 'game',
+        score: 90,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        activityId: 'digital-footprint',
+        activityName: 'Digital Footprint Visualizer',
+        activityType: 'game',
+        score: 85,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        activityId: 'privacy-settings',
+        activityName: 'Privacy Settings Trainer',
+        activityType: 'game',
+        score: 88,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        activityId: 'social-media-audit',
+        activityName: 'Social Media Audit',
+        activityType: 'game',
+        score: 82,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        activityId: 'social-simulator',
+        activityName: 'Social Media Simulator',
+        activityType: 'game',
+        score: 78,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        activityId: 'password-fortress',
+        activityName: 'Password Fortress Builder',
+        activityType: 'game',
+        score: 92,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        activityId: 'digital-rights',
+        activityName: 'Digital Rights Quiz',
+        activityType: 'game',
+        score: 70,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        activityId: 'privacy-decoder',
+        activityName: 'Privacy Policy Decoder',
+        activityType: 'game',
+        score: 72,
+        maxScore: 100,
+        completedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
+      }
+    ],
+    totalScore: 85,
+    completedCount: 10,
+    lastActive: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
+  }
+};
+
+const demoFamilyGoals: FamilyGoal[] = [
+  {
+    id: 1,
+    title: 'Complete Password Safety Module',
+    description: 'All family members learn about creating strong passwords',
+    targetDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    priority: 'High',
+    completed: false,
+    createdDate: new Date().toISOString(),
+    progress: 50
+  },
+  {
+    id: 2,
+    title: 'Family Privacy Discussion',
+    description: 'Have a family meeting about online privacy and set ground rules',
+    targetDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    priority: 'Medium',
+    completed: false,
+    createdDate: new Date().toISOString(),
+    progress: 0
+  },
+  {
+    id: 3,
+    title: 'Review Social Media Settings',
+    description: 'Check and update privacy settings on all social media accounts',
+    targetDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    priority: 'High',
+    completed: true,
+    createdDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+    progress: 100
+  }
+];
+
 // Enhanced security: Use security utilities from familyHubSecurity
 
 const FamilyDashboard = () => {
@@ -53,6 +332,27 @@ const FamilyDashboard = () => {
   const [newMember, setNewMember] = useState({ name: '', age: 0, role: 'Child' });
   const [newGoal, setNewGoal] = useState({ title: '', description: '', targetDate: '', priority: 'Medium' });
   const [memberErrors, setMemberErrors] = useState<string[]>([]);
+
+  // Load demo data for demonstration purposes
+  const loadDemoData = () => {
+    // Load family members
+    setFamilyMembers(demoFamilyMembers);
+    // Load family goals
+    setFamilyGoals(demoFamilyGoals);
+    // Load activity progress data directly to localStorage
+    localStorage.setItem('pandagarde_family_progress', JSON.stringify(demoProgressData));
+    
+    trackEvent(AnalyticsEvents.FAMILY_MEMBER_ADDED, {
+      action: 'demo_data_loaded',
+      memberCount: demoFamilyMembers.length,
+      goalCount: demoFamilyGoals.length,
+      activitiesLoaded: Object.values(demoProgressData).reduce((sum, p) => sum + p.completedCount, 0),
+      timestamp: new Date().toISOString()
+    });
+    
+    // Force a page reload to sync the progress context with new data
+    window.location.reload();
+  };
 
   // Sync progress data with family members
   useEffect(() => {
@@ -485,12 +785,21 @@ const FamilyDashboard = () => {
                   No Family Members Yet
                 </h3>
                 <p className="mb-4 sm:mb-6 text-sm sm:text-base" style={{ color: 'var(--gray-600)' }}>Add your first family member to start tracking progress together.</p>
-                <button 
-                  onClick={() => setShowAddMember(true)}
-                  className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold shadow-sm hover:shadow-md active:scale-[0.98]"
-                >
-                  Add Your First Member
-                </button>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <button 
+                    onClick={() => setShowAddMember(true)}
+                    className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold shadow-sm hover:shadow-md active:scale-[0.98]"
+                  >
+                    Add Your First Member
+                  </button>
+                  <button 
+                    onClick={loadDemoData}
+                    className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold shadow-sm hover:shadow-md active:scale-[0.98] flex items-center justify-center gap-2"
+                  >
+                    <Sparkles size={18} />
+                    Load Demo Data
+                  </button>
+                </div>
               </div>
             ) : (
               <div className="space-y-4">
@@ -601,12 +910,23 @@ const FamilyDashboard = () => {
                   No Privacy Goals Yet
                 </h3>
                 <p className="mb-4 sm:mb-6 text-sm sm:text-base" style={{ color: 'var(--gray-600)' }}>Set your first privacy goal to track your family's progress.</p>
-                <button 
-                  onClick={() => setShowAddGoal(true)}
-                  className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold shadow-sm hover:shadow-md active:scale-[0.98]"
-                >
-                  Set Your First Goal
-                </button>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <button 
+                    onClick={() => setShowAddGoal(true)}
+                    className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold shadow-sm hover:shadow-md active:scale-[0.98]"
+                  >
+                    Set Your First Goal
+                  </button>
+                  {familyMembers.length === 0 && (
+                    <button 
+                      onClick={loadDemoData}
+                      className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold shadow-sm hover:shadow-md active:scale-[0.98] flex items-center justify-center gap-2"
+                    >
+                      <Sparkles size={18} />
+                      Load Demo Data
+                    </button>
+                  )}
+                </div>
               </div>
             ) : (
               <div className="space-y-4">
