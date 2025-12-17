@@ -6,12 +6,14 @@ import ProfilePage from '../ProfilePage';
 import CertificatePage from '../CertificatePage';
 import LearningHub from '../../components/family/LearningHub';
 import JourneyHub from '../../components/journey/JourneyHub';
+import FamilyHubHeader from '../../components/family/FamilyHubHeader';
 import { AuthProvider } from './AuthWrapper';
 
 const FamilyHubWrapper: React.FC = () => {
   return (
     <AuthProvider>
       <div className="family-hub-theme family-hub-wrapper">
+        <FamilyHubHeader />
         <Routes>
           <Route path="login" element={<LoginPage />} />
           <Route index element={<FamilyDashboard />} />

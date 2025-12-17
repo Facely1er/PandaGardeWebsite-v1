@@ -110,6 +110,19 @@ const PageTracker: React.FC = () => {
 };
 
 
+// Component to conditionally render header based on route
+const ConditionalHeader: React.FC = () => {
+  const location = useLocation();
+  const isFamilyHub = location.pathname.startsWith('/family-hub');
+  
+  // Don't render main header on Family Hub pages (they have their own header)
+  if (isFamilyHub) {
+    return null;
+  }
+  
+  return <Header />;
+};
+
 function App() {
   return (
     <ThemeProvider>
@@ -124,7 +137,7 @@ function App() {
                     <div className="App">
                       <PageTracker />
                       <HashHandler />
-                      <Header />
+                      <ConditionalHeader />
                       <main className="main-content-wrapper">
                         <Routes>
             <Route path="/" element={<HomePage />} />
