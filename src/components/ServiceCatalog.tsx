@@ -42,7 +42,7 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
   onServiceSelect,
   showRequestButton = false 
 }) => {
-  const { familyMembers, requestService, isChild } = useFamily();
+  const { familyMembers, requestService, isChild, addServiceToFamily, removeServiceFromFamily, getFamilyServices } = useFamily();
   const { theme } = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory | 'all'>('all');
@@ -52,6 +52,7 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [selectedService, setSelectedService] = useState<ChildService | null>(null);
   const [isRequesting, setIsRequesting] = useState(false);
+  const [familyServices, setFamilyServices] = useState<string[]>(getFamilyServices());
 
   // Get member's current services
   const member = memberId ? familyMembers.find(m => m.id === memberId) : null;
@@ -188,6 +189,38 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
     }
   };
 
+  // Handle adding/removing service to/from family
+  const handleToggleFamilyService = async (serviceId: string) => {
+    setIsRequesting(true);
+    try {
+      if (familyServices.includes(serviceId)) {
+        const result = await removeServiceFromFamily(serviceId);
+        if (result.success) {
+          setFamilyServices(getFamilyServices());
+        } else {
+          alert(`Error: ${result.error}`);
+        }
+      } else {
+        const result = await addServiceToFamily(serviceId);
+        if (result.success) {
+          setFamilyServices(getFamilyServices());
+        } else {
+          alert(`Error: ${result.error}`);
+        }
+      }
+    } catch (error) {
+      console.error('Error toggling family service:', error);
+      alert('Failed to update service');
+    } finally {
+      setIsRequesting(false);
+    }
+  };
+
+  // Check if service is added to family
+  const isServiceInFamily = (serviceId: string): boolean => {
+    return familyServices.includes(serviceId);
+  };
+
   // Get service status
   const getServiceStatus = (serviceId: string) => {
     const serviceUsage = isServiceAdded(serviceId);
@@ -301,13 +334,38 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
           const serviceStatus = getServiceStatus(service.id);
           const isAdded = !!serviceStatus;
 
+          const inFamily = isServiceInFamily(service.id);
+          
           return (
             <div
               key={service.id}
-              className={`service-card ${isAdded ? 'service-added' : ''}`}
+              className={`service-card ${isAdded ? 'service-added' : ''} ${inFamily ? 'in-family' : ''}`}
               onClick={() => setSelectedService(service)}
+              style={inFamily ? { borderColor: '#4CAF50', background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)' } : {}}
             >
               <div className="service-card-header">
+                {inFamily && (
+                  <div 
+                    className="in-family-badge"
+                    style={{
+                      position: 'absolute',
+                      top: '10px',
+                      right: '10px',
+                      background: '#4CAF50',
+                      color: 'white',
+                      padding: '4px 8px',
+                      borderRadius: '12px',
+                      fontSize: '11px',
+                      fontWeight: '600',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px'
+                    }}
+                  >
+                    <CheckCircle size={12} />
+                    Added
+                  </div>
+                )}
                 <div className="service-icon-wrapper" style={{ position: 'relative' }}>
                   {hasServiceLogo(service.id) ? (
                     <img
@@ -671,8 +729,47 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
               )}
             </div>
 
-            {showRequestButton && !isServiceAdded(selectedService.id) && isChild && (
-              <div className="modal-footer">
+            <div className="modal-footer">
+              {/* Add/Remove Service Button - Always show */}
+              <button
+                onClick={() => handleToggleFamilyService(selectedService.id)}
+                disabled={isRequesting}
+                className={`modal-add-button ${isServiceInFamily(selectedService.id) ? 'added' : ''}`}
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontSize: '16px',
+                  fontWeight: '500',
+                  cursor: isRequesting ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.2s',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  backgroundColor: isServiceInFamily(selectedService.id) ? '#dc2626' : '#4CAF50',
+                  color: 'white',
+                  opacity: isRequesting ? 0.6 : 1
+                }}
+              >
+                {isRequesting ? (
+                  'Processing...'
+                ) : isServiceInFamily(selectedService.id) ? (
+                  <>
+                    <X size={18} />
+                    Remove from My Services
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle size={18} />
+                    Add to My Services
+                  </>
+                )}
+              </button>
+              
+              {/* Request Button for children */}
+              {showRequestButton && !isServiceAdded(selectedService.id) && isChild && (
                 <button
                   onClick={() => {
                     if (memberId) {
@@ -682,11 +779,12 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
                   }}
                   disabled={isRequesting}
                   className="modal-request-button"
+                  style={{ marginTop: '10px' }}
                 >
-                  Request This Service
+                  Request Parental Approval
                 </button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       )}

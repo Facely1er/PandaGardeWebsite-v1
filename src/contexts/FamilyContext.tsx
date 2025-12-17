@@ -55,6 +55,9 @@ interface FamilyContextType {
   isChild: boolean;
   // Service management
   requestService: (memberId: string, serviceId: string) => Promise<{ success: boolean; error: string | null }>;
+  addServiceToFamily: (serviceId: string) => Promise<{ success: boolean; error: string | null }>;
+  removeServiceFromFamily: (serviceId: string) => Promise<{ success: boolean; error: string | null }>;
+  getFamilyServices: () => string[];
   // New methods for localStorage and privacy
   calculateFamilyPrivacyScore: () => number;
   exportFamilyData: () => Promise<string>;
@@ -597,6 +600,96 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     }
   };
 
+  // Add service to family (for Digital Footprint Analysis)
+  const addServiceToFamily = async (serviceId: string): Promise<{ success: boolean; error: string | null }> => {
+    console.log('Frontend-only mode: addServiceToFamily() - using localStorage', { serviceId });
+    
+    try {
+      // Get or create family services list
+      const familyServicesKey = 'pandagarde_family_services';
+      const existingServices = JSON.parse(localStorage.getItem(familyServicesKey) || '[]');
+      
+      // Check if service is already added
+      if (existingServices.includes(serviceId)) {
+        return { success: false, error: 'Service already added to family' };
+      }
+      
+      // Add the service
+      existingServices.push(serviceId);
+      localStorage.setItem(familyServicesKey, JSON.stringify(existingServices));
+      
+      // Also add to all family members as approved (for Digital Footprint Analysis)
+      if (currentFamily) {
+        const familyData = await localStorageManager.getFamilyData();
+        if (familyData) {
+          familyData.members.forEach((member: FamilyMember) => {
+            if (!member.services) {
+              member.services = [];
+            }
+            // Add as approved if not already exists
+            const existing = member.services.find((s: ServiceUsage) => s.serviceId === serviceId);
+            if (!existing) {
+              member.services.push({
+                serviceId,
+                status: 'approved',
+                approvedAt: new Date().toISOString()
+              });
+            }
+          });
+          familyData.updated_at = new Date().toISOString();
+          await localStorageManager.saveFamilyData(familyData);
+          await loadFamilyMembers(currentFamily.id);
+        }
+      }
+      
+      return { success: true, error: null };
+    } catch (error) {
+      console.error('Error adding service to family:', error);
+      return { success: false, error: 'Failed to add service' };
+    }
+  };
+
+  // Remove service from family
+  const removeServiceFromFamily = async (serviceId: string): Promise<{ success: boolean; error: string | null }> => {
+    console.log('Frontend-only mode: removeServiceFromFamily() - using localStorage', { serviceId });
+    
+    try {
+      // Get family services list
+      const familyServicesKey = 'pandagarde_family_services';
+      const existingServices = JSON.parse(localStorage.getItem(familyServicesKey) || '[]');
+      
+      // Remove the service
+      const updatedServices = existingServices.filter((id: string) => id !== serviceId);
+      localStorage.setItem(familyServicesKey, JSON.stringify(updatedServices));
+      
+      // Also remove from all family members
+      if (currentFamily) {
+        const familyData = await localStorageManager.getFamilyData();
+        if (familyData) {
+          familyData.members.forEach((member: FamilyMember) => {
+            if (member.services) {
+              member.services = member.services.filter((s: ServiceUsage) => s.serviceId !== serviceId);
+            }
+          });
+          familyData.updated_at = new Date().toISOString();
+          await localStorageManager.saveFamilyData(familyData);
+          await loadFamilyMembers(currentFamily.id);
+        }
+      }
+      
+      return { success: true, error: null };
+    } catch (error) {
+      console.error('Error removing service from family:', error);
+      return { success: false, error: 'Failed to remove service' };
+    }
+  };
+
+  // Get list of family services
+  const getFamilyServices = (): string[] => {
+    const familyServicesKey = 'pandagarde_family_services';
+    return JSON.parse(localStorage.getItem(familyServicesKey) || '[]');
+  };
+
   const value: FamilyContextType = {
     currentFamily,
     familyMembers,
@@ -611,6 +704,9 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     isParent,
     isChild,
     requestService,
+    addServiceToFamily,
+    removeServiceFromFamily,
+    getFamilyServices,
     calculateFamilyPrivacyScore,
     exportFamilyData,
     importFamilyData,
