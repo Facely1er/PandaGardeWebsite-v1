@@ -302,7 +302,7 @@ const HomePage: React.FC = () => {
 
       {/* Hero Section - Two Column Layout */}
       <section className="hero-simple" style={{ 
-        paddingTop: familyPersona ? '1.5rem' : 'clamp(2rem, 4vw, 3rem)',
+        paddingTop: familyPersona ? '0.5rem' : 'clamp(0.5rem, 1vw, 1rem)',
         paddingBottom: 'clamp(4rem, 8vw, 6rem)'
       }}>
         {/* Subtle background elements */}
