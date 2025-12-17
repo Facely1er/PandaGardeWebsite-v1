@@ -736,18 +736,7 @@ body {
 
 /* Ensure content after fixed header has proper spacing */
 .main-content-wrapper {
-  padding-top: 84px;
-}
-
-@media (max-width: 768px) {
-  #main-content {
-    /* padding handled by .main-content-wrapper */
-    min-height: calc(100vh - 72px);
-  }
-  
-  .main-content-wrapper {
-    padding-top: 72px;
-  }
+  padding-top: 60px;
 }
 
 /* Enhanced dark theme body styling */
@@ -851,8 +840,8 @@ body {
   grid-template-columns: auto minmax(min-content, 1fr) auto !important;
   align-items: center;
   gap: clamp(1rem, 2vw, 1.5rem) !important;
-  padding: 0.75rem 0;
-  min-height: 60px;
+  padding: 0.5rem 0;
+  min-height: 48px;
   width: 100%;
   position: relative;
   overflow: visible;
@@ -1252,13 +1241,11 @@ body {
 /* ===== HERO SECTION ===== */
 .hero {
   background: var(--gradient-hero);
- 
-  padding: 108px 0 18px;
+  margin-top: -60px;
+  padding: 168px 0 18px; /* 60px (header offset) + 108px (original padding) */
   position: relative;
   overflow: hidden;
   min-height: 54vh;
- 
- 
   display: flex;
   align-items: center;
 }
@@ -3465,7 +3452,12 @@ body {
   }
   
   .hero-simple {
-    padding: 0;
+    margin-top: -60px;
+    padding-top: 60px !important;
+  }
+  
+  .hero-simple > .container {
+    padding-top: 1.5rem;
   }
   
   .hero-simple .hero-content {
@@ -4153,10 +4145,18 @@ body {
 
 /* Hero Simple */
 .hero-simple {
-  padding: 0;
+  margin-top: -60px;
+  padding-top: 60px !important; /* Offset for fixed header */
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
   background: linear-gradient(135deg, var(--light) 0%, var(--white) 100%);
   position: relative;
   overflow: hidden;
+}
+
+.hero-simple > .container {
+  padding-top: 1.5rem; /* Space for badge and content below header */
 }
 
 .hero-simple .hero-content {
