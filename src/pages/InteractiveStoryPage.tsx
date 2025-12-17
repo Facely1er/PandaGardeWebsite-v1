@@ -6,6 +6,7 @@ import StoryProgress from '../components/story/StoryProgress';
 import PageLayout from '../components/layout/PageLayout';
 import Logo from '../components/Logo';
 import { storyScenes } from '../data/storyScenes';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface Achievement {
   id: string;
@@ -16,6 +17,8 @@ interface Achievement {
 }
 
 const InteractiveStoryPage: React.FC = () => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
   const [points, setPoints] = useState(0);
   const [showKeyboardHelp, setShowKeyboardHelp] = useState(false);
@@ -414,40 +417,40 @@ const InteractiveStoryPage: React.FC = () => {
           <div className="text-left">
             {/* Enhanced Feature Grid with Icons */}
             <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="flex items-center gap-3 bg-gradient-to-br from-yellow-50 to-yellow-100 px-4 py-3 rounded-xl border-2 border-yellow-300 shadow-md hover:shadow-lg transition-all transform hover:scale-105">
-                <div className="bg-yellow-400 p-2 rounded-lg">
-                  <Star size={20} className="text-yellow-900" fill="currentColor" />
+              <div className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 shadow-md hover:shadow-lg transition-all transform hover:scale-105 ${isDark ? 'bg-gradient-to-br from-yellow-900/40 to-yellow-800/40 border-yellow-600' : 'bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-300'}`}>
+                <div className={`p-2 rounded-lg ${isDark ? 'bg-yellow-600' : 'bg-yellow-400'}`}>
+                  <Star size={20} className={isDark ? 'text-yellow-100' : 'text-yellow-900'} fill="currentColor" />
                 </div>
                 <div>
                   <div className="font-bold text-sm" style={{ color: 'var(--gray-800)' }}>Ages 5-12</div>
-                  <div className="text-xs text-gray-600">Perfect Age</div>
+                  <div className="text-xs" style={{ color: 'var(--gray-600)' }}>Perfect Age</div>
                 </div>
               </div>
-              <div className="flex items-center gap-3 bg-gradient-to-br from-blue-50 to-blue-100 px-4 py-3 rounded-xl border-2 border-blue-300 shadow-md hover:shadow-lg transition-all transform hover:scale-105">
-                <div className="bg-blue-400 p-2 rounded-lg">
-                  <Book size={20} className="text-blue-900" />
+              <div className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 shadow-md hover:shadow-lg transition-all transform hover:scale-105 ${isDark ? 'bg-gradient-to-br from-blue-900/40 to-blue-800/40 border-blue-600' : 'bg-gradient-to-br from-blue-50 to-blue-100 border-blue-300'}`}>
+                <div className={`p-2 rounded-lg ${isDark ? 'bg-blue-600' : 'bg-blue-400'}`}>
+                  <Book size={20} className={isDark ? 'text-blue-100' : 'text-blue-900'} />
                 </div>
                 <div>
                   <div className="font-bold text-sm" style={{ color: 'var(--gray-800)' }}>Interactive</div>
-                  <div className="text-xs text-gray-600">Engaging</div>
+                  <div className="text-xs" style={{ color: 'var(--gray-600)' }}>Engaging</div>
                 </div>
               </div>
-              <div className="flex items-center gap-3 bg-gradient-to-br from-red-50 to-red-100 px-4 py-3 rounded-xl border-2 border-red-300 shadow-md hover:shadow-lg transition-all transform hover:scale-105">
-                <div className="bg-red-400 p-2 rounded-lg">
-                  <Heart size={20} className="text-red-900" fill="currentColor" />
+              <div className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 shadow-md hover:shadow-lg transition-all transform hover:scale-105 ${isDark ? 'bg-gradient-to-br from-red-900/40 to-red-800/40 border-red-600' : 'bg-gradient-to-br from-red-50 to-red-100 border-red-300'}`}>
+                <div className={`p-2 rounded-lg ${isDark ? 'bg-red-600' : 'bg-red-400'}`}>
+                  <Heart size={20} className={isDark ? 'text-red-100' : 'text-red-900'} fill="currentColor" />
                 </div>
                 <div>
                   <div className="font-bold text-sm" style={{ color: 'var(--gray-800)' }}>Educational</div>
-                  <div className="text-xs text-gray-600">Learning</div>
+                  <div className="text-xs" style={{ color: 'var(--gray-600)' }}>Learning</div>
                 </div>
               </div>
-              <div className="flex items-center gap-3 bg-gradient-to-br from-purple-50 to-purple-100 px-4 py-3 rounded-xl border-2 border-purple-300 shadow-md hover:shadow-lg transition-all transform hover:scale-105">
-                <div className="bg-purple-400 p-2 rounded-lg">
+              <div className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 shadow-md hover:shadow-lg transition-all transform hover:scale-105 ${isDark ? 'bg-gradient-to-br from-purple-900/40 to-purple-800/40 border-purple-600' : 'bg-gradient-to-br from-purple-50 to-purple-100 border-purple-300'}`}>
+                <div className={`p-2 rounded-lg ${isDark ? 'bg-purple-600' : 'bg-purple-400'}`}>
                   <span className="text-2xl">🎮</span>
                 </div>
                 <div>
                   <div className="font-bold text-sm" style={{ color: 'var(--gray-800)' }}>Make Choices</div>
-                  <div className="text-xs text-gray-600">Decisions</div>
+                  <div className="text-xs" style={{ color: 'var(--gray-600)' }}>Decisions</div>
                 </div>
               </div>
             </div>
@@ -463,7 +466,7 @@ const InteractiveStoryPage: React.FC = () => {
               </button>
               <button 
                 onClick={() => setShowKeyboardHelp(true)}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-3 rounded-lg font-semibold transition-all border border-gray-300"
+                className={`px-4 py-3 rounded-lg font-semibold transition-all border ${isDark ? 'bg-gray-700 hover:bg-gray-600 text-gray-100 border-gray-600' : 'bg-gray-100 hover:bg-gray-200 text-gray-800 border-gray-300'}`}
               >
                 Help
               </button>
@@ -474,7 +477,7 @@ const InteractiveStoryPage: React.FC = () => {
           <div className="relative hidden md:block">
             <div className="relative">
               {/* Main Panda Illustration Area with Enhanced Visuals */}
-              <div className="relative bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 rounded-3xl p-8 border-4 border-green-300 shadow-2xl overflow-hidden">
+              <div className={`relative rounded-3xl p-8 border-4 shadow-2xl overflow-hidden ${isDark ? 'bg-gradient-to-br from-green-900/60 via-emerald-900/60 to-teal-900/60 border-green-600' : 'bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 border-green-300'}`}>
                 {/* Animated Background Pattern */}
                 <div className="absolute inset-0 opacity-10">
                   <div className="absolute top-0 left-0 w-full h-full" style={{
@@ -491,10 +494,10 @@ const InteractiveStoryPage: React.FC = () => {
                       display: 'flex', 
                       alignItems: 'center', 
                       justifyContent: 'center',
-                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1))',
+                      background: isDark ? 'linear-gradient(135deg, rgba(74, 222, 128, 0.2), rgba(34, 197, 94, 0.2))' : 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1))',
                       borderRadius: '50%',
-                      border: '4px solid rgba(16, 185, 129, 0.3)',
-                      boxShadow: '0 8px 24px rgba(16, 185, 129, 0.2)'
+                      border: isDark ? '4px solid rgba(74, 222, 128, 0.4)' : '4px solid rgba(16, 185, 129, 0.3)',
+                      boxShadow: isDark ? '0 8px 24px rgba(74, 222, 128, 0.3)' : '0 8px 24px rgba(16, 185, 129, 0.2)'
                     }}>
                       <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <Logo />
@@ -504,13 +507,13 @@ const InteractiveStoryPage: React.FC = () => {
                   
                   {/* Enhanced Icon Row */}
                   <div className="flex justify-center gap-3 mb-4">
-                    <div className="bg-white p-3 rounded-full shadow-lg animate-pulse" style={{ animationDelay: '0s' }}>
+                    <div className={`p-3 rounded-full shadow-lg animate-pulse ${isDark ? 'bg-gray-800' : 'bg-white'}`} style={{ animationDelay: '0s' }}>
                       <span className="text-3xl">🛡️</span>
                     </div>
-                    <div className="bg-white p-3 rounded-full shadow-lg animate-pulse" style={{ animationDelay: '0.2s' }}>
+                    <div className={`p-3 rounded-full shadow-lg animate-pulse ${isDark ? 'bg-gray-800' : 'bg-white'}`} style={{ animationDelay: '0.2s' }}>
                       <span className="text-3xl">🔒</span>
                     </div>
-                    <div className="bg-white p-3 rounded-full shadow-lg animate-pulse" style={{ animationDelay: '0.4s' }}>
+                    <div className={`p-3 rounded-full shadow-lg animate-pulse ${isDark ? 'bg-gray-800' : 'bg-white'}`} style={{ animationDelay: '0.4s' }}>
                       <span className="text-3xl">⭐</span>
                     </div>
                   </div>
@@ -518,7 +521,7 @@ const InteractiveStoryPage: React.FC = () => {
                   <p className="text-base font-semibold mb-2" style={{ color: 'var(--gray-800)' }}>Ready to protect your digital privacy?</p>
                   <div className="flex justify-center gap-1 mt-2">
                     <Sparkles size={16} className="text-yellow-500" />
-                    <span className="text-xs text-gray-600">Interactive Learning Adventure</span>
+                    <span className="text-xs" style={{ color: 'var(--gray-600)' }}>Interactive Learning Adventure</span>
                     <Sparkles size={16} className="text-yellow-500" />
                   </div>
                 </div>
@@ -620,12 +623,13 @@ const InteractiveStoryPage: React.FC = () => {
       {/* Bookmarks Panel */}
       {showBookmarks && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" role="dialog" aria-labelledby="bookmarks-title">
-          <div className="bg-white rounded-lg p-6 max-w-2xl mx-4 max-h-96 overflow-y-auto" style={{ backgroundColor: 'var(--white)' }}>
+          <div className={`rounded-lg p-6 max-w-2xl mx-4 max-h-96 overflow-y-auto ${isDark ? 'bg-gray-800' : 'bg-white'}`} style={{ backgroundColor: 'var(--card-color)' }}>
             <div className="flex justify-between items-center mb-4">
               <h2 id="bookmarks-title" className="text-xl font-bold" style={{ color: 'var(--gray-800)' }}>Story Bookmarks</h2>
               <button
                 onClick={() => setShowBookmarks(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl"
+                className="text-2xl"
+                style={{ color: 'var(--gray-500)' }}
                 aria-label="Close bookmarks"
               >
                 ×
@@ -633,15 +637,15 @@ const InteractiveStoryPage: React.FC = () => {
             </div>
             <div className="space-y-2">
               {bookmarks.size === 0 ? (
-                <p className="text-gray-500 text-center py-4">No bookmarks yet. Click the bookmark icon on any scene to save it!</p>
+                <p className="text-center py-4" style={{ color: 'var(--gray-500)' }}>No bookmarks yet. Click the bookmark icon on any scene to save it!</p>
               ) : (
                 Array.from(bookmarks).map(sceneId => {
                   const scene = storyScenes.find(s => s.id === sceneId);
                   return scene ? (
-                    <div key={sceneId} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg" style={{ backgroundColor: 'var(--light)' }}>
+                    <div key={sceneId} className={`flex items-center justify-between p-3 rounded-lg ${isDark ? 'bg-gray-700' : 'bg-gray-50'}`}>
                       <div className="flex-1">
                         <h3 className="font-semibold" style={{ color: 'var(--gray-800)' }}>{scene.title}</h3>
-                        <p className="text-sm text-gray-600" style={{ color: 'var(--gray-600)' }}>
+                        <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
                           {scene.content.substring(0, 100)}...
                         </p>
                       </div>
@@ -670,7 +674,7 @@ const InteractiveStoryPage: React.FC = () => {
 
         {/* Visual Achievement Showcase */}
         <div className="mb-6 relative z-10">
-          <div className="bg-gradient-to-r from-purple-50 via-pink-50 to-orange-50 rounded-2xl p-6 border-2 border-purple-200 shadow-lg">
+          <div className={`rounded-2xl p-6 border-2 shadow-lg ${isDark ? 'bg-gradient-to-r from-purple-900/40 via-pink-900/40 to-orange-900/40 border-purple-700' : 'bg-gradient-to-r from-purple-50 via-pink-50 to-orange-50 border-purple-200'}`}>
             <h3 className="text-xl font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--gray-800)' }}>
               <Trophy className="text-yellow-500" size={24} />
               Your Achievements
@@ -681,13 +685,17 @@ const InteractiveStoryPage: React.FC = () => {
                   key={achievement.id}
                   className={`relative p-4 rounded-xl border-2 transition-all transform hover:scale-105 ${
                     achievement.unlocked
-                      ? 'bg-gradient-to-br from-yellow-50 to-orange-50 border-yellow-400 shadow-md'
-                      : 'bg-gray-100 border-gray-300 opacity-60'
+                      ? isDark 
+                        ? 'bg-gradient-to-br from-yellow-900/50 to-orange-900/50 border-yellow-600 shadow-md'
+                        : 'bg-gradient-to-br from-yellow-50 to-orange-50 border-yellow-400 shadow-md'
+                      : isDark
+                        ? 'bg-gray-800 border-gray-600 opacity-60'
+                        : 'bg-gray-100 border-gray-300 opacity-60'
                   }`}
                 >
                   <div className="text-center">
                     <div className="text-4xl mb-2">{achievement.icon}</div>
-                    <div className={`font-bold text-sm ${achievement.unlocked ? 'text-gray-800' : 'text-gray-500'}`}>
+                    <div className="font-bold text-sm" style={{ color: achievement.unlocked ? 'var(--gray-800)' : 'var(--gray-500)' }}>
                       {achievement.name}
                     </div>
                     {achievement.unlocked && (
