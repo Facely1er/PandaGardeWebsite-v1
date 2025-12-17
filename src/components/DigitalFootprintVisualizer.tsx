@@ -27,23 +27,48 @@ interface DigitalFootprintVisualizerProps {
 }
 
 const DigitalFootprintVisualizer: React.FC<DigitalFootprintVisualizerProps> = ({ compact = false }) => {
-  const { familyMembers } = useFamily();
+  const { familyMembers, getFamilyServices } = useFamily();
 
-  // Get services for each member
+  // Get services from the Service Catalog (directly added services)
+  const catalogServices = getFamilyServices();
+
+  // Get services for each member and combine with catalog services
   const memberServices = useMemo(() => {
     const services: Record<string, string[]> = {};
+    let totalMemberServices = 0;
+    
     familyMembers.forEach(member => {
       const memberServiceIds = (member as any).services?.map((s: any) => s.serviceId) || [];
       services[member.id] = memberServiceIds;
+      totalMemberServices += memberServiceIds.length;
     });
+    
+    // If no services found on members but catalog has services, use catalog services
+    if (totalMemberServices === 0 && catalogServices.length > 0) {
+      services['family'] = catalogServices;
+    }
+    
     return services;
-  }, [familyMembers]);
+  }, [familyMembers, catalogServices]);
+
+  // Create members list for analysis - use family members if available, or virtual member
+  const membersForAnalysis = useMemo(() => {
+    if (familyMembers.length > 0) {
+      return familyMembers;
+    }
+    if (catalogServices.length > 0) {
+      return [{ id: 'family', services: catalogServices.map(id => ({ serviceId: id, status: 'approved' })) }];
+    }
+    return [];
+  }, [familyMembers, catalogServices]);
 
   // Analyze footprint
   const analysis = useMemo<FootprintAnalysis | null>(() => {
-    if (familyMembers.length === 0) {return null;}
-    return footprintAnalyzer.analyzeFamilyFootprint(familyMembers, memberServices);
-  }, [familyMembers, memberServices]);
+    // Check if there are any services to analyze (either from members or catalog)
+    const hasServices = Object.values(memberServices).some(arr => arr.length > 0);
+    if (!hasServices) {return null;}
+    return footprintAnalyzer.analyzeFamilyFootprint(membersForAnalysis, memberServices);
+  }, [membersForAnalysis, memberServices]);
 
   // Get category icon
   const getCategoryIcon = (category: string) => {
@@ -84,16 +109,16 @@ const DigitalFootprintVisualizer: React.FC<DigitalFootprintVisualizerProps> = ({
       <div className="p-8 text-center bg-gray-50 dark:bg-gray-800 rounded-lg">
         <Globe className="h-12 w-12 mx-auto text-gray-400 mb-4" />
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-          No Family Data Available
+          No Services Added Yet
         </h3>
         <p className="text-gray-600 dark:text-gray-400 mb-4">
-          Add family members and services to analyze your digital footprint.
+          Add your family's apps and services from the Service Catalog to see your digital footprint analysis.
         </p>
         <Link
-          to="/family-hub"
+          to="/service-catalog"
           className="inline-flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
         >
-          <span>Go to Family Hub</span>
+          <span>Add Services</span>
           <ArrowRight className="h-4 w-4" />
         </Link>
       </div>

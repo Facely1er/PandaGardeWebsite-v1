@@ -1,24 +1,37 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Download, ShoppingBag, Bell, FileText, ArrowRight, BarChart3, Shield } from 'lucide-react';
+import { ArrowLeft, Download, ShoppingBag, Bell, FileText, ArrowRight, BarChart3, Shield, CheckCircle, Plus, Lightbulb, TrendingUp, Info } from 'lucide-react';
 import DigitalFootprintVisualizer from '../components/DigitalFootprintVisualizer';
 import EmptyStateWithServicePrompt from '../components/EmptyStateWithServicePrompt';
 import { useFamily } from '../contexts/FamilyContext';
 import { footprintAnalyzer } from '../lib/footprintAnalyzer';
 
 const DigitalFootprintPage: React.FC = () => {
-  const { familyMembers } = useFamily();
+  const { familyMembers, getFamilyServices } = useFamily();
 
-  // Get services for analysis
+  // Get services from the Service Catalog (directly added services)
+  const catalogServices = getFamilyServices();
+  
+  // Get services for analysis - combine member services and catalog services
   const memberServices: Record<string, string[]> = {};
   let totalServicesCount = 0;
+  
+  // First, collect services from family members
   familyMembers.forEach(member => {
     const memberServiceIds = (member as any).services?.map((s: any) => s.serviceId) || [];
     memberServices[member.id] = memberServiceIds;
     totalServicesCount += memberServiceIds.length;
   });
 
-  // Check if services have been added
+  // If no services found on members but catalog has services, use catalog services
+  // This handles the case where services were added but no family was created
+  if (totalServicesCount === 0 && catalogServices.length > 0) {
+    // Create a virtual "family" entry for analysis
+    totalServicesCount = catalogServices.length;
+    memberServices['family'] = catalogServices;
+  }
+
+  // Check if services have been added (from either source)
   if (totalServicesCount === 0) {
     return (
       <EmptyStateWithServicePrompt
@@ -30,7 +43,12 @@ const DigitalFootprintPage: React.FC = () => {
     );
   }
 
-  const analysis = footprintAnalyzer.analyzeFamilyFootprint(familyMembers, memberServices);
+  // Use family members if available, otherwise create a virtual member for analysis
+  const membersForAnalysis = familyMembers.length > 0 
+    ? familyMembers 
+    : [{ id: 'family', services: catalogServices.map(id => ({ serviceId: id, status: 'approved' })) }];
+
+  const analysis = footprintAnalyzer.analyzeFamilyFootprint(membersForAnalysis, memberServices);
 
   const handleExport = () => {
     if (!analysis) {return;}
