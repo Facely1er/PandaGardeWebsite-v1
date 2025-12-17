@@ -17,25 +17,103 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className = '' }) => {
 
   // Page title mappings for automatic breadcrumb generation
   const pageTitles: Record<string, string> = {
+    // Main Pages
     '/about': 'About',
     '/contact': 'Contact Us',
     '/faq': 'FAQ',
-    '/privacy': 'Privacy Policy',
-    '/terms': 'Terms of Service',
-    '/cookies': 'Cookie Policy',
-    '/accessibility': 'Accessibility',
     '/overview': 'Overview',
     '/quick-start': 'Quick Start',
     '/get-started': 'Get Started',
     '/resources': 'Resources',
-    '/parent-resources': 'Resources', // Redirected to consolidated resources
+    '/parent-resources': 'Resources',
+    '/parent-toolkit': 'Parent Toolkit',
     '/newsletter': 'Newsletter',
+    '/newsletter/archive': 'Archive',
+    '/newsletter/unsubscribe': 'Unsubscribe',
     '/support': 'Support',
+    '/pilot': 'Pilot Program',
+    '/join-pilot': 'Join Pilot',
+    
+    // Family Hub
     '/family-hub': 'Family Hub',
-    '/story': 'PrivacyPanda',
+    '/profile': 'Profile',
+    
+    // Privacy Panda & Story
+    '/story': 'Privacy Panda Story',
+    '/privacy-panda': 'Privacy Panda',
+    '/activity-book': 'Activity Book',
+    
+    // Age Group Pages
     '/privacy-explorers': 'Ages 5-8',
     '/privacy-handbook': 'Ages 9-12',
     '/teen-handbook': 'Ages 13-17',
+    '/digital-citizenship': 'Digital Citizenship',
+    '/privacy-tools': 'Privacy Tools',
+    '/digital-rights': 'Digital Rights',
+    '/age-groups': 'Age Groups',
+    
+    // Educator Pages
+    '/educator-tools': 'Educator Tools',
+    '/classroom-activities': 'Classroom Activities',
+    
+    // Service & Analysis Pages
+    '/service-catalog': 'Service Catalog',
+    '/safety-alerts': 'Safety Alerts',
+    '/alerts': 'Safety Alerts',
+    '/digital-footprint': 'Digital Footprint',
+    '/footprint': 'Digital Footprint',
+    '/privacy-assessment': 'Privacy Assessment',
+    '/quick-assessment': 'Quick Assessment',
+    '/assessment': 'Privacy Assessment',
+    '/assessment-history': 'Assessment History',
+    '/assessment/history': 'Assessment History',
+    '/privacy-goals': 'Privacy Goals',
+    '/goals': 'Privacy Goals',
+    '/implementation-guide': 'Implementation Guide',
+    
+    // Community Features
+    '/community': 'Community',
+    '/community/stories': 'Success Stories',
+    '/community/success-stories': 'Success Stories',
+    '/community/resources': 'Shared Resources',
+    '/community/forum': 'Forum',
+    '/community/privacy-tips': 'Privacy Tips',
+    
+    // COPPA & Legal Pages
+    '/parental-consent': 'Parental Consent',
+    '/parental-consent/pending': 'Consent Pending',
+    '/privacy': 'Privacy Policy',
+    '/terms': 'Terms of Service',
+    '/cookies': 'Cookie Policy',
+    '/accessibility': 'Accessibility',
+    
+    // Download Pages
+    '/downloads': 'Downloads',
+    '/downloads/coloring-sheets': 'Coloring Sheets',
+    '/downloads/safety-posters': 'Safety Posters',
+    '/downloads/certificates': 'Certificates',
+    '/certificates': 'Certificates',
+    '/downloads/family-agreement': 'Family Agreement',
+    '/downloads/worksheets': 'Worksheets',
+    
+    // Guide Pages
+    '/guides': 'Guides',
+    '/guides/device-setup': 'Device Setup',
+    '/guides/app-selection': 'App Selection',
+    '/guides/modeling-behavior': 'Modeling Behavior',
+    '/guides/privacy-concerns': 'Privacy Concerns',
+    '/guides/family-privacy': 'Family Privacy',
+    '/guides/emergency-safety': 'Emergency Safety',
+    '/guides/age-specific': 'Age-Specific Guide',
+    '/guides/conversation-approaches': 'Conversation Approaches',
+    '/guides/safety-net': 'Safety Net',
+    '/guides/age-specific-privacy': 'Age-Specific Privacy',
+    '/family-privacy-plan': 'Family Privacy Plan',
+    '/guides/family-privacy-plan': 'Family Privacy Plan',
+    
+    // Activity Pages
+    '/activities': 'Activities',
+    '/activities/privacy-learning-kit': 'Privacy Learning Kit',
   };
 
   const generateBreadcrumbs = (): BreadcrumbItem[] => {
