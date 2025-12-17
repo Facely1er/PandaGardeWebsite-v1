@@ -4895,6 +4895,177 @@ body {
   background: var(--white) !important;
 }
 
+/* ===== HOMEPAGE DARK MODE CARD STYLES ===== */
+
+/* Persona cards */
+[data-theme="dark"] .persona-card {
+  background: var(--gray-100) !important;
+  border-color: rgba(110, 231, 183, 0.2) !important;
+}
+
+[data-theme="dark"] .persona-card:hover {
+  border-color: var(--primary-light) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 16px rgba(110, 231, 183, 0.15) !important;
+}
+
+[data-theme="dark"] .persona-card h3 {
+  color: var(--gray-900) !important;
+}
+
+[data-theme="dark"] .persona-card p {
+  color: var(--gray-600) !important;
+}
+
+/* Journey step cards */
+[data-theme="dark"] .journey-step-card {
+  background: var(--gray-100) !important;
+  border-color: rgba(110, 231, 183, 0.2) !important;
+}
+
+[data-theme="dark"] .journey-step-card:hover {
+  border-color: var(--primary-light) !important;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .journey-step-card h3 {
+  color: var(--gray-900) !important;
+}
+
+[data-theme="dark"] .journey-step-card p {
+  color: var(--gray-600) !important;
+}
+
+/* Quick action cards */
+[data-theme="dark"] .quick-action-card {
+  background: var(--gray-100) !important;
+  border-color: rgba(110, 231, 183, 0.2) !important;
+}
+
+[data-theme="dark"] .quick-action-card:hover {
+  border-color: var(--primary-light) !important;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3), 0 0 20px rgba(110, 231, 183, 0.1) !important;
+}
+
+[data-theme="dark"] .quick-action-card h3 {
+  color: var(--gray-900) !important;
+}
+
+[data-theme="dark"] .quick-action-card p {
+  color: var(--gray-600) !important;
+}
+
+/* Feature cards */
+[data-theme="dark"] .feature-card {
+  background: var(--gray-100) !important;
+  border: 1px solid rgba(110, 231, 183, 0.2) !important;
+}
+
+[data-theme="dark"] .feature-card:hover {
+  border-color: var(--primary-light) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 16px rgba(110, 231, 183, 0.15) !important;
+}
+
+[data-theme="dark"] .feature-card h3 {
+  color: var(--gray-900) !important;
+}
+
+[data-theme="dark"] .feature-card p {
+  color: var(--gray-600) !important;
+}
+
+/* Learn more cards */
+[data-theme="dark"] .learn-more-card {
+  background: var(--gray-100) !important;
+  border: 1px solid rgba(110, 231, 183, 0.2) !important;
+}
+
+[data-theme="dark"] .learn-more-card:hover {
+  border-color: var(--primary-light) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 16px rgba(110, 231, 183, 0.15) !important;
+}
+
+[data-theme="dark"] .learn-more-card h3 {
+  color: var(--gray-900) !important;
+}
+
+[data-theme="dark"] .learn-more-card p {
+  color: var(--gray-600) !important;
+}
+
+/* Outline buttons in dark mode */
+[data-theme="dark"] .outline-button {
+  background: transparent !important;
+  color: var(--primary-light) !important;
+  border: 2px solid var(--primary-light) !important;
+}
+
+[data-theme="dark"] .outline-button:hover {
+  background: var(--primary-light) !important;
+  color: var(--white) !important;
+}
+
+/* Age group cards - group content area */
+[data-theme="dark"] .age-group-card .group-content {
+  background: var(--gray-100);
+}
+
+[data-theme="dark"] .age-group-card .group-content p {
+  color: var(--gray-600);
+}
+
+/* Community section cards with bg-white class */
+[data-theme="dark"] .bg-white {
+  background: var(--gray-100) !important;
+}
+
+[data-theme="dark"] .bg-white h3 {
+  color: var(--gray-900) !important;
+}
+
+[data-theme="dark"] .bg-white p {
+  color: var(--gray-600) !important;
+}
+
+/* Section headers in dark mode */
+[data-theme="dark"] .section-header h2 {
+  color: var(--gray-900) !important;
+}
+
+[data-theme="dark"] .section-header p {
+  color: var(--gray-600) !important;
+}
+
+/* Fix text with hardcoded colors */
+[data-theme="dark"] [style*="color: '#0f172a'"],
+[data-theme="dark"] [style*="color: #0f172a"] {
+  color: var(--gray-900) !important;
+}
+
+[data-theme="dark"] [style*="color: '#64748b'"],
+[data-theme="dark"] [style*="color: #64748b"] {
+  color: var(--gray-600) !important;
+}
+
+[data-theme="dark"] [style*="color: '#1e40af'"] {
+  color: var(--primary-light) !important;
+}
+
+[data-theme="dark"] [style*="color: '#374151'"],
+[data-theme="dark"] [style*="color: #374151"] {
+  color: var(--gray-700) !important;
+}
+
+[data-theme="dark"] [style*="color: '#6b7280'"],
+[data-theme="dark"] [style*="color: #6b7280"] {
+  color: var(--gray-600) !important;
+}
+
+/* Fix green text in dark mode */
+[data-theme="dark"] [style*="color: '#1B5E20'"],
+[data-theme="dark"] [style*="color: #1B5E20"] {
+  color: var(--primary-light) !important;
+}
+
 /* Dark mode inline text improvements */
 [data-theme="dark"] h3[style*="color: '#0f172a'"],
 [data-theme="dark"] h3[style*="color: #0f172a"] {

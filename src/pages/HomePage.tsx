@@ -275,20 +275,15 @@ const HomePage: React.FC = () => {
               }}>
                 Digital Privacy Education
               </span>
-              <h1 style={{
+              <h1 className="hero-heading" style={{
                 fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
                 fontWeight: '800',
                 lineHeight: '1.1',
                 marginBottom: '1.25rem',
-                color: '#0f172a',
                 letterSpacing: '-0.02em'
               }}>
-                <span style={{ whiteSpace: 'nowrap', display: 'block' }}>Help Your Family Learn</span>
-                <span className="highlight" style={{
-                  background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #66BB6A 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
+                <span className="hero-heading-line1" style={{ whiteSpace: 'nowrap', display: 'block' }}>Help Your Family Learn</span>
+                <span className="hero-heading-highlight" style={{
                   display: 'block',
                   whiteSpace: 'nowrap'
                 }}>
@@ -725,7 +720,7 @@ const HomePage: React.FC = () => {
             <h2 style={{
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',
               fontWeight: '700',
-              color: '#0f172a',
+              color: 'var(--gray-800)',
               marginBottom: '0.75rem',
               textAlign: 'center'
             }}>
@@ -733,7 +728,7 @@ const HomePage: React.FC = () => {
             </h2>
             <p style={{
               fontSize: '1.125rem',
-              color: '#64748b',
+              color: 'var(--gray-600)',
               maxWidth: '600px',
               margin: '0 auto',
               textAlign: 'center',
@@ -751,8 +746,8 @@ const HomePage: React.FC = () => {
                 className="quick-action-card fade-in" 
                 style={{ 
                   animationDelay: `${index * 0.1}s`,
-                  background: 'white',
-                  border: '1px solid #e2e8f0',
+                  background: 'var(--card-color)',
+                  border: '1px solid var(--gray-300)',
                   borderRadius: '16px',
                   padding: '2.5rem 2rem',
                   textAlign: 'center',
@@ -762,12 +757,12 @@ const HomePage: React.FC = () => {
                   display: 'block'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#1B5E20';
+                  e.currentTarget.style.borderColor = 'var(--primary)';
                   e.currentTarget.style.transform = 'translateY(-4px)';
-                  e.currentTarget.style.boxShadow = '0 12px 24px rgba(0, 0, 0, 0.1)';
+                  e.currentTarget.style.boxShadow = '0 12px 24px rgba(0, 0, 0, 0.15)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = '#e2e8f0';
+                  e.currentTarget.style.borderColor = 'var(--gray-300)';
                   e.currentTarget.style.transform = 'translateY(0)';
                   e.currentTarget.style.boxShadow = 'none';
                 }}
@@ -787,14 +782,14 @@ const HomePage: React.FC = () => {
                 <h3 style={{
                   fontSize: '1.25rem',
                   fontWeight: '700',
-                  color: '#0f172a',
+                  color: 'var(--gray-800)',
                   marginBottom: '0.75rem'
                 }}>
                   {action.title}
                 </h3>
                 <p style={{
                   fontSize: '0.9375rem',
-                  color: '#64748b',
+                  color: 'var(--gray-600)',
                   lineHeight: '1.6',
                   marginBottom: '1.5rem'
                 }}>
@@ -804,7 +799,7 @@ const HomePage: React.FC = () => {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '0.5rem',
-                  color: '#1B5E20',
+                  color: 'var(--primary)',
                   fontWeight: '600',
                   fontSize: '0.9375rem'
                 }}>
@@ -818,19 +813,19 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Family Personas - Simplified */}
-      <section className="family-personas" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
+      <section className="family-personas" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'var(--white)' }}>
         <div className="container">
           <div className="section-header fade-in" style={{ marginBottom: '3rem' }}>
             <h2 style={{
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',
               fontWeight: '700',
-              color: '#0f172a',
+              color: 'var(--gray-800)',
               marginBottom: '0.75rem',
               textAlign: 'center'
             }}>Which Family Are You?</h2>
             <p style={{
               fontSize: '1.125rem',
-              color: '#64748b',
+              color: 'var(--gray-600)',
               maxWidth: '600px',
               margin: '0 auto',
               textAlign: 'center',
@@ -860,10 +855,10 @@ const HomePage: React.FC = () => {
               return (
                 <div 
                   key={persona.id} 
-                  className="fade-in" 
+                  className="fade-in persona-card" 
                   style={{ 
                     animationDelay: `${index * 0.1}s`,
-                    background: 'white',
+                    background: 'var(--card-color)',
                     borderRadius: '16px',
                     padding: '1.5rem',
                     border: `2px solid ${personaColor}20`,
@@ -975,19 +970,19 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* How It Works - Preview (Links to Overview) */}
-      <section className="how-it-works-preview" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
+      <section className="how-it-works-preview" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'var(--white)' }}>
         <div className="container">
           <div className="section-header fade-in" style={{ marginBottom: '3rem' }}>
             <h2 style={{
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',
               fontWeight: '700',
-              color: '#0f172a',
+              color: 'var(--gray-800)',
               marginBottom: '0.75rem',
               textAlign: 'center'
             }}>How PandaGarde Works</h2>
             <p style={{
               fontSize: '1.125rem',
-              color: '#64748b',
+              color: 'var(--gray-600)',
               maxWidth: '600px',
               margin: '0 auto',
               textAlign: 'center',
@@ -1005,23 +1000,23 @@ const HomePage: React.FC = () => {
             {customerJourney.slice(0, 3).map((step, index) => (
               <div 
                 key={index} 
-                className="fade-in" 
+                className="fade-in journey-step-card" 
                 style={{ 
                   animationDelay: `${index * 0.1}s`,
-                  background: 'white',
+                  background: 'var(--card-color)',
                   borderRadius: '16px',
                   padding: '2rem',
-                  border: '1px solid #e2e8f0',
+                  border: '1px solid var(--gray-300)',
                   textAlign: 'center',
                   transition: 'all 0.3s ease'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#1B5E20';
+                  e.currentTarget.style.borderColor = 'var(--primary)';
                   e.currentTarget.style.transform = 'translateY(-4px)';
-                  e.currentTarget.style.boxShadow = '0 12px 24px rgba(0, 0, 0, 0.1)';
+                  e.currentTarget.style.boxShadow = '0 12px 24px rgba(0, 0, 0, 0.15)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = '#e2e8f0';
+                  e.currentTarget.style.borderColor = 'var(--gray-300)';
                   e.currentTarget.style.transform = 'translateY(0)';
                   e.currentTarget.style.boxShadow = 'none';
                 }}
@@ -1030,7 +1025,7 @@ const HomePage: React.FC = () => {
                   width: '64px',
                   height: '64px',
                   borderRadius: '16px',
-                  background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+                  background: 'var(--gradient-primary)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -1056,14 +1051,14 @@ const HomePage: React.FC = () => {
                 <h3 style={{
                   fontSize: '1.125rem',
                   fontWeight: '700',
-                  color: '#0f172a',
+                  color: 'var(--gray-800)',
                   marginBottom: '0.75rem'
                 }}>
                   {step.title}
                 </h3>
                 <p style={{
                   fontSize: '0.9375rem',
-                  color: '#64748b',
+                  color: 'var(--gray-600)',
                   lineHeight: '1.6'
                 }}>
                   {step.description}
@@ -1075,30 +1070,13 @@ const HomePage: React.FC = () => {
           <div style={{ textAlign: 'center' }}>
             <Link 
               to="/overview" 
-              className="button secondary"
+              className="button secondary outline-button"
               style={{ 
                 display: 'inline-flex', 
                 alignItems: 'center', 
                 gap: '0.5rem',
                 fontSize: '1rem',
-                padding: '0.875rem 2rem',
-                background: 'white',
-                color: '#1B5E20',
-                fontWeight: '600',
-                borderRadius: '10px',
-                textDecoration: 'none',
-                border: '2px solid #1B5E20',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#1B5E20';
-                e.currentTarget.style.color = 'white';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'white';
-                e.currentTarget.style.color = '#1B5E20';
-                e.currentTarget.style.transform = 'translateY(0)';
+                padding: '0.875rem 2rem'
               }}
             >
               View Complete Journey
@@ -1109,19 +1087,19 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Age Groups */}
-      <section className="age-groups-simple" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#f8fafc' }}>
+      <section className="age-groups-simple" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'var(--gray-100)' }}>
         <div className="container">
           <div className="section-header fade-in" style={{ marginBottom: '3rem' }}>
             <h2 style={{
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',
               fontWeight: '700',
-              color: '#0f172a',
+              color: 'var(--gray-800)',
               marginBottom: '0.75rem',
               textAlign: 'center'
             }}>Content Designed for Your Child's Age</h2>
             <p style={{
               fontSize: '1.125rem',
-              color: '#64748b',
+              color: 'var(--gray-600)',
               maxWidth: '600px',
               margin: '0 auto',
               textAlign: 'center',
@@ -1175,30 +1153,13 @@ const HomePage: React.FC = () => {
           <div style={{ textAlign: 'center', marginTop: '2rem' }}>
             <Link 
               to="/overview" 
-              className="button secondary"
+              className="button secondary outline-button"
               style={{ 
                 display: 'inline-flex', 
                 alignItems: 'center', 
                 gap: '0.5rem',
                 fontSize: '1rem',
-                padding: '0.875rem 2rem',
-                background: 'white',
-                color: '#1B5E20',
-                fontWeight: '600',
-                borderRadius: '10px',
-                textDecoration: 'none',
-                border: '2px solid #1B5E20',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#1B5E20';
-                e.currentTarget.style.color = 'white';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'white';
-                e.currentTarget.style.color = '#1B5E20';
-                e.currentTarget.style.transform = 'translateY(0)';
+                padding: '0.875rem 2rem'
               }}
             >
               <BookOpen size={20} />
@@ -1210,19 +1171,19 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Key Features - Parent-Focused Benefits */}
-      <section className="key-features" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
+      <section className="key-features" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'var(--white)' }}>
         <div className="container">
           <div className="section-header fade-in" style={{ marginBottom: '3rem' }}>
             <h2 style={{
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',
               fontWeight: '700',
-              color: '#0f172a',
+              color: 'var(--gray-800)',
               marginBottom: '0.75rem',
               textAlign: 'center'
             }}>Why PandaGarde?</h2>
             <p style={{
               fontSize: '1.125rem',
-              color: '#64748b',
+              color: 'var(--gray-600)',
               maxWidth: '600px',
               margin: '0 auto',
               textAlign: 'center',
@@ -1283,19 +1244,19 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Learn More Links - Simplified */}
-      <section className="learn-more" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#f8fafc' }}>
+      <section className="learn-more" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'var(--gray-100)' }}>
         <div className="container">
           <div className="section-header fade-in" style={{ marginBottom: '3rem' }}>
             <h2 style={{
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',
               fontWeight: '700',
-              color: '#0f172a',
+              color: 'var(--gray-800)',
               marginBottom: '0.75rem',
               textAlign: 'center'
             }}>Helpful Resources for Parents</h2>
             <p style={{
               fontSize: '1.125rem',
-              color: '#64748b',
+              color: 'var(--gray-600)',
               maxWidth: '600px',
               margin: '0 auto',
               textAlign: 'center',
@@ -1341,19 +1302,19 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Community Section - Simplified */}
-      <section className="community-section" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#ffffff' }}>
+      <section className="community-section" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'var(--white)' }}>
         <div className="container">
           <div className="section-header fade-in text-center" style={{ marginBottom: '3rem' }}>
             <h2 style={{
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',
               fontWeight: '700',
-              color: '#0f172a',
+              color: 'var(--gray-800)',
               marginBottom: '0.75rem',
               textAlign: 'center'
             }}>Join Our Privacy-First Community</h2>
             <p style={{
               fontSize: '1.125rem',
-              color: '#64748b',
+              color: 'var(--gray-600)',
               maxWidth: '600px',
               margin: '0 auto',
               textAlign: 'center',
@@ -1364,49 +1325,49 @@ const HomePage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            <Link to="/community/forum" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center" style={{ backgroundColor: 'var(--card-color)' }}>
+            <Link to="/community/forum" className="community-card rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center" style={{ backgroundColor: 'var(--card-color)', border: '1px solid var(--gray-300)' }}>
               <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center text-white mx-auto mb-4">
                 <MessageCircle size={32} />
               </div>
               <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
                 Privacy Tips Forum
               </h3>
-              <p className="text-gray-600 mb-4">
+              <p className="mb-4" style={{ color: 'var(--gray-600)' }}>
                 Share tips, ask questions, and learn from other parents in our pseudonymous discussion forum.
               </p>
-              <span className="text-green-600 font-semibold">Join Forum →</span>
+              <span style={{ color: 'var(--primary)', fontWeight: '600' }}>Join Forum →</span>
             </Link>
 
-            <Link to="/community/stories" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center" style={{ backgroundColor: 'var(--card-color)' }}>
+            <Link to="/community/stories" className="community-card rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center" style={{ backgroundColor: 'var(--card-color)', border: '1px solid var(--gray-300)' }}>
               <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-pink-600 rounded-full flex items-center justify-center text-white mx-auto mb-4">
                 <Heart size={32} />
               </div>
               <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
                 Success Stories
               </h3>
-              <p className="text-gray-600 mb-4">
+              <p className="mb-4" style={{ color: 'var(--gray-600)' }}>
                 Read and share anonymous success stories about teaching privacy to children.
               </p>
-              <span className="text-green-600 font-semibold">View Stories →</span>
+              <span style={{ color: 'var(--primary)', fontWeight: '600' }}>View Stories →</span>
             </Link>
 
-            <Link to="/community/resources" className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center" style={{ backgroundColor: 'var(--card-color)' }}>
+            <Link to="/community/resources" className="community-card rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center" style={{ backgroundColor: 'var(--card-color)', border: '1px solid var(--gray-300)' }}>
               <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white mx-auto mb-4">
                 <Globe size={32} />
               </div>
               <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
                 Community Resources
               </h3>
-              <p className="text-gray-600 mb-4">
+              <p className="mb-4" style={{ color: 'var(--gray-600)' }}>
                 Discover privacy tools and resources shared and voted on by the community.
               </p>
-              <span className="text-green-600 font-semibold">Browse Resources →</span>
+              <span style={{ color: 'var(--primary)', fontWeight: '600' }}>Browse Resources →</span>
             </Link>
           </div>
 
           <div className="mt-8 text-center">
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4 inline-block">
-              <p className="text-sm text-green-800">
+            <div className="privacy-notice rounded-lg p-4 inline-block" style={{ background: 'var(--secondary)', border: '1px solid var(--primary-light)' }}>
+              <p className="text-sm" style={{ color: 'var(--gray-800)' }}>
                 <strong>Privacy First:</strong> All community features use localStorage—your data stays on your device. No backend required, designed for privacy.
               </p>
             </div>
