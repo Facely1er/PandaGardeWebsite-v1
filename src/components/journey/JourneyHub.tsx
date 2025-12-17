@@ -155,7 +155,7 @@ const JourneyHub: React.FC = () => {
 
   if (selectedJourney) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-6">
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-6">
         <div className="max-w-4xl mx-auto">
           <button
             onClick={() => setSelectedPath(null)}
@@ -259,7 +259,7 @@ const JourneyHub: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-6">
       <div className="max-w-6xl mx-auto">
         <button
           onClick={() => navigate('/family-hub/learning')}
@@ -272,7 +272,7 @@ const JourneyHub: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center space-x-3 mb-4">
-            <Map className="text-indigo-500" size={36} />
+            <Map className="text-green-600" size={36} />
             <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100">Privacy Journeys</h1>
           </div>
           <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
@@ -350,12 +350,12 @@ const JourneyHub: React.FC = () => {
         </div>
 
         {/* Info Section */}
-        <div className="mt-12 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+        <div className="mt-12 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-6">
           <div className="flex items-start space-x-3">
             <div className="text-2xl">💡</div>
             <div>
-              <h3 className="font-semibold text-blue-800 dark:text-blue-200 mb-2">How Privacy Journeys Work</h3>
-              <p className="text-sm text-blue-700 dark:text-blue-300">
+              <h3 className="font-semibold text-green-800 dark:text-green-200 mb-2">How Privacy Journeys Work</h3>
+              <p className="text-sm text-green-700 dark:text-green-300">
                 Each journey contains a series of activities designed for specific age groups. Complete activities 
                 to earn points, unlock achievements, and build your privacy knowledge step by step!
               </p>

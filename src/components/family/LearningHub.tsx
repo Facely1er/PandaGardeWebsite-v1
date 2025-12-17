@@ -215,7 +215,7 @@ const LearningHub: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pandaGreen-lightest to-blue-50 dark:from-gray-900 dark:to-gray-800 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -365,7 +365,7 @@ const LearningHub: React.FC = () => {
         )}
 
         {/* Journey Hub Section */}
-        <div className="mt-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl p-6 text-white">
+        <div className="mt-8 bg-gradient-to-r from-green-700 to-teal-600 rounded-xl p-6 text-white">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
@@ -380,7 +380,7 @@ const LearningHub: React.FC = () => {
             </div>
             <button
               onClick={() => navigate('/family-hub/journeys')}
-              className="flex items-center gap-2 bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 hover:text-indigo-700 transition-all w-full md:w-auto justify-center"
+              className="flex items-center gap-2 bg-white text-green-700 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 hover:text-green-800 transition-all w-full md:w-auto justify-center"
             >
               <span>Explore Journeys</span>
               <ChevronRight size={18} />

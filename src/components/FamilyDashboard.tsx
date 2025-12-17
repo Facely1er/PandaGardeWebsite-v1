@@ -405,7 +405,7 @@ const FamilyDashboard = () => {
 
         {/* Learning Hub Quick Access */}
         <div 
-          className="bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 rounded-xl shadow-lg p-5 sm:p-6 mb-6 sm:mb-8 text-white relative overflow-hidden"
+          className="bg-gradient-to-r from-green-600 via-green-500 to-teal-500 rounded-xl shadow-lg p-5 sm:p-6 mb-6 sm:mb-8 text-white relative overflow-hidden"
         >
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0" style={{
@@ -431,7 +431,7 @@ const FamilyDashboard = () => {
             
             <button
               onClick={() => navigate('/family-hub/learning')}
-              className="flex items-center gap-2 bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 hover:text-indigo-700 transition-all shadow-md hover:shadow-lg w-full md:w-auto justify-center"
+              className="flex items-center gap-2 bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 hover:text-green-700 transition-all shadow-md hover:shadow-lg w-full md:w-auto justify-center"
             >
               <Play size={18} />
               <span>Start Learning</span>
