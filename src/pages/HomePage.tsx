@@ -290,22 +290,32 @@ const HomePage: React.FC = () => {
                   About Online Privacy
                 </span>
               </h1>
-              <p
-                className="hero-description"
+              {/* Fixed height container to prevent layout shift during carousel */}
+              <div 
+                className="hero-description-container"
                 style={{
-                  fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
-                  lineHeight: '1.7',
-                  opacity: isTransitioning ? 0 : 1,
-                  transform: isTransitioning ? 'translateY(10px)' : 'translateY(0)',
-                  transition: 'opacity 0.6s ease, transform 0.6s ease'
+                  minHeight: 'clamp(4.5rem, 8vw, 5.5rem)',
+                  marginBottom: '1.5rem'
                 }}
-                key={currentMessageIndex}
               >
-                {familyPersona
-                  ? `${familyPersona.description}. Get personalized recommendations tailored for your family's privacy needs.`
-                  : heroMessages[currentMessageIndex]
-                }
-              </p>
+                <p
+                  className="hero-description"
+                  style={{
+                    fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
+                    lineHeight: '1.7',
+                    opacity: isTransitioning ? 0 : 1,
+                    transform: isTransitioning ? 'translateY(10px)' : 'translateY(0)',
+                    transition: 'opacity 0.6s ease, transform 0.6s ease',
+                    margin: 0
+                  }}
+                  key={currentMessageIndex}
+                >
+                  {familyPersona
+                    ? `${familyPersona.description}. Get personalized recommendations tailored for your family's privacy needs.`
+                    : heroMessages[currentMessageIndex]
+                  }
+                </p>
+              </div>
 
               {/* Simplified Journey Progress - Only show if significant progress */}
               {progress.overallProgress > 25 && (
