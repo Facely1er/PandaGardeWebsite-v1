@@ -293,10 +293,10 @@ const ActivityBookPage: React.FC = () => {
               <div className="w-16 h-16 md:w-20 md:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-3xl md:text-4xl">🐼</span>
               </div>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3" style={{ color: theme === 'dark' ? '#6EE7B7' : '#059669' }}>
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3" style={{ color: theme === 'dark' ? '#4ADE80' : '#059669' }}>
                 Continue Po's Journey
               </h2>
-              <p className="text-base md:text-lg lg:text-xl max-w-2xl mx-auto px-4" style={{ color: theme === 'dark' ? '#6EE7B7' : '#059669' }}>
+              <p className="text-base md:text-lg lg:text-xl max-w-2xl mx-auto px-4" style={{ color: theme === 'dark' ? '#4ADE80' : '#059669' }}>
                 These activities extend the story of Privacy Panda. Practice the privacy concepts Po learned in the Digital Bamboo Forest through hands-on games and exercises.
               </p>
             </div>

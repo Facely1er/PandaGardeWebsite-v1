@@ -122,6 +122,17 @@
   }
 }
 
+@keyframes footprint-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
 @keyframes rainbow {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -588,65 +599,65 @@
 
 /* Dark theme colors - Refined and engaging palette */
 [data-theme="dark"] {
-  /* Primary colors - Vibrant greens with better saturation */
-  --primary: #6EE7B7;
+  /* Primary colors - Vibrant emerald greens aligned with logo */
+  --primary: #4ADE80;
   --primary-light: #86EFAC;
-  --primary-dark: #34D399;
-  --secondary: #A7F3D0;
-  --tertiary: #D1FAE5;
+  --primary-dark: #22C55E;
+  --secondary: #6EE7B7;
+  --tertiary: #A7F3D0;
   
-  /* Accent colors - Warmer, more engaging tones */
-  --accent: #FBBF24;
-  --accent-light: #FCD34D;
-  --accent-dark: #F59E0B;
-  --warning: #FCD34D;
+  /* Accent colors - Rich, complementary tones */
+  --accent: #F59E0B;
+  --accent-light: #FBBF24;
+  --accent-dark: #D97706;
+  --warning: #FBBF24;
   --warning-light: #FDE68A;
-  --info: #60A5FA;
-  --info-light: #93C5FD;
-  --purple: #C084FC;
-  --purple-light: #D8B4FE;
+  --info: #38BDF8;
+  --info-light: #7DD3FC;
+  --purple: #A78BFA;
+  --purple-light: #C4B5FD;
   --orange: #FB923C;
   --orange-light: #FDBA74;
   
-  /* Background colors - Rich, deep tones with subtle warmth */
-  --light: #0F172A;
-  --white: #0A0E1A;
-  --gray-100: #1E293B;
-  --gray-200: #334155;
-  --gray-300: #475569;
-  --gray-400: #64748B;
-  --gray-500: #94A3B8;
-  --gray-600: #CBD5E1;
-  --gray-700: #E2E8F0;
-  --gray-800: #F1F5F9;
-  --gray-900: #F8FAFC;
-  --card-color: #1E293B;
+  /* Background colors - Deep forest green undertones for brand alignment */
+  --light: #071712;
+  --white: #040D0A;
+  --gray-100: #0D1F1A;
+  --gray-200: #142B24;
+  --gray-300: #1E3A31;
+  --gray-400: #2D4F43;
+  --gray-500: #5A7D70;
+  --gray-600: #9CB4A8;
+  --gray-700: #C8DDD4;
+  --gray-800: #E8F5EF;
+  --gray-900: #F5FBF8;
+  --card-color: #0D1F1A;
   
-  /* Logo colors for dark theme - Enhanced with glow effect */
-  --logo-bg: #0F766E;
-  --logo-primary: #6EE7B7;
-  --logo-dark: #14B8A6;
+  /* Logo colors for dark theme - Aligned with brand */
+  --logo-bg: #16A34A;
+  --logo-primary: #4ADE80;
+  --logo-dark: #22C55E;
   --logo-stroke: #86EFAC;
   
-  /* Gradients for dark theme - More vibrant and engaging */
-  --gradient-primary: linear-gradient(135deg, #34D399 0%, #6EE7B7 50%, #86EFAC 100%);
-  --gradient-secondary: linear-gradient(135deg, #A7F3D0 0%, #D1FAE5 100%);
-  --gradient-hero: linear-gradient(135deg, #14B8A6 0%, #34D399 50%, #6EE7B7 100%);
-  --gradient-rainbow: linear-gradient(45deg, #FBBF24 0%, #FCD34D 25%, #60A5FA 50%, #C084FC 75%, #86EFAC 100%);
-  --gradient-sunset: linear-gradient(135deg, #FBBF24 0%, #FB923C 50%, #FCD34D 100%);
-  --gradient-ocean: linear-gradient(135deg, #60A5FA 0%, #93C5FD 50%, #6EE7B7 100%);
-  --gradient-purple: linear-gradient(135deg, #C084FC 0%, #D8B4FE 100%);
+  /* Gradients for dark theme - Rich emerald vibrancy */
+  --gradient-primary: linear-gradient(135deg, #16A34A 0%, #22C55E 50%, #4ADE80 100%);
+  --gradient-secondary: linear-gradient(135deg, #6EE7B7 0%, #A7F3D0 100%);
+  --gradient-hero: linear-gradient(135deg, #15803D 0%, #16A34A 50%, #22C55E 100%);
+  --gradient-rainbow: linear-gradient(45deg, #F59E0B 0%, #FBBF24 25%, #38BDF8 50%, #A78BFA 75%, #4ADE80 100%);
+  --gradient-sunset: linear-gradient(135deg, #F59E0B 0%, #FB923C 50%, #FBBF24 100%);
+  --gradient-ocean: linear-gradient(135deg, #38BDF8 0%, #7DD3FC 50%, #4ADE80 100%);
+  --gradient-purple: linear-gradient(135deg, #A78BFA 0%, #C4B5FD 100%);
   
-  /* Shadows for dark theme - Enhanced depth with colored glows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 2px rgba(110, 231, 183, 0.1);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 8px rgba(110, 231, 183, 0.15);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 16px rgba(110, 231, 183, 0.2);
-  --shadow-xl: 0 20px 64px rgba(0, 0, 0, 0.7), 0 0 32px rgba(110, 231, 183, 0.25);
+  /* Shadows for dark theme - Enhanced depth with emerald glows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 4px rgba(74, 222, 128, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.6), 0 0 12px rgba(74, 222, 128, 0.12);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.7), 0 0 24px rgba(74, 222, 128, 0.15);
+  --shadow-xl: 0 20px 64px rgba(0, 0, 0, 0.8), 0 0 40px rgba(74, 222, 128, 0.2);
   
-  /* Additional dark theme enhancements */
-  --glow-primary: 0 0 20px rgba(110, 231, 183, 0.3);
-  --glow-accent: 0 0 20px rgba(251, 191, 36, 0.3);
-  --border-glow: 0 0 8px rgba(110, 231, 183, 0.2);
+  /* Additional dark theme enhancements - Emerald glow effects */
+  --glow-primary: 0 0 24px rgba(74, 222, 128, 0.35);
+  --glow-accent: 0 0 24px rgba(245, 158, 11, 0.35);
+  --border-glow: 0 0 12px rgba(74, 222, 128, 0.25);
 }
 
 * {
@@ -1266,6 +1277,46 @@ body {
   background: radial-gradient(circle at 50% 50%, rgba(110, 231, 183, 0.1) 0%, transparent 70%);
 }
 
+/* Hero heading styles - Light mode (default) */
+.hero-heading {
+  color: #0f172a;
+}
+
+.hero-heading-line1 {
+  color: inherit;
+}
+
+.hero-heading-highlight {
+  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #66BB6A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-description {
+  color: #64748b;
+}
+
+/* Hero heading styles - Dark mode */
+[data-theme="dark"] .hero-heading {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .hero-heading-line1 {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .hero-heading-highlight {
+  background: linear-gradient(135deg, #22C55E 0%, #4ADE80 50%, #86EFAC 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="dark"] .hero-description {
+  color: rgba(255, 255, 255, 0.85);
+}
+
 /* Light theme styles for hero section */
 [data-theme="light"] .hero {
   background: linear-gradient(135deg, #E8F5E8 0%, #F1F8E9 50%, #F9FBE7 100%);
@@ -1468,8 +1519,8 @@ body {
 [data-theme="dark"] .btn-primary:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-lg), var(--glow-primary);
-  border-color: rgba(110, 231, 183, 0.5);
-  background: linear-gradient(135deg, #34D399 0%, #6EE7B7 50%, #86EFAC 100%);
+  border-color: rgba(74, 222, 128, 0.5);
+  background: linear-gradient(135deg, #16A34A 0%, #22C55E 50%, #4ADE80 100%);
 }
 
 .btn-primary:hover {
@@ -5064,6 +5115,54 @@ body {
 [data-theme="dark"] [style*="color: '#1B5E20'"],
 [data-theme="dark"] [style*="color: #1B5E20"] {
   color: var(--primary-light) !important;
+}
+
+/* ===== DIGITAL FOOTPRINT CTA SECTION ===== */
+
+/* Footprint card styles */
+.footprint-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.footprint-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.footprint-cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45) !important;
+}
+
+/* Dark mode for footprint section */
+[data-theme="dark"] .digital-footprint-cta {
+  background: var(--gray-100) !important;
+}
+
+[data-theme="dark"] .footprint-card {
+  background: var(--gray-200) !important;
+  border-color: rgba(110, 231, 183, 0.2) !important;
+}
+
+[data-theme="dark"] .footprint-card:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(59, 130, 246, 0.15);
+}
+
+[data-theme="dark"] .floating-badge {
+  background: var(--gray-100) !important;
+  border-color: rgba(110, 231, 183, 0.2) !important;
+}
+
+[data-theme="dark"] .footprint-ring {
+  border-color: rgba(110, 231, 183, 0.15) !important;
+}
+
+[data-theme="dark"] .footprint-ring-2 {
+  border-color: rgba(139, 92, 246, 0.2) !important;
+}
+
+[data-theme="dark"] .footprint-ring-3 {
+  border-color: rgba(59, 130, 246, 0.25) !important;
 }
 
 /* Dark mode inline text improvements */

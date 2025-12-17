@@ -258,25 +258,25 @@ const PrivacyPolicyPage: React.FC = () => {
               <div className="bg-green-50 border border-green-200 p-6 rounded-lg"
                    style={{
                      backgroundColor: theme === 'dark' ? 'rgba(34, 197, 94, 0.1)' : '#F0FDF4',
-                     borderColor: theme === 'dark' ? 'rgba(34, 197, 94, 0.3)' : '#86EFAC'
+                     borderColor: theme === 'dark' ? 'rgba(74, 222, 128, 0.3)' : '#86EFAC'
                    }}>
                 <h3 className="text-lg font-semibold mb-3 text-green-800"
-                    style={{ color: theme === 'dark' ? '#86EFAC' : '#166534' }}>
+                    style={{ color: theme === 'dark' ? '#4ADE80' : '#166534' }}>
                   What Information We Collect (With Consent)
                 </h3>
                 <p className="mb-3 text-green-800"
-                   style={{ color: theme === 'dark' ? '#86EFAC' : '#166534' }}>
+                   style={{ color: theme === 'dark' ? '#4ADE80' : '#166534' }}>
                   After receiving verifiable parental consent, we may collect:
                 </p>
                 <ul className="list-disc pl-6 space-y-2 text-green-800"
-                    style={{ color: theme === 'dark' ? '#86EFAC' : '#166534' }}>
+                    style={{ color: theme === 'dark' ? '#4ADE80' : '#166534' }}>
                   <li>Child's age (for age-appropriate content)</li>
                   <li>Progress data (activity completion, scores) - stored locally on device</li>
                   <li>Parent's email address (for consent verification and communication)</li>
                   <li>Consent token and verification status (encrypted)</li>
                 </ul>
                 <p className="mt-3 text-sm text-green-700"
-                   style={{ color: theme === 'dark' ? '#86EFAC' : '#166534' }}>
+                   style={{ color: theme === 'dark' ? '#4ADE80' : '#166534' }}>
                   <strong>Note:</strong> All personal information is encrypted before storage, and we never share this information with third parties.
                 </p>
               </div>
