@@ -403,15 +403,40 @@ const InteractiveStoryPage: React.FC = () => {
       breadcrumbs={true}
     >
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', position: 'relative' }}>
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
-          <div className="absolute top-20 left-10 w-32 h-32 bg-green-200 rounded-full opacity-20 animate-pulse" style={{ animationDuration: '3s' }}></div>
-          <div className="absolute top-40 right-20 w-24 h-24 bg-blue-200 rounded-full opacity-20 animate-pulse" style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
-          <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-purple-200 rounded-full opacity-15 animate-pulse" style={{ animationDuration: '5s', animationDelay: '2s' }}></div>
-          <div className="absolute top-1/2 right-1/4 w-28 h-28 bg-yellow-200 rounded-full opacity-20 animate-pulse" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}></div>
+        
+        {/* Interactive Story Player - Primary Content (First Section After Hero) */}
+        <div id="story-player" style={{ marginBottom: '2rem', marginTop: '1rem' }}>
+          <InteractiveStoryPlayer
+            scenes={storyScenes}
+            currentSceneIndex={currentSceneIndex}
+            onSceneIndexChange={setCurrentSceneIndex}
+            onSceneChange={handleSceneChange}
+            onStoryComplete={handleStoryComplete}
+            onChoiceMade={handleChoiceMade}
+            hideControls={false}
+          />
         </div>
 
-        {/* Intro Section with Feature Grid and CTA */}
+        {/* Enhanced Progress Component */}
+        <div style={{ marginBottom: '2rem' }} className="relative z-10">
+          <StoryProgress
+            currentScene={currentSceneIndex + 1}
+            totalScenes={storyScenes.length}
+            points={points}
+            achievements={achievements}
+            showDetailedProgress={true}
+          />
+        </div>
+
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
+          <div className={`absolute top-20 left-10 w-32 h-32 rounded-full opacity-20 animate-pulse ${isDark ? 'bg-green-700' : 'bg-green-200'}`} style={{ animationDuration: '3s' }}></div>
+          <div className={`absolute top-40 right-20 w-24 h-24 rounded-full opacity-20 animate-pulse ${isDark ? 'bg-blue-700' : 'bg-blue-200'}`} style={{ animationDuration: '4s', animationDelay: '1s' }}></div>
+          <div className={`absolute bottom-20 left-1/4 w-40 h-40 rounded-full opacity-15 animate-pulse ${isDark ? 'bg-purple-700' : 'bg-purple-200'}`} style={{ animationDuration: '5s', animationDelay: '2s' }}></div>
+          <div className={`absolute top-1/2 right-1/4 w-28 h-28 rounded-full opacity-20 animate-pulse ${isDark ? 'bg-yellow-600' : 'bg-yellow-200'}`} style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}></div>
+        </div>
+
+        {/* Feature Section with Info Grid */}
         <div className="grid md:grid-cols-2 gap-6 items-center mb-8 relative z-10" style={{ marginTop: '2rem' }}>
           {/* Left Column - Feature Grid and CTA */}
           <div className="text-left">
@@ -458,7 +483,7 @@ const InteractiveStoryPage: React.FC = () => {
             {/* CTA Buttons */}
             <div className="flex gap-3">
               <button 
-                onClick={() => document.getElementById('main-content')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => document.getElementById('story-player')?.scrollIntoView({ behavior: 'smooth' })}
                 className="flex-1 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
               >
                 <Play size={18} />
@@ -497,11 +522,19 @@ const InteractiveStoryPage: React.FC = () => {
                       background: isDark ? 'linear-gradient(135deg, rgba(74, 222, 128, 0.2), rgba(34, 197, 94, 0.2))' : 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1))',
                       borderRadius: '50%',
                       border: isDark ? '4px solid rgba(74, 222, 128, 0.4)' : '4px solid rgba(16, 185, 129, 0.3)',
-                      boxShadow: isDark ? '0 8px 24px rgba(74, 222, 128, 0.3)' : '0 8px 24px rgba(16, 185, 129, 0.2)'
+                      boxShadow: isDark ? '0 8px 24px rgba(74, 222, 128, 0.3)' : '0 8px 24px rgba(16, 185, 129, 0.2)',
+                      overflow: 'hidden'
                     }}>
-                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Logo />
-                      </div>
+                      <img 
+                        src="/LogoPandagarde.png" 
+                        alt="PandaGarde Logo" 
+                        style={{ 
+                          width: '100%', 
+                          height: '100%', 
+                          objectFit: 'contain',
+                          padding: '8px'
+                        }} 
+                      />
                     </div>
                   </div>
                   
@@ -536,9 +569,6 @@ const InteractiveStoryPage: React.FC = () => {
           </div>
         </div>
 
-
-      {/* Main Content Section */}
-      <div id="main-content" style={{ marginTop: '2rem' }}>
 
       {/* Enhanced Floating Action Buttons */}
       <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
@@ -712,30 +742,6 @@ const InteractiveStoryPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Enhanced Progress Component */}
-        <div style={{ marginBottom: '2rem' }} className="relative z-10">
-          <StoryProgress
-            currentScene={currentSceneIndex + 1}
-            totalScenes={storyScenes.length}
-            points={points}
-            achievements={achievements}
-            showDetailedProgress={true}
-          />
-        </div>
-
-        {/* Enhanced Interactive Story Player */}
-        <div style={{ marginBottom: '2rem' }}>
-          <InteractiveStoryPlayer
-            scenes={storyScenes}
-            currentSceneIndex={currentSceneIndex}
-            onSceneIndexChange={setCurrentSceneIndex}
-            onSceneChange={handleSceneChange}
-            onStoryComplete={handleStoryComplete}
-            onChoiceMade={handleChoiceMade}
-            hideControls={false}
-          />
-        </div>
-
         {/* Enhanced Call to Action with Visuals */}
         <div style={{ marginTop: '3rem', textAlign: 'center' }} className="relative z-10">
           <div style={{
@@ -846,7 +852,6 @@ const InteractiveStoryPage: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
       </div>
       
       {/* Custom Animations */}
