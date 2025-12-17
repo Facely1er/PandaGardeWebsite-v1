@@ -31,7 +31,7 @@ class ChildRSSAlertService {
    */
   initialize(intervalMs: number = this.DEFAULT_INTERVAL): void {
     try {
-      if (typeof window === 'undefined') return;
+      if (typeof window === 'undefined') {return;}
       
       const isProduction = typeof window !== 'undefined' && 
                           (window.location.hostname.includes('pandagarde.com') || 

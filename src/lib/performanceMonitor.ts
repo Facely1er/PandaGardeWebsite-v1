@@ -167,10 +167,10 @@ class PerformanceMonitor {
       fcp: 1800, // Good: < 1.8s
     };
 
-    if (this.metrics.lcp && this.metrics.lcp > thresholds.lcp) return false;
-    if (this.metrics.fid && this.metrics.fid > thresholds.fid) return false;
-    if (this.metrics.cls && this.metrics.cls > thresholds.cls) return false;
-    if (this.metrics.fcp && this.metrics.fcp > thresholds.fcp) return false;
+    if (this.metrics.lcp && this.metrics.lcp > thresholds.lcp) {return false;}
+    if (this.metrics.fid && this.metrics.fid > thresholds.fid) {return false;}
+    if (this.metrics.cls && this.metrics.cls > thresholds.cls) {return false;}
+    if (this.metrics.fcp && this.metrics.fcp > thresholds.fcp) {return false;}
 
     return true;
   }
@@ -188,20 +188,20 @@ class PerformanceMonitor {
     };
 
     if (this.metrics.lcp) {
-      if (this.metrics.lcp > thresholds.lcp.poor) score -= 25;
-      else if (this.metrics.lcp > thresholds.lcp.good) score -= 10;
+      if (this.metrics.lcp > thresholds.lcp.poor) {score -= 25;}
+      else if (this.metrics.lcp > thresholds.lcp.good) {score -= 10;}
     }
     if (this.metrics.fid) {
-      if (this.metrics.fid > thresholds.fid.poor) score -= 25;
-      else if (this.metrics.fid > thresholds.fid.good) score -= 10;
+      if (this.metrics.fid > thresholds.fid.poor) {score -= 25;}
+      else if (this.metrics.fid > thresholds.fid.good) {score -= 10;}
     }
     if (this.metrics.cls) {
-      if (this.metrics.cls > thresholds.cls.poor) score -= 25;
-      else if (this.metrics.cls > thresholds.cls.good) score -= 10;
+      if (this.metrics.cls > thresholds.cls.poor) {score -= 25;}
+      else if (this.metrics.cls > thresholds.cls.good) {score -= 10;}
     }
     if (this.metrics.fcp) {
-      if (this.metrics.fcp > thresholds.fcp.poor) score -= 15;
-      else if (this.metrics.fcp > thresholds.fcp.good) score -= 5;
+      if (this.metrics.fcp > thresholds.fcp.poor) {score -= 15;}
+      else if (this.metrics.fcp > thresholds.fcp.good) {score -= 5;}
     }
 
     return Math.max(0, score);
@@ -221,7 +221,7 @@ export const performanceMonitor = new PerformanceMonitor();
 
 // React hook for component render tracking
 export function usePerformanceTracking(componentName: string) {
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined') {return;}
 
   const startTime = performance.now();
 

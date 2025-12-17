@@ -90,7 +90,7 @@ const FamilyPrivacyAssessment: React.FC<FamilyPrivacyAssessmentProps> = ({
   };
 
   const handleDownloadReport = async () => {
-    if (!result) return;
+    if (!result) {return;}
     
     setIsGeneratingReport(true);
     try {
@@ -136,8 +136,8 @@ const FamilyPrivacyAssessment: React.FC<FamilyPrivacyAssessmentProps> = ({
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 75) return 'text-green-600 dark:text-green-400';
-    if (score >= 50) return 'text-yellow-600 dark:text-yellow-400';
+    if (score >= 75) {return 'text-green-600 dark:text-green-400';}
+    if (score >= 50) {return 'text-yellow-600 dark:text-yellow-400';}
     return 'text-red-600 dark:text-red-400';
   };
 

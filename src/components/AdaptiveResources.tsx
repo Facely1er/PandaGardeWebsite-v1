@@ -73,7 +73,7 @@ const AdaptiveResources: React.FC<AdaptiveResourcesProps> = ({
 
   // Get persona from context or prop
   const [storedPersona] = useState<string | null>(() => {
-    if (personaId) return personaId;
+    if (personaId) {return personaId;}
     const stored = localStorage.getItem('pandagarde_family_persona');
     return stored ? JSON.parse(stored).primary : null;
   });
@@ -140,7 +140,7 @@ const AdaptiveResources: React.FC<AdaptiveResourcesProps> = ({
   }, [recommendedResources]);
 
   const getIcon = (iconName?: string) => {
-    if (!iconName) return FileText;
+    if (!iconName) {return FileText;}
     return iconMap[iconName] || FileText;
   };
 

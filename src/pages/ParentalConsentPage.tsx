@@ -23,7 +23,7 @@ const ParentalConsentPage: React.FC = () => {
   }, [token]);
 
   const verifyConsent = async () => {
-    if (!token) return;
+    if (!token) {return;}
 
     try {
       const result = await coppaComplianceManager.verifyConsentToken(token);
@@ -55,7 +55,7 @@ const ParentalConsentPage: React.FC = () => {
   };
 
   const handleRevokeConsent = async () => {
-    if (!token) return;
+    if (!token) {return;}
 
     try {
       const success = await coppaComplianceManager.revokeConsent(token);

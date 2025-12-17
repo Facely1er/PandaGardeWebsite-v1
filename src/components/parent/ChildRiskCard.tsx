@@ -25,8 +25,8 @@ const ChildRiskCard: React.FC<ChildRiskCardProps> = ({
   const [isExpanded, setIsExpanded] = useState(false);
 
   const getRiskLevel = (score: number): { level: string; color: string; bgColor: string } => {
-    if (score >= 70) return { level: 'High', color: '#dc2626', bgColor: '#fee2e2' };
-    if (score >= 40) return { level: 'Medium', color: '#f59e0b', bgColor: '#fef3c7' };
+    if (score >= 70) {return { level: 'High', color: '#dc2626', bgColor: '#fee2e2' };}
+    if (score >= 40) {return { level: 'Medium', color: '#f59e0b', bgColor: '#fef3c7' };}
     return { level: 'Low', color: '#10b981', bgColor: '#d1fae5' };
   };
 
@@ -140,7 +140,7 @@ const ChildRiskCard: React.FC<ChildRiskCardProps> = ({
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
             {approvedServices.slice(0, 3).map(serviceUsage => {
               const service = getServiceById(serviceUsage.serviceId);
-              if (!service) return null;
+              if (!service) {return null;}
               const bgColors: Record<string, string> = {
                 low: '#d1fae5',
                 medium: '#fef3c7',

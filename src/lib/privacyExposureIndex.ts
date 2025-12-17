@@ -17,7 +17,7 @@ import { getServiceRelationship, getSiblingServices } from '../data/serviceRelat
 export function calculatePrivacyExposureIndex(serviceId: string): number | null {
   const service = childServiceCatalog.find(s => s.id === serviceId);
   
-  if (!service) return null;
+  if (!service) {return null;}
   
   let score = 0;
   const maxScore = 100;

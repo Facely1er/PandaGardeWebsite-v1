@@ -167,7 +167,7 @@ export class LocalStorageManager {
   async getFamilyData(): Promise<any> {
     try {
       const data = localStorage.getItem(LocalStorageManager.FAMILY_KEY);
-      if (!data) return null;
+      if (!data) {return null;}
       
       // Check if data is encrypted
       if (data.startsWith(LocalStorageManager.ENCRYPTED_FLAG)) {
@@ -238,7 +238,7 @@ export class LocalStorageManager {
    * Encrypt PII fields in an object recursively
    */
   private async encryptPIIFields(obj: any): Promise<any> {
-    if (obj === null || obj === undefined) return obj;
+    if (obj === null || obj === undefined) {return obj;}
     
     if (Array.isArray(obj)) {
       return Promise.all(obj.map(item => this.encryptPIIFields(item)));
@@ -274,7 +274,7 @@ export class LocalStorageManager {
    * Decrypt PII fields in an object recursively
    */
   private async decryptPIIFields(obj: any): Promise<any> {
-    if (obj === null || obj === undefined) return obj;
+    if (obj === null || obj === undefined) {return obj;}
     
     if (Array.isArray(obj)) {
       return Promise.all(obj.map(item => this.decryptPIIFields(item)));

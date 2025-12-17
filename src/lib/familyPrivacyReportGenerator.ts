@@ -134,10 +134,10 @@ export class FamilyPrivacyReportGenerator {
       addText(`${categoryName}: ${score}/100`, 11, true);
       
       let status = '';
-      if (score >= 75) status = 'Excellent';
-      else if (score >= 50) status = 'Good';
-      else if (score >= 25) status = 'Needs Improvement';
-      else status = 'Critical';
+      if (score >= 75) {status = 'Excellent';}
+      else if (score >= 50) {status = 'Good';}
+      else if (score >= 25) {status = 'Needs Improvement';}
+      else {status = 'Critical';}
       
       addText(`Status: ${status}`, 10);
       yPosition += 5;

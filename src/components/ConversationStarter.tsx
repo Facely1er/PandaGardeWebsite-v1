@@ -171,9 +171,9 @@ export const ConversationStarter: React.FC<ConversationStarterProps> = ({
       .filter(m => m.role === 'child' && m.profile_data?.age)
       .map(m => {
         const age = m.profile_data!.age!;
-        if (age >= 5 && age <= 8) return '5-8' as ConversationAgeGroup;
-        if (age >= 9 && age <= 12) return '9-12' as ConversationAgeGroup;
-        if (age >= 13 && age <= 17) return '13-17' as ConversationAgeGroup;
+        if (age >= 5 && age <= 8) {return '5-8' as ConversationAgeGroup;}
+        if (age >= 9 && age <= 12) {return '9-12' as ConversationAgeGroup;}
+        if (age >= 13 && age <= 17) {return '13-17' as ConversationAgeGroup;}
         return null;
       })
       .filter((age): age is ConversationAgeGroup => age !== null);
@@ -183,14 +183,14 @@ export const ConversationStarter: React.FC<ConversationStarterProps> = ({
 
   const filteredPrompts = useMemo(() => {
     return conversationPrompts.filter(p => {
-      if (selectedAge !== 'all' && !p.ageGroups.includes(selectedAge)) return false;
-      if (selectedTopic !== 'all' && p.topic !== selectedTopic) return false;
+      if (selectedAge !== 'all' && !p.ageGroups.includes(selectedAge)) {return false;}
+      if (selectedTopic !== 'all' && p.topic !== selectedTopic) {return false;}
       return true;
     });
   }, [selectedAge, selectedTopic]);
 
   const getRandomPrompt = () => {
-    if (filteredPrompts.length === 0) return;
+    if (filteredPrompts.length === 0) {return;}
     const random = filteredPrompts[Math.floor(Math.random() * filteredPrompts.length)];
     setCurrentPrompt(random);
     setCopied(false);

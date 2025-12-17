@@ -26,7 +26,7 @@ const PrivacyDayPlanner: React.FC = () => {
   ];
 
   const addPrivacyDay = () => {
-    if (!selectedDate) return;
+    if (!selectedDate) {return;}
 
     const newEvent: PrivacyDayEvent = {
       id: `event-${Date.now()}`,

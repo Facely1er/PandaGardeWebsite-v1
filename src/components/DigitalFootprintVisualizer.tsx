@@ -41,7 +41,7 @@ const DigitalFootprintVisualizer: React.FC<DigitalFootprintVisualizerProps> = ({
 
   // Analyze footprint
   const analysis = useMemo<FootprintAnalysis | null>(() => {
-    if (familyMembers.length === 0) return null;
+    if (familyMembers.length === 0) {return null;}
     return footprintAnalyzer.analyzeFamilyFootprint(familyMembers, memberServices);
   }, [familyMembers, memberServices]);
 

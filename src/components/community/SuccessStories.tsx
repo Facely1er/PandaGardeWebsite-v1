@@ -342,11 +342,11 @@ const StorySubmissionForm: React.FC<StorySubmissionFormProps> = ({ onSubmit, onC
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
-    if (!title.trim()) newErrors['title'] = 'Title is required';
-    if (title.length > 100) newErrors['title'] = 'Title must be 100 characters or less';
-    if (!story.trim()) newErrors['story'] = 'Story is required';
-    if (story.length > 2000) newErrors['story'] = 'Story must be 2000 characters or less';
-    if (story.length < 50) newErrors['story'] = 'Story must be at least 50 characters';
+    if (!title.trim()) {newErrors['title'] = 'Title is required';}
+    if (title.length > 100) {newErrors['title'] = 'Title must be 100 characters or less';}
+    if (!story.trim()) {newErrors['story'] = 'Story is required';}
+    if (story.length > 2000) {newErrors['story'] = 'Story must be 2000 characters or less';}
+    if (story.length < 50) {newErrors['story'] = 'Story must be at least 50 characters';}
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };

@@ -99,7 +99,7 @@ const PrivacyChecklists: React.FC = () => {
   };
 
   const getCompletionPercentage = (checklist: Checklist): number => {
-    if (checklist.items.length === 0) return 0;
+    if (checklist.items.length === 0) {return 0;}
     const completed = checklist.items.filter(item => item.completed).length;
     return Math.round((completed / checklist.items.length) * 100);
   };

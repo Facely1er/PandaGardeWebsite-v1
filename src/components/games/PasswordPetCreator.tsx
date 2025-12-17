@@ -14,22 +14,22 @@ const PasswordPetCreator: React.FC<PasswordPetCreatorProps> = ({ onBack }) => {
 
   const calculateStrength = (pwd: string) => {
     let strength = 0;
-    if (pwd.length >= 8) strength += 20;
-    if (pwd.length >= 12) strength += 10;
-    if (/[A-Z]/.test(pwd)) strength += 20;
-    if (/[a-z]/.test(pwd)) strength += 15;
-    if (/\d/.test(pwd)) strength += 20;
-    if (/[!@#$%^&*(),.?":{}|<>]/.test(pwd)) strength += 15;
+    if (pwd.length >= 8) {strength += 20;}
+    if (pwd.length >= 12) {strength += 10;}
+    if (/[A-Z]/.test(pwd)) {strength += 20;}
+    if (/[a-z]/.test(pwd)) {strength += 15;}
+    if (/\d/.test(pwd)) {strength += 20;}
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(pwd)) {strength += 15;}
     return Math.min(strength, 100);
   };
 
   const strength = calculateStrength(password);
 
   const getPetStage = () => {
-    if (strength >= 80) return { emoji: '🐉', name: 'Dragon', color: 'text-purple-500' };
-    if (strength >= 60) return { emoji: '🦁', name: 'Lion', color: 'text-yellow-500' };
-    if (strength >= 40) return { emoji: '🐕', name: 'Dog', color: 'text-orange-500' };
-    if (strength >= 20) return { emoji: '🐣', name: 'Chick', color: 'text-yellow-400' };
+    if (strength >= 80) {return { emoji: '🐉', name: 'Dragon', color: 'text-purple-500' };}
+    if (strength >= 60) {return { emoji: '🦁', name: 'Lion', color: 'text-yellow-500' };}
+    if (strength >= 40) {return { emoji: '🐕', name: 'Dog', color: 'text-orange-500' };}
+    if (strength >= 20) {return { emoji: '🐣', name: 'Chick', color: 'text-yellow-400' };}
     return { emoji: '🥚', name: 'Egg', color: 'text-gray-400' };
   };
 

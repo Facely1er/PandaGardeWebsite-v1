@@ -711,11 +711,11 @@ export const getRelevantSectionsForAges = (ages: number[]): GuideSection[] => {
   const ageGroups: AgeGroup[] = [];
   
   ages.forEach(age => {
-    if (age >= 5 && age <= 8) ageGroups.push('5-8');
-    if (age >= 9 && age <= 12) ageGroups.push('9-12');
-    if (age >= 13 && age <= 17) ageGroups.push('13-17');
-    if (age >= 18 && age < 65) ageGroups.push('adult');
-    if (age >= 65) ageGroups.push('senior');
+    if (age >= 5 && age <= 8) {ageGroups.push('5-8');}
+    if (age >= 9 && age <= 12) {ageGroups.push('9-12');}
+    if (age >= 13 && age <= 17) {ageGroups.push('13-17');}
+    if (age >= 18 && age < 65) {ageGroups.push('adult');}
+    if (age >= 65) {ageGroups.push('senior');}
   });
   
   const uniqueAgeGroups = [...new Set(ageGroups)];

@@ -58,7 +58,7 @@ export class ChildServiceNotificationManager {
     return uniqueNotifications.sort((a, b) => {
       const priorityOrder = { high: 3, medium: 2, low: 1 };
       const priorityDiff = priorityOrder[b.priority] - priorityOrder[a.priority];
-      if (priorityDiff !== 0) return priorityDiff;
+      if (priorityDiff !== 0) {return priorityDiff;}
       return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
     });
   }
@@ -71,10 +71,10 @@ export class ChildServiceNotificationManager {
     
     selectedServiceIds.forEach(serviceId => {
       // Skip if notifications disabled
-      if (notificationPrefs[serviceId] === false) return;
+      if (notificationPrefs[serviceId] === false) {return;}
 
       const service = childServiceCatalog.find(s => s.id === serviceId);
-      if (!service) return;
+      if (!service) {return;}
 
       // Check for policy updates
       const policyUpdate = this.getLastPolicyUpdate(serviceId);
@@ -181,7 +181,7 @@ export class ChildServiceNotificationManager {
       );
       
       const service = childServiceCatalog.find(s => s.id === serviceId);
-      if (!service || !service.parentTips) return [];
+      if (!service || !service.parentTips) {return [];}
 
       const serviceCompleted = completedActions[serviceId] || [];
       
@@ -232,7 +232,7 @@ export class ChildServiceNotificationManager {
         .filter(alert => {
           // Only include alerts from last 30 days
           const alertDate = new Date(alert.publishedDate);
-          if (alertDate < thirtyDaysAgo) return false;
+          if (alertDate < thirtyDaysAgo) {return false;}
 
           // Check if alert relates to any selected service
           return alert.relatedServices.some(serviceId => selectedServiceIds.includes(serviceId));
@@ -240,10 +240,10 @@ export class ChildServiceNotificationManager {
         .slice(0, 10) // Limit to 10 most recent
         .forEach(alert => {
           alert.relatedServices.forEach(serviceId => {
-            if (!selectedServiceIds.includes(serviceId)) return;
+            if (!selectedServiceIds.includes(serviceId)) {return;}
 
             const service = childServiceCatalog.find(s => s.id === serviceId);
-            if (!service) return;
+            if (!service) {return;}
 
             const notificationType = alert.category === 'data-breach' 
               ? this.notificationTypes.DATA_BREACH

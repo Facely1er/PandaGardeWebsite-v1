@@ -30,7 +30,7 @@ const ResourceModal: React.FC<ResourceModalProps> = ({
   completeButtonText = 'Mark as Used',
   getGradeLevelColor
 }) => {
-  if (!isOpen) return null;
+  if (!isOpen) {return null;}
 
   return (
     <div 

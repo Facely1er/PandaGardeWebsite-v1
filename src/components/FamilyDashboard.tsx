@@ -76,7 +76,7 @@ const FamilyDashboard = () => {
 
   // Calculate family privacy score
   const calculateFamilyScore = () => {
-    if (familyMembers.length === 0) return 0;
+    if (familyMembers.length === 0) {return 0;}
     const totalScore = familyMembers.reduce((sum, member) => {
       const realScore = calculateMemberScore(member.id);
       return sum + realScore;
@@ -709,7 +709,7 @@ const FamilyDashboard = () => {
                 <input
                   type="number"
                   value={newMember.age || ''}
-                  onChange={(e) => setNewMember({...newMember, age: parseInt(e.target.value) || 0})}
+                  onChange={(e) => setNewMember({...newMember, age: parseInt(e.target.value, 10) || 0})}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
                   style={{ backgroundColor: 'var(--card-color)', color: 'var(--gray-900)' }}
                   placeholder="Enter age"

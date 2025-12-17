@@ -83,7 +83,7 @@ export const FamilyPrivacyPlanBuilder: React.FC<FamilyPrivacyPlanBuilderProps> =
 }) => {
   const { currentFamily, familyMembers } = useFamily();
   const [plan, setPlan] = useState<FamilyPrivacyPlan>(() => {
-    if (initialPlan) return initialPlan;
+    if (initialPlan) {return initialPlan;}
     
     // Load from localStorage if available
     const saved = localStorage.getItem('pandagarde-family-privacy-plan');
@@ -211,7 +211,7 @@ export const FamilyPrivacyPlanBuilder: React.FC<FamilyPrivacyPlanBuilderProps> =
   };
 
   const addSharingRule = () => {
-    if (!newRule.trim()) return;
+    if (!newRule.trim()) {return;}
     
     const rule: SharingRule = {
       id: `rule-${Date.now()}`,
@@ -515,7 +515,7 @@ export const FamilyPrivacyPlanBuilder: React.FC<FamilyPrivacyPlanBuilderProps> =
                       ...plan,
                       privacyDaySchedule: {
                         ...plan.privacyDaySchedule,
-                        reminderDaysBefore: parseInt(e.target.value) || 7
+                        reminderDaysBefore: parseInt(e.target.value, 10) || 7
                       }
                     });
                   }}

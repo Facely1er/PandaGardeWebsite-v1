@@ -114,7 +114,7 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
     category: ForumTopic['category'];
     description?: string;
   }) => {
-    if (!currentUser) return;
+    if (!currentUser) {return;}
     const topic = communityStorage.createTopic({
       ...data,
       authorId: currentUser.id
@@ -125,7 +125,7 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
   };
 
   const handleCreatePost = (content: string) => {
-    if (!currentUser || !selectedTopic) return;
+    if (!currentUser || !selectedTopic) {return;}
     communityStorage.createPost({
       topicId: selectedTopic.id,
       authorId: currentUser.id,

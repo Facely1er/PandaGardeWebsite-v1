@@ -109,7 +109,7 @@ export class COPPAComplianceManager {
   private async getAllConsentRecords(): Promise<Record<string, ParentalConsentRecord>> {
     try {
       const stored = localStorage.getItem(COPPAComplianceManager.CONSENT_STORAGE_KEY);
-      if (!stored) return {};
+      if (!stored) {return {};}
       
       const userId = this.getCurrentUserId();
       const password = generateUserPassword(userId);
@@ -296,7 +296,7 @@ export class COPPAComplianceManager {
   async revokeConsent(token: string): Promise<boolean> {
     try {
       const record = await this.getConsentRecord(token);
-      if (!record) return false;
+      if (!record) {return false;}
 
       record.revoked = true;
       record.revokedDate = new Date().toISOString();
@@ -321,7 +321,7 @@ export class COPPAComplianceManager {
       consentToken = sessionStorage.getItem('coppa_consent_token') || '';
     }
 
-    if (!consentToken) return false;
+    if (!consentToken) {return false;}
 
     const record = await this.getConsentRecord(consentToken);
     return record?.verified === true && record?.revoked !== true;

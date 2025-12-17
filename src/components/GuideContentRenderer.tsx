@@ -44,7 +44,7 @@ export const GuideContentRenderer: React.FC<GuideContentRendererProps> = ({ cont
         </blockquote>
       );
 
-    case 'card':
+    case 'card': {
       const card = content.content as GuideCard;
       return (
         <div 
@@ -67,8 +67,9 @@ export const GuideContentRenderer: React.FC<GuideContentRendererProps> = ({ cont
           </ul>
         </div>
       );
+    }
 
-    case 'heading':
+    case 'heading': {
       const heading = content.content as GuideHeading;
       const HeadingTag = `h${heading.level}` as keyof JSX.IntrinsicElements;
       const headingClasses = {
@@ -85,6 +86,7 @@ export const GuideContentRenderer: React.FC<GuideContentRendererProps> = ({ cont
           {heading.text}
         </HeadingTag>
       );
+    }
 
     default:
       return null;

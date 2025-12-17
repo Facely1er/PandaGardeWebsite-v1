@@ -74,21 +74,16 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
   const skipTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const speechRef = useRef<SpeechSynthesisUtterance | null>(null);
 
-  // Safety check: ensure we have valid scenes
-  if (!scenes || scenes.length === 0) {
-    return (
-      <div className="interactive-story-player" style={{ padding: '2rem', textAlign: 'center' }}>
-        <p>No story scenes available. Please check the story data.</p>
-      </div>
-    );
-  }
+  // Safely get current scene (may be undefined)
+  const currentScene = scenes && scenes.length > 0 ? scenes[currentSceneIndex] : null;
+  const hasValidScenes = scenes && scenes.length > 0;
   
   // Ensure currentSceneIndex is within bounds
   useEffect(() => {
-    if (currentSceneIndex < 0 || currentSceneIndex >= scenes.length) {
+    if (hasValidScenes && (currentSceneIndex < 0 || currentSceneIndex >= scenes.length)) {
       setCurrentSceneIndex(0);
     }
-  }, [currentSceneIndex, scenes.length, setCurrentSceneIndex]);
+  }, [currentSceneIndex, scenes?.length, setCurrentSceneIndex, hasValidScenes]);
 
   // Detect mobile device
   useEffect(() => {
@@ -108,16 +103,6 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
     }
     return undefined;
   }, [isMobile, showGestureHint]);
-  
-  const currentScene = scenes[currentSceneIndex];
-  
-  if (!currentScene) {
-    return (
-      <div className="interactive-story-player" style={{ padding: '2rem', textAlign: 'center' }}>
-        <p>Scene not found. Please check the story data.</p>
-      </div>
-    );
-  }
 
   const nextScene = useCallback(() => {
     if (currentSceneIndex < scenes.length - 1) {
@@ -411,7 +396,25 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [isLoading, currentScene, nextScene, prevScene, togglePlay, toggleMute, resetStory, showSettings]);
 
-  const progress = ((currentSceneIndex + 1) / scenes.length) * 100;
+  const progress = hasValidScenes ? ((currentSceneIndex + 1) / scenes.length) * 100 : 0;
+
+  // Safety check: ensure we have valid scenes (after all hooks)
+  if (!hasValidScenes) {
+    return (
+      <div className="interactive-story-player" style={{ padding: '2rem', textAlign: 'center' }}>
+        <p>No story scenes available. Please check the story data.</p>
+      </div>
+    );
+  }
+
+  // Safety check: ensure current scene exists
+  if (!currentScene) {
+    return (
+      <div className="interactive-story-player" style={{ padding: '2rem', textAlign: 'center' }}>
+        <p>Scene not found. Please check the story data.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="interactive-story-player">

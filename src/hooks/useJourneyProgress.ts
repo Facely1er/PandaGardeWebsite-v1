@@ -74,10 +74,10 @@ export const useJourneyProgress = () => {
 
   // Determine next recommended step
   const getNextRecommendedStep = useCallback((currentProgress: JourneyProgress): number => {
-    if (!currentProgress.step1.completed) return 1;
-    if (!currentProgress.step2.completed) return 2;
-    if (!currentProgress.step3.completed) return 3;
-    if (!currentProgress.step4.completed) return 4;
+    if (!currentProgress.step1.completed) {return 1;}
+    if (!currentProgress.step2.completed) {return 2;}
+    if (!currentProgress.step3.completed) {return 3;}
+    if (!currentProgress.step4.completed) {return 4;}
     return 4; // All completed
   }, []);
 

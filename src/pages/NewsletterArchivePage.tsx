@@ -15,7 +15,7 @@ const NewsletterArchivePage: React.FC = () => {
     return acc;
   }, {} as Record<string, typeof newsletterArchive>);
 
-  const years = Object.keys(newslettersByYear).sort((a, b) => parseInt(b) - parseInt(a));
+  const years = Object.keys(newslettersByYear).sort((a, b) => parseInt(b, 10) - parseInt(a, 10));
 
   return (
     <PageLayout

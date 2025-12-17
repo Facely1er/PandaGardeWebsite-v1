@@ -283,7 +283,7 @@ const hashString = (str: string): string => {
     hash = ((hash << 5) - hash) + char;
     hash = hash & hash; // Convert to 32bit integer
   }
-  return 'u_' + Math.abs(hash).toString(36);
+  return `u_${  Math.abs(hash).toString(36)}`;
 };
 
 // Track conversion events

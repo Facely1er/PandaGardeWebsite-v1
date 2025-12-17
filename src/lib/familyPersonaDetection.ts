@@ -213,7 +213,7 @@ export class FamilyPersonaDetectionEngine {
    */
   getRecommendedActions(personaId: string): string[] {
     const profile = FamilyPersonaProfiles[personaId];
-    if (!profile) return [];
+    if (!profile) {return [];}
 
     const actionMap: Record<string, string[]> = {
       'cautious-parent': [

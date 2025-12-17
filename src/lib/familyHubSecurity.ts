@@ -5,7 +5,7 @@
 
 // Input sanitization for family data
 export const sanitizeInput = (input: string | number | null | undefined): string => {
-  if (input === null || input === undefined) return '';
+  if (input === null || input === undefined) {return '';}
   const str = String(input);
   
   // Remove potentially dangerous characters
@@ -132,7 +132,7 @@ export const secureStorage = {
   get: <T>(key: string): T | null => {
     try {
       const item = localStorage.getItem(`fh_${key}`);
-      if (!item) return null;
+      if (!item) {return null;}
       
       const data = JSON.parse(item);
       

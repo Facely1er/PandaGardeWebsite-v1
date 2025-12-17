@@ -152,7 +152,7 @@ export function areServicesRelated(serviceId1: string, serviceId2: string): bool
   const rel1 = serviceRelationships[serviceId1];
   const rel2 = serviceRelationships[serviceId2];
   
-  if (!rel1 || !rel2) return false;
+  if (!rel1 || !rel2) {return false;}
   
   // Same parent
   if (rel1.parent && rel2.parent && rel1.parent === rel2.parent) {

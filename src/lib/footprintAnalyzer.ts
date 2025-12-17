@@ -131,9 +131,9 @@ export class FootprintAnalyzer {
       const exposureLevel = getExposureLevel(averageExposure);
       
       let riskLevel: 'low' | 'medium' | 'high' | 'very-high' = 'low';
-      if (averageExposure >= 70) riskLevel = 'very-high';
-      else if (averageExposure >= 50) riskLevel = 'high';
-      else if (averageExposure >= 30) riskLevel = 'medium';
+      if (averageExposure >= 70) {riskLevel = 'very-high';}
+      else if (averageExposure >= 50) {riskLevel = 'high';}
+      else if (averageExposure >= 30) {riskLevel = 'medium';}
 
       return {
         category,

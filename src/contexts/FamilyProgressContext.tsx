@@ -156,7 +156,7 @@ export const FamilyProgressProvider: React.FC<FamilyProgressProviderProps> = ({ 
 
   const calculateMemberScore = useCallback((memberId: number): number => {
     const progress = progressData[memberId];
-    if (!progress || !progress.activities || progress.activities.length === 0) return 0;
+    if (!progress || !progress.activities || progress.activities.length === 0) {return 0;}
     return progress.totalScore;
   }, [progressData]);
 

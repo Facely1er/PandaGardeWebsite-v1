@@ -177,7 +177,7 @@ export class FamilyPrivacyAssessment {
     // Group answers by category
     answers.forEach(answer => {
       const question = assessmentQuestions.find(q => q.id === answer.questionId);
-      if (!question) return;
+      if (!question) {return;}
 
       if (!categoryScores[question.category]) {
         categoryScores[question.category] = { total: 0, max: 0 };
@@ -259,14 +259,14 @@ export class FamilyPrivacyAssessment {
     if (question.type === 'multiple-choice') {
       const options = question.options || [];
       const index = options.indexOf(String(value));
-      if (index === -1) return 0;
+      if (index === -1) {return 0;}
       // Higher index = better answer (assuming options are ordered from best to worst)
       return 4 - index;
     }
 
     if (question.type === 'scale') {
       const numValue = typeof value === 'number' ? value : parseInt(String(value), 10);
-      if (isNaN(numValue)) return 0;
+      if (isNaN(numValue)) {return 0;}
       // Scale 1-5 maps to score 1-4
       return Math.max(1, Math.min(4, numValue));
     }

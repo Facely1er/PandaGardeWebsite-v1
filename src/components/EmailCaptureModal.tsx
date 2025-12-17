@@ -24,7 +24,7 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  if (!isOpen) return null;
+  if (!isOpen) {return null;}
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

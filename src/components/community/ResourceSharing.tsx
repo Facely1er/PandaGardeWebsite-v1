@@ -76,8 +76,8 @@ const ResourceSharing: React.FC<ResourceSharingProps> = ({ compact = false }) =>
       filtered.sort((a, b) => b.upvotes - a.upvotes);
     } else if (sortBy === 'verified') {
       filtered.sort((a, b) => {
-        if (a.verified && !b.verified) return -1;
-        if (!a.verified && b.verified) return 1;
+        if (a.verified && !b.verified) {return -1;}
+        if (!a.verified && b.verified) {return 1;}
         return b.upvotes - a.upvotes;
       });
     } else {
@@ -394,10 +394,10 @@ const ResourceSubmissionForm: React.FC<ResourceSubmissionFormProps> = ({ onSubmi
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
-    if (!title.trim()) newErrors.title = 'Title is required';
-    if (!description.trim()) newErrors.description = 'Description is required';
-    if (description.length > 500) newErrors.description = 'Description must be 500 characters or less';
-    if (!url.trim()) newErrors.url = 'URL is required';
+    if (!title.trim()) {newErrors.title = 'Title is required';}
+    if (!description.trim()) {newErrors.description = 'Description is required';}
+    if (description.length > 500) {newErrors.description = 'Description must be 500 characters or less';}
+    if (!url.trim()) {newErrors.url = 'URL is required';}
     try {
       new URL(url);
     } catch {

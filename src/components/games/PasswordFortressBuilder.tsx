@@ -44,10 +44,10 @@ const PasswordFortressBuilder: React.FC<PasswordFortressBuilderProps> = ({ onBac
   }, [score, completed, activeDefenses.length, recordGameCompletion]);
 
   const getFortressLevel = () => {
-    if (score >= 90) return { name: 'Legendary Citadel', emoji: '🏰', color: 'text-purple-600' };
-    if (score >= 70) return { name: 'Mighty Castle', emoji: '🏯', color: 'text-blue-600' };
-    if (score >= 50) return { name: 'Stone Keep', emoji: '🏠', color: 'text-green-600' };
-    if (score >= 30) return { name: 'Wooden Fort', emoji: '🪵', color: 'text-yellow-600' };
+    if (score >= 90) {return { name: 'Legendary Citadel', emoji: '🏰', color: 'text-purple-600' };}
+    if (score >= 70) {return { name: 'Mighty Castle', emoji: '🏯', color: 'text-blue-600' };}
+    if (score >= 50) {return { name: 'Stone Keep', emoji: '🏠', color: 'text-green-600' };}
+    if (score >= 30) {return { name: 'Wooden Fort', emoji: '🪵', color: 'text-yellow-600' };}
     return { name: 'Camp', emoji: '⛺', color: 'text-gray-600' };
   };
 

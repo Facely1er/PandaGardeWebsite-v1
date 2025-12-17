@@ -344,7 +344,7 @@ export function getRecommendedResources(
   return resources.sort((a, b) => {
     const priorityOrder = { high: 3, medium: 2, low: 1 };
     const priorityDiff = priorityOrder[b.priority] - priorityOrder[a.priority];
-    if (priorityDiff !== 0) return priorityDiff;
+    if (priorityDiff !== 0) {return priorityDiff;}
     
     // If priorities are equal, prefer resources that match more categories
     const aMatches = priorities.filter(p => a.category.includes(p)).length;

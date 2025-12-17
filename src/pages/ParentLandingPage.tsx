@@ -93,8 +93,6 @@ const ParentLandingPage: React.FC = () => {
         </div>
       </section>
 
-      <div className="container">
-
       {/* Three Column Layout */}
       <section style={{ padding: '4rem 0', backgroundColor: '#f8f9fa' }}>
         <div className="container">
@@ -287,7 +285,7 @@ const ParentLandingPage: React.FC = () => {
                 <Shield size={20} />
                 Access Your Dashboard
                 <ArrowRight size={16} />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -384,7 +382,7 @@ const ParentLandingPage: React.FC = () => {
             <Shield size={24} />
             Start Protecting Your Family Now
             <ArrowRight size={20} />
-          </a>
+          </Link>
         </div>
       </section>
     </main>

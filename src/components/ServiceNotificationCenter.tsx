@@ -140,8 +140,8 @@ const ServiceNotificationCenter: React.FC<ServiceNotificationCenterProps> = ({
     return notifications
       .filter(n => !dismissedIds.has(n.id))
       .filter(n => {
-        if (filter !== 'all' && n.priority !== filter) return false;
-        if (categoryFilter !== 'all' && n.category !== categoryFilter) return false;
+        if (filter !== 'all' && n.priority !== filter) {return false;}
+        if (categoryFilter !== 'all' && n.category !== categoryFilter) {return false;}
         return true;
       })
       .slice(0, maxNotifications);
@@ -199,7 +199,7 @@ const ServiceNotificationCenter: React.FC<ServiceNotificationCenterProps> = ({
 
   if (compact) {
     const unreadCount = filteredNotifications.length;
-    if (unreadCount === 0) return null;
+    if (unreadCount === 0) {return null;}
 
     return (
       <Link

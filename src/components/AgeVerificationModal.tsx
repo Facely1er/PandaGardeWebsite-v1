@@ -12,7 +12,7 @@ const AgeVerificationModal: React.FC = () => {
 
   // Focus trap effect
   useEffect(() => {
-    if (!showAgeModal || !modalRef.current) return;
+    if (!showAgeModal || !modalRef.current) {return;}
 
     const modal = modalRef.current;
     const focusableElements = modal.querySelectorAll(
@@ -25,7 +25,7 @@ const AgeVerificationModal: React.FC = () => {
     firstElement?.focus();
 
     const handleTabKey = (e: KeyboardEvent) => {
-      if (e.key !== 'Tab') return;
+      if (e.key !== 'Tab') {return;}
 
       if (e.shiftKey) {
         if (document.activeElement === firstElement) {

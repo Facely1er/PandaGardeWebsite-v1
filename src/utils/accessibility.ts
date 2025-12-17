@@ -38,10 +38,10 @@ export function createFocusTrap(
       return;
     }
 
-    if (e.key !== 'Tab') return;
+    if (e.key !== 'Tab') {return;}
 
     const focusableElements = getFocusableElements();
-    if (focusableElements.length === 0) return;
+    if (focusableElements.length === 0) {return;}
 
     const firstElement = focusableElements[0];
     const lastElement = focusableElements[focusableElements.length - 1];
@@ -127,19 +127,19 @@ export function isVisibleToScreenReader(element: HTMLElement): boolean {
 export function getAccessibleName(element: HTMLElement): string {
   // Check aria-label
   const ariaLabel = element.getAttribute('aria-label');
-  if (ariaLabel) return ariaLabel;
+  if (ariaLabel) {return ariaLabel;}
 
   // Check aria-labelledby
   const ariaLabelledBy = element.getAttribute('aria-labelledby');
   if (ariaLabelledBy) {
     const labelElement = document.getElementById(ariaLabelledBy);
-    if (labelElement) return labelElement.textContent || '';
+    if (labelElement) {return labelElement.textContent || '';}
   }
 
   // Check associated label
   if (element.id) {
     const label = document.querySelector(`label[for="${element.id}"]`);
-    if (label) return label.textContent || '';
+    if (label) {return label.textContent || '';}
   }
 
   // Check text content

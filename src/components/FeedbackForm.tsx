@@ -5,7 +5,7 @@ import { trackEvent, AnalyticsEvents } from '../lib/analytics';
 
 // Simple text sanitization
 const sanitizeText = (input: string): string => {
-  if (typeof input !== 'string') return '';
+  if (typeof input !== 'string') {return '';}
   return input
     .replace(/<[^>]*>/g, '')
     .trim()

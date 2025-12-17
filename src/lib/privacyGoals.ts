@@ -35,7 +35,7 @@ export class PrivacyGoalManager {
   getGoals(): PrivacyGoal[] {
     try {
       const stored = localStorage.getItem(this.STORAGE_KEY);
-      if (!stored) return [];
+      if (!stored) {return [];}
       return JSON.parse(stored);
     } catch (error) {
       console.error('Error loading goals:', error);
@@ -69,7 +69,7 @@ export class PrivacyGoalManager {
     const goals = this.getGoals();
     const index = goals.findIndex(g => g.id === goalId);
     
-    if (index === -1) return null;
+    if (index === -1) {return null;}
 
     const updatedGoal: PrivacyGoal = {
       ...goals[index],
@@ -102,7 +102,7 @@ export class PrivacyGoalManager {
     const goals = this.getGoals();
     const filtered = goals.filter(g => g.id !== goalId);
     
-    if (filtered.length === goals.length) return false;
+    if (filtered.length === goals.length) {return false;}
 
     this.saveGoals(filtered);
     return true;
@@ -113,7 +113,7 @@ export class PrivacyGoalManager {
    */
   updateProgress(goalId: string, progress: number, assessmentScore?: number): PrivacyGoal | null {
     const goal = this.getGoals().find(g => g.id === goalId);
-    if (!goal) return null;
+    if (!goal) {return null;}
 
     // If it's a score-based goal and we have an assessment score
     if (goal.targetScore && assessmentScore !== undefined) {

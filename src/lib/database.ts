@@ -147,7 +147,7 @@ export const newsletterService = {
               .select()
               .single()
 
-            if (error) throw error
+            if (error) {throw error}
             return data
           }
           // Already subscribed - return existing record
@@ -165,7 +165,7 @@ export const newsletterService = {
           .select()
           .single()
 
-        if (error) throw error
+        if (error) {throw error}
         return data
       }
     } catch (error) {
@@ -238,7 +238,7 @@ export const newsletterService = {
           })
           .eq('email', normalizedEmail)
 
-        if (error) throw error
+        if (error) {throw error}
         return true
       }
     } catch (error) {

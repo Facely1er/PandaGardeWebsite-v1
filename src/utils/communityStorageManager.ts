@@ -584,12 +584,12 @@ export class CommunityStorageManager {
   importData(data: string): void {
     try {
       const imported = JSON.parse(data);
-      if (imported.stories) this.setStories(imported.stories);
-      if (imported.forumUsers) this.setForumUsers(imported.forumUsers);
-      if (imported.topics) this.setTopics(imported.topics);
-      if (imported.posts) this.setPosts(imported.posts);
-      if (imported.resources) this.setResources(imported.resources);
-      if (imported.preferences) this.setUserPreferences(imported.preferences);
+      if (imported.stories) {this.setStories(imported.stories);}
+      if (imported.forumUsers) {this.setForumUsers(imported.forumUsers);}
+      if (imported.topics) {this.setTopics(imported.topics);}
+      if (imported.posts) {this.setPosts(imported.posts);}
+      if (imported.resources) {this.setResources(imported.resources);}
+      if (imported.preferences) {this.setUserPreferences(imported.preferences);}
     } catch (error) {
       console.error('Error importing data:', error);
       throw new Error('Failed to import data');

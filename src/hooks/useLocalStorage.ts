@@ -3,8 +3,8 @@ import { useState } from 'react';
 // Check if localStorage is available
 const isLocalStorageAvailable = (): boolean => {
   try {
-    if (typeof window === 'undefined') return false;
-    if (!window.localStorage) return false;
+    if (typeof window === 'undefined') {return false;}
+    if (!window.localStorage) {return false;}
     
     // Test localStorage access
     const testKey = '__localStorage_test__';
@@ -24,7 +24,7 @@ export const useLocalStorage = <T,>(key: string, initialValue: T, expectedType?:
 
     try {
       const item = window.localStorage.getItem(key);
-      if (!item) return initialValue;
+      if (!item) {return initialValue;}
       
       const parsed = JSON.parse(item);
       return parsed;

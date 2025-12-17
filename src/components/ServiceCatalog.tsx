@@ -85,7 +85,7 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
     if (selectedExposureLevel !== 'all') {
       services = services.filter(s => {
         const exposureIndex = calculatePrivacyExposureIndex(s.id);
-        if (exposureIndex === null) return false;
+        if (exposureIndex === null) {return false;}
         
         switch (selectedExposureLevel) {
           case 'very-high':
@@ -110,11 +110,12 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
         case 'name':
           comparison = a.name.localeCompare(b.name);
           break;
-        case 'exposure':
+        case 'exposure': {
           const exposureA = calculatePrivacyExposureIndex(a.id) || 0;
           const exposureB = calculatePrivacyExposureIndex(b.id) || 0;
           comparison = exposureA - exposureB;
           break;
+        }
         case 'age':
           comparison = a.minAge - b.minAge;
           break;
@@ -169,7 +170,7 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
 
   // Handle service request
   const handleRequestService = async (serviceId: string) => {
-    if (!memberId) return;
+    if (!memberId) {return;}
     
     setIsRequesting(true);
     try {
@@ -190,7 +191,7 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
   // Get service status
   const getServiceStatus = (serviceId: string) => {
     const serviceUsage = isServiceAdded(serviceId);
-    if (!serviceUsage) return null;
+    if (!serviceUsage) {return null;}
     
     return {
       status: serviceUsage.status,
@@ -326,7 +327,7 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
                         const target = e.target as HTMLImageElement;
                         target.style.display = 'none';
                         const fallback = target.parentElement?.querySelector('.service-icon-fallback') as HTMLElement;
-                        if (fallback) fallback.style.display = 'block';
+                        if (fallback) {fallback.style.display = 'block';}
                       }}
                     />
                   ) : null}
@@ -479,7 +480,7 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
                       const target = e.target as HTMLImageElement;
                       target.style.display = 'none';
                       const fallback = target.parentElement?.querySelector('.modal-icon-fallback') as HTMLElement;
-                      if (fallback) fallback.style.display = 'block';
+                      if (fallback) {fallback.style.display = 'block';}
                     }}
                   />
                 ) : null}

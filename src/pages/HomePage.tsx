@@ -35,7 +35,7 @@ const HomePage: React.FC = () => {
   // Carousel rotation effect
   useEffect(() => {
     // Skip carousel if family persona is set (shows personalized message)
-    if (familyPersona) return;
+    if (familyPersona) {return;}
 
     const interval = setInterval(() => {
       setIsTransitioning(true);

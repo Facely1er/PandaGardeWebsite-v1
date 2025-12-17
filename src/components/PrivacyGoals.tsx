@@ -65,7 +65,7 @@ const PrivacyGoals: React.FC<PrivacyGoalsProps> = ({ compact = false, onGoalCrea
   };
 
   const handleCreateGoal = () => {
-    if (!newGoal.title || !newGoal.targetDate) return;
+    if (!newGoal.title || !newGoal.targetDate) {return;}
 
     const goal = privacyGoalManager.createGoal({
       ...newGoal,
@@ -472,8 +472,8 @@ const PrivacyGoals: React.FC<PrivacyGoalsProps> = ({ compact = false, onGoalCrea
                     max="100"
                     value={editingGoal?.targetScore || newGoal.targetScore}
                     onChange={(e) => editingGoal
-                      ? setEditingGoal({ ...editingGoal, targetScore: parseInt(e.target.value) })
-                      : setNewGoal({ ...newGoal, targetScore: parseInt(e.target.value) })
+                      ? setEditingGoal({ ...editingGoal, targetScore: parseInt(e.target.value, 10) })
+                      : setNewGoal({ ...newGoal, targetScore: parseInt(e.target.value, 10) })
                     }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 dark:bg-gray-700 dark:text-white"
                   />

@@ -43,7 +43,7 @@ export const LearningTimer: React.FC<LearningTimerProps> = ({
     }
 
     return () => {
-      if (interval) clearInterval(interval);
+      if (interval) {clearInterval(interval);}
     };
   }, [isActive, isPaused, timeRemaining, onComplete, onTick]);
 
@@ -57,16 +57,16 @@ export const LearningTimer: React.FC<LearningTimerProps> = ({
   // Get timer color based on remaining time
   const getTimerColor = (): string => {
     const percentage = (timeRemaining / duration) * 100;
-    if (percentage > 50) return 'text-green-600 dark:text-green-400';
-    if (percentage > 25) return 'text-yellow-600 dark:text-yellow-400';
+    if (percentage > 50) {return 'text-green-600 dark:text-green-400';}
+    if (percentage > 25) {return 'text-yellow-600 dark:text-yellow-400';}
     return 'text-red-600 dark:text-red-400';
   };
 
   // Get progress bar color
   const getProgressColor = (): string => {
     const percentage = (timeRemaining / duration) * 100;
-    if (percentage > 50) return 'bg-green-500';
-    if (percentage > 25) return 'bg-yellow-500';
+    if (percentage > 50) {return 'bg-green-500';}
+    if (percentage > 25) {return 'bg-yellow-500';}
     return 'bg-red-500';
   };
 

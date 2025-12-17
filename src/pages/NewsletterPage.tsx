@@ -82,7 +82,7 @@ const NewsletterPage: React.FC = () => {
       month: 'long', 
       day: 'numeric' 
     }),
-    preview: newsletter.featuredTopic.description.substring(0, 80) + '...',
+    preview: `${newsletter.featuredTopic.description.substring(0, 80)  }...`,
     featured: newsletter.featured || false,
     url: `/newsletter/${newsletter.id}`
   }));

@@ -28,7 +28,7 @@ const PasswordStrengthLab: React.FC<PasswordStrengthLabProps> = ({ onBack }) => 
     };
 
     Object.values(checks).forEach(check => {
-      if (check) score++;
+      if (check) {score++;}
     });
 
     return { score, checks };
@@ -52,14 +52,14 @@ const PasswordStrengthLab: React.FC<PasswordStrengthLabProps> = ({ onBack }) => 
   }, [score, password, gameCompleted, timeSpent, questionsAnswered, correctAnswers, recordGameCompletion]);
 
   const getStrengthColor = () => {
-    if (score <= 2) return 'text-red-600';
-    if (score <= 3) return 'text-yellow-600';
+    if (score <= 2) {return 'text-red-600';}
+    if (score <= 3) {return 'text-yellow-600';}
     return 'text-green-600';
   };
 
   const getStrengthText = () => {
-    if (score <= 2) return 'Weak';
-    if (score <= 3) return 'Medium';
+    if (score <= 2) {return 'Weak';}
+    if (score <= 3) {return 'Medium';}
     return 'Strong';
   };
 
