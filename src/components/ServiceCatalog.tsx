@@ -565,6 +565,60 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
               </button>
             </div>
 
+            {/* Quick Add Button at Top */}
+            <div style={{ 
+              padding: '12px 25px', 
+              borderBottom: '1px solid #e0e0e0',
+              backgroundColor: isServiceInFamily(selectedService.id) ? '#f0fdf4' : '#f8fafc'
+            }}>
+              <button
+                onClick={() => handleToggleFamilyService(selectedService.id)}
+                disabled={isRequesting}
+                style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontSize: '15px',
+                  fontWeight: '600',
+                  cursor: isRequesting ? 'not-allowed' : 'pointer',
+                  transition: 'all 0.2s',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  backgroundColor: isServiceInFamily(selectedService.id) ? '#dc2626' : '#4CAF50',
+                  color: 'white',
+                  opacity: isRequesting ? 0.6 : 1,
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                }}
+              >
+                {isRequesting ? (
+                  'Processing...'
+                ) : isServiceInFamily(selectedService.id) ? (
+                  <>
+                    <X size={18} />
+                    Remove from My Services
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle size={18} />
+                    Add to My Services
+                  </>
+                )}
+              </button>
+              {!isServiceInFamily(selectedService.id) && (
+                <p style={{ 
+                  margin: '8px 0 0 0', 
+                  fontSize: '12px', 
+                  color: '#6b7280', 
+                  textAlign: 'center' 
+                }}>
+                  Adding services enables Digital Footprint Analysis
+                </p>
+              )}
+            </div>
+
             <div className="modal-body">
               {/* What Parents Need to Know Section */}
               <div className="modal-section" style={{ backgroundColor: '#f0f9ff', padding: '1.5rem', borderRadius: '8px', marginBottom: '1.5rem', border: '2px solid #3b82f6' }}>
