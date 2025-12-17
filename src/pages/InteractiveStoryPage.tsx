@@ -4,7 +4,6 @@ import { Book, ArrowLeft, Heart, Star, Play, Sparkles, Trophy } from 'lucide-rea
 import InteractiveStoryPlayer from '../components/story/InteractiveStoryPlayer';
 import StoryProgress from '../components/story/StoryProgress';
 import PageLayout from '../components/layout/PageLayout';
-import Logo from '../components/Logo';
 import { storyScenes } from '../data/storyScenes';
 import { useTheme } from '../contexts/ThemeContext';
 
