@@ -567,12 +567,13 @@ const InteractiveStoryPage: React.FC = () => {
       {/* Keyboard Help Panel */}
       {showKeyboardHelp && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" role="dialog" aria-labelledby="keyboard-help-title">
-          <div className="bg-white rounded-lg p-6 max-w-md mx-4" style={{ backgroundColor: 'var(--white)' }}>
+          <div className={`rounded-lg p-6 max-w-md mx-4 ${isDark ? 'bg-gray-800' : 'bg-white'}`} style={{ backgroundColor: 'var(--card-color)' }}>
             <div className="flex justify-between items-center mb-4">
               <h2 id="keyboard-help-title" className="text-xl font-bold" style={{ color: 'var(--gray-800)' }}>Keyboard Shortcuts</h2>
               <button
                 onClick={() => setShowKeyboardHelp(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl"
+                className="text-2xl"
+                style={{ color: 'var(--gray-500)' }}
                 aria-label="Close keyboard help"
               >
                 ×
@@ -581,35 +582,35 @@ const InteractiveStoryPage: React.FC = () => {
             <div className="space-y-3" style={{ color: 'var(--gray-700)' }}>
               <div className="flex justify-between">
                 <span>Next scene:</span>
-                <kbd className="px-2 py-1 bg-gray-200 rounded text-sm">→</kbd>
+                <kbd className={`px-2 py-1 rounded text-sm ${isDark ? 'bg-gray-700' : 'bg-gray-200'}`} style={{ color: 'var(--gray-700)' }}>→</kbd>
               </div>
               <div className="flex justify-between">
                 <span>Previous scene:</span>
-                <kbd className="px-2 py-1 bg-gray-200 rounded text-sm">←</kbd>
+                <kbd className={`px-2 py-1 rounded text-sm ${isDark ? 'bg-gray-700' : 'bg-gray-200'}`} style={{ color: 'var(--gray-700)' }}>←</kbd>
               </div>
               <div className="flex justify-between">
                 <span>Play/Pause:</span>
-                <kbd className="px-2 py-1 bg-gray-200 rounded text-sm">P</kbd>
+                <kbd className={`px-2 py-1 rounded text-sm ${isDark ? 'bg-gray-700' : 'bg-gray-200'}`} style={{ color: 'var(--gray-700)' }}>P</kbd>
               </div>
               <div className="flex justify-between">
                 <span>Mute/Unmute:</span>
-                <kbd className="px-2 py-1 bg-gray-200 rounded text-sm">M</kbd>
+                <kbd className={`px-2 py-1 rounded text-sm ${isDark ? 'bg-gray-700' : 'bg-gray-200'}`} style={{ color: 'var(--gray-700)' }}>M</kbd>
               </div>
               <div className="flex justify-between">
                 <span>Reset story:</span>
-                <kbd className="px-2 py-1 bg-gray-200 rounded text-sm">R</kbd>
+                <kbd className={`px-2 py-1 rounded text-sm ${isDark ? 'bg-gray-700' : 'bg-gray-200'}`} style={{ color: 'var(--gray-700)' }}>R</kbd>
               </div>
               <div className="flex justify-between">
                 <span>Select choice:</span>
-                <kbd className="px-2 py-1 bg-gray-200 rounded text-sm">Enter</kbd>
+                <kbd className={`px-2 py-1 rounded text-sm ${isDark ? 'bg-gray-700' : 'bg-gray-200'}`} style={{ color: 'var(--gray-700)' }}>Enter</kbd>
               </div>
               <div className="flex justify-between">
                 <span>Show this help:</span>
-                <kbd className="px-2 py-1 bg-gray-200 rounded text-sm">H</kbd>
+                <kbd className={`px-2 py-1 rounded text-sm ${isDark ? 'bg-gray-700' : 'bg-gray-200'}`} style={{ color: 'var(--gray-700)' }}>H</kbd>
               </div>
               <div className="flex justify-between">
                 <span>Show bookmarks:</span>
-                <kbd className="px-2 py-1 bg-gray-200 rounded text-sm">B</kbd>
+                <kbd className={`px-2 py-1 rounded text-sm ${isDark ? 'bg-gray-700' : 'bg-gray-200'}`} style={{ color: 'var(--gray-700)' }}>B</kbd>
               </div>
             </div>
           </div>
