@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { 
-  Users, Shield, Award, Plus, Trash2, CheckCircle, X, MessageSquare, Eye, ArrowLeft, Clock
+  Users, Shield, Award, Plus, Trash2, CheckCircle, X, MessageSquare, Eye, ArrowLeft, Clock, Gamepad2, Play, Sparkles
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from './Logo';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { useFamilyProgress } from '../contexts/FamilyProgressContext';
@@ -42,6 +42,7 @@ interface FamilyGoal {
 // Enhanced security: Use security utilities from familyHubSecurity
 
 const FamilyDashboard = () => {
+  const navigate = useNavigate();
   const { calculateMemberScore, getMemberProgress } = useFamilyProgress();
   const [familyMembers, setFamilyMembers] = useLocalStorage<FamilyMember[]>('pandagarde_family', []);
   const [familyGoals, setFamilyGoals] = useLocalStorage<FamilyGoal[]>('pandagarde_family_goals', []);
@@ -399,6 +400,59 @@ const FamilyDashboard = () => {
             </div>
             <h3 className="font-semibold text-xs sm:text-sm mb-0.5 sm:mb-1" style={{ color: 'var(--primary)' }}>Goals Achieved</h3>
             <p className="text-xs" style={{ color: 'var(--gray-600)' }}>Privacy goals</p>
+          </div>
+        </div>
+
+        {/* Learning Hub Quick Access */}
+        <div 
+          className="bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 rounded-xl shadow-lg p-5 sm:p-6 mb-6 sm:mb-8 text-white relative overflow-hidden"
+        >
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='stars' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='2' fill='rgba(255,255,255,0.3)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.2)'/><circle cx='40' cy='80' r='1.5' fill='rgba(255,255,255,0.3)'/><circle cx='60' cy='10' r='1' fill='rgba(255,255,255,0.2)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23stars)'/></svg>")`
+            }} />
+          </div>
+          
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+                <Gamepad2 className="text-white" size={28} />
+              </div>
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <Sparkles className="text-yellow-300" size={18} />
+                  <h3 className="text-xl sm:text-2xl font-bold">Learning Hub</h3>
+                </div>
+                <p className="text-white/80 text-sm sm:text-base">
+                  Play fun privacy games and activities to boost your family's privacy score!
+                </p>
+              </div>
+            </div>
+            
+            <button
+              onClick={() => navigate('/family-hub/learning')}
+              className="flex items-center gap-2 bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 hover:text-indigo-700 transition-all shadow-md hover:shadow-lg w-full md:w-auto justify-center"
+            >
+              <Play size={18} />
+              <span>Start Learning</span>
+            </button>
+          </div>
+          
+          <div className="relative z-10 mt-4 pt-4 border-t border-white/20">
+            <div className="flex flex-wrap items-center gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">🎮</span>
+                <span>12 Interactive Games</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">🎯</span>
+                <span>All Ages</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">🏆</span>
+                <span>Earn Badges</span>
+              </div>
+            </div>
           </div>
         </div>
 
