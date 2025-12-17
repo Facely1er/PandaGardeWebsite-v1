@@ -553,9 +553,9 @@ const FamilyDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--fh-bg-light, #F5F3FF)', color: 'var(--gray-800)' }}>
-      {/* Header - Purple/Indigo Theme */}
-      <header className="family-hub-header bg-gradient-to-r from-violet-700 via-purple-600 to-indigo-600 text-white py-8 sm:py-16 relative overflow-hidden">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--fh-bg-light, #F0FDFA)', color: 'var(--gray-800)' }}>
+      {/* Header - Teal Theme (complements green) */}
+      <header className="family-hub-header bg-gradient-to-r from-teal-700 via-teal-600 to-cyan-600 text-white py-8 sm:py-16 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='60' cy='60' r='1.5' fill='rgba(255,255,255,0.08)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
@@ -572,7 +572,7 @@ const FamilyDashboard = () => {
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 leading-tight">
               Privacy Panda
-              <span className="block text-amber-300 mt-1">Family Hub</span>
+              <span className="block text-yellow-300 mt-1">Family Hub</span>
             </h1>
             
             <p className="text-base sm:text-lg lg:text-xl opacity-90 max-w-2xl mx-auto mb-4 sm:mb-6 px-4">

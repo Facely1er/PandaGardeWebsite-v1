@@ -65,37 +65,37 @@
 }
 
 /* ===== FAMILY HUB THEME ===== */
-/* Distinct purple/indigo theme for Family Hub section */
+/* Warm teal/amber theme for Family Hub - complements green branding */
 .family-hub-theme {
-  /* Family Hub primary colors - Purple/Indigo palette */
-  --fh-primary: #5B21B6;
-  --fh-primary-light: #7C3AED;
-  --fh-primary-dark: #4C1D95;
-  --fh-secondary: #8B5CF6;
-  --fh-tertiary: #A78BFA;
-  --fh-accent: #EC4899;
-  --fh-accent-light: #F472B6;
+  /* Family Hub primary colors - Deep Teal palette (harmonizes with green) */
+  --fh-primary: #0D7377;
+  --fh-primary-light: #14919B;
+  --fh-primary-dark: #065A5C;
+  --fh-secondary: #32B8C0;
+  --fh-tertiary: #5CC9D0;
+  --fh-accent: #F59E0B;
+  --fh-accent-light: #FBBF24;
   
   /* Family Hub specific backgrounds */
-  --fh-bg-gradient: linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 50%, #C4B5FD 100%);
-  --fh-bg-light: #F5F3FF;
+  --fh-bg-gradient: linear-gradient(135deg, #F0FDFA 0%, #CCFBF1 50%, #99F6E4 100%);
+  --fh-bg-light: #F0FDFA;
   --fh-bg-card: #FFFFFF;
-  --fh-bg-dark: #1E1B4B;
+  --fh-bg-dark: #134E4A;
   
   /* Family Hub header gradient */
-  --fh-header-gradient: linear-gradient(135deg, #5B21B6 0%, #7C3AED 50%, #8B5CF6 100%);
+  --fh-header-gradient: linear-gradient(135deg, #0D7377 0%, #14919B 50%, #32B8C0 100%);
   
-  /* Family Hub shadows with purple tint */
-  --fh-shadow-sm: 0 2px 8px rgba(91, 33, 182, 0.08);
-  --fh-shadow-md: 0 4px 16px rgba(91, 33, 182, 0.12);
-  --fh-shadow-lg: 0 8px 32px rgba(91, 33, 182, 0.16);
+  /* Family Hub shadows with teal tint */
+  --fh-shadow-sm: 0 2px 8px rgba(13, 115, 119, 0.08);
+  --fh-shadow-md: 0 4px 16px rgba(13, 115, 119, 0.12);
+  --fh-shadow-lg: 0 8px 32px rgba(13, 115, 119, 0.16);
   
   /* Override primary for this scope */
-  --primary: #5B21B6;
-  --primary-light: #7C3AED;
-  --primary-dark: #4C1D95;
-  --secondary: #8B5CF6;
-  --tertiary: #A78BFA;
+  --primary: #0D7377;
+  --primary-light: #14919B;
+  --primary-dark: #065A5C;
+  --secondary: #32B8C0;
+  --tertiary: #5CC9D0;
 }
 
 /* Family Hub page wrapper styles */
@@ -118,7 +118,7 @@
   background: var(--fh-bg-card);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--fh-shadow-md);
-  border: 1px solid rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(13, 115, 119, 0.1);
   transition: var(--transition);
 }
 
