@@ -239,71 +239,11 @@ const HomePage: React.FC = () => {
   ];
 
   return (
-    <div id="main-content">
-      <OnboardingFlow />
-      
-      {/* Feature Unlock Celebration */}
-      {showUnlockCelebration && unlockedFeature && (
-        <FeatureUnlockCelebration
-          feature={unlockedFeature}
-          description="You've unlocked advanced privacy features! Explore your digital footprint and get personalized recommendations."
-          icon={<BarChart3 size={24} className="text-white" />}
-          link="/digital-footprint"
-          onClose={() => {
-            setShowUnlockCelebration(false);
-            setUnlockedFeature(null);
-          }}
-        />
-      )}
-
-      {/* Personalized Welcome Banner - Simplified */}
-      {familyPersona && (
-        <section className="fade-in" style={{ 
-          background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
-          color: 'white',
-          padding: '0.875rem 0',
-          marginBottom: 0,
-          marginTop: 0
-        }}>
-          <div className="container">
-            <div style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: '1rem'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flex: 1 }}>
-                {React.createElement(personaIcons[familyPersona.icon] || Users, { size: 20, className: 'text-white' })}
-                <div>
-                  <div style={{ fontSize: '0.875rem', fontWeight: '600' }}>
-                    Welcome back, {familyPersona.name}!
-                  </div>
-                </div>
-              </div>
-              {hasServiceCatalog && (
-                <div style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  gap: '0.5rem',
-                  background: 'rgba(255, 255, 255, 0.15)',
-                  padding: '0.5rem 1rem',
-                  borderRadius: '6px',
-                  fontSize: '0.875rem'
-                }}>
-                  <CheckCircle size={16} />
-                  <span>{totalServicesCount} Services Active</span>
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Hero Section - Two Column Layout */}
+    <>
+      {/* Hero Section - Two Column Layout (Outside main-content for proper positioning) */}
       <section className="hero-simple" style={{ 
-        paddingTop: familyPersona ? '1rem' : 'clamp(1rem, 2vw, 1.5rem)',
-        paddingBottom: 'clamp(4rem, 8vw, 6rem)'
+        paddingTop: familyPersona ? '1rem' : '0px',
+        paddingBottom: '0px'
       }}>
         {/* Subtle background elements */}
         <div style={{
@@ -670,7 +610,68 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Service Catalog - Simplified */}
+      <div id="main-content">
+        <OnboardingFlow />
+        
+        {/* Feature Unlock Celebration */}
+        {showUnlockCelebration && unlockedFeature && (
+          <FeatureUnlockCelebration
+            feature={unlockedFeature}
+            description="You've unlocked advanced privacy features! Explore your digital footprint and get personalized recommendations."
+            icon={<BarChart3 size={24} className="text-white" />}
+            link="/digital-footprint"
+            onClose={() => {
+              setShowUnlockCelebration(false);
+              setUnlockedFeature(null);
+            }}
+          />
+        )}
+
+        {/* Personalized Welcome Banner - Simplified */}
+        {familyPersona && (
+          <section className="fade-in" style={{ 
+            background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+            color: 'white',
+            padding: '0.875rem 0',
+            marginBottom: 0,
+            marginTop: 0
+          }}>
+            <div className="container">
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: '1rem'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flex: 1 }}>
+                  {React.createElement(personaIcons[familyPersona.icon] || Users, { size: 20, className: 'text-white' })}
+                  <div>
+                    <div style={{ fontSize: '0.875rem', fontWeight: '600' }}>
+                      Welcome back, {familyPersona.name}!
+                    </div>
+                  </div>
+                </div>
+                {hasServiceCatalog && (
+                  <div style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '0.5rem',
+                    background: 'rgba(255, 255, 255, 0.15)',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '6px',
+                    fontSize: '0.875rem'
+                  }}>
+                    <CheckCircle size={16} />
+                    <span>{totalServicesCount} Services Active</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Service Catalog - Simplified */}
       {!hasServiceCatalog && (
         <section className="service-catalog-value" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: '#f8fafc' }}>
           <div className="container">
@@ -1448,7 +1449,8 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };
 

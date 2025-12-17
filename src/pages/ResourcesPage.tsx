@@ -20,7 +20,7 @@ const ResourcesPage: React.FC = () => {
     >
 
       {/* Resource Categories */}
-      <section className="resources-section" id="parent-resources" style={{ padding: '2rem 0', background: '#ffffff' }}>
+      <section className="resources-section" id="parent-resources" style={{ padding: '2rem 0', background: 'var(--white)' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div className="resources-tabs" style={{ 
             display: 'flex', 
@@ -72,12 +72,12 @@ const ResourcesPage: React.FC = () => {
               <h3 style={{
                 fontSize: 'clamp(1.5rem, 3vw, 2rem)',
                 fontWeight: '700',
-                color: '#0f172a',
+                color: 'var(--gray-900)',
                 marginBottom: '0.75rem'
               }}>Comprehensive Privacy Education Guides</h3>
               <p style={{
                 fontSize: '1.125rem',
-                color: '#64748b',
+                color: 'var(--gray-600)',
                 maxWidth: '100%',
                 margin: '0 auto',
                 lineHeight: '1.6'
@@ -153,12 +153,12 @@ const ResourcesPage: React.FC = () => {
               <h3 style={{
                 fontSize: 'clamp(1.5rem, 3vw, 2rem)',
                 fontWeight: '700',
-                color: '#0f172a',
+                color: 'var(--gray-900)',
                 marginBottom: '0.75rem'
               }}>Discussion Guides for Parents & Educators</h3>
               <p style={{
                 fontSize: '1.125rem',
-                color: '#64748b',
+                color: 'var(--gray-600)',
                 maxWidth: '100%',
                 margin: '0 auto',
                 lineHeight: '1.6'
@@ -192,12 +192,12 @@ const ResourcesPage: React.FC = () => {
               <h3 style={{
                 fontSize: 'clamp(1.5rem, 3vw, 2rem)',
                 fontWeight: '700',
-                color: '#0f172a',
+                color: 'var(--gray-900)',
                 marginBottom: '0.75rem'
               }}>Printable Resources</h3>
               <p style={{
                 fontSize: '1.125rem',
-                color: '#64748b',
+                color: 'var(--gray-600)',
                 maxWidth: '100%',
                 margin: '0 auto',
                 lineHeight: '1.6'
@@ -257,12 +257,12 @@ const ResourcesPage: React.FC = () => {
               <h3 style={{
                 fontSize: 'clamp(1.5rem, 3vw, 2rem)',
                 fontWeight: '700',
-                color: '#0f172a',
+                color: 'var(--gray-900)',
                 marginBottom: '0.75rem'
               }}>Digital Safety Tips for Families</h3>
               <p style={{
                 fontSize: '1.125rem',
-                color: '#64748b',
+                color: 'var(--gray-600)',
                 maxWidth: '100%',
                 margin: '0 auto',
                 lineHeight: '1.6'
@@ -302,12 +302,12 @@ const ResourcesPage: React.FC = () => {
               <h3 style={{
                 fontSize: 'clamp(1.5rem, 3vw, 2rem)',
                 fontWeight: '700',
-                color: '#0f172a',
+                color: 'var(--gray-900)',
                 marginBottom: '0.75rem'
               }}>Interactive Activities & Practical Tools</h3>
               <p style={{
                 fontSize: '1.125rem',
-                color: '#64748b',
+                color: 'var(--gray-600)',
                 maxWidth: '100%',
                 margin: '0 auto',
                 lineHeight: '1.6'
@@ -410,18 +410,18 @@ const ResourcesPage: React.FC = () => {
       </section>
 
       {/* Community Resources Section */}
-      <section className="community-resources" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)' }}>
+      <section className="community-resources" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'var(--gradient-secondary)' }}>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div className="section-header fade-in text-center" style={{ marginBottom: '3rem' }}>
             <h2 style={{
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',
               fontWeight: '700',
-              color: '#1B5E20',
+              color: 'var(--primary)',
               marginBottom: '0.75rem'
             }}>Community Resources</h2>
             <p style={{
               fontSize: '1.125rem',
-              color: '#64748b',
+              color: 'var(--gray-600)',
               maxWidth: '600px',
               margin: '0 auto',
               lineHeight: '1.6'
