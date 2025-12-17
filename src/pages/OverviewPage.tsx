@@ -370,7 +370,7 @@ const OverviewPage: React.FC = () => {
                 <Users size={20} />
                 Join Family Hub
               </Link>
-              <Link to="/privacy-panda" className="button secondary">
+              <Link to="/privacy-panda" className="button secondary" style={{ background: 'rgba(255,255,255,0.2)', color: 'white', border: '2px solid white' }}>
                 <Shield size={20} />
                 Try PrivacyPanda
               </Link>
