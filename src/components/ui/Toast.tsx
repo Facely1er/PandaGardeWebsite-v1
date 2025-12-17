@@ -1,5 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { CheckCircle, AlertCircle, Info, X, AlertTriangle } from 'lucide-react';
+
+// Check for reduced motion preference
+const prefersReducedMotion = typeof window !== 'undefined' 
+  ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
+  : false;
 
 export interface ToastProps {
   id: string;
@@ -27,8 +32,8 @@ const Toast: React.FC<ToastProps> = ({
   const [isLeaving, setIsLeaving] = useState(false);
 
   useEffect(() => {
-    // Trigger entrance animation
-    const timer = setTimeout(() => setIsVisible(true), 10);
+    // Trigger entrance animation (instant if user prefers reduced motion)
+    const timer = setTimeout(() => setIsVisible(true), prefersReducedMotion ? 0 : 10);
     return () => clearTimeout(timer);
   }, []);
 
@@ -43,25 +48,37 @@ const Toast: React.FC<ToastProps> = ({
 
   const handleClose = useCallback(() => {
     setIsLeaving(true);
+    // Instant close if user prefers reduced motion
     setTimeout(() => {
       onClose(id);
-    }, 300);
+    }, prefersReducedMotion ? 0 : 300);
   }, [onClose, id]);
 
   const getIcon = () => {
     switch (type) {
       case 'success':
-        return <CheckCircle size={20} />;
+        return <CheckCircle size={20} aria-hidden="true" />;
       case 'error':
-        return <AlertCircle size={20} />;
+        return <AlertCircle size={20} aria-hidden="true" />;
       case 'warning':
-        return <AlertTriangle size={20} />;
+        return <AlertTriangle size={20} aria-hidden="true" />;
       case 'info':
-        return <Info size={20} />;
+        return <Info size={20} aria-hidden="true" />;
       default:
-        return <Info size={20} />;
+        return <Info size={20} aria-hidden="true" />;
     }
   };
+
+  // Animation styles respecting reduced motion preference
+  const animationStyle = useMemo(() => {
+    if (prefersReducedMotion) {
+      return {
+        opacity: isVisible && !isLeaving ? 1 : 0,
+        transition: 'opacity 0.1s ease'
+      };
+    }
+    return {};
+  }, [isVisible, isLeaving]);
 
   const getColors = () => {
     switch (type) {
@@ -107,14 +124,15 @@ const Toast: React.FC<ToastProps> = ({
 
   return (
     <div
-      className={`toast ${isVisible ? 'toast-visible' : ''} ${isLeaving ? 'toast-leaving' : ''}`}
+      className={`toast ${isVisible ? 'toast-visible' : ''} ${isLeaving ? 'toast-leaving' : ''} ${prefersReducedMotion ? 'toast-reduced-motion' : ''}`}
       style={{
         backgroundColor: colors.bg,
         borderColor: colors.border,
-        color: colors.text
+        color: colors.text,
+        ...animationStyle
       }}
-      role="alert"
-      aria-live="assertive"
+      role={type === 'error' || type === 'warning' ? 'alert' : 'status'}
+      aria-live={type === 'error' || type === 'warning' ? 'assertive' : 'polite'}
       aria-atomic="true"
     >
       <div className="toast-content">

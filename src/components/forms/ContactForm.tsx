@@ -234,8 +234,8 @@ const ContactForm: React.FC = () => {
               aria-describedby={errors.name ? 'name-error' : undefined}
             />
             {errors.name && (
-              <div id="name-error" className="error-message">
-                <AlertCircle size={14} />
+              <div id="name-error" className="error-message" role="alert" aria-live="polite">
+                <AlertCircle size={14} aria-hidden="true" />
                 {errors.name}
               </div>
             )}
@@ -257,8 +257,8 @@ const ContactForm: React.FC = () => {
               aria-describedby={errors.email ? 'email-error' : undefined}
             />
             {errors.email && (
-              <div id="email-error" className="error-message">
-                <AlertCircle size={14} />
+              <div id="email-error" className="error-message" role="alert" aria-live="polite">
+                <AlertCircle size={14} aria-hidden="true" />
                 {errors.email}
               </div>
             )}
@@ -282,8 +282,8 @@ const ContactForm: React.FC = () => {
               aria-describedby={errors.phone ? 'phone-error' : undefined}
             />
             {errors.phone && (
-              <div id="phone-error" className="error-message">
-                <AlertCircle size={14} />
+              <div id="phone-error" className="error-message" role="alert" aria-live="polite">
+                <AlertCircle size={14} aria-hidden="true" />
                 {errors.phone}
               </div>
             )}
@@ -311,8 +311,8 @@ const ContactForm: React.FC = () => {
               <option value="other">Other</option>
             </select>
             {errors.inquiryType && (
-              <div id="inquiryType-error" className="error-message">
-                <AlertCircle size={14} />
+              <div id="inquiryType-error" className="error-message" role="alert" aria-live="polite">
+                <AlertCircle size={14} aria-hidden="true" />
                 {errors.inquiryType}
               </div>
             )}
@@ -335,8 +335,8 @@ const ContactForm: React.FC = () => {
             aria-describedby={errors.subject ? 'subject-error' : undefined}
           />
           {errors.subject && (
-            <div id="subject-error" className="error-message">
-              <AlertCircle size={14} />
+            <div id="subject-error" className="error-message" role="alert" aria-live="polite">
+              <AlertCircle size={14} aria-hidden="true" />
               {errors.subject}
             </div>
           )}
@@ -380,8 +380,8 @@ const ContactForm: React.FC = () => {
             aria-describedby={errors.message ? 'message-error' : undefined}
           />
           {errors.message && (
-            <div id="message-error" className="error-message">
-              <AlertCircle size={14} />
+            <div id="message-error" className="error-message" role="alert" aria-live="polite">
+              <AlertCircle size={14} aria-hidden="true" />
               {errors.message}
             </div>
           )}
@@ -403,8 +403,8 @@ const ContactForm: React.FC = () => {
         </div>
 
         {submitError && (
-          <div className="submit-error">
-            <AlertCircle size={16} />
+          <div className="submit-error" role="alert" aria-live="assertive">
+            <AlertCircle size={16} aria-hidden="true" />
             {submitError}
           </div>
         )}
@@ -414,15 +414,18 @@ const ContactForm: React.FC = () => {
             type="submit"
             disabled={isSubmitting}
             className="btn-primary submit-btn"
+            aria-busy={isSubmitting}
+            aria-disabled={isSubmitting}
           >
             {isSubmitting ? (
               <>
-                <div className="spinner" />
-                Sending...
+                <div className="spinner" aria-hidden="true" />
+                <span>Sending...</span>
+                <span className="sr-only">Please wait while your message is being sent</span>
               </>
             ) : (
               <>
-                <Send size={16} />
+                <Send size={16} aria-hidden="true" />
                 Send Message
               </>
             )}
