@@ -965,7 +965,7 @@ const FamilyDashboard = () => {
                         onClick={() => toggleGoalCompletion(goal.id)}
                         className={`p-2.5 rounded-lg transition-colors flex-shrink-0 ${
                           goal.completed 
-                            ? 'bg-green-100 text-green-600 hover:bg-green-200' 
+                            ? 'bg-purple-100 text-purple-600 hover:bg-purple-200' 
                             : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                         }`}
                         title={goal.completed ? 'Mark as incomplete' : 'Mark as complete'}
