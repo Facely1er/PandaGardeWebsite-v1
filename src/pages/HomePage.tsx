@@ -668,237 +668,294 @@ const HomePage: React.FC = () => {
         {/* Digital Footprint Analysis - Enhanced Visual Section */}
       {!hasServiceCatalog && (
         <section className="digital-footprint-cta" style={{ 
-          padding: 'clamp(3rem, 6vw, 5rem) 0',
-          background: 'var(--gray-100)',
+          padding: 'clamp(4rem, 8vw, 6rem) 0',
+          background: 'linear-gradient(180deg, var(--gray-100) 0%, #e0f2fe 50%, var(--gray-100) 100%)',
           position: 'relative',
           overflow: 'hidden'
         }}>
           {/* Background decoration */}
           <div style={{
             position: 'absolute',
-            top: '-50%',
-            right: '-10%',
-            width: '500px',
-            height: '500px',
-            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%)',
+            top: '-20%',
+            right: '-5%',
+            width: '600px',
+            height: '600px',
+            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 60%)',
             borderRadius: '50%',
             pointerEvents: 'none'
           }} />
           <div style={{
             position: 'absolute',
-            bottom: '-30%',
+            bottom: '-20%',
             left: '-5%',
-            width: '400px',
-            height: '400px',
-            background: 'radial-gradient(circle, rgba(16, 185, 129, 0.06) 0%, transparent 70%)',
+            width: '500px',
+            height: '500px',
+            background: 'radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 60%)',
             borderRadius: '50%',
             pointerEvents: 'none'
           }} />
           
           <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+            {/* Section Header */}
+            <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+              <div style={{ 
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(16, 185, 129, 0.15) 100%)',
+                padding: '0.625rem 1.25rem',
+                borderRadius: '100px',
+                marginBottom: '1.25rem',
+                border: '1px solid rgba(59, 130, 246, 0.2)'
+              }}>
+                <BarChart3 size={18} style={{ color: '#3b82f6' }} />
+                <span style={{ fontSize: '0.875rem', fontWeight: '700', color: '#1e40af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Your Privacy Dashboard
+                </span>
+              </div>
+              
+              <h2 style={{ 
+                fontSize: 'clamp(2rem, 4vw, 2.75rem)', 
+                fontWeight: '800', 
+                color: 'var(--gray-900)', 
+                marginBottom: '1rem',
+                lineHeight: '1.15',
+                maxWidth: '700px',
+                margin: '0 auto 1rem'
+              }}>
+                See Exactly Where Your Family's Data Goes
+              </h2>
+              
+              <p style={{ 
+                fontSize: 'clamp(1rem, 2vw, 1.125rem)', 
+                color: 'var(--gray-600)', 
+                lineHeight: '1.7', 
+                maxWidth: '600px',
+                margin: '0 auto'
+              }}>
+                Every app collects data about your family. Our Digital Footprint Analysis shows you exactly what's being shared, which services pose the biggest risks, and how to take control of your privacy.
+              </p>
+            </div>
+
+            {/* Main Card */}
             <div className="fade-in footprint-card" style={{ 
-              maxWidth: '900px', 
+              maxWidth: '1100px', 
               margin: '0 auto',
               background: 'var(--card-color)',
               borderRadius: '24px',
               padding: 'clamp(2rem, 4vw, 3rem)',
-              boxShadow: '0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04)',
-              border: '1px solid var(--gray-300)',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '2rem',
-              alignItems: 'center'
+              boxShadow: '0 8px 40px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04)',
+              border: '1px solid var(--gray-200)'
             }}>
-              {/* Left side - Content */}
-              <div>
-                <div style={{ 
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%)',
-                  padding: '0.5rem 1rem',
-                  borderRadius: '100px',
-                  marginBottom: '1rem'
-                }}>
-                  <BarChart3 size={16} style={{ color: '#3b82f6' }} />
-                  <span style={{ fontSize: '0.8rem', fontWeight: '600', color: 'var(--gray-700)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    Unlock Feature
-                  </span>
-                </div>
-                
+              {/* What You'll Discover */}
+              <div style={{ marginBottom: '2.5rem' }}>
                 <h3 style={{ 
-                  fontSize: 'clamp(1.5rem, 3vw, 1.875rem)', 
-                  fontWeight: '800', 
+                  fontSize: '1.25rem', 
+                  fontWeight: '700', 
                   color: 'var(--gray-800)', 
-                  marginBottom: '1rem',
-                  lineHeight: '1.2'
+                  marginBottom: '1.5rem',
+                  textAlign: 'center'
                 }}>
-                  Enable Digital Footprint Analysis
+                  What You'll Discover
                 </h3>
                 
-                <p style={{ 
-                  fontSize: '1rem', 
-                  color: 'var(--gray-600)', 
-                  lineHeight: '1.7', 
-                  marginBottom: '1.5rem' 
-                }}>
-                  Add your family's apps and services to unlock powerful privacy insights and personalized recommendations.
-                </p>
-
-                {/* Feature highlights */}
                 <div style={{ 
-                  display: 'flex', 
-                  flexDirection: 'column', 
-                  gap: '0.75rem',
-                  marginBottom: '1.5rem'
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                  gap: '1.25rem'
                 }}>
                   {[
-                    { icon: Shield, text: 'Privacy exposure analysis', color: '#10b981' },
-                    { icon: Sparkles, text: 'Personalized recommendations', color: '#8b5cf6' },
-                    { icon: AlertTriangle, text: 'Real-time safety alerts', color: '#f59e0b' }
+                    { 
+                      icon: BarChart3, 
+                      title: 'Privacy Exposure Score', 
+                      description: 'A clear 0-100 score showing your family\'s overall digital exposure across all services',
+                      color: '#3b82f6',
+                      bgColor: '#eff6ff'
+                    },
+                    { 
+                      icon: AlertTriangle, 
+                      title: 'High-Risk Service Alerts', 
+                      description: 'Identify which apps collect the most data and pose the greatest privacy risks',
+                      color: '#f59e0b',
+                      bgColor: '#fffbeb'
+                    },
+                    { 
+                      icon: Users, 
+                      title: 'Data Sharing Networks', 
+                      description: 'See how parent companies share your data between their different apps and services',
+                      color: '#8b5cf6',
+                      bgColor: '#f5f3ff'
+                    },
+                    { 
+                      icon: Sparkles, 
+                      title: 'Actionable Recommendations', 
+                      description: 'Step-by-step guidance to reduce exposure and improve your family\'s privacy settings',
+                      color: '#10b981',
+                      bgColor: '#ecfdf5'
+                    }
                   ].map((feature, idx) => (
                     <div key={idx} style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      gap: '0.75rem'
+                      padding: '1.5rem',
+                      borderRadius: '16px',
+                      background: feature.bgColor,
+                      border: `1px solid ${feature.color}20`,
+                      transition: 'transform 0.2s ease, box-shadow 0.2s ease'
                     }}>
                       <div style={{
-                        width: '28px',
-                        height: '28px',
-                        borderRadius: '8px',
+                        width: '48px',
+                        height: '48px',
+                        borderRadius: '12px',
                         background: `${feature.color}15`,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        flexShrink: 0
+                        marginBottom: '1rem'
                       }}>
-                        <feature.icon size={14} style={{ color: feature.color }} />
+                        <feature.icon size={24} style={{ color: feature.color }} />
                       </div>
-                      <span style={{ fontSize: '0.9375rem', color: 'var(--gray-700)', fontWeight: '500' }}>
-                        {feature.text}
-                      </span>
+                      <h4 style={{ 
+                        fontSize: '1rem', 
+                        fontWeight: '700', 
+                        color: 'var(--gray-800)', 
+                        marginBottom: '0.5rem' 
+                      }}>
+                        {feature.title}
+                      </h4>
+                      <p style={{ 
+                        fontSize: '0.875rem', 
+                        color: 'var(--gray-600)', 
+                        lineHeight: '1.6',
+                        margin: 0
+                      }}>
+                        {feature.description}
+                      </p>
                     </div>
                   ))}
                 </div>
+              </div>
 
+              {/* How It Works */}
+              <div style={{ 
+                background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
+                borderRadius: '16px',
+                padding: '2rem',
+                marginBottom: '2rem',
+                border: '1px solid var(--gray-200)'
+              }}>
+                <h3 style={{ 
+                  fontSize: '1.125rem', 
+                  fontWeight: '700', 
+                  color: 'var(--gray-800)', 
+                  marginBottom: '1.5rem',
+                  textAlign: 'center'
+                }}>
+                  Get Started in 3 Simple Steps
+                </h3>
+                
+                <div style={{ 
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                  gap: '1.5rem'
+                }}>
+                  {[
+                    { step: '1', title: 'Browse Services', desc: 'Explore our catalog of 50+ popular apps' },
+                    { step: '2', title: 'Add Your Apps', desc: 'Select services your family uses' },
+                    { step: '3', title: 'See Your Report', desc: 'Get instant privacy insights' }
+                  ].map((item, idx) => (
+                    <div key={idx} style={{ 
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '1rem'
+                    }}>
+                      <div style={{
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '50%',
+                        background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontWeight: '700',
+                        fontSize: '1rem',
+                        flexShrink: 0,
+                        boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)'
+                      }}>
+                        {item.step}
+                      </div>
+                      <div>
+                        <div style={{ fontWeight: '600', color: 'var(--gray-800)', marginBottom: '0.25rem' }}>
+                          {item.title}
+                        </div>
+                        <div style={{ fontSize: '0.875rem', color: 'var(--gray-600)' }}>
+                          {item.desc}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* CTA Section */}
+              <div style={{ 
+                textAlign: 'center',
+                padding: '1.5rem',
+                background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%)',
+                borderRadius: '16px',
+                border: '1px dashed rgba(59, 130, 246, 0.3)'
+              }}>
+                <p style={{ 
+                  fontSize: '1rem', 
+                  color: 'var(--gray-700)', 
+                  marginBottom: '1.25rem',
+                  fontWeight: '500'
+                }}>
+                  Ready to see your family's digital footprint?
+                </p>
+                
                 <Link 
                   to="/service-catalog" 
                   className="footprint-cta-button"
                   style={{ 
                     display: 'inline-flex', 
                     alignItems: 'center', 
-                    gap: '0.5rem',
-                    fontSize: '1rem',
-                    padding: '0.875rem 1.75rem',
+                    gap: '0.625rem',
+                    fontSize: '1.0625rem',
+                    padding: '1rem 2rem',
                     background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
                     color: 'white',
                     fontWeight: '600',
                     borderRadius: '12px',
                     textDecoration: 'none',
-                    boxShadow: '0 4px 14px rgba(59, 130, 246, 0.35)',
+                    boxShadow: '0 6px 20px rgba(59, 130, 246, 0.4)',
                     transition: 'all 0.3s ease'
                   }}
                 >
-                  <ShoppingBag size={18} />
-                  Add Services
-                  <ArrowRight size={16} />
+                  <ShoppingBag size={20} />
+                  Start Adding Services
+                  <ArrowRight size={18} />
                 </Link>
-              </div>
-
-              {/* Right side - Visual illustration */}
-              <div style={{ 
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '1rem'
-              }}>
-                <div className="footprint-visual" style={{
-                  position: 'relative',
-                  width: '100%',
-                  maxWidth: '280px',
-                  aspectRatio: '1',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
+                
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  gap: '1.5rem', 
+                  marginTop: '1rem',
+                  fontSize: '0.8125rem',
+                  color: 'var(--gray-500)'
                 }}>
-                  {/* Animated rings */}
-                  <div className="footprint-ring footprint-ring-1" style={{
-                    position: 'absolute',
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: '50%',
-                    border: '2px solid rgba(59, 130, 246, 0.15)',
-                    animation: 'footprint-pulse 3s ease-in-out infinite'
-                  }} />
-                  <div className="footprint-ring footprint-ring-2" style={{
-                    position: 'absolute',
-                    width: '75%',
-                    height: '75%',
-                    borderRadius: '50%',
-                    border: '2px solid rgba(16, 185, 129, 0.2)',
-                    animation: 'footprint-pulse 3s ease-in-out infinite 0.5s'
-                  }} />
-                  <div className="footprint-ring footprint-ring-3" style={{
-                    position: 'absolute',
-                    width: '50%',
-                    height: '50%',
-                    borderRadius: '50%',
-                    border: '2px solid rgba(139, 92, 246, 0.25)',
-                    animation: 'footprint-pulse 3s ease-in-out infinite 1s'
-                  }} />
-                  
-                  {/* Center icon */}
-                  <div style={{
-                    width: '80px',
-                    height: '80px',
-                    borderRadius: '20px',
-                    background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: '0 8px 32px rgba(59, 130, 246, 0.35)',
-                    position: 'relative',
-                    zIndex: 2
-                  }}>
-                    <BarChart3 size={36} className="text-white" />
-                  </div>
-
-                  {/* Floating badges */}
-                  <div className="floating-badge" style={{
-                    position: 'absolute',
-                    top: '10%',
-                    right: '5%',
-                    background: 'var(--card-color)',
-                    borderRadius: '12px',
-                    padding: '0.5rem 0.75rem',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.375rem',
-                    animation: 'float 4s ease-in-out infinite',
-                    border: '1px solid var(--gray-300)'
-                  }}>
-                    <Shield size={14} style={{ color: '#10b981' }} />
-                    <span style={{ fontSize: '0.75rem', fontWeight: '600', color: 'var(--gray-700)' }}>Protected</span>
-                  </div>
-
-                  <div className="floating-badge" style={{
-                    position: 'absolute',
-                    bottom: '15%',
-                    left: '0%',
-                    background: 'var(--card-color)',
-                    borderRadius: '12px',
-                    padding: '0.5rem 0.75rem',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.375rem',
-                    animation: 'float 4s ease-in-out infinite 1s',
-                    border: '1px solid var(--gray-300)'
-                  }}>
-                    <Sparkles size={14} style={{ color: '#8b5cf6' }} />
-                    <span style={{ fontSize: '0.75rem', fontWeight: '600', color: 'var(--gray-700)' }}>Insights</span>
-                  </div>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+                    <span>⏱️</span> Takes 2-5 minutes
+                  </span>
+                  <span style={{ width: '4px', height: '4px', background: 'var(--gray-300)', borderRadius: '50%' }} />
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+                    <span>🔒</span> 100% Private
+                  </span>
+                  <span style={{ width: '4px', height: '4px', background: 'var(--gray-300)', borderRadius: '50%' }} />
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+                    <span>🆓</span> Always Free
+                  </span>
                 </div>
               </div>
             </div>
