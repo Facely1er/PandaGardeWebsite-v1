@@ -102,6 +102,8 @@
 .family-hub-wrapper {
   min-height: 100vh;
   background: var(--fh-bg-gradient);
+  margin-top: -60px; /* Offset the main-content-wrapper padding since Family Hub has its own header */
+  padding-top: 0;
 }
 
 /* Family Hub header/banner */
