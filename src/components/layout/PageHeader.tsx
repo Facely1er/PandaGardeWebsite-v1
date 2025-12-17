@@ -1,6 +1,7 @@
 import React from 'react';
 import { LucideIcon } from 'lucide-react';
 import Breadcrumbs from '../navigation/Breadcrumbs';
+import { useTheme } from '../../contexts/ThemeContext';
 
 interface PageHeaderProps {
   title: string;
@@ -19,15 +20,20 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   breadcrumbs: showBreadcrumbs = true,
   className = ''
 }) => {
+  const { theme } = useTheme();
+  
   return (
     <div 
       className={`page-header ${className}`}
       style={{
-        background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+        background: theme === 'dark' 
+          ? 'linear-gradient(135deg, #1a2e1a 0%, #243524 50%, #2d4a2d 100%)' 
+          : 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
         color: 'white',
         padding: '2rem 0 1.5rem',
         position: 'relative',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        borderBottom: theme === 'dark' ? '1px solid rgba(102, 187, 106, 0.3)' : 'none'
       }}
     >
       {/* Subtle background pattern */}
