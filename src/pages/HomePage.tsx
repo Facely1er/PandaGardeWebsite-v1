@@ -21,32 +21,8 @@ const HomePage: React.FC = () => {
     return !localStorage.getItem('pandagarde_pilot_banner_dismissed');
   });
 
-  // Hero text carousel messages
-  const heroMessages = [
-    'Teach your children digital privacy and online safety through fun, interactive activities. Educational resources to help your family learn about privacy—all in one place, completely free.',
-    'Empower your family with age-appropriate privacy education. Interactive games, activities, and resources designed to help kids learn about online safety.',
-    'Build digital citizenship skills through engaging content. From privacy basics to advanced safety strategies—all tailored for your family.',
-    'Join families learning together. Free resources, helpful guidance, and a supportive community to help you navigate digital privacy education.'
-  ];
-
-  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-
-  // Carousel rotation effect
-  useEffect(() => {
-    // Skip carousel if family persona is set (shows personalized message)
-    if (familyPersona) {return;}
-
-    const interval = setInterval(() => {
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setCurrentMessageIndex((prev) => (prev + 1) % heroMessages.length);
-        setIsTransitioning(false);
-      }, 300); // Half of transition duration
-    }, 5000); // Change message every 5 seconds
-
-    return () => clearInterval(interval);
-  }, [familyPersona, heroMessages.length]);
+  // Single clear hero message (removed carousel for clarity)
+  const heroMessage = 'Help your kids stay safe online with age-appropriate privacy education. Fun activities, expert guidance, 100% free.';
 
   // Track banner display
   useEffect(() => {
@@ -261,20 +237,34 @@ const HomePage: React.FC = () => {
           <div className="hero-content">
             {/* Left Column - Text Content */}
             <div className="hero-text slide-in-left" style={{ textAlign: 'left' }}>
-              <span className="badge" style={{
-                background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
-                color: 'white',
-                padding: '0.5rem 1.25rem',
-                borderRadius: '50px',
-                fontSize: '0.75rem',
-                fontWeight: '600',
-                letterSpacing: '0.5px',
-                textTransform: 'uppercase',
-                display: 'inline-block',
-                marginBottom: '1.25rem'
-              }}>
-                Digital Privacy Education
-              </span>
+              <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+                <span className="badge" style={{
+                  background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+                  color: 'white',
+                  padding: '0.5rem 1.25rem',
+                  borderRadius: '50px',
+                  fontSize: '0.75rem',
+                  fontWeight: '600',
+                  letterSpacing: '0.5px',
+                  textTransform: 'uppercase',
+                  display: 'inline-block'
+                }}>
+                  Digital Privacy Education
+                </span>
+                <span className="badge" style={{
+                  background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                  color: 'white',
+                  padding: '0.5rem 1.25rem',
+                  borderRadius: '50px',
+                  fontSize: '0.75rem',
+                  fontWeight: '600',
+                  letterSpacing: '0.5px',
+                  display: 'inline-block',
+                  border: '2px solid rgba(255, 255, 255, 0.3)'
+                }}>
+                  New? Start Here
+                </span>
+              </div>
               <h1 className="hero-heading" style={{
                 fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
                 fontWeight: '800',
@@ -282,40 +272,28 @@ const HomePage: React.FC = () => {
                 marginBottom: '1.25rem',
                 letterSpacing: '-0.02em'
               }}>
-                <span className="hero-heading-line1" style={{ whiteSpace: 'nowrap', display: 'block' }}>Help Your Family Learn</span>
+                <span className="hero-heading-line1" style={{ whiteSpace: 'nowrap', display: 'block' }}>Help Your Kids Stay Safe</span>
                 <span className="hero-heading-highlight" style={{
                   display: 'block',
                   whiteSpace: 'nowrap'
                 }}>
-                  About Online Privacy
+                  Online
                 </span>
               </h1>
-              {/* Fixed height container to prevent layout shift during carousel */}
-              <div 
-                className="hero-description-container"
+              <p
+                className="hero-description"
                 style={{
-                  minHeight: 'clamp(4.5rem, 8vw, 5.5rem)',
-                  marginBottom: '1.5rem'
+                  fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
+                  lineHeight: '1.7',
+                  margin: '0 0 1.5rem 0',
+                  color: 'var(--gray-700)'
                 }}
               >
-                <p
-                  className="hero-description"
-                  style={{
-                    fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
-                    lineHeight: '1.7',
-                    opacity: isTransitioning ? 0 : 1,
-                    transform: isTransitioning ? 'translateY(10px)' : 'translateY(0)',
-                    transition: 'opacity 0.6s ease, transform 0.6s ease',
-                    margin: 0
-                  }}
-                  key={currentMessageIndex}
-                >
-                  {familyPersona
-                    ? `${familyPersona.description}. Get personalized recommendations tailored for your family's privacy needs.`
-                    : heroMessages[currentMessageIndex]
-                  }
-                </p>
-              </div>
+                {familyPersona
+                  ? `${familyPersona.description}. Get personalized recommendations tailored for your family's privacy needs.`
+                  : heroMessage
+                }
+              </p>
 
               {/* Simplified Journey Progress - Only show if significant progress */}
               {progress.overallProgress > 25 && (
