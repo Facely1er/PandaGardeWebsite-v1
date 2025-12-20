@@ -151,42 +151,42 @@ const HomePage: React.FC = () => {
     }
   ];
 
-  // Standardized customer journey steps - consistent across all pages
+  // Simplified customer journey - parent-friendly language
   const customerJourney = [
     {
       step: 1,
-      title: 'Join PandaGarde Platform',
-      description: 'Create your family profile and access the complete privacy education ecosystem',
+      title: 'Create Your Family Profile',
+      description: 'Set up your family account to access all our privacy education resources',
       icon: Users,
       link: '/family-hub',
       platform: 'PandaGarde'
     },
     {
       step: 2,
-      title: 'Add Services for Digital Footprint Analysis',
-      description: 'Tell us which apps and services your family uses. This enables Digital Footprint Analysis, educational privacy recommendations, and informational alerts',
+      title: 'Tell Us What Apps Your Kids Use',
+      description: 'Share which apps your family uses (like TikTok, Roblox, YouTube). We\'ll show you privacy tips for those apps.',
       icon: ShoppingBag,
       link: '/service-catalog',
       platform: 'PandaGarde',
-      enables: ['Digital Footprint Analysis', 'Privacy Recommendations', 'Safety Alerts'],
+      enables: ['Privacy Report Card', 'App Safety Tips', 'Privacy Alerts'],
       isFoundation: true
     },
     {
       step: 3,
-      title: 'Start Privacy Panda Learning',
-      description: 'Begin interactive stories and activities designed for your child\'s age group',
+      title: 'Start Learning with Privacy Panda',
+      description: 'Begin fun, interactive stories and activities designed for your child\'s age',
       icon: Play,
       link: '/privacy-panda',
       platform: 'Privacy Panda'
     },
     {
       step: 4,
-      title: 'View Your Digital Footprint Analysis',
-      description: 'See your family\'s privacy exposure across all services and get personalized educational recommendations to help improve your privacy practices',
+      title: 'See Your Privacy Report Card',
+      description: 'Get a simple report showing which apps share the most data and how to make them safer',
       icon: BarChart3,
       link: '/digital-footprint',
       platform: 'PandaGarde',
-      requires: 'Step 2: Add Services'
+      requires: 'Step 2: Tell Us What Apps Your Kids Use'
     }
   ];
 
@@ -653,303 +653,6 @@ const HomePage: React.FC = () => {
           </section>
         )}
 
-        {/* Digital Footprint Analysis - Enhanced Visual Section */}
-      {!hasServiceCatalog && (
-        <section className="digital-footprint-cta" style={{ 
-          padding: 'clamp(4rem, 8vw, 6rem) 0',
-          background: 'linear-gradient(180deg, var(--gray-100) 0%, #e0f2fe 50%, var(--gray-100) 100%)',
-          position: 'relative',
-          overflow: 'hidden'
-        }}>
-          {/* Background decoration */}
-          <div style={{
-            position: 'absolute',
-            top: '-20%',
-            right: '-5%',
-            width: '600px',
-            height: '600px',
-            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 60%)',
-            borderRadius: '50%',
-            pointerEvents: 'none'
-          }} />
-          <div style={{
-            position: 'absolute',
-            bottom: '-20%',
-            left: '-5%',
-            width: '500px',
-            height: '500px',
-            background: 'radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 60%)',
-            borderRadius: '50%',
-            pointerEvents: 'none'
-          }} />
-          
-          <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-            {/* Section Header */}
-            <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-              <div style={{ 
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(16, 185, 129, 0.15) 100%)',
-                padding: '0.625rem 1.25rem',
-                borderRadius: '100px',
-                marginBottom: '1.25rem',
-                border: '1px solid rgba(59, 130, 246, 0.2)'
-              }}>
-                <BarChart3 size={18} style={{ color: '#3b82f6' }} />
-                <span style={{ fontSize: '0.875rem', fontWeight: '700', color: '#1e40af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Your Privacy Dashboard
-                </span>
-              </div>
-              
-              <h2 style={{ 
-                fontSize: 'clamp(2rem, 4vw, 2.75rem)', 
-                fontWeight: '800', 
-                color: 'var(--gray-900)', 
-                marginBottom: '1rem',
-                lineHeight: '1.15',
-                maxWidth: '700px',
-                margin: '0 auto 1rem'
-              }}>
-                See Exactly Where Your Family's Data Goes
-              </h2>
-              
-              <p style={{ 
-                fontSize: 'clamp(1rem, 2vw, 1.125rem)', 
-                color: 'var(--gray-600)', 
-                lineHeight: '1.7', 
-                maxWidth: '600px',
-                margin: '0 auto'
-              }}>
-                Every app collects data about your family. Our Digital Footprint Analysis shows you exactly what's being shared, which services pose the biggest risks, and how to take control of your privacy.
-              </p>
-            </div>
-
-            {/* Main Card */}
-            <div className="fade-in footprint-card" style={{ 
-              maxWidth: '1100px', 
-              margin: '0 auto',
-              background: 'var(--card-color)',
-              borderRadius: '24px',
-              padding: 'clamp(2rem, 4vw, 3rem)',
-              boxShadow: '0 8px 40px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04)',
-              border: '1px solid var(--gray-200)'
-            }}>
-              {/* What You'll Discover */}
-              <div style={{ marginBottom: '2.5rem' }}>
-                <h3 style={{ 
-                  fontSize: '1.25rem', 
-                  fontWeight: '700', 
-                  color: 'var(--gray-800)', 
-                  marginBottom: '1.5rem',
-                  textAlign: 'center'
-                }}>
-                  What You'll Discover
-                </h3>
-                
-                <div style={{ 
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-                  gap: '1.25rem'
-                }}>
-                  {[
-                    { 
-                      icon: BarChart3, 
-                      title: 'Privacy Exposure Score', 
-                      description: 'A clear 0-100 score showing your family\'s overall digital exposure across all services',
-                      color: '#3b82f6',
-                      bgColor: '#eff6ff'
-                    },
-                    { 
-                      icon: AlertTriangle, 
-                      title: 'High-Risk Service Alerts', 
-                      description: 'Identify which apps collect the most data and pose the greatest privacy risks',
-                      color: '#f59e0b',
-                      bgColor: '#fffbeb'
-                    },
-                    { 
-                      icon: Users, 
-                      title: 'Data Sharing Networks', 
-                      description: 'See how parent companies share your data between their different apps and services',
-                      color: '#8b5cf6',
-                      bgColor: '#f5f3ff'
-                    },
-                    { 
-                      icon: Sparkles, 
-                      title: 'Actionable Recommendations', 
-                      description: 'Step-by-step guidance to reduce exposure and improve your family\'s privacy settings',
-                      color: '#10b981',
-                      bgColor: '#ecfdf5'
-                    }
-                  ].map((feature, idx) => (
-                    <div key={idx} style={{ 
-                      padding: '1.5rem',
-                      borderRadius: '16px',
-                      background: feature.bgColor,
-                      border: `1px solid ${feature.color}20`,
-                      transition: 'transform 0.2s ease, box-shadow 0.2s ease'
-                    }}>
-                      <div style={{
-                        width: '48px',
-                        height: '48px',
-                        borderRadius: '12px',
-                        background: `${feature.color}15`,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginBottom: '1rem'
-                      }}>
-                        <feature.icon size={24} style={{ color: feature.color }} />
-                      </div>
-                      <h4 style={{ 
-                        fontSize: '1rem', 
-                        fontWeight: '700', 
-                        color: 'var(--gray-800)', 
-                        marginBottom: '0.5rem' 
-                      }}>
-                        {feature.title}
-                      </h4>
-                      <p style={{ 
-                        fontSize: '0.875rem', 
-                        color: 'var(--gray-600)', 
-                        lineHeight: '1.6',
-                        margin: 0
-                      }}>
-                        {feature.description}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* How It Works */}
-              <div style={{ 
-                background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
-                borderRadius: '16px',
-                padding: '2rem',
-                marginBottom: '2rem',
-                border: '1px solid var(--gray-200)'
-              }}>
-                <h3 style={{ 
-                  fontSize: '1.125rem', 
-                  fontWeight: '700', 
-                  color: 'var(--gray-800)', 
-                  marginBottom: '1.5rem',
-                  textAlign: 'center'
-                }}>
-                  Get Started in 3 Simple Steps
-                </h3>
-                
-                <div style={{ 
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                  gap: '1.5rem'
-                }}>
-                  {[
-                    { step: '1', title: 'Browse Services', desc: 'Explore our catalog of 50+ popular apps' },
-                    { step: '2', title: 'Add Your Apps', desc: 'Select services your family uses' },
-                    { step: '3', title: 'See Your Report', desc: 'Get instant privacy insights' }
-                  ].map((item, idx) => (
-                    <div key={idx} style={{ 
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                      gap: '1rem'
-                    }}>
-                      <div style={{
-                        width: '36px',
-                        height: '36px',
-                        borderRadius: '50%',
-                        background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'white',
-                        fontWeight: '700',
-                        fontSize: '1rem',
-                        flexShrink: 0,
-                        boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)'
-                      }}>
-                        {item.step}
-                      </div>
-                      <div>
-                        <div style={{ fontWeight: '600', color: 'var(--gray-800)', marginBottom: '0.25rem' }}>
-                          {item.title}
-                        </div>
-                        <div style={{ fontSize: '0.875rem', color: 'var(--gray-600)' }}>
-                          {item.desc}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* CTA Section */}
-              <div style={{ 
-                textAlign: 'center',
-                padding: '1.5rem',
-                background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%)',
-                borderRadius: '16px',
-                border: '1px dashed rgba(59, 130, 246, 0.3)'
-              }}>
-                <p style={{ 
-                  fontSize: '1rem', 
-                  color: 'var(--gray-700)', 
-                  marginBottom: '1.25rem',
-                  fontWeight: '500'
-                }}>
-                  Ready to see your family's digital footprint?
-                </p>
-                
-                <Link 
-                  to="/service-catalog" 
-                  className="footprint-cta-button"
-                  style={{ 
-                    display: 'inline-flex', 
-                    alignItems: 'center', 
-                    gap: '0.625rem',
-                    fontSize: '1.0625rem',
-                    padding: '1rem 2rem',
-                    background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
-                    color: 'white',
-                    fontWeight: '600',
-                    borderRadius: '12px',
-                    textDecoration: 'none',
-                    boxShadow: '0 6px 20px rgba(59, 130, 246, 0.4)',
-                    transition: 'all 0.3s ease'
-                  }}
-                >
-                  <ShoppingBag size={20} />
-                  Start Adding Services
-                  <ArrowRight size={18} />
-                </Link>
-                
-                <div style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center', 
-                  gap: '1.5rem', 
-                  marginTop: '1rem',
-                  fontSize: '0.8125rem',
-                  color: 'var(--gray-500)'
-                }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
-                    <span>⏱️</span> Takes 2-5 minutes
-                  </span>
-                  <span style={{ width: '4px', height: '4px', background: 'var(--gray-300)', borderRadius: '50%' }} />
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
-                    <span>🔒</span> 100% Private
-                  </span>
-                  <span style={{ width: '4px', height: '4px', background: 'var(--gray-300)', borderRadius: '50%' }} />
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
-                    <span>🆓</span> Always Free
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Quick Actions - Simplified */}
       <section className="quick-actions" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0' }}>
@@ -1050,365 +753,8 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Family Personas - Simplified */}
-      <section className="family-personas" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'var(--white)' }}>
-        <div className="container">
-          <div className="section-header fade-in" style={{ marginBottom: '3rem' }}>
-            <h2 style={{
-              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
-              fontWeight: '700',
-              color: 'var(--gray-800)',
-              marginBottom: '0.75rem',
-              textAlign: 'center'
-            }}>Which Family Are You?</h2>
-            <p style={{
-              fontSize: '1.125rem',
-              color: 'var(--gray-600)',
-              maxWidth: '600px',
-              margin: '0 auto',
-              textAlign: 'center',
-              lineHeight: '1.6'
-            }}>Discover your family's privacy profile and get personalized recommendations</p>
-          </div>
 
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-            gap: '1.5rem',
-            maxWidth: '1200px',
-            margin: '0 auto'
-          }}>
-            {personas.map((persona, index) => {
-              const IconComponent = personaIcons[persona.icon] || Users;
-              const colorMap: Record<string, string> = {
-                'blue': '#3b82f6',
-                'purple': '#9333ea',
-                'green': '#10b981',
-                'teal': '#14b8a6',
-                'amber': '#f59e0b',
-                'red': '#ef4444'
-              };
-              const personaColor = colorMap[persona.color] || '#6b7280';
-
-              return (
-                <div 
-                  key={persona.id} 
-                  className="fade-in persona-card" 
-                  style={{ 
-                    animationDelay: `${index * 0.1}s`,
-                    background: 'var(--card-color)',
-                    borderRadius: '16px',
-                    padding: '1.5rem',
-                    border: `2px solid ${personaColor}20`,
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
-                    cursor: 'pointer'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-4px)';
-                    e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.15)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
-                    <div style={{ 
-                      width: '48px', 
-                      height: '48px', 
-                      borderRadius: '12px',
-                      background: `${personaColor}20`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      marginRight: '1rem'
-                    }}>
-                      <IconComponent size={24} style={{ color: personaColor }} />
-                    </div>
-                    <div>
-                      <h3 style={{ fontWeight: 'bold', fontSize: '1.25rem', color: '#1e40af', margin: 0 }}>
-                        {persona.name}
-                      </h3>
-                      <span style={{ 
-                        fontSize: '0.75rem', 
-                        color: personaColor,
-                        fontWeight: '600',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.05em'
-                      }}>
-                        {persona.riskThreshold} risk threshold
-                      </span>
-                    </div>
-                  </div>
-
-                  <p style={{ color: '#6b7280', marginBottom: '1rem', lineHeight: '1.6' }}>
-                    {persona.description}
-                  </p>
-
-                  <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: `1px solid ${personaColor}20` }}>
-                    <div style={{ fontSize: '0.875rem', fontWeight: '600', color: '#374151', marginBottom: '0.5rem' }}>
-                      Key Characteristics:
-                    </div>
-                    <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                      {persona.characteristics.slice(0, 2).map((char, idx) => (
-                        <li key={idx} style={{ 
-                          fontSize: '0.875rem', 
-                          color: '#6b7280',
-                          marginBottom: '0.375rem',
-                          display: 'flex',
-                          alignItems: 'start'
-                        }}>
-                          <span style={{ color: personaColor, marginRight: '0.5rem' }}>•</span>
-                          {char}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <Link 
-                    to={`/family-hub?persona=${persona.id}`}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      marginTop: '1rem',
-                      color: personaColor,
-                      fontWeight: '600',
-                      fontSize: '0.875rem',
-                      textDecoration: 'none'
-                    }}
-                  >
-                    Learn More
-                    <ArrowRight size={14} style={{ marginLeft: '0.25rem' }} />
-                  </Link>
-                </div>
-              );
-            })}
-          </div>
-
-          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-            <p style={{ color: '#6b7280', marginBottom: '1rem' }}>
-              Not sure which persona fits your family? Start with our quick assessment.
-            </p>
-            <Link 
-              to="/family-hub" 
-              className="button secondary"
-              style={{ 
-                display: 'inline-flex', 
-                alignItems: 'center', 
-                gap: '0.5rem'
-              }}
-            >
-              <Users size={20} />
-              Find Your Family Profile
-              <ArrowRight size={16} />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works - Preview (Links to Overview) */}
-      <section className="how-it-works-preview" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'var(--white)' }}>
-        <div className="container">
-          <div className="section-header fade-in" style={{ marginBottom: '3rem' }}>
-            <h2 style={{
-              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
-              fontWeight: '700',
-              color: 'var(--gray-800)',
-              marginBottom: '0.75rem',
-              textAlign: 'center'
-            }}>How PandaGarde Works</h2>
-            <p style={{
-              fontSize: '1.125rem',
-              color: 'var(--gray-600)',
-              maxWidth: '600px',
-              margin: '0 auto',
-              textAlign: 'center',
-              lineHeight: '1.6'
-            }}>Four simple steps to help your family learn about digital privacy and online safety.</p>
-          </div>
-
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
-            gap: '1.5rem',
-            maxWidth: '1000px',
-            margin: '0 auto 2rem'
-          }}>
-            {customerJourney.slice(0, 3).map((step, index) => (
-              <div 
-                key={index} 
-                className="fade-in journey-step-card" 
-                style={{ 
-                  animationDelay: `${index * 0.1}s`,
-                  background: 'var(--card-color)',
-                  borderRadius: '16px',
-                  padding: '2rem',
-                  border: '1px solid var(--gray-300)',
-                  textAlign: 'center',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--primary)';
-                  e.currentTarget.style.transform = 'translateY(-4px)';
-                  e.currentTarget.style.boxShadow = '0 12px 24px rgba(0, 0, 0, 0.15)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--gray-300)';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
-              >
-                <div style={{
-                  width: '64px',
-                  height: '64px',
-                  borderRadius: '16px',
-                  background: 'var(--gradient-primary)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 1.5rem'
-                }}>
-                  <step.icon size={28} className="text-white" />
-                </div>
-                <div style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
-                  color: 'white',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 1rem',
-                  fontWeight: '700',
-                  fontSize: '1rem'
-                }}>
-                  {step.step}
-                </div>
-                <h3 style={{
-                  fontSize: '1.125rem',
-                  fontWeight: '700',
-                  color: 'var(--gray-800)',
-                  marginBottom: '0.75rem'
-                }}>
-                  {step.title}
-                </h3>
-                <p style={{
-                  fontSize: '0.9375rem',
-                  color: 'var(--gray-600)',
-                  lineHeight: '1.6'
-                }}>
-                  {step.description}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ textAlign: 'center' }}>
-            <Link 
-              to="/overview" 
-              className="button secondary outline-button"
-              style={{ 
-                display: 'inline-flex', 
-                alignItems: 'center', 
-                gap: '0.5rem',
-                fontSize: '1rem',
-                padding: '0.875rem 2rem'
-              }}
-            >
-              View Complete Journey
-              <ArrowRight size={16} />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Age Groups */}
-      <section className="age-groups-simple" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'var(--gray-100)' }}>
-        <div className="container">
-          <div className="section-header fade-in" style={{ marginBottom: '3rem' }}>
-            <h2 style={{
-              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
-              fontWeight: '700',
-              color: 'var(--gray-800)',
-              marginBottom: '0.75rem',
-              textAlign: 'center'
-            }}>Content Designed for Your Child's Age</h2>
-            <p style={{
-              fontSize: '1.125rem',
-              color: 'var(--gray-600)',
-              maxWidth: '600px',
-              margin: '0 auto',
-              textAlign: 'center',
-              lineHeight: '1.6'
-            }}>Age-appropriate activities and lessons that match your child's understanding and needs.</p>
-          </div>
-
-          <div className="age-groups-grid">
-            {ageGroups.map((group, index) => {
-              const gradientMap: Record<string, string> = {
-                'from-purple-500 to-pink-500': 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)',
-                'from-blue-500 to-cyan-500': 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)',
-                'from-green-500 to-emerald-500': 'linear-gradient(135deg, #22c55e 0%, #10b981 100%)'
-              };
-              const gradient = gradientMap[group.color] || gradientMap['from-purple-500 to-pink-500'];
-              
-              return (
-                <Link 
-                  key={index} 
-                  to={group.link} 
-                  className="age-group-card fade-in" 
-                  style={{ 
-                    animationDelay: `${index * 0.1}s`,
-                    '--card-gradient': gradient
-                  } as React.CSSProperties}
-                >
-                  <div className="group-header" style={{ background: gradient }}>
-                    <div className="group-icon-wrapper">
-                      <div className="group-icon-bg" />
-                      <div className="group-icon">
-                        <group.icon size={40} className="text-white" />
-                      </div>
-                    </div>
-                    <h3>{group.age}</h3>
-                    <div className="group-decoration" />
-                  </div>
-                  <div className="group-content">
-                    <p>{group.description}</p>
-                    <div className="group-arrow-wrapper">
-                      <span className="group-arrow-text">Explore</span>
-                      <div className="group-arrow">
-                        <ArrowRight size={18} />
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-          
-          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-            <Link 
-              to="/overview" 
-              className="button secondary outline-button"
-              style={{ 
-                display: 'inline-flex', 
-                alignItems: 'center', 
-                gap: '0.5rem',
-                fontSize: '1rem',
-                padding: '0.875rem 2rem'
-              }}
-            >
-              <BookOpen size={20} />
-              View Detailed Curriculum
-              <ArrowRight size={16} />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Key Features - Parent-Focused Benefits */}
+      {/* Why PandaGarde - Simplified to 3-4 Benefits */}
       <section className="key-features" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'var(--white)' }}>
         <div className="container">
           <div className="section-header fade-in" style={{ marginBottom: '3rem' }}>
@@ -1429,186 +775,187 @@ const HomePage: React.FC = () => {
             }}>Everything you need to teach your children about online safety, all in one place.</p>
           </div>
 
-          <div className="features-grid">
-            <div className="feature-card fade-in">
-              <div className="feature-icon">
+          <div className="features-grid" style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+            gap: '2rem',
+            maxWidth: '1000px',
+            margin: '0 auto'
+          }}>
+            <div className="feature-card fade-in" style={{
+              background: 'var(--card-color)',
+              borderRadius: '16px',
+              padding: '2rem',
+              border: '1px solid var(--gray-300)',
+              textAlign: 'center'
+            }}>
+              <div className="feature-icon" style={{
+                width: '64px',
+                height: '64px',
+                borderRadius: '16px',
+                background: '#ecfdf5',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 1.5rem'
+              }}>
                 <Shield size={32} className="text-green-500" />
               </div>
-              <h3>Age-Appropriate Content</h3>
-              <p>Educational activities and lessons designed for children ages 5-17. Each age group gets content that matches their understanding and needs.</p>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--gray-800)', marginBottom: '0.75rem' }}>Age-Appropriate Learning</h3>
+              <p style={{ fontSize: '0.9375rem', color: 'var(--gray-600)', lineHeight: '1.6' }}>Content designed for kids ages 5-17. Each age group gets activities that match what they can understand.</p>
             </div>
 
-            <div className="feature-card fade-in">
-              <div className="feature-icon">
+            <div className="feature-card fade-in" style={{
+              background: 'var(--card-color)',
+              borderRadius: '16px',
+              padding: '2rem',
+              border: '1px solid var(--gray-300)',
+              textAlign: 'center'
+            }}>
+              <div className="feature-icon" style={{
+                width: '64px',
+                height: '64px',
+                borderRadius: '16px',
+                background: '#fef2f2',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 1.5rem'
+              }}>
                 <Heart size={32} className="text-red-500" />
               </div>
-              <h3>Learn Together as a Family</h3>
-              <p>Resources designed for parents and children to explore together. Build healthy digital habits as a family with guided conversations and activities.</p>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--gray-800)', marginBottom: '0.75rem' }}>Learn Together as a Family</h3>
+              <p style={{ fontSize: '0.9375rem', color: 'var(--gray-600)', lineHeight: '1.6' }}>Activities and guides for parents and kids to explore together. Build healthy digital habits as a family.</p>
             </div>
 
-            <div className="feature-card fade-in">
-              <div className="feature-icon">
+            <div className="feature-card fade-in" style={{
+              background: 'var(--card-color)',
+              borderRadius: '16px',
+              padding: '2rem',
+              border: '1px solid var(--gray-300)',
+              textAlign: 'center'
+            }}>
+              <div className="feature-icon" style={{
+                width: '64px',
+                height: '64px',
+                borderRadius: '16px',
+                background: '#fffbeb',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 1.5rem'
+              }}>
                 <Star size={32} className="text-yellow-500" />
               </div>
-              <h3>Fun & Engaging Activities</h3>
-              <p>Interactive activities including games, stories, and hands-on learning designed to help children learn about privacy and online safety.</p>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--gray-800)', marginBottom: '0.75rem' }}>Fun & Engaging</h3>
+              <p style={{ fontSize: '0.9375rem', color: 'var(--gray-600)', lineHeight: '1.6' }}>Interactive stories, games, and activities that make learning about privacy fun and memorable.</p>
             </div>
 
-            <div className="feature-card fade-in">
-              <div className="feature-icon">
-                <BookOpen size={32} className="text-blue-500" />
-              </div>
-              <h3>Practical Tools & Resources</h3>
-              <p>Downloadable guides, printable materials, and step-by-step instructions to help you teach your family about privacy in real life.</p>
-            </div>
-
-            <div className="feature-card fade-in">
-              <div className="feature-icon">
-                <Users size={32} className="text-purple-500" />
-              </div>
-              <h3>Track Your Family's Progress</h3>
-              <p>See what your children are learning, celebrate their achievements, and track their understanding of digital privacy concepts.</p>
-            </div>
-
-            <div className="feature-card fade-in">
-              <div className="feature-icon">
+            <div className="feature-card fade-in" style={{
+              background: 'var(--card-color)',
+              borderRadius: '16px',
+              padding: '2rem',
+              border: '1px solid var(--gray-300)',
+              textAlign: 'center'
+            }}>
+              <div className="feature-icon" style={{
+                width: '64px',
+                height: '64px',
+                borderRadius: '16px',
+                background: '#ecfdf5',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 1.5rem'
+              }}>
                 <CheckCircle size={32} className="text-emerald-500" />
               </div>
-              <h3>100% Free to Use</h3>
-              <p>All features, activities, and resources are currently free. No hidden costs, no premium tiers—just quality privacy education for every family.</p>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--gray-800)', marginBottom: '0.75rem' }}>100% Free</h3>
+              <p style={{ fontSize: '0.9375rem', color: 'var(--gray-600)', lineHeight: '1.6' }}>All features, activities, and resources are free. No hidden costs—just quality privacy education for every family.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Learn More Links - Simplified */}
-      <section className="learn-more" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'var(--gray-100)' }}>
+      {/* Social Proof / Testimonials Section */}
+      <section className="testimonials-section" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'var(--gray-100)' }}>
         <div className="container">
-          <div className="section-header fade-in" style={{ marginBottom: '3rem' }}>
+          <div className="section-header fade-in" style={{ marginBottom: '3rem', textAlign: 'center' }}>
             <h2 style={{
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',
               fontWeight: '700',
               color: 'var(--gray-800)',
-              marginBottom: '0.75rem',
-              textAlign: 'center'
-            }}>Helpful Resources for Parents</h2>
+              marginBottom: '0.75rem'
+            }}>Why Families Love PandaGarde</h2>
             <p style={{
               fontSize: '1.125rem',
               color: 'var(--gray-600)',
               maxWidth: '600px',
               margin: '0 auto',
-              textAlign: 'center',
               lineHeight: '1.6'
-            }}>Everything you need to get started and support your family's digital privacy journey.</p>
+            }}>See what parents are saying about our privacy education platform</p>
           </div>
 
-          <div className="learn-more-grid">
-            <Link to="/quick-start" className="learn-more-card fade-in">
-              <div className="card-icon">
-                <Play size={24} />
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+            gap: '1.5rem',
+            maxWidth: '1000px',
+            margin: '0 auto'
+          }}>
+            {[
+              {
+                quote: "My 8-year-old actually asks to do the Privacy Panda activities! The stories make learning about online safety fun and memorable.",
+                author: "Sarah M.",
+                role: "Parent of 2"
+              },
+              {
+                quote: "Finally, a resource that explains privacy in terms I can understand and share with my kids. The age-appropriate content is perfect.",
+                author: "Michael T.",
+                role: "Parent of 3"
+              },
+              {
+                quote: "The free resources and guides have been invaluable. We've learned so much as a family about protecting our digital privacy.",
+                author: "Jennifer L.",
+                role: "Parent of 2"
+              }
+            ].map((testimonial, index) => (
+              <div 
+                key={index}
+                className="fade-in"
+                style={{ 
+                  animationDelay: `${index * 0.1}s`,
+                  background: 'var(--card-color)',
+                  borderRadius: '16px',
+                  padding: '2rem',
+                  border: '1px solid var(--gray-300)',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
+                }}
+              >
+                <div style={{ marginBottom: '1rem' }}>
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={20} style={{ color: '#fbbf24', display: 'inline-block', marginRight: '0.25rem' }} fill="#fbbf24" />
+                  ))}
+                </div>
+                <p style={{ 
+                  fontSize: '1rem', 
+                  color: 'var(--gray-700)', 
+                  lineHeight: '1.7',
+                  marginBottom: '1.5rem',
+                  fontStyle: 'italic'
+                }}>
+                  "{testimonial.quote}"
+                </p>
+                <div>
+                  <div style={{ fontWeight: '600', color: 'var(--gray-800)', marginBottom: '0.25rem' }}>
+                    {testimonial.author}
+                  </div>
+                  <div style={{ fontSize: '0.875rem', color: 'var(--gray-600)' }}>
+                    {testimonial.role}
+                  </div>
+                </div>
               </div>
-              <h3>Quick Start Guide</h3>
-              <p>Get started in 5 minutes with our simple step-by-step guide</p>
-              <div className="card-arrow">
-                <ArrowRight size={16} />
-              </div>
-            </Link>
-
-            <Link to="/resources" className="learn-more-card fade-in">
-              <div className="card-icon">
-                <BookOpen size={24} />
-              </div>
-              <h3>Parent Resources</h3>
-              <p>Guides, conversation starters, and tools to help you teach your children</p>
-              <div className="card-arrow">
-                <ArrowRight size={16} />
-              </div>
-            </Link>
-
-            <Link to="/resources" className="learn-more-card fade-in">
-              <div className="card-icon">
-                <Users size={24} />
-              </div>
-              <h3>Downloadable Materials</h3>
-              <p>Printable activities, certificates, and family agreements</p>
-              <div className="card-arrow">
-                <ArrowRight size={16} />
-              </div>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Community Section - Simplified */}
-      <section className="community-section" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'var(--white)' }}>
-        <div className="container">
-          <div className="section-header fade-in text-center" style={{ marginBottom: '3rem' }}>
-            <h2 style={{
-              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
-              fontWeight: '700',
-              color: 'var(--gray-800)',
-              marginBottom: '0.75rem',
-              textAlign: 'center'
-            }}>Join Our Privacy-First Community</h2>
-            <p style={{
-              fontSize: '1.125rem',
-              color: 'var(--gray-600)',
-              maxWidth: '600px',
-              margin: '0 auto',
-              textAlign: 'center',
-              lineHeight: '1.6'
-            }}>
-              Connect with other families and discover privacy resources—all while maintaining your privacy through local storage.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            <Link to="/community/forum" className="community-card rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center" style={{ backgroundColor: 'var(--card-color)', border: '1px solid var(--gray-300)' }}>
-              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center text-white mx-auto mb-4">
-                <MessageCircle size={32} />
-              </div>
-              <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
-                Privacy Tips Forum
-              </h3>
-              <p className="mb-4" style={{ color: 'var(--gray-600)' }}>
-                Share tips, ask questions, and learn from other parents in our pseudonymous discussion forum.
-              </p>
-              <span style={{ color: 'var(--primary)', fontWeight: '600' }}>Join Forum →</span>
-            </Link>
-
-            <Link to="/community/stories" className="community-card rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center" style={{ backgroundColor: 'var(--card-color)', border: '1px solid var(--gray-300)' }}>
-              <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-pink-600 rounded-full flex items-center justify-center text-white mx-auto mb-4">
-                <Heart size={32} />
-              </div>
-              <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
-                Success Stories
-              </h3>
-              <p className="mb-4" style={{ color: 'var(--gray-600)' }}>
-                Read and share anonymous success stories about teaching privacy to children.
-              </p>
-              <span style={{ color: 'var(--primary)', fontWeight: '600' }}>View Stories →</span>
-            </Link>
-
-            <Link to="/community/resources" className="community-card rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:scale-105 text-center" style={{ backgroundColor: 'var(--card-color)', border: '1px solid var(--gray-300)' }}>
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white mx-auto mb-4">
-                <Globe size={32} />
-              </div>
-              <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
-                Community Resources
-              </h3>
-              <p className="mb-4" style={{ color: 'var(--gray-600)' }}>
-                Discover privacy tools and resources shared and voted on by the community.
-              </p>
-              <span style={{ color: 'var(--primary)', fontWeight: '600' }}>Browse Resources →</span>
-            </Link>
-          </div>
-
-          <div className="mt-8 text-center">
-            <div className="privacy-notice rounded-lg p-4 inline-block" style={{ background: 'var(--secondary)', border: '1px solid var(--primary-light)' }}>
-              <p className="text-sm" style={{ color: 'var(--gray-800)' }}>
-                <strong>Privacy First:</strong> All community features use localStorage—your data stays on your device. No backend required, designed for privacy.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
