@@ -266,16 +266,17 @@ const HomePage: React.FC = () => {
                 </span>
               </div>
               <h1 className="hero-heading" style={{
-                fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+                fontSize: 'clamp(2rem, 5vw, 3.5rem)',
                 fontWeight: '800',
-                lineHeight: '1.1',
+                lineHeight: '1.2',
                 marginBottom: '1.25rem',
-                letterSpacing: '-0.02em'
+                letterSpacing: '-0.02em',
+                wordWrap: 'break-word',
+                overflowWrap: 'break-word'
               }}>
-                <span className="hero-heading-line1" style={{ whiteSpace: 'nowrap', display: 'block' }}>Help Your Kids Stay Safe</span>
+                <span className="hero-heading-line1" style={{ display: 'block' }}>Help Your Kids Stay Safe</span>
                 <span className="hero-heading-highlight" style={{
-                  display: 'block',
-                  whiteSpace: 'nowrap'
+                  display: 'block'
                 }}>
                   Online
                 </span>

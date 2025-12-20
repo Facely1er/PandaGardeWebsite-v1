@@ -3653,8 +3653,19 @@ body {
     gap: 2rem;
   }
   
-  .hero-text h1 {
-    font-size: 40px;
+  .hero-text h1,
+  .hero-heading {
+    font-size: clamp(1.75rem, 8vw, 2.5rem) !important;
+    line-height: 1.2 !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  
+  .hero-heading-line1,
+  .hero-heading-highlight {
+    white-space: normal !important;
+    display: block;
   }
   
   .hero-text h1 .logo-icon {
@@ -5950,6 +5961,22 @@ body {
     grid-template-columns: 1fr;
     gap: 40px;
     text-align: center;
+  }
+  
+  .hero-simple .hero-heading,
+  .hero-simple h1 {
+    font-size: clamp(1.75rem, 8vw, 2.5rem) !important;
+    line-height: 1.2 !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  
+  .hero-simple .hero-heading-line1,
+  .hero-simple .hero-heading-highlight {
+    white-space: normal !important;
+    display: block;
   }
   
   .hero-simple .hero-buttons {
