@@ -43,6 +43,14 @@ const OfflineIndicator: React.FC<OfflineIndicatorProps> = ({ className = '' }) =
 
   const StatusIcon = getStatusIcon();
 
+  // Only show indicator when there's something important to display
+  // (offline, syncing, or pending actions - not just "Online")
+  const shouldShow = !syncStatus.isOnline || syncStatus.syncInProgress || syncStatus.pendingActions.length > 0;
+
+  if (!shouldShow) {
+    return null;
+  }
+
   return (
     <div className={`relative ${className}`}>
       {/* Status Indicator */}

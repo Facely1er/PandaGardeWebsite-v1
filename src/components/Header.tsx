@@ -3,7 +3,6 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, Home, Users, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search, Bell, MessageCircle, Heart, Globe, Book, Sparkles } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import SearchModal from './SearchModal';
-import OfflineIndicator from './OfflineIndicator';
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -344,9 +343,6 @@ function Header() {
             >
               {theme === 'light' ? <Moon size={20} aria-hidden="true" /> : <Sun size={20} aria-hidden="true" />}
             </button>
-            
-            {/* Offline Indicator */}
-            <OfflineIndicator className="hidden md:block" />
             
             {/* Family Hub Button - Prominent */}
             <Link
