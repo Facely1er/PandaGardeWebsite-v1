@@ -87,8 +87,16 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ onComplete }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(60);
 
   useEffect(() => {
+    // Get header height for positioning
+    const header = document.querySelector('.header');
+    if (header) {
+      const height = header.getBoundingClientRect().height;
+      setHeaderHeight(height);
+    }
+
     // Check if onboarding has been completed
     const completed = localStorage.getItem(ONBOARDING_STORAGE_KEY);
     if (completed === 'true') {
@@ -134,8 +142,19 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ onComplete }) => {
   const progress = ((currentStep + 1) / onboardingSteps.length) * 100;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4" 
+      style={{ 
+        top: `${headerHeight}px`,
+        paddingTop: '1rem'
+      }}
+    >
+      <div 
+        className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full overflow-y-auto" 
+        style={{ 
+          maxHeight: `calc(100vh - ${headerHeight}px - 2rem)`
+        }}
+      >
         {/* Header */}
         <div className="relative p-6 border-b border-gray-200 dark:border-gray-700">
           <button
