@@ -972,6 +972,16 @@ body {
 .header .container {
   padding-top: 0;
   padding-bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+}
+
+.header .container > .nav {
+  width: 100%;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
 }
 
 /* ===== HEADER ===== */
@@ -1006,7 +1016,7 @@ body {
 
 .nav {
   display: grid !important;
-  grid-template-columns: auto minmax(min-content, 1fr) auto !important;
+  grid-template-columns: auto 1fr auto !important;
   align-items: center;
   gap: clamp(0.5rem, 1vw, 0.875rem) !important;
   padding: 0.125rem 0;
@@ -1015,6 +1025,9 @@ body {
   position: relative;
   overflow: visible;
   box-sizing: border-box;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
 }
 
 .logo {
@@ -1034,6 +1047,7 @@ body {
   z-index: 1;
   min-width: fit-content;
   max-width: fit-content;
+  justify-self: start;
 }
 
 .logo span {
@@ -1073,7 +1087,7 @@ body {
   padding-left: clamp(0.5rem, 1vw, 1rem) !important;
   padding-right: clamp(0.5rem, 1vw, 1rem) !important;
   flex-wrap: nowrap;
-  justify-content: flex-start !important;
+  justify-content: center !important;
   min-width: min-content;
   position: relative;
   z-index: 1;
@@ -1084,7 +1098,8 @@ body {
   -ms-overflow-style: none; /* IE/Edge legacy */
   max-width: 100%;
   width: auto;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
+  justify-self: center;
 }
 
 .nav-menu::-webkit-scrollbar {
@@ -1281,6 +1296,7 @@ body {
   padding-right: 0 !important;
   z-index: 1;
   min-width: fit-content;
+  justify-self: end;
 }
 
 .nav-actions button,
