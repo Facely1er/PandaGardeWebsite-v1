@@ -1047,6 +1047,7 @@ body {
   z-index: 1;
   min-width: fit-content;
   max-width: fit-content;
+  grid-column: 1;
   justify-self: start;
 }
 
@@ -1099,6 +1100,7 @@ body {
   max-width: 100%;
   width: auto;
   flex: 0 0 auto;
+  grid-column: 2;
   justify-self: center;
 }
 
@@ -1296,7 +1298,9 @@ body {
   padding-right: 0 !important;
   z-index: 1;
   min-width: fit-content;
+  grid-column: 3;
   justify-self: end;
+  margin-left: auto;
 }
 
 .nav-actions button,
