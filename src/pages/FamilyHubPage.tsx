@@ -431,7 +431,7 @@ const FamilyHubPage: React.FC = () => {
                             {member.first_name.charAt(0).toUpperCase()}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h3 className="font-bold text-base sm:text-lg truncate" style={{ color: 'var(--primary)' }}>
+                            <h3 className="font-bold text-base sm:text-lg sm:truncate break-words" style={{ color: 'var(--primary)' }}>
                               {member.first_name} {member.last_name}
                             </h3>
                             <div className="flex items-center gap-1.5 text-xs sm:text-sm" style={{ color: 'var(--gray-500)' }}>
@@ -444,7 +444,7 @@ const FamilyHubPage: React.FC = () => {
                         <div className="space-y-2 text-xs sm:text-sm pt-4 border-t border-gray-100" style={{ borderColor: 'var(--light)' }}>
                           <div className="flex items-center justify-between">
                             <span className="text-gray-500">Email</span>
-                            <span className="font-medium truncate ml-2" style={{ color: 'var(--gray-700)' }}>{member.email}</span>
+                            <span className="font-medium sm:truncate break-words ml-2" style={{ color: 'var(--gray-700)' }}>{member.email}</span>
                           </div>
                           {member.profile_data?.age && (
                             <div className="flex items-center justify-between">

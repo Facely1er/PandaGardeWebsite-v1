@@ -273,7 +273,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onResultClic
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1">
                               <h3 
-                                className="font-medium text-gray-900 dark:text-white truncate"
+                                className="font-medium text-gray-900 dark:text-white sm:truncate break-words"
                                 dangerouslySetInnerHTML={{ __html: renderSearchHighlights(result.highlights, searchQuery).title }}
                               />
                               <span className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300 rounded">

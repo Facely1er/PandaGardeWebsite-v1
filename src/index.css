@@ -705,6 +705,17 @@
   white-space: nowrap;
 }
 
+/* Mobile responsive fix for user-email */
+@media (max-width: 768px) {
+  .user-email {
+    max-width: 100%;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    word-break: break-word;
+  }
+}
+
 .auth-button {
   display: flex;
   align-items: center;
@@ -6205,6 +6216,29 @@ body {
   /* Better mobile spacing */
   .space-y-12 > * + * {
     margin-top: 2rem;
+  }
+  
+  /* Mobile text wrapping improvements - ensure text is fully displayed */
+  p, span, div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* Allow text to wrap in containers that might have overflow hidden */
+  .container, .card, .content {
+    overflow-x: hidden;
+    word-wrap: break-word;
+  }
+  
+  /* Fix for hero description on mobile */
+  .hero-description {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+  
+  .hero-description-container {
+    overflow: visible !important;
   }
   
   .space-y-8 > * + * {

@@ -201,7 +201,7 @@ const AdaptiveResources: React.FC<AdaptiveResourcesProps> = ({
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2 mb-1">
-                      <h4 className="font-semibold text-gray-900 dark:text-gray-100 truncate">
+                      <h4 className="font-semibold text-gray-900 dark:text-gray-100 sm:truncate break-words">
                         {resource.title}
                       </h4>
                       <TypeIcon className="h-4 w-4 text-gray-400 flex-shrink-0" />

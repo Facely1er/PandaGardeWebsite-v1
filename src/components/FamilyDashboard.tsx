@@ -800,7 +800,7 @@ const FamilyDashboard = () => {
                           {member.name.charAt(0).toUpperCase()}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-bold text-base sm:text-lg truncate" style={{ color: 'var(--primary)' }}>
+                          <h3 className="font-bold text-base sm:text-lg sm:truncate break-words" style={{ color: 'var(--primary)' }}>
                             {member.name}
                           </h3>
                           <p className="text-sm" style={{ color: 'var(--gray-600)' }}>{member.role} • Age {member.age}</p>

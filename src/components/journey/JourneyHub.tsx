@@ -328,7 +328,7 @@ const JourneyHub: React.FC = () => {
                     {path.activities.slice(0, 3).map((activity) => (
                       <div key={activity.id} className="flex items-center space-x-3 text-sm">
                         <span>{activity.icon}</span>
-                        <span className="text-gray-700 dark:text-gray-300 truncate">{activity.title}</span>
+                        <span className="text-gray-700 dark:text-gray-300 sm:truncate break-words">{activity.title}</span>
                         {completedActivities.includes(activity.id) && (
                           <CheckCircle className="text-green-500 flex-shrink-0" size={14} />
                         )}

@@ -169,7 +169,7 @@ const PrivacyGoals: React.FC<PrivacyGoalsProps> = ({ compact = false, onGoalCrea
             {activeGoals.slice(0, 2).map(goal => (
               <div key={goal.id} className="p-2 bg-gray-50 dark:bg-gray-700 rounded">
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                  <span className="text-sm font-medium text-gray-900 dark:text-white sm:truncate break-words">
                     {goal.title}
                   </span>
                   <span className="text-xs text-gray-500 dark:text-gray-400">
