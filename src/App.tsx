@@ -54,6 +54,7 @@ import NewsletterArchivePage from './pages/NewsletterArchivePage';
 import SupportPage from './pages/SupportPage';
 import ImplementationGuidePage from './pages/ImplementationGuidePage';
 import OverviewPage from './pages/OverviewPage';
+import FeaturesPage from './pages/FeaturesPage';
 import ResourcesPage from './pages/ResourcesPage';
 import QuickStartPage from './pages/QuickStartPage';
 import ParentToolkitPage from './pages/ParentToolkitPage';
@@ -173,6 +174,7 @@ function App() {
 
             {/* General Pages */}
             <Route path="/overview" element={<OverviewPage />} />
+            <Route path="/features" element={<FeaturesPage />} />
             <Route path="/resources" element={<ResourcesPage />} />
             <Route path="/parent-resources" element={<ResourcesPage />} /> {/* Redirect to consolidated resources */}
             <Route path="/parent-toolkit" element={<ParentToolkitPage />} />

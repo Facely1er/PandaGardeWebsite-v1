@@ -79,7 +79,7 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     if (hasServiceCatalog && !progress.step2.completed) {
       // Feature just unlocked
-      setUnlockedFeature('Digital Footprint Analysis');
+      setUnlockedFeature('Privacy Report Card');
       setShowUnlockCelebration(true);
     }
   }, [hasServiceCatalog, progress.step2.completed]);
@@ -599,7 +599,7 @@ const HomePage: React.FC = () => {
         {showUnlockCelebration && unlockedFeature && (
           <FeatureUnlockCelebration
             feature={unlockedFeature}
-            description="You've unlocked advanced privacy features! Explore your digital footprint and get personalized recommendations."
+            description="You've unlocked advanced privacy features! See your privacy report card and get personalized tips."
             icon={<BarChart3 size={24} className="text-white" />}
             link="/digital-footprint"
             onClose={() => {
@@ -985,11 +985,11 @@ const HomePage: React.FC = () => {
             <div className="cta-buttons" style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link to="/privacy-panda" className="button primary" style={{ background: 'white', color: '#1B5E20', fontWeight: '600' }}>
                 <Play size={20} />
-                Start Learning Now
+                Start Learning
               </Link>
-              <Link to="/quick-start" className="button secondary" style={{ background: 'rgba(255,255,255,0.2)', color: 'white', border: '2px solid white' }}>
+              <Link to="/features" className="button secondary" style={{ background: 'rgba(255,255,255,0.2)', color: 'white', border: '2px solid white' }}>
                 <BookOpen size={20} />
-                See How It Works
+                See What We Offer
               </Link>
             </div>
           </div>
