@@ -3871,6 +3871,29 @@ body {
   .mobile-text-spacing {
     margin-bottom: 1rem;
   }
+  
+  /* Mobile text wrapping improvements - ensure text is fully displayed */
+  p, span, div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* Allow text to wrap in containers that might have overflow hidden */
+  .container, .card, .content {
+    overflow-x: hidden;
+    word-wrap: break-word;
+  }
+  
+  /* Fix for hero description on mobile */
+  .hero-description {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+  
+  .hero-description-container {
+    overflow: visible !important;
+  }
 }
 
 @media (max-width: 640px) {
