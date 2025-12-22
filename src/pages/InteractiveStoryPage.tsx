@@ -395,7 +395,7 @@ const InteractiveStoryPage: React.FC = () => {
 
   return (
     <PageLayout
-      title="Privacy Panda and the Digital Bamboo Forest"
+      title="Privacy Panda"
       subtitle="Join Po the Panda on an interactive adventure through the Digital Bamboo Forest as he learns about privacy, sharing, and staying safe online. Make choices, unlock achievements, and become a privacy expert!"
       icon={Book}
       badge="INTERACTIVE STORY"
