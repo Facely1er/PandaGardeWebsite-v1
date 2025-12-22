@@ -27,7 +27,7 @@ const FeaturesPage: React.FC = () => {
 
   return (
     <PageLayout
-      title="What We Offer"
+      title="Features"
       subtitle="Everything your family needs to learn about digital privacy and online safety. Fun activities for kids, expert guidance for parents, and tools to track your progress together."
       icon={Sparkles}
       badge="FEATURES"

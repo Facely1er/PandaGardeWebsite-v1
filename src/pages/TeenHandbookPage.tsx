@@ -228,7 +228,7 @@ const TeenHandbookPage: React.FC = () => {
 
   return (
     <PageLayout
-      title="Teen Privacy Handbook"
+      title="Ages 13-17"
       subtitle="Comprehensive privacy guide for teenagers covering social media, data rights, online reputation, and advanced security concepts. Take control of your digital life!"
       icon={Smartphone}
       badge="TEEN PRIVACY HANDBOOK - AGES 13-17"

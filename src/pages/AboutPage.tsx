@@ -45,7 +45,7 @@ const AboutPage: React.FC = () => {
 
   return (
     <PageLayout
-      title="About PandaGarde"
+      title="About"
       subtitle="We're on a mission to build privacy skills for tomorrow's world through comprehensive, engaging, and age-appropriate digital privacy education."
       icon={Shield}
       badge="ABOUT US"

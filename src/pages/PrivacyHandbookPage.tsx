@@ -177,7 +177,7 @@ const PrivacyHandbookPage: React.FC = () => {
 
   return (
     <PageLayout
-      title="Privacy Protector's Handbook"
+      title="Ages 9-12"
       subtitle="Hands-on projects and practical guides that teach tweens how to protect personal information and navigate online spaces safely. Become a digital privacy expert!"
       icon={Shield}
       badge="PRIVACY PROTECTOR'S GUIDE - AGES 9-12"

@@ -113,7 +113,7 @@ const FAQPage: React.FC = () => {
 
   return (
     <PageLayout
-      title="Frequently Asked Questions"
+      title="FAQ"
       subtitle="Find answers to common questions about PandaGarde, our privacy education platform, and how to get the most out of your learning experience."
       icon={HelpCircle}
       badge="FAQ"
