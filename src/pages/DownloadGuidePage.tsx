@@ -127,7 +127,7 @@ const DownloadGuidePage: React.FC<DownloadGuidePageProps> = ({
                   <span className="text-6xl">{resourceInfo.icon}</span>
                 </div>
 
-                <h2 className="text-3xl font-bold mb-6 text-gray-900">
+                <h2 className="font-bold mb-6 text-gray-900" style={{ fontSize: 'clamp(1.875rem, 3vw, 2.25rem)' }}>
                   {resourceInfo.title}
                 </h2>
 
@@ -166,7 +166,7 @@ const DownloadGuidePage: React.FC<DownloadGuidePageProps> = ({
 
               {/* Features */}
               <div className="bg-gray-50 rounded-xl p-8 mb-12">
-                <h3 className="text-2xl font-bold mb-6 text-gray-900">
+                <h3 className="font-bold mb-6 text-gray-900" style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}>
                   What's Included
                 </h3>
 
@@ -186,7 +186,7 @@ const DownloadGuidePage: React.FC<DownloadGuidePageProps> = ({
 
               {/* Instructions */}
               <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-8 text-white mb-12">
-                <h3 className="text-2xl font-bold mb-4">
+                <h3 className="font-bold mb-4" style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}>
                   How to Use
                 </h3>
                 <div className="space-y-4 text-lg">
@@ -204,7 +204,7 @@ const DownloadGuidePage: React.FC<DownloadGuidePageProps> = ({
                 <IconComponent size={64} className="text-white" />
               </div>
 
-              <h2 className="text-3xl font-bold mb-6 text-gray-900">
+              <h2 className="font-bold mb-6 text-gray-900" style={{ fontSize: 'clamp(1.875rem, 3vw, 2.25rem)' }}>
                 {type === 'download' ? 'Download Available' : 'Guide Available'}
               </h2>
 
@@ -219,7 +219,7 @@ const DownloadGuidePage: React.FC<DownloadGuidePageProps> = ({
 
           {/* Call to Action */}
           <div className="bg-gray-50 rounded-xl p-8 text-center">
-            <h2 className="text-2xl font-bold mb-4 text-gray-900">
+            <h2 className="font-bold mb-4 text-gray-900" style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}>
               Explore More Resources
             </h2>
             <p className="text-lg mb-6 text-gray-600">

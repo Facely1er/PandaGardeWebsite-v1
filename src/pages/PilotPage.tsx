@@ -153,7 +153,7 @@ const PilotPage: React.FC = () => {
             </div>
 
             <div className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-2xl p-8 mb-12">
-              <h3 className="text-2xl font-bold mb-4 flex items-center">
+              <h3 className="font-bold mb-4 flex items-center" style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}>
                 <Target className="w-6 h-6 mr-2 text-purple-600" />
                 Our Goal
               </h3>
@@ -277,7 +277,7 @@ const PilotPage: React.FC = () => {
 
           <div className="max-w-3xl mx-auto">
             <div className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold mb-6 text-center">Ideal Participants</h3>
+              <h3 className="font-bold mb-6 text-center" style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}>Ideal Participants</h3>
               <div className="grid md:grid-cols-2 gap-6">
                 {requirements.map((req, index) => {
                   const Icon = req.icon;

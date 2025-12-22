@@ -234,7 +234,7 @@ const ActivityBookPage: React.FC = () => {
               <div className="w-16 h-16 md:w-20 md:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-3xl md:text-4xl">🐼</span>
               </div>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3" style={{ color: theme === 'dark' ? '#4ADE80' : '#059669' }}>
+              <h2 className="font-bold mb-3" style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', color: theme === 'dark' ? '#4ADE80' : '#059669' }}>
                 Continue Po's Journey
               </h2>
               <p className="text-base md:text-lg lg:text-xl max-w-2xl mx-auto px-4" style={{ color: theme === 'dark' ? '#4ADE80' : '#059669' }}>
@@ -305,7 +305,7 @@ const ActivityBookPage: React.FC = () => {
       <section style={{ padding: '0 0 4rem 0' }}>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div className="text-center mb-6 md:mb-8 max-w-4xl mx-auto">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4" style={{ color: 'var(--primary)' }}>
+            <h2 className="font-bold mb-3 md:mb-4" style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', color: 'var(--primary)' }}>
               Choose Your Activity
             </h2>
             <p className="text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-6 md:mb-8 px-4" style={{ color: 'var(--gray-600)' }}>
@@ -497,7 +497,7 @@ const ActivityBookPage: React.FC = () => {
       <section style={{ padding: '4rem 0', backgroundColor: 'var(--light)' }}>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4" style={{ color: 'var(--primary)' }}>
+            <h2 className="font-bold mb-3 md:mb-4" style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', color: 'var(--primary)' }}>
               For Parents & Educators
             </h2>
             <p className="text-base md:text-lg max-w-2xl mx-auto px-4" style={{ color: 'var(--gray-600)' }}>
@@ -560,7 +560,7 @@ const ActivityBookPage: React.FC = () => {
       {/* Call to Action */}
       <section style={{ padding: '4rem 0', background: 'linear-gradient(to right, #16a34a, #22c55e)', color: 'white' }}>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', textAlign: 'center' }}>
-          <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">
+          <h2 className="font-bold mb-3 md:mb-4" style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}>
             Continue Your Privacy Learning Journey
           </h2>
           <p className="text-lg md:text-xl mb-6 md:mb-8 opacity-90 max-w-2xl mx-auto px-4">
