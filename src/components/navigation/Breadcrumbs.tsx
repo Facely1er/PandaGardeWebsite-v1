@@ -33,7 +33,6 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className = '' }) => {
     '/support': 'Support',
     '/pilot': 'Pilot Program',
     '/join-pilot': 'Join Pilot',
-    '/implementation-guide': 'Implementation Guide',
     
     // Family Hub
     '/family-hub': 'Family Hub',

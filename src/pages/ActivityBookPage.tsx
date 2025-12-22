@@ -583,6 +583,7 @@ const ActivityBookPage: React.FC = () => {
           </div>
         </div>
       </section>
+      </main>
     </PageLayout>
   );
 };

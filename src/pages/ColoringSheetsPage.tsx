@@ -320,6 +320,7 @@ const ColoringSheetsPage: React.FC = () => {
           </div>
         </div>
       </main>
+      </div>
     </PageLayout>
   );
 };
