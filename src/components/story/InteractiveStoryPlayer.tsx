@@ -547,6 +547,23 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
       {showSettings && (
         <div className="story-settings">
           <div className="setting-group">
+            <label>🎭 Current Voice</label>
+            <div style={{ 
+              padding: '0.75rem', 
+              background: 'var(--light)', 
+              borderRadius: '0.5rem', 
+              border: '2px solid var(--primary)',
+              marginBottom: '1rem'
+            }}>
+              <strong>{speechVoice?.name?.split(' ').slice(0, 2).join(' ') || 'System Default'}</strong>
+              {speechVoice && (
+                <span style={{ display: 'block', fontSize: '0.875rem', opacity: 0.7, marginTop: '0.25rem' }}>
+                  Language: {speechVoice.lang}
+                </span>
+              )}
+            </div>
+          </div>
+          <div className="setting-group">
             <label>Reading Speed</label>
             <input
               type="range"
