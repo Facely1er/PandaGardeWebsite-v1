@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Calendar, CheckCircle, Clock, Users, BookOpen, Download, Target, Award, Shield, GraduationCap } from 'lucide-react';
-import Logo from '../components/Logo';
+import { Calendar, CheckCircle, Clock, Users, BookOpen, Download, Target, Award, Shield, GraduationCap } from 'lucide-react';
+import PageLayout from '../components/layout/PageLayout';
 
 interface TimelineStep {
   id: string;

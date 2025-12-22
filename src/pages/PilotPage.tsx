@@ -359,6 +359,7 @@ const PilotPage: React.FC = () => {
         </section>
       </main>
     </div>
+    </PageLayout>
   );
 };
 
