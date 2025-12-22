@@ -62,6 +62,7 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
   const [speechRate, setSpeechRate] = useState(1);
   const [speechPitch, setSpeechPitch] = useState(1);
   const [speechVoice, setSpeechVoice] = useState<SpeechSynthesisVoice | null>(null);
+  const [availableVoices, setAvailableVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
   const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(null);
   const [viewMode, setViewMode] = useState<'interactive' | 'fulltext'>(initialViewMode);
@@ -103,6 +104,37 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
     }
     return undefined;
   }, [isMobile, showGestureHint]);
+
+  // Load available voices
+  useEffect(() => {
+    const loadVoices = () => {
+      const voices = window.speechSynthesis.getVoices();
+      setAvailableVoices(voices);
+      
+      // Auto-select a good default voice if none selected
+      if (!speechVoice && voices.length > 0) {
+        // Try to find an English voice, preferring female voices for storytelling
+        const preferredVoice = voices.find(v => 
+          v.lang.startsWith('en') && (v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('samantha'))
+        ) || voices.find(v => v.lang.startsWith('en')) || voices[0];
+        setSpeechVoice(preferredVoice);
+      }
+    };
+
+    // Load voices immediately
+    loadVoices();
+    
+    // Also load when voices change (some browsers load them asynchronously)
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
+    return () => {
+      if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = null;
+      }
+    };
+  }, [speechVoice]);
 
   const nextScene = useCallback(() => {
     if (currentSceneIndex < scenes.length - 1) {
@@ -561,39 +593,72 @@ const InteractiveStoryPlayer: React.FC<InteractiveStoryPlayerProps> = ({
             <span>{speechPitch}x</span>
           </div>
           <div className="setting-group">
-            <label>Voice</label>
+            <label>Voice Selection</label>
             <select
               value={speechVoice?.name || ''}
               onChange={(e) => {
-                const voices = window.speechSynthesis.getVoices();
-                const selectedVoice = voices.find(v => v.name === e.target.value);
+                const selectedVoice = availableVoices.find(v => v.name === e.target.value);
                 setSpeechVoice(selectedVoice || null);
               }}
+              className="voice-selector"
             >
-              <option value="">Default</option>
-              {window.speechSynthesis.getVoices().map((voice, index) => (
-                <option key={index} value={voice.name}>
-                  {voice.name} ({voice.lang})
-                </option>
-              ))}
+              <option value="">System Default</option>
+              
+              {/* English voices - most common for storytelling */}
+              {availableVoices.filter(v => v.lang.startsWith('en')).length > 0 && (
+                <optgroup label="📖 English Voices (Recommended)">
+                  {availableVoices
+                    .filter(v => v.lang.startsWith('en'))
+                    .map((voice, index) => (
+                      <option key={`en-${index}`} value={voice.name}>
+                        {voice.name.split(' ').slice(0, 2).join(' ')} ({voice.lang})
+                      </option>
+                    ))}
+                </optgroup>
+              )}
+              
+              {/* Other languages */}
+              {availableVoices.filter(v => !v.lang.startsWith('en')).length > 0 && (
+                <optgroup label="🌍 Other Languages">
+                  {availableVoices
+                    .filter(v => !v.lang.startsWith('en'))
+                    .sort((a, b) => a.lang.localeCompare(b.lang))
+                    .map((voice, index) => (
+                      <option key={`other-${index}`} value={voice.name}>
+                        {voice.name.split(' ').slice(0, 2).join(' ')} ({voice.lang})
+                      </option>
+                    ))}
+                </optgroup>
+              )}
             </select>
+            <small style={{ display: 'block', marginTop: '0.5rem', opacity: 0.7 }}>
+              {availableVoices.length} voices available on your device
+            </small>
           </div>
           <div className="setting-group">
-            <button
-              onClick={() => currentScene?.content && speakText(currentScene.content)}
-              disabled={isSpeaking}
-              className="speech-button"
-            >
-              {isSpeaking ? 'Speaking...' : 'Test Speech'}
-            </button>
-            {isSpeaking && (
+            <label>Test Voice Settings</label>
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
               <button
-                onClick={stopSpeaking}
-                className="speech-button stop"
+                onClick={() => currentScene?.content && speakText(currentScene.content)}
+                disabled={isSpeaking}
+                className="speech-button"
+                style={{ flex: '1 1 auto' }}
               >
-                Stop
+                {isSpeaking ? '🔊 Speaking...' : '🎤 Test Current Scene'}
               </button>
-            )}
+              {isSpeaking && (
+                <button
+                  onClick={stopSpeaking}
+                  className="speech-button stop"
+                  style={{ flex: '0 0 auto' }}
+                >
+                  ⏹️ Stop
+                </button>
+              )}
+            </div>
+            <small style={{ display: 'block', marginTop: '0.5rem', opacity: 0.7 }}>
+              Adjust voice, speed, and pitch above, then test here
+            </small>
           </div>
         </div>
       )}
