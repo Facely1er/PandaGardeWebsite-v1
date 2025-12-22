@@ -276,7 +276,7 @@ const NewsletterPage: React.FC = () => {
             Ready to Stay Informed?
           </h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Join thousands of families who are already learning about digital privacy with our monthly newsletter.
+            Stay informed about digital privacy with our monthly newsletter and educational resources.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link

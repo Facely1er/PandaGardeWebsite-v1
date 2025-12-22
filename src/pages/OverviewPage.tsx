@@ -328,7 +328,7 @@ const OverviewPage: React.FC = () => {
           <div className="section-header fade-in">
             <span className="badge">WHY CHOOSE PANDAGARDE</span>
             <h2>Built for Families, by Privacy Experts</h2>
-            <p>Our platform combines cutting-edge educational design with proven privacy protection methods.</p>
+            <p>Our platform combines modern educational design with research-based privacy protection principles.</p>
           </div>
 
           <div className="features-grid">
@@ -345,7 +345,7 @@ const OverviewPage: React.FC = () => {
                 <Brain size={32} className="text-purple-500" />
               </div>
               <h3>Evidence-Based Learning</h3>
-              <p>Our curriculum is built on proven educational principles and privacy research, ensuring effective learning outcomes.</p>
+              <p>Our curriculum is built on established educational principles and current privacy research to support effective learning outcomes.</p>
             </div>
 
             <div className="feature-card fade-in">

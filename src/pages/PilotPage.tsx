@@ -5,9 +5,9 @@ import {
   Shield, BookOpen, Star, ArrowRight, Calendar, Target, 
   Heart, Zap, TrendingUp, Gift
 } from 'lucide-react';
-import Logo from '../components/Logo';
 import { trackEvent, AnalyticsEvents } from '../lib/analytics';
 import { usePageTracking } from '../hooks/useAnalytics';
+import PageLayout from '../components/layout/PageLayout';
 
 const PilotPage: React.FC = () => {
   // Track page view
@@ -131,46 +131,14 @@ const PilotPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
-      {/* Page Header */}
-      <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
-        <div className="container mx-auto px-6">
-          <div className="text-center fade-in" style={{ textAlign: 'center' }}>
-            <h1 style={{
-              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
-              fontWeight: '800',
-              lineHeight: '1.1',
-              marginBottom: '1rem',
-              color: '#0f172a'
-            }}>
-              Join the Family Hub Pilot Program
-            </h1>
-            <p style={{
-              fontSize: '1.125rem',
-              color: '#64748b',
-              maxWidth: '48rem',
-              margin: '0 auto',
-              lineHeight: '1.6'
-            }}>
-              Help shape the future of family privacy education. Be part of an exclusive group of families testing the PrivacyPanda Family Hub and make your voice heard.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Navigation */}
-      <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
-        <div className="container mx-auto px-6 py-4">
-          <Link
-            to="/"
-            className="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors"
-          >
-            <ArrowRight className="w-4 h-4 mr-2 rotate-180" />
-            Back to Home
-          </Link>
-        </div>
-      </div>
-
+    <PageLayout
+      title="Join the Family Hub Pilot Program"
+      subtitle="Help shape the future of family privacy education. Be part of an exclusive group of families testing the PrivacyPanda Family Hub and make your voice heard."
+      icon={Sparkles}
+      badge="PILOT PROGRAM"
+      breadcrumbs={true}
+    >
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
       {/* Main Content */}
       <main className="container mx-auto px-6 py-16">
         {/* What is the Pilot */}
@@ -368,8 +336,8 @@ const PilotPage: React.FC = () => {
           <Sparkles className="w-16 h-16 mx-auto mb-6" />
           <h2 className="text-4xl font-bold mb-4">Ready to Join?</h2>
           <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-            Help us build the best family privacy education platform. Your feedback will shape 
-            features that thousands of families will use.
+            Help us build the best family privacy education platform. Your feedback will directly shape 
+            the features and tools we develop for families everywhere.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link

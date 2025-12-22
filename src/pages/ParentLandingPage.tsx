@@ -362,7 +362,7 @@ const ParentLandingPage: React.FC = () => {
             Ready to Protect Your Family?
           </h2>
           <p style={{ fontSize: '1.25rem', marginBottom: '2rem', maxWidth: '600px', margin: '0 auto 2rem' }}>
-            Join thousands of parents who are already keeping their families safe online with simple, easy-to-use tools.
+            Keep your family safe online with simple, easy-to-use tools designed for parents who want to protect their children's privacy.
           </p>
           <Link 
             to="/family-hub"

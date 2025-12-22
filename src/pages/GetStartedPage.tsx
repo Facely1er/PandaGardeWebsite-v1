@@ -345,7 +345,7 @@ const GetStartedPage: React.FC = () => {
                 opacity: 0.9,
                 color: '#FFFFFF'
               }}>
-                Join thousands of families who are already learning about digital privacy with PandaGarde.
+                Start learning about digital privacy with PandaGarde's comprehensive resources and activities.
               </p>
               <div style={{
                 display: 'flex',

@@ -106,7 +106,7 @@ const ContactPage: React.FC = () => {
             Ready to Start Your Privacy Education Journey?
           </h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Join thousands of families who are already learning about digital privacy with PandaGarde.
+            Begin your family's digital privacy education journey with PandaGarde today.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
