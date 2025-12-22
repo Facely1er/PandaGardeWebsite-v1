@@ -22,26 +22,24 @@ const PrivacyAssessmentPage: React.FC = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center space-x-4 mb-4">
-            <Link
-              to="/family-hub"
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-              aria-label="Back to Family Hub"
-            >
-              <ArrowLeft className="h-5 w-5 text-gray-600 dark:text-gray-400" />
-            </Link>
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                <Shield className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                  Family Privacy Assessment
-                </h1>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Evaluate your family's privacy practices and get personalized recommendations
-                </p>
-              </div>
+          <Link
+            to="/family-hub"
+            className="inline-flex items-center gap-2 text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium transition-colors mb-4"
+          >
+            <ArrowLeft size={16} />
+            Back to Family Hub
+          </Link>
+          <div className="flex items-center space-x-3">
+            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+              <Shield className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Family Privacy Assessment
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400">
+                Evaluate your family's privacy practices and get personalized recommendations
+              </p>
             </div>
           </div>
         </div>

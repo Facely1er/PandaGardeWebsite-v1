@@ -7,7 +7,7 @@ import PageLayout from '../components/layout/PageLayout';
 const ContactPage: React.FC = () => {
   return (
     <PageLayout
-      title="Get in Touch"
+      title="Contact Us"
       subtitle="Have questions about PandaGarde or need support with privacy education? We'd love to hear from you and help you on your digital privacy journey."
       icon={MessageCircle}
       badge="CONTACT US"

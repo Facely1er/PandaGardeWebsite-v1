@@ -100,13 +100,13 @@ const ProfilePage: React.FC = () => {
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
-            <button
-              onClick={() => navigate('/family-hub')}
-              className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+            <Link
+              to="/family-hub"
+              className="inline-flex items-center gap-2 text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium transition-colors"
             >
-              <ArrowLeft size={20} className="mr-2" />
+              <ArrowLeft size={16} />
               Back to Family Hub
-            </button>
+            </Link>
             
             <div className="flex items-center space-x-4">
               <button

@@ -90,34 +90,30 @@ const DigitalFootprintPage: React.FC = () => {
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center space-x-4">
-              <Link
-                to="/family-hub"
-                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-                aria-label="Back to Family Hub"
-              >
-                <ArrowLeft className="h-5 w-5 text-gray-600 dark:text-gray-400" />
-              </Link>
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                  Digital Footprint Analysis
-                </h1>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Understand your family's online presence and privacy exposure
-                </p>
-              </div>
-            </div>
+            <Link
+              to="/family-hub"
+              className="inline-flex items-center gap-2 text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium transition-colors"
+            >
+              <ArrowLeft size={16} />
+              Back to Family Hub
+            </Link>
             {analysis && (
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={handleExport}
-                  className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-                >
-                  <Download className="h-4 w-4" />
-                  <span>Export Report</span>
-                </button>
-              </div>
+              <button
+                onClick={handleExport}
+                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+              >
+                <Download className="h-4 w-4" />
+                <span>Export Report</span>
+              </button>
             )}
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              Digital Footprint Analysis
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400">
+              Understand your family's online presence and privacy exposure
+            </p>
           </div>
         </div>
 

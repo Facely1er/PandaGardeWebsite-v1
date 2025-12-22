@@ -42,28 +42,13 @@ const PrivacyGoalsPage: React.FC = () => {
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center space-x-4">
-              <Link
-                to="/family-hub"
-                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-                aria-label="Back to Family Hub"
-              >
-                <ArrowLeft className="h-5 w-5 text-gray-600 dark:text-gray-400" />
-              </Link>
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg flex items-center justify-center">
-                  <Target className="h-6 w-6 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                    Privacy Goals
-                  </h1>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    Set and track privacy improvement goals for your family
-                  </p>
-                </div>
-              </div>
-            </div>
+            <Link
+              to="/family-hub"
+              className="inline-flex items-center gap-2 text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium transition-colors"
+            >
+              <ArrowLeft size={16} />
+              Back to Family Hub
+            </Link>
             {suggestedGoals.length > 0 && (
               <button
                 onClick={() => setShowSuggestions(!showSuggestions)}
@@ -73,6 +58,19 @@ const PrivacyGoalsPage: React.FC = () => {
                 <span>View Suggestions</span>
               </button>
             )}
+          </div>
+          <div className="flex items-center space-x-3">
+            <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg flex items-center justify-center">
+              <Target className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Privacy Goals
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400">
+                Set and track privacy improvement goals for your family
+              </p>
+            </div>
           </div>
         </div>
 
