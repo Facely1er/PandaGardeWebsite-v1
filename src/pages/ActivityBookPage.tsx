@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Book,
-  ArrowLeft,
   Palette,
   Puzzle,
   MapPin,
@@ -24,6 +23,7 @@ import ActivityManager from '../components/activities/ActivityManager';
 // import CertificateGenerator from '../components/CertificateGenerator'; // Moved to Family Hub
 import ProgressDisplay from '../components/ProgressDisplay';
 import ParentDashboard from '../components/ParentDashboard';
+import PageLayout from '../components/layout/PageLayout';
 
 interface Activity {
   id: string;
@@ -214,73 +214,14 @@ const ActivityBookPage: React.FC = () => {
   };
 
   return (
-    <main id="main-content" className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
-      {/* Header */}
-      <header className="bg-gradient-to-r from-green-600 to-green-500 text-white py-12 md:py-20 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
-          }} />
-        </div>
-
-        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', position: 'relative', zIndex: 10 }}>
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 md:px-4 py-2 rounded-full mb-4 md:mb-6">
-              <Book size={14} className="md:w-4 md:h-4" />
-              <span className="text-xs md:text-sm font-semibold">INTERACTIVE ACTIVITY BOOK</span>
-            </div>
-
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-tight">
-              Privacy Panda's
-              <span className="block text-yellow-300 mt-2">Activity Adventures</span>
-            </h1>
-
-            <p className="text-base md:text-lg lg:text-xl opacity-90 max-w-2xl mx-auto mb-6 md:mb-8 px-4">
-              Continue Po the Panda's journey with interactive activities that reinforce the privacy lessons from the Digital Bamboo Forest story.
-              Learn through fun games, coloring, and puzzles!
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-6 text-xs md:text-sm lg:text-base">
-              <div className="flex items-center gap-2">
-                <Star size={16} className="md:w-5 md:h-5" />
-                <span>Ages 5-12</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Play size={16} className="md:w-5 md:h-5" />
-                <span>8 Interactive Activities</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Users size={16} className="md:w-5 md:h-5" />
-                <span>Family Friendly</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Navigation */}
-      <div className="bg-gray-50 border-b border-gray-200" style={{ backgroundColor: 'var(--light)' }}>
-        <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0.75rem 1.5rem' }}>
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-            <button
-              onClick={() => window.history.back()}
-              className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors text-sm md:text-base"
-              style={{ color: 'var(--primary-light)' }}
-            >
-              <ArrowLeft size={16} className="md:w-4 md:h-4" />
-              <span>Back to Home</span>
-            </button>
-            
-            <Link 
-              to="/family-hub"
-              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm md:text-base whitespace-nowrap"
-            >
-              <Users size={16} className="md:w-4 md:h-4" />
-              <span>Family Hub</span>
-            </Link>
-          </div>
-        </div>
-      </div>
+    <PageLayout
+      title="Privacy Panda's Activity Adventures"
+      subtitle="Continue Po the Panda's journey with interactive activities that reinforce the privacy lessons from the Digital Bamboo Forest story. Learn through fun games, coloring, and puzzles!"
+      icon={Book}
+      badge="INTERACTIVE ACTIVITY BOOK"
+      breadcrumbs={true}
+    >
+      <main id="main-content" className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
 
       {/* Story Connection Section */}
       <section style={{ padding: '3rem 0' }}>
@@ -642,7 +583,7 @@ const ActivityBookPage: React.FC = () => {
           </div>
         </div>
       </section>
-    </main>
+    </PageLayout>
   );
 };
 

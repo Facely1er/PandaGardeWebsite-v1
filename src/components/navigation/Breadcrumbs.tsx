@@ -42,6 +42,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className = '' }) => {
     '/story': 'Privacy Panda Story',
     '/privacy-panda': 'Privacy Panda',
     '/activity-book': 'Activity Book',
+    '/interactive-story': 'Interactive Story',
     
     // Age Group Pages
     '/privacy-explorers': 'Ages 5-8',
