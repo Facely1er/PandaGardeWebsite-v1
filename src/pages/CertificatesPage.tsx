@@ -281,6 +281,7 @@ const CertificatesPage: React.FC = () => {
           </div>
         </div>
       </main>
+      </div>
     </PageLayout>
   );
 };
