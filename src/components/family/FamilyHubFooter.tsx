@@ -25,7 +25,7 @@ const FamilyHubFooter: React.FC = () => {
       {/* Wave separator */}
       <div className="w-full overflow-hidden leading-none">
         <svg 
-          className="relative block w-full h-8"
+          className="relative block w-full h-6"
           xmlns="http://www.w3.org/2000/svg" 
           viewBox="0 0 1200 120" 
           preserveAspectRatio="none"
@@ -37,38 +37,38 @@ const FamilyHubFooter: React.FC = () => {
         </svg>
       </div>
 
-      <div className="container mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="container mx-auto px-4 py-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Brand Section */}
           <div className="lg:col-span-1">
-            <Link to="/family-hub" className="flex items-center gap-3 group mb-3">
-              <div className="w-12 h-12 flex-shrink-0">
+            <Link to="/family-hub" className="flex items-center gap-2 group mb-2">
+              <div className="w-10 h-10 flex-shrink-0">
                 <Logo />
               </div>
               <div>
-                <span className="text-white font-bold text-lg">Family Hub</span>
+                <span className="text-white font-bold text-base">Family Hub</span>
                 <span className="block text-purple-200 text-xs">Privacy Learning</span>
               </div>
             </Link>
-            <p className="text-purple-200 text-sm leading-relaxed">
+            <p className="text-purple-200 text-xs leading-relaxed">
               Teaching digital privacy through fun, interactive games.
             </p>
           </div>
 
           {/* Hub Navigation */}
           <div>
-            <h4 className="text-white font-semibold mb-2 flex items-center gap-2">
-              <Gamepad2 size={16} className="text-purple-300" />
+            <h4 className="text-white font-semibold mb-1.5 flex items-center gap-2 text-sm">
+              <Gamepad2 size={14} className="text-purple-300" />
               Family Hub
             </h4>
-            <ul className="space-y-1">
+            <ul className="space-y-0.5">
               {hubLinks.map((link, index) => (
                 <li key={index}>
                   <Link 
                     to={link.href}
-                    className="flex items-center gap-2 text-purple-200 hover:text-white transition-colors text-sm py-0.5"
+                    className="flex items-center gap-1.5 text-purple-200 hover:text-white transition-colors text-xs py-0.5"
                   >
-                    <link.icon size={14} />
+                    <link.icon size={12} />
                     {link.label}
                   </Link>
                 </li>
@@ -78,18 +78,18 @@ const FamilyHubFooter: React.FC = () => {
 
           {/* Support Links */}
           <div>
-            <h4 className="text-white font-semibold mb-2 flex items-center gap-2">
-              <HelpCircle size={16} className="text-purple-300" />
+            <h4 className="text-white font-semibold mb-1.5 flex items-center gap-2 text-sm">
+              <HelpCircle size={14} className="text-purple-300" />
               Help & Support
             </h4>
-            <ul className="space-y-1">
+            <ul className="space-y-0.5">
               {supportLinks.map((link, index) => (
                 <li key={index}>
                   <Link 
                     to={link.href}
-                    className="flex items-center gap-2 text-purple-200 hover:text-white transition-colors text-sm py-0.5"
+                    className="flex items-center gap-1.5 text-purple-200 hover:text-white transition-colors text-xs py-0.5"
                   >
-                    <link.icon size={14} />
+                    <link.icon size={12} />
                     {link.label}
                   </Link>
                 </li>
@@ -99,25 +99,25 @@ const FamilyHubFooter: React.FC = () => {
 
           {/* Back to Main Site */}
           <div>
-            <h4 className="text-white font-semibold mb-2 flex items-center gap-2">
-              <ExternalLink size={16} className="text-purple-300" />
+            <h4 className="text-white font-semibold mb-1.5 flex items-center gap-2 text-sm">
+              <ExternalLink size={14} className="text-purple-300" />
               PandaGarde
             </h4>
-            <p className="text-purple-200 text-sm mb-2">
+            <p className="text-purple-200 text-xs mb-2">
               Visit the main site for more resources.
             </p>
             <Link 
               to="/"
-              className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-white text-sm transition-colors"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/10 hover:bg-white/20 rounded-lg text-white text-xs transition-colors"
             >
-              <ArrowLeft size={14} />
+              <ArrowLeft size={12} />
               Main Website
             </Link>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/10 mt-4 pt-4">
+        <div className="border-t border-white/10 mt-3 pt-3">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
             <p className="text-purple-300 text-xs">
               © 2025 PandaGarde Family Hub. All rights reserved.
