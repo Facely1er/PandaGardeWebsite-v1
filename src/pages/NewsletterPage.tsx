@@ -97,8 +97,8 @@ const NewsletterPage: React.FC = () => {
     >
 
       {/* Subscription Section */}
-      <section className="container mx-auto px-6 py-16">
-        <div className="max-w-2xl mx-auto text-center mb-16">
+      <section className="container mx-auto px-6 py-12">
+        <div className="max-w-2xl mx-auto text-center mb-12">
           <h2 className="text-3xl font-bold mb-6" style={{ color: 'var(--primary)' }}>
             Join Our Privacy Education Community
           </h2>
@@ -146,7 +146,7 @@ const NewsletterPage: React.FC = () => {
         </div>
 
         {/* Newsletter Features */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {newsletterFeatures.map((feature, index) => {
             const Icon = feature.icon;
             return (
@@ -167,9 +167,9 @@ const NewsletterPage: React.FC = () => {
       </section>
 
       {/* Recent Newsletters */}
-      <section className="bg-gray-50 py-16" style={{ backgroundColor: 'var(--light)' }}>
+      <section className="bg-gray-50 py-12" style={{ backgroundColor: 'var(--light)' }}>
         <div className="container mx-auto px-6">
-          <div className="text-center mb-12">
+          <div className="text-center mb-10">
             <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
               Recent Newsletters
             </h2>
@@ -224,12 +224,12 @@ const NewsletterPage: React.FC = () => {
       </section>
 
       {/* Privacy Promise */}
-      <section className="container mx-auto px-6 py-16">
+      <section className="container mx-auto px-6 py-12">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6" style={{ color: 'var(--primary)' }}>
+          <h2 className="text-3xl font-bold mb-8" style={{ color: 'var(--primary)' }}>
             Our Privacy Promise
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Shield size={24} className="text-green-600" />
@@ -270,13 +270,13 @@ const NewsletterPage: React.FC = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="bg-gradient-to-r from-pink-600 to-rose-600 text-white py-16">
+      <section className="bg-gradient-to-r from-pink-600 to-rose-600 text-white py-12">
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold mb-4">
             Ready to Stay Informed?
           </h2>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Stay informed about digital privacy with our monthly newsletter and educational resources.
+          <p className="text-xl mb-6 opacity-90 max-w-2xl mx-auto">
+            Join thousands of families who are already learning about digital privacy with our monthly newsletter.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
