@@ -91,10 +91,13 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className = '' }) => {
     // Download Pages
     '/downloads': 'Downloads',
     '/downloads/coloring-sheets': 'Coloring Sheets',
+    '/coloring-sheets': 'Coloring Sheets',
     '/downloads/safety-posters': 'Safety Posters',
+    '/safety-posters': 'Safety Posters',
     '/downloads/certificates': 'Certificates',
     '/certificates': 'Certificates',
     '/downloads/family-agreement': 'Family Agreement',
+    '/family-agreement': 'Family Agreement',
     '/downloads/worksheets': 'Worksheets',
     
     // Guide Pages

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Download, FileText, Users, Shield, CheckCircle } from 'lucide-react';
-import Logo from '../components/Logo';
+import { Download, FileText, Users, Shield, CheckCircle } from 'lucide-react';
 import { pdfService } from '../lib/pdfService';
+import PageLayout from '../components/layout/PageLayout';
 
 const FamilyAgreementPage: React.FC = () => {
   const [isDownloading, setIsDownloading] = useState(false);
