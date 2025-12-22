@@ -122,7 +122,7 @@ const FamilyHubFooter: React.FC = () => {
             <p className="text-purple-300 text-xs">
               © 2025 PandaGarde Family Hub. All rights reserved.
             </p>
-            <div className="flex items-center gap-4 text-xs">
+            <div className="flex items-center gap-3 text-xs">
               <Link to="/privacy" className="text-purple-300 hover:text-white transition-colors">
                 Privacy
               </Link>
