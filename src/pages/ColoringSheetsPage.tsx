@@ -124,7 +124,7 @@ const ColoringSheetsPage: React.FC = () => {
       <main className="container mx-auto px-6 py-20">
         {/* Introduction */}
         <div className="max-w-4xl mx-auto text-center mb-16">
-          <h2 className="text-3xl font-bold mb-6" style={{ color: 'var(--primary)' }}>
+          <h2 className="font-bold mb-6" style={{ fontSize: 'clamp(1.875rem, 3vw, 2.25rem)', color: 'var(--primary)' }}>
             Creative Learning Through Coloring
           </h2>
           <p className="text-lg leading-relaxed mb-8" style={{ color: 'var(--gray-600)' }}>
@@ -247,7 +247,7 @@ const ColoringSheetsPage: React.FC = () => {
 
         {/* Bulk Download Section */}
         <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-8 text-white text-center mb-16">
-          <h2 className="text-2xl font-bold mb-4">
+          <h2 className="font-bold mb-4" style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}>
             Download All Coloring Sheets
           </h2>
           <p className="text-lg mb-6 opacity-90">
@@ -265,7 +265,7 @@ const ColoringSheetsPage: React.FC = () => {
 
         {/* Additional Resources */}
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold mb-8 text-center" style={{ color: 'var(--primary)' }}>
+          <h2 className="font-bold mb-8 text-center" style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', color: 'var(--primary)' }}>
             Related Resources
           </h2>
           
