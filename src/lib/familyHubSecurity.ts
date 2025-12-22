@@ -34,7 +34,7 @@ export const validateFamilyMember = (member: {
   if (sanitizedName.length > 50) {
     errors.push('Name must be less than 50 characters');
   }
-  if (!/^[a-zA-Z0-9\s\-'\.]+$/.test(sanitizedName)) {
+  if (!/^[a-zA-Z0-9\s\-'.]+$/.test(sanitizedName)) {
     errors.push('Name contains invalid characters');
   }
   

@@ -6,9 +6,10 @@ import path from 'path';
 // Conditionally import image optimizer only if sharp is available
 let ViteImageOptimizer: any = null;
 try {
-  require.resolve('sharp');
-  const imageOptimizer = require('vite-plugin-image-optimizer');
-  ViteImageOptimizer = imageOptimizer.ViteImageOptimizer || imageOptimizer.default;
+  import('sharp');
+  import('vite-plugin-image-optimizer').then((imageOptimizer) => {
+    ViteImageOptimizer = imageOptimizer.ViteImageOptimizer || imageOptimizer.default;
+  });
 } catch (e) {
   // Silently skip if sharp is not available
 }

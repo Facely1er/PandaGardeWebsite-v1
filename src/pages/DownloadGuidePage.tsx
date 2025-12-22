@@ -106,8 +106,6 @@ const DownloadGuidePage: React.FC<DownloadGuidePageProps> = ({
   };
 
   const resourceInfo = resourceType ? getResourceInfo(resourceType) : null;
-  const icon = type === 'download' ? Download : FileText;
-  const IconComponent = icon;
 
   return (
     <PageLayout
