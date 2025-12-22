@@ -11,7 +11,7 @@ const CertificatePage: React.FC = () => {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link to="/family-hub"
-              className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
+              className="inline-flex items-center gap-2 text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium transition-colors"
             >
               <ArrowLeft size={16} />
               Back to Family Hub

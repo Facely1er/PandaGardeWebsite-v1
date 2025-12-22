@@ -49,8 +49,8 @@ const GetStartedPage: React.FC = () => {
 
   return (
     <PageLayout
-      title="Get Started with PandaGarde"
-      subtitle="Follow our step-by-step guide to begin your family's digital privacy education journey."
+      title="Get Started"
+      subtitle="Follow our step-by-step guide to begin your family's digital privacy education journey with PandaGarde."
       icon={Rocket}
       badge="GET STARTED"
       breadcrumbs={true}

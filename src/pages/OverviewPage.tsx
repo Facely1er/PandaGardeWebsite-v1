@@ -172,8 +172,8 @@ const OverviewPage: React.FC = () => {
 
   return (
     <PageLayout
-      title="Everything Your Family Needs for Digital Privacy"
-      subtitle="Our comprehensive platform provides age-appropriate education, interactive tools, and community support to help families navigate the digital world safely and confidently."
+      title="Overview"
+      subtitle="Everything your family needs for digital privacy. Our comprehensive platform provides age-appropriate education, interactive tools, and community support to help families navigate the digital world safely and confidently."
       icon={Info}
       badge="OVERVIEW"
     >

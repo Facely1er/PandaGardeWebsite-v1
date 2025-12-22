@@ -132,7 +132,7 @@ const SupportPage: React.FC = () => {
 
   return (
     <PageLayout
-      title="Help & Support"
+      title="Support"
       subtitle="Get help and support for using PandaGarde resources. Find answers to common questions, troubleshoot issues, and connect with our support team."
       icon={Headphones}
       badge="SUPPORT"

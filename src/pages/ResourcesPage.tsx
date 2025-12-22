@@ -12,7 +12,7 @@ const ResourcesPage: React.FC = () => {
 
   return (
     <PageLayout
-      title="Parent & Educator Resources"
+      title="Resources"
       subtitle="Comprehensive tools, guides, and materials to help adults facilitate privacy education for children. Everything you need to create a safe digital environment for your family."
       icon={BookOpen}
       badge="RESOURCES"
