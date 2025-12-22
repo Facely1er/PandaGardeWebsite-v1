@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
         <div className="footer-grid">
           <div className="footer-brand">
             <h3>
-              <div className="logo-icon" style={{ width: '32px', height: '32px', marginRight: '5px' }}>
+              <div className="logo-icon" style={{ width: '50px', height: '50px', marginRight: '8px' }}>
                 <img
                   src="/LogoPandagarde.png"
                   alt="PandaGarde Logo"

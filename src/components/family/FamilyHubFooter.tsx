@@ -42,7 +42,7 @@ const FamilyHubFooter: React.FC = () => {
           {/* Brand Section */}
           <div className="lg:col-span-1">
             <Link to="/family-hub" className="flex items-center gap-2 group mb-2">
-              <div className="w-10 h-10 flex-shrink-0">
+              <div className="w-12 h-12 flex-shrink-0">
                 <Logo />
               </div>
               <div>
