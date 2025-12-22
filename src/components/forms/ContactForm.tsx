@@ -211,11 +211,6 @@ const ContactForm: React.FC = () => {
 
   return (
     <div className="contact-form">
-      <div className="form-header">
-        <h2>Get in Touch</h2>
-        <p>Have questions about digital privacy education? We'd love to hear from you!</p>
-      </div>
-
       <form onSubmit={handleSubmit} className="form">
         <div className="form-row">
           <div className="form-group">
@@ -440,24 +435,6 @@ const ContactForm: React.FC = () => {
           padding: 20px;
         }
 
-        .form-header {
-          text-align: center;
-          margin-bottom: 40px;
-        }
-
-        .form-header h2 {
-          font-size: 2.5rem;
-          color: #2C3E50;
-          margin-bottom: 16px;
-        }
-
-        .form-header p {
-          font-size: 1.1rem;
-          color: #666;
-          max-width: 600px;
-          margin: 0 auto;
-        }
-
         .form {
           background: white;
           padding: 40px;
@@ -669,10 +646,6 @@ const ContactForm: React.FC = () => {
 
           .form {
             padding: 24px;
-          }
-
-          .form-header h2 {
-            font-size: 2rem;
           }
 
           .success-content {

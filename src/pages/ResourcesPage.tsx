@@ -410,9 +410,9 @@ const ResourcesPage: React.FC = () => {
       </section>
 
       {/* Community Resources Section */}
-      <section className="community-resources" style={{ padding: 'clamp(4rem, 8vw, 6rem) 0', background: 'var(--gradient-secondary)' }}>
+      <section className="community-resources" style={{ padding: '3rem 0', background: 'var(--gradient-secondary)' }}>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <div className="section-header fade-in text-center" style={{ marginBottom: '3rem' }}>
+          <div className="section-header fade-in text-center" style={{ marginBottom: '2rem' }}>
             <h2 style={{
               fontSize: 'clamp(2rem, 4vw, 2.5rem)',
               fontWeight: '700',
