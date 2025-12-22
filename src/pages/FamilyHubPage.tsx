@@ -246,7 +246,7 @@ const FamilyHubPage: React.FC = () => {
           </div>
           
           <div className="text-center">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 leading-tight">
+            <h1 className="font-bold mb-4 sm:mb-6 leading-tight" style={{ fontSize: 'clamp(1.875rem, 5vw, 3rem)' }}>
               Privacy Panda
               <span className="block text-yellow-300 mt-1">Family Hub</span>
             </h1>
@@ -371,7 +371,7 @@ const FamilyHubPage: React.FC = () => {
             {/* Family Members Overview */}
             <section>
               <div className="flex items-center justify-between mb-6 sm:mb-8">
-                <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--primary)' }}>
+                <h2 className="font-bold" style={{ fontSize: 'clamp(1.5rem, 4vw, 1.875rem)', color: 'var(--primary)' }}>
                   Family Progress Overview
                 </h2>
                 {currentFamily && (
@@ -390,7 +390,7 @@ const FamilyHubPage: React.FC = () => {
                   <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <Users size={32} className="sm:w-10 sm:h-10 text-gray-400" />
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
+                  <h3 className="font-bold mb-3" style={{ fontSize: 'clamp(1.25rem, 3vw, 1.5rem)', color: 'var(--primary)' }}>
                     No Family Yet
                   </h3>
                   <p className="text-gray-600 mb-8 max-w-md mx-auto px-4">
@@ -514,7 +514,7 @@ const FamilyHubPage: React.FC = () => {
             {/* Quick Actions */}
             <section>
               <div className="flex items-center justify-between mb-6 sm:mb-8">
-                <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--primary)' }}>
+                <h2 className="font-bold" style={{ fontSize: 'clamp(1.5rem, 4vw, 1.875rem)', color: 'var(--primary)' }}>
                   Quick Actions
                 </h2>
                 <span className="text-sm text-gray-500 hidden sm:inline">Tap any card to get started</span>
@@ -610,7 +610,7 @@ const FamilyHubPage: React.FC = () => {
             {/* Recent Activities */}
             <section>
               <div className="flex items-center justify-between mb-6 sm:mb-8">
-                <h2 className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--primary)' }}>
+                <h2 className="font-bold" style={{ fontSize: 'clamp(1.5rem, 4vw, 1.875rem)', color: 'var(--primary)' }}>
                   Continue Learning
                 </h2>
                 <Link 
@@ -691,7 +691,7 @@ const FamilyHubPage: React.FC = () => {
         {activeTab === 'activities' && (
           <div className="space-y-8">
             <div className="text-center">
-              <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
+              <h2 className="font-bold mb-4" style={{ fontSize: 'clamp(1.875rem, 3vw, 2.25rem)', color: 'var(--primary)' }}>
                 Learning Activities
               </h2>
               <p className="text-lg max-w-2xl mx-auto" style={{ color: 'var(--gray-600)' }}>
@@ -761,7 +761,7 @@ const FamilyHubPage: React.FC = () => {
         {activeTab === 'progress' && (
           <div className="space-y-8">
             <div className="text-center">
-              <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
+              <h2 className="font-bold mb-4" style={{ fontSize: 'clamp(1.875rem, 3vw, 2.25rem)', color: 'var(--primary)' }}>
                 Family Progress Tracking
               </h2>
               <p className="text-lg max-w-2xl mx-auto" style={{ color: 'var(--gray-600)' }}>
@@ -771,13 +771,13 @@ const FamilyHubPage: React.FC = () => {
 
             <div className="bg-white rounded-xl p-8" style={{ backgroundColor: 'var(--card-color)' }}>
               <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
+                <h3 className="font-bold mb-4" style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', color: 'var(--primary)' }}>
                   Overall Family Progress
                 </h3>
                 <div className="w-32 h-32 mx-auto relative">
                   <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center">
                     <div className="text-center">
-                      <div className="text-3xl font-bold" style={{ color: 'var(--primary)' }}>
+                      <div className="font-bold" style={{ fontSize: 'clamp(1.875rem, 3vw, 2.25rem)', color: 'var(--primary)' }}>
                         {getOverallProgressPercentage()}%
                       </div>
                       <div className="text-sm" style={{ color: 'var(--gray-600)' }}>
@@ -828,7 +828,7 @@ const FamilyHubPage: React.FC = () => {
         {activeTab === 'family' && (
           <div className="space-y-8">
             <div className="text-center">
-              <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
+              <h2 className="font-bold mb-4" style={{ fontSize: 'clamp(1.875rem, 3vw, 2.25rem)', color: 'var(--primary)' }}>
                 Family Management
               </h2>
               <p className="text-lg max-w-2xl mx-auto" style={{ color: 'var(--gray-600)' }}>
