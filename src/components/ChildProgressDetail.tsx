@@ -17,12 +17,12 @@ const ChildProgressDetail: React.FC<ChildProgressDetailProps> = ({
 }) => {
   const { getMemberProgress, getActivityHistory } = useFamilyProgress();
   const progress = getMemberProgress(memberId);
-  const recentActivities = getActivityHistory(memberId, 20);
+  const recentActivities = getActivityHistory(memberId, 20) || [];
 
   const activitiesByType = {
-    game: recentActivities.filter(a => a.activityType === 'game'),
-    journey: recentActivities.filter(a => a.activityType === 'journey'),
-    module: recentActivities.filter(a => a.activityType === 'module')
+    game: (recentActivities || []).filter(a => a && a.activityType === 'game'),
+    journey: (recentActivities || []).filter(a => a && a.activityType === 'journey'),
+    module: (recentActivities || []).filter(a => a && a.activityType === 'module')
   };
 
   const getActivityIcon = (type: string) => {
@@ -42,14 +42,21 @@ const ChildProgressDetail: React.FC<ChildProgressDetailProps> = ({
   };
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric', 
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    try {
+      if (!dateString) return 'N/A';
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return 'Invalid Date';
+      return date.toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric', 
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return 'N/A';
+    }
   };
 
   return (
@@ -134,7 +141,8 @@ const ChildProgressDetail: React.FC<ChildProgressDetailProps> = ({
           </div>
         ) : (
           <div className="space-y-4">
-            {recentActivities.map((activity, index) => {
+            {(recentActivities || []).map((activity, index) => {
+              if (!activity || !activity.score || !activity.maxScore) return null;
               const percentage = (activity.score / activity.maxScore) * 100;
               return (
                 <div

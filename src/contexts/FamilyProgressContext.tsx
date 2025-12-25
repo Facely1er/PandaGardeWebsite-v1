@@ -161,11 +161,28 @@ export const FamilyProgressProvider: React.FC<FamilyProgressProviderProps> = ({ 
   }, [progressData]);
 
   const getActivityHistory = useCallback((memberId: number, limit?: number): ActivityResult[] => {
-    const activities = getMemberActivities(memberId);
-    const sorted = activities.sort((a, b) => 
-      new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
-    );
-    return limit ? sorted.slice(0, limit) : sorted;
+    try {
+      const activities = getMemberActivities(memberId);
+      if (!activities || !Array.isArray(activities)) {
+        return [];
+      }
+      const sorted = activities
+        .filter(a => a && a.completedAt) // Filter out invalid activities
+        .sort((a, b) => {
+          try {
+            const dateA = new Date(a.completedAt).getTime();
+            const dateB = new Date(b.completedAt).getTime();
+            if (isNaN(dateA) || isNaN(dateB)) return 0;
+            return dateB - dateA;
+          } catch {
+            return 0;
+          }
+        });
+      return limit ? sorted.slice(0, limit) : sorted;
+    } catch (error) {
+      console.error('Error getting activity history:', error);
+      return [];
+    }
   }, [getMemberActivities]);
 
   const value: FamilyProgressContextType = {

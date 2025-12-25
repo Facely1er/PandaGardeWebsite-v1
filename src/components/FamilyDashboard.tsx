@@ -375,12 +375,19 @@ const FamilyDashboard = () => {
 
   // Calculate family privacy score
   const calculateFamilyScore = () => {
-    if (familyMembers.length === 0) {return 0;}
-    const totalScore = familyMembers.reduce((sum, member) => {
-      const realScore = calculateMemberScore(member.id);
-      return sum + realScore;
+    if (!familyMembers || familyMembers.length === 0) {return 0;}
+    const validMembers = familyMembers.filter(m => m && m.id);
+    if (validMembers.length === 0) {return 0;}
+    const totalScore = validMembers.reduce((sum, member) => {
+      try {
+        const realScore = calculateMemberScore(member.id);
+        return sum + (realScore || 0);
+      } catch (error) {
+        console.error('Error calculating member score:', error);
+        return sum;
+      }
     }, 0);
-    return Math.round(totalScore / familyMembers.length);
+    return Math.round(totalScore / validMembers.length);
   };
 
   // Add family member
@@ -538,13 +545,13 @@ const FamilyDashboard = () => {
 
   // Show child progress detail if selected
   if (selectedChildId) {
-    const selectedChild = familyMembers.find(m => m.id === selectedChildId);
-    if (selectedChild) {
+    const selectedChild = familyMembers.find(m => m && m.id === selectedChildId);
+    if (selectedChild && selectedChild.id && selectedChild.name) {
       return (
         <ChildProgressDetail
           memberId={selectedChild.id}
           memberName={selectedChild.name}
-          memberAge={selectedChild.age}
+          memberAge={selectedChild.age || 0}
           onBack={() => setSelectedChildId(null)}
         />
       );
