@@ -34,8 +34,17 @@ const EmailCaptureInline: React.FC<EmailCaptureInlineProps> = ({
     setIsSubmitting(true);
 
     try {
-      const subscriptions = JSON.parse(localStorage.getItem('pandagarde_email_subscriptions') || '[]');
-      if (!subscriptions.find((s: any) => s.email === email)) {
+      let subscriptions: any[] = [];
+      try {
+        const subscriptionsStr = localStorage.getItem('pandagarde_email_subscriptions') || '[]';
+        const parsed = JSON.parse(subscriptionsStr);
+        subscriptions = Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        console.error('Error parsing email subscriptions:', error);
+        subscriptions = [];
+      }
+      
+      if (!subscriptions.find((s: any) => s && s.email === email)) {
         subscriptions.push({
           email,
           purpose,

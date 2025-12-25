@@ -40,8 +40,19 @@ const EmailCaptureModal: React.FC<EmailCaptureModalProps> = ({
 
     try {
       // Save to localStorage
-      const subscriptions = JSON.parse(localStorage.getItem('pandagarde_email_subscriptions') || '[]');
-      if (!subscriptions.includes(email)) {
+      let subscriptions: any[] = [];
+      try {
+        const subscriptionsStr = localStorage.getItem('pandagarde_email_subscriptions') || '[]';
+        const parsed = JSON.parse(subscriptionsStr);
+        subscriptions = Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        console.error('Error parsing email subscriptions:', error);
+        subscriptions = [];
+      }
+      
+      // Check if email already exists
+      const emailExists = subscriptions.some((sub: any) => sub && sub.email === email);
+      if (!emailExists) {
         subscriptions.push({
           email,
           purpose,

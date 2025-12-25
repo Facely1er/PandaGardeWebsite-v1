@@ -607,7 +607,15 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     try {
       // Get or create family services list
       const familyServicesKey = 'pandagarde_family_services';
-      const existingServices = JSON.parse(localStorage.getItem(familyServicesKey) || '[]');
+      let existingServices: string[] = [];
+      try {
+        const servicesStr = localStorage.getItem(familyServicesKey) || '[]';
+        const parsed = JSON.parse(servicesStr);
+        existingServices = Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        console.error('Error parsing family services:', error);
+        existingServices = [];
+      }
       
       // Check if service is already added
       if (existingServices.includes(serviceId)) {
@@ -656,7 +664,15 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
     try {
       // Get family services list
       const familyServicesKey = 'pandagarde_family_services';
-      const existingServices = JSON.parse(localStorage.getItem(familyServicesKey) || '[]');
+      let existingServices: string[] = [];
+      try {
+        const servicesStr = localStorage.getItem(familyServicesKey) || '[]';
+        const parsed = JSON.parse(servicesStr);
+        existingServices = Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        console.error('Error parsing family services:', error);
+        existingServices = [];
+      }
       
       // Remove the service
       const updatedServices = existingServices.filter((id: string) => id !== serviceId);
@@ -687,7 +703,14 @@ export const FamilyProvider: React.FC<FamilyProviderProps> = ({ children }) => {
   // Get list of family services
   const getFamilyServices = (): string[] => {
     const familyServicesKey = 'pandagarde_family_services';
-    return JSON.parse(localStorage.getItem(familyServicesKey) || '[]');
+    try {
+      const servicesStr = localStorage.getItem(familyServicesKey) || '[]';
+      const parsed = JSON.parse(servicesStr);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+      console.error('Error parsing family services:', error);
+      return [];
+    }
   };
 
   const value: FamilyContextType = {

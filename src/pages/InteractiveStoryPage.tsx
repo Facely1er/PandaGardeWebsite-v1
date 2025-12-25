@@ -63,46 +63,81 @@ const InteractiveStoryPage: React.FC = () => {
   };
 
   const handleChoiceMade = (choice: { text: string; nextScene: string; consequence?: string }) => {
-    // Save choice to localStorage
-    const savedChoices = JSON.parse(localStorage.getItem('story-choices') || '[]');
-    savedChoices.push({
-      text: choice.text,
-      nextScene: choice.nextScene,
-      consequence: choice.consequence,
-      timestamp: Date.now()
-    });
-    localStorage.setItem('story-choices', JSON.stringify(savedChoices));
-    
-    // Check for achievements
-    checkChoiceAchievements();
+    try {
+      // Save choice to localStorage
+      const savedChoicesStr = localStorage.getItem('story-choices') || '[]';
+      let savedChoices: any[] = [];
+      try {
+        savedChoices = JSON.parse(savedChoicesStr);
+        if (!Array.isArray(savedChoices)) {
+          savedChoices = [];
+        }
+      } catch (error) {
+        console.error('Error parsing saved choices:', error);
+        savedChoices = [];
+      }
+      
+      savedChoices.push({
+        text: choice.text,
+        nextScene: choice.nextScene,
+        consequence: choice.consequence,
+        timestamp: Date.now()
+      });
+      
+      try {
+        localStorage.setItem('story-choices', JSON.stringify(savedChoices));
+      } catch (error) {
+        console.error('Error saving choices to localStorage:', error);
+      }
+      
+      // Check for achievements
+      checkChoiceAchievements();
+    } catch (error) {
+      console.error('Error handling choice:', error);
+    }
   };
 
   const checkChoiceAchievements = () => {
-    const savedChoices = JSON.parse(localStorage.getItem('story-choices') || '[]');
-    const privacyChoices = savedChoices.filter((choice: any) => 
-      choice.consequence && choice.consequence.includes('privacy')
-    );
-    
-    // Unlock privacy learner achievement
-    if (privacyChoices.length >= 2) {
-      const wasUnlocked = achievements.find(a => a.id === 'privacy-learner')?.unlocked;
-      if (!wasUnlocked) {
-        setAchievements((prev: Achievement[]) => prev.map((a: Achievement) => 
-          a.id === 'privacy-learner' ? { ...a, unlocked: true } : a
-        ));
-        showAchievementUnlocked('Privacy Learner', '🛡️', 'You\'ve learned about privacy concepts!');
+    try {
+      const savedChoicesStr = localStorage.getItem('story-choices') || '[]';
+      let savedChoices: any[] = [];
+      try {
+        savedChoices = JSON.parse(savedChoicesStr);
+        if (!Array.isArray(savedChoices)) {
+          savedChoices = [];
+        }
+      } catch (error) {
+        console.error('Error parsing saved choices:', error);
+        savedChoices = [];
       }
-    }
-    
-    // Unlock wise choices achievement
-    if (savedChoices.length >= 3) {
-      const wasUnlocked = achievements.find(a => a.id === 'wise-choices')?.unlocked;
-      if (!wasUnlocked) {
-        setAchievements((prev: Achievement[]) => prev.map((a: Achievement) => 
-          a.id === 'wise-choices' ? { ...a, unlocked: true } : a
-        ));
-        showAchievementUnlocked('Wise Choices', '🧠', 'You\'ve made 3 good decisions!');
+      
+      const privacyChoices = savedChoices.filter((choice: any) => 
+        choice && choice.consequence && typeof choice.consequence === 'string' && choice.consequence.includes('privacy')
+      );
+      
+      // Unlock privacy learner achievement
+      if (privacyChoices.length >= 2) {
+        const wasUnlocked = achievements.find(a => a.id === 'privacy-learner')?.unlocked;
+        if (!wasUnlocked) {
+          setAchievements((prev: Achievement[]) => prev.map((a: Achievement) => 
+            a.id === 'privacy-learner' ? { ...a, unlocked: true } : a
+          ));
+          showAchievementUnlocked('Privacy Learner', '🛡️', 'You\'ve learned about privacy concepts!');
+        }
       }
+      
+      // Unlock wise choices achievement
+      if (savedChoices.length >= 3) {
+        const wasUnlocked = achievements.find(a => a.id === 'wise-choices')?.unlocked;
+        if (!wasUnlocked) {
+          setAchievements((prev: Achievement[]) => prev.map((a: Achievement) => 
+            a.id === 'wise-choices' ? { ...a, unlocked: true } : a
+          ));
+          showAchievementUnlocked('Wise Choices', '🧠', 'You\'ve made 3 good decisions!');
+        }
+      }
+    } catch (error) {
+      console.error('Error checking choice achievements:', error);
     }
   };
 
