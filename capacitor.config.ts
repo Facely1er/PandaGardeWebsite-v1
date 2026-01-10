@@ -14,8 +14,8 @@ const config: CapacitorConfig = {
       keystorePath: undefined,
       keystoreAlias: undefined
     },
-    minVersion: 22,
-    targetVersion: 34
+    minVersion: 23,
+    targetVersion: 35
   },
   plugins: {
     SplashScreen: {
