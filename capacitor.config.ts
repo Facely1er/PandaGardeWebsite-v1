@@ -17,6 +17,12 @@ const config: CapacitorConfig = {
     minVersion: 23,
     targetVersion: 35
   },
+  ios: {
+    contentInset: 'automatic',
+    scrollEnabled: true,
+    backgroundColor: '#16a34a',
+    minVersion: '13.0'
+  },
   plugins: {
     SplashScreen: {
       launchShowDuration: 2000,
