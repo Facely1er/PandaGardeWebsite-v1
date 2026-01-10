@@ -39,3 +39,19 @@ scripts/verify-migration.js
 .env.demo
 
 .vercel
+
+# Android signing files
+*.jks
+*.keystore
+android/keystore.properties
+android/app/keystore.properties
+pandagarde-familyhub-key.jks
+upload-key.jks
+
+# Android build files
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+android/.idea/
+*.iml
