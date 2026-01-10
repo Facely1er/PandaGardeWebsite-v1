@@ -223,10 +223,13 @@ function App() {
 
             {/* Download Pages */}
             <Route path="/downloads/coloring-sheets" element={<ColoringSheetsPage />} />
+            <Route path="/coloring-sheets" element={<ColoringSheetsPage />} />
             <Route path="/downloads/safety-posters" element={<SafetyPostersPage />} />
+            <Route path="/safety-posters" element={<SafetyPostersPage />} />
             <Route path="/downloads/certificates" element={<CertificatesPage />} />
             <Route path="/certificates" element={<CertificatesPage />} />
             <Route path="/downloads/family-agreement" element={<FamilyAgreementPage />} />
+            <Route path="/family-agreement" element={<FamilyAgreementPage />} />
             
             {/* Alternative download routes using DownloadGuidePage */}
             <Route path="/downloads/coloring-sheets/guide" element={<DownloadGuidePage title="Privacy Panda Coloring Sheets" description="Educational coloring pages that teach privacy concepts while having fun" type="download" resourceType="coloring-sheets" />} />
@@ -249,6 +252,7 @@ function App() {
             <Route path="/guides/family-privacy-plan" element={<FamilyPrivacyPlanPage />} />
 
             {/* Activity Pages */}
+            <Route path="/activities" element={<PlaceholderPage title="Activities" description="Interactive activities and games to reinforce privacy concepts" />} />
             <Route path="/activities/privacy-learning-kit" element={<PlaceholderPage title="Privacy Learning Kit" description="Interactive activities and games to reinforce privacy concepts" />} />
             
             {/* Additional Download Pages */}
