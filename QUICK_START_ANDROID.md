@@ -165,5 +165,5 @@ The Android app is ready to build. Choose your path above and get started!
 
 ---
 
-**Last Updated**: January 2025
+**Last Updated**: January 10, 2026
 

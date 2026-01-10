@@ -110,4 +110,4 @@ To update app icons with your logo:
 
 ---
 
-**Last Updated**: January 2025
+**Last Updated**: January 10, 2026
