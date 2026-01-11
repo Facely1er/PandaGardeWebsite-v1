@@ -47,6 +47,7 @@ android/keystore.properties
 android/app/keystore.properties
 pandagarde-familyhub-key.jks
 upload-key.jks
+keystore-config.txt
 
 # Android build files
 android/.gradle/

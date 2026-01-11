@@ -3,7 +3,7 @@
 
 $ErrorActionPreference = "Continue"
 
-Write-Host "🔍 Quick Build Readiness Check" -ForegroundColor Cyan
+Write-Host "Quick Build Readiness Check" -ForegroundColor Cyan
 Write-Host "==============================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -13,18 +13,18 @@ $warnings = @()
 # Check web build
 Write-Host "Checking web build..." -ForegroundColor Blue
 if (Test-Path "dist\index.html") {
-    Write-Host "  ✅ Web build exists" -ForegroundColor Green
+    Write-Host "  Web build exists" -ForegroundColor Green
 } else {
-    Write-Host "  ❌ Web build missing" -ForegroundColor Red
+    Write-Host "  Web build missing" -ForegroundColor Red
     $ready = $false
 }
 
 # Check Android sync
 Write-Host "Checking Android sync..." -ForegroundColor Blue
 if (Test-Path "android\app\src\main\assets\public\index.html") {
-    Write-Host "  ✅ Android assets synced" -ForegroundColor Green
+    Write-Host "  Android assets synced" -ForegroundColor Green
 } else {
-    Write-Host "  ❌ Android assets not synced" -ForegroundColor Red
+    Write-Host "  Android assets not synced" -ForegroundColor Red
     $ready = $false
 }
 
@@ -34,9 +34,9 @@ $keystoreExists = Test-Path "pandagarde-familyhub-key.jks"
 $keystorePropsExists = Test-Path "android\keystore.properties"
 
 if ($keystoreExists -and $keystorePropsExists) {
-    Write-Host "  ✅ Signing configured" -ForegroundColor Green
+    Write-Host "  Signing configured" -ForegroundColor Green
 } else {
-    Write-Host "  ❌ Signing not set up" -ForegroundColor Red
+    Write-Host "  Signing not set up" -ForegroundColor Red
     Write-Host "     Run: .\scripts\setup-signing-interactive.ps1" -ForegroundColor Yellow
     $ready = $false
 }
@@ -46,57 +46,33 @@ Write-Host "Checking Java..." -ForegroundColor Blue
 try {
     $null = java -version 2>&1
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "  ✅ Java found" -ForegroundColor Green
+        Write-Host "  Java found" -ForegroundColor Green
     } else {
-        Write-Host "  ⚠️  Java not in PATH (may need Android Studio)" -ForegroundColor Yellow
+        Write-Host "  Java not in PATH (may need Android Studio)" -ForegroundColor Yellow
         $warnings += "Java not in PATH"
     }
 } catch {
-    Write-Host "  ⚠️  Java not found - Android Studio may be needed" -ForegroundColor Yellow
+    Write-Host "  Java not found - Android Studio may be needed" -ForegroundColor Yellow
     $warnings += "Java not found"
-}
-
-# Check Android Studio
-Write-Host "Checking Android Studio..." -ForegroundColor Blue
-$androidStudioPaths = @(
-    "$env:LOCALAPPDATA\Android\Sdk",
-    "$env:ProgramFiles\Android\Android Studio",
-    "$env:ProgramFiles(x86)\Android\Android Studio"
-)
-
-$studioFound = $false
-foreach ($path in $androidStudioPaths) {
-    if (Test-Path $path) {
-        Write-Host "  ✅ Android Studio/SDK found at: $path" -ForegroundColor Green
-        $studioFound = $true
-        break
-    }
-}
-
-if (-not $studioFound) {
-    Write-Host "  ⚠️  Android Studio not detected" -ForegroundColor Yellow
-    Write-Host "     You can still build if Java is installed" -ForegroundColor Gray
-    $warnings += "Android Studio not detected"
 }
 
 # Summary
 Write-Host ""
 Write-Host "==============================" -ForegroundColor Cyan
 if ($ready -and $warnings.Count -eq 0) {
-    Write-Host "✅ Ready to build!" -ForegroundColor Green
+    Write-Host "Ready to build!" -ForegroundColor Green
     Write-Host ""
     Write-Host "Run: .\scripts\build-android.ps1 release" -ForegroundColor Cyan
 } elseif ($ready) {
-    Write-Host "⚠️  Ready to build (with warnings)" -ForegroundColor Yellow
+    Write-Host "Ready to build (with warnings)" -ForegroundColor Yellow
     Write-Host ""
     foreach ($warning in $warnings) {
-        Write-Host "  • $warning" -ForegroundColor Yellow
+        Write-Host "  - $warning" -ForegroundColor Yellow
     }
     Write-Host ""
     Write-Host "You can try: .\scripts\build-android.ps1 release" -ForegroundColor Cyan
 } else {
-    Write-Host "❌ Not ready to build" -ForegroundColor Red
+    Write-Host "Not ready to build" -ForegroundColor Red
     Write-Host ""
     Write-Host "Fix the issues above first" -ForegroundColor Yellow
 }
-
