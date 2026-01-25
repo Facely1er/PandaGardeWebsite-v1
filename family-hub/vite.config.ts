@@ -33,11 +33,8 @@ const getEnvVar = (key: string): string | undefined => {
   }
 };
 
-// Vite config specifically for Family Hub standalone build
 export default defineConfig({
   root: '.',
-  // Use family-hub.html as the entry point for dev server
-  publicDir: 'public',
   plugins: [
     react(),
     optionalDependenciesPlugin(),
@@ -71,10 +68,10 @@ export default defineConfig({
   publicDir: 'public',
   build: {
     outDir: 'dist',
-    emptyOutDir: false, // Don't clear dist if main build exists
+    emptyOutDir: true,
     rollupOptions: {
       input: {
-        'family-hub': path.resolve(__dirname, 'family-hub.html'),
+        main: path.resolve(__dirname, 'index.html'),
       },
       output: {
         manualChunks: (id) => {
@@ -95,19 +92,6 @@ export default defineConfig({
             return 'vendor';
           }
           
-          // Family Hub specific chunks
-          if (id.includes('/src/pages/family-hub/')) {
-            return 'pages-family-hub';
-          }
-          if (id.includes('/src/components/FamilyDashboard') || 
-              id.includes('/src/components/ChildProgressDetail') ||
-              id.includes('/src/components/FeedbackForm')) {
-            return 'components-family-hub';
-          }
-          if (id.includes('/src/contexts/FamilyProgressContext')) {
-            return 'context-family-progress';
-          }
-          
           // Context and hooks chunk
           if (id.includes('/src/contexts/') || id.includes('/src/hooks/')) {
             return 'state-management';
@@ -115,11 +99,9 @@ export default defineConfig({
           
           // Library utilities chunk - split to avoid circular dependencies
           if (id.includes('/src/lib/')) {
-            // Split analytics and sentry separately to avoid circular deps
             if (id.includes('/src/lib/analytics') || id.includes('/src/lib/sentry')) {
               return 'monitoring-utilities';
             }
-            // Split encryption separately
             if (id.includes('/src/lib/encryption')) {
               return 'encryption-utilities';
             }

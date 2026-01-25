@@ -9,6 +9,7 @@
   },
   "scripts": {
     "dev": "vite",
+    "dev:family-hub": "vite --config vite.family-hub.config.ts",
     "build": "vite build",
     "build:family-hub": "vite build --config vite.family-hub.config.ts",
     "lint": "eslint .",
