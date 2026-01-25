@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Privacy Panda Family Hub Color Scheme -->
+    <!-- Primary color: Teal/Green (#16a34a) -->
+    <color name="colorPrimary">#16a34a</color>
+    <color name="colorPrimaryDark">#15803d</color>
+    <color name="colorAccent">#22c55e</color>
+    
+    <!-- Additional colors for app theming -->
+    <color name="colorBackground">#ffffff</color>
+    <color name="colorSurface">#f9fafb</color>
+    <color name="colorOnPrimary">#ffffff</color>
+    <color name="colorOnSurface">#1f2937</color>
+    
+    <!-- Splash screen background -->
+    <color name="splashBackground">#16a34a</color>
+</resources>
+
