@@ -367,10 +367,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
 
   return (
     <div className="coloring-activity">
-      <div className="activity-header">
-        <h2 className="activity-title">Privacy Panda Coloring Activity</h2>
-        <button onClick={onClose} className="close-button">×</button>
-      </div>
+      {/* Header removed - ActivityManager handles it */}
 
       <div className="activity-content">
         <div className="tools-panel">
@@ -448,39 +445,16 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
 
       <style jsx>{`
         .coloring-activity {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.8);
+          position: relative;
+          width: 100%;
+          height: 100%;
+          min-height: 100%;
           display: flex;
           flex-direction: column;
-          z-index: 1000;
-        }
-
-        .activity-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 20px;
           background: white;
-          border-bottom: 1px solid #e0e0e0;
         }
 
-        .activity-title {
-          margin: 0;
-          color: #2C3E50;
-          font-size: 24px;
-        }
-
-        .close-button {
-          background: none;
-          border: none;
-          font-size: 24px;
-          cursor: pointer;
-          color: #666;
-        }
+        /* Header removed - ActivityManager handles it */
 
         .activity-content {
           display: flex;
