@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { RotateCcw, CheckCircle, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Download } from 'lucide-react';
 
 interface MazeActivityProps {
-  onComplete: () => void;
+  onComplete: (score?: number) => void;
   onClose: () => void;
 }
 
@@ -215,6 +215,46 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [handleKeyPress]);
 
+  // Touch controls for mobile devices
+  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+    const touch = e.touches[0];
+    setTouchStart({ x: touch.clientX, y: touch.clientY });
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!touchStart || isCompleted) return;
+
+    const touch = e.changedTouches[0];
+    const deltaX = touch.clientX - touchStart.x;
+    const deltaY = touch.clientY - touchStart.y;
+    const minSwipeDistance = 30; // Minimum distance for a swipe
+
+    // Determine swipe direction
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      // Horizontal swipe
+      if (Math.abs(deltaX) > minSwipeDistance) {
+        if (deltaX > 0) {
+          movePlayer('right');
+        } else {
+          movePlayer('left');
+        }
+      }
+    } else {
+      // Vertical swipe
+      if (Math.abs(deltaY) > minSwipeDistance) {
+        if (deltaY > 0) {
+          movePlayer('down');
+        } else {
+          movePlayer('up');
+        }
+      }
+    }
+
+    setTouchStart(null);
+  }, [touchStart, isCompleted, movePlayer]);
+
   return (
     <div className="maze-activity">
       <div className="activity-header">
@@ -250,8 +290,11 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
             ref={canvasRef} 
             className="maze-canvas"
             role="img"
-            aria-label={`Privacy Panda maze game. Navigate from the green start zone to the red goal. Current position: row ${playerPos.y + 1}, column ${playerPos.x + 1}. Moves made: ${moves}. ${isCompleted ? 'Maze completed!' : 'Use arrow keys or WASD to move.'}`}
+            aria-label={`Privacy Panda maze game. Navigate from the green start zone to the red goal. Current position: row ${playerPos.y + 1}, column ${playerPos.x + 1}. Moves made: ${moves}. ${isCompleted ? 'Maze completed!' : 'Use arrow keys, WASD, or swipe to move.'}`}
             tabIndex={0}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            style={{ touchAction: 'none' }}
           />
           {/* Screen reader announcements */}
           <div 

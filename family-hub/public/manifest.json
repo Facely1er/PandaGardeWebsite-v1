@@ -1,11 +1,11 @@
 {
-  "name": "Privacy Panda - Digital Privacy Education",
-  "short_name": "Privacy Panda",
-  "description": "Interactive digital privacy education platform for children and families",
+  "name": "PandaGarde Family Hub",
+  "short_name": "Family Hub",
+  "description": "Mobile app for family privacy management and interactive privacy learning activities",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#16a34a",
+  "theme_color": "#0D7377",
   "orientation": "portrait-primary",
   "icons": [
     {
