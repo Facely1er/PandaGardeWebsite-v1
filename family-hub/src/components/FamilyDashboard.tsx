@@ -602,16 +602,21 @@ const FamilyDashboard: React.FC<FamilyDashboardProps> = ({ appMode = false }) =>
       </section>
       )}
 
-      {/* Quick Actions Bar - Fixed positioning for app mode */}
+      {/* Quick Actions Bar - Enhanced Native Style */}
       <div 
-        className={`bg-white border-b border-teal-100 z-30 ${appMode ? 'sticky top-0' : 'sticky top-16'}`} 
+        className={`bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-b border-teal-100/50 dark:border-teal-900/50 z-30 ${appMode ? 'sticky top-0' : 'sticky top-16'} shadow-sm`} 
         style={{ backgroundColor: 'var(--card-color)' }}
       >
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-end py-2.5 sm:py-3">
             <button
-              onClick={() => setShowFeedback(true)}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg font-medium transition-colors text-sm"
+              onClick={() => {
+                if ('vibrate' in navigator) {
+                  navigator.vibrate(10);
+                }
+                setShowFeedback(true);
+              }}
+              className="flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white rounded-xl font-semibold transition-all duration-300 text-sm shadow-lg hover:shadow-xl active:scale-95"
             >
               <MessageSquare size={16} />
               <span>Feedback</span>
@@ -622,13 +627,12 @@ const FamilyDashboard: React.FC<FamilyDashboardProps> = ({ appMode = false }) =>
 
       {/* Main Content */}
       <main className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
-        {/* Family Overview Cards - Teal Theme */}
+        {/* Family Overview Cards - Enhanced Native Style */}
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <div 
-            className="family-hub-card bg-white p-4 sm:p-5 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-teal-200"
+            className="family-hub-card bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-4 sm:p-5 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-teal-500/20 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 hover:border-teal-300 dark:hover:border-teal-600 hover:-translate-y-1 active:scale-[0.98] transform-gpu"
             style={{ 
               backgroundColor: 'var(--card-color)',
-              boxShadow: '0 1px 3px 0 rgba(13, 115, 119, 0.08), 0 1px 2px 0 rgba(13, 115, 119, 0.04)'
             }}
           >
             <div className="flex items-center justify-between mb-2 sm:mb-3">
@@ -644,48 +648,45 @@ const FamilyDashboard: React.FC<FamilyDashboardProps> = ({ appMode = false }) =>
           </div>
 
           <div 
-            className="family-hub-card bg-white p-4 sm:p-5 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-teal-200"
+            className="family-hub-card bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-4 sm:p-5 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-cyan-500/20 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 hover:border-cyan-300 dark:hover:border-cyan-600 hover:-translate-y-1 active:scale-[0.98] transform-gpu"
             style={{ 
               backgroundColor: 'var(--card-color)',
-              boxShadow: '0 1px 3px 0 rgba(13, 115, 119, 0.08), 0 1px 2px 0 rgba(13, 115, 119, 0.04)'
             }}
           >
             <div className="flex items-center justify-between mb-2 sm:mb-3">
-              <div className="w-9 h-9 sm:w-11 sm:h-11 bg-cyan-100 rounded-xl flex items-center justify-center">
-                <Shield className="text-cyan-600" size={18} />
+              <div className="w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-br from-cyan-100 to-teal-100 dark:from-cyan-900/30 dark:to-teal-900/30 rounded-xl flex items-center justify-center shadow-sm">
+                <Shield className="text-cyan-600 dark:text-cyan-400" size={18} />
               </div>
-              <span className="text-xl sm:text-2xl font-bold text-teal-700">
+              <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
                 {calculateFamilyScore()}
               </span>
             </div>
-            <h3 className="font-semibold text-xs sm:text-sm mb-0.5 sm:mb-1 text-teal-700">Privacy Score</h3>
-            <p className="text-xs" style={{ color: 'var(--gray-600)' }}>Family average</p>
+            <h3 className="font-semibold text-xs sm:text-sm mb-0.5 sm:mb-1 text-teal-700 dark:text-teal-400">Privacy Score</h3>
+            <p className="text-xs text-gray-600 dark:text-gray-400">Family average</p>
           </div>
 
           <div 
-            className="family-hub-card bg-white p-4 sm:p-5 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-teal-200"
+            className="family-hub-card bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-4 sm:p-5 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-amber-500/20 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 hover:border-amber-300 dark:hover:border-amber-600 hover:-translate-y-1 active:scale-[0.98] transform-gpu"
             style={{ 
               backgroundColor: 'var(--card-color)',
-              boxShadow: '0 1px 3px 0 rgba(13, 115, 119, 0.08), 0 1px 2px 0 rgba(13, 115, 119, 0.04)'
             }}
           >
             <div className="flex items-center justify-between mb-2 sm:mb-3">
-              <div className="w-9 h-9 sm:w-11 sm:h-11 bg-amber-100 rounded-xl flex items-center justify-center">
-                <Award className="text-amber-600" size={18} />
+              <div className="w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 rounded-xl flex items-center justify-center shadow-sm">
+                <Award className="text-amber-600 dark:text-amber-400" size={18} />
               </div>
-              <span className="text-xl sm:text-2xl font-bold text-teal-700">
+              <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
                 {familyMembers.reduce((sum, member) => sum + member.completedActivities, 0)}
               </span>
             </div>
-            <h3 className="font-semibold text-xs sm:text-sm mb-0.5 sm:mb-1 text-teal-700">Activities Done</h3>
-            <p className="text-xs" style={{ color: 'var(--gray-600)' }}>Total completed</p>
+            <h3 className="font-semibold text-xs sm:text-sm mb-0.5 sm:mb-1 text-teal-700 dark:text-teal-400">Activities Done</h3>
+            <p className="text-xs text-gray-600 dark:text-gray-400">Total completed</p>
           </div>
 
           <div 
-            className="family-hub-card bg-white p-4 sm:p-5 rounded-xl shadow-md hover:shadow-xl transition-all border-2 border-transparent hover:border-teal-200"
+            className="family-hub-card bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-4 sm:p-5 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-orange-500/20 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 hover:border-orange-300 dark:hover:border-orange-600 hover:-translate-y-1 active:scale-[0.98] transform-gpu"
             style={{ 
               backgroundColor: 'var(--card-color)',
-              boxShadow: '0 1px 3px 0 rgba(13, 115, 119, 0.08), 0 1px 2px 0 rgba(13, 115, 119, 0.04)'
             }}
           >
             <div className="flex items-center justify-between mb-2 sm:mb-3">
