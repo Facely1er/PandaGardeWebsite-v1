@@ -257,57 +257,16 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 dark:bg-black/90 backdrop-blur-sm flex flex-col z-50">
-      {showInstructions && currentActivity ? (
-        <div className="bg-white dark:bg-gray-800 rounded-2xl mx-auto my-5 max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl border border-gray-200/50 dark:border-gray-700/50 animate-scaleIn">
-          <div className="flex justify-between items-center p-5 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20 rounded-t-2xl">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{currentActivity.title}</h2>
-            <button 
-              onClick={() => {
-                if ('vibrate' in navigator) {
-                  navigator.vibrate(10);
-                }
-                onClose();
-              }} 
-              className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-3xl leading-none p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            >
-              ×
-            </button>
-          </div>
-
-          <div className="p-6">
-            <div className="mb-6">
-              <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">{currentActivity.description}</p>
-            </div>
-
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">How to Play:</h3>
-              <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-gray-300">
-                {currentActivity.instructions.map((instruction, index) => (
-                  <li key={index} className="leading-relaxed">{instruction}</li>
-                ))}
-              </ol>
-            </div>
-
-            <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4 mb-6">
-              <h3 className="text-base font-semibold text-amber-800 dark:text-amber-300 mb-2">💡 Tip:</h3>
-              <p className="text-sm text-amber-700 dark:text-amber-300 italic leading-relaxed">{currentActivity.tips}</p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <button 
-                onClick={() => {
-                  if ('vibrate' in navigator) {
-                    navigator.vibrate(15);
-                  }
-                  handleStart();
-                }} 
-                className="flex items-center justify-center gap-2 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl active:scale-95 min-h-[44px]"
-                aria-label="Start the activity"
-              >
-                <Play size={20} />
-                Start Activity
-              </button>
+    <>
+      {/* Backdrop */}
+      <div className="fixed inset-0 bg-black/80 dark:bg-black/90 backdrop-blur-sm z-40" onClick={onClose} />
+      
+      {/* Content */}
+      <div className="fixed inset-0 flex flex-col z-50 pointer-events-none">
+        {showInstructions && currentActivity ? (
+          <div className="pointer-events-auto bg-white dark:bg-gray-800 rounded-2xl mx-auto my-5 max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl border border-gray-200/50 dark:border-gray-700/50 animate-scaleIn">
+            <div className="flex justify-between items-center p-5 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20 rounded-t-2xl">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{currentActivity.title}</h2>
               <button 
                 onClick={() => {
                   if ('vibrate' in navigator) {
@@ -315,53 +274,99 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
                   }
                   onClose();
                 }} 
-                className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:bg-gray-300 dark:hover:bg-gray-600 active:scale-95 min-h-[44px]"
-                aria-label="Cancel and close activity"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="bg-white dark:bg-gray-900 h-full flex flex-col">
-          <div className="flex justify-between items-center p-4 bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">{currentActivity?.title}</h2>
-            <div className="flex items-center gap-3">
-              <button 
-                onClick={() => {
-                  if ('vibrate' in navigator) {
-                    navigator.vibrate(10);
-                  }
-                  handleRestart();
-                }} 
-                className="p-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors active:scale-95"
-                title="Restart Activity" 
-                aria-label="Restart the activity"
-              >
-                <RotateCcw size={20} />
-              </button>
-              <button 
-                onClick={() => {
-                  if ('vibrate' in navigator) {
-                    navigator.vibrate(10);
-                  }
-                  onClose();
-                }} 
-                className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-2xl leading-none p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                aria-label="Close activity"
+                className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-3xl leading-none p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
               >
                 ×
               </button>
             </div>
-          </div>
-          <div className="flex-1 overflow-auto">
-            {renderActivity()}
-          </div>
-        </div>
-      )}
 
-    </div>
+            <div className="p-6">
+              <div className="mb-6">
+                <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">{currentActivity.description}</p>
+              </div>
+
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">How to Play:</h3>
+                <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-gray-300">
+                  {currentActivity.instructions.map((instruction, index) => (
+                    <li key={index} className="leading-relaxed">{instruction}</li>
+                  ))}
+                </ol>
+              </div>
+
+              <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4 mb-6">
+                <h3 className="text-base font-semibold text-amber-800 dark:text-amber-300 mb-2">💡 Tip:</h3>
+                <p className="text-sm text-amber-700 dark:text-amber-300 italic leading-relaxed">{currentActivity.tips}</p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <button 
+                  onClick={() => {
+                    if ('vibrate' in navigator) {
+                      navigator.vibrate(15);
+                    }
+                    handleStart();
+                  }} 
+                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl active:scale-95 min-h-[44px]"
+                  aria-label="Start the activity"
+                >
+                  <Play size={20} />
+                  Start Activity
+                </button>
+                <button 
+                  onClick={() => {
+                    if ('vibrate' in navigator) {
+                      navigator.vibrate(10);
+                    }
+                    onClose();
+                  }} 
+                  className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:bg-gray-300 dark:hover:bg-gray-600 active:scale-95 min-h-[44px]"
+                  aria-label="Cancel and close activity"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="pointer-events-auto bg-white dark:bg-gray-900 h-full flex flex-col">
+            <div className="flex justify-between items-center p-4 bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">{currentActivity?.title}</h2>
+              <div className="flex items-center gap-3">
+                <button 
+                  onClick={() => {
+                    if ('vibrate' in navigator) {
+                      navigator.vibrate(10);
+                    }
+                    handleRestart();
+                  }} 
+                  className="p-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors active:scale-95"
+                  title="Restart Activity" 
+                  aria-label="Restart the activity"
+                >
+                  <RotateCcw size={20} />
+                </button>
+                <button 
+                  onClick={() => {
+                    if ('vibrate' in navigator) {
+                      navigator.vibrate(10);
+                    }
+                    onClose();
+                  }} 
+                  className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-2xl leading-none p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                  aria-label="Close activity"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+            <div className="flex-1 overflow-auto">
+              {renderActivity()}
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

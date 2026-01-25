@@ -25,29 +25,11 @@ const ActivitiesScreen: React.FC = () => {
 
   if (selectedActivity) {
     return (
-      <div className="h-full flex flex-col animate-slideIn">
-        <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50 px-4 py-3 flex items-center gap-4 sticky top-0 z-30">
-          <button
-            onClick={() => {
-              if ('vibrate' in navigator) {
-                navigator.vibrate(10);
-              }
-              setSelectedActivity(null);
-            }}
-            className="p-2.5 hover:bg-gray-100 dark:hover:bg-gray-700 active:bg-gray-200 dark:active:bg-gray-600 rounded-xl transition-all duration-200 min-w-[44px] min-h-[44px] flex items-center justify-center active:scale-95"
-          >
-            <ArrowLeft size={20} className="text-gray-700 dark:text-gray-300" />
-          </button>
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white">Activity</h2>
-        </div>
-        <div className="flex-1 overflow-auto">
-          <ActivityManager
-            activityId={selectedActivity}
-            onClose={() => setSelectedActivity(null)}
-            onComplete={handleActivityComplete}
-          />
-        </div>
-      </div>
+      <ActivityManager
+        activityId={selectedActivity}
+        onClose={() => setSelectedActivity(null)}
+        onComplete={handleActivityComplete}
+      />
     );
   }
 
