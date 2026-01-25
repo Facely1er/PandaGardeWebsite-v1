@@ -602,8 +602,11 @@ const FamilyDashboard: React.FC<FamilyDashboardProps> = ({ appMode = false }) =>
       </section>
       )}
 
-      {/* Quick Actions Bar */}
-      <div className="bg-white border-b border-teal-100 sticky top-16 z-30" style={{ backgroundColor: 'var(--card-color)' }}>
+      {/* Quick Actions Bar - Fixed positioning for app mode */}
+      <div 
+        className={`bg-white border-b border-teal-100 z-30 ${appMode ? 'sticky top-0' : 'sticky top-16'}`} 
+        style={{ backgroundColor: 'var(--card-color)' }}
+      >
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-end py-2.5 sm:py-3">
             <button

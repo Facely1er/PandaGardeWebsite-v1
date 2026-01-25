@@ -26,7 +26,16 @@ const AppShell: React.FC = () => {
       {/* Top Bar - Mobile App Style */}
       <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm safe-area-top">
         <div className="px-4 py-3 max-w-full">
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center gap-2">
+            <img 
+              src="/LogoPandagarde.png" 
+              alt="PandaGarde Logo" 
+              className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
+              onError={(e) => {
+                // Fallback if image fails to load
+                (e.target as HTMLImageElement).style.display = 'none';
+              }}
+            />
             <h1 className="text-lg sm:text-xl font-bold text-teal-600 dark:text-teal-400">
               PandaGarde
             </h1>
