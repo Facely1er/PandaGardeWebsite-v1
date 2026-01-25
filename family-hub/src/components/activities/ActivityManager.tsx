@@ -1,5 +1,5 @@
-import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { Play, RotateCcw } from 'lucide-react';
+import React, { useState, useEffect, Suspense, lazy, ErrorInfo, Component } from 'react';
+import { Play, RotateCcw, AlertCircle } from 'lucide-react';
 import { useProgress } from '../../contexts/ProgressContext';
 import { useToast } from '../../contexts/ToastContext';
 // import { useAuth } from '../../contexts/AuthContext';
@@ -18,6 +18,60 @@ interface ActivityManagerProps {
   activityId: string;
   onClose: () => void;
   onComplete: (activityId: string, score?: number) => void;
+}
+
+// Error Boundary Component for Activities
+class ActivityErrorBoundary extends Component<
+  { children: React.ReactNode; activityName: string; onClose: () => void },
+  { hasError: boolean; error: Error | null }
+> {
+  constructor(props: { children: React.ReactNode; activityName: string; onClose: () => void }) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('Activity Error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="flex flex-col items-center justify-center h-full p-8 text-center">
+          <AlertCircle className="text-red-500 dark:text-red-400 mb-4" size={48} />
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+            Activity Error
+          </h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-4 max-w-md">
+            Sorry, there was an error loading the {this.props.activityName} activity. Please try again or select a different activity.
+          </p>
+          <div className="flex gap-3">
+            <button
+              onClick={() => {
+                this.setState({ hasError: false, error: null });
+                window.location.reload();
+              }}
+              className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg font-medium transition-colors"
+            >
+              Reload Activity
+            </button>
+            <button
+              onClick={this.props.onClose}
+              className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg font-medium transition-colors"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
 }
 
 const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, onComplete }) => {
@@ -130,7 +184,34 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
   useEffect(() => {
     // Show instructions for new activities
     setShowInstructions(true);
+    setStartTime(null);
   }, [activityId]);
+
+  // Validate activity ID
+  if (!currentActivity) {
+    return (
+      <>
+        <div className="fixed inset-0 bg-black/80 dark:bg-black/90 backdrop-blur-sm z-40" onClick={onClose} />
+        <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+          <div className="pointer-events-auto bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-md mx-4 shadow-2xl border border-gray-200/50 dark:border-gray-700/50 animate-scaleIn text-center">
+            <AlertCircle className="text-red-500 dark:text-red-400 mx-auto mb-4" size={48} />
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+              Activity Not Found
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              The activity "{activityId}" could not be found. Please try selecting a different activity.
+            </p>
+            <button
+              onClick={onClose}
+              className="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-semibold transition-colors min-h-[44px]"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   const handleComplete = async (score?: number) => {
     const timeSpent = startTime ? Math.round((Date.now() - startTime.getTime()) / 1000) : 0;
@@ -156,95 +237,79 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
 
   const renderActivity = () => {
     const activityProps = { onComplete: handleComplete, onClose: onClose };
+    const activityName = currentActivity?.title || 'activity';
+
+    const LoadingFallback = () => (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400"></div>
+        <span className="ml-4 text-gray-600 dark:text-gray-400">Loading activity...</span>
+      </div>
+    );
 
     switch (activityId) {
       case 'coloring':
         return (
-          <Suspense fallback={
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400"></div>
-              <span className="ml-4 text-gray-600 dark:text-gray-400">Loading coloring activity...</span>
-            </div>
-          }>
-            <ColoringActivity {...activityProps} />
-          </Suspense>
+          <ActivityErrorBoundary activityName={activityName} onClose={onClose}>
+            <Suspense fallback={<LoadingFallback />}>
+              <ColoringActivity {...activityProps} />
+            </Suspense>
+          </ActivityErrorBoundary>
         );
       case 'sorting':
         return (
-          <Suspense fallback={
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400"></div>
-              <span className="ml-4 text-gray-600 dark:text-gray-400">Loading sorting activity...</span>
-            </div>
-          }>
-            <DragDropActivity {...activityProps} />
-          </Suspense>
+          <ActivityErrorBoundary activityName={activityName} onClose={onClose}>
+            <Suspense fallback={<LoadingFallback />}>
+              <DragDropActivity {...activityProps} />
+            </Suspense>
+          </ActivityErrorBoundary>
         );
       case 'maze':
         return (
-          <Suspense fallback={
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400"></div>
-              <span className="ml-4 text-gray-600 dark:text-gray-400">Loading maze activity...</span>
-            </div>
-          }>
-            <MazeActivity {...activityProps} />
-          </Suspense>
+          <ActivityErrorBoundary activityName={activityName} onClose={onClose}>
+            <Suspense fallback={<LoadingFallback />}>
+              <MazeActivity {...activityProps} />
+            </Suspense>
+          </ActivityErrorBoundary>
         );
       case 'wordsearch':
         return (
-          <Suspense fallback={
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400"></div>
-              <span className="ml-4 text-gray-600 dark:text-gray-400">Loading word search activity...</span>
-            </div>
-          }>
-            <WordSearchActivity {...activityProps} />
-          </Suspense>
+          <ActivityErrorBoundary activityName={activityName} onClose={onClose}>
+            <Suspense fallback={<LoadingFallback />}>
+              <WordSearchActivity {...activityProps} />
+            </Suspense>
+          </ActivityErrorBoundary>
         );
       case 'connectdots':
         return (
-          <Suspense fallback={
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400"></div>
-              <span className="ml-4 text-gray-600 dark:text-gray-400">Loading connect dots activity...</span>
-            </div>
-          }>
-            <ConnectDotsActivity {...activityProps} />
-          </Suspense>
+          <ActivityErrorBoundary activityName={activityName} onClose={onClose}>
+            <Suspense fallback={<LoadingFallback />}>
+              <ConnectDotsActivity {...activityProps} />
+            </Suspense>
+          </ActivityErrorBoundary>
         );
       case 'matching':
         return (
-          <Suspense fallback={
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400"></div>
-              <span className="ml-4 text-gray-600 dark:text-gray-400">Loading matching activity...</span>
-            </div>
-          }>
-            <MatchingActivity {...activityProps} />
-          </Suspense>
+          <ActivityErrorBoundary activityName={activityName} onClose={onClose}>
+            <Suspense fallback={<LoadingFallback />}>
+              <MatchingActivity {...activityProps} />
+            </Suspense>
+          </ActivityErrorBoundary>
         );
       case 'memory':
         return (
-          <Suspense fallback={
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400"></div>
-              <span className="ml-4 text-gray-600 dark:text-gray-400">Loading memory game...</span>
-            </div>
-          }>
-            <MemoryGameActivity {...activityProps} />
-          </Suspense>
+          <ActivityErrorBoundary activityName={activityName} onClose={onClose}>
+            <Suspense fallback={<LoadingFallback />}>
+              <MemoryGameActivity {...activityProps} />
+            </Suspense>
+          </ActivityErrorBoundary>
         );
       case 'quiz':
         return (
-          <Suspense fallback={
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400"></div>
-              <span className="ml-4 text-gray-600 dark:text-gray-400">Loading quiz...</span>
-            </div>
-          }>
-            <QuizActivity {...activityProps} />
-          </Suspense>
+          <ActivityErrorBoundary activityName={activityName} onClose={onClose}>
+            <Suspense fallback={<LoadingFallback />}>
+              <QuizActivity {...activityProps} />
+            </Suspense>
+          </ActivityErrorBoundary>
         );
       default:
         return (
