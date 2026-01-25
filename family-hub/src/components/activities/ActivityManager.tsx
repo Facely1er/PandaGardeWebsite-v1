@@ -395,7 +395,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
           </div>
         ) : (
           <div className="pointer-events-auto bg-white dark:bg-gray-900 h-full flex flex-col">
-            <div className="flex justify-between items-center p-4 bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+            <div className="flex justify-between items-center p-4 bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10 flex-shrink-0">
               <h2 className="text-xl font-bold text-gray-900 dark:text-white">{currentActivity?.title}</h2>
               <div className="flex items-center gap-3">
                 <button 
@@ -425,10 +425,8 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
                 </button>
               </div>
             </div>
-            <div className="flex-1 overflow-auto bg-white dark:bg-gray-900">
-              <div className="min-h-full w-full">
-                {renderActivity()}
-              </div>
+            <div className="flex-1 overflow-auto bg-white dark:bg-gray-900 min-h-0">
+              {renderActivity()}
             </div>
           </div>
         )}

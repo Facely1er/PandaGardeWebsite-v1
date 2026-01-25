@@ -443,7 +443,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .coloring-activity {
           position: relative;
           width: 100%;
@@ -459,6 +459,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
         .activity-content {
           display: flex;
           flex: 1;
+          min-height: 0;
           background: white;
         }
 

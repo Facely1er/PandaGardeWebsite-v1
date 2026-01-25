@@ -199,10 +199,7 @@ const MemoryGameActivity: React.FC<MemoryGameActivityProps> = ({ onComplete, onC
 
   return (
     <div className="memory-game-activity">
-      <div className="activity-header">
-        <h2 className="activity-title">Privacy Memory Game</h2>
-        <button onClick={onClose} className="close-button">×</button>
-      </div>
+      {/* Header removed - ActivityManager handles it */}
 
       <div className="activity-content">
         <div className="instructions">
@@ -269,7 +266,7 @@ const MemoryGameActivity: React.FC<MemoryGameActivityProps> = ({ onComplete, onC
         )}
       </div>
 
-      <style jsx>{`
+      <style>{`
         .memory-game-activity {
           position: relative;
           width: 100%;
@@ -280,28 +277,7 @@ const MemoryGameActivity: React.FC<MemoryGameActivityProps> = ({ onComplete, onC
           background: white;
         }
 
-        .activity-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 20px;
-          background: white;
-          border-bottom: 1px solid #e0e0e0;
-        }
-
-        .activity-title {
-          margin: 0;
-          color: #2C3E50;
-          font-size: 24px;
-        }
-
-        .close-button {
-          background: none;
-          border: none;
-          font-size: 24px;
-          cursor: pointer;
-          color: #666;
-        }
+        /* Header removed - ActivityManager handles it */
 
         .activity-content {
           flex: 1;

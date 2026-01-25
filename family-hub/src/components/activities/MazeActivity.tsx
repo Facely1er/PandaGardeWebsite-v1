@@ -359,7 +359,7 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .maze-activity {
           position: relative;
           width: 100%;

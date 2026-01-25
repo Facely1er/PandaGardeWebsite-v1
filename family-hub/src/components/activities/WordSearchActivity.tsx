@@ -327,7 +327,7 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
         )}
       </div>
 
-      <style jsx>{`
+      <style>{`
         .word-search-activity {
           position: relative;
           width: 100%;

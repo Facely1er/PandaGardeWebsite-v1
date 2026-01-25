@@ -368,7 +368,7 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
         )}
       </div>
 
-      <style jsx>{`
+      <style>{`
         .drag-drop-activity {
           position: relative;
           width: 100%;

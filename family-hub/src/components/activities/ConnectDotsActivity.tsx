@@ -255,7 +255,7 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .connect-dots-activity {
           position: relative;
           width: 100%;
