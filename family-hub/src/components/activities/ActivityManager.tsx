@@ -160,344 +160,207 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
     switch (activityId) {
       case 'coloring':
         return (
-          <Suspense fallback={<div className="loading-spinner">Loading coloring activity...</div>}>
+          <Suspense fallback={
+            <div className="flex items-center justify-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400"></div>
+              <span className="ml-4 text-gray-600 dark:text-gray-400">Loading coloring activity...</span>
+            </div>
+          }>
             <ColoringActivity {...activityProps} />
           </Suspense>
         );
       case 'sorting':
         return (
-          <Suspense fallback={<div className="loading-spinner">Loading sorting activity...</div>}>
+          <Suspense fallback={
+            <div className="flex items-center justify-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400"></div>
+              <span className="ml-4 text-gray-600 dark:text-gray-400">Loading sorting activity...</span>
+            </div>
+          }>
             <DragDropActivity {...activityProps} />
           </Suspense>
         );
       case 'maze':
         return (
-          <Suspense fallback={<div className="loading-spinner">Loading maze activity...</div>}>
+          <Suspense fallback={
+            <div className="flex items-center justify-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400"></div>
+              <span className="ml-4 text-gray-600 dark:text-gray-400">Loading maze activity...</span>
+            </div>
+          }>
             <MazeActivity {...activityProps} />
           </Suspense>
         );
       case 'wordsearch':
         return (
-          <Suspense fallback={<div className="loading-spinner">Loading word search activity...</div>}>
+          <Suspense fallback={
+            <div className="flex items-center justify-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400"></div>
+              <span className="ml-4 text-gray-600 dark:text-gray-400">Loading word search activity...</span>
+            </div>
+          }>
             <WordSearchActivity {...activityProps} />
           </Suspense>
         );
       case 'connectdots':
         return (
-          <Suspense fallback={<div className="loading-spinner">Loading connect dots activity...</div>}>
+          <Suspense fallback={
+            <div className="flex items-center justify-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400"></div>
+              <span className="ml-4 text-gray-600 dark:text-gray-400">Loading connect dots activity...</span>
+            </div>
+          }>
             <ConnectDotsActivity {...activityProps} />
           </Suspense>
         );
       case 'matching':
         return (
-          <Suspense fallback={<div className="loading-spinner">Loading matching activity...</div>}>
+          <Suspense fallback={
+            <div className="flex items-center justify-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400"></div>
+              <span className="ml-4 text-gray-600 dark:text-gray-400">Loading matching activity...</span>
+            </div>
+          }>
             <MatchingActivity {...activityProps} />
           </Suspense>
         );
       case 'memory':
         return (
-          <Suspense fallback={<div className="loading-spinner">Loading memory game...</div>}>
+          <Suspense fallback={
+            <div className="flex items-center justify-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400"></div>
+              <span className="ml-4 text-gray-600 dark:text-gray-400">Loading memory game...</span>
+            </div>
+          }>
             <MemoryGameActivity {...activityProps} />
           </Suspense>
         );
       case 'quiz':
         return (
-          <Suspense fallback={<div className="loading-spinner">Loading quiz...</div>}>
+          <Suspense fallback={
+            <div className="flex items-center justify-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400"></div>
+              <span className="ml-4 text-gray-600 dark:text-gray-400">Loading quiz...</span>
+            </div>
+          }>
             <QuizActivity {...activityProps} />
           </Suspense>
         );
       default:
-        return <div>Activity not found</div>;
+        return (
+          <div className="flex flex-col items-center justify-center h-64 text-gray-600 dark:text-gray-400">
+            <p className="text-lg font-semibold mb-2">Activity not found</p>
+            <p className="text-sm">Please try selecting a different activity.</p>
+          </div>
+        );
     }
   };
 
   return (
-    <div className="activity-manager">
+    <div className="fixed inset-0 bg-black/80 dark:bg-black/90 backdrop-blur-sm flex flex-col z-50">
       {showInstructions && currentActivity ? (
-        <div className="activity-instructions">
-          <div className="instructions-header">
-            <h2 className="instructions-title">{currentActivity.title}</h2>
-            <button onClick={onClose} className="close-button">×</button>
+        <div className="bg-white dark:bg-gray-800 rounded-2xl mx-auto my-5 max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl border border-gray-200/50 dark:border-gray-700/50 animate-scaleIn">
+          <div className="flex justify-between items-center p-5 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20 rounded-t-2xl">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{currentActivity.title}</h2>
+            <button 
+              onClick={() => {
+                if ('vibrate' in navigator) {
+                  navigator.vibrate(10);
+                }
+                onClose();
+              }} 
+              className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-3xl leading-none p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            >
+              ×
+            </button>
           </div>
 
-          <div className="instructions-content">
-            <div className="instructions-description">
-              <p>{currentActivity.description}</p>
+          <div className="p-6">
+            <div className="mb-6">
+              <p className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">{currentActivity.description}</p>
             </div>
 
-            <div className="instructions-steps">
-              <h3>How to Play:</h3>
-              <ol>
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">How to Play:</h3>
+              <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-gray-300">
                 {currentActivity.instructions.map((instruction, index) => (
-                  <li key={index}>{instruction}</li>
+                  <li key={index} className="leading-relaxed">{instruction}</li>
                 ))}
               </ol>
             </div>
 
-            <div className="instructions-tips">
-              <h3>💡 Tip:</h3>
-              <p>{currentActivity.tips}</p>
+            <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4 mb-6">
+              <h3 className="text-base font-semibold text-amber-800 dark:text-amber-300 mb-2">💡 Tip:</h3>
+              <p className="text-sm text-amber-700 dark:text-amber-300 italic leading-relaxed">{currentActivity.tips}</p>
             </div>
 
-            <div className="instructions-actions">
-            <button onClick={handleStart} className="start-button" aria-label="Start the activity">
-              <Play size={20} />
-              Start Activity
-            </button>
-            <button onClick={onClose} className="cancel-button" aria-label="Cancel and close activity">
-              Cancel
-            </button>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <button 
+                onClick={() => {
+                  if ('vibrate' in navigator) {
+                    navigator.vibrate(15);
+                  }
+                  handleStart();
+                }} 
+                className="flex items-center justify-center gap-2 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl active:scale-95 min-h-[44px]"
+                aria-label="Start the activity"
+              >
+                <Play size={20} />
+                Start Activity
+              </button>
+              <button 
+                onClick={() => {
+                  if ('vibrate' in navigator) {
+                    navigator.vibrate(10);
+                  }
+                  onClose();
+                }} 
+                className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:bg-gray-300 dark:hover:bg-gray-600 active:scale-95 min-h-[44px]"
+                aria-label="Cancel and close activity"
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>
       ) : (
-        <div className="activity-container">
-          <div className="activity-header">
-            <h2 className="activity-title">{currentActivity?.title}</h2>
-            <div className="activity-controls">
-              <button onClick={handleRestart} className="restart-button" title="Restart Activity" aria-label="Restart the activity">
+        <div className="bg-white dark:bg-gray-900 h-full flex flex-col">
+          <div className="flex justify-between items-center p-4 bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">{currentActivity?.title}</h2>
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={() => {
+                  if ('vibrate' in navigator) {
+                    navigator.vibrate(10);
+                  }
+                  handleRestart();
+                }} 
+                className="p-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors active:scale-95"
+                title="Restart Activity" 
+                aria-label="Restart the activity"
+              >
                 <RotateCcw size={20} />
               </button>
-              <button onClick={onClose} className="close-button" aria-label="Close activity">×</button>
+              <button 
+                onClick={() => {
+                  if ('vibrate' in navigator) {
+                    navigator.vibrate(10);
+                  }
+                  onClose();
+                }} 
+                className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-2xl leading-none p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                aria-label="Close activity"
+              >
+                ×
+              </button>
             </div>
           </div>
-          {renderActivity()}
+          <div className="flex-1 overflow-auto">
+            {renderActivity()}
+          </div>
         </div>
       )}
 
-      <style jsx>{`
-        .activity-manager {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.8);
-          display: flex;
-          flex-direction: column;
-          z-index: 1000;
-        }
-
-        .activity-instructions {
-          background: white;
-          margin: 20px;
-          border-radius: 12px;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-          max-width: 600px;
-          max-height: 80vh;
-          overflow-y: auto;
-          margin: 20px auto;
-        }
-
-        .instructions-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 20px;
-          border-bottom: 1px solid #e0e0e0;
-          background: #f8f9fa;
-          border-radius: 12px 12px 0 0;
-        }
-
-        .instructions-title {
-          margin: 0;
-          color: #2C3E50;
-          font-size: 24px;
-        }
-
-        .instructions-content {
-          padding: 20px;
-        }
-
-        .instructions-description {
-          margin-bottom: 20px;
-        }
-
-        .instructions-description p {
-          font-size: 16px;
-          color: #666;
-          line-height: 1.6;
-        }
-
-        .instructions-steps {
-          margin-bottom: 20px;
-        }
-
-        .instructions-steps h3 {
-          color: #2C3E50;
-          margin-bottom: 10px;
-        }
-
-        .instructions-steps ol {
-          padding-left: 20px;
-        }
-
-        .instructions-steps li {
-          margin-bottom: 8px;
-          color: #666;
-          line-height: 1.5;
-        }
-
-        .instructions-tips {
-          background: #fff3cd;
-          border: 1px solid #ffeaa7;
-          border-radius: 8px;
-          padding: 15px;
-          margin-bottom: 20px;
-        }
-
-        .instructions-tips h3 {
-          margin: 0 0 8px 0;
-          color: #856404;
-          font-size: 16px;
-        }
-
-        .instructions-tips p {
-          margin: 0;
-          color: #856404;
-          font-style: italic;
-        }
-
-        .instructions-actions {
-          display: flex;
-          gap: 12px;
-          justify-content: center;
-        }
-
-        .start-button {
-          background: #4CAF50;
-          color: white;
-          border: none;
-          padding: 12px 24px;
-          border-radius: 8px;
-          font-size: 16px;
-          font-weight: 600;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          transition: background 0.2s;
-        }
-
-        .start-button:hover {
-          background: #45a049;
-        }
-
-        .cancel-button {
-          background: #f5f5f5;
-          color: #666;
-          border: 1px solid #ddd;
-          padding: 12px 24px;
-          border-radius: 8px;
-          font-size: 16px;
-          cursor: pointer;
-          transition: background 0.2s;
-        }
-
-        .cancel-button:hover {
-          background: #e0e0e0;
-        }
-
-        .activity-container {
-          background: white;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-        }
-
-        .activity-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 15px 20px;
-          background: #f8f9fa;
-          border-bottom: 1px solid #e0e0e0;
-        }
-
-        .activity-title {
-          margin: 0;
-          color: #2C3E50;
-          font-size: 20px;
-        }
-
-        .activity-controls {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-
-        .restart-button {
-          background: #f5f5f5;
-          border: 1px solid #ddd;
-          padding: 8px;
-          border-radius: 6px;
-          cursor: pointer;
-          color: #666;
-          transition: background 0.2s;
-        }
-
-        .restart-button:hover {
-          background: #e0e0e0;
-        }
-
-        .close-button {
-          background: none;
-          border: none;
-          font-size: 24px;
-          cursor: pointer;
-          color: #666;
-          padding: 4px;
-        }
-
-        .loading-spinner {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          height: 200px;
-          font-size: 16px;
-          color: #666;
-        }
-
-        .loading-spinner::before {
-          content: '';
-          width: 20px;
-          height: 20px;
-          border: 2px solid #f3f3f3;
-          border-top: 2px solid #4CAF50;
-          border-radius: 50%;
-          animation: spin 1s linear infinite;
-          margin-right: 10px;
-        }
-
-        @media (max-width: 768px) {
-          .activity-instructions {
-            margin: 10px;
-            max-height: 90vh;
-          }
-
-          .instructions-header {
-            padding: 15px;
-          }
-
-          .instructions-title {
-            font-size: 20px;
-          }
-
-          .instructions-content {
-            padding: 15px;
-          }
-
-          .instructions-actions {
-            flex-direction: column;
-          }
-
-          .start-button,
-          .cancel-button {
-            width: 100%;
-            justify-content: center;
-          }
-        }
-      `}</style>
     </div>
   );
 };
