@@ -366,12 +366,10 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
   };
 
   return (
-    <div className="coloring-activity" style={{ display: 'flex', flexDirection: 'column', width: '100%', minHeight: '600px', backgroundColor: 'white' }}>
+    <div className="coloring-activity" style={{ display: 'flex', flexDirection: 'column', width: '100%', minHeight: '600px', backgroundColor: 'white', position: 'relative' }}>
       {/* Header removed - ActivityManager handles it */}
-      {/* Debug: Activity is rendering */}
-      <div style={{ padding: '10px', background: '#f0f0f0', display: 'block' }}>Activity Loaded</div>
 
-      <div className="activity-content" style={{ display: 'flex', flex: 1, minHeight: '500px', backgroundColor: 'white' }}>
+      <div className="activity-content" style={{ display: 'flex', flex: 1, minHeight: '500px', backgroundColor: 'white', position: 'relative' }}>
         <div className="tools-panel">
           <div className="color-palette">
             <h3>Colors</h3>

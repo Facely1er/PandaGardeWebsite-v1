@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Suspense, lazy, ErrorInfo, Component } from 'react';
+import { createPortal } from 'react-dom';
 import { Play, RotateCcw, AlertCircle } from 'lucide-react';
 import { useProgress } from '../../contexts/ProgressContext';
 import { useToast } from '../../contexts/ToastContext';
@@ -326,7 +327,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
     }
   };
 
-  return (
+  const activityContent = (
     <>
       {/* Backdrop */}
       <div className="fixed inset-0 bg-black/80 dark:bg-black/90 backdrop-blur-sm z-[90]" onClick={onClose} />
@@ -440,6 +441,9 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
       </div>
     </>
   );
+
+  // Use portal to render at document root to avoid stacking context issues
+  return createPortal(activityContent, document.body);
 };
 
 export default ActivityManager;
