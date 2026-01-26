@@ -398,10 +398,15 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
             </div>
           </div>
         ) : (
-          <div className="pointer-events-auto bg-white dark:bg-gray-900 h-full w-full flex flex-col">
-            <div className="flex justify-between items-center p-4 bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10 flex-shrink-0">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">{currentActivity?.title}</h2>
+          <div className="pointer-events-auto bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 h-full w-full flex flex-col">
+            <div className="flex justify-between items-center px-6 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-10 flex-shrink-0 shadow-sm">
               <div className="flex items-center gap-3">
+                <div className="w-1 h-8 bg-gradient-to-b from-teal-500 to-cyan-500 rounded-full"></div>
+                <h2 className="text-xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
+                  {currentActivity?.title}
+                </h2>
+              </div>
+              <div className="flex items-center gap-2">
                 <button 
                   onClick={() => {
                     if ('vibrate' in navigator) {
@@ -409,11 +414,11 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
                     }
                     handleRestart();
                   }} 
-                  className="p-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors active:scale-95"
+                  className="p-2.5 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 border border-gray-300/50 dark:border-gray-600/50 rounded-xl text-gray-700 dark:text-gray-200 hover:from-gray-200 hover:to-gray-300 dark:hover:from-gray-600 dark:hover:to-gray-500 transition-all duration-200 active:scale-95 shadow-sm hover:shadow-md"
                   title="Restart Activity" 
                   aria-label="Restart the activity"
                 >
-                  <RotateCcw size={20} />
+                  <RotateCcw size={18} />
                 </button>
                 <button 
                   onClick={() => {
@@ -422,14 +427,14 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
                     }
                     onClose();
                   }} 
-                  className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-2xl leading-none p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                  className="p-2.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-2xl leading-none hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-all duration-200 active:scale-95"
                   aria-label="Close activity"
                 >
                   ×
                 </button>
               </div>
             </div>
-            <div className="flex-1 overflow-auto bg-white dark:bg-gray-900 min-h-0 w-full">
+            <div className="flex-1 overflow-auto bg-gradient-to-br from-gray-50/50 to-white dark:from-gray-900/50 dark:to-gray-800/50 min-h-0 w-full">
               <div className="w-full min-h-full">
                 {renderActivity()}
               </div>

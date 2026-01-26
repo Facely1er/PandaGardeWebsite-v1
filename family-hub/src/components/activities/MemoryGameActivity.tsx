@@ -293,38 +293,62 @@ const MemoryGameActivity: React.FC<MemoryGameActivityProps> = ({ onComplete, onC
         }
 
         .instructions {
-          padding: 20px;
-          background: #f8f9fa;
-          border-bottom: 1px solid #e0e0e0;
+          padding: 28px;
+          background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #ffffff 100%);
+          border-bottom: 1px solid rgba(14, 165, 233, 0.1);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04),
+                      0 2px 8px rgba(0, 0, 0, 0.02);
         }
 
         .instructions p {
-          margin: 0 0 15px 0;
-          color: #2C3E50;
+          margin: 0 0 24px 0;
+          color: #1e293b;
           font-size: 16px;
+          line-height: 1.7;
+          font-weight: 500;
         }
 
         .stats {
           display: flex;
-          gap: 30px;
+          gap: 20px;
           flex-wrap: wrap;
+          padding: 20px;
+          background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+          border-radius: 16px;
+          box-shadow: 0 4px 20px rgba(14, 165, 233, 0.1),
+                      0 2px 8px rgba(14, 165, 233, 0.05),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+          border: 1px solid rgba(14, 165, 233, 0.15);
         }
 
         .stat {
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 12px;
+          padding: 12px 20px;
+          background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+          border-radius: 12px;
+          border: 1px solid rgba(14, 165, 233, 0.2);
+          box-shadow: 0 2px 8px rgba(14, 165, 233, 0.1);
+          transition: all 0.3s ease;
+        }
+
+        .stat:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+          border-color: rgba(14, 165, 233, 0.3);
         }
 
         .stat-label {
-          font-size: 14px;
-          color: #666;
+          font-size: 13px;
+          color: #64748b;
+          font-weight: 500;
         }
 
         .stat-value {
           font-size: 18px;
-          font-weight: bold;
-          color: #4CAF50;
+          font-weight: 700;
+          color: #0ea5e9;
         }
 
         .game-container {
@@ -332,19 +356,34 @@ const MemoryGameActivity: React.FC<MemoryGameActivityProps> = ({ onComplete, onC
           display: flex;
           justify-content: center;
           align-items: center;
-          padding: 20px;
-          background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+          padding: 40px 24px;
+          background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 25%, #bae6fd 50%, #e0f2fe 75%, #f0f9ff 100%);
           position: relative;
           top: 0;
           left: 0;
+          min-height: 500px;
+        }
+
+        .game-container::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: radial-gradient(circle at 20% 50%, rgba(14, 165, 233, 0.1) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+          pointer-events: none;
         }
 
         .memory-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          gap: 15px;
-          max-width: 600px;
+          gap: 18px;
+          max-width: 650px;
           width: 100%;
+          position: relative;
+          z-index: 1;
         }
 
         .memory-card {
@@ -352,7 +391,8 @@ const MemoryGameActivity: React.FC<MemoryGameActivityProps> = ({ onComplete, onC
           position: relative;
           cursor: pointer;
           transform-style: preserve-3d;
-          transition: transform 0.6s;
+          transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          perspective: 1000px;
         }
 
         .memory-card.flipped {
@@ -360,8 +400,14 @@ const MemoryGameActivity: React.FC<MemoryGameActivityProps> = ({ onComplete, onC
         }
 
         .memory-card.matched {
-          transform: rotateY(180deg);
-          opacity: 0.7;
+          transform: rotateY(180deg) scale(0.95);
+          opacity: 0.8;
+          animation: matchPulse 0.6s ease;
+        }
+
+        @keyframes matchPulse {
+          0%, 100% { transform: rotateY(180deg) scale(0.95); }
+          50% { transform: rotateY(180deg) scale(1.1); }
         }
 
         .card-content,
@@ -370,80 +416,127 @@ const MemoryGameActivity: React.FC<MemoryGameActivityProps> = ({ onComplete, onC
           width: 100%;
           height: 100%;
           backface-visibility: hidden;
-          border-radius: 12px;
+          border-radius: 16px;
           display: flex;
           align-items: center;
           justify-content: center;
           font-weight: bold;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-          transition: all 0.3s ease;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .card-back {
-          background: linear-gradient(135deg, #4CAF50, #45a049);
+          background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #0891b2 100%);
           color: white;
           transform: rotateY(180deg);
+          box-shadow: 0 8px 24px rgba(14, 165, 233, 0.3),
+                      0 4px 12px rgba(14, 165, 233, 0.2),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .card-back::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 50%);
+          border-radius: 16px;
+          pointer-events: none;
         }
 
         .card-content {
-          background: white;
-          color: #2C3E50;
+          background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+          color: #1e293b;
           font-size: 14px;
           text-align: center;
-          padding: 10px;
-          border: 2px solid #e0e0e0;
+          padding: 12px;
+          border: 2px solid rgba(14, 165, 233, 0.2);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08),
+                      0 2px 8px rgba(0, 0, 0, 0.04),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }
 
         .symbol-card .card-content {
-          font-size: 24px;
-          background: #E8F5E8;
-          border-color: #4CAF50;
+          font-size: 28px;
+          background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+          border-color: #10b981;
+          box-shadow: 0 4px 16px rgba(16, 185, 129, 0.15),
+                      0 2px 8px rgba(16, 185, 129, 0.1),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }
 
         .meaning-card .card-content {
-          background: #E3F2FD;
-          border-color: #2196F3;
+          background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+          border-color: #3b82f6;
+          box-shadow: 0 4px 16px rgba(59, 130, 246, 0.15),
+                      0 2px 8px rgba(59, 130, 246, 0.1),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }
 
-        .memory-card:hover .card-back {
-          transform: rotateY(180deg) scale(1.05);
+        .memory-card:hover:not(.matched) .card-back {
+          transform: rotateY(180deg) scale(1.08);
+          box-shadow: 0 12px 32px rgba(14, 165, 233, 0.4),
+                      0 6px 16px rgba(14, 165, 233, 0.3),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
-        .memory-card:hover .card-content {
+        .memory-card:hover:not(.matched) .card-content {
           transform: scale(1.05);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12),
+                      0 3px 10px rgba(0, 0, 0, 0.08),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }
 
         .memory-card.matched .card-content {
-          background: #d4edda;
-          border-color: #4CAF50;
-          color: #155724;
+          background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+          border-color: #10b981;
+          color: #065f46;
+          box-shadow: 0 4px 16px rgba(16, 185, 129, 0.25),
+                      0 2px 8px rgba(16, 185, 129, 0.15),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .memory-card:active:not(.matched) {
+          transform: scale(0.98);
         }
 
         .controls {
-          padding: 20px;
-          background: #f8f9fa;
-          border-top: 1px solid #e0e0e0;
+          padding: 24px;
+          background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+          border-top: 1px solid rgba(0, 0, 0, 0.05);
           display: flex;
-          gap: 15px;
+          gap: 16px;
           justify-content: center;
+          box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.03);
         }
 
         .control-button {
           display: flex;
           align-items: center;
-          gap: 8px;
-          padding: 12px 24px;
-          border: 1px solid #ddd;
-          background: white;
-          border-radius: 8px;
+          gap: 10px;
+          padding: 14px 28px;
+          border: 1px solid rgba(14, 165, 233, 0.2);
+          background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+          border-radius: 12px;
           cursor: pointer;
-          transition: all 0.2s;
-          font-size: 14px;
-          font-weight: 500;
+          transition: all 0.3s ease;
+          font-size: 15px;
+          font-weight: 600;
+          color: #0ea5e9;
+          box-shadow: 0 2px 8px rgba(14, 165, 233, 0.1);
         }
 
         .control-button:hover {
-          background: #f0f0f0;
+          background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+          color: white;
+          border-color: #0ea5e9;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+
+        .control-button:active {
+          transform: translateY(0);
         }
 
         .completion-overlay {
@@ -452,54 +545,92 @@ const MemoryGameActivity: React.FC<MemoryGameActivityProps> = ({ onComplete, onC
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(0, 0, 0, 0.8);
+          background: linear-gradient(135deg, rgba(14, 165, 233, 0.95) 0%, rgba(6, 182, 212, 0.95) 100%);
+          backdrop-filter: blur(8px);
           display: flex;
           justify-content: center;
           align-items: center;
           z-index: 10;
+          animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
 
         .completion-message {
-          background: white;
-          padding: 40px;
-          border-radius: 12px;
+          background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+          padding: 48px;
+          border-radius: 24px;
           text-align: center;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-          max-width: 400px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
+                      0 8px 24px rgba(0, 0, 0, 0.2),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          max-width: 500px;
+          animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes scaleIn {
+          from { transform: scale(0.9); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
         }
 
         .success-icon {
-          color: #4CAF50;
-          margin-bottom: 20px;
+          color: #10b981;
+          margin-bottom: 24px;
+          filter: drop-shadow(0 4px 12px rgba(16, 185, 129, 0.3));
+          animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes bounceIn {
+          0% { transform: scale(0); }
+          50% { transform: scale(1.2); }
+          100% { transform: scale(1); }
         }
 
         .completion-message h3 {
-          margin: 0 0 15px 0;
-          color: #2C3E50;
-          font-size: 24px;
+          margin: 0 0 16px 0;
+          color: #1e293b;
+          font-size: 28px;
+          font-weight: 800;
+          background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
         }
 
         .completion-message p {
-          margin: 0 0 10px 0;
-          color: #666;
+          margin: 12px 0;
+          color: #64748b;
           font-size: 16px;
+          line-height: 1.6;
         }
 
         .achievement-badges {
           display: flex;
           flex-wrap: wrap;
-          gap: 10px;
+          gap: 12px;
           justify-content: center;
-          margin-top: 20px;
+          margin-top: 28px;
         }
 
         .badge {
-          background: #4CAF50;
-          color: white;
-          padding: 8px 16px;
-          border-radius: 20px;
+          padding: 10px 20px;
+          background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+          border: 2px solid #10b981;
+          border-radius: 24px;
           font-size: 14px;
-          font-weight: bold;
+          font-weight: 600;
+          color: #065f46;
+          box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+          transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
         @media (max-width: 768px) {

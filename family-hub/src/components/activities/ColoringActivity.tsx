@@ -467,18 +467,22 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
         }
 
         .tools-panel {
-          width: 250px;
-          padding: 20px;
-          background: #f8f9fa;
-          border-right: 1px solid #e0e0e0;
+          width: 280px;
+          padding: 24px;
+          background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+          border-right: 1px solid rgba(0, 0, 0, 0.08);
           overflow-y: auto;
+          box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
         }
 
         .color-palette h3,
         .brush-controls h3 {
-          margin: 0 0 15px 0;
-          color: #2C3E50;
+          margin: 0 0 16px 0;
+          color: #1e293b;
           font-size: 16px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
         }
 
         .colors-grid {
@@ -489,21 +493,38 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
         }
 
         .color-button {
-          width: 40px;
-          height: 40px;
-          border: 2px solid transparent;
-          border-radius: 8px;
+          width: 44px;
+          height: 44px;
+          border: 3px solid transparent;
+          border-radius: 12px;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .color-button::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+          pointer-events: none;
         }
 
         .color-button:hover {
-          transform: scale(1.1);
+          transform: scale(1.15) translateY(-2px);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
         }
 
         .color-button.selected {
-          border-color: #2C3E50;
-          transform: scale(1.1);
+          border-color: #0ea5e9;
+          transform: scale(1.15) translateY(-2px);
+          box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4),
+                      0 0 0 3px rgba(14, 165, 233, 0.1);
         }
 
         .brush-controls {
@@ -512,14 +533,48 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
 
         .brush-slider {
           width: 100%;
-          margin: 10px 0;
+          margin: 12px 0;
+          height: 8px;
+          border-radius: 4px;
+          background: linear-gradient(to right, #e0f2fe, #0ea5e9);
+          outline: none;
+          -webkit-appearance: none;
+        }
+
+        .brush-slider::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+          cursor: pointer;
+          box-shadow: 0 2px 8px rgba(14, 165, 233, 0.4);
+          transition: all 0.3s ease;
+        }
+
+        .brush-slider::-webkit-slider-thumb:hover {
+          transform: scale(1.2);
+          box-shadow: 0 4px 12px rgba(14, 165, 233, 0.6);
+        }
+
+        .brush-slider::-moz-range-thumb {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+          cursor: pointer;
+          border: none;
+          box-shadow: 0 2px 8px rgba(14, 165, 233, 0.4);
         }
 
         .brush-size {
           display: block;
           text-align: center;
-          color: #666;
-          font-size: 14px;
+          color: #0ea5e9;
+          font-size: 15px;
+          font-weight: 600;
+          margin-top: 8px;
         }
 
         .action-buttons {
@@ -531,24 +586,41 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
         .action-button {
           display: flex;
           align-items: center;
-          gap: 8px;
-          padding: 12px 16px;
-          border: 1px solid #ddd;
-          background: white;
-          border-radius: 8px;
+          gap: 10px;
+          padding: 14px 20px;
+          border: 1px solid rgba(14, 165, 233, 0.2);
+          background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+          border-radius: 12px;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: all 0.3s ease;
           font-size: 14px;
+          font-weight: 600;
+          color: #0ea5e9;
+          box-shadow: 0 2px 8px rgba(14, 165, 233, 0.1);
         }
 
         .action-button:hover {
-          background: #f0f0f0;
+          background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+          color: white;
+          border-color: #0ea5e9;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+
+        .action-button:active {
+          transform: translateY(0);
         }
 
         .action-button.primary {
-          background: #4CAF50;
+          background: linear-gradient(135deg, #10b981 0%, #059669 100%);
           color: white;
-          border-color: #4CAF50;
+          border-color: #10b981;
+          box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+        }
+
+        .action-button.primary:hover {
+          background: linear-gradient(135deg, #059669 0%, #047857 100%);
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
         }
 
         .action-button.primary:hover {
@@ -560,10 +632,11 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
           display: flex;
           justify-content: center;
           align-items: center;
-          padding: 20px;
+          padding: 32px;
           position: relative;
           top: 0;
           left: 0;
+          background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
         }
 
         .coloring-canvas {

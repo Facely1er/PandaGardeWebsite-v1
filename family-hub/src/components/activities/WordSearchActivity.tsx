@@ -352,9 +352,10 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
         }
 
         .instructions {
-          padding: 20px;
-          background: #f8f9fa;
-          border-bottom: 1px solid #e0e0e0;
+          padding: 24px;
+          background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
         }
 
         .instructions p {
@@ -403,11 +404,12 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
           display: flex;
           justify-content: center;
           align-items: center;
-          padding: 20px;
-          background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+          padding: 32px 24px;
+          background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
           position: relative;
           top: 0;
           left: 0;
+          min-height: 500px;
         }
 
         .word-search-grid {
@@ -453,30 +455,41 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
         }
 
         .controls {
-          padding: 20px;
-          background: #f8f9fa;
-          border-top: 1px solid #e0e0e0;
+          padding: 24px;
+          background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+          border-top: 1px solid rgba(0, 0, 0, 0.05);
           display: flex;
-          gap: 15px;
+          gap: 16px;
           justify-content: center;
+          box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.03);
         }
 
         .control-button {
           display: flex;
           align-items: center;
-          gap: 8px;
-          padding: 12px 24px;
-          border: 1px solid #ddd;
-          background: white;
-          border-radius: 8px;
+          gap: 10px;
+          padding: 14px 28px;
+          border: 1px solid rgba(14, 165, 233, 0.2);
+          background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+          border-radius: 12px;
           cursor: pointer;
-          transition: all 0.2s;
-          font-size: 14px;
-          font-weight: 500;
+          transition: all 0.3s ease;
+          font-size: 15px;
+          font-weight: 600;
+          color: #0ea5e9;
+          box-shadow: 0 2px 8px rgba(14, 165, 233, 0.1);
         }
 
         .control-button:hover {
-          background: #f0f0f0;
+          background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+          color: white;
+          border-color: #0ea5e9;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+
+        .control-button:active {
+          transform: translateY(0);
         }
 
         .completion-overlay {
