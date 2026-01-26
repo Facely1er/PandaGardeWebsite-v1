@@ -38,7 +38,7 @@ const AppShell: React.FC = () => {
     <div className="flex flex-col h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 safe-area-inset overflow-hidden">
       {/* Top Bar - Enhanced Native Style */}
       <header className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50 shadow-sm safe-area-top sticky top-0 z-40">
-        <div className="px-4 py-3 max-w-full">
+        <div className="px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 max-w-full">
           <div className="flex items-center justify-center gap-2.5">
             <img 
               src="/LogoPandagarde.png" 

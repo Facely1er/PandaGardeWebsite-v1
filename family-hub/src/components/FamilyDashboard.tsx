@@ -602,9 +602,10 @@ const FamilyDashboard: React.FC<FamilyDashboardProps> = ({ appMode = false }) =>
       </section>
       )}
 
-      {/* Quick Actions Bar - Enhanced Native Style */}
+      {/* Quick Actions Bar - Hidden in app mode to save space */}
+      {!appMode && (
       <div 
-        className={`bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-b border-teal-100/50 dark:border-teal-900/50 z-30 ${appMode ? 'sticky top-0' : 'sticky top-16'} shadow-sm`} 
+        className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-b border-teal-100/50 dark:border-teal-900/50 z-30 sticky top-16 shadow-sm" 
         style={{ backgroundColor: 'var(--card-color)' }}
       >
         <div className="container mx-auto px-4 sm:px-6">
@@ -624,81 +625,82 @@ const FamilyDashboard: React.FC<FamilyDashboardProps> = ({ appMode = false }) =>
           </div>
         </div>
       </div>
+      )}
 
-      {/* Main Content */}
-      <main className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
-        {/* Family Overview Cards - Enhanced Native Style */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+      {/* Main Content - Reduced padding on mobile */}
+      <main className="container mx-auto px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-6">
+        {/* Family Overview Cards - More compact on mobile */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-3 sm:mb-4 md:mb-6">
           <div 
-            className="family-hub-card bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-4 sm:p-5 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-teal-500/20 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 hover:border-teal-300 dark:hover:border-teal-600 hover:-translate-y-1 active:scale-[0.98] transform-gpu"
+            className="family-hub-card bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-2.5 sm:p-3 md:p-4 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg hover:shadow-teal-500/20 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 hover:border-teal-300 dark:hover:border-teal-600 active:scale-[0.98] transform-gpu"
             style={{ 
               backgroundColor: 'var(--card-color)',
             }}
           >
-            <div className="flex items-center justify-between mb-2 sm:mb-3">
-              <div className="w-9 h-9 sm:w-11 sm:h-11 bg-teal-100 rounded-xl flex items-center justify-center">
-                <Users className="text-teal-600" size={18} />
+            <div className="flex items-center justify-between mb-1 sm:mb-2">
+              <div className="w-7 h-7 sm:w-9 sm:h-9 md:w-11 md:h-11 bg-teal-100 rounded-lg sm:rounded-xl flex items-center justify-center">
+                <Users className="text-teal-600" size={14} />
               </div>
-              <span className="text-xl sm:text-2xl font-bold text-teal-700">
+              <span className="text-lg sm:text-xl md:text-2xl font-bold text-teal-700">
                 {familyMembers.length}
               </span>
             </div>
-            <h3 className="font-semibold text-xs sm:text-sm mb-0.5 sm:mb-1 text-teal-700">Family Members</h3>
-            <p className="text-xs" style={{ color: 'var(--gray-600)' }}>Active participants</p>
+            <h3 className="font-semibold text-[10px] sm:text-xs md:text-sm mb-0.5 text-teal-700">Family Members</h3>
+            <p className="text-[9px] sm:text-xs hidden sm:block" style={{ color: 'var(--gray-600)' }}>Active participants</p>
           </div>
 
           <div 
-            className="family-hub-card bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-4 sm:p-5 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-cyan-500/20 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 hover:border-cyan-300 dark:hover:border-cyan-600 hover:-translate-y-1 active:scale-[0.98] transform-gpu"
+            className="family-hub-card bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-2.5 sm:p-3 md:p-4 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 hover:border-cyan-300 dark:hover:border-cyan-600 active:scale-[0.98] transform-gpu"
             style={{ 
               backgroundColor: 'var(--card-color)',
             }}
           >
-            <div className="flex items-center justify-between mb-2 sm:mb-3">
-              <div className="w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-br from-cyan-100 to-teal-100 dark:from-cyan-900/30 dark:to-teal-900/30 rounded-xl flex items-center justify-center shadow-sm">
-                <Shield className="text-cyan-600 dark:text-cyan-400" size={18} />
+            <div className="flex items-center justify-between mb-1 sm:mb-2">
+              <div className="w-7 h-7 sm:w-9 sm:h-9 md:w-11 md:h-11 bg-gradient-to-br from-cyan-100 to-teal-100 dark:from-cyan-900/30 dark:to-teal-900/30 rounded-lg sm:rounded-xl flex items-center justify-center shadow-sm">
+                <Shield className="text-cyan-600 dark:text-cyan-400" size={14} />
               </div>
-              <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
+              <span className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
                 {calculateFamilyScore()}
               </span>
             </div>
-            <h3 className="font-semibold text-xs sm:text-sm mb-0.5 sm:mb-1 text-teal-700 dark:text-teal-400">Privacy Score</h3>
-            <p className="text-xs text-gray-600 dark:text-gray-400">Family average</p>
+            <h3 className="font-semibold text-[10px] sm:text-xs md:text-sm mb-0.5 text-teal-700 dark:text-teal-400">Privacy Score</h3>
+            <p className="text-[9px] sm:text-xs hidden sm:block text-gray-600 dark:text-gray-400">Family average</p>
           </div>
 
           <div 
-            className="family-hub-card bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-4 sm:p-5 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-amber-500/20 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 hover:border-amber-300 dark:hover:border-amber-600 hover:-translate-y-1 active:scale-[0.98] transform-gpu"
+            className="family-hub-card bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-2.5 sm:p-3 md:p-4 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg hover:shadow-amber-500/20 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 hover:border-amber-300 dark:hover:border-amber-600 active:scale-[0.98] transform-gpu"
             style={{ 
               backgroundColor: 'var(--card-color)',
             }}
           >
-            <div className="flex items-center justify-between mb-2 sm:mb-3">
-              <div className="w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 rounded-xl flex items-center justify-center shadow-sm">
-                <Award className="text-amber-600 dark:text-amber-400" size={18} />
+            <div className="flex items-center justify-between mb-1 sm:mb-2">
+              <div className="w-7 h-7 sm:w-9 sm:h-9 md:w-11 md:h-11 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 rounded-lg sm:rounded-xl flex items-center justify-center shadow-sm">
+                <Award className="text-amber-600 dark:text-amber-400" size={14} />
               </div>
-              <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
+              <span className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
                 {familyMembers.reduce((sum, member) => sum + member.completedActivities, 0)}
               </span>
             </div>
-            <h3 className="font-semibold text-xs sm:text-sm mb-0.5 sm:mb-1 text-teal-700 dark:text-teal-400">Activities Done</h3>
-            <p className="text-xs text-gray-600 dark:text-gray-400">Total completed</p>
+            <h3 className="font-semibold text-[10px] sm:text-xs md:text-sm mb-0.5 text-teal-700 dark:text-teal-400">Activities Done</h3>
+            <p className="text-[9px] sm:text-xs hidden sm:block text-gray-600 dark:text-gray-400">Total completed</p>
           </div>
 
           <div 
-            className="family-hub-card bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-4 sm:p-5 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-orange-500/20 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 hover:border-orange-300 dark:hover:border-orange-600 hover:-translate-y-1 active:scale-[0.98] transform-gpu"
+            className="family-hub-card bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-2.5 sm:p-3 md:p-4 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg hover:shadow-orange-500/20 transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50 hover:border-orange-300 dark:hover:border-orange-600 active:scale-[0.98] transform-gpu"
             style={{ 
               backgroundColor: 'var(--card-color)',
             }}
           >
-            <div className="flex items-center justify-between mb-2 sm:mb-3">
-              <div className="w-9 h-9 sm:w-11 sm:h-11 bg-orange-100 rounded-xl flex items-center justify-center">
-                <CheckCircle className="text-orange-600" size={18} />
+            <div className="flex items-center justify-between mb-1 sm:mb-2">
+              <div className="w-7 h-7 sm:w-9 sm:h-9 md:w-11 md:h-11 bg-orange-100 rounded-lg sm:rounded-xl flex items-center justify-center">
+                <CheckCircle className="text-orange-600" size={14} />
               </div>
-              <span className="text-xl sm:text-2xl font-bold text-teal-700">
+              <span className="text-lg sm:text-xl md:text-2xl font-bold text-teal-700">
                 {familyGoals.filter(goal => goal.completed).length}/{familyGoals.length}
               </span>
             </div>
-            <h3 className="font-semibold text-xs sm:text-sm mb-0.5 sm:mb-1 text-teal-700">Goals Achieved</h3>
-            <p className="text-xs" style={{ color: 'var(--gray-600)' }}>Privacy goals</p>
+            <h3 className="font-semibold text-[10px] sm:text-xs md:text-sm mb-0.5 text-teal-700">Goals Achieved</h3>
+            <p className="text-[9px] sm:text-xs hidden sm:block" style={{ color: 'var(--gray-600)' }}>Privacy goals</p>
           </div>
         </div>
 
@@ -757,28 +759,28 @@ const FamilyDashboard: React.FC<FamilyDashboardProps> = ({ appMode = false }) =>
         </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
           {/* Family Members Management */}
           <div 
-            className="bg-white rounded-xl shadow-md p-5 sm:p-6"
+            className="bg-white rounded-xl shadow-md p-3 sm:p-4 md:p-5"
             style={{ 
               backgroundColor: 'var(--card-color)',
               boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
             }}
           >
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 mb-4 sm:mb-6">
-              <h2 className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--primary)' }}>Family Members</h2>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 mb-3 sm:mb-4">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold" style={{ color: 'var(--primary)' }}>Family Members</h2>
               <button 
                 onClick={() => setShowAddMember(true)}
-                className="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 active:bg-teal-800 transition-colors flex items-center justify-center gap-2 touch-manipulation min-h-[44px] w-full sm:w-auto font-medium"
+                className="bg-teal-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg hover:bg-teal-700 active:bg-teal-800 transition-colors flex items-center justify-center gap-1.5 sm:gap-2 touch-manipulation min-h-[36px] sm:min-h-[44px] w-full sm:w-auto font-medium text-sm sm:text-base"
               >
-                <Plus size={16} />
+                <Plus size={14} />
                 <span>Add Member</span>
               </button>
             </div>
 
             {familyMembers.length === 0 ? (
-              <div className="text-center py-8 sm:py-10">
+              <div className="text-center py-4 sm:py-6 md:py-8">
                 <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-5">
                   <Users className="text-gray-400" size={28} />
                 </div>
@@ -803,63 +805,63 @@ const FamilyDashboard: React.FC<FamilyDashboardProps> = ({ appMode = false }) =>
                 </div>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-2 sm:space-y-3">
                 {familyMembers.map(member => (
                   <div 
                     key={member.id} 
-                    className="border-2 border-gray-200 rounded-lg p-4 hover:border-green-300 transition-all"
+                    className="border-2 border-gray-200 rounded-lg p-2.5 sm:p-3 md:p-4 hover:border-green-300 transition-all"
                     style={{ 
                       backgroundColor: 'var(--light)',
                       borderColor: 'var(--gray-200)'
                     }}
                   >
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                      <div className="flex items-center gap-4 flex-1">
-                        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-r from-teal-500 to-cyan-600 flex items-center justify-center text-white text-lg sm:text-xl font-bold shadow-sm flex-shrink-0">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3">
+                      <div className="flex items-center gap-2 sm:gap-3 md:gap-4 flex-1">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-r from-teal-500 to-cyan-600 flex items-center justify-center text-white text-base sm:text-lg md:text-xl font-bold shadow-sm flex-shrink-0">
                           {member.name.charAt(0).toUpperCase()}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-bold text-base sm:text-lg sm:truncate break-words" style={{ color: 'var(--primary)' }}>
+                          <h3 className="font-bold text-sm sm:text-base md:text-lg sm:truncate break-words" style={{ color: 'var(--primary)' }}>
                             {member.name}
                           </h3>
-                          <p className="text-sm" style={{ color: 'var(--gray-600)' }}>{member.role} • Age {member.age}</p>
+                          <p className="text-xs sm:text-sm" style={{ color: 'var(--gray-600)' }}>{member.role} • Age {member.age}</p>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4">
+                      <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-3">
                         <div className="text-right">
-                          <div className="text-lg sm:text-xl font-bold" style={{ color: 'var(--primary)' }}>
+                          <div className="text-base sm:text-lg md:text-xl font-bold" style={{ color: 'var(--primary)' }}>
                             {calculateMemberScore(member.id)}
                           </div>
-                          <div className="text-xs" style={{ color: 'var(--gray-600)' }}>Privacy Score</div>
+                          <div className="text-[10px] sm:text-xs" style={{ color: 'var(--gray-600)' }}>Score</div>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1 sm:gap-2">
                           <button
                             onClick={() => setSelectedChildId(member.id)}
-                            className="p-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
+                            className="p-1.5 sm:p-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors touch-manipulation min-w-[36px] sm:min-w-[44px] min-h-[36px] sm:min-h-[44px] flex items-center justify-center"
                             title="View detailed progress"
                           >
-                            <Eye size={18} />
+                            <Eye size={16} />
                           </button>
                           <button 
                             onClick={() => removeFamilyMember(member.id)}
-                            className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
+                            className="p-1.5 sm:p-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors touch-manipulation min-w-[36px] sm:min-w-[44px] min-h-[36px] sm:min-h-[44px] flex items-center justify-center"
                             title="Remove family member"
                           >
-                            <Trash2 size={18} />
+                            <Trash2 size={16} />
                           </button>
                         </div>
                       </div>
                     </div>
                     
-                    {/* Privacy Score Display */}
-                    <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t" style={{ borderColor: 'var(--gray-200)' }}>
-                      <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-                        <span className="text-xs sm:text-sm" style={{ color: 'var(--gray-600)' }}>Privacy Score</span>
-                        <span className="text-xs sm:text-sm font-medium" style={{ color: 'var(--gray-700)' }}>
+                    {/* Privacy Score Display - More compact */}
+                    <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t" style={{ borderColor: 'var(--gray-200)' }}>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-[10px] sm:text-xs" style={{ color: 'var(--gray-600)' }}>Privacy Score</span>
+                        <span className="text-[10px] sm:text-xs font-medium" style={{ color: 'var(--gray-700)' }}>
                           {calculateMemberScore(member.id)}/100
                         </span>
                       </div>
-                      <div className="w-full h-2 sm:h-2.5 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="w-full h-1.5 sm:h-2 bg-gray-200 rounded-full overflow-hidden">
                         <div
                           className={`h-full transition-all duration-500 ${
                             calculateMemberScore(member.id) >= 80 ? 'bg-green-500' :
@@ -868,14 +870,6 @@ const FamilyDashboard: React.FC<FamilyDashboardProps> = ({ appMode = false }) =>
                           style={{ width: `${Math.max(0, Math.min(100, calculateMemberScore(member.id)))}%` }}
                         />
                       </div>
-                      <div className="flex justify-between text-xs mt-1 sm:mt-1.5" style={{ color: 'var(--gray-500)' }}>
-                        <span>Needs Work</span>
-                        <span>Good</span>
-                        <span>Excellent</span>
-                      </div>
-                      <p className="text-xs mt-1.5 sm:mt-2" style={{ color: 'var(--gray-500)' }}>
-                        Score calculated from completed activities
-                      </p>
                     </div>
                   </div>
                 ))}
@@ -885,17 +879,17 @@ const FamilyDashboard: React.FC<FamilyDashboardProps> = ({ appMode = false }) =>
 
           {/* Family Goals */}
           <div 
-            className="bg-white rounded-xl shadow-md p-5 sm:p-6"
+            className="bg-white rounded-xl shadow-md p-3 sm:p-4 md:p-5"
             style={{ 
               backgroundColor: 'var(--card-color)',
               boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
             }}
           >
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 mb-4 sm:mb-6">
-              <h2 className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--primary)' }}>Privacy Goals</h2>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 mb-3 sm:mb-4">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold" style={{ color: 'var(--primary)' }}>Privacy Goals</h2>
               <button 
                 onClick={() => setShowAddGoal(true)}
-                className="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 active:bg-teal-800 transition-colors flex items-center justify-center gap-2 touch-manipulation min-h-[44px] w-full sm:w-auto font-medium"
+                className="bg-teal-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg hover:bg-teal-700 active:bg-teal-800 transition-colors flex items-center justify-center gap-1.5 sm:gap-2 touch-manipulation min-h-[36px] sm:min-h-[44px] w-full sm:w-auto font-medium text-sm sm:text-base"
               >
                 <Plus size={16} />
                 <span>Add Goal</span>
