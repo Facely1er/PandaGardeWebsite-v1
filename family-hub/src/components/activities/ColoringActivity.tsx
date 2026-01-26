@@ -562,6 +562,8 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
           align-items: center;
           padding: 20px;
           position: relative;
+          top: 0;
+          left: 0;
         }
 
         .coloring-canvas {

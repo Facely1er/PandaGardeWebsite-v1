@@ -273,6 +273,8 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
             flex-direction: column;
             background: white;
             overflow: visible;
+            padding: 0;
+            margin: 0;
           }
 
           /* Header removed - ActivityManager handles it */
@@ -415,6 +417,8 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
             flex-direction: column;
             background: white;
             overflow: visible;
+            padding: 0;
+            margin: 0;
           }
 
           /* Header removed - ActivityManager handles it */
@@ -619,6 +623,8 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
           flex-direction: column;
           background: white;
           overflow: visible;
+          padding: 0;
+          margin: 0;
         }
 
         /* Header removed - ActivityManager handles it */

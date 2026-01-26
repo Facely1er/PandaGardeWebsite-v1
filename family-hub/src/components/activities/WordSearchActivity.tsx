@@ -336,6 +336,8 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
           flex-direction: column;
           background: white;
           overflow: visible;
+          padding: 0;
+          margin: 0;
         }
 
         /* Header removed - ActivityManager handles it */
@@ -403,6 +405,9 @@ const WordSearchActivity: React.FC<WordSearchActivityProps> = ({ onComplete, onC
           align-items: center;
           padding: 20px;
           background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+          position: relative;
+          top: 0;
+          left: 0;
         }
 
         .word-search-grid {

@@ -264,6 +264,8 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
           flex-direction: column;
           background: white;
           overflow: visible;
+          padding: 0;
+          margin: 0;
         }
 
         /* Header removed - ActivityManager handles it */
@@ -301,6 +303,9 @@ const ConnectDotsActivity: React.FC<ConnectDotsActivityProps> = ({ onComplete, o
           justify-content: center;
           align-items: center;
           padding: 20px;
+          position: relative;
+          top: 0;
+          left: 0;
           background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
           position: relative;
         }

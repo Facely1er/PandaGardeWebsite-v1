@@ -377,6 +377,8 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
           flex-direction: column;
           background: white;
           overflow: visible;
+          padding: 0;
+          margin: 0;
         }
 
         /* Header removed - ActivityManager handles it */
@@ -416,6 +418,8 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
           position: relative;
           background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
           overflow: hidden;
+          top: 0;
+          left: 0;
         }
 
         .drop-zone {
