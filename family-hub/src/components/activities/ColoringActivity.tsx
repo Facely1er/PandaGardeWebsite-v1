@@ -448,6 +448,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
           position: relative;
           width: 100%;
           min-height: 100%;
+          height: auto;
           display: flex;
           flex-direction: column;
           background: white;
@@ -460,7 +461,7 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
         .activity-content {
           display: flex;
           flex: 1;
-          min-height: 0;
+          min-height: 500px;
           background: white;
           visibility: visible;
           opacity: 1;

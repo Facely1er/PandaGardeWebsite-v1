@@ -324,10 +324,10 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
   return (
     <>
       {/* Backdrop */}
-      <div className="fixed inset-0 bg-black/80 dark:bg-black/90 backdrop-blur-sm z-40" onClick={onClose} />
+      <div className="fixed inset-0 bg-black/80 dark:bg-black/90 backdrop-blur-sm z-[90]" onClick={onClose} />
       
       {/* Content */}
-      <div className="fixed inset-0 flex flex-col z-50 pointer-events-none">
+      <div className="fixed inset-0 flex flex-col z-[100] pointer-events-none">
         {showInstructions && currentActivity ? (
           <div className="pointer-events-auto bg-white dark:bg-gray-800 rounded-2xl mx-auto my-5 max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl border border-gray-200/50 dark:border-gray-700/50 animate-scaleIn">
             <div className="flex justify-between items-center p-5 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20 rounded-t-2xl">
@@ -425,7 +425,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
                 </button>
               </div>
             </div>
-            <div className="flex-1 overflow-auto bg-white dark:bg-gray-900 min-h-0 w-full">
+            <div className="flex-1 overflow-auto bg-white dark:bg-gray-900 min-h-0 w-full relative" style={{ minHeight: '500px' }}>
               {renderActivity()}
             </div>
           </div>
