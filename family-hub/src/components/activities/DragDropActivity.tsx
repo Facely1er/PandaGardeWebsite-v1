@@ -377,15 +377,18 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
           display: flex;
           flex-direction: column;
           background: white;
+          overflow: visible;
         }
 
         /* Header removed - ActivityManager handles it */
 
         .activity-content {
           flex: 1;
+          min-height: 0;
           background: white;
           display: flex;
           flex-direction: column;
+          overflow-y: auto;
         }
 
         .instructions {

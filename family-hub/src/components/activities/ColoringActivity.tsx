@@ -452,6 +452,8 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
           display: flex;
           flex-direction: column;
           background: white;
+          overflow: visible;
+          visibility: visible;
         }
 
         /* Header removed - ActivityManager handles it */
@@ -461,6 +463,8 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
           flex: 1;
           min-height: 0;
           background: white;
+          visibility: visible;
+          opacity: 1;
         }
 
         .tools-panel {
