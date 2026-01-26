@@ -25,16 +25,18 @@ const ActivitiesScreen: React.FC = () => {
 
   if (selectedActivity) {
     return (
-      <ActivityManager
-        activityId={selectedActivity}
-        onClose={() => setSelectedActivity(null)}
-        onComplete={handleActivityComplete}
-      />
+      <>
+        <ActivityManager
+          activityId={selectedActivity}
+          onClose={() => setSelectedActivity(null)}
+          onComplete={handleActivityComplete}
+        />
+      </>
     );
   }
 
   return (
-    <div className="p-4 sm:p-6 max-w-4xl mx-auto animate-fadeIn">
+    <div className="p-4 sm:p-6 max-w-4xl mx-auto animate-fadeIn w-full">
       <div className="mb-6">
         <h1 className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent mb-2">
           Activities
