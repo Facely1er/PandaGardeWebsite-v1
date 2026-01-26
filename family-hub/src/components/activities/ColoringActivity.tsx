@@ -366,10 +366,12 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
   };
 
   return (
-    <div className="coloring-activity" style={{ display: 'flex', flexDirection: 'column', width: '100%', minHeight: '600px' }}>
+    <div className="coloring-activity" style={{ display: 'flex', flexDirection: 'column', width: '100%', minHeight: '600px', backgroundColor: 'white' }}>
       {/* Header removed - ActivityManager handles it */}
+      {/* Debug: Activity is rendering */}
+      <div style={{ padding: '10px', background: '#f0f0f0', display: 'block' }}>Activity Loaded</div>
 
-      <div className="activity-content" style={{ display: 'flex', flex: 1, minHeight: '500px' }}>
+      <div className="activity-content" style={{ display: 'flex', flex: 1, minHeight: '500px', backgroundColor: 'white' }}>
         <div className="tools-panel">
           <div className="color-palette">
             <h3>Colors</h3>
@@ -445,21 +447,25 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
 
       <style>{`
         .coloring-activity {
-          position: relative;
-          width: 100%;
-          min-height: 600px;
-          display: flex;
-          flex-direction: column;
-          background: white;
+          position: relative !important;
+          width: 100% !important;
+          min-height: 600px !important;
+          display: flex !important;
+          flex-direction: column !important;
+          background: white !important;
+          visibility: visible !important;
+          opacity: 1 !important;
         }
 
         /* Header removed - ActivityManager handles it */
 
         .activity-content {
-          display: flex;
-          flex: 1;
-          min-height: 500px;
-          background: white;
+          display: flex !important;
+          flex: 1 !important;
+          min-height: 500px !important;
+          background: white !important;
+          visibility: visible !important;
+          opacity: 1 !important;
         }
 
         .tools-panel {

@@ -253,7 +253,9 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
         return (
           <ActivityErrorBoundary activityName={activityName} onClose={onClose}>
             <Suspense fallback={<LoadingFallback />}>
-              <ColoringActivity {...activityProps} />
+              <div style={{ width: '100%', minHeight: '600px', display: 'block' }}>
+                <ColoringActivity {...activityProps} />
+              </div>
             </Suspense>
           </ActivityErrorBoundary>
         );
@@ -428,8 +430,10 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
                 </button>
               </div>
             </div>
-            <div className="flex-1 overflow-auto bg-white dark:bg-gray-900 min-h-0 w-full">
-              {renderActivity()}
+            <div className="flex-1 overflow-auto bg-white dark:bg-gray-900 min-h-0 w-full" style={{ position: 'relative', minHeight: '600px' }}>
+              <div style={{ width: '100%', minHeight: '600px', position: 'relative', display: 'block' }}>
+                {renderActivity()}
+              </div>
             </div>
           </div>
         )}
