@@ -426,9 +426,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
               </div>
             </div>
             <div className="flex-1 overflow-auto bg-white dark:bg-gray-900 min-h-0 w-full">
-              <div className="w-full h-full">
-                {renderActivity()}
-              </div>
+              {renderActivity()}
             </div>
           </div>
         )}

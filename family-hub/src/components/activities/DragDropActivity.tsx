@@ -372,7 +372,6 @@ const DragDropActivity: React.FC<DragDropActivityProps> = ({ onComplete, onClose
         .drag-drop-activity {
           position: relative;
           width: 100%;
-          height: 100%;
           min-height: 100%;
           display: flex;
           flex-direction: column;

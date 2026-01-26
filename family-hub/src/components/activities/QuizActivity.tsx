@@ -268,7 +268,6 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
           .quiz-activity {
             position: relative;
             width: 100%;
-            height: 100%;
             min-height: 100%;
             display: flex;
             flex-direction: column;
@@ -411,7 +410,6 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
           .quiz-activity {
             position: relative;
             width: 100%;
-            height: 100%;
             min-height: 100%;
             display: flex;
             flex-direction: column;
@@ -616,7 +614,6 @@ const QuizActivity: React.FC<QuizActivityProps> = ({ onComplete, onClose }) => {
         .quiz-activity {
           position: relative;
           width: 100%;
-          height: 100%;
           min-height: 100%;
           display: flex;
           flex-direction: column;

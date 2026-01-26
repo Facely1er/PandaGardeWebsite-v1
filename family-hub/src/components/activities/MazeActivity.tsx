@@ -363,7 +363,6 @@ const MazeActivity: React.FC<MazeActivityProps> = ({ onComplete, onClose }) => {
         .maze-activity {
           position: relative;
           width: 100%;
-          height: 100%;
           min-height: 100%;
           display: flex;
           flex-direction: column;
