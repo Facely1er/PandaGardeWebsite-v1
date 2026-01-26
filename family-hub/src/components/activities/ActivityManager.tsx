@@ -240,9 +240,11 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
     const activityName = currentActivity?.title || 'activity';
 
     const LoadingFallback = () => (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400"></div>
-        <span className="ml-4 text-gray-600 dark:text-gray-400">Loading activity...</span>
+      <div className="flex items-center justify-center min-h-[500px] w-full bg-white dark:bg-gray-900">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400 mx-auto mb-4"></div>
+          <span className="text-gray-600 dark:text-gray-400">Loading activity...</span>
+        </div>
       </div>
     );
 
@@ -313,9 +315,10 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
         );
       default:
         return (
-          <div className="flex flex-col items-center justify-center h-64 text-gray-600 dark:text-gray-400">
+          <div className="flex flex-col items-center justify-center min-h-[500px] w-full bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400">
             <p className="text-lg font-semibold mb-2">Activity not found</p>
             <p className="text-sm">Please try selecting a different activity.</p>
+            <p className="text-xs mt-2 text-gray-400">Activity ID: {activityId}</p>
           </div>
         );
     }
@@ -425,7 +428,7 @@ const ActivityManager: React.FC<ActivityManagerProps> = ({ activityId, onClose, 
                 </button>
               </div>
             </div>
-            <div className="flex-1 overflow-auto bg-white dark:bg-gray-900 min-h-0 w-full relative" style={{ minHeight: '500px' }}>
+            <div className="flex-1 overflow-auto bg-white dark:bg-gray-900 min-h-0 w-full">
               {renderActivity()}
             </div>
           </div>

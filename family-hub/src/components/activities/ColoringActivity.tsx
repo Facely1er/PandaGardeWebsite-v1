@@ -366,10 +366,10 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
   };
 
   return (
-    <div className="coloring-activity">
+    <div className="coloring-activity" style={{ display: 'flex', flexDirection: 'column', width: '100%', minHeight: '600px' }}>
       {/* Header removed - ActivityManager handles it */}
 
-      <div className="activity-content">
+      <div className="activity-content" style={{ display: 'flex', flex: 1, minHeight: '500px' }}>
         <div className="tools-panel">
           <div className="color-palette">
             <h3>Colors</h3>
@@ -447,13 +447,10 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
         .coloring-activity {
           position: relative;
           width: 100%;
-          min-height: 100%;
-          height: auto;
+          min-height: 600px;
           display: flex;
           flex-direction: column;
           background: white;
-          overflow: visible;
-          visibility: visible;
         }
 
         /* Header removed - ActivityManager handles it */
@@ -463,8 +460,6 @@ const ColoringActivity: React.FC<ColoringActivityProps> = ({ onComplete, onClose
           flex: 1;
           min-height: 500px;
           background: white;
-          visibility: visible;
-          opacity: 1;
         }
 
         .tools-panel {
