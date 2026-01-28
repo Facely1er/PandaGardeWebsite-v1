@@ -8,6 +8,14 @@ import {
   BadgeExplorer, 
   BadgeStreak, 
   BadgeSpeedDemon,
+  BadgeQuizMaster,
+  BadgePrivacyPro,
+  BadgePerfectionist,
+  BadgeLegend,
+  BadgeHelper,
+  BadgeCollector,
+  BadgeWeeklyWarrior,
+  BadgeChampion,
   LockIcon 
 } from '../../components/icons/ZoneIcons';
 
@@ -36,15 +44,15 @@ const allBadges: Badge[] = [
   { id: 'first-steps', name: 'First Steps', icon: '🎉', IconComponent: BadgeFirstSteps, description: 'Complete your first activity', earned: true, earnedAt: new Date().toISOString(), rarity: 'common' },
   { id: 'explorer', name: 'Explorer', icon: '🗺️', IconComponent: BadgeExplorer, description: 'Visit all adventure zones', earned: true, earnedAt: new Date().toISOString(), rarity: 'rare' },
   { id: 'streak-3', name: 'Consistent', icon: '🔥', IconComponent: BadgeStreak, description: 'Maintain a 3-day streak', earned: true, earnedAt: new Date().toISOString(), rarity: 'common' },
-  { id: 'quiz-master', name: 'Quiz Master', icon: '🧠', description: 'Score 100% on a quiz', earned: false, rarity: 'rare' },
-  { id: 'privacy-pro', name: 'Privacy Pro', icon: '🛡️', description: 'Complete all privacy activities', earned: false, rarity: 'epic' },
+  { id: 'quiz-master', name: 'Quiz Master', icon: '🧠', IconComponent: BadgeQuizMaster, description: 'Score 100% on a quiz', earned: false, rarity: 'rare' },
+  { id: 'privacy-pro', name: 'Privacy Pro', icon: '🛡️', IconComponent: BadgePrivacyPro, description: 'Complete all privacy activities', earned: false, rarity: 'epic' },
   { id: 'speed-demon', name: 'Speed Demon', icon: '⚡', IconComponent: BadgeSpeedDemon, description: 'Complete an activity in under 2 minutes', earned: true, earnedAt: new Date().toISOString(), rarity: 'rare' },
-  { id: 'perfectionist', name: 'Perfectionist', icon: '💎', description: 'Get 3 stars on 5 activities', earned: false, rarity: 'epic' },
-  { id: 'legend', name: 'Privacy Legend', icon: '👑', description: 'Reach Level 20', earned: false, rarity: 'legendary' },
-  { id: 'helper', name: 'Family Helper', icon: '🤝', description: 'Help 3 family members', earned: false, rarity: 'rare' },
-  { id: 'collector', name: 'Badge Collector', icon: '📚', description: 'Earn 10 badges', earned: false, rarity: 'epic' },
-  { id: 'streak-7', name: 'Weekly Warrior', icon: '💪', description: 'Maintain a 7-day streak', earned: false, rarity: 'epic' },
-  { id: 'champion', name: 'Privacy Champion', icon: '🏆', description: 'Complete all activities with 3 stars', earned: false, rarity: 'legendary' },
+  { id: 'perfectionist', name: 'Perfectionist', icon: '💎', IconComponent: BadgePerfectionist, description: 'Get 3 stars on 5 activities', earned: false, rarity: 'epic' },
+  { id: 'legend', name: 'Privacy Legend', icon: '👑', IconComponent: BadgeLegend, description: 'Reach Level 20', earned: false, rarity: 'legendary' },
+  { id: 'helper', name: 'Family Helper', icon: '🤝', IconComponent: BadgeHelper, description: 'Help 3 family members', earned: false, rarity: 'rare' },
+  { id: 'collector', name: 'Badge Collector', icon: '📚', IconComponent: BadgeCollector, description: 'Earn 10 badges', earned: false, rarity: 'epic' },
+  { id: 'streak-7', name: 'Weekly Warrior', icon: '💪', IconComponent: BadgeWeeklyWarrior, description: 'Maintain a 7-day streak', earned: false, rarity: 'epic' },
+  { id: 'champion', name: 'Privacy Champion', icon: '🏆', IconComponent: BadgeChampion, description: 'Complete all activities with 3 stars', earned: false, rarity: 'legendary' },
 ];
 
 const ProgressScreen: React.FC = () => {

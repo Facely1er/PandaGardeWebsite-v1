@@ -108,6 +108,7 @@ const DashboardScreen: React.FC = () => {
       total: 2,
       xpReward: 30,
       icon: '🎮',
+      IconComponent: GamepadIcon,
       completed: false,
     },
     {
@@ -118,6 +119,7 @@ const DashboardScreen: React.FC = () => {
       total: 1,
       xpReward: 50,
       icon: '🧠',
+      IconComponent: BrainIcon,
       completed: false,
     },
     {
@@ -128,6 +130,7 @@ const DashboardScreen: React.FC = () => {
       total: 1,
       xpReward: 40,
       icon: '👨‍👩‍👧',
+      IconComponent: HelpIcon,
       completed: true,
     },
   ];
