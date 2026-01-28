@@ -7,7 +7,7 @@ import QuickActions from '../../components/dashboard/QuickActions';
 import DailyChallenge from '../../components/dashboard/DailyChallenge';
 import FamilyLeaderboard from '../../components/dashboard/FamilyLeaderboard';
 import RecentAchievements from '../../components/dashboard/RecentAchievements';
-import { PandaMascot, GamepadIcon, BrainIcon, HelpIcon } from '../../components/icons/ZoneIcons';
+import { PandaMascot, GamepadIcon, BrainIcon, HelpIcon, CelebrationIcon, AdventureMapIcon } from '../../components/icons/ZoneIcons';
 import { Sparkles, ArrowRight } from 'lucide-react';
 
 interface PlayerProgress {
@@ -63,6 +63,7 @@ const DashboardScreen: React.FC = () => {
       title: 'First Steps',
       description: 'Complete your first activity',
       icon: '🎉',
+      IconComponent: CelebrationIcon,
       earnedAt: new Date().toISOString(),
       xpEarned: 25,
       rarity: 'common',
@@ -72,6 +73,7 @@ const DashboardScreen: React.FC = () => {
       title: 'Privacy Explorer',
       description: 'Explore all adventure zones',
       icon: '🗺️',
+      IconComponent: AdventureMapIcon,
       earnedAt: new Date(Date.now() - 86400000).toISOString(),
       xpEarned: 50,
       rarity: 'rare',
@@ -215,7 +217,9 @@ const DashboardScreen: React.FC = () => {
 
         {/* Call to Action */}
         <div className="relative overflow-hidden bg-gradient-to-r from-emerald-500 to-green-600 rounded-2xl p-6 text-white">
-          <div className="absolute top-0 right-0 text-8xl opacity-20">🐼</div>
+          <div className="absolute top-0 right-0 opacity-20">
+            <PandaMascot size={128} />
+          </div>
           <div className="relative z-10">
             <h3 className="text-xl font-bold mb-2">Ready for an Adventure?</h3>
             <p className="text-white/80 text-sm mb-4">

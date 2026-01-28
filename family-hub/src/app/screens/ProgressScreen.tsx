@@ -16,7 +16,11 @@ import {
   BadgeCollector,
   BadgeWeeklyWarrior,
   BadgeChampion,
-  LockIcon 
+  LockIcon,
+  TrophyIcon,
+  StarDecorativeIcon,
+  CertificateIcon,
+  ExportIcon
 } from '../../components/icons/ZoneIcons';
 
 interface Badge {
@@ -99,8 +103,12 @@ const ProgressScreen: React.FC = () => {
       <div className="relative overflow-hidden bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 text-white">
         {/* Decorative Elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-4 right-4 text-6xl opacity-20">🏆</div>
-          <div className="absolute bottom-4 left-4 text-4xl opacity-20">⭐</div>
+          <div className="absolute top-4 right-4 opacity-20">
+            <TrophyIcon size={64} />
+          </div>
+          <div className="absolute bottom-4 left-4 opacity-20">
+            <StarDecorativeIcon size={48} />
+          </div>
         </div>
 
         <div className="relative z-10 px-4 py-6">
@@ -143,8 +151,8 @@ const ProgressScreen: React.FC = () => {
             onClick={() => setShowCertificates(true)}
             className="bg-white rounded-2xl p-4 shadow-md hover:shadow-lg transition-all active:scale-[0.98] border-2 border-transparent hover:border-amber-300"
           >
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-2xl mb-3 shadow-lg">
-              🎖️
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center mb-3 shadow-lg">
+              <CertificateIcon size={32} />
             </div>
             <h3 className="font-bold text-gray-800">Certificates</h3>
             <p className="text-xs text-gray-500">Download your achievements</p>
@@ -154,8 +162,8 @@ const ProgressScreen: React.FC = () => {
             onClick={() => setShowProgressExport(true)}
             className="bg-white rounded-2xl p-4 shadow-md hover:shadow-lg transition-all active:scale-[0.98] border-2 border-transparent hover:border-blue-300"
           >
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-2xl mb-3 shadow-lg">
-              📊
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mb-3 shadow-lg">
+              <ExportIcon size={32} />
             </div>
             <h3 className="font-bold text-gray-800">Export Data</h3>
             <p className="text-xs text-gray-500">Save your progress</p>

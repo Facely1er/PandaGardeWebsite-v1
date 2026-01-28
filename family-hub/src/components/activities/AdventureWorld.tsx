@@ -431,7 +431,10 @@ const AdventureWorld: React.FC<AdventureWorldProps> = ({ onSelectActivity, curre
           </div>
           <div className="absolute bottom-[80px] right-0 bg-white p-3 rounded-2xl shadow-lg max-w-[180px] animate-pop-in">
             <p className="font-medium text-gray-800 text-sm">
-              Ready for an adventure? Pick a zone! 🎉
+              <span className="flex items-center gap-2">
+                Ready for an adventure? Pick a zone!
+                <CelebrationIcon size={24} />
+              </span>
             </p>
             <div className="absolute bottom-[-8px] right-8 w-4 h-4 bg-white transform rotate-45 shadow-lg" />
           </div>

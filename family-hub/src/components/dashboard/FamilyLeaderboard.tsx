@@ -1,5 +1,6 @@
 import React from 'react';
 import { Crown, TrendingUp, Medal } from 'lucide-react';
+import { NavFamilyIcon } from '../icons/ZoneIcons';
 
 interface FamilyMember {
   id: number;
@@ -38,7 +39,9 @@ const FamilyLeaderboard: React.FC<FamilyLeaderboardProps> = ({ members }) => {
   if (members.length === 0) {
     return (
       <div className="bg-white rounded-2xl p-6 shadow-md text-center">
-        <div className="text-4xl mb-3">👨‍👩‍👧‍👦</div>
+        <div className="mb-3 flex justify-center">
+          <NavFamilyIcon size={48} />
+        </div>
         <h3 className="font-bold text-gray-700 mb-2">No Family Members Yet</h3>
         <p className="text-sm text-gray-500">
           Add family members to see the leaderboard!
