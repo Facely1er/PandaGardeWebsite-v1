@@ -14,7 +14,11 @@ import {
   ConnectDotsIcon,
   MatchingIcon,
   PandaMascot,
-  LockIcon
+  LockIcon,
+  AdventureMapIcon,
+  SparkleIcon,
+  StarDecorativeIcon,
+  CelebrationIcon
 } from '../icons/ZoneIcons';
 
 interface Zone {
@@ -175,7 +179,7 @@ const AdventureWorld: React.FC<AdventureWorldProps> = ({ onSelectActivity, curre
       <div className="relative z-10 px-4 pt-4 pb-2">
         <div className="text-center mb-3">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-1 flex items-center justify-center gap-2">
-            <span className="text-3xl">🗺️</span>
+            <AdventureMapIcon size={32} />
             Adventure World
           </h1>
           <p className="text-gray-600 text-sm">
@@ -292,8 +296,12 @@ const AdventureWorld: React.FC<AdventureWorldProps> = ({ onSelectActivity, curre
       <div className="relative z-10 px-4 mt-4">
         <div className="relative overflow-hidden bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 rounded-2xl p-5 text-white max-w-2xl mx-auto shadow-xl">
           {/* Sparkle decorations */}
-          <div className="absolute top-2 right-3 text-2xl animate-sparkle">✨</div>
-          <div className="absolute bottom-3 left-3 text-xl animate-sparkle" style={{ animationDelay: '0.5s' }}>⭐</div>
+          <div className="absolute top-2 right-3 animate-sparkle">
+            <SparkleIcon size={24} />
+          </div>
+          <div className="absolute bottom-3 left-3 animate-sparkle" style={{ animationDelay: '0.5s' }}>
+            <StarDecorativeIcon size={20} />
+          </div>
 
           <div className="relative z-10 flex items-center justify-between">
             <div>
