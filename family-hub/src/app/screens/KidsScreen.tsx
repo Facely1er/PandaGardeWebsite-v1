@@ -4,7 +4,25 @@ import { Plus, Eye, Trash2, Star, Sparkles, Crown, Heart, Shield, Award } from '
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { useFamilyProgress } from '../../contexts/FamilyProgressContext';
 import ChildProgressDetail from '../../components/ChildProgressDetail';
-import { NavFamilyIcon, PandaMascot, BadgeFirstSteps, BadgeExplorer, TrophyIcon, StarIcon, FireIcon } from '../../components/icons/ZoneIcons';
+import { 
+  NavFamilyIcon, 
+  PandaMascot, 
+  BadgeFirstSteps, 
+  BadgeExplorer, 
+  TrophyIcon, 
+  StarIcon, 
+  FireIcon,
+  SparkleIcon,
+  StarDecorativeIcon,
+  HeartRedIcon,
+  HeartPurpleIcon,
+  HeartBlueIcon,
+  AvatarParentIcon,
+  AvatarChildIcon,
+  AvatarTeenIcon,
+  AvatarGuardianIcon,
+  CelebrationIcon
+} from '../../components/icons/ZoneIcons';
 
 interface FamilyMember {
   id: number;
@@ -31,7 +49,20 @@ const roleColors: Record<string, { gradient: string; bg: string; border: string 
   Guardian: { gradient: 'from-emerald-500 to-green-600', bg: 'bg-emerald-100', border: 'border-emerald-300' },
 };
 
-const avatarEmojis = ['🦸', '🦊', '🐼', '🦁', '🐯', '🦄', '🐲', '🦋', '🌟', '🎮', '🚀', '⭐'];
+const avatarIcons = [
+  AvatarParentIcon,
+  AvatarChildIcon,
+  AvatarTeenIcon,
+  AvatarGuardianIcon,
+  AvatarParentIcon,
+  AvatarChildIcon,
+  AvatarTeenIcon,
+  AvatarGuardianIcon,
+  AvatarParentIcon,
+  AvatarChildIcon,
+  AvatarTeenIcon,
+  AvatarGuardianIcon,
+];
 
 const KidsScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -41,8 +72,9 @@ const KidsScreen: React.FC = () => {
   const [selectedChildId, setSelectedChildId] = useState<number | null>(null);
   const [newMember, setNewMember] = useState({ name: '', age: 0, role: 'Child' });
 
-  const getAvatarEmoji = (memberId: number) => {
-    return avatarEmojis[memberId % avatarEmojis.length];
+  const getAvatarIcon = (memberId: number) => {
+    const IconComponent = avatarIcons[memberId % avatarIcons.length];
+    return IconComponent;
   };
 
   const getLevel = (score: number) => {
@@ -108,9 +140,15 @@ const KidsScreen: React.FC = () => {
             <PandaMascot size={64} />
           </div>
           {/* Floating hearts */}
-          <div className="absolute top-20 left-8 text-3xl opacity-30 animate-float">❤️</div>
-          <div className="absolute top-12 right-24 text-2xl opacity-20 animate-float" style={{ animationDelay: '0.5s' }}>💜</div>
-          <div className="absolute bottom-8 right-12 text-2xl opacity-25 animate-float" style={{ animationDelay: '1s' }}>💙</div>
+          <div className="absolute top-20 left-8 opacity-30 animate-float">
+            <HeartRedIcon size={32} />
+          </div>
+          <div className="absolute top-12 right-24 opacity-20 animate-float" style={{ animationDelay: '0.5s' }}>
+            <HeartPurpleIcon size={24} />
+          </div>
+          <div className="absolute bottom-8 right-12 opacity-25 animate-float" style={{ animationDelay: '1s' }}>
+            <HeartBlueIcon size={24} />
+          </div>
         </div>
 
         <div className="relative z-10 px-4 py-6">
@@ -188,13 +226,13 @@ const KidsScreen: React.FC = () => {
               Add family members to track everyone's privacy learning journey together.
             </p>
             <div className="flex flex-wrap justify-center gap-2">
-              {['👨', '👩', '👧', '👦'].map((emoji, i) => (
+              {[AvatarParentIcon, AvatarChildIcon, AvatarTeenIcon, AvatarGuardianIcon].map((IconComponent, i) => (
                 <div 
                   key={i}
-                  className="w-12 h-12 bg-gradient-to-br from-violet-100 to-purple-100 rounded-full flex items-center justify-center text-2xl animate-bounce"
+                  className="w-12 h-12 bg-gradient-to-br from-violet-100 to-purple-100 rounded-full flex items-center justify-center animate-bounce"
                   style={{ animationDelay: `${i * 0.1}s` }}
                 >
-                  {emoji}
+                  <IconComponent size={32} />
                 </div>
               ))}
             </div>
@@ -220,8 +258,11 @@ const KidsScreen: React.FC = () => {
                     <div className="flex items-center gap-4 relative z-10">
                       {/* Avatar */}
                       <div className="relative">
-                        <div className="w-16 h-16 rounded-2xl bg-white/30 backdrop-blur-sm flex items-center justify-center text-3xl shadow-lg border-2 border-white/50 group-hover:scale-110 transition-transform">
-                          {getAvatarEmoji(member.id)}
+                        <div className="w-16 h-16 rounded-2xl bg-white/30 backdrop-blur-sm flex items-center justify-center shadow-lg border-2 border-white/50 group-hover:scale-110 transition-transform">
+                          {(() => {
+                            const AvatarIcon = getAvatarIcon(member.id);
+                            return <AvatarIcon size={40} />;
+                          })()}
                         </div>
                         {/* Level Badge */}
                         <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md">

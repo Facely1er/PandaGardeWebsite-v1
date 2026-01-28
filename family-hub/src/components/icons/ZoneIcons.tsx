@@ -865,3 +865,170 @@ export const BadgeChampion: React.FC<IconProps> = ({ size = 48, className = '' }
   </svg>
 );
 
+// ========== DECORATIVE ICONS ==========
+
+export const SparkleIcon: React.FC<IconProps> = ({ size = 24, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" fill="#FDE047"/>
+    <circle cx="12" cy="10" r="2" fill="#FEF9C3"/>
+    <path d="M6 4L7 6L9 5L8 7L10 8L8 9L9 11L7 10L6 12L5 10L3 11L4 9L2 8L4 7L3 5L5 6L6 4Z" fill="#FDE047" opacity="0.6"/>
+    <path d="M18 4L19 6L21 5L20 7L22 8L20 9L21 11L19 10L18 12L17 10L15 11L16 9L14 8L16 7L15 5L17 6L18 4Z" fill="#FDE047" opacity="0.6"/>
+  </svg>
+);
+
+export const StarDecorativeIcon: React.FC<IconProps> = ({ size = 24, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <path d="M12 2L14.5 9H22L16 13.5L18.5 21L12 16.5L5.5 21L8 13.5L2 9H9.5L12 2Z" fill="url(#starDecorative)"/>
+    <path d="M12 6L13.5 10H17L14 12.5L15.5 17L12 14L8.5 17L10 12.5L7 10H10.5L12 6Z" fill="#FEF9C3"/>
+    <defs>
+      <linearGradient id="starDecorative" x1="12" y1="2" x2="12" y2="21">
+        <stop offset="0%" stopColor="#FDE047"/>
+        <stop offset="100%" stopColor="#F59E0B"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+export const HeartRedIcon: React.FC<IconProps> = ({ size = 24, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <path d="M12 4C12 4 8 8 8 12C8 16 12 20 12 20C12 20 16 16 16 12C16 8 12 4 12 4Z" fill="#EF4444"/>
+    <path d="M12 8C12 8 10 10 10 12C10 14 12 16 12 16C12 16 14 14 14 12C14 10 12 8 12 8Z" fill="#FEE2E2"/>
+    <circle cx="10" cy="11" r="1" fill="white" opacity="0.8"/>
+    <circle cx="14" cy="11" r="1" fill="white" opacity="0.8"/>
+  </svg>
+);
+
+export const HeartPurpleIcon: React.FC<IconProps> = ({ size = 24, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <path d="M12 4C12 4 8 8 8 12C8 16 12 20 12 20C12 20 16 16 16 12C16 8 12 4 12 4Z" fill="#A855F7"/>
+    <path d="M12 8C12 8 10 10 10 12C10 14 12 16 12 16C12 16 14 14 14 12C14 10 12 8 12 8Z" fill="#E9D5FF"/>
+    <circle cx="10" cy="11" r="1" fill="white" opacity="0.8"/>
+    <circle cx="14" cy="11" r="1" fill="white" opacity="0.8"/>
+  </svg>
+);
+
+export const HeartBlueIcon: React.FC<IconProps> = ({ size = 24, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <path d="M12 4C12 4 8 8 8 12C8 16 12 20 12 20C12 20 16 16 16 12C16 8 12 4 12 4Z" fill="#3B82F6"/>
+    <path d="M12 8C12 8 10 10 10 12C10 14 12 16 12 16C12 16 14 14 14 12C14 10 12 8 12 8Z" fill="#DBEAFE"/>
+    <circle cx="10" cy="11" r="1" fill="white" opacity="0.8"/>
+    <circle cx="14" cy="11" r="1" fill="white" opacity="0.8"/>
+  </svg>
+);
+
+export const CelebrationIcon: React.FC<IconProps> = ({ size = 32, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none" className={className}>
+    {/* Confetti pieces */}
+    <circle cx="8" cy="6" r="2" fill="#EF4444"/>
+    <circle cx="24" cy="8" r="1.5" fill="#3B82F6"/>
+    <circle cx="6" cy="20" r="1.5" fill="#10B981"/>
+    <circle cx="26" cy="22" r="2" fill="#F59E0B"/>
+    <circle cx="4" cy="12" r="1" fill="#EC4899"/>
+    <circle cx="28" cy="14" r="1.5" fill="#8B5CF6"/>
+    {/* Party popper */}
+    <rect x="12" y="16" width="8" height="12" rx="1" fill="#F59E0B"/>
+    <rect x="13" y="18" width="6" height="8" fill="#FBBF24"/>
+    <path d="M16 12L18 16L16 20L14 16Z" fill="#EF4444"/>
+    <path d="M14 10L16 12L18 10" stroke="#F59E0B" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+    {/* Streamers */}
+    <path d="M10 8L12 12L10 16" stroke="#3B82F6" strokeWidth="2" fill="none" strokeLinecap="round"/>
+    <path d="M22 10L24 14L22 18" stroke="#10B981" strokeWidth="2" fill="none" strokeLinecap="round"/>
+  </svg>
+);
+
+// ========== FAMILY AVATAR ICONS ==========
+
+export const AvatarParentIcon: React.FC<IconProps> = ({ size = 48, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" className={className}>
+    <circle cx="24" cy="24" r="22" fill="#8B5CF6"/>
+    <circle cx="24" cy="18" r="8" fill="#FBBF24"/>
+    <ellipse cx="24" cy="36" rx="12" ry="10" fill="#FBBF24"/>
+    <circle cx="20" cy="16" r="1.5" fill="white"/>
+    <circle cx="28" cy="16" r="1.5" fill="white"/>
+    <path d="M20 20 Q24 22 28 20" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round"/>
+  </svg>
+);
+
+export const AvatarChildIcon: React.FC<IconProps> = ({ size = 48, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" className={className}>
+    <circle cx="24" cy="24" r="22" fill="#F59E0B"/>
+    <circle cx="24" cy="20" r="7" fill="#FBBF24"/>
+    <ellipse cx="24" cy="38" rx="10" ry="8" fill="#FBBF24"/>
+    <circle cx="20" cy="19" r="1.5" fill="white"/>
+    <circle cx="28" cy="19" r="1.5" fill="white"/>
+    <path d="M20 22 Q24 24 28 22" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round"/>
+  </svg>
+);
+
+export const AvatarTeenIcon: React.FC<IconProps> = ({ size = 48, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" className={className}>
+    <circle cx="24" cy="24" r="22" fill="#3B82F6"/>
+    <circle cx="24" cy="19" r="7.5" fill="#FBBF24"/>
+    <ellipse cx="24" cy="37" rx="11" ry="9" fill="#FBBF24"/>
+    <circle cx="20" cy="18" r="1.5" fill="white"/>
+    <circle cx="28" cy="18" r="1.5" fill="white"/>
+    <path d="M20 21 Q24 23 28 21" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round"/>
+  </svg>
+);
+
+export const AvatarGuardianIcon: React.FC<IconProps> = ({ size = 48, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" className={className}>
+    <circle cx="24" cy="24" r="22" fill="#10B981"/>
+    <circle cx="24" cy="18" r="8" fill="#FBBF24"/>
+    <ellipse cx="24" cy="36" rx="12" ry="10" fill="#FBBF24"/>
+    <circle cx="20" cy="16" r="1.5" fill="white"/>
+    <circle cx="28" cy="16" r="1.5" fill="white"/>
+    <path d="M20 20 Q24 22 28 20" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round"/>
+    {/* Shield badge */}
+    <path d="M24 12L28 14V18C28 20 24 22 24 22C24 22 20 20 20 18V14L24 12Z" fill="#10B981" stroke="#059669" strokeWidth="1"/>
+  </svg>
+);
+
+// ========== UTILITY ICONS ==========
+
+export const CertificateIcon: React.FC<IconProps> = ({ size = 48, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" className={className}>
+    <rect x="8" y="6" width="32" height="36" rx="2" fill="#F59E0B"/>
+    <rect x="10" y="8" width="28" height="32" rx="1" fill="#FEF3C7"/>
+    {/* Ribbon */}
+    <path d="M20 6L24 10L28 6V12H20V6Z" fill="#EF4444"/>
+    <path d="M22 6L24 8L26 6" stroke="white" strokeWidth="1" fill="none"/>
+    {/* Seal */}
+    <circle cx="24" cy="20" r="8" fill="#F59E0B" stroke="#D97706" strokeWidth="2"/>
+    <path d="M24 14L26 18L30 19L27 22L28 26L24 24L20 26L21 22L18 19L22 18L24 14Z" fill="#FEF3C7"/>
+    {/* Text lines */}
+    <rect x="12" y="30" width="24" height="2" rx="1" fill="#F59E0B" opacity="0.3"/>
+    <rect x="12" y="34" width="20" height="2" rx="1" fill="#F59E0B" opacity="0.3"/>
+  </svg>
+);
+
+export const ExportIcon: React.FC<IconProps> = ({ size = 48, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" className={className}>
+    <rect x="6" y="8" width="36" height="32" rx="2" fill="#3B82F6"/>
+    <rect x="8" y="10" width="32" height="28" rx="1" fill="#DBEAFE"/>
+    {/* Chart bars */}
+    <rect x="12" y="24" width="6" height="10" rx="1" fill="#3B82F6"/>
+    <rect x="20" y="18" width="6" height="16" rx="1" fill="#60A5FA"/>
+    <rect x="28" y="22" width="6" height="12" rx="1" fill="#93C5FD"/>
+    {/* Arrow */}
+    <path d="M32 4L40 12L32 20M36 12H44" stroke="#3B82F6" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
+    <path d="M44 12H40V8" stroke="#3B82F6" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
+  </svg>
+);
+
+export const AdventureMapIcon: React.FC<IconProps> = ({ size = 32, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none" className={className}>
+    <rect x="2" y="4" width="28" height="24" rx="3" fill="#10B981"/>
+    <rect x="4" y="6" width="24" height="20" rx="2" fill="#D1FAE5"/>
+    {/* Map path */}
+    <path d="M6 12 Q12 8 16 14 Q20 20 26 16" stroke="#10B981" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+    {/* Markers */}
+    <circle cx="8" cy="16" r="3" fill="#EF4444"/>
+    <circle cx="8" cy="16" r="1.5" fill="#FEE2E2"/>
+    <path d="M24 18 L28 22 M28 18 L24 22" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round"/>
+    {/* Compass */}
+    <circle cx="24" cy="10" r="3" fill="white" stroke="#10B981" strokeWidth="1"/>
+    <path d="M24 8L24.5 10L24 12L23.5 10Z" fill="#EF4444"/>
+  </svg>
+);
+
