@@ -33,12 +33,12 @@ interface PlayerProgress {
 }
 
 const allBadges: Badge[] = [
-  { id: 'first-steps', name: 'First Steps', icon: '🎉', description: 'Complete your first activity', earned: true, earnedAt: new Date().toISOString(), rarity: 'common' },
-  { id: 'explorer', name: 'Explorer', icon: '🗺️', description: 'Visit all adventure zones', earned: true, earnedAt: new Date().toISOString(), rarity: 'rare' },
-  { id: 'streak-3', name: 'Consistent', icon: '🔥', description: 'Maintain a 3-day streak', earned: true, earnedAt: new Date().toISOString(), rarity: 'common' },
+  { id: 'first-steps', name: 'First Steps', icon: '🎉', IconComponent: BadgeFirstSteps, description: 'Complete your first activity', earned: true, earnedAt: new Date().toISOString(), rarity: 'common' },
+  { id: 'explorer', name: 'Explorer', icon: '🗺️', IconComponent: BadgeExplorer, description: 'Visit all adventure zones', earned: true, earnedAt: new Date().toISOString(), rarity: 'rare' },
+  { id: 'streak-3', name: 'Consistent', icon: '🔥', IconComponent: BadgeStreak, description: 'Maintain a 3-day streak', earned: true, earnedAt: new Date().toISOString(), rarity: 'common' },
   { id: 'quiz-master', name: 'Quiz Master', icon: '🧠', description: 'Score 100% on a quiz', earned: false, rarity: 'rare' },
   { id: 'privacy-pro', name: 'Privacy Pro', icon: '🛡️', description: 'Complete all privacy activities', earned: false, rarity: 'epic' },
-  { id: 'speed-demon', name: 'Speed Demon', icon: '⚡', description: 'Complete an activity in under 2 minutes', earned: true, earnedAt: new Date().toISOString(), rarity: 'rare' },
+  { id: 'speed-demon', name: 'Speed Demon', icon: '⚡', IconComponent: BadgeSpeedDemon, description: 'Complete an activity in under 2 minutes', earned: true, earnedAt: new Date().toISOString(), rarity: 'rare' },
   { id: 'perfectionist', name: 'Perfectionist', icon: '💎', description: 'Get 3 stars on 5 activities', earned: false, rarity: 'epic' },
   { id: 'legend', name: 'Privacy Legend', icon: '👑', description: 'Reach Level 20', earned: false, rarity: 'legendary' },
   { id: 'helper', name: 'Family Helper', icon: '🤝', description: 'Help 3 family members', earned: false, rarity: 'rare' },
@@ -166,9 +166,13 @@ const ProgressScreen: React.FC = () => {
               <button
                 key={badge.id}
                 onClick={() => setSelectedBadge(badge)}
-                className={`badge-item earned ${getRarityBg(badge.rarity)} transition-all hover:scale-105`}
+                className={`badge-item earned ${getRarityBg(badge.rarity)} transition-all hover:scale-110 hover:rotate-3`}
               >
-                {badge.icon}
+                {badge.IconComponent ? (
+                  <badge.IconComponent size={44} />
+                ) : (
+                  <span className="text-3xl">{badge.icon}</span>
+                )}
               </button>
             ))}
           </div>
@@ -186,9 +190,16 @@ const ProgressScreen: React.FC = () => {
               <button
                 key={badge.id}
                 onClick={() => setSelectedBadge(badge)}
-                className="badge-item locked transition-all hover:scale-105"
+                className="badge-item locked transition-all hover:scale-105 relative"
               >
-                {badge.icon}
+                {badge.IconComponent ? (
+                  <badge.IconComponent size={44} />
+                ) : (
+                  <span className="text-3xl">{badge.icon}</span>
+                )}
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-900/30 rounded-2xl">
+                  <LockIcon size={20} />
+                </div>
               </button>
             ))}
           </div>
@@ -256,8 +267,12 @@ const ProgressScreen: React.FC = () => {
           >
             {/* Badge Header */}
             <div className={`bg-gradient-to-br ${getRarityColor(selectedBadge.rarity)} p-8 text-center text-white`}>
-              <div className={`text-7xl mb-4 ${selectedBadge.earned ? 'animate-bounce-slow' : 'grayscale opacity-50'}`}>
-                {selectedBadge.icon}
+              <div className={`mb-4 flex justify-center ${selectedBadge.earned ? 'animate-bounce-slow' : 'grayscale opacity-50'}`}>
+                {selectedBadge.IconComponent ? (
+                  <selectedBadge.IconComponent size={96} />
+                ) : (
+                  <span className="text-7xl">{selectedBadge.icon}</span>
+                )}
               </div>
               <h2 className="text-2xl font-bold mb-1">{selectedBadge.name}</h2>
               <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold uppercase ${
