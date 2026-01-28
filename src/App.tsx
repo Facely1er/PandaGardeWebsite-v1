@@ -72,6 +72,8 @@ import QuickAssessmentPage from './pages/QuickAssessmentPage';
 import SuccessStoriesPage from './pages/community/SuccessStoriesPage';
 import ResourceSharingPage from './pages/community/ResourceSharingPage';
 import PrivacyTipsForumPage from './pages/community/PrivacyTipsForumPage';
+import AppFeaturesPage from './pages/AppFeaturesPage';
+import AppStoreReviewPage from './pages/AppStoreReviewPage';
 import NavigationErrorBoundary from './components/NavigationErrorBoundary';
 import { SentryErrorBoundary } from './lib/sentry';
 import { usePageTracking } from './hooks/useAnalytics';
@@ -175,6 +177,8 @@ function App() {
             {/* General Pages */}
             <Route path="/overview" element={<OverviewPage />} />
             <Route path="/features" element={<FeaturesPage />} />
+            <Route path="/app-features" element={<AppFeaturesPage />} />
+            <Route path="/app-store-review" element={<AppStoreReviewPage />} />
             <Route path="/resources" element={<ResourcesPage />} />
             <Route path="/parent-resources" element={<ResourcesPage />} /> {/* Redirect to consolidated resources */}
             <Route path="/parent-toolkit" element={<ParentToolkitPage />} />

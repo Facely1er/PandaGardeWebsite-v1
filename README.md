@@ -23,10 +23,12 @@ PandaGardeWebsite-v1/
 
 **Quick Links:**
 - 📚 [Documentation](docs/README.md)
-- 🚀 [Deployment Guide](docs/deployment/DEPLOYMENT_READY.md)
+- 🚀 [Deployment Guide](DEPLOYMENT_GUIDE.md) - Complete deployment instructions
+- ⚡ [Quick Deployment](QUICK_DEPLOYMENT.md) - Quick reference commands
 - 🗄️ [Database Setup](database/README.md)
 - 🔧 [Scripts](scripts/README.md)
 - 📱 [Family Hub README](family-hub/README.md)
+- 🏗️ [Project Structure](PROJECT_STRUCTURE.md) - Website and apps separation
 
 ---
 
@@ -385,33 +387,42 @@ npm run lint:fix    # Fix ESLint errors
 
 ## 🚢 Deployment
 
-### PandaGarde Website
-1. **Build the Application**
-   ```bash
-   npm run build
-   ```
+PandaGarde has **3 deployment targets**:
 
-2. **Deploy to Hosting Platform**
-   - Netlify: Use `netlify.toml` configuration
-   - Vercel: Use `vercel.json` configuration
-   - Any static hosting service
+1. **🌐 Website** - Main educational platform
+2. **📱 PWA** - Installable web app (Family Hub)
+3. **📲 Native Apps** - Android & iOS for app stores
 
-### Family Hub App
-1. **Build the Application**
-   ```bash
-   npm run build:family-hub
-   # Or from family-hub directory:
-   cd family-hub && npm run build
-   ```
+### Quick Deployment
 
-2. **Deploy to Hosting Platform**
-   - Netlify: Use `family-hub-netlify.toml` configuration
-   - Vercel: Use `family-hub-vercel.json` configuration
-   - Deploy as standalone PWA
+**Website:**
+```bash
+npm run build
+netlify deploy --prod --dir=dist
+# OR
+vercel --prod
+```
+
+**PWA:**
+```bash
+npm run build:family-hub
+netlify deploy --prod --dir=family-hub/dist --config=family-hub-netlify.toml
+# OR
+cd family-hub && vercel --prod
+```
+
+**Native Apps:**
+- **Android**: See `ANDROID_BUILD_GUIDE.md`
+- **iOS**: See `APP_STORE_READINESS_REPORT.md`
+
+### Detailed Guides
+
+- 📖 **[Complete Deployment Guide](DEPLOYMENT_GUIDE.md)** - Step-by-step instructions for all deployments
+- ⚡ **[Quick Deployment Reference](QUICK_DEPLOYMENT.md)** - Quick command reference
 
 ### Deployment Platforms
 
-- **Netlify**: Recommended for static hosting
+- **Netlify**: Recommended for static hosting (both website and PWA)
 - **Vercel**: Alternative deployment platform
 - **GitHub Pages**: Free hosting option
 - **AWS S3 + CloudFront**: Enterprise hosting
