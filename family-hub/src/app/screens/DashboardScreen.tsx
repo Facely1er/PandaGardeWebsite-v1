@@ -7,6 +7,7 @@ import QuickActions from '../../components/dashboard/QuickActions';
 import DailyChallenge from '../../components/dashboard/DailyChallenge';
 import FamilyLeaderboard from '../../components/dashboard/FamilyLeaderboard';
 import RecentAchievements from '../../components/dashboard/RecentAchievements';
+import { PandaMascot } from '../../components/icons/ZoneIcons';
 import { Sparkles, ArrowRight } from 'lucide-react';
 
 interface PlayerProgress {
@@ -229,9 +230,9 @@ const DashboardScreen: React.FC = () => {
       </div>
 
       {/* Floating Panda Mascot */}
-      <div className="panda-mascot hidden sm:block">
-        <div className="panda-avatar">
-          🐼
+      <div className="fixed bottom-24 right-4 z-40 hidden sm:block">
+        <div className="animate-bounce-slow drop-shadow-xl">
+          <PandaMascot size={70} />
         </div>
       </div>
     </div>

@@ -31,8 +31,8 @@ const CharacterPanel: React.FC<CharacterPanelProps> = ({
       <div className="flex items-center gap-4 mb-6">
         {/* Avatar */}
         <div className="relative">
-          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border-4 border-white/30 shadow-xl">
-            <span className="text-4xl sm:text-5xl">🐼</span>
+          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border-4 border-white/30 shadow-xl overflow-hidden">
+            <PandaMascot size={80} />
           </div>
           {/* Level Badge */}
           <div className="level-badge absolute -bottom-1 -right-1 sm:-bottom-2 sm:-right-2 text-sm">
