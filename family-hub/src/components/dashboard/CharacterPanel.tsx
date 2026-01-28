@@ -1,5 +1,6 @@
 import React from 'react';
-import { Flame, Star, Trophy, Zap, TrendingUp } from 'lucide-react';
+import { Flame, Zap } from 'lucide-react';
+import { PandaMascot } from '../icons/ZoneIcons';
 
 interface CharacterPanelProps {
   name: string;
