@@ -1,6 +1,6 @@
 import React from 'react';
-import { Flame, Zap } from 'lucide-react';
-import { PandaMascot } from '../icons/ZoneIcons';
+import { Zap } from 'lucide-react';
+import { PandaMascot, FireIcon, StarIcon, TrophyIcon } from '../icons/ZoneIcons';
 
 interface CharacterPanelProps {
   name: string;
@@ -85,17 +85,23 @@ const CharacterPanel: React.FC<CharacterPanelProps> = ({
       {/* Stats Grid */}
       <div className="grid grid-cols-3 gap-3">
         <div className="stat-badge">
-          <div className="text-2xl mb-1">🔥</div>
+          <div className="mb-1 flex justify-center">
+            <FireIcon size={28} />
+          </div>
           <div className="text-lg sm:text-xl font-bold">{streak}</div>
           <div className="text-xs opacity-80">Day Streak</div>
         </div>
         <div className="stat-badge">
-          <div className="text-2xl mb-1">⭐</div>
+          <div className="mb-1 flex justify-center">
+            <StarIcon size={28} />
+          </div>
           <div className="text-lg sm:text-xl font-bold">{totalXp.toLocaleString()}</div>
           <div className="text-xs opacity-80">Total XP</div>
         </div>
         <div className="stat-badge">
-          <div className="text-2xl mb-1">🏆</div>
+          <div className="mb-1 flex justify-center">
+            <TrophyIcon size={28} />
+          </div>
           <div className="text-lg sm:text-xl font-bold">{badges}</div>
           <div className="text-xs opacity-80">Badges</div>
         </div>

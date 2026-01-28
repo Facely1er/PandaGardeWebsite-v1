@@ -433,3 +433,435 @@ export const LockIcon: React.FC<IconProps> = ({ size = 24, className = '' }) => 
   </svg>
 );
 
+// ========== NAVIGATION ICONS ==========
+
+export const NavHomeIcon: React.FC<IconProps> = ({ size = 28, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 28 28" fill="none" className={className}>
+    <path d="M14 3L3 12V25H11V18H17V25H25V12L14 3Z" fill="url(#homeGradient)"/>
+    <path d="M11 25V18H17V25" fill="#1E40AF"/>
+    <rect x="12" y="19" width="4" height="2" fill="#60A5FA"/>
+    <path d="M14 3L3 12H7L14 6L21 12H25L14 3Z" fill="#EF4444"/>
+    <circle cx="14" cy="13" r="2" fill="#FDE047"/>
+    <defs>
+      <linearGradient id="homeGradient" x1="14" y1="3" x2="14" y2="25">
+        <stop offset="0%" stopColor="#60A5FA"/>
+        <stop offset="100%" stopColor="#3B82F6"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+export const NavAdventureIcon: React.FC<IconProps> = ({ size = 28, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 28 28" fill="none" className={className}>
+    {/* Map background */}
+    <rect x="2" y="4" width="24" height="20" rx="2" fill="#10B981"/>
+    <rect x="4" y="6" width="20" height="16" rx="1" fill="#D1FAE5"/>
+    {/* Map elements */}
+    <path d="M6 10 Q10 8 12 12 Q14 16 18 14 Q22 12 24 16" stroke="#10B981" strokeWidth="2" fill="none" strokeLinecap="round"/>
+    <circle cx="8" cy="14" r="2" fill="#EF4444"/>
+    <circle cx="20" cy="12" r="2" fill="#F59E0B"/>
+    {/* X marks the spot */}
+    <path d="M18 16 L22 20 M22 16 L18 20" stroke="#EF4444" strokeWidth="2" strokeLinecap="round"/>
+    {/* Compass */}
+    <circle cx="10" cy="18" r="3" fill="white" stroke="#10B981" strokeWidth="1"/>
+    <path d="M10 16 L10.5 18 L10 20 L9.5 18 Z" fill="#EF4444"/>
+  </svg>
+);
+
+export const NavFamilyIcon: React.FC<IconProps> = ({ size = 28, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 28 28" fill="none" className={className}>
+    {/* Adult 1 */}
+    <circle cx="8" cy="8" r="4" fill="#8B5CF6"/>
+    <ellipse cx="8" cy="18" rx="5" ry="6" fill="#8B5CF6"/>
+    {/* Adult 2 */}
+    <circle cx="20" cy="8" r="4" fill="#EC4899"/>
+    <ellipse cx="20" cy="18" rx="5" ry="6" fill="#EC4899"/>
+    {/* Child */}
+    <circle cx="14" cy="12" r="3" fill="#F59E0B"/>
+    <ellipse cx="14" cy="20" rx="4" ry="5" fill="#F59E0B"/>
+    {/* Faces */}
+    <circle cx="7" cy="7" r="0.5" fill="white"/>
+    <circle cx="9" cy="7" r="0.5" fill="white"/>
+    <circle cx="19" cy="7" r="0.5" fill="white"/>
+    <circle cx="21" cy="7" r="0.5" fill="white"/>
+    <circle cx="13" cy="11" r="0.5" fill="white"/>
+    <circle cx="15" cy="11" r="0.5" fill="white"/>
+    {/* Hearts */}
+    <path d="M14 5 C13 4 12 4.5 12 5.5 C12 6.5 14 8 14 8 C14 8 16 6.5 16 5.5 C16 4.5 15 4 14 5Z" fill="#EF4444"/>
+  </svg>
+);
+
+export const NavRewardsIcon: React.FC<IconProps> = ({ size = 28, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 28 28" fill="none" className={className}>
+    {/* Trophy cup */}
+    <path d="M8 6H20V14C20 18.4183 16.4183 22 12 22H16C16 22 14 24 14 24C14 24 12 22 12 22H12C7.58172 22 4 18.4183 4 14V6H8Z" fill="url(#trophyGradient)"/>
+    {/* Trophy handles */}
+    <path d="M4 8H2C2 8 2 12 4 12" stroke="#D97706" strokeWidth="2" fill="none" strokeLinecap="round"/>
+    <path d="M24 8H26C26 8 26 12 24 12" stroke="#D97706" strokeWidth="2" fill="none" strokeLinecap="round"/>
+    {/* Trophy base */}
+    <rect x="10" y="22" width="8" height="2" fill="#92400E"/>
+    <rect x="8" y="24" width="12" height="2" rx="1" fill="#B45309"/>
+    {/* Star on trophy */}
+    <path d="M14 9L15 12H18L15.5 14L16.5 17L14 15L11.5 17L12.5 14L10 12H13L14 9Z" fill="white"/>
+    {/* Sparkles */}
+    <circle cx="6" cy="4" r="1" fill="#FDE047"/>
+    <circle cx="22" cy="4" r="1" fill="#FDE047"/>
+    <defs>
+      <linearGradient id="trophyGradient" x1="14" y1="6" x2="14" y2="24">
+        <stop offset="0%" stopColor="#FDE047"/>
+        <stop offset="100%" stopColor="#F59E0B"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+export const NavSettingsIcon: React.FC<IconProps> = ({ size = 28, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 28 28" fill="none" className={className}>
+    {/* Gear outer */}
+    <path d="M14 4L16 6L19 5L20 8L23 9L22 12L24 14L22 16L23 19L20 20L19 23L16 22L14 24L12 22L9 23L8 20L5 19L6 16L4 14L6 12L5 9L8 8L9 5L12 6L14 4Z" fill="url(#gearGradient)"/>
+    {/* Inner circle */}
+    <circle cx="14" cy="14" r="5" fill="#E5E7EB"/>
+    <circle cx="14" cy="14" r="3" fill="#9CA3AF"/>
+    {/* Gear teeth highlights */}
+    <circle cx="14" cy="5" r="1" fill="#A78BFA"/>
+    <circle cx="22" cy="10" r="1" fill="#A78BFA"/>
+    <circle cx="22" cy="18" r="1" fill="#A78BFA"/>
+    <circle cx="14" cy="23" r="1" fill="#A78BFA"/>
+    <circle cx="6" cy="18" r="1" fill="#A78BFA"/>
+    <circle cx="6" cy="10" r="1" fill="#A78BFA"/>
+    <defs>
+      <linearGradient id="gearGradient" x1="14" y1="4" x2="14" y2="24">
+        <stop offset="0%" stopColor="#A78BFA"/>
+        <stop offset="100%" stopColor="#8B5CF6"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+// ========== STATS ICONS ==========
+
+export const FireIcon: React.FC<IconProps> = ({ size = 24, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <path d="M12 2C12 2 8 8 8 12C8 16 10 20 12 22C14 20 16 16 16 12C16 8 12 2 12 2Z" fill="url(#fireGradient)"/>
+    <path d="M12 8C12 8 10 11 10 13C10 15 11 17 12 18C13 17 14 15 14 13C14 11 12 8 12 8Z" fill="#FDE047"/>
+    <ellipse cx="12" cy="14" rx="1.5" ry="2" fill="#FEF9C3"/>
+    <defs>
+      <linearGradient id="fireGradient" x1="12" y1="2" x2="12" y2="22">
+        <stop offset="0%" stopColor="#F97316"/>
+        <stop offset="50%" stopColor="#EF4444"/>
+        <stop offset="100%" stopColor="#DC2626"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+export const StarIcon: React.FC<IconProps> = ({ size = 24, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <path d="M12 2L14.5 9H22L16 13.5L18.5 21L12 16.5L5.5 21L8 13.5L2 9H9.5L12 2Z" fill="url(#starGradient)"/>
+    <path d="M12 6L13.5 10H17L14 12.5L15.5 17L12 14L8.5 17L10 12.5L7 10H10.5L12 6Z" fill="#FEF9C3"/>
+    <defs>
+      <linearGradient id="starGradient" x1="12" y1="2" x2="12" y2="21">
+        <stop offset="0%" stopColor="#FDE047"/>
+        <stop offset="100%" stopColor="#F59E0B"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+export const TrophyIcon: React.FC<IconProps> = ({ size = 24, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <path d="M7 4H17V10C17 13.3137 14.3137 16 11 16H13C13 16 12 18 12 18C12 18 11 16 11 16C7.68629 16 5 13.3137 5 10V4H7Z" fill="url(#trophySmall)"/>
+    <path d="M5 6H3C3 6 3 9 5 9" stroke="#B45309" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+    <path d="M19 6H21C21 6 21 9 19 9" stroke="#B45309" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+    <rect x="9" y="16" width="6" height="2" fill="#92400E"/>
+    <rect x="8" y="18" width="8" height="2" rx="1" fill="#B45309"/>
+    <path d="M12 7L12.7 9H14L12.8 10L13.2 12L12 11L10.8 12L11.2 10L10 9H11.3L12 7Z" fill="white"/>
+    <defs>
+      <linearGradient id="trophySmall" x1="12" y1="4" x2="12" y2="18">
+        <stop offset="0%" stopColor="#FDE047"/>
+        <stop offset="100%" stopColor="#F59E0B"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+// ========== QUICK ACTION ICONS ==========
+
+export const MapIcon: React.FC<IconProps> = ({ size = 32, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none" className={className}>
+    <rect x="2" y="4" width="28" height="24" rx="3" fill="#10B981"/>
+    <rect x="4" y="6" width="24" height="20" rx="2" fill="#D1FAE5"/>
+    <path d="M6 12 Q12 8 16 14 Q20 20 26 16" stroke="#10B981" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+    <circle cx="10" cy="16" r="3" fill="#EF4444"/>
+    <circle cx="10" cy="16" r="1.5" fill="#FEE2E2"/>
+    <path d="M22 18 L26 22 M26 18 L22 22" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round"/>
+    <circle cx="24" cy="10" r="2" fill="#3B82F6"/>
+  </svg>
+);
+
+export const FamilyIcon: React.FC<IconProps> = ({ size = 32, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none" className={className}>
+    <circle cx="9" cy="8" r="5" fill="#3B82F6"/>
+    <ellipse cx="9" cy="22" rx="6" ry="8" fill="#3B82F6"/>
+    <circle cx="23" cy="8" r="5" fill="#EC4899"/>
+    <ellipse cx="23" cy="22" rx="6" ry="8" fill="#EC4899"/>
+    <circle cx="16" cy="14" r="4" fill="#F59E0B"/>
+    <ellipse cx="16" cy="24" rx="5" ry="6" fill="#F59E0B"/>
+    <path d="M16 4 C14 2 12 3 12 5 C12 7 16 10 16 10 C16 10 20 7 20 5 C20 3 18 2 16 4Z" fill="#EF4444"/>
+  </svg>
+);
+
+export const ChartIcon: React.FC<IconProps> = ({ size = 32, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none" className={className}>
+    <rect x="2" y="2" width="28" height="28" rx="4" fill="#8B5CF6"/>
+    <rect x="6" y="18" width="5" height="10" rx="1" fill="#C4B5FD"/>
+    <rect x="13.5" y="12" width="5" height="16" rx="1" fill="#A78BFA"/>
+    <rect x="21" y="6" width="5" height="22" rx="1" fill="#DDD6FE"/>
+    <path d="M6 14 L11 10 L16 12 L26 4" stroke="#FDE047" strokeWidth="2" strokeLinecap="round"/>
+    <circle cx="6" cy="14" r="2" fill="#FDE047"/>
+    <circle cx="11" cy="10" r="2" fill="#FDE047"/>
+    <circle cx="16" cy="12" r="2" fill="#FDE047"/>
+    <circle cx="26" cy="4" r="2" fill="#FDE047"/>
+  </svg>
+);
+
+export const TargetIcon: React.FC<IconProps> = ({ size = 32, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none" className={className}>
+    <circle cx="16" cy="16" r="14" fill="#EF4444"/>
+    <circle cx="16" cy="16" r="10" fill="white"/>
+    <circle cx="16" cy="16" r="6" fill="#EF4444"/>
+    <circle cx="16" cy="16" r="2" fill="white"/>
+    {/* Arrow */}
+    <path d="M24 8L16 16" stroke="#1E40AF" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M24 8L20 8L24 12Z" fill="#1E40AF"/>
+    <circle cx="16" cy="16" r="1" fill="#1E40AF"/>
+  </svg>
+);
+
+// ========== CHALLENGE ICONS ==========
+
+export const GamepadIcon: React.FC<IconProps> = ({ size = 24, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect x="2" y="6" width="20" height="12" rx="4" fill="url(#gamepadGradient)"/>
+    {/* D-pad */}
+    <rect x="5" y="10" width="6" height="2" rx="0.5" fill="white"/>
+    <rect x="7" y="8" width="2" height="6" rx="0.5" fill="white"/>
+    {/* Buttons */}
+    <circle cx="16" cy="10" r="1.5" fill="#EF4444"/>
+    <circle cx="19" cy="12" r="1.5" fill="#3B82F6"/>
+    <circle cx="16" cy="14" r="1.5" fill="#10B981"/>
+    <circle cx="13" cy="12" r="1.5" fill="#F59E0B"/>
+    <defs>
+      <linearGradient id="gamepadGradient" x1="12" y1="6" x2="12" y2="18">
+        <stop offset="0%" stopColor="#6366F1"/>
+        <stop offset="100%" stopColor="#4F46E5"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+export const BrainIcon: React.FC<IconProps> = ({ size = 24, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <ellipse cx="9" cy="12" rx="6" ry="8" fill="#EC4899"/>
+    <ellipse cx="15" cy="12" rx="6" ry="8" fill="#F472B6"/>
+    <path d="M9 6 Q12 4 15 6" stroke="#BE185D" strokeWidth="1.5" fill="none"/>
+    <path d="M9 10 Q12 8 15 10" stroke="#BE185D" strokeWidth="1.5" fill="none"/>
+    <path d="M9 14 Q12 12 15 14" stroke="#BE185D" strokeWidth="1.5" fill="none"/>
+    <path d="M9 18 Q12 16 15 18" stroke="#BE185D" strokeWidth="1.5" fill="none"/>
+    {/* Sparkle */}
+    <circle cx="6" cy="6" r="1" fill="#FDE047"/>
+    <circle cx="18" cy="6" r="1" fill="#FDE047"/>
+  </svg>
+);
+
+export const HelpIcon: React.FC<IconProps> = ({ size = 24, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <circle cx="12" cy="12" r="10" fill="#10B981"/>
+    <path d="M9 9C9 7.34315 10.3431 6 12 6C13.6569 6 15 7.34315 15 9C15 10.6569 13.6569 12 12 12V14" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+    <circle cx="12" cy="17" r="1.5" fill="white"/>
+    {/* Hearts around */}
+    <path d="M4 6 C3 5 2 5.5 2 6.5 C2 7.5 4 9 4 9 C4 9 6 7.5 6 6.5 C6 5.5 5 5 4 6Z" fill="#EF4444"/>
+    <path d="M20 6 C19 5 18 5.5 18 6.5 C18 7.5 20 9 20 9 C20 9 22 7.5 22 6.5 C22 5.5 21 5 20 6Z" fill="#EF4444"/>
+  </svg>
+);
+
+// ========== REMAINING BADGE ICONS ==========
+
+export const BadgeQuizMaster: React.FC<IconProps> = ({ size = 48, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" className={className}>
+    <circle cx="24" cy="24" r="22" fill="url(#badgePurple)"/>
+    <circle cx="24" cy="24" r="18" fill="#F3E8FF"/>
+    {/* Brain shape */}
+    <ellipse cx="20" cy="24" rx="8" ry="10" fill="#A855F7"/>
+    <ellipse cx="28" cy="24" rx="8" ry="10" fill="#C084FC"/>
+    <path d="M20 16 Q24 14 28 16" stroke="#7C3AED" strokeWidth="2" fill="none"/>
+    <path d="M20 24 Q24 22 28 24" stroke="#7C3AED" strokeWidth="2" fill="none"/>
+    <path d="M20 32 Q24 30 28 32" stroke="#7C3AED" strokeWidth="2" fill="none"/>
+    {/* Sparkles */}
+    <circle cx="14" cy="14" r="2" fill="#FDE047"/>
+    <circle cx="34" cy="14" r="2" fill="#FDE047"/>
+    <defs>
+      <linearGradient id="badgePurple" x1="24" y1="0" x2="24" y2="48">
+        <stop offset="0%" stopColor="#C084FC"/>
+        <stop offset="100%" stopColor="#A855F7"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+export const BadgePrivacyPro: React.FC<IconProps> = ({ size = 48, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" className={className}>
+    <circle cx="24" cy="24" r="22" fill="url(#badgeGreen)"/>
+    <circle cx="24" cy="24" r="18" fill="#DCFCE7"/>
+    {/* Shield */}
+    <path d="M24 10L34 14V24C34 32 24 38 24 38C24 38 14 32 14 24V14L24 10Z" fill="#10B981"/>
+    <path d="M24 14L30 16V24C30 28 24 32 24 32C24 32 18 28 18 24V16L24 14Z" fill="#34D399"/>
+    {/* Checkmark */}
+    <path d="M20 24L23 27L29 19" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+    <defs>
+      <linearGradient id="badgeGreen" x1="24" y1="0" x2="24" y2="48">
+        <stop offset="0%" stopColor="#4ADE80"/>
+        <stop offset="100%" stopColor="#22C55E"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+export const BadgePerfectionist: React.FC<IconProps> = ({ size = 48, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" className={className}>
+    <circle cx="24" cy="24" r="22" fill="url(#badgeDiamond)"/>
+    <circle cx="24" cy="24" r="18" fill="#E0E7FF"/>
+    {/* Diamond */}
+    <path d="M24 8L36 20L24 40L12 20L24 8Z" fill="#6366F1"/>
+    <path d="M24 8L30 20L24 40L18 20L24 8Z" fill="#818CF8"/>
+    <path d="M12 20L24 8L36 20" fill="#A5B4FC"/>
+    {/* Sparkles */}
+    <path d="M24 16L25 19L28 20L25 21L24 24L23 21L20 20L23 19Z" fill="white"/>
+    <defs>
+      <linearGradient id="badgeDiamond" x1="24" y1="0" x2="24" y2="48">
+        <stop offset="0%" stopColor="#A5B4FC"/>
+        <stop offset="100%" stopColor="#6366F1"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+export const BadgeLegend: React.FC<IconProps> = ({ size = 48, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" className={className}>
+    <circle cx="24" cy="24" r="22" fill="url(#badgeLegendary)"/>
+    <circle cx="24" cy="24" r="18" fill="#FEF3C7"/>
+    {/* Crown */}
+    <path d="M12 30L16 18L24 24L32 18L36 30L12 30Z" fill="#F59E0B"/>
+    <path d="M14 30L17 20L24 25L31 20L34 30" fill="#FBBF24"/>
+    {/* Jewels */}
+    <circle cx="17" cy="26" r="2" fill="#EF4444"/>
+    <circle cx="24" cy="24" r="2.5" fill="#3B82F6"/>
+    <circle cx="31" cy="26" r="2" fill="#10B981"/>
+    {/* Crown points */}
+    <circle cx="16" cy="18" r="2" fill="#FDE047"/>
+    <circle cx="24" cy="14" r="2.5" fill="#FDE047"/>
+    <circle cx="32" cy="18" r="2" fill="#FDE047"/>
+    <rect x="12" y="30" width="24" height="4" rx="1" fill="#D97706"/>
+    <defs>
+      <linearGradient id="badgeLegendary" x1="24" y1="0" x2="24" y2="48">
+        <stop offset="0%" stopColor="#FDE047"/>
+        <stop offset="50%" stopColor="#F59E0B"/>
+        <stop offset="100%" stopColor="#D97706"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+export const BadgeHelper: React.FC<IconProps> = ({ size = 48, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" className={className}>
+    <circle cx="24" cy="24" r="22" fill="url(#badgePink)"/>
+    <circle cx="24" cy="24" r="18" fill="#FCE7F3"/>
+    {/* Two hands holding */}
+    <path d="M14 28C14 28 18 24 24 24C30 24 34 28 34 28" stroke="#EC4899" strokeWidth="4" strokeLinecap="round"/>
+    <ellipse cx="14" cy="22" rx="4" ry="6" fill="#F9A8D4"/>
+    <ellipse cx="34" cy="22" rx="4" ry="6" fill="#F9A8D4"/>
+    {/* Heart in middle */}
+    <path d="M24 18 C21 15 17 16 17 20 C17 24 24 30 24 30 C24 30 31 24 31 20 C31 16 27 15 24 18Z" fill="#EF4444"/>
+    <defs>
+      <linearGradient id="badgePink" x1="24" y1="0" x2="24" y2="48">
+        <stop offset="0%" stopColor="#F9A8D4"/>
+        <stop offset="100%" stopColor="#EC4899"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+export const BadgeCollector: React.FC<IconProps> = ({ size = 48, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" className={className}>
+    <circle cx="24" cy="24" r="22" fill="url(#badgeTeal)"/>
+    <circle cx="24" cy="24" r="18" fill="#CCFBF1"/>
+    {/* Book/Album */}
+    <rect x="12" y="12" width="24" height="28" rx="2" fill="#0D9488"/>
+    <rect x="14" y="14" width="20" height="24" rx="1" fill="#5EEAD4"/>
+    {/* Badge slots */}
+    <circle cx="20" cy="20" r="3" fill="#FDE047"/>
+    <circle cx="28" cy="20" r="3" fill="#F472B6"/>
+    <circle cx="20" cy="28" r="3" fill="#60A5FA"/>
+    <circle cx="28" cy="28" r="3" fill="#34D399"/>
+    <rect x="24" y="12" width="2" height="28" fill="#0F766E"/>
+    <defs>
+      <linearGradient id="badgeTeal" x1="24" y1="0" x2="24" y2="48">
+        <stop offset="0%" stopColor="#5EEAD4"/>
+        <stop offset="100%" stopColor="#14B8A6"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+export const BadgeWeeklyWarrior: React.FC<IconProps> = ({ size = 48, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" className={className}>
+    <circle cx="24" cy="24" r="22" fill="url(#badgeRed)"/>
+    <circle cx="24" cy="24" r="18" fill="#FEE2E2"/>
+    {/* Flexing arm */}
+    <path d="M16 30C16 30 18 24 22 22C26 20 30 22 30 22" stroke="#DC2626" strokeWidth="4" strokeLinecap="round"/>
+    <ellipse cx="30" cy="18" rx="6" ry="8" fill="#EF4444"/>
+    <ellipse cx="30" cy="18" rx="4" ry="6" fill="#FCA5A5"/>
+    {/* 7 stars for 7 days */}
+    <circle cx="14" cy="14" r="2" fill="#FDE047"/>
+    <circle cx="20" cy="12" r="2" fill="#FDE047"/>
+    <circle cx="26" cy="12" r="2" fill="#FDE047"/>
+    <circle cx="32" cy="14" r="2" fill="#FDE047"/>
+    <circle cx="14" cy="34" r="2" fill="#FDE047"/>
+    <circle cx="24" cy="36" r="2" fill="#FDE047"/>
+    <circle cx="34" cy="34" r="2" fill="#FDE047"/>
+    <defs>
+      <linearGradient id="badgeRed" x1="24" y1="0" x2="24" y2="48">
+        <stop offset="0%" stopColor="#FCA5A5"/>
+        <stop offset="100%" stopColor="#EF4444"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+export const BadgeChampion: React.FC<IconProps> = ({ size = 48, className = '' }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" className={className}>
+    <circle cx="24" cy="24" r="22" fill="url(#badgeChampion)"/>
+    <circle cx="24" cy="24" r="18" fill="#FEF9C3"/>
+    {/* Trophy */}
+    <path d="M16 14H32V22C32 28 28 32 24 34C20 32 16 28 16 22V14Z" fill="#F59E0B"/>
+    <path d="M18 16H30V22C30 26 27 30 24 32C21 30 18 26 18 22V16Z" fill="#FBBF24"/>
+    {/* Handles */}
+    <path d="M16 16H12C12 16 12 22 16 22" stroke="#D97706" strokeWidth="2" fill="none"/>
+    <path d="M32 16H36C36 16 36 22 32 22" stroke="#D97706" strokeWidth="2" fill="none"/>
+    {/* Star */}
+    <path d="M24 18L25.5 22H29L26 24.5L27 28L24 26L21 28L22 24.5L19 22H22.5L24 18Z" fill="white"/>
+    {/* Base */}
+    <rect x="20" y="34" width="8" height="2" fill="#92400E"/>
+    <rect x="18" y="36" width="12" height="3" rx="1" fill="#B45309"/>
+    {/* Crown on top */}
+    <path d="M21 14L22 10L24 13L26 10L27 14" fill="#FDE047"/>
+    <defs>
+      <linearGradient id="badgeChampion" x1="24" y1="0" x2="24" y2="48">
+        <stop offset="0%" stopColor="#FDE047"/>
+        <stop offset="30%" stopColor="#F59E0B"/>
+        <stop offset="100%" stopColor="#D97706"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
+

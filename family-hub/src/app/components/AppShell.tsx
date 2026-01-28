@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { 
+  NavHomeIcon, 
+  NavAdventureIcon, 
+  NavFamilyIcon, 
+  NavRewardsIcon, 
+  NavSettingsIcon 
+} from '../../components/icons/ZoneIcons';
 
 interface NavTab {
   id: string;
   label: string;
-  icon: string;
+  Icon: React.FC<{ size?: number; className?: string }>;
   path: string;
   gradient: string;
 }
@@ -15,11 +22,11 @@ const AppShell: React.FC = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const tabs: NavTab[] = [
-    { id: 'dashboard', label: 'Home', icon: '🏠', path: '/app/dashboard', gradient: 'from-blue-500 to-cyan-500' },
-    { id: 'activities', label: 'Adventure', icon: '🗺️', path: '/app/activities', gradient: 'from-emerald-500 to-green-500' },
-    { id: 'kids', label: 'Family', icon: '👨‍👩‍👧‍👦', path: '/app/kids', gradient: 'from-violet-500 to-purple-500' },
-    { id: 'progress', label: 'Rewards', icon: '🏆', path: '/app/progress', gradient: 'from-amber-500 to-orange-500' },
-    { id: 'settings', label: 'Settings', icon: '⚙️', path: '/app/settings', gradient: 'from-gray-500 to-slate-500' },
+    { id: 'dashboard', label: 'Home', Icon: NavHomeIcon, path: '/app/dashboard', gradient: 'from-blue-500 to-cyan-500' },
+    { id: 'activities', label: 'Adventure', Icon: NavAdventureIcon, path: '/app/activities', gradient: 'from-emerald-500 to-green-500' },
+    { id: 'kids', label: 'Family', Icon: NavFamilyIcon, path: '/app/kids', gradient: 'from-violet-500 to-purple-500' },
+    { id: 'progress', label: 'Rewards', Icon: NavRewardsIcon, path: '/app/progress', gradient: 'from-amber-500 to-orange-500' },
+    { id: 'settings', label: 'Settings', Icon: NavSettingsIcon, path: '/app/settings', gradient: 'from-gray-500 to-slate-500' },
   ];
 
   const isActive = (path: string) => {
@@ -82,6 +89,7 @@ const AppShell: React.FC = () => {
         <div className="flex justify-around items-center h-20 px-2 max-w-lg mx-auto">
           {tabs.map((tab) => {
             const active = isActive(tab.path);
+            const TabIcon = tab.Icon;
             
             return (
               <button
@@ -93,17 +101,15 @@ const AppShell: React.FC = () => {
                 {/* Icon Container */}
                 <div 
                   className={`
-                    nav-icon w-11 h-11 rounded-2xl flex items-center justify-center text-xl
+                    nav-icon w-12 h-12 rounded-2xl flex items-center justify-center
                     transition-all duration-300 ease-out
                     ${active 
-                      ? `bg-gradient-to-br ${tab.gradient} shadow-lg -translate-y-2 scale-110` 
+                      ? `bg-white shadow-lg -translate-y-2 scale-110 ring-2 ring-offset-2 ring-${tab.id === 'dashboard' ? 'blue' : tab.id === 'activities' ? 'emerald' : tab.id === 'kids' ? 'violet' : tab.id === 'progress' ? 'amber' : 'gray'}-400` 
                       : 'bg-gray-100 dark:bg-gray-700'
                     }
                   `}
                 >
-                  <span className={`transition-transform duration-300 ${active ? 'scale-110' : ''}`}>
-                    {tab.icon}
-                  </span>
+                  <TabIcon size={active ? 28 : 24} className={`transition-transform duration-300 ${active ? 'scale-110' : ''}`} />
                 </div>
 
                 {/* Label */}

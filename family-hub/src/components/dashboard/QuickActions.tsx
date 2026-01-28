@@ -1,12 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Gamepad2, Trophy, Users, Target, ChevronRight, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
+import { MapIcon, FamilyIcon, ChartIcon, TargetIcon } from '../icons/ZoneIcons';
 
 interface QuickAction {
   id: string;
   title: string;
   description: string;
-  icon: string;
+  Icon: React.FC<{ size?: number; className?: string }>;
   gradient: string;
   path: string;
   badge?: string;
@@ -17,7 +18,7 @@ const quickActions: QuickAction[] = [
     id: 'adventure',
     title: 'Start Adventure',
     description: 'Explore zones and play games',
-    icon: '🗺️',
+    Icon: MapIcon,
     gradient: 'from-emerald-500 to-green-600',
     path: '/app/activities',
     badge: 'NEW',
@@ -26,7 +27,7 @@ const quickActions: QuickAction[] = [
     id: 'family',
     title: 'Family Hub',
     description: 'View family members',
-    icon: '👨‍👩‍👧‍👦',
+    Icon: FamilyIcon,
     gradient: 'from-blue-500 to-cyan-600',
     path: '/app/kids',
   },
@@ -34,7 +35,7 @@ const quickActions: QuickAction[] = [
     id: 'progress',
     title: 'My Progress',
     description: 'Track achievements',
-    icon: '📊',
+    Icon: ChartIcon,
     gradient: 'from-violet-500 to-purple-600',
     path: '/app/progress',
   },
@@ -42,7 +43,7 @@ const quickActions: QuickAction[] = [
     id: 'challenges',
     title: 'Challenges',
     description: 'Daily & weekly goals',
-    icon: '🎯',
+    Icon: TargetIcon,
     gradient: 'from-orange-500 to-red-500',
     path: '/app/activities',
     badge: '3',
@@ -82,8 +83,8 @@ const QuickActions: React.FC = () => {
             )}
 
             {/* Icon */}
-            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${action.gradient} flex items-center justify-center text-2xl mb-3 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-              {action.icon}
+            <div className="w-14 h-14 rounded-xl bg-white flex items-center justify-center mb-3 shadow-lg group-hover:scale-110 transition-transform duration-300 border border-gray-100">
+              <action.Icon size={40} />
             </div>
 
             {/* Content */}

@@ -7,7 +7,7 @@ import QuickActions from '../../components/dashboard/QuickActions';
 import DailyChallenge from '../../components/dashboard/DailyChallenge';
 import FamilyLeaderboard from '../../components/dashboard/FamilyLeaderboard';
 import RecentAchievements from '../../components/dashboard/RecentAchievements';
-import { PandaMascot } from '../../components/icons/ZoneIcons';
+import { PandaMascot, GamepadIcon, BrainIcon, HelpIcon } from '../../components/icons/ZoneIcons';
 import { Sparkles, ArrowRight } from 'lucide-react';
 
 interface PlayerProgress {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Clock, ChevronRight, Gift, CheckCircle } from 'lucide-react';
+import { GamepadIcon, BrainIcon, HelpIcon, TargetIcon } from '../icons/ZoneIcons';
 
 interface Challenge {
   id: string;
@@ -10,6 +11,7 @@ interface Challenge {
   total: number;
   xpReward: number;
   icon: string;
+  IconComponent?: React.FC<{ size?: number; className?: string }>;
   completed: boolean;
 }
 
@@ -67,7 +69,13 @@ const DailyChallenge: React.FC<DailyChallengeProps> = ({ challenges, timeRemaini
                 : 'bg-white/20 hover:bg-white/30 active:scale-[0.98]'
             }`}
           >
-            <span className="text-2xl">{challenge.icon}</span>
+            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+              {challenge.IconComponent ? (
+                <challenge.IconComponent size={24} />
+              ) : (
+                <span className="text-xl">{challenge.icon}</span>
+              )}
+            </div>
             <div className="flex-1 text-left">
               <div className={`font-semibold text-sm ${challenge.completed ? 'line-through opacity-70' : ''}`}>
                 {challenge.title}
