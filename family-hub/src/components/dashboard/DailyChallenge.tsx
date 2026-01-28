@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Clock, ChevronRight, Gift, CheckCircle } from 'lucide-react';
-import { GamepadIcon, BrainIcon, HelpIcon, TargetIcon } from '../icons/ZoneIcons';
+import { GamepadIcon, BrainIcon, HelpIcon, TargetIcon, SparkleIcon, StarDecorativeIcon } from '../icons/ZoneIcons';
 
 interface Challenge {
   id: string;
@@ -28,14 +28,18 @@ const DailyChallenge: React.FC<DailyChallengeProps> = ({ challenges, timeRemaini
   return (
     <div className="daily-challenge relative overflow-hidden">
       {/* Sparkle decorations */}
-      <div className="absolute top-2 right-2 text-2xl animate-sparkle">✨</div>
-      <div className="absolute bottom-4 left-4 text-xl animate-sparkle" style={{ animationDelay: '0.5s' }}>⭐</div>
+      <div className="absolute top-2 right-2 animate-sparkle">
+        <SparkleIcon size={24} />
+      </div>
+      <div className="absolute bottom-4 left-4 animate-sparkle" style={{ animationDelay: '0.5s' }}>
+        <StarDecorativeIcon size={20} />
+      </div>
 
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-2xl">🎯</span>
+            <TargetIcon size={24} />
             <h3 className="font-bold text-xl">Daily Challenges</h3>
           </div>
           <div className="flex items-center gap-2 text-white/80 text-sm">

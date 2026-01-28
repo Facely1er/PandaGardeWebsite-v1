@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Eye, Trash2, Star, Sparkles, Crown, Heart, Shield, Award } from 'lucide-react';
+import { TargetIcon } from '../../components/icons/ZoneIcons';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { useFamilyProgress } from '../../contexts/FamilyProgressContext';
 import ChildProgressDetail from '../../components/ChildProgressDetail';
@@ -366,8 +367,9 @@ const KidsScreen: React.FC = () => {
               </div>
             </div>
             <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4">
-              <p className="text-gray-700 text-sm">
-                🎯 <strong>Today's Challenge:</strong> Complete one activity together as a family and discuss what you learned about staying safe online!
+              <p className="text-gray-700 text-sm flex items-start gap-2">
+                <TargetIcon size={20} className="mt-0.5 flex-shrink-0" />
+                <span><strong>Today's Challenge:</strong> Complete one activity together as a family and discuss what you learned about staying safe online!</span>
               </p>
             </div>
           </div>
