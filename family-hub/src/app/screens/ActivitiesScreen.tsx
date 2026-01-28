@@ -1,98 +1,100 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Gamepad2, Play, ArrowLeft } from 'lucide-react';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 import ActivityManager from '../../components/activities/ActivityManager';
+import AdventureWorld from '../../components/activities/AdventureWorld';
+
+interface PlayerProgress {
+  level: number;
+  totalXp: number;
+  xpToNextLevel: number;
+  completedActivities: string[];
+  dailyStreak: number;
+  lastPlayedDate: string;
+}
 
 const ActivitiesScreen: React.FC = () => {
-  const navigate = useNavigate();
   const [selectedActivity, setSelectedActivity] = useState<string | null>(null);
+  const [playerProgress, setPlayerProgress] = useLocalStorage<PlayerProgress>('pandagarde_player_progress', {
+    level: 1,
+    totalXp: 0,
+    xpToNextLevel: 100,
+    completedActivities: [],
+    dailyStreak: 1,
+    lastPlayedDate: new Date().toISOString().split('T')[0],
+  });
 
-  const activities = [
-    { id: 'maze', name: 'Safe Online Journey Maze', icon: '🎮', description: 'Navigate safely through the digital world' },
-    { id: 'memory', name: 'Privacy Symbol Matching', icon: '🧩', description: 'Match privacy symbols with their meanings' },
-    { id: 'quiz', name: 'Privacy Quiz', icon: '❓', description: 'Test your privacy knowledge' },
-    { id: 'coloring', name: 'Privacy Panda Coloring', icon: '🎨', description: 'Color and learn about privacy protection' },
-    { id: 'sorting', name: 'Information Sorting', icon: '📦', description: 'Learn what information is safe to share' },
-    { id: 'wordsearch', name: 'Privacy Word Search', icon: '🔍', description: 'Find important privacy words' },
-    { id: 'connectdots', name: 'Privacy Shield Connect-the-Dots', icon: '🔗', description: 'Connect dots to reveal the shield' },
-    { id: 'matching', name: 'Privacy Symbol Matching', icon: '🎯', description: 'Match symbols with meanings' },
-  ];
+  // XP required per level (increases each level)
+  const getXpForLevel = (level: number) => 100 + (level - 1) * 50;
+
+  const addXp = (amount: number) => {
+    let newXp = playerProgress.totalXp + amount;
+    let newLevel = playerProgress.level;
+    let xpNeeded = getXpForLevel(newLevel);
+
+    // Level up logic
+    while (newXp >= xpNeeded) {
+      newXp -= xpNeeded;
+      newLevel++;
+      xpNeeded = getXpForLevel(newLevel);
+    }
+
+    // Update daily streak
+    const today = new Date().toISOString().split('T')[0];
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+    let newStreak = playerProgress.dailyStreak;
+    
+    if (playerProgress.lastPlayedDate === yesterday) {
+      newStreak++;
+    } else if (playerProgress.lastPlayedDate !== today) {
+      newStreak = 1;
+    }
+
+    setPlayerProgress({
+      ...playerProgress,
+      totalXp: newXp,
+      level: newLevel,
+      xpToNextLevel: xpNeeded,
+      dailyStreak: newStreak,
+      lastPlayedDate: today,
+    });
+  };
 
   const handleActivityComplete = (activityId: string, score?: number) => {
+    // Calculate XP based on score
+    const baseXp = 50;
+    const bonusXp = score ? Math.floor(score / 2) : 0;
+    const totalXpEarned = baseXp + bonusXp;
+    
+    addXp(totalXpEarned);
+    
+    // Track completed activity
+    if (!playerProgress.completedActivities.includes(activityId)) {
+      setPlayerProgress(prev => ({
+        ...prev,
+        completedActivities: [...prev.completedActivities, activityId],
+      }));
+    }
+
     setSelectedActivity(null);
-    // Activity completion is handled by ActivityManager
   };
 
   if (selectedActivity) {
     return (
-      <>
-        <ActivityManager
-          activityId={selectedActivity}
-          onClose={() => setSelectedActivity(null)}
-          onComplete={handleActivityComplete}
-        />
-      </>
+      <ActivityManager
+        activityId={selectedActivity}
+        onClose={() => setSelectedActivity(null)}
+        onComplete={handleActivityComplete}
+      />
     );
   }
 
   return (
-    <div className="p-3 sm:p-4 md:p-6 max-w-4xl mx-auto animate-fadeIn w-full">
-      <div className="mb-3 sm:mb-4 md:mb-6">
-        <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent mb-1 sm:mb-2">
-          Activities
-        </h1>
-        <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">
-          Play fun privacy games and activities to boost your family's privacy score!
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 md:gap-4">
-        {activities.map((activity, index) => (
-          <button
-            key={activity.id}
-            onClick={() => {
-              if ('vibrate' in navigator) {
-                navigator.vibrate(15);
-              }
-              setSelectedActivity(activity.id);
-            }}
-            className="group relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6 border border-gray-200/50 dark:border-gray-700/50 
-                       hover:border-teal-500 dark:hover:border-teal-500 transition-all duration-300 text-left 
-                       shadow-sm hover:shadow-lg hover:shadow-teal-500/10 min-h-[100px] sm:min-h-[120px] md:min-h-[140px] flex flex-col justify-between
-                       active:scale-[0.98] transform-gpu"
-            style={{
-              animationDelay: `${index * 50}ms`,
-            }}
-          >
-            {/* Gradient overlay on hover */}
-            <div className="absolute inset-0 bg-gradient-to-br from-teal-50/0 to-cyan-50/0 group-hover:from-teal-50/50 group-hover:to-cyan-50/50 dark:group-hover:from-teal-900/20 dark:group-hover:to-cyan-900/20 rounded-2xl transition-all duration-300" />
-            
-            <div className="relative z-10">
-              <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
-                <div className="text-2xl sm:text-3xl md:text-4xl transform group-hover:scale-110 transition-transform duration-300">
-                  {activity.icon}
-                </div>
-                <h3 className="font-bold text-sm sm:text-base md:text-lg text-gray-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
-                  {activity.name}
-                </h3>
-              </div>
-              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2 sm:mb-3 md:mb-4 leading-relaxed">
-                {activity.description}
-              </p>
-            </div>
-            
-            <div className="relative z-10 flex items-center gap-1.5 sm:gap-2 text-teal-600 dark:text-teal-400 transition-all duration-300">
-              <div className="p-1.5 sm:p-2 bg-teal-100 dark:bg-teal-900/30 rounded-lg group-hover:bg-teal-200 dark:group-hover:bg-teal-900/50 transition-colors">
-                <Play size={14} className="fill-current" />
-              </div>
-              <span className="text-xs sm:text-sm font-semibold">Start</span>
-            </div>
-          </button>
-        ))}
-      </div>
-    </div>
+    <AdventureWorld
+      onSelectActivity={setSelectedActivity}
+      currentLevel={playerProgress.level}
+      totalXp={playerProgress.totalXp}
+    />
   );
 };
 
 export default ActivitiesScreen;
-

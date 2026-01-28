@@ -1,18 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Users, Gamepad2, Award, Settings } from 'lucide-react';
+
+interface NavTab {
+  id: string;
+  label: string;
+  icon: string;
+  path: string;
+  gradient: string;
+}
 
 const AppShell: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const tabs = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/app/dashboard' },
-    { id: 'kids', label: 'Kids', icon: Users, path: '/app/kids' },
-    { id: 'activities', label: 'Activities', icon: Gamepad2, path: '/app/activities' },
-    { id: 'progress', label: 'Progress', icon: Award, path: '/app/progress' },
-    { id: 'settings', label: 'Settings', icon: Settings, path: '/app/settings' },
+  const tabs: NavTab[] = [
+    { id: 'dashboard', label: 'Home', icon: '🏠', path: '/app/dashboard', gradient: 'from-blue-500 to-cyan-500' },
+    { id: 'activities', label: 'Adventure', icon: '🗺️', path: '/app/activities', gradient: 'from-emerald-500 to-green-500' },
+    { id: 'kids', label: 'Family', icon: '👨‍👩‍👧‍👦', path: '/app/kids', gradient: 'from-violet-500 to-purple-500' },
+    { id: 'progress', label: 'Rewards', icon: '🏆', path: '/app/progress', gradient: 'from-amber-500 to-orange-500' },
+    { id: 'settings', label: 'Settings', icon: '⚙️', path: '/app/settings', gradient: 'from-gray-500 to-slate-500' },
   ];
 
   const isActive = (path: string) => {
@@ -25,7 +32,7 @@ const AppShell: React.FC = () => {
   const handleTabClick = (path: string) => {
     if (location.pathname !== path) {
       setIsTransitioning(true);
-      // Simulate haptic feedback
+      // Haptic feedback
       if ('vibrate' in navigator) {
         navigator.vibrate(10);
       }
@@ -35,84 +42,85 @@ const AppShell: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 safe-area-inset overflow-hidden">
-      {/* Top Bar - Enhanced Native Style */}
-      <header className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50 shadow-sm safe-area-top sticky top-0 z-40">
-        <div className="px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 max-w-full">
+    <div className="flex flex-col h-screen bg-gradient-to-b from-sky-50 to-white dark:from-gray-900 dark:to-gray-800 overflow-hidden">
+      {/* Top Bar - Compact & Playful */}
+      <header className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50 shadow-sm sticky top-0 z-40">
+        <div className="px-4 py-2.5">
           <div className="flex items-center justify-center gap-2.5">
-            <img 
-              src="/LogoPandagarde.png" 
-              alt="PandaGarde Logo" 
-              className="h-9 w-9 sm:h-11 sm:w-11 object-contain transition-transform duration-300 hover:scale-110"
-              onError={(e) => {
-                (e.target as HTMLImageElement).style.display = 'none';
-              }}
-            />
-            <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
-              PandaGarde
-            </h1>
-            <span className="ml-2 text-xs text-gray-500 dark:text-gray-400 hidden sm:inline font-medium">
-              Family Hub
-            </span>
+            {/* Logo with bounce animation on hover */}
+            <div className="relative group">
+              <img 
+                src="/LogoPandagarde.png" 
+                alt="PandaGarde Logo" 
+                className="h-10 w-10 object-contain transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = 'none';
+                }}
+              />
+            </div>
+            <div className="flex flex-col">
+              <h1 className="text-lg font-bold bg-gradient-to-r from-emerald-600 to-cyan-600 dark:from-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent leading-tight">
+                PandaGarde
+              </h1>
+              <span className="text-[10px] text-gray-500 dark:text-gray-400 font-medium -mt-0.5">
+                Family Hub
+              </span>
+            </div>
           </div>
         </div>
       </header>
 
-      {/* Main Content Area - Enhanced with smooth transitions */}
-      <main className={`flex-1 overflow-y-auto overscroll-contain pb-safe ${isTransitioning ? 'opacity-50' : 'opacity-100'} transition-opacity duration-300`}>
+      {/* Main Content Area */}
+      <main className={`flex-1 overflow-y-auto overscroll-contain ${isTransitioning ? 'opacity-50' : 'opacity-100'} transition-opacity duration-200`}>
         <div className="min-h-full">
-          <div className="animate-fadeIn">
-            <Outlet />
-          </div>
+          <Outlet />
         </div>
       </main>
 
-      {/* Bottom Navigation Tabs - Enhanced Native Style */}
-      <nav className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-700/50 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] safe-area-bottom sticky bottom-0 z-40">
-        <div className="grid grid-cols-5 h-16 max-w-full">
+      {/* Bottom Navigation - Playful Style */}
+      <nav className="playful-nav bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-700/50 shadow-[0_-8px_30px_rgba(0,0,0,0.08)] sticky bottom-0 z-40 safe-area-bottom">
+        <div className="flex justify-around items-center h-20 px-2 max-w-lg mx-auto">
           {tabs.map((tab) => {
-            const Icon = tab.icon;
             const active = isActive(tab.path);
+            
             return (
               <button
                 key={tab.id}
                 onClick={() => handleTabClick(tab.path)}
-                className={`
-                  relative flex flex-col items-center justify-center gap-0.5
-                  min-h-[64px] min-w-[64px] touch-manipulation
-                  transition-all duration-300 ease-out
-                  ${active
-                    ? 'text-teal-600 dark:text-teal-400'
-                    : 'text-gray-500 dark:text-gray-400'
-                  }
-                  active:scale-90
-                  hover:scale-105
-                `}
+                className="nav-button relative flex flex-col items-center gap-1 min-w-[56px] py-2 px-1 transition-all duration-300"
                 aria-label={tab.label}
               >
-                {/* Active indicator */}
-                {active && (
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-teal-600 dark:bg-teal-400 rounded-b-full" />
-                )}
-                <div className={`
-                  relative transition-all duration-300
-                  ${active ? 'scale-110' : 'scale-100'}
-                `}>
-                  <Icon 
-                    size={24} 
-                    className={active ? 'text-teal-600 dark:text-teal-400' : 'text-gray-500 dark:text-gray-400'} 
-                    strokeWidth={active ? 2.5 : 2}
-                  />
+                {/* Icon Container */}
+                <div 
+                  className={`
+                    nav-icon w-11 h-11 rounded-2xl flex items-center justify-center text-xl
+                    transition-all duration-300 ease-out
+                    ${active 
+                      ? `bg-gradient-to-br ${tab.gradient} shadow-lg -translate-y-2 scale-110` 
+                      : 'bg-gray-100 dark:bg-gray-700'
+                    }
+                  `}
+                >
+                  <span className={`transition-transform duration-300 ${active ? 'scale-110' : ''}`}>
+                    {tab.icon}
+                  </span>
                 </div>
+
+                {/* Label */}
                 <span className={`
-                  text-[10px] sm:text-xs font-semibold transition-all duration-300
+                  text-[10px] font-semibold transition-all duration-300
                   ${active 
-                    ? 'text-teal-600 dark:text-teal-400 scale-105' 
+                    ? 'text-gray-900 dark:text-white scale-105' 
                     : 'text-gray-500 dark:text-gray-400'
                   }
                 `}>
                   {tab.label}
                 </span>
+
+                {/* Active Indicator Dot */}
+                {active && (
+                  <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full" />
+                )}
               </button>
             );
           })}
@@ -123,4 +131,3 @@ const AppShell: React.FC = () => {
 };
 
 export default AppShell;
-
