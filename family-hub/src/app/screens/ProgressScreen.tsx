@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
-import { Award, Download, X, Trophy, Star, Flame, Target, CheckCircle, Lock } from 'lucide-react';
+import { X, Trophy, Star, Flame, Target, CheckCircle, Lock } from 'lucide-react';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import CertificateGenerator from '../../components/CertificateGenerator';
 import ProgressExport from '../../components/ProgressExport';
+import { 
+  BadgeFirstSteps, 
+  BadgeExplorer, 
+  BadgeStreak, 
+  BadgeSpeedDemon,
+  LockIcon 
+} from '../../components/icons/ZoneIcons';
 
 interface Badge {
   id: string;
   name: string;
   icon: string;
+  IconComponent?: React.FC<{ size?: number; className?: string }>;
   description: string;
   earned: boolean;
   earnedAt?: string;
