@@ -21,32 +21,8 @@ const HomePage: React.FC = () => {
     return !localStorage.getItem('pandagarde_pilot_banner_dismissed');
   });
 
-  // Hero text carousel messages
-  const heroMessages = [
-    'Teach your children digital privacy and online safety through fun, interactive activities. Everything you need to protect your family—all in one place, completely free.',
-    'Empower your family with age-appropriate privacy education. Interactive games, activities, and resources designed to keep kids safe online.',
-    'Build digital citizenship skills through engaging content. From privacy basics to advanced safety strategies—all tailored for your family.',
-    'Join thousands of families learning together. Free resources, expert guidance, and a supportive community to help you navigate digital privacy.'
-  ];
-
-  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-
-  // Carousel rotation effect
-  useEffect(() => {
-    // Skip carousel if family persona is set (shows personalized message)
-    if (familyPersona) return;
-
-    const interval = setInterval(() => {
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setCurrentMessageIndex((prev) => (prev + 1) % heroMessages.length);
-        setIsTransitioning(false);
-      }, 300); // Half of transition duration
-    }, 5000); // Change message every 5 seconds
-
-    return () => clearInterval(interval);
-  }, [familyPersona, heroMessages.length]);
+  // Simplified hero message (no carousel)
+  const heroMessage = 'Age-appropriate privacy education for families. Fun activities, expert guidance, 100% free.';
 
   // Track banner display
   useEffect(() => {
@@ -339,34 +315,51 @@ const HomePage: React.FC = () => {
                 color: '#0f172a',
                 letterSpacing: '-0.02em'
               }}>
-                Keep Your Family<br />
-                <span className="highlight" style={{
+                Help Your Kids <span className="highlight" style={{
                   background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #66BB6A 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
                   display: 'inline-block'
-                }}>
-                  Safe Online
-                </span>
+                }}>Stay Safe Online</span>
               </h1>
               <p
                 className="hero-description"
                 style={{
                   fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
                   lineHeight: '1.7',
-                  color: '#64748b',
-                  opacity: isTransitioning ? 0 : 1,
-                  transform: isTransitioning ? 'translateY(10px)' : 'translateY(0)',
-                  transition: 'opacity 0.6s ease, transform 0.6s ease'
+                  color: '#64748b'
                 }}
-                key={currentMessageIndex}
               >
                 {familyPersona
                   ? `${familyPersona.description}. Get personalized recommendations tailored for your family's privacy needs.`
-                  : heroMessages[currentMessageIndex]
+                  : heroMessage
                 }
               </p>
+              
+              {/* Social Proof */}
+              <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '1.5rem',
+                marginTop: '1.5rem',
+                marginBottom: '1.5rem',
+                fontSize: '0.9rem',
+                color: '#475569'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <CheckCircle size={18} style={{ color: '#2E7D32' }} />
+                  <span>For ages 5-17</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <CheckCircle size={18} style={{ color: '#2E7D32' }} />
+                  <span>Takes 10 minutes to start</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <CheckCircle size={18} style={{ color: '#2E7D32' }} />
+                  <span>100% free, always</span>
+                </div>
+              </div>
 
               {/* Simplified Journey Progress - Only show if significant progress */}
               {progress.overallProgress > 25 && (
@@ -406,7 +399,7 @@ const HomePage: React.FC = () => {
 
               <div className="hero-buttons">
                 <Link 
-                  to="/quick-start" 
+                  to="/privacy-panda" 
                   className="button primary"
                   style={{
                     background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
@@ -433,11 +426,11 @@ const HomePage: React.FC = () => {
                   }}
                 >
                   <Play size={20} />
-                  Get Started
+                  Start Learning
                   <ArrowRight size={16} />
                 </Link>
                 <Link 
-                  to="/privacy-panda" 
+                  to="/quick-assessment" 
                   className="button secondary"
                   style={{
                     background: 'white',
@@ -467,50 +460,21 @@ const HomePage: React.FC = () => {
                     e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
                   }}
                 >
-                  Start Learning
+                  Take 2-Min Quiz
                   <ArrowRight size={16} />
                 </Link>
               </div>
 
-              {/* Simplified Stats */}
-              <div className="hero-stats" style={{ paddingTop: '1.5rem', borderTop: '1px solid #e2e8f0' }}>
-                <div className="stat-item">
-                  <span className="stat-number" style={{
-                    display: 'block',
-                    fontSize: '2rem',
-                    fontWeight: '800',
-                    background: 'linear-gradient(135deg, #1B5E20 0%, #66BB6A 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    lineHeight: '1',
-                    marginBottom: '0.5rem'
-                  }}>3</span>
-                  <span className="stat-label" style={{
-                    fontSize: '0.875rem',
-                    color: '#64748b',
-                    fontWeight: '500'
-                  }}>Age Groups</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-number" style={{
-                    display: 'block',
-                    fontSize: '2rem',
-                    fontWeight: '800',
-                    background: 'linear-gradient(135deg, #1B5E20 0%, #66BB6A 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    lineHeight: '1',
-                    marginBottom: '0.5rem'
-                  }}>100%</span>
-                  <span className="stat-label" style={{
-                    fontSize: '0.875rem',
-                    color: '#64748b',
-                    fontWeight: '500'
-                  }}>Free Forever</span>
-                </div>
-              </div>
+              {/* Trust indicators */}
+              <p style={{
+                fontSize: '0.875rem',
+                color: '#64748b',
+                marginTop: '1.5rem',
+                paddingTop: '1.5rem',
+                borderTop: '1px solid #e2e8f0'
+              }}>
+                Trusted by 1,000+ families • No credit card • Privacy-first
+              </p>
             </div>
 
             {/* Right Column - Logo/Image */}

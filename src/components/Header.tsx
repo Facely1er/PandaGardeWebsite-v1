@@ -52,6 +52,7 @@ function Header() {
   const navItems = useMemo(() => {
     const items = [
       { id: 'nav-home', icon: Home, label: 'Home', href: '/', isExternal: false, hideOnMedium: true },
+      { id: 'nav-features', icon: Heart, label: 'Features', href: '/features', isExternal: false, hideOnMedium: false },
       { id: 'nav-privacy-panda', icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false, hideOnMedium: false },
       { id: 'nav-get-started', icon: Users, label: 'Get Started', href: '/get-started', isExternal: false, hideOnMedium: false },
       { id: 'nav-resources', icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false, hideOnMedium: false },
@@ -72,6 +73,7 @@ function Header() {
   const mobileNavItems = useMemo(() => {
     const items = [
       { id: 'mobile-nav-home', icon: Home, label: 'Home', href: '/', isExternal: false },
+      { id: 'mobile-nav-features', icon: Heart, label: 'Features', href: '/features', isExternal: false },
       { id: 'mobile-nav-privacy-panda', icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false },
       { id: 'mobile-nav-get-started', icon: Users, label: 'Get Started', href: '/get-started', isExternal: false },
       { id: 'mobile-nav-resources', icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },

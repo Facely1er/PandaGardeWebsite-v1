@@ -68,6 +68,7 @@ import QuickAssessmentPage from './pages/QuickAssessmentPage';
 import SuccessStoriesPage from './pages/community/SuccessStoriesPage';
 import ResourceSharingPage from './pages/community/ResourceSharingPage';
 import PrivacyTipsForumPage from './pages/community/PrivacyTipsForumPage';
+import FeaturesPage from './pages/FeaturesPage';
 import NavigationErrorBoundary from './components/NavigationErrorBoundary';
 import { SentryErrorBoundary } from './lib/sentry';
 import { usePageTracking } from './hooks/useAnalytics';
@@ -144,6 +145,7 @@ function App() {
             <Route path="/digital-rights" element={<DigitalRightsPage />} />
 
             {/* General Pages */}
+            <Route path="/features" element={<FeaturesPage />} />
             <Route path="/overview" element={<OverviewPage />} />
             <Route path="/resources" element={<ResourcesPage />} />
             <Route path="/quick-start" element={<QuickStartPage />} />
