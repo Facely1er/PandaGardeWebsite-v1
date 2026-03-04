@@ -19,12 +19,12 @@ const AppFeaturesPage: React.FC = () => {
     {
       icon: <Users className="w-8 h-8" />,
       title: 'Family Management',
-      description: 'Easily manage multiple family members in one place. Add children, track their individual progress, and view family-wide learning statistics.',
+      description: 'Keep everyone in one place. Add each family member, see how each child is doing, and switch between profiles quickly.',
       highlights: [
-        'Add unlimited family members',
-        'Individual progress tracking',
-        'Family dashboard overview',
-        'Quick profile switching'
+        'Add everyone in your family',
+        'See each child’s progress',
+        'One simple dashboard',
+        'Switch profiles in one tap'
       ]
     },
     {
@@ -52,34 +52,34 @@ const AppFeaturesPage: React.FC = () => {
     {
       icon: <BarChart3 className="w-8 h-8" />,
       title: 'Progress Tracking',
-      description: 'Monitor learning progress with detailed analytics. Track activity completion, scores, and time spent learning.',
+      description: 'See what your kids have learned. Check which activities they’ve done, their scores, and how much time they’ve spent.',
       highlights: [
-        'Real-time progress updates',
-        'Score tracking',
-        'Time analytics',
-        'Progress export/import'
+        'See progress as they go',
+        'Track scores and completion',
+        'See time spent learning',
+        'Export or move progress if you need to'
       ]
     },
     {
       icon: <Shield className="w-8 h-8" />,
       title: 'Privacy & Security',
-      description: 'Built with privacy in mind. All data stored locally, COPPA compliant, and no tracking or external analytics.',
+      description: 'We put your family’s privacy first. Everything stays on your device—we don’t track you or share your data. We follow child privacy laws so it’s safe for kids.',
       highlights: [
-        'Local data storage',
-        'COPPA compliant',
-        'No external tracking',
-        'GDPR compliant'
+        'Data stays on your device',
+        'Safe for kids (meets child privacy laws)',
+        'No tracking or ads',
+        'Strong privacy practices'
       ]
     },
     {
       icon: <Smartphone className="w-8 h-8" />,
-      title: 'Mobile-First Design',
-      description: 'Optimized for mobile devices with app-like interface, PWA support, and offline functionality.',
+      title: 'Works on Phones & Tablets',
+      description: 'Use it on any device. Add it to your home screen to use like an app, and many features work when you’re offline.',
       highlights: [
-        'Installable PWA',
-        'Offline functionality',
-        'Touch-optimized UI',
-        'Native app experience'
+        'Add to home screen like an app',
+        'Works offline',
+        'Easy to use on touch screens',
+        'Works on phones, tablets, and computers'
       ]
     }
   ];
@@ -266,7 +266,7 @@ const AppFeaturesPage: React.FC = () => {
                   </div>
                   <div>
                     <dt className="font-semibold text-gray-700">Platform</dt>
-                    <dd className="text-gray-600">iOS, Android, PWA</dd>
+                    <dd className="text-gray-600">iOS, Android, or add to home screen in a browser</dd>
                   </div>
                 </dl>
               </div>
@@ -294,7 +294,7 @@ const AppFeaturesPage: React.FC = () => {
                   </li>
                   <li className="flex items-start">
                     <CheckCircle2 className="w-5 h-5 text-teal-600 mr-2 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Educational content aligned with digital citizenship standards</span>
+                    <span className="text-gray-700">Content supports what schools teach about being safe online</span>
                   </li>
                 </ul>
               </div>
@@ -364,4 +364,5 @@ const AppFeaturesPage: React.FC = () => {
 };
 
 export default AppFeaturesPage;
+
 

@@ -7,50 +7,50 @@ const GetStartedPage: React.FC = () => {
   const steps = [
     {
       id: 'family-hub',
-      title: 'Join PandaGarde Platform',
-      description: 'Create your family profile and access the complete privacy education ecosystem.',
+      title: 'Create Your Family Profile',
+      description: 'Set up your family so you can use all our free privacy tools and activities in one place.',
       icon: Users,
       link: '/family-hub',
-      action: 'Join Platform'
+      action: 'Create Profile'
     },
     {
       id: 'service-catalog',
-      title: 'Add Services for Digital Footprint Analysis',
-      description: 'Tell us which apps and services your family uses. This enables Digital Footprint Analysis, privacy recommendations, and safety alerts.',
+      title: 'Tell Us Which Apps Your Family Uses',
+      description: 'Add the apps your kids use (like TikTok, YouTube, Roblox). We’ll show you a simple report and tips to help keep those apps safer.',
       icon: ShoppingBag,
       link: '/service-catalog',
-      action: 'Add Services'
+      action: 'Add Apps'
     },
     {
       id: 'first-activity',
-      title: 'Start Privacy Panda Learning',
-      description: 'Begin interactive stories and activities designed for your child\'s age group.',
+      title: 'Start Learning with Privacy Panda',
+      description: 'Try our interactive stories and activities, made for your child’s age.',
       icon: Play,
       link: '/privacy-panda',
       action: 'Start Learning'
     },
     {
       id: 'advanced-features',
-      title: 'View Your Digital Footprint Analysis',
-      description: 'See your family\'s privacy exposure across all services and get personalized recommendations to improve your privacy.',
+      title: 'See Your Privacy Report',
+      description: 'See which apps share the most data and get simple, personalized tips to improve your family’s privacy.',
       icon: BarChart3,
       link: '/digital-footprint',
-      action: 'View Analysis'
+      action: 'See Report'
     },
     {
       id: 'explore-resources',
-      title: 'Access Resources',
-      description: 'Download guides, activities, and printable materials for continued learning.',
+      title: 'Download Free Resources',
+      description: 'Get guides, activities, and printables to keep learning at home or in the classroom.',
       icon: BookOpen,
       link: '/resources',
-      action: 'Access Resources'
+      action: 'Get Resources'
     }
   ];
 
   return (
     <PageLayout
       title="Get Started"
-      subtitle="Follow our step-by-step guide to begin your family's digital privacy education journey with PandaGarde."
+      subtitle="Follow these simple steps to start teaching your family about online privacy—all free."
       icon={Rocket}
       badge="GET STARTED"
       breadcrumbs={true}
@@ -69,7 +69,7 @@ const GetStartedPage: React.FC = () => {
                   color: '#1B5E20'
                 }}
               >
-                Getting Started Steps
+                Simple Steps to Get Started
               </h2>
               <p style={{
                 fontSize: '1.125rem',
@@ -77,7 +77,7 @@ const GetStartedPage: React.FC = () => {
                 textAlign: 'center',
                 marginBottom: '3rem'
               }}>
-                Follow these steps to set up your family's privacy education journey.
+                Do these in order, or jump to any step you like.
               </p>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }} role="list" aria-label="Getting started steps">
@@ -174,7 +174,7 @@ const GetStartedPage: React.FC = () => {
                   color: '#1B5E20'
                 }}
               >
-                Quick Start Options
+                Or Jump Straight In
               </h2>
               <p style={{
                 fontSize: '1.125rem',
@@ -182,7 +182,7 @@ const GetStartedPage: React.FC = () => {
                 textAlign: 'center',
                 marginBottom: '3rem'
               }}>
-                Jump right into specific areas or follow the complete guide.
+                Prefer to explore? Start with any of these.
               </p>
 
               <div style={{
@@ -337,7 +337,7 @@ const GetStartedPage: React.FC = () => {
                   color: '#FFFFFF'
                 }}
               >
-                Ready to Begin Your Privacy Education Journey?
+                Ready to Get Started?
               </h2>
               <p style={{
                 fontSize: '1.25rem',
@@ -345,7 +345,7 @@ const GetStartedPage: React.FC = () => {
                 opacity: 0.9,
                 color: '#FFFFFF'
               }}>
-                Start learning about digital privacy with PandaGarde's comprehensive resources and activities.
+                Pick an option below and start learning about online privacy together—no sign-up required to try.
               </p>
               <div style={{
                 display: 'flex',
