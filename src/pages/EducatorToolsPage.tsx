@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { GraduationCap, BookOpen, Users, Download, CheckCircle, Clock, FileText, Presentation, Award } from 'lucide-react';
+import { type LucideIcon, GraduationCap, BookOpen, Users, Download, CheckCircle, Clock, FileText, Presentation, Award, Scale } from 'lucide-react';
 import PageLayout from '../components/layout/PageLayout';
 import ResourceModal from '../components/ResourceModal';
+import { PRIVACY_PORTAL_URL } from '../config/portal';
 
 interface Resource {
   id: string;
@@ -12,7 +13,7 @@ interface Resource {
   gradeLevel: string;
   duration: string;
   completed: boolean;
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: LucideIcon;
   downloadUrl?: string;
   preview: string[];
 }
@@ -385,12 +386,15 @@ const EducatorToolsPage: React.FC = () => {
                     </button>
                     {resource.downloadUrl && (
                       <button
+                        type="button"
                         className="bg-gray-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-600 transition-all"
                         onClick={(e) => {
                           e.stopPropagation();
                           // In a real app, this would trigger a download
                           alert('Download would start here');
                         }}
+                        aria-label="Download resource"
+                        title="Download resource"
                       >
                         <Download size={16} />
                       </button>
@@ -454,6 +458,13 @@ const EducatorToolsPage: React.FC = () => {
               Contact Us
             </Link>
           </div>
+          <p className="mt-4 text-sm opacity-95">
+            Maryland residents (MODPA):{' '}
+            <a href={PRIVACY_PORTAL_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 underline hover:opacity-90">
+              <Scale size={14} />
+              Exercise your privacy rights
+            </a>
+          </p>
         </div>
       </div>
     </PageLayout>

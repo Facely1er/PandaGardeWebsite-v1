@@ -1,6 +1,7 @@
 import React from 'react';
 import { useFamilyProgress } from '../contexts/FamilyProgressContext';
 import { Award, Clock, TrendingUp, Calendar, Gamepad2, BookOpen, GraduationCap, ArrowLeft } from 'lucide-react';
+import { ProgressBar } from './ui/ProgressBar';
 
 interface ChildProgressDetailProps {
   memberId: number;
@@ -43,9 +44,13 @@ const ChildProgressDetail: React.FC<ChildProgressDetailProps> = ({
 
   const formatDate = (dateString: string) => {
     try {
-      if (!dateString) return 'N/A';
+      if (!dateString) {
+        return 'N/A';
+      }
       const date = new Date(dateString);
-      if (isNaN(date.getTime())) return 'Invalid Date';
+      if (isNaN(date.getTime())) {
+        return 'Invalid Date';
+      }
       return date.toLocaleDateString('en-US', { 
         month: 'short', 
         day: 'numeric', 
@@ -142,7 +147,9 @@ const ChildProgressDetail: React.FC<ChildProgressDetailProps> = ({
         ) : (
           <div className="space-y-4">
             {(recentActivities || []).map((activity, index) => {
-              if (!activity || !activity.score || !activity.maxScore) return null;
+              if (!activity || !activity.score || !activity.maxScore) {
+                return null;
+              }
               const percentage = (activity.score / activity.maxScore) * 100;
               return (
                 <div
@@ -184,15 +191,13 @@ const ChildProgressDetail: React.FC<ChildProgressDetailProps> = ({
                       <div className="text-xs text-gray-500 dark:text-gray-400">
                         {Math.round(percentage)}%
                       </div>
-                      <div className="mt-2 w-24 h-2 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
-                        <div
-                          className={`h-full ${
-                            percentage >= 80 ? 'bg-green-500' :
-                            percentage >= 60 ? 'bg-yellow-500' : 'bg-red-500'
-                          }`}
-                          style={{ width: `${Math.max(0, Math.min(100, percentage))}%` }}
-                        />
-                      </div>
+                      <ProgressBar
+                        value={Math.max(0, Math.min(100, percentage))}
+                        size="sm"
+                        variant={percentage >= 80 ? 'low' : percentage >= 60 ? 'medium' : 'critical'}
+                        aria-label={`${label} progress`}
+                        className="mt-2 w-24"
+                      />
                     </div>
                   </div>
                 </div>

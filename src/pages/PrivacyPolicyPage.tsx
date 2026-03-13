@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Shield, Lock, Eye, Database, Users, Mail } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import PageLayout from '../components/layout/PageLayout';
+import { PRIVACY_PORTAL_URL } from '../config/portal';
 
 const PrivacyPolicyPage: React.FC = () => {
   const { theme } = useTheme();
@@ -299,6 +300,23 @@ const PrivacyPolicyPage: React.FC = () => {
                     <li>Delete all data associated with your account</li>
                     <li>Opt out of any data collection (though this may limit functionality)</li>
                   </ul>
+                </div>
+                <div className="bg-teal-50 dark:bg-teal-900/20 rounded-lg p-6 border-2 border-teal-200 dark:border-teal-800">
+                  <h3 className="text-xl font-semibold mb-3 text-teal-900 dark:text-teal-100">
+                    Maryland Residents (MODPA)
+                  </h3>
+                  <p className="mb-3 text-teal-800 dark:text-teal-200 text-sm">
+                    Under the Maryland Online Data Privacy Act (MODPA), Maryland residents have additional rights, including the right to opt out of the sale of personal data and targeted advertising, and to request access, correction, deletion, and portability of personal data. If your school or organization uses the EduSoluce Privacy Portal, you may submit MODPA-related requests there.
+                  </p>
+                  <a
+                    href={PRIVACY_PORTAL_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-teal-700 dark:text-teal-300 font-medium hover:underline"
+                  >
+                    EduSoluce Privacy Portal – exercise your rights
+                    <span aria-hidden="true">→</span>
+                  </a>
                 </div>
               </div>
             </section>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Home, Users, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search, Bell, MessageCircle, Heart, Globe, Book, Sparkles } from 'lucide-react';
+import { Menu, X, Home, Users, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search, Bell, MessageCircle, Heart, Globe, Book, Sparkles, BarChart3 } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import SearchModal from './SearchModal';
 
@@ -54,6 +54,7 @@ function Header() {
       { id: 'nav-features', icon: Sparkles, label: 'Features', href: '/features', isExternal: false, hideOnMedium: false },
       { id: 'nav-privacy-panda', icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false, hideOnMedium: false },
       { id: 'nav-get-started', icon: Users, label: 'Get Started', href: '/get-started', isExternal: false, hideOnMedium: false },
+      { id: 'nav-digital-footprint', icon: BarChart3, label: 'Digital Footprint', href: '/digital-footprint', isExternal: false, hideOnMedium: false },
       { id: 'nav-resources', icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false, hideOnMedium: false },
       { id: 'nav-community', icon: MessageCircle, label: 'Community', href: '/community/forum', isExternal: false, hideOnMedium: true },
     ];
@@ -75,6 +76,7 @@ function Header() {
       { id: 'mobile-nav-features', icon: Sparkles, label: 'Features', href: '/features', isExternal: false },
       { id: 'mobile-nav-privacy-panda', icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false },
       { id: 'mobile-nav-get-started', icon: Users, label: 'Get Started', href: '/get-started', isExternal: false },
+      { id: 'mobile-nav-digital-footprint', icon: BarChart3, label: 'Digital Footprint', href: '/digital-footprint', isExternal: false },
       { id: 'mobile-nav-resources', icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
       { id: 'mobile-nav-community', icon: MessageCircle, label: 'Community Forum', href: '/community/forum', isExternal: false },
       { id: 'mobile-nav-stories', icon: Heart, label: 'Success Stories', href: '/community/stories', isExternal: false },

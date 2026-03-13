@@ -8,16 +8,56 @@ import { childServiceCatalog, type ChildService } from '../data/childServiceCata
 import { calculatePrivacyExposureIndex, getExposureLevel } from './privacyExposureIndex';
 import { getServiceRelationship, getSiblingServices } from '../data/serviceRelationships';
 
+/** Map app category to where the app is typically used: school (EdTech), home, or in-between (both / everywhere). */
+function getUsageContext(category: string): UsageContext {
+  if (category === 'education') {
+    return 'school';
+  }
+  if (category === 'streaming' || category === 'creative') {
+    return 'home';
+  }
+  return 'in-between'; // social-media, messaging, gaming, other
+}
+
+const CONTEXT_LABELS: Record<UsageContext, { label: string; description: string }> = {
+  school: {
+    label: 'At school & learning',
+    description: 'Apps used for school or learning (e.g. classroom tools, homework). Data from these can be shared with schools or vendors.'
+  },
+  home: {
+    label: 'At home',
+    description: 'Apps used mainly at home (e.g. streaming, creative tools). Data stays in home devices but can still be collected by the app.'
+  },
+  'in-between': {
+    label: 'Everywhere / in-between',
+    description: 'Apps used at home, on the go, or in both (e.g. social media, messaging, games). Data exposure can add up across devices and places.'
+  }
+};
+
 export interface FootprintAnalysis {
   familyScore: number; // 0-100, higher = larger footprint
   totalServices: number;
   totalMembers: number;
   averageExposureIndex: number;
   categoryBreakdown: CategoryBreakdown[];
+  /** Apps grouped by where they're used: school (EdTech), home, in-between. Shows how data exposure accumulates across contexts. */
+  contextBreakdown: ContextBreakdown[];
   serviceRisks: ServiceRisk[];
   dataSharingNetwork: DataSharingNode[];
   recommendations: Recommendation[];
   privacyScore: number; // 0-100, higher = better privacy
+}
+
+export type UsageContext = 'school' | 'home' | 'in-between';
+
+export interface ContextBreakdown {
+  context: UsageContext;
+  label: string;
+  description: string;
+  count: number;
+  averageExposure: number;
+  riskLevel: 'low' | 'medium' | 'high' | 'very-high';
+  serviceRisks: ServiceRisk[];
 }
 
 export interface CategoryBreakdown {
@@ -143,6 +183,39 @@ export class FootprintAnalyzer {
       };
     });
 
+    // Context breakdown: school (EdTech), home, in-between — how data exposure accumulates across life contexts
+    const contextMap = new Map<UsageContext, ServiceRisk[]>();
+    serviceRisks.forEach(risk => {
+      const ctx = getUsageContext(risk.category);
+      if (!contextMap.has(ctx)) {
+        contextMap.set(ctx, []);
+      }
+      contextMap.get(ctx)!.push(risk);
+    });
+    const contextBreakdown: ContextBreakdown[] = (['school', 'home', 'in-between'] as UsageContext[]).map(ctx => {
+      const risks = contextMap.get(ctx) || [];
+      const count = risks.length;
+      const totalExposure = risks.reduce((s, r) => s + r.exposureIndex, 0);
+      const averageExposure = count > 0 ? Math.round(totalExposure / count) : 0;
+      let riskLevel: 'low' | 'medium' | 'high' | 'very-high' = 'low';
+      if (averageExposure >= 70) {
+        riskLevel = 'very-high';
+      } else if (averageExposure >= 50) {
+        riskLevel = 'high';
+      } else if (averageExposure >= 30) {
+        riskLevel = 'medium';
+      }
+      return {
+        context: ctx,
+        label: CONTEXT_LABELS[ctx].label,
+        description: CONTEXT_LABELS[ctx].description,
+        count,
+        averageExposure,
+        riskLevel,
+        serviceRisks: risks
+      };
+    }).filter(c => c.count > 0);
+
     // Data sharing network
     const dataSharingNetwork: DataSharingNode[] = serviceRisks.map(risk => {
       const relationship = getServiceRelationship(risk.serviceId);
@@ -205,6 +278,7 @@ export class FootprintAnalyzer {
       totalMembers,
       averageExposureIndex,
       categoryBreakdown,
+      contextBreakdown,
       serviceRisks,
       dataSharingNetwork,
       recommendations,

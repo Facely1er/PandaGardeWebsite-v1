@@ -1,10 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Download, ShoppingBag, Bell, FileText, ArrowRight, BarChart3, Shield, CheckCircle, Plus, Lightbulb, TrendingUp, Info } from 'lucide-react';
+import { ArrowLeft, Download, ShoppingBag, Bell, FileText, ArrowRight, BarChart3, Shield, CheckCircle, Plus, Lightbulb, TrendingUp, Info, LayoutDashboard, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
 import DigitalFootprintVisualizer from '../components/DigitalFootprintVisualizer';
 import EmptyStateWithServicePrompt from '../components/EmptyStateWithServicePrompt';
 import { useFamily } from '../contexts/FamilyContext';
 import { footprintAnalyzer } from '../lib/footprintAnalyzer';
+
+/** Collapsible educational block for non-technical users. */
+const DigitalFootprintEducator: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="mb-6 rounded-xl border-2 border-blue-200 dark:border-blue-800 bg-blue-50/50 dark:bg-blue-900/20 overflow-hidden">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between p-4 text-left hover:bg-blue-100/50 dark:hover:bg-blue-900/30 transition-colors"
+        aria-expanded={open ? 'true' : 'false'}
+      >
+        <span className="flex items-center gap-2 font-semibold text-blue-900 dark:text-blue-100">
+          <BookOpen className="h-5 w-5" />
+          What is a digital footprint, and why does it matter?
+        </span>
+        {open ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+      </button>
+      {open && (
+        <div className="px-4 pb-4 pt-0 space-y-4 text-sm text-blue-900 dark:text-blue-200">
+          <p>
+            <strong>Your digital footprint</strong> is the trail of information that apps and websites collect when your family uses them — things like names, what you watch or click, and sometimes where you are. The more apps you use, the more that trail can add up.
+          </p>
+          <p>
+            <strong>Why it matters for families:</strong> Kids use apps at school (for learning), at home (for fun or homework), and in-between (social media, games, messaging). Each of these can collect data. This page shows you how that data exposure is spread across &quot;at school,&quot; &quot;at home,&quot; and &quot;everywhere,&quot; so you can see where to focus and what to do next.
+          </p>
+          <p>
+            <strong>How to read this page:</strong> We give you a simple <strong>Privacy Score</strong> (higher = better) and show which apps have higher &quot;exposure&quot; (how much they can see or share). We also group apps by where they’re used — school, home, in-between — so you can see how data adds up in each part of life.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const DigitalFootprintPage: React.FC = () => {
   const { familyMembers, getFamilyServices } = useFamily();
@@ -35,8 +69,8 @@ const DigitalFootprintPage: React.FC = () => {
   if (totalServicesCount === 0) {
     return (
       <EmptyStateWithServicePrompt
-        feature="Digital Footprint Analysis"
-        description="Your digital footprint shows how your family's data is shared across services, which apps pose the highest privacy risks, and provides personalized recommendations to reduce your exposure."
+        feature="Your family's digital footprint"
+        description="See how your family's data is used across apps — from school and learning tools to home and everyday apps. Add at least 3 apps to get a simple, guided view and personalized next steps."
         minimumServices={3}
         icon={<BarChart3 size={24} className="text-white" />}
       />
@@ -89,14 +123,31 @@ const DigitalFootprintPage: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <Link
-              to="/family-hub"
-              className="inline-flex items-center gap-2 text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium transition-colors"
-            >
-              <ArrowLeft size={16} />
-              Back to Family Hub
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+            <span className="font-medium text-gray-700 dark:text-gray-300">Your central privacy view</span>
+            {' · '}
+            <Link to="/service-catalog" className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 hover:underline font-medium">
+              <ShoppingBag size={14} />
+              Add or change services
             </Link>
+          </p>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-4">
+              <Link
+                to="/family-hub"
+                className="inline-flex items-center gap-2 text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium transition-colors"
+              >
+                <ArrowLeft size={16} />
+                Family Hub
+              </Link>
+              <Link
+                to="/service-catalog"
+                className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 font-medium transition-colors"
+              >
+                <LayoutDashboard size={16} />
+                Service Catalog
+              </Link>
+            </div>
             {analysis && (
               <button
                 onClick={handleExport}
@@ -109,13 +160,16 @@ const DigitalFootprintPage: React.FC = () => {
           </div>
           <div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              Digital Footprint Analysis
+              Your family's digital footprint
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
-              Understand your family's online presence and privacy exposure
+              See where your family's data goes — from school apps to home and everyday use — in plain language.
             </p>
           </div>
         </div>
+
+        {/* Educational intro – for non-technical audience */}
+        <DigitalFootprintEducator />
 
         {/* Contextual User Guidance */}
         {totalServicesCount < 5 ? (
@@ -191,19 +245,19 @@ const DigitalFootprintPage: React.FC = () => {
           </div>
         )}
 
-        {/* Quick Tips based on analysis */}
+        {/* Quick Tips – plain language */}
         {analysis && analysis.privacyScore < 60 && (
           <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4 mb-6">
             <div className="flex items-start space-x-3">
               <Lightbulb className="h-5 w-5 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
               <div className="flex-1">
                 <h3 className="font-semibold text-amber-900 dark:text-amber-100 mb-1">
-                  Quick Privacy Tips
+                  Three things you can do right away
                 </h3>
                 <ul className="text-sm text-amber-800 dark:text-amber-200 space-y-1">
-                  <li>• Review privacy settings on high-exposure services</li>
-                  <li>• Consider removing services you no longer use</li>
-                  <li>• Enable two-factor authentication where available</li>
+                  <li>• Check the privacy settings on the apps that show high exposure below</li>
+                  <li>• Remove or stop using apps your family no longer needs</li>
+                  <li>• Turn on extra sign-in security (like two-step verification) where the app offers it</li>
                 </ul>
               </div>
             </div>
@@ -233,19 +287,19 @@ const DigitalFootprintPage: React.FC = () => {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-bold text-red-900 dark:text-red-100">Priority: Review High-Risk Services</h3>
+                    <h3 className="font-bold text-red-900 dark:text-red-100">Start here: apps that need your attention</h3>
                     <span className="bg-red-100 dark:bg-red-800 text-red-700 dark:text-red-200 text-xs font-bold px-2 py-0.5 rounded">
-                      {analysis.serviceRisks.filter(r => r.exposureIndex >= 70).length} found
+                      {analysis.serviceRisks.filter(r => r.exposureIndex >= 70).length} app{analysis.serviceRisks.filter(r => r.exposureIndex >= 70).length !== 1 ? 's' : ''}
                     </span>
                   </div>
                   <p className="text-sm text-red-800 dark:text-red-200 mb-2">
-                    Some services have very high privacy exposure. Review their settings and consider alternatives.
+                    These apps can collect or share a lot of data. Check their settings and see the full list in the Service Catalog.
                   </p>
                   <Link
                     to="/service-catalog"
                     className="inline-flex items-center gap-1 text-sm text-red-700 dark:text-red-300 hover:text-red-900 font-medium"
                   >
-                    Review Services <ArrowRight size={14} />
+                    Open Service Catalog <ArrowRight size={14} />
                   </Link>
                 </div>
               </div>
@@ -326,25 +380,25 @@ const DigitalFootprintPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Understanding Your Results */}
+        {/* Understanding Your Results – plain language for non-technical users */}
         <div className="mt-8 bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
           <div className="flex items-start gap-3">
             <Info className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
             <div>
               <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
-                Understanding Your Results
+                Understanding your results (in plain language)
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                 <div>
-                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-1">Footprint Score (0-100)</h4>
+                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-1">Privacy Score (0–100)</h4>
                   <p className="text-gray-600 dark:text-gray-400">
-                    Higher scores mean more data is being collected. Aim for a lower score to minimize your digital exposure.
+                    This is your family’s overall privacy health. <strong>Higher is better.</strong> We suggest small steps from the recommendations to improve it over time.
                   </p>
                 </div>
                 <div>
-                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-1">Privacy Score (0-100)</h4>
+                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-1">Exposure (per app or group)</h4>
                   <p className="text-gray-600 dark:text-gray-400">
-                    Higher scores mean better privacy protection. Follow recommendations to improve your score.
+                    &quot;Exposure&quot; means how much an app (or group of apps) can see or share. <strong>Lower is safer.</strong> We show this for school apps, home apps, and in-between so you can see where data adds up.
                   </p>
                 </div>
               </div>

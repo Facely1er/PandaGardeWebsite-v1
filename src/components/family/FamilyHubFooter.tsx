@@ -1,23 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Home, Gamepad2, Map, Award, ArrowLeft,
-  Mail, HelpCircle, Shield, ExternalLink
-} from 'lucide-react';
+import { type LucideIcon, Home, Gamepad2, Map, Award, ArrowLeft, Mail, HelpCircle, Shield, ExternalLink, Scale } from 'lucide-react';
 import Logo from '../Logo';
+import { PRIVACY_PORTAL_URL } from '../../config/portal';
+
+interface FooterLink {
+  icon: LucideIcon;
+  href: string;
+  label: string;
+  isExternal?: boolean;
+}
 
 const FamilyHubFooter: React.FC = () => {
-  const hubLinks = [
+  const hubLinks: FooterLink[] = [
     { icon: Home, href: '/family-hub', label: 'Dashboard' },
     { icon: Gamepad2, href: '/family-hub/learning', label: 'Learning Hub' },
     { icon: Map, href: '/family-hub/journeys', label: 'Journeys' },
     { icon: Award, href: '/family-hub/certificates', label: 'Certificates' },
   ];
 
-  const supportLinks = [
+  const supportLinks: FooterLink[] = [
     { icon: HelpCircle, href: '/faq', label: 'FAQ' },
     { icon: Mail, href: '/contact', label: 'Contact Us' },
     { icon: Shield, href: '/privacy', label: 'Privacy Policy' },
+    { icon: Scale, href: PRIVACY_PORTAL_URL, label: 'Maryland (MODPA) – Your rights', isExternal: true },
   ];
 
   return (
@@ -85,13 +91,25 @@ const FamilyHubFooter: React.FC = () => {
             <ul className="space-y-0.5">
               {supportLinks.map((link, index) => (
                 <li key={index}>
-                  <Link 
-                    to={link.href}
-                    className="flex items-center gap-1.5 text-purple-200 hover:text-white transition-colors text-xs py-0.5"
-                  >
-                    <link.icon size={12} />
-                    {link.label}
-                  </Link>
+                  {link.isExternal ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-purple-200 hover:text-white transition-colors text-xs py-0.5"
+                    >
+                      <link.icon size={12} />
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link 
+                      to={link.href}
+                      className="flex items-center gap-1.5 text-purple-200 hover:text-white transition-colors text-xs py-0.5"
+                    >
+                      <link.icon size={12} />
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -120,7 +138,7 @@ const FamilyHubFooter: React.FC = () => {
         <div className="border-t border-white/10 mt-3 pt-3">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
             <p className="text-purple-300 text-xs">
-              © 2025 PandaGarde Family Hub. All rights reserved.
+              © 2026 PandaGarde Family Hub. All rights reserved.
             </p>
             <div className="flex items-center gap-3 text-xs">
               <Link to="/privacy" className="text-purple-300 hover:text-white transition-colors">

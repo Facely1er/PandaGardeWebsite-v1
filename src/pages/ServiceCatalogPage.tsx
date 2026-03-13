@@ -2,27 +2,49 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ServiceCatalog from '../components/ServiceCatalog';
 import EmailCaptureInline from '../components/EmailCaptureInline';
-import { Bell, Shield, BarChart3, FileText, ArrowRight, Unlock, CheckCircle, Sparkles, Target } from 'lucide-react';
+import { ProgressBar } from '../components/ui/ProgressBar';
+import { Bell, Shield, BarChart3, FileText, ArrowRight, Unlock, CheckCircle, Sparkles, Target, ExternalLink, Scale, Plus, Heart } from 'lucide-react';
 import { useFamily } from '../contexts/FamilyContext';
+import { PRIVACY_PORTAL_URL, PRIVACY_PORTAL_OPT_OUT_URL } from '../config/portal';
+import { childServiceCatalog } from '../data/childServiceCatalog';
+import { getServiceLogoUrlWithBrandColor, hasServiceLogo } from '../utils/serviceLogos';
+
+const SUGGESTED_SERVICE_IDS = ['youtube', 'instagram', 'whatsapp', 'roblox', 'khan-academy', 'duolingo'] as const;
 
 const ServiceCatalogPage: React.FC = () => {
-  const { getFamilyServices } = useFamily();
+  const { getFamilyServices, addServiceToFamily, removeServiceFromFamily } = useFamily();
   const [servicesCount, setServicesCount] = useState(0);
+  const [addingId, setAddingId] = useState<string | null>(null);
   
-  // Update count when services change
+  const updateCount = () => setServicesCount(getFamilyServices().length);
+
   useEffect(() => {
-    const updateCount = () => {
-      setServicesCount(getFamilyServices().length);
-    };
     updateCount();
-    
-    // Poll for changes (since localStorage doesn't trigger re-renders)
     const interval = setInterval(updateCount, 1000);
     return () => clearInterval(interval);
   }, [getFamilyServices]);
 
   const progressPercent = Math.min((servicesCount / 5) * 100, 100);
   const isReadyForAnalysis = servicesCount >= 3;
+  const familyServiceIds = getFamilyServices();
+  const suggestedServices = childServiceCatalog.filter(s => SUGGESTED_SERVICE_IDS.includes(s.id as typeof SUGGESTED_SERVICE_IDS[number]));
+
+  const handleSuggestedAddRemove = async (serviceId: string) => {
+    if (addingId) {
+      return;
+    }
+    setAddingId(serviceId);
+    try {
+      if (familyServiceIds.includes(serviceId)) {
+        await removeServiceFromFamily(serviceId);
+      } else {
+        await addServiceToFamily(serviceId);
+      }
+      updateCount();
+    } finally {
+      setAddingId(null);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-900 py-8">
@@ -60,18 +82,23 @@ const ServiceCatalogPage: React.FC = () => {
                     )}
                   </div>
                   <div className="flex items-center gap-3 mt-1">
-                    <div className="w-32 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                      <div 
-                        className={`h-full rounded-full transition-all duration-500 ${
-                          isReadyForAnalysis ? 'bg-green-500' : 'bg-blue-500'
-                        }`}
-                        style={{ width: `${progressPercent}%` }}
-                      />
-                    </div>
+                    <ProgressBar
+                      value={progressPercent}
+                      size="sm"
+                      variant={isReadyForAnalysis ? 'low' : 'primary'}
+                      aria-label="Services added progress"
+                      className="w-32 h-2"
+                    />
                     <span className={`text-sm ${
                       isReadyForAnalysis ? 'text-green-700 dark:text-green-300' : 'text-blue-700 dark:text-blue-300'
                     }`}>
-                      {isReadyForAnalysis ? 'Analysis ready' : `${Math.max(0, 3 - servicesCount)} more to unlock analysis`}
+                      {isReadyForAnalysis
+                        ? "You're all set — view your analysis below!"
+                        : servicesCount === 0
+                          ? 'Add 3 services to unlock your privacy analysis'
+                          : servicesCount === 1
+                            ? 'Great start — add 2 more to unlock your analysis'
+                            : 'Almost there — add 1 more to unlock your analysis'}
                     </span>
                   </div>
                 </div>
@@ -92,6 +119,12 @@ const ServiceCatalogPage: React.FC = () => {
 
         {/* Header */}
         <div className="mb-8">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <span className="font-medium text-gray-700 dark:text-gray-300">Your journey:</span>{' '}
+            <span className="text-green-600 dark:text-green-400 font-medium">Step 1 – Add services here</span>
+            {' → '}
+            <Link to="/digital-footprint" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">Step 2 – Digital Footprint Analysis</Link>
+          </p>
           <div className="flex items-center justify-between mb-4">
             <div>
               <div className="flex items-center gap-3 mb-2">
@@ -106,8 +139,8 @@ const ServiceCatalogPage: React.FC = () => {
                 )}
               </div>
               <p className="text-gray-600 dark:text-gray-400">
-                {servicesCount === 0 
-                  ? 'Add the apps and services your family uses to enable Digital Footprint Analysis and get personalized privacy recommendations.'
+                {servicesCount === 0
+                  ? "We'll guide you: pick the apps your family uses from the list below (or start with the suggestions above). Add at least 3 to see your Digital Footprint Analysis."
                   : 'Manage your family\'s apps and services. Add more to improve your privacy analysis accuracy.'}
               </p>
             </div>
@@ -129,8 +162,8 @@ const ServiceCatalogPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Foundation Banner - Only show if no services added */}
-          {servicesCount === 0 && (
+          {/* Guided: How it works – only when few or no services */}
+          {servicesCount < 3 && (
           <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl p-6 mb-6">
             <div className="flex items-start space-x-4">
               <div className="flex-shrink-0">
@@ -140,35 +173,105 @@ const ServiceCatalogPage: React.FC = () => {
               </div>
               <div className="flex-1">
                 <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2">
-                  How It Works
+                  How it works — 3 simple steps
                 </h3>
-                <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
-                  Click "Add to My Services" on any service below. Add at least 3 services to unlock your Digital Footprint Analysis.
-                </p>
+                <ol className="list-decimal list-inside text-sm text-gray-700 dark:text-gray-300 space-y-2 mb-4">
+                  <li><strong>Choose services</strong> your family uses (below or from the full list).</li>
+                  <li><strong>Tap “Add to my services”</strong> on each one — no account needed.</li>
+                  <li><strong>Add at least 3</strong> to unlock your Digital Footprint Analysis and personalized tips.</li>
+                </ol>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <div className="font-semibold text-sm text-gray-900 dark:text-white">Digital Footprint Analysis</div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">See your family's privacy exposure</div>
+                      <div className="font-semibold text-sm text-gray-900 dark:text-white">Privacy snapshot</div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">See your family’s exposure at a glance</div>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <div className="font-semibold text-sm text-gray-900 dark:text-white">Risk Assessment</div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">Understand privacy risks per service</div>
+                      <div className="font-semibold text-sm text-gray-900 dark:text-white">Risk per app</div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">Understand which apps need more care</div>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <div className="font-semibold text-sm text-gray-900 dark:text-white">Personalized Tips</div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">Get actionable recommendations</div>
+                      <div className="font-semibold text-sm text-gray-900 dark:text-white">Personalized tips</div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400">Actionable steps to improve privacy</div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+          )}
+
+          {/* Guided: Suggested to start – friendly quick-add strip */}
+          {suggestedServices.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
+              <Heart className="h-5 w-5 text-green-600 dark:text-green-400" />
+              Start with these — popular with families
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+              Tap <strong>Add</strong> on any app your family uses. You can add more from the full list below.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              {suggestedServices.map((service) => {
+                const isAdded = familyServiceIds.includes(service.id);
+                const isAdding = addingId === service.id;
+                return (
+                  <div
+                    key={service.id}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all ${
+                      isAdded
+                        ? 'bg-green-50 dark:bg-green-900/20 border-green-300 dark:border-green-700'
+                        : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-green-400 dark:hover:border-green-600'
+                    }`}
+                  >
+                    {hasServiceLogo(service.id) ? (
+                      <img
+                        src={getServiceLogoUrlWithBrandColor(service.id) || undefined}
+                        alt=""
+                        className="w-10 h-10 rounded-lg object-contain bg-gray-100 dark:bg-gray-700 p-1"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-500">
+                        {service.name.charAt(0)}
+                      </div>
+                    )}
+                    <span className="font-medium text-gray-900 dark:text-white min-w-0 truncate max-w-[120px] sm:max-w-none">
+                      {service.name}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => handleSuggestedAddRemove(service.id)}
+                      disabled={isAdding}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors shrink-0 ${
+                        isAdded
+                          ? 'bg-green-600 text-white hover:bg-green-700'
+                          : 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-200 hover:bg-green-200 dark:hover:bg-green-800/50'
+                      }`}
+                    >
+                      {isAdding ? (
+                        '…'
+                      ) : isAdded ? (
+                        <>
+                          <CheckCircle className="h-4 w-4" />
+                          Added
+                        </>
+                      ) : (
+                        <>
+                          <Plus className="h-4 w-4" />
+                          Add
+                        </>
+                      )}
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </div>
           )}
@@ -190,6 +293,43 @@ const ServiceCatalogPage: React.FC = () => {
                   <span>• High (50-69): Needs active monitoring</span>
                   <span>• Medium (30-49): Moderate concerns</span>
                   <span>• Low (0-29): Generally safe</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* MODPA / Maryland – Exercise your rights (portal CTA) */}
+          <div className="mb-6 rounded-xl border-2 border-teal-200 dark:border-teal-800 bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/30 dark:to-cyan-900/30 p-5">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-teal-100 dark:bg-teal-800 flex items-center justify-center">
+                <Scale className="h-6 w-6 text-teal-600 dark:text-teal-300" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-bold text-teal-900 dark:text-teal-100 mb-1">
+                  Maryland (MODPA) – Exercise your privacy rights
+                </h3>
+                <p className="text-sm text-teal-800 dark:text-teal-200 mb-3">
+                  Under the Maryland Online Data Privacy Act (MODPA), Maryland residents can submit requests for access, correction, deletion, portability, and opt-out of sale/targeted advertising. Use the EduSoluce Privacy Portal to submit requests to your school or organization.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <a
+                    href={PRIVACY_PORTAL_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-lg transition-colors text-sm"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Privacy Portal – Data rights
+                  </a>
+                  <a
+                    href={PRIVACY_PORTAL_OPT_OUT_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-teal-900/50 text-teal-700 dark:text-teal-200 border-2 border-teal-600 dark:border-teal-500 hover:bg-teal-50 dark:hover:bg-teal-800/50 font-medium rounded-lg transition-colors text-sm"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Opt-out of sale / targeted ads
+                  </a>
                 </div>
               </div>
             </div>
@@ -247,8 +387,16 @@ const ServiceCatalogPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Service Catalog Component */}
-        <ServiceCatalog />
+        {/* Full catalog with guided browsing */}
+        <div className="mt-8">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            Browse all services
+          </h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            Tap any card to see details and add it to your list. Use categories to narrow down.
+          </p>
+          <ServiceCatalog guidedMode />
+        </div>
         
         {/* Email Capture for Service Updates */}
         <div className="mt-8 max-w-4xl mx-auto">

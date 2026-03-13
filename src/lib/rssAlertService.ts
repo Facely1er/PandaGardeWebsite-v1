@@ -59,7 +59,7 @@ class ChildRSSAlertService {
         // Also check import.meta if available (Vite-specific)
         if (!isDevMode) {
           try {
-            // @ts-ignore - import.meta is available in Vite but TypeScript may not recognize it
+            // @ts-expect-error - import.meta is available in Vite but TypeScript may not recognize it
             if (typeof import.meta !== 'undefined' && import.meta.env?.DEV === true) {
               isDevMode = true;
             }
@@ -303,7 +303,7 @@ class ChildRSSAlertService {
         // Also check import.meta if available (Vite-specific)
         if (!isDevMode) {
           try {
-            // @ts-ignore - import.meta is available in Vite but TypeScript may not recognize it
+            // @ts-expect-error - import.meta is available in Vite but TypeScript may not recognize it
             if (typeof import.meta !== 'undefined' && import.meta.env?.DEV === true) {
               isDevMode = true;
             }

@@ -1,10 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Users, BookOpen, Play, ShoppingBag, BarChart3, Rocket } from 'lucide-react';
+import { Users, BookOpen, Play, ShoppingBag, BarChart3, Rocket, Scale } from 'lucide-react';
 import PageLayout from '../components/layout/PageLayout';
+import { PRIVACY_PORTAL_URL } from '../config/portal';
 
 const GetStartedPage: React.FC = () => {
+  // Journey centered on Digital Footprint Analysis: Add services → View analysis → Rest of ecosystem
   const steps = [
+    {
+      id: 'service-catalog',
+      title: 'Add Your Family’s Services',
+      description: 'Tell us which apps and services your family uses. Adding at least 3 services unlocks your Digital Footprint Analysis—the central view of your family’s privacy.',
+      icon: ShoppingBag,
+      link: '/service-catalog',
+      action: 'Add Services'
+    },
+    {
+      id: 'digital-footprint',
+      title: 'View Digital Footprint Analysis',
+      description: 'Your central privacy view: see exposure scores, high-risk services, and personalized recommendations. This is the heart of your PandaGarde journey.',
+      icon: BarChart3,
+      link: '/digital-footprint',
+      action: 'View Analysis'
+    },
     {
       id: 'family-hub',
       title: 'Join PandaGarde Platform',
@@ -14,28 +32,12 @@ const GetStartedPage: React.FC = () => {
       action: 'Join Platform'
     },
     {
-      id: 'service-catalog',
-      title: 'Add Services for Digital Footprint Analysis',
-      description: 'Tell us which apps and services your family uses. This enables Digital Footprint Analysis, privacy recommendations, and safety alerts.',
-      icon: ShoppingBag,
-      link: '/service-catalog',
-      action: 'Add Services'
-    },
-    {
       id: 'first-activity',
       title: 'Start Privacy Panda Learning',
       description: 'Begin interactive stories and activities designed for your child\'s age group.',
       icon: Play,
       link: '/privacy-panda',
       action: 'Start Learning'
-    },
-    {
-      id: 'advanced-features',
-      title: 'View Your Digital Footprint Analysis',
-      description: 'See your family\'s privacy exposure across all services and get personalized recommendations to improve your privacy.',
-      icon: BarChart3,
-      link: '/digital-footprint',
-      action: 'View Analysis'
     },
     {
       id: 'explore-resources',
@@ -50,7 +52,7 @@ const GetStartedPage: React.FC = () => {
   return (
     <PageLayout
       title="Get Started"
-      subtitle="Follow our step-by-step guide to begin your family's digital privacy education journey with PandaGarde."
+      subtitle="Your journey centers on Digital Footprint Analysis: add the services your family uses, then view your privacy analysis and recommendations."
       icon={Rocket}
       badge="GET STARTED"
       breadcrumbs={true}
@@ -394,6 +396,13 @@ const GetStartedPage: React.FC = () => {
                   <span>Family Hub</span>
                 </Link>
               </div>
+              <p style={{ marginTop: '1.5rem', fontSize: '0.9375rem', opacity: 0.95 }}>
+                Maryland residents (MODPA):{' '}
+                <a href={PRIVACY_PORTAL_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#FFFFFF', textDecoration: 'underline' }} className="inline-flex items-center gap-1">
+                  <Scale size={14} />
+                  Exercise your privacy rights
+                </a>
+              </p>
             </div>
           </section>
       </div>

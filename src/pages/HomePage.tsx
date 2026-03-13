@@ -334,7 +334,7 @@ const HomePage: React.FC = () => {
 
               <div className="hero-buttons">
                 <Link 
-                  to="/get-started" 
+                  to="/service-catalog" 
                   className="button primary"
                   style={{
                     background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
@@ -360,7 +360,41 @@ const HomePage: React.FC = () => {
                     e.currentTarget.style.boxShadow = '0 4px 16px rgba(27, 94, 32, 0.25)';
                   }}
                 >
-                  <Play size={20} />
+                  <BarChart3 size={20} />
+                  See your Digital Footprint
+                  <ArrowRight size={16} />
+                </Link>
+                <Link 
+                  to="/get-started" 
+                  className="button secondary"
+                  style={{
+                    background: 'white',
+                    color: '#1B5E20',
+                    padding: '0.875rem 2rem',
+                    borderRadius: '12px',
+                    fontWeight: '600',
+                    fontSize: '0.9375rem',
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.625rem',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+                    border: '2px solid #e2e8f0',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = '#1B5E20';
+                    e.currentTarget.style.color = '#1B5E20';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.12)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = '#e2e8f0';
+                    e.currentTarget.style.color = '#1B5E20';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
+                  }}
+                >
                   Get Started
                   <ArrowRight size={16} />
                 </Link>
@@ -395,10 +429,16 @@ const HomePage: React.FC = () => {
                     e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
                   }}
                 >
+                  <Play size={20} />
                   Start Learning
                   <ArrowRight size={16} />
                 </Link>
               </div>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-3 text-center">
+                Central journey: <Link to="/service-catalog" className="underline hover:text-green-700 dark:hover:text-green-300">Service Catalog</Link>
+                {' → '}
+                <Link to="/digital-footprint" className="underline hover:text-green-700 dark:hover:text-green-300">Digital Footprint Analysis</Link>
+              </p>
 
               {/* Simplified Stats */}
               <div className="hero-stats" style={{ paddingTop: '1.5rem', borderTop: '1px solid #e2e8f0' }}>
@@ -500,11 +540,11 @@ const HomePage: React.FC = () => {
               {/* Pilot Banner - Descriptive, Centered Below Image */}
               {showPilotBanner && !familyPersona && !hasServiceCatalog && (
                 <div className="fade-in" style={{
-                  background: 'linear-gradient(135deg, #9333ea 0%, #3b82f6 100%)',
+                  background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
                   color: 'white',
                   padding: '0.75rem 1rem',
                   borderRadius: '10px',
-                  boxShadow: '0 4px 16px rgba(147, 51, 234, 0.3)',
+                  boxShadow: '0 4px 16px rgba(27, 94, 32, 0.35)',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
@@ -521,10 +561,10 @@ const HomePage: React.FC = () => {
                     <Sparkles size={14} className="text-white" style={{ flexShrink: 0, marginTop: '0.125rem' }} />
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontSize: '0.8125rem', fontWeight: '700', lineHeight: '1.3', marginBottom: '0.125rem' }}>
-                        Join the Family Hub Pilot Program
+                        Join the PandaGarde Pilot 2026
                       </div>
                       <div style={{ fontSize: '0.6875rem', lineHeight: '1.3', opacity: 0.95 }}>
-                        Get early access to family privacy features and exclusive resources
+                        Key dates and early access—apply by the deadline and build momentum
                       </div>
                     </div>
                     <button

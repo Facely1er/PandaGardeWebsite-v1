@@ -211,7 +211,7 @@ export class COPPAComplianceManager {
       
       try {
         // Dynamic import of EmailJS (if installed)
-        // @ts-ignore - EmailJS is optional dependency
+        // @ts-expect-error - EmailJS is optional dependency
         const emailjsModule = await import('@emailjs/browser').catch(() => null);
         
         if (emailjsModule && emailjsServiceId && emailjsTemplateId && emailjsPublicKey) {

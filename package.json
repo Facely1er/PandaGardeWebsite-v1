@@ -17,6 +17,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "preview": "vite preview",
+    "deploy:netlify": "netlify deploy --prod",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",

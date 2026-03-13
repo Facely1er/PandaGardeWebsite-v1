@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Scale, Globe, Shield, BookOpen, CheckCircle, Star, Trophy, Clock, Users, AlertTriangle, FileText } from 'lucide-react';
+import { Scale, Globe, Shield, BookOpen, CheckCircle, Star, Trophy, Clock, Users, AlertTriangle, FileText, ExternalLink } from 'lucide-react';
 import PageLayout from '../components/layout/PageLayout';
+import { PRIVACY_PORTAL_URL, PRIVACY_PORTAL_OPT_OUT_URL } from '../config/portal';
 
 interface LawModule {
   id: string;
@@ -219,6 +220,38 @@ const DigitalRightsPage: React.FC = () => {
         'Right to have your voice heard in policy debates',
         'Right to expect continued privacy protection'
       ]
+    },
+    {
+      id: 'modpa-maryland',
+      title: 'MODPA: Maryland Online Data Privacy Act',
+      description: 'Learn about Maryland\'s privacy law and how Maryland residents can exercise opt-out, access, and other rights.',
+      category: 'privacy-laws',
+      difficulty: 'Beginner',
+      duration: '15 mins',
+      completed: false,
+      icon: Scale,
+      keyPoints: [
+        'MODPA applies to Maryland residents and certain businesses',
+        'You have the right to opt out of sale of personal data and targeted advertising',
+        'You can request access, correction, deletion, and portability of your data',
+        'Opt-out and consent revocation must be honored within 15–30 days',
+        'Schools and EdTech may use a privacy portal for requests'
+      ],
+      realWorldExamples: [
+        'Submitting an opt-out request through your school\'s privacy portal',
+        'Requesting a copy of your data from an EdTech provider',
+        'Asking to delete your child\'s data from a learning app',
+        'Revoking consent for targeted advertising'
+      ],
+      yourRights: [
+        'Right to know what personal data is collected',
+        'Right to access your personal data',
+        'Right to correct inaccurate data',
+        'Right to delete your data',
+        'Right to data portability',
+        'Right to opt out of sale and targeted advertising',
+        'Right to revoke consent (within 30 days)'
+      ]
     }
   ];
 
@@ -281,6 +314,24 @@ const DigitalRightsPage: React.FC = () => {
       breadcrumbs={true}
     >
       <div style={{ maxWidth: '75rem', margin: '0 auto' }}>
+        {/* Maryland (MODPA) – Exercise your rights CTA */}
+        <section className="mb-6 rounded-xl border-2 border-teal-200 dark:border-teal-800 bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/30 dark:to-cyan-900/30 p-5">
+          <h3 className="font-bold text-teal-900 dark:text-teal-100 mb-2">Maryland residents: exercise your privacy rights</h3>
+          <p className="text-sm text-teal-800 dark:text-teal-200 mb-3">
+            Under the Maryland Online Data Privacy Act (MODPA), you can submit requests for access, correction, deletion, portability, and opt-out of sale or targeted advertising. If your school or organization uses the EduSoluce Privacy Portal, you can submit requests there.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <a href={PRIVACY_PORTAL_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-lg transition-colors text-sm">
+              <ExternalLink size={16} />
+              Privacy Portal – Data rights
+            </a>
+            <a href={PRIVACY_PORTAL_OPT_OUT_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-teal-900/50 text-teal-700 dark:text-teal-200 border-2 border-teal-600 dark:border-teal-500 hover:bg-teal-50 dark:hover:bg-teal-800/50 font-medium rounded-lg transition-colors text-sm">
+              <ExternalLink size={16} />
+              Opt-out of sale / targeted ads
+            </a>
+          </div>
+        </section>
+
         {/* Progress Section */}
         <section style={{ padding: 'clamp(2rem, 4vw, 3rem) 0' }}>
           <div style={{

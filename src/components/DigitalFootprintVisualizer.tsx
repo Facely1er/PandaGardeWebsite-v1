@@ -15,12 +15,16 @@ import {
   Film,
   GraduationCap,
   Palette,
-  Info
+  Info,
+  School,
+  Home,
+  Smartphone
 } from 'lucide-react';
 import { useFamily } from '../contexts/FamilyContext';
 import { footprintAnalyzer, type FootprintAnalysis } from '../lib/footprintAnalyzer';
 import { getServiceLogoUrlWithBrandColor, hasServiceLogo } from '../utils/serviceLogos';
 import { getServiceById } from '../data/childServiceCatalog';
+import { ProgressBar } from './ui/ProgressBar';
 
 interface DigitalFootprintVisualizerProps {
   compact?: boolean;
@@ -90,6 +94,16 @@ const DigitalFootprintVisualizer: React.FC<DigitalFootprintVisualizerProps> = ({
     }
   };
 
+  const getContextIcon = (context: string) => {
+    if (context === 'school') {
+      return School;
+    }
+    if (context === 'home') {
+      return Home;
+    }
+    return Smartphone;
+  };
+
   // Get risk color
   const getRiskColor = (riskLevel: string) => {
     switch (riskLevel) {
@@ -150,68 +164,102 @@ const DigitalFootprintVisualizer: React.FC<DigitalFootprintVisualizerProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Overall Score Card */}
+      {/* Overall Score Card – user-friendly labels */}
       <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-2 border-blue-200 dark:border-blue-800">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-              Family Digital Footprint
+              Your family's privacy at a glance
             </h2>
             <p className="text-gray-600 dark:text-gray-300">
-              Your family's overall online presence and privacy exposure
+              One number that shows how well your family's data is protected across all the apps you use
             </p>
           </div>
           <div className="text-center">
             <div className={`text-5xl font-bold mb-2 ${
-              analysis.familyScore >= 70 ? 'text-red-600 dark:text-red-400' :
-              analysis.familyScore >= 40 ? 'text-orange-600 dark:text-orange-400' :
-              'text-green-600 dark:text-green-400'
+              analysis.privacyScore >= 70 ? 'text-green-600 dark:text-green-400' :
+              analysis.privacyScore >= 40 ? 'text-yellow-600 dark:text-yellow-400' :
+              'text-red-600 dark:text-red-400'
             }`}>
-              {analysis.familyScore}
+              {analysis.privacyScore}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Footprint Score</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">Privacy Score</div>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 max-w-[120px]">Higher is better</p>
             <div className={`mt-2 px-3 py-1 rounded-full text-xs font-medium ${
-              analysis.familyScore >= 70 ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300' :
-              analysis.familyScore >= 40 ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300' :
-              'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300'
+              analysis.privacyScore >= 70 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' :
+              analysis.privacyScore >= 40 ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300' :
+              'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'
             }`}>
-              {analysis.familyScore >= 70 ? 'Large' : analysis.familyScore >= 40 ? 'Moderate' : 'Small'} Footprint
+              {analysis.privacyScore >= 70 ? 'Good' : analysis.privacyScore >= 40 ? 'Moderate' : 'Needs attention'}
             </div>
           </div>
         </div>
 
-        {/* Privacy Score */}
+        {/* Privacy Score bar with plain-language caption */}
         <div className="mt-4 pt-4 border-t border-blue-200 dark:border-blue-800">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Shield className="h-5 w-5 text-green-600 dark:text-green-400" />
-              <span className="font-medium text-gray-900 dark:text-white">Privacy Score</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <span className={`text-2xl font-bold ${
-                analysis.privacyScore >= 70 ? 'text-green-600 dark:text-green-400' :
-                analysis.privacyScore >= 40 ? 'text-yellow-600 dark:text-yellow-400' :
-                'text-red-600 dark:text-red-400'
-              }`}>
-                {analysis.privacyScore}
-              </span>
-              <span className="text-sm text-gray-600 dark:text-gray-400">/100</span>
-            </div>
+          <div className="flex items-center justify-between mb-1">
+            <span className="font-medium text-gray-900 dark:text-white">How protected is your family's data?</span>
+            <span className="text-sm text-gray-600 dark:text-gray-400">{analysis.privacyScore}/100</span>
           </div>
-          <div className="mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-            <div
-              className={`h-2 rounded-full transition-all ${
-                analysis.privacyScore >= 70 ? 'bg-green-500' :
-                analysis.privacyScore >= 40 ? 'bg-yellow-500' :
-                'bg-red-500'
-              }`}
-              style={{ width: `${analysis.privacyScore}%` }}
-            />
-          </div>
+          <ProgressBar
+            value={analysis.privacyScore}
+            size="md"
+            variant={analysis.privacyScore >= 70 ? 'low' : analysis.privacyScore >= 40 ? 'medium' : 'critical'}
+            aria-label="Privacy score"
+            className="mt-2"
+          />
         </div>
       </div>
 
-      {/* Key Metrics */}
+      {/* Where does your family's data go? – School, Home, In-between */}
+      {analysis.contextBreakdown && analysis.contextBreakdown.length > 0 && (
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border-2 border-green-200 dark:border-green-800">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
+            <Globe className="h-5 w-5 text-green-600 dark:text-green-400" />
+            Where does your family's data go?
+          </h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            Apps from school, home, and everyday use each collect data. Here’s how your exposure adds up in each place.
+          </p>
+          <div className="space-y-4">
+            {analysis.contextBreakdown.map((ctx) => {
+              const ContextIcon = getContextIcon(ctx.context);
+              return (
+                <div
+                  key={ctx.context}
+                  className={`p-4 rounded-xl border-2 ${getRiskColor(ctx.riskLevel)}`}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <ContextIcon className="h-5 w-5" />
+                      <span className="font-semibold">{ctx.label}</span>
+                    </div>
+                    <span className="text-sm font-medium">
+                      {ctx.count} app{ctx.count !== 1 ? 's' : ''} · exposure {ctx.averageExposure}/100
+                    </span>
+                  </div>
+                  <p className="text-sm opacity-90 mb-3">{ctx.description}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {ctx.serviceRisks.slice(0, 8).map((r) => (
+                      <span
+                        key={r.serviceId}
+                        className="px-2 py-1 bg-white/60 dark:bg-black/20 rounded text-sm font-medium"
+                      >
+                        {r.serviceName}
+                      </span>
+                    ))}
+                    {ctx.serviceRisks.length > 8 && (
+                      <span className="px-2 py-1 text-sm text-gray-500">+{ctx.serviceRisks.length - 8} more</span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Key Metrics – plain language */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-2">
@@ -220,7 +268,8 @@ const DigitalFootprintVisualizer: React.FC<DigitalFootprintVisualizerProps> = ({
               {analysis.totalServices}
             </span>
           </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Total Services</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Apps you're tracking</p>
+          <p className="text-xs mt-1 text-gray-500 dark:text-gray-400">Add more in Service Catalog for a fuller picture</p>
         </div>
 
         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
@@ -230,7 +279,7 @@ const DigitalFootprintVisualizer: React.FC<DigitalFootprintVisualizerProps> = ({
               {analysis.totalMembers}
             </span>
           </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Family Members</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Family members</p>
         </div>
 
         <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
@@ -242,21 +291,23 @@ const DigitalFootprintVisualizer: React.FC<DigitalFootprintVisualizerProps> = ({
               {analysis.averageExposureIndex}
             </span>
           </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Avg. Exposure Index</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Average exposure</p>
           <p className="text-xs mt-1 text-gray-500 dark:text-gray-400">
-            {analysis.averageExposureIndex >= 70 ? 'Very High' :
-             analysis.averageExposureIndex >= 40 ? 'High' : 'Low'} Risk
+            How much your apps can see or share — lower is safer
           </p>
         </div>
       </div>
 
-      {/* Category Breakdown */}
+      {/* Category Breakdown – optional detail */}
       {analysis.categoryBreakdown.length > 0 && (
         <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center space-x-2">
             <BarChart3 className="h-5 w-5" />
-            <span>Services by Category</span>
+            <span>Apps by type</span>
           </h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            Breakdown by kind of app (e.g. social, games, learning). Use this to see which types add the most exposure.
+          </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {analysis.categoryBreakdown.map((category) => {
               const CategoryIcon = getCategoryIcon(category.category);
@@ -284,17 +335,17 @@ const DigitalFootprintVisualizer: React.FC<DigitalFootprintVisualizerProps> = ({
         </div>
       )}
 
-      {/* High-Risk Services */}
+      {/* High-Risk Services – plain language */}
       {analysis.serviceRisks.filter(r => r.exposureIndex >= 70).length > 0 && (
         <div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-6 border-2 border-red-200 dark:border-red-800">
           <div className="flex items-center space-x-2 mb-4">
             <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
             <h3 className="text-lg font-semibold text-red-900 dark:text-red-100">
-              High-Risk Services
+              Apps that need your attention
             </h3>
           </div>
           <p className="text-sm text-red-800 dark:text-red-200 mb-4">
-            These services have very high privacy exposure and require close monitoring.
+            These apps can collect or share a lot of data. We suggest checking their settings and talking with your family about how they’re used.
           </p>
           <div className="space-y-3">
             {analysis.serviceRisks
@@ -344,17 +395,17 @@ const DigitalFootprintVisualizer: React.FC<DigitalFootprintVisualizerProps> = ({
         </div>
       )}
 
-      {/* Data Sharing Network */}
+      {/* Data Sharing Network – plain language */}
       {analysis.dataSharingNetwork.filter(n => n.parentCompany).length > 0 && (
         <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 border-2 border-blue-200 dark:border-blue-800">
           <div className="flex items-center space-x-2 mb-4">
             <Network className="h-5 w-5 text-blue-600 dark:text-blue-400" />
             <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100">
-              Data Sharing Networks
+              When apps share data with each other
             </h3>
           </div>
           <p className="text-sm text-blue-800 dark:text-blue-200 mb-4">
-            These services share data with each other through parent companies.
+            Some of your apps belong to the same company. That company may use data from one app in another. Knowing this helps you decide which apps to use together.
           </p>
           <div className="space-y-4">
             {Array.from(new Set(analysis.dataSharingNetwork
@@ -394,15 +445,18 @@ const DigitalFootprintVisualizer: React.FC<DigitalFootprintVisualizerProps> = ({
         </div>
       )}
 
-      {/* Recommendations */}
+      {/* Recommendations – guided next steps */}
       {analysis.recommendations.length > 0 && (
         <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
           <div className="flex items-center space-x-2 mb-4">
             <Target className="h-5 w-5 text-green-600 dark:text-green-400" />
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Recommendations
+              What to do next
             </h3>
           </div>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            Simple steps you can take to improve your family’s privacy. Start with the ones marked high priority.
+          </p>
           <div className="space-y-4">
             {analysis.recommendations.map((rec) => (
               <div

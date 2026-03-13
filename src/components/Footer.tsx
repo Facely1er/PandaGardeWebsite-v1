@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Shield as Child, User, UserCheck, Mail, HelpCircle, Newspaper, Headphones, Users, Shield, Wrench, BookOpen, GraduationCap, Info } from 'lucide-react';
+import { Shield as Child, User, UserCheck, Mail, HelpCircle, Newspaper, Headphones, Users, Shield, Wrench, BookOpen, GraduationCap, Info, Scale } from 'lucide-react';
+import { PRIVACY_PORTAL_URL } from '../config/portal';
 
 const Footer: React.FC = () => {
   // Social media links removed - no active social media accounts
@@ -115,12 +116,16 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="footer-bottom">
-          <p>© 2025 PandaGarde. All rights reserved.</p>
+          <p>© 2026 PandaGarde. All rights reserved.</p>
           <div className="footer-links">
             <Link to="/privacy">Privacy Policy</Link>
             <Link to="/terms">Terms of Service</Link>
             <Link to="/cookies">Cookie Policy</Link>
             <Link to="/accessibility">Accessibility</Link>
+            <a href={PRIVACY_PORTAL_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
+              <Scale size={14} />
+              Maryland (MODPA) – Your rights
+            </a>
           </div>
         </div>
       </div>

@@ -172,7 +172,9 @@ export const FamilyProgressProvider: React.FC<FamilyProgressProviderProps> = ({ 
           try {
             const dateA = new Date(a.completedAt).getTime();
             const dateB = new Date(b.completedAt).getTime();
-            if (isNaN(dateA) || isNaN(dateB)) return 0;
+            if (isNaN(dateA) || isNaN(dateB)) {
+              return 0;
+            }
             return dateB - dateA;
           } catch {
             return 0;

@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Shield } from 'lucide-react';
 import Logo from '../components/Logo';
-import FamilyPrivacyPlanBuilder from '../components/parent/FamilyPrivacyPlanBuilder';
-import type { FamilyPrivacyPlan } from '../components/parent/FamilyPrivacyPlanBuilder';
+import FamilyPrivacyPlanBuilder, { type FamilyPrivacyPlan } from '../components/parent/FamilyPrivacyPlanBuilder';
+import './FamilyPrivacyPlanPage.css';
 
 const FamilyPrivacyPlanPage: React.FC = () => {
   useEffect(() => {
@@ -21,14 +21,10 @@ const FamilyPrivacyPlanPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--white)', color: 'var(--gray-800)' }}>
+    <div className="min-h-screen family-privacy-plan-page">
       {/* Page Header */}
       <header className="bg-gradient-to-r from-green-600 to-green-500 text-white py-20 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><pattern id='grain' width='100' height='100' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.1)'/><circle cx='80' cy='40' r='1' fill='rgba(255,255,255,0.05)'/><circle cx='40' cy='80' r='1' fill='rgba(255,255,255,0.1)'/></pattern></defs><rect width='100%' height='100%' fill='url(%23grain)'/></svg>")`
-          }} />
-        </div>
+        <div className="absolute inset-0 opacity-10 family-privacy-header-pattern" />
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex items-center justify-center mb-8">
@@ -55,12 +51,11 @@ const FamilyPrivacyPlanPage: React.FC = () => {
       </header>
 
       {/* Navigation */}
-      <div className="bg-gray-50" style={{ backgroundColor: 'var(--light)' }}>
+      <div className="family-privacy-nav bg-gray-50">
         <div className="container mx-auto px-6 py-4">
           <Link
             to="/guides/family-privacy"
-            className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
-            style={{ color: 'var(--primary-light)' }}
+            className="family-privacy-nav-link inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium transition-colors"
           >
             <ArrowLeft size={16} />
             Back to Family Privacy Guide
@@ -77,11 +72,11 @@ const FamilyPrivacyPlanPage: React.FC = () => {
           />
 
           {/* Additional Information */}
-          <div className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6" style={{ backgroundColor: 'var(--light)' }}>
-            <h3 className="text-lg font-semibold mb-3" style={{ color: 'var(--primary)' }}>
+          <div className="family-privacy-tips-box mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6">
+            <h3 className="family-privacy-tips-title text-lg font-semibold mb-3">
               Tips for Success
             </h3>
-            <ul className="space-y-2 text-sm" style={{ color: 'var(--gray-700)' }}>
+            <ul className="family-privacy-tips-list space-y-2 text-sm">
               <li className="flex items-start gap-2">
                 <span className="text-green-600 mt-1">•</span>
                 <span>Have a family meeting to create the plan together - let kids and teens share their ideas too</span>
