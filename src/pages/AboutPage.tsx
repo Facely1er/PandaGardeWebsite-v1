@@ -14,39 +14,39 @@ const AboutPage: React.FC = () => {
     {
       icon: Heart,
       title: 'Family-Centered',
-      description: 'We design for families, understanding that privacy education is most effective when it involves parents, children, and educators working together toward common goals.'
+      description: 'We build everything with families in mind. Privacy education works best when parents, kids, and teachers learn and talk about it together.'
     },
     {
       icon: GraduationCap,
       title: 'Evidence-Based',
-      description: 'Our educational content is grounded in research on child development, learning science, and privacy best practices, ensuring effective and age-appropriate education.'
+      description: 'Our content is based on how kids learn and what works for each age. We use research and best practices so the lessons stick.'
     },
     {
       icon: UniversalAccess,
       title: 'Accessible',
-      description: 'Privacy education should be available to all families, regardless of technical background or economic circumstances. We strive to make our resources widely accessible.'
+      description: 'We want every family to have access—no matter their tech skills or budget. Our resources are free and easy to use.'
     },
     {
       icon: Gamepad2,
       title: 'Engaging',
-      description: 'Learning about privacy should be fun and engaging. We use games, stories, and interactive activities to make complex concepts accessible and memorable.'
+      description: 'Learning about privacy should be fun. We use games, stories, and hands-on activities so kids actually enjoy it and remember what they learn.'
     },
     {
       icon: Lock,
       title: 'Privacy-Respecting',
-      description: 'We practice what we teach. Our platform is designed with privacy by design principles, collecting minimal data and respecting user privacy at every step.'
+      description: 'We follow our own advice. We collect very little data and respect your privacy at every step—so you can trust us with your family.'
     },
     {
       icon: Users,
       title: 'Community-Driven',
-      description: 'We believe in the power of community. Parents, educators, and privacy experts all contribute to making PandaGarde a better resource for families.'
+      description: 'Parents, teachers, and experts help shape PandaGarde. We listen to our community so we can keep improving for families.'
     }
   ];
 
   return (
     <PageLayout
       title="About"
-      subtitle="We're on a mission to build privacy skills for tomorrow's world through comprehensive, engaging, and age-appropriate digital privacy education."
+      subtitle="We help families and kids learn about online privacy through fun, age-appropriate activities—so everyone can stay safer online."
       icon={Shield}
       badge="ABOUT US"
     >
@@ -61,18 +61,16 @@ const AboutPage: React.FC = () => {
                 </h2>
                 <div className="space-y-6 text-lg leading-relaxed" style={{ color: 'var(--gray-600)' }}>
                   <p>
-                    At PandaGarde, we believe that privacy education should start early and be accessible to everyone.
-                    Our mission is to empower children and families with the knowledge and skills they need to navigate
-                    the digital world safely and confidently.
+                    We believe kids should learn about online privacy early—and that it should be easy and fun for every family.
+                    Our goal is to give children and parents the knowledge and skills to stay safe and confident online.
                   </p>
                   <p>
-                    Through our Privacy Panda character and comprehensive educational resources, we aim to build a
-                    foundation of digital literacy that will serve children throughout their lives, helping them make
-                    informed decisions about their online privacy and security.
+                    With our Privacy Panda character and free activities, we help build habits that last: so kids can make
+                    smarter choices about what they share and how they stay safe on the internet.
                   </p>
                   <p>
-                    We're committed to making privacy education fun, engaging, and effective for learners of all ages,
-                    from young children just beginning their digital journey to teenagers preparing for independent online life.
+                    We make privacy education fun and practical for all ages—from young kids taking their first steps online
+                    to teens getting ready to use the internet on their own.
                   </p>
                 </div>
               </div>
@@ -152,17 +150,16 @@ const AboutPage: React.FC = () => {
                 </h2>
                 <div className="space-y-6 text-lg leading-relaxed" style={{ color: 'var(--gray-600)' }}>
                   <p>
-                    PandaGarde serves both families and educational institutions with a complete K-12 privacy curriculum.
-                    Our standards-aligned approach ensures seamless integration into existing digital citizenship and
-                    computer science programs.
+                    PandaGarde works for both families at home and schools in the classroom. Our content fits with what
+                    many schools already teach about digital citizenship and staying safe online.
                   </p>
                   <p>
-                    We provide flexible implementation timelines (6-week, 2-week, condensed, and after-school formats)
-                    with complete lesson plans, assessments, and teacher support materials.
+                    Teachers can use our lesson plans and activities in different ways—over several weeks, in a short unit,
+                    or in after-school programs. We provide guides and support to make it easy.
                   </p>
                   <p>
-                    Our curriculum progression builds privacy literacy from elementary through high school, preparing
-                    students for lifelong digital citizenship and privacy awareness.
+                    We build skills step by step from elementary through high school, so students grow into confident,
+                    privacy-aware users of the internet.
                   </p>
                 </div>
               </div>
@@ -198,8 +195,8 @@ const AboutPage: React.FC = () => {
                 Join Our Mission
               </h2>
               <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto leading-relaxed">
-                Ready to start building privacy skills with your family? Explore our platform and discover how
-                PandaGarde can help your family navigate the digital world with confidence.
+                Ready to help your family learn about online privacy? Explore our free resources and see how
+                PandaGarde can make it easier and more fun.
               </p>
               <Link
                 to="/family-hub"

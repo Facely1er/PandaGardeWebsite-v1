@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, ChevronUp, HelpCircle, Book, Users, Shield, Download } from 'lucide-react';
+import { ChevronDown, ChevronUp, HelpCircle, Book, Users, Shield, Download, Gamepad2 } from 'lucide-react';
 import PageLayout from '../components/layout/PageLayout';
 
 interface FAQItem {
@@ -18,7 +18,7 @@ const FAQPage: React.FC = () => {
     {
       id: '1',
       question: 'What is PandaGarde and who is it for?',
-      answer: 'PandaGarde is an educational platform designed to teach children ages 5-18 about digital privacy and online safety. It uses interactive activities, stories, and games to make learning about privacy engaging and fun for the whole family.',
+      answer: 'PandaGarde helps kids ages 5–17 learn about online privacy and safety. We use stories, games, and fun activities so the whole family can learn together.',
       category: 'general'
     },
     {
@@ -30,13 +30,13 @@ const FAQPage: React.FC = () => {
     {
       id: '3',
       question: 'What age groups does PandaGarde support?',
-      answer: 'PandaGarde is designed for children ages 5-18, with age-appropriate content and activities for each stage. We have specific resources for early learners (5-8), elementary students (9-12), and teenagers (13-18).',
+      answer: 'We have content for kids ages 5–17, with different activities for each stage: young kids (5–8), tweens (9–12), and teens (13–17).',
       category: 'general'
     },
     {
       id: '4',
       question: 'How do I get started with PandaGarde?',
-      answer: 'Getting started is easy! Simply explore our age-appropriate resources, try the interactive activities in our Activity Book, and follow our implementation timeline. We recommend starting with the Privacy Panda story to introduce key concepts.',
+      answer: 'It’s easy! Browse our free resources, try the activities in our Activity Book, or start with the Privacy Panda story. There’s no account required to explore.',
       category: 'getting-started'
     },
     {
@@ -54,13 +54,13 @@ const FAQPage: React.FC = () => {
     {
       id: '7',
       question: 'Is my child\'s data safe on PandaGarde?',
-      answer: 'Yes, we take privacy very seriously. We don\'t collect personal information from children, and all progress data is stored locally on your device. We follow strict privacy guidelines and don\'t share any data with third parties.',
+      answer: 'Yes. We don’t collect personal info from kids, and progress is saved on your device. We don’t share your data with anyone else.',
       category: 'privacy'
     },
     {
       id: '8',
       question: 'Can I track my child\'s progress?',
-      answer: 'Yes! Our progress tracking system allows you to see which activities your child has completed, their scores, and overall learning progress. This helps you understand what they\'ve learned and identify areas for further discussion.',
+      answer: 'Yes! You can see which activities your child has done, their scores, and how they’re doing. That makes it easier to talk about what they’ve learned.',
       category: 'progress'
     },
     {
@@ -84,7 +84,7 @@ const FAQPage: React.FC = () => {
     {
       id: '12',
       question: 'Can I use PandaGarde on mobile devices?',
-      answer: 'Yes! PandaGarde is designed to work on all devices including smartphones, tablets, and computers. Our activities are optimized for touch interactions and responsive design.',
+      answer: 'Yes! PandaGarde works on phones, tablets, and computers. You can even add it to your home screen and use it like an app.',
       category: 'technical'
     }
   ];
@@ -93,7 +93,7 @@ const FAQPage: React.FC = () => {
     { id: 'all', label: 'All Questions', icon: HelpCircle },
     { id: 'general', label: 'General', icon: Book },
     { id: 'getting-started', label: 'Getting Started', icon: Users },
-    { id: 'activities', label: 'Activities', icon: Shield },
+    { id: 'activities', label: 'Activities', icon: Gamepad2 },
     { id: 'privacy', label: 'Privacy & Safety', icon: Shield },
     { id: 'educators', label: 'For Educators', icon: Users },
     { id: 'technical', label: 'Technical', icon: Download }
@@ -114,7 +114,7 @@ const FAQPage: React.FC = () => {
   return (
     <PageLayout
       title="FAQ"
-      subtitle="Find answers to common questions about PandaGarde, our privacy education platform, and how to get the most out of your learning experience."
+      subtitle="Quick answers to questions about PandaGarde and how to use it with your family."
       icon={HelpCircle}
       badge="FAQ"
     >

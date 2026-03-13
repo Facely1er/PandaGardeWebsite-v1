@@ -8,7 +8,7 @@ const ContactPage: React.FC = () => {
   return (
     <PageLayout
       title="Contact Us"
-      subtitle="Have questions about PandaGarde or need support with privacy education? We'd love to hear from you and help you on your digital privacy journey."
+      subtitle="Questions about PandaGarde or need help? We're here to help you and your family learn about online privacy."
       icon={MessageCircle}
       badge="CONTACT US"
     >
@@ -57,7 +57,7 @@ const ContactPage: React.FC = () => {
                       What age groups is this for?
                     </h3>
                     <p style={{ color: 'var(--gray-600)' }}>
-                      Our resources are designed for children ages 5-18, with age-appropriate content and activities for each stage.
+                      Our resources are for kids ages 5–17, with different activities for each age group.
                     </p>
                   </div>
                 </div>
@@ -73,7 +73,7 @@ const ContactPage: React.FC = () => {
                       How do I get started?
                     </h3>
                     <p style={{ color: 'var(--gray-600)' }}>
-                      Simply explore our age-appropriate resources, try the interactive activities, and follow our implementation timeline.
+                      Browse our resources, try the activities, and use our simple Get Started guide—no account needed to explore.
                     </p>
                   </div>
                 </div>
@@ -103,10 +103,10 @@ const ContactPage: React.FC = () => {
       <section className="bg-gradient-to-r from-green-600 to-green-500 text-white py-16">
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold mb-4">
-            Ready to Start Your Privacy Education Journey?
+            Ready to Get Started?
           </h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Begin your family's digital privacy education journey with PandaGarde today.
+            Start learning about online privacy with your family today—it’s free.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link

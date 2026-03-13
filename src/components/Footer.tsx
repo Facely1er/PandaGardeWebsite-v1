@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
   const productLinks = [
     { icon: Users, href: '/family-hub', label: 'Family Hub', isExternal: false },
     { icon: Shield, href: '/privacy-panda', label: 'Privacy Panda' },
-    { icon: Wrench, href: '/resources', label: 'Parent Toolkit' }
+    { icon: Wrench, href: '/resources', label: 'Resources' }
   ];
 
   const curriculumLinks = [
@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
               </div>
               PandaGarde
             </h3>
-            <p>Building privacy skills for tomorrow's world. Comprehensive digital privacy education for families with children ages 5-17.</p>
+            <p>We help families and kids ages 5–17 learn about online privacy through free activities, stories, and guides.</p>
           </div>
 
           <div className="footer-column">
