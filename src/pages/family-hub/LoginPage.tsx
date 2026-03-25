@@ -4,12 +4,14 @@ import { LogIn, UserPlus, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from './AuthWrapper';
 import { useToast } from '../../hooks/useToast';
 import Logo from '../../components/Logo';
+import { useAgeVerification } from '../../contexts/AgeVerificationContext';
 
 type Tab = 'signin' | 'signup';
 
 const LoginPage: React.FC = () => {
   const { signIn, signUp } = useAuth();
   const { success, error: showError } = useToast();
+  const { verifyAge } = useAgeVerification();
   const navigate = useNavigate();
   const location = useLocation();
   const from = (location.state as any)?.from ?? '/family-hub';
@@ -18,15 +20,21 @@ const LoginPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  // Sign in fields
   const [siEmail, setSiEmail] = useState('');
   const [siPassword, setSiPassword] = useState('');
 
+  // Sign up fields
   const [suEmail, setSuEmail] = useState('');
   const [suPassword, setSuPassword] = useState('');
   const [suConfirm, setSuConfirm] = useState('');
   const [suFirstName, setSuFirstName] = useState('');
   const [suLastName, setSuLastName] = useState('');
   const [suRole, setSuRole] = useState<'parent' | 'child'>('parent');
+  const [suAge, setSuAge] = useState('');
+  const [suParentEmail, setSuParentEmail] = useState('');
+
+  const isChildUnder13 = suRole === 'child' && parseInt(suAge) < 13 && suAge !== '';
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,6 +56,7 @@ const LoginPage: React.FC = () => {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (suPassword !== suConfirm) {
       showError('Passwords do not match');
       return;
@@ -56,6 +65,17 @@ const LoginPage: React.FC = () => {
       showError('Password must be at least 6 characters');
       return;
     }
+    if (suRole === 'child' && !suAge) {
+      showError('Please enter your age');
+      return;
+    }
+    if (isChildUnder13 && !suParentEmail) {
+      showError('A parent email is required for users under 13');
+      return;
+    }
+
+    const age = suRole === 'child' ? parseInt(suAge) : undefined;
+
     setIsLoading(true);
     try {
       const { error } = await signUp(suEmail, suPassword, {
@@ -63,11 +83,31 @@ const LoginPage: React.FC = () => {
         lastName: suLastName,
         role: suRole,
       });
+
       if (error) {
         showError(error.message ?? 'Sign up failed');
+        return;
+      }
+
+      // Run COPPA age verification for child accounts
+      if (suRole === 'child' && age !== undefined) {
+        const result = await verifyAge(age, isChildUnder13 ? suParentEmail : undefined);
+        if (!result.success) {
+          showError(result.error ?? 'Age verification failed');
+          return;
+        }
+        // verifyAge handles navigation:
+        // - under 13 → /parental-consent/pending
+        // - 13+ → age-appropriate route
+        success(
+          age < 13
+            ? 'Account created! A consent email has been sent to your parent.'
+            : 'Account created! Welcome to PandaGarde.'
+        );
       } else {
-        success('Account created! Check your email to confirm your account.');
-        setTab('signin');
+        // Parent account — go straight to family hub
+        success('Account created! Welcome to PandaGarde Family Hub.');
+        navigate('/family-hub', { replace: true });
       }
     } catch {
       showError('An unexpected error occurred');
@@ -79,6 +119,7 @@ const LoginPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
+        {/* Header */}
         <div className="text-center">
           <div className="flex justify-center mb-4">
             <div className="w-16 h-16">
@@ -89,7 +130,9 @@ const LoginPage: React.FC = () => {
           <p className="mt-2 text-sm text-gray-600">Your family's digital safety companion</p>
         </div>
 
+        {/* Card */}
         <div className="bg-white shadow-xl rounded-lg overflow-hidden">
+          {/* Tabs */}
           <div className="flex border-b border-gray-200">
             <button
               onClick={() => setTab('signin')}
@@ -117,6 +160,7 @@ const LoginPage: React.FC = () => {
 
           <div className="p-6">
             {tab === 'signin' ? (
+              /* ── Sign In Form ── */
               <form onSubmit={handleSignIn} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
@@ -158,7 +202,9 @@ const LoginPage: React.FC = () => {
                 </button>
               </form>
             ) : (
+              /* ── Sign Up Form ── */
               <form onSubmit={handleSignUp} className="space-y-4">
+                {/* Name row */}
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
@@ -181,6 +227,8 @@ const LoginPage: React.FC = () => {
                     />
                   </div>
                 </div>
+
+                {/* Role selector */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">I am a...</label>
                   <div className="grid grid-cols-2 gap-3">
@@ -188,7 +236,7 @@ const LoginPage: React.FC = () => {
                       <button
                         key={role}
                         type="button"
-                        onClick={() => setSuRole(role)}
+                        onClick={() => { setSuRole(role); setSuAge(''); setSuParentEmail(''); }}
                         className={`py-2 px-3 rounded-md text-sm font-medium border-2 capitalize ${
                           suRole === role
                             ? 'border-green-500 bg-green-50 text-green-700'
@@ -200,6 +248,46 @@ const LoginPage: React.FC = () => {
                     ))}
                   </div>
                 </div>
+
+                {/* Age field — only for children */}
+                {suRole === 'child' && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Age</label>
+                    <input
+                      type="number"
+                      required
+                      min={5}
+                      max={17}
+                      value={suAge}
+                      onChange={e => setSuAge(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                      placeholder="Your age (5–17)"
+                    />
+                  </div>
+                )}
+
+                {/* Parent email — required for under-13 */}
+                {isChildUnder13 && (
+                  <div className="bg-amber-50 border border-amber-200 rounded-md p-3">
+                    <p className="text-xs text-amber-800 font-medium mb-2">
+                      Parental consent required (COPPA)
+                    </p>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Parent's Email</label>
+                    <input
+                      type="email"
+                      required
+                      value={suParentEmail}
+                      onChange={e => setSuParentEmail(e.target.value)}
+                      className="w-full px-3 py-2 border border-amber-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                      placeholder="parent@example.com"
+                    />
+                    <p className="text-xs text-amber-700 mt-1">
+                      A consent email will be sent to this address. The account will have limited access until your parent approves.
+                    </p>
+                  </div>
+                )}
+
+                {/* Email */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                   <input
@@ -211,6 +299,8 @@ const LoginPage: React.FC = () => {
                     placeholder="you@example.com"
                   />
                 </div>
+
+                {/* Password */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
                   <div className="relative">
@@ -231,6 +321,8 @@ const LoginPage: React.FC = () => {
                     </button>
                   </div>
                 </div>
+
+                {/* Confirm password */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
                   <input
@@ -242,6 +334,7 @@ const LoginPage: React.FC = () => {
                     placeholder="••••••••"
                   />
                 </div>
+
                 <button
                   type="submit"
                   disabled={isLoading}
