@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-// Frontend-only mode - no authentication dependencies
 import { useNavigate } from 'react-router-dom';
+import { User, Session } from '@supabase/supabase-js';
+import { supabase } from '../../lib/supabase';
 import { reportError } from '../../lib/sentry';
 import { trackEvent, AnalyticsEvents, setUserId } from '../../lib/analytics';
 
@@ -24,9 +25,9 @@ interface UserProfile {
 }
 
 interface AuthContextType {
-  user: any | null;
+  user: User | null;
   profile: UserProfile | null;
-  session: any | null;
+  session: Session | null;
   loading: boolean;
   signUp: (email: string, password: string, profileData?: Partial<UserProfile['profile_data']>) => Promise<{ error: any | null }>;
   signIn: (email: string, password: string) => Promise<{ error: any | null }>;
@@ -54,121 +55,171 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<any | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [session, setSession] = useState<any | null>(null);
-  const [loading, setLoading] = useState(false); // No loading needed in frontend-only mode
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Redirect to internal family hub route
   const navigate = useNavigate();
+
   const redirectToFamilyHub = useCallback(() => {
-    // Use internal route since Family Hub is integrated
     navigate('/family-hub');
   }, [navigate]);
 
-  // Initialize auth state - frontend-only mode
-  useEffect(() => {
-    console.log('Frontend-only mode: AuthProvider initialized - no authentication');
-    // In frontend-only mode, we don't need to initialize any auth state
-    setLoading(false);
+  const fetchProfile = useCallback(async (userId: string) => {
+    if (!supabase) return;
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .single();
+    if (!error && data) {
+      setProfile(data as UserProfile);
+    }
   }, []);
 
+  useEffect(() => {
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        fetchProfile(session.user.id);
+        setUserId(session.user.id);
+      }
+      setLoading(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        fetchProfile(session.user.id);
+        setUserId(session.user.id);
+      } else {
+        setProfile(null);
+      }
+      setLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [fetchProfile]);
+
   const signUp = useCallback(async (
-    email: string, 
-    password: string, 
+    email: string,
+    password: string,
     profileData?: Partial<UserProfile['profile_data']>
   ) => {
+    if (!supabase) return { error: { message: 'Authentication service is not configured' } };
+
     try {
-      console.log('Frontend-only mode: Sign up attempt - redirecting to family hub', { email, profileData });
-      
-      // Track signup attempt
-      trackEvent(AnalyticsEvents.USER_SIGNUP, {
-        user_email: email,
-        user_role: profileData?.role,
-        signup_method: 'email',
-        redirect_to_family_hub: true
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: profileData },
       });
-      
-      // Redirect to external family hub for authentication
-      redirectToFamilyHub();
-      
-      return { error: { message: 'Redirecting to family hub for authentication' } };
+
+      if (error) return { error };
+
+      if (data.user) {
+        await supabase.from('profiles').upsert({
+          id: data.user.id,
+          email,
+          profile_data: profileData,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        });
+        trackEvent(AnalyticsEvents.USER_SIGNUP, {
+          user_email: email,
+          user_role: profileData?.role,
+          signup_method: 'email',
+        });
+      }
+
+      return { error: null };
     } catch (error) {
-      console.error('Sign up error:', error);
       reportError(error as Error, { action: 'signUp', email });
       return { error: error as any };
     }
-  }, [redirectToFamilyHub]);
+  }, []);
 
   const signIn = useCallback(async (email: string, password: string) => {
+    if (!supabase) return { error: { message: 'Authentication service is not configured' } };
+
     try {
-      console.log('Frontend-only mode: Sign in attempt - redirecting to family hub', { email });
-      
-      // Track login attempt
-      trackEvent(AnalyticsEvents.USER_LOGIN, {
-        user_email: email,
-        login_method: 'email',
-        redirect_to_family_hub: true
-      });
-      
-      // Redirect to external family hub for authentication
-      redirectToFamilyHub();
-      
-      return { error: { message: 'Redirecting to family hub for authentication' } };
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (!error) {
+        trackEvent(AnalyticsEvents.USER_LOGIN, {
+          user_email: email,
+          login_method: 'email',
+        });
+      }
+
+      return { error: error ?? null };
     } catch (error) {
-      console.error('Sign in error:', error);
       reportError(error as Error, { action: 'signIn', email });
       return { error: error as any };
     }
-  }, [redirectToFamilyHub]);
+  }, []);
 
   const signOut = useCallback(async () => {
+    if (!supabase) return { error: null };
+
     try {
-      console.log('Frontend-only mode: Sign out - clearing local state');
-      
-      // Clear local state
-      setUser(null);
-      setProfile(null);
-      setSession(null);
-      
-      // Track logout event
-      trackEvent(AnalyticsEvents.USER_LOGOUT, {
-        frontend_only_mode: true
-      });
-      
-      return { error: null };
+      const { error } = await supabase.auth.signOut();
+      if (!error) {
+        setUser(null);
+        setProfile(null);
+        setSession(null);
+        trackEvent(AnalyticsEvents.USER_LOGOUT, {});
+      }
+      return { error: error ?? null };
     } catch (error) {
-      console.error('Sign out error:', error);
       return { error: error as any };
     }
   }, []);
 
   const updateProfile = useCallback(async (updates: Partial<UserProfile['profile_data']>) => {
-    console.log('Frontend-only mode: Update profile attempt - redirecting to family hub', updates);
-    
-    // Redirect to external family hub for profile management
-    redirectToFamilyHub();
-    
-    return { error: { message: 'Redirecting to family hub for profile management' } };
-  }, [redirectToFamilyHub]);
+    if (!supabase || !user) return { error: { message: 'Not authenticated' } };
 
-  const resetPassword = useCallback(async (email: string) => {
     try {
-      console.log('Frontend-only mode: Reset password attempt - redirecting to family hub', { email });
-      
-      // Redirect to external family hub for password reset
-      redirectToFamilyHub();
-      
-      return { error: { message: 'Redirecting to family hub for password reset' } };
+      const newProfileData = { ...profile?.profile_data, ...updates };
+      const { error } = await supabase
+        .from('profiles')
+        .update({ profile_data: newProfileData, updated_at: new Date().toISOString() })
+        .eq('id', user.id);
+
+      if (!error) {
+        setProfile(prev => prev ? { ...prev, profile_data: newProfileData } : null);
+      }
+
+      return { error: error ?? null };
     } catch (error) {
-      console.error('Reset password error:', error);
       return { error: error as any };
     }
-  }, [redirectToFamilyHub]);
+  }, [user, profile]);
 
-  const isAuthenticated = false; // Always false in frontend-only mode
-  const isParent = false; // Always false in frontend-only mode
-  const isChild = false; // Always false in frontend-only mode
+  const resetPassword = useCallback(async (email: string) => {
+    if (!supabase) return { error: { message: 'Authentication service is not configured' } };
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/family-hub/reset-password`,
+      });
+      return { error: error ?? null };
+    } catch (error) {
+      return { error: error as any };
+    }
+  }, []);
+
+  const isAuthenticated = user !== null;
+  const isParent = profile?.profile_data?.role === 'parent';
+  const isChild = profile?.profile_data?.role === 'child';
 
   const value: AuthContextType = {
     user,
@@ -183,7 +234,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isAuthenticated,
     isParent,
     isChild,
-    redirectToFamilyHub
+    redirectToFamilyHub,
   };
 
   return (
