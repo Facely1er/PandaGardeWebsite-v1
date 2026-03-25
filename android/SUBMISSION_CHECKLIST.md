@@ -1,157 +1,156 @@
-# Store Submission Checklist
+# Play Store Submission Checklist
 
-## ✅ Completed Configuration
+## What's done (code-complete on branch `claude/android-play-store-ready-T42sV`)
 
-### Android Project Setup
-- [x] **AndroidManifest.xml** - Updated with network security config and proper metadata
-- [x] **build.gradle** - Configured for release builds with signing
-- [x] **Network Security Config** - Created for secure HTTPS-only connections
-- [x] **Keystore Configuration** - Set up in keystore.properties
-- [x] **Version Information** - Version code: 1, Version name: 1.0
-- [x] **Target SDK** - Set to 35 (latest)
-- [x] **Min SDK** - Set to 23 (Android 6.0+)
-- [x] **App Icons** - All densities present
-- [x] **Permissions** - Properly declared (Internet, Network State, WiFi State)
-
-### Documentation Created
-- [x] **STORE_SUBMISSION_GUIDE.md** - Comprehensive submission guide
-- [x] **BUILD_RELEASE.md** - Build instructions
-- [x] **SUBMISSION_CHECKLIST.md** - This file
+- [x] Android project initialised (`android/`, Gradle, Capacitor 7)
+- [x] App ID: `com.pandagarde.familyhub`
+- [x] App name: `Privacy Panda Family Hub`
+- [x] Capacitor config (`capacitor.config.ts`) — splash, HTTPS, minSdk 23, targetSdk 35
+- [x] Release signing config in `android/app/build.gradle` (reads `keystore.properties`)
+- [x] Network security config — cleartext disabled
+- [x] All mipmap icon densities present (mdpi → xxxhdpi + anydpi adaptive)
+- [x] Supabase auth — real `getSession` + `onAuthStateChange` replacing stub
+- [x] Protected routes — `AuthGuard` redirects unauthenticated users to `/family-hub/login`
+- [x] Login/signup page — email + password form with role selector
+- [x] COPPA consent gate — child signup (age < 13) requires parent email, triggers
+  `coppaComplianceManager.requestParentalConsent()` and redirects to pending consent page
+- [x] `AgeVerificationContext` — zero-data mode for unverified under-13 users
 
 ---
 
-## ⚠️ Action Items Required Before Submission
+## What you need to do before submitting
 
-### 1. Privacy Policy URL (CRITICAL)
-- [ ] Create a publicly accessible privacy policy page
-- [ ] Host it on your website or GitHub Pages
-- [ ] Add the URL to Google Play Console
-- [ ] Ensure it covers:
-  - Local data storage
-  - No third-party sharing
-  - No data collection
-  - User rights
+### 1. Set up Supabase (CRITICAL — without this auth won't work)
 
-**Suggested Privacy Policy Content:**
+1. Create a project at https://supabase.com
+2. In Supabase SQL editor run:
+```sql
+create table profiles (
+  id uuid references auth.users primary key,
+  email text,
+  profile_data jsonb,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+alter table profiles enable row level security;
+create policy "Users can read own profile" on profiles
+  for select using (auth.uid() = id);
+create policy "Users can update own profile" on profiles
+  for update using (auth.uid() = id);
+create policy "Users can insert own profile" on profiles
+  for insert with check (auth.uid() = id);
 ```
-Privacy Policy for Privacy Panda Family Hub
+3. Create `.env` from `.env.example` and fill in your project URL and anon key
+4. Enable Email auth in Supabase Auth settings
 
-Last Updated: [Date]
+### 2. Create a keystore for signing
 
-Data Collection:
-- Privacy Panda Family Hub does not collect, transmit, or share any personal information.
-- All data is stored locally on your device.
-
-Data Storage:
-- All app data (scores, progress, activities) is stored locally on your device.
-- No data is transmitted to external servers.
-- No data is shared with third parties.
-
-Permissions:
-- Internet: Required to load web content within the app.
-- Network State: Required to check connectivity status.
-- WiFi State: Required for network detection.
-
-Children's Privacy:
-- This app is designed for families and children.
-- No personal information is collected from children.
-- All data remains on the device.
-
-Contact:
-- For questions about this privacy policy, contact: [your-email]
-
-Changes to Privacy Policy:
-- We may update this policy. Changes will be posted here.
-```
-
-### 2. Store Listing Assets
-- [ ] **Feature Graphic** (1024x500px) - Create promotional image
-- [ ] **Screenshots** (minimum 2, recommended 4-8)
-  - [ ] Home/Dashboard screen
-  - [ ] Activity selection
-  - [ ] Quiz/Game in action
-  - [ ] Privacy score display
-  - [ ] Activity completion screen
-- [ ] **App Icon** - ✓ Already created (512x512)
-
-### 3. Play Console Setup
-- [ ] Create app listing in Google Play Console
-- [ ] Complete store listing information:
-  - [ ] App name
-  - [ ] Short description (80 chars)
-  - [ ] Full description (4000 chars)
-  - [ ] App category (Education/Family)
-- [ ] Upload all assets
-- [ ] Complete content rating questionnaire
-- [ ] Complete data safety form
-- [ ] Set target audience
-- [ ] Upload app bundle (AAB)
-
-### 4. Build Release Bundle
-- [ ] Run `./gradlew bundleRelease` (or `gradlew.bat bundleRelease` on Windows)
-- [ ] Verify bundle is created at `android/app/build/outputs/bundle/release/app-release.aab`
-- [ ] Check bundle size (should be reasonable)
-- [ ] Verify bundle is signed
-
-### 5. Testing
-- [ ] Test app on real Android device(s)
-- [ ] Test on different screen sizes if possible
-- [ ] Verify all activities work correctly
-- [ ] Check network connectivity handling
-- [ ] Test app installation from AAB (optional, can use internal testing track)
-
----
-
-## 📋 Quick Reference
-
-### Build Command
 ```bash
+keytool -genkey -v \
+  -keystore pandagarde.keystore \
+  -alias pandagarde \
+  -keyalg RSA \
+  -keysize 2048 \
+  -validity 10000
+```
+
+Then create `android/keystore.properties` (never commit this):
+```properties
+storeFile=../pandagarde.keystore
+storePassword=YOUR_STORE_PASSWORD
+keyAlias=pandagarde
+keyPassword=YOUR_KEY_PASSWORD
+```
+
+**Keep the keystore file safe — you cannot update the app without it.**
+
+### 3. Build the release AAB
+
+```bash
+# 1. Build the web app
+npm run build
+
+# 2. Sync to Android
+npx cap sync android
+
+# 3. Build the signed release bundle
 cd android
 ./gradlew bundleRelease
 ```
 
-### Bundle Location
+Output: `android/app/build/outputs/bundle/release/app-release.aab`
+
+### 4. Create a privacy policy page
+
+Required for all Play Store apps, especially children's apps.
+Your privacy policy must say that the app collects minimal data and implements COPPA
+parental consent for users under 13.
+
+Host it at a public URL (e.g. `https://pandagarde.com/privacy`) and add that URL in
+Play Console under "App content > Privacy policy".
+
+### 5. Play Console store listing assets
+
+| Asset | Size | Notes |
+|-------|------|-------|
+| App icon | 512 × 512 px PNG | Already set in Android res |
+| Feature graphic | 1024 × 500 px JPG/PNG | Required for store listing |
+| Phone screenshots | min 1280 × 720 px | Min 2, recommended 4–8 |
+
+Tips for screenshots:
+- Show the home/activities screen
+- Show a quiz or game in action  
+- Show the parent dashboard
+- Show the privacy score / certificate
+
+### 6. Play Console setup
+
+1. Create app at https://play.google.com/console
+2. Store listing:
+   - **App name**: Privacy Panda Family Hub
+   - **Short description** (80 chars): Help kids learn digital safety with fun interactive activities
+   - **Category**: Education
+3. **Content rating**: complete questionnaire → select that the app is directed at children
+4. **Target audience**: ages 5–12 (this triggers Families policy review)
+5. **Data safety form**: declare that you collect email address for account creation,
+   that it's used for app functionality, and that you implement COPPA parental consent
+6. Upload the `.aab` file to the Internal Testing track first to validate
+7. After testing passes, promote to Production
+
+### 7. Families policy requirements checklist
+
+- [x] No advertising SDKs directed at children
+- [x] COPPA parental consent flow for under-13 signups  
+- [x] No cleartext HTTP traffic
+- [ ] Privacy policy publicly accessible URL
+- [ ] App reviewed by teacher/parent before submission (recommended)
+- [ ] Families content rating: EVERYONE or EVERYONE 10+
+
+---
+
+## Build commands summary
+
+```bash
+# Dev
+npm run dev
+
+# Production build + sync
+npm run build && npx cap sync android
+
+# Open in Android Studio (for testing on device)
+npx cap open android
+
+# Release bundle
+cd android && ./gradlew bundleRelease
 ```
-android/app/build/outputs/bundle/release/app-release.aab
-```
 
-### Key Files
-- **AndroidManifest.xml**: `android/app/src/main/AndroidManifest.xml`
-- **build.gradle**: `android/app/build.gradle`
-- **keystore.properties**: `android/keystore.properties`
-- **Strings**: `android/app/src/main/res/values/strings.xml`
+## Key files
 
-### Important URLs
-- [Google Play Console](https://play.google.com/console)
-- [Play Console Help](https://support.google.com/googleplay/android-developer)
-
----
-
-## 🎯 Submission Priority Order
-
-1. **FIRST**: Create and publish privacy policy URL
-2. **SECOND**: Build release bundle
-3. **THIRD**: Create store listing assets (screenshots, feature graphic)
-4. **FOURTH**: Complete Play Console setup
-5. **FIFTH**: Submit for review
-
----
-
-## 📝 Notes
-
-- The app is configured for local data storage only
-- No analytics or tracking is implemented
-- All permissions are necessary and properly declared
-- The app targets modern Android versions (API 23+)
-- Release signing is configured and ready
-
----
-
-## ✅ Ready to Build
-
-The Android project is now **fully configured** for store submission. You can build the release bundle at any time using the build command above.
-
-**Next Step**: Create the privacy policy URL, then proceed with building and submitting to the Play Store.
-
-Good luck! 🚀
-
+| File | Purpose |
+|------|---------|
+| `capacitor.config.ts` | App ID, splash screen, scheme |
+| `android/app/build.gradle` | Version code/name, signing config |
+| `android/app/src/main/AndroidManifest.xml` | Permissions, activity config |
+| `android/app/src/main/res/values/strings.xml` | App name, package name |
+| `android/keystore.properties` | Signing credentials (do not commit!) |
+| `.env` | Supabase keys (do not commit!) |
