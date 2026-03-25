@@ -1,9 +1,21 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '../../lib/supabase';
 import { reportError } from '../../lib/sentry';
 import { trackEvent, AnalyticsEvents, setUserId } from '../../lib/analytics';
+
+// Local type definitions (replaces @supabase/supabase-js types)
+interface User {
+  id: string;
+  email?: string;
+  [key: string]: unknown;
+}
+
+interface Session {
+  user: User;
+  access_token: string;
+  [key: string]: unknown;
+}
 
 interface UserProfile {
   id: string;
@@ -68,7 +80,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const fetchProfile = useCallback(async (userId: string) => {
     if (!supabase) return;
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('profiles')
       .select('*')
       .eq('id', userId)
@@ -84,7 +96,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return;
     }
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    (supabase as any).auth.getSession().then(({ data: { session } }: any) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
@@ -94,7 +106,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setLoading(false);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = (supabase as any).auth.onAuthStateChange((_event: any, session: any) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
@@ -117,7 +129,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (!supabase) return { error: { message: 'Authentication service is not configured' } };
 
     try {
-      const { data, error } = await supabase.auth.signUp({
+      const { data, error } = await (supabase as any).auth.signUp({
         email,
         password,
         options: { data: profileData },
@@ -126,7 +138,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (error) return { error };
 
       if (data.user) {
-        await supabase.from('profiles').upsert({
+        await (supabase as any).from('profiles').upsert({
           id: data.user.id,
           email,
           profile_data: profileData,
@@ -134,7 +146,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           updated_at: new Date().toISOString(),
         });
         trackEvent(AnalyticsEvents.USER_SIGNUP, {
-          user_email: email,
           user_role: profileData?.role,
           signup_method: 'email',
         });
@@ -142,7 +153,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       return { error: null };
     } catch (error) {
-      reportError(error as Error, { action: 'signUp', email });
+      reportError(error as Error, { action: 'signUp' });
       return { error: error as any };
     }
   }, []);
@@ -151,18 +162,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (!supabase) return { error: { message: 'Authentication service is not configured' } };
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error } = await (supabase as any).auth.signInWithPassword({ email, password });
 
       if (!error) {
-        trackEvent(AnalyticsEvents.USER_LOGIN, {
-          user_email: email,
-          login_method: 'email',
-        });
+        trackEvent(AnalyticsEvents.USER_LOGIN, { login_method: 'email' });
       }
 
       return { error: error ?? null };
     } catch (error) {
-      reportError(error as Error, { action: 'signIn', email });
+      reportError(error as Error, { action: 'signIn' });
       return { error: error as any };
     }
   }, []);
@@ -171,7 +179,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (!supabase) return { error: null };
 
     try {
-      const { error } = await supabase.auth.signOut();
+      const { error } = await (supabase as any).auth.signOut();
       if (!error) {
         setUser(null);
         setProfile(null);
@@ -189,7 +197,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     try {
       const newProfileData = { ...profile?.profile_data, ...updates };
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('profiles')
         .update({ profile_data: newProfileData, updated_at: new Date().toISOString() })
         .eq('id', user.id);
@@ -208,7 +216,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (!supabase) return { error: { message: 'Authentication service is not configured' } };
 
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      const { error } = await (supabase as any).auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/family-hub/reset-password`,
       });
       return { error: error ?? null };
