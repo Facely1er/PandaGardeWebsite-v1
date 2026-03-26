@@ -42,7 +42,7 @@ export const FamilyPersonaProfiles: Record<string, FamilyPersonaProfile> = {
       '/parent-resources',
       '/guides/parental-controls',
       '/child-safety-alerts',
-      '/family-agreement'
+      '/downloads/family-agreement'
     ]
   },
   

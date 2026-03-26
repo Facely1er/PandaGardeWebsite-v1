@@ -38,7 +38,7 @@ export const familyResources: FamilyResource[] = [
     category: ['family-safety', 'agreements'],
     personaTags: ['cautious-parent', 'privacy-focused-family'],
     ageGroups: ['all'],
-    url: '/family-agreement',
+    url: '/downloads/family-agreement',
     priority: 'high',
     icon: 'FileText'
   },
@@ -174,7 +174,7 @@ export const familyResources: FamilyResource[] = [
     category: ['education', 'activities'],
     personaTags: ['learning-family'],
     ageGroups: ['5-8'],
-    url: '/coloring-sheets',
+    url: '/downloads/coloring-sheets',
     priority: 'low',
     icon: 'Palette'
   },
@@ -250,7 +250,7 @@ export const familyResources: FamilyResource[] = [
     category: ['visual-reminders', 'education'],
     personaTags: ['balanced-family', 'learning-family'],
     ageGroups: ['all'],
-    url: '/safety-posters',
+    url: '/downloads/safety-posters',
     priority: 'low',
     icon: 'Image'
   },

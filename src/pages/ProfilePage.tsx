@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, User, Mail, Calendar, Shield, Save, Edit3, X, Download } from 'lucide-react';
 import { useAuth } from './family-hub/AuthWrapper';
-import { useToast } from '../hooks/useToast';
+import { useToast } from '../contexts/ToastContext';
 import ProgressExport from '../components/ProgressExport';
 
 const ProfilePage: React.FC = () => {
@@ -52,14 +52,14 @@ const ProfilePage: React.FC = () => {
       const { error } = await updateProfile(updates);
       
       if (error) {
-        showToast('Failed to update profile', 'error');
+        showError('Failed to update profile');
       } else {
-        showToast('Profile updated successfully!', 'success');
+        showSuccess('Profile updated successfully!');
         setIsEditing(false);
       }
     } catch (error) {
       console.error('Error updating profile:', error);
-      showToast('An error occurred while updating your profile', 'error');
+      showError('An error occurred while updating your profile');
     }
   };
 

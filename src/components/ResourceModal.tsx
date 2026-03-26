@@ -1,5 +1,10 @@
 import React from 'react';
-import { Download, Clock, X } from 'lucide-react';
+import { Download, Clock, X, ArrowRight } from 'lucide-react';
+
+export interface ResourceModalPrimaryAction {
+  label: string;
+  onClick: () => void;
+}
 
 interface ResourceModalProps {
   isOpen: boolean;
@@ -11,6 +16,8 @@ interface ResourceModalProps {
   gradeLevel?: string;
   downloadUrl?: string;
   onDownload?: () => void;
+  /** When set, shown as the main action (e.g. navigate to a real page). Takes precedence over legacy Download when both exist. */
+  primaryAction?: ResourceModalPrimaryAction;
   onComplete?: () => void;
   completeButtonText?: string;
   getGradeLevelColor?: (gradeLevel: string) => string;
@@ -26,11 +33,14 @@ const ResourceModal: React.FC<ResourceModalProps> = ({
   gradeLevel,
   downloadUrl,
   onDownload,
+  primaryAction,
   onComplete,
   completeButtonText = 'Mark as Used',
   getGradeLevelColor
 }) => {
   if (!isOpen) {return null;}
+
+  const showLegacyDownload = Boolean(downloadUrl && onDownload && !primaryAction);
 
   return (
     <div 
@@ -89,26 +99,39 @@ const ResourceModal: React.FC<ResourceModalProps> = ({
                 )}
               </div>
 
-              <div className="flex gap-3">
-                {downloadUrl && onDownload && (
+              <div className="flex flex-wrap gap-3 justify-end">
+                {primaryAction && (
                   <button
+                    type="button"
+                    onClick={primaryAction.onClick}
+                    className="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition-all flex items-center gap-2"
+                  >
+                    <ArrowRight size={16} aria-hidden />
+                    {primaryAction.label}
+                  </button>
+                )}
+                {showLegacyDownload && (
+                  <button
+                    type="button"
                     onClick={onDownload}
                     className="bg-green-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-600 transition-all flex items-center gap-2"
                   >
-                    <Download size={16} />
+                    <Download size={16} aria-hidden />
                     Download
                   </button>
                 )}
                 {onComplete && (
                   <button
+                    type="button"
                     onClick={onComplete}
                     className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-green-600 hover:to-emerald-700 transition-all"
                   >
                     {completeButtonText}
                   </button>
                 )}
-                {!onComplete && !onDownload && (
+                {!onComplete && !primaryAction && !showLegacyDownload && (
                   <button
+                    type="button"
                     onClick={onClose}
                     className="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg font-semibold hover:bg-gray-300 transition-all"
                   >

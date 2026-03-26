@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { 
-  Menu, X, Home, Users, Gamepad2, Award, Moon, Sun, Search, 
-  ArrowLeft, Map, Settings, LogOut, Bell
+  Menu, X, Home, Gamepad2, Award, Moon, Sun, 
+  ArrowLeft, Map, User, Bell
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import Logo from '../Logo';
@@ -11,7 +11,6 @@ const FamilyHubHeader: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
@@ -45,6 +44,7 @@ const FamilyHubHeader: React.FC = () => {
     { icon: Gamepad2, label: 'Learning Hub', href: '/family-hub/learning' },
     { icon: Map, label: 'Journeys', href: '/family-hub/journeys' },
     { icon: Award, label: 'Certificates', href: '/family-hub/certificates' },
+    { icon: User, label: 'Profile', href: '/family-hub/profile' },
   ];
 
   const isActive = (href: string) => {

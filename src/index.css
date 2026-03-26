@@ -1192,8 +1192,9 @@ body {
   }
 
   .family-hub-button {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.6875rem;
+    padding: 8px;
+    min-width: 36px;
+    min-height: 36px;
   }
 
   /* Hide less critical items on medium screens */
@@ -1348,36 +1349,19 @@ body {
 .family-hub-button {
   background: var(--secondary);
   color: white;
-  padding: 10px 16px;
+  padding: 10px;
   border-radius: var(--border-radius);
   font-weight: 600;
   text-decoration: none;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  white-space: nowrap;
-  font-size: 0.875rem;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-}
-
-.family-hub-button-text {
-  display: inline;
-}
-
-/* Give the desktop nav a bit more room on common laptop widths */
-@media (min-width: 1401px) and (max-width: 1600px) {
-  .family-hub-button-text {
-    display: none;
-  }
-
-  .family-hub-button {
-    padding: 10px;
-  }
+  justify-content: center;
+  min-width: 40px;
+  min-height: 40px;
+  box-sizing: border-box;
 }
 
 .family-hub-button:hover {
@@ -1462,6 +1446,13 @@ body {
   color: inherit;
 }
 
+/* Stacked hero title lines (exactly two lines, avoids awkward 3-line wrap) */
+.hero-heading-row {
+  display: block;
+  color: inherit;
+  white-space: nowrap;
+}
+
 .hero-heading-highlight {
   background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #66BB6A 100%);
   -webkit-background-clip: text;
@@ -1479,6 +1470,10 @@ body {
 }
 
 [data-theme="dark"] .hero-heading-line1 {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .hero-heading-row {
   color: #ffffff;
 }
 
@@ -3447,8 +3442,9 @@ body {
   }
 
   .family-hub-button {
-    font-size: 0.8125rem;
-    padding: 0.5rem 0.875rem;
+    padding: 10px;
+    min-width: 40px;
+    min-height: 40px;
   }
 }
 
@@ -3678,15 +3674,17 @@ body {
   .hero-heading {
     font-size: clamp(1.75rem, 8vw, 2.5rem) !important;
     line-height: 1.2 !important;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
     hyphens: auto;
   }
   
+  .hero-heading-row {
+    display: block;
+  }
+
   .hero-heading-line1,
   .hero-heading-highlight {
     white-space: normal !important;
-    display: block;
+    display: inline;
   }
   
   .hero-text h1 .logo-icon {
@@ -3859,8 +3857,9 @@ body {
   }
   
   .family-hub-button {
-    padding: 10px 16px;
-    font-size: 13px;
+    padding: 10px;
+    min-width: 40px;
+    min-height: 40px;
   }
   
   .user-icon-button {
@@ -4406,7 +4405,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 60px;
-  align-items: center;
+  align-items: start;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -4430,7 +4429,38 @@ body {
 
 .hero-simple .hero-stats {
   display: flex;
-  gap: 32px;
+  gap: 1.25rem;
+}
+
+/* Compact stats row — lighter than global .hero-stats cards */
+.hero-simple .hero-stats.hero-stats--compact .stat-item,
+.hero-stats.hero-stats--compact .stat-item {
+  padding: 0;
+  min-width: auto;
+  background: transparent;
+  border: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+[data-theme="dark"] .hero-simple .hero-stats.hero-stats--compact .stat-item,
+[data-theme="dark"] .hero-stats.hero-stats--compact .stat-item {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.hero-simple .hero-stats.hero-stats--compact .stat-item:hover,
+.hero-stats.hero-stats--compact .stat-item:hover {
+  transform: none;
+  background: transparent;
+}
+
+[data-theme="dark"] .hero-simple .hero-stats.hero-stats--compact .stat-item:hover,
+[data-theme="dark"] .hero-stats.hero-stats--compact .stat-item:hover {
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .hero-simple .stat-item {
@@ -5988,16 +6018,18 @@ body {
   .hero-simple h1 {
     font-size: clamp(1.75rem, 8vw, 2.5rem) !important;
     line-height: 1.2 !important;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
     max-width: 100%;
     padding: 0 1rem;
+  }
+
+  .hero-simple .hero-heading-row {
+    display: block;
   }
   
   .hero-simple .hero-heading-line1,
   .hero-simple .hero-heading-highlight {
     white-space: normal !important;
-    display: block;
+    display: inline;
   }
   
   .hero-simple .hero-buttons {

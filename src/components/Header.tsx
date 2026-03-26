@@ -46,16 +46,16 @@ function Header() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isMobileMenuOpen, isSearchModalOpen]);
 
-  // Enhanced navigation structure with better organization
-  // Using useMemo to prevent recreation and ensure uniqueness
+  // Primary IA: journey first (start → footprint), then flagship learning, library, product overview.
+  // Reduces the feel of “many parallel marketing links” (Features vs Home overlap is handled by ordering Features later).
   const navItems = useMemo(() => {
     const items = [
       { id: 'nav-home', icon: Home, label: 'Home', href: '/', isExternal: false, hideOnMedium: true },
-      { id: 'nav-features', icon: Sparkles, label: 'Features', href: '/features', isExternal: false, hideOnMedium: false },
-      { id: 'nav-privacy-panda', icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false, hideOnMedium: false },
       { id: 'nav-get-started', icon: Users, label: 'Get Started', href: '/get-started', isExternal: false, hideOnMedium: false },
       { id: 'nav-digital-footprint', icon: BarChart3, label: 'Digital Footprint', href: '/digital-footprint', isExternal: false, hideOnMedium: false },
+      { id: 'nav-privacy-panda', icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false, hideOnMedium: false },
       { id: 'nav-resources', icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false, hideOnMedium: false },
+      { id: 'nav-features', icon: Sparkles, label: 'Features', href: '/features', isExternal: false, hideOnMedium: false },
       { id: 'nav-community', icon: MessageCircle, label: 'Community', href: '/community/forum', isExternal: false, hideOnMedium: true },
     ];
     // Remove duplicates based on href to ensure uniqueness
@@ -69,15 +69,15 @@ function Header() {
     });
   }, []);
 
-  // Mobile navigation with organized sections
+  // Same journey-first order as desktop (see navItems).
   const mobileNavItems = useMemo(() => {
     const items = [
       { id: 'mobile-nav-home', icon: Home, label: 'Home', href: '/', isExternal: false },
-      { id: 'mobile-nav-features', icon: Sparkles, label: 'Features', href: '/features', isExternal: false },
-      { id: 'mobile-nav-privacy-panda', icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false },
       { id: 'mobile-nav-get-started', icon: Users, label: 'Get Started', href: '/get-started', isExternal: false },
       { id: 'mobile-nav-digital-footprint', icon: BarChart3, label: 'Digital Footprint', href: '/digital-footprint', isExternal: false },
+      { id: 'mobile-nav-privacy-panda', icon: Book, label: 'Privacy Panda', href: '/privacy-panda', isExternal: false },
       { id: 'mobile-nav-resources', icon: ChalkboardTeacher, label: 'Resources', href: '/resources', isExternal: false },
+      { id: 'mobile-nav-features', icon: Sparkles, label: 'Features', href: '/features', isExternal: false },
       { id: 'mobile-nav-community', icon: MessageCircle, label: 'Community Forum', href: '/community/forum', isExternal: false },
       { id: 'mobile-nav-stories', icon: Heart, label: 'Success Stories', href: '/community/stories', isExternal: false },
       { id: 'mobile-nav-community-resources', icon: Globe, label: 'Community Resources', href: '/community/resources', isExternal: false },
@@ -346,15 +346,14 @@ function Header() {
               {theme === 'light' ? <Moon size={20} aria-hidden="true" /> : <Sun size={20} aria-hidden="true" />}
             </button>
             
-            {/* Family Hub Button - Prominent */}
+            {/* Family Hub — icon-only to reduce header crowding; label via aria-label / title */}
             <Link
               to="/family-hub"
               className="family-hub-button"
-              aria-label="Visit Family Hub"
-              title="Connect with other families and access exclusive resources"
+              aria-label="Family Hub — connect with other families and access exclusive resources"
+              title="Family Hub — connect with other families and access exclusive resources"
             >
-              <Users size={16} aria-hidden="true" />
-              <span className="family-hub-button-text">Family Hub</span>
+              <Users size={20} strokeWidth={2} aria-hidden="true" />
             </Link>
 
             {/* Mobile Menu Toggle */}

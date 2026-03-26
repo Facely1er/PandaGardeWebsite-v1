@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { type LucideIcon, GraduationCap, BookOpen, Users, Download, CheckCircle, Clock, FileText, Presentation, Award, Scale } from 'lucide-react';
+import { type LucideIcon, GraduationCap, BookOpen, Users, ArrowRight, CheckCircle, Clock, FileText, Presentation, Award, Scale } from 'lucide-react';
 import PageLayout from '../components/layout/PageLayout';
 import ResourceModal from '../components/ResourceModal';
 import { PRIVACY_PORTAL_URL } from '../config/portal';
@@ -14,7 +14,9 @@ interface Resource {
   duration: string;
   completed: boolean;
   icon: LucideIcon;
-  downloadUrl?: string;
+  /** In-app destination (PDF/ZIP packs are not in public/downloads yet) */
+  navigateTo: string;
+  actionLabel: string;
   preview: string[];
 }
 
@@ -29,165 +31,165 @@ const EducatorToolsPage: React.FC = () => {
     {
       id: 'k-5-curriculum',
       title: 'K-5 Privacy Curriculum',
-      description: 'Complete curriculum guide for teaching digital privacy to elementary students.',
+      description:
+        'Roadmap for teaching digital privacy in elementary school. Full-year PDF lesson packs are not on the site yet — use the Resources hub and printable materials today.',
       category: 'curriculum',
       gradeLevel: 'K-5',
       duration: 'Full Year',
       completed: false,
       icon: BookOpen,
-      downloadUrl: '/downloads/k-5-curriculum.pdf',
+      navigateTo: '/resources',
+      actionLabel: 'Open Resources',
       preview: [
-        '30 lesson plans aligned with Common Core standards',
-        'Age-appropriate activities for each grade level',
-        'Assessment rubrics and progress tracking',
-        'Parent engagement materials',
-        'Digital citizenship integration'
+        'Printable year-long PDF curriculum: planned (pilot) — not a download yet',
+        'Resources page: guides, discussion prompts, and printables you can use now',
+        'Pair with Privacy Panda story, coloring sheets, and safety posters',
+        'Assessment: try Quick Assessment with older students / families',
+        'Digital citizenship: link to age-specific guides from Resources'
       ]
     },
     {
       id: 'middle-school-curriculum',
       title: '6-8 Privacy Curriculum',
-      description: 'Comprehensive middle school privacy education program.',
+      description:
+        'Middle school privacy themes and pacing. Packaged PDF curriculum is not published yet — browse guides and tools that are live on the site.',
       category: 'curriculum',
       gradeLevel: '6-8',
       duration: 'Full Year',
       completed: false,
       icon: BookOpen,
-      downloadUrl: '/downloads/middle-school-curriculum.pdf',
+      navigateTo: '/resources',
+      actionLabel: 'Open Resources',
       preview: [
-        '40 lesson plans with hands-on activities',
-        'Social media safety modules',
-        'Critical thinking exercises',
-        'Peer-to-peer learning activities',
-        'Real-world case studies'
+        'Printable middle-school PDF pack: coming later',
+        'Use Resources + Privacy Explorers / Teen Handbook pages from the main site',
+        'Classroom discussion guides under Resources → Comprehensive Guides',
+        'Digital footprint topics: Digital Footprint tool for family/school context'
       ]
     },
     {
       id: 'high-school-curriculum',
       title: '9-12 Privacy Curriculum',
-      description: 'Advanced privacy education for high school students.',
+      description:
+        'Advanced privacy and digital rights themes. Standalone PDF curriculum files are not available yet — use live site content and pilot program for early access.',
       category: 'curriculum',
       gradeLevel: '9-12',
       duration: 'Full Year',
       completed: false,
       icon: BookOpen,
-      downloadUrl: '/downloads/high-school-curriculum.pdf',
+      navigateTo: '/resources',
+      actionLabel: 'Open Resources',
       preview: [
-        '50 lesson plans covering advanced topics',
-        'Privacy law and digital rights education',
-        'Career preparation and digital literacy',
-        'Research projects and presentations',
-        'Community engagement activities'
+        'Printable high-school PDF pack: coming later',
+        'Teen Handbook, Digital Rights, and related pages are available now',
+        'Join the pilot for educator-facing slide decks and fuller packs (see Presentation Slides card)'
       ]
     },
     {
       id: 'classroom-activities',
       title: 'Privacy Panda Classroom Activities',
-      description: 'Chapter-by-chapter activities aligned with "Privacy Panda and the Digital Bamboo Forest" story. Perfect for educators teaching digital privacy to children ages 5-8.',
+      description:
+        'Chapter-by-chapter activities aligned with the Privacy Panda story — fully on the site (no PDF required).',
       category: 'activities',
       gradeLevel: 'K-3',
       duration: '4-6 weeks',
       completed: false,
       icon: Presentation,
-      downloadUrl: '/downloads/classroom-activities.pdf',
+      navigateTo: '/classroom-activities',
+      actionLabel: 'Open activities',
       preview: [
         '8 hands-on activities (2 per chapter)',
         'Chapter 1: Understanding Personal Information',
         'Chapter 2: Privacy Settings & Digital Footprints',
         'Chapter 3: Safe Sharing & Choosing What to Share',
         'Chapter 4: Being a Privacy Hero',
-        'Assessment tools and cross-curricular connections',
-        'Story connections and discussion prompts'
+        'Assessment ideas and cross-curricular connections on the same page'
       ]
     },
     {
       id: 'interactive-activities',
       title: 'Interactive Activity Library',
-      description: 'Collection of engaging activities for classroom use.',
+      description: 'Browser-based activities and the Privacy Panda interactive story — use in class or assign for home.',
       category: 'activities',
       gradeLevel: 'All',
       duration: 'Variable',
       completed: false,
       icon: Presentation,
-      downloadUrl: '/downloads/activity-library.zip',
+      navigateTo: '/activity-book',
+      actionLabel: 'Open Activity Book',
       preview: [
-        'Privacy Panda story activities',
-        'Digital citizenship games',
-        'Role-playing scenarios',
-        'Group discussion prompts',
-        'Creative project ideas'
+        'Activity Book: structured activities on the site',
+        'Privacy Panda (/privacy-panda): interactive story experience',
+        'No ZIP download — everything runs in the browser',
+        'Supplement with coloring sheets and certificates under Downloads'
       ]
     },
     {
       id: 'assessment-tools',
       title: 'Assessment & Evaluation Tools',
-      description: 'Comprehensive assessment materials for measuring student learning.',
+      description: 'Use the live privacy assessments on PandaGarde (printable rubric PDFs are not bundled as a file yet).',
       category: 'assessments',
       gradeLevel: 'All',
       duration: 'Variable',
       completed: false,
       icon: FileText,
-      downloadUrl: '/downloads/assessment-tools.pdf',
+      navigateTo: '/quick-assessment',
+      actionLabel: 'Open Quick Assessment',
       preview: [
-        'Pre and post-assessment quizzes',
-        'Performance-based assessments',
-        'Portfolio evaluation rubrics',
-        'Self-reflection worksheets',
-        'Peer evaluation forms'
+        'Quick Assessment and full Privacy Assessment flows are functional',
+        'Great for pre/post checks with families or older students',
+        'Portfolio rubrics as PDF: not shipped — use “Mark as used” to track your own workflow'
       ]
     },
     {
       id: 'teacher-training',
-      title: 'Teacher Training Materials',
-      description: 'Professional development resources for educators.',
+      title: 'Teacher Training & Implementation',
+      description: 'Implementation guide and educator-focused context — professional-development PDF is not a separate download yet.',
       category: 'training',
       gradeLevel: 'All',
       duration: '8 hours',
       completed: false,
       icon: GraduationCap,
-      downloadUrl: '/downloads/teacher-training.pdf',
+      navigateTo: '/implementation-guide',
+      actionLabel: 'Open implementation guide',
       preview: [
-        'Privacy education best practices',
-        'Classroom management strategies',
-        'Parent communication guides',
-        'Technology integration tips',
-        'Ongoing support resources'
+        'Step-by-step implementation content on the site',
+        'Pair with Resources → Educator toolkit and discussion guides',
+        'Contact us for district / PD questions'
       ]
     },
     {
       id: 'presentation-slides',
       title: 'Presentation Slides',
-      description: 'Ready-to-use PowerPoint presentations for each lesson.',
+      description: 'Ready-made slide decks are not hosted as downloads yet. Join the pilot to help prioritize educator decks.',
       category: 'presentations',
       gradeLevel: 'All',
       duration: 'Variable',
       completed: false,
       icon: Presentation,
-      downloadUrl: '/downloads/presentation-slides.zip',
+      navigateTo: '/pilot',
+      actionLabel: 'Learn about the pilot',
       preview: [
-        'Visual lesson presentations',
-        'Interactive slide activities',
-        'Video integration examples',
-        'Discussion prompts',
-        'Assessment checkpoints'
+        'No presentation-slides.zip on the server yet (previously advertised in error)',
+        'Pilot program: early access to educator materials we are building',
+        'Meanwhile: use safety posters HTML/PDF and Resources for visual aids'
       ]
     },
     {
       id: 'student-handouts',
-      title: 'Student Handouts & Worksheets',
-      description: 'Printable materials for student use in lessons.',
+      title: 'Student Handouts & Printables',
+      description: 'Real printables: coloring sheets, certificates, posters, and family agreement — all on the site.',
       category: 'handouts',
       gradeLevel: 'All',
       duration: 'Variable',
       completed: false,
       icon: FileText,
-      downloadUrl: '/downloads/student-handouts.zip',
+      navigateTo: '/downloads/coloring-sheets',
+      actionLabel: 'Open coloring sheets',
       preview: [
-        'Vocabulary worksheets',
-        'Reflection journals',
-        'Activity sheets',
-        'Reference guides',
-        'Certificate templates'
+        'Coloring sheets, certificates, safety posters, family agreement: linked from Resources → Printables',
+        'This button goes to Coloring Sheets first; use Resources for the full printable set',
+        'Bundled “student-handouts.zip” does not exist'
       ]
     }
   ];
@@ -215,13 +217,16 @@ const EducatorToolsPage: React.FC = () => {
   }, []);
 
   const handleResourceStart = (resource: Resource) => {
-    // Special handling for classroom activities - navigate to dedicated page
     if (resource.id === 'classroom-activities') {
-      navigate('/classroom-activities');
+      navigate(resource.navigateTo);
       return;
     }
     setSelectedResource(resource);
     setShowResource(true);
+  };
+
+  const goToResource = (resource: Resource) => {
+    navigate(resource.navigateTo);
   };
 
   const handleResourceComplete = (resourceId: string) => {
@@ -253,13 +258,25 @@ const EducatorToolsPage: React.FC = () => {
   return (
     <PageLayout
       title="Educator Tools"
-      subtitle="Comprehensive resources and materials for teachers and educators to teach digital privacy and online safety in the classroom. Everything you need to educate the next generation!"
+      subtitle="What works today on PandaGarde: classroom activities, interactive content, assessments, printables, and guides. Packaged PDF curricula and slide ZIP files are not on the server yet — cards link to live pages or the pilot program."
       icon={GraduationCap}
       badge="EDUCATOR TOOLS"
       breadcrumbs={true}
     >
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+        <div
+          className="rounded-xl border border-amber-200 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-800 px-4 py-3 mb-6 text-sm"
+          style={{ color: 'var(--gray-800)' }}
+          role="status"
+        >
+          <strong className="text-amber-900 dark:text-amber-100">Note for educators:</strong>{' '}
+          Older copy referenced PDF and ZIP downloads that are not in this build. Each card now opens a{' '}
+          <strong>real page</strong> on the site or the <Link to="/pilot" className="underline font-medium text-amber-900 dark:text-amber-100">pilot</Link>{' '}
+          for upcoming packs. Questions?{' '}
+          <Link to="/contact" className="underline font-medium text-amber-900 dark:text-amber-100">Contact us</Link>.
+        </div>
+
         {/* Progress Section */}
         <div className="py-8">
           <div className="bg-white rounded-xl shadow-lg p-8 mb-8" style={{
@@ -384,21 +401,18 @@ const EducatorToolsPage: React.FC = () => {
                     >
                       {isCompleted ? 'Review' : 'View Details'}
                     </button>
-                    {resource.downloadUrl && (
-                      <button
-                        type="button"
-                        className="bg-gray-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-600 transition-all"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          // In a real app, this would trigger a download
-                          alert('Download would start here');
-                        }}
-                        aria-label="Download resource"
-                        title="Download resource"
-                      >
-                        <Download size={16} />
-                      </button>
-                    )}
+                    <button
+                      type="button"
+                      className="bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-700 transition-all"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        goToResource(resource);
+                      }}
+                      aria-label={resource.actionLabel}
+                      title={resource.actionLabel}
+                    >
+                      <ArrowRight size={16} aria-hidden />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -419,12 +433,18 @@ const EducatorToolsPage: React.FC = () => {
           preview={selectedResource?.preview}
           duration={selectedResource?.duration}
           gradeLevel={selectedResource?.gradeLevel}
-          downloadUrl={selectedResource?.downloadUrl}
-          onDownload={() => {
-            if (selectedResource?.downloadUrl) {
-              alert('Download would start here');
-            }
-          }}
+          primaryAction={
+            selectedResource
+              ? {
+                  label: selectedResource.actionLabel,
+                  onClick: () => {
+                    navigate(selectedResource.navigateTo);
+                    setShowResource(false);
+                    setSelectedResource(null);
+                  }
+                }
+              : undefined
+          }
           onComplete={() => {
             if (selectedResource) {
               handleResourceComplete(selectedResource.id);
@@ -440,7 +460,7 @@ const EducatorToolsPage: React.FC = () => {
             Ready to Teach Digital Privacy?
           </h2>
           <p className="text-lg mb-6 opacity-90 max-w-2xl mx-auto">
-            Access our comprehensive educator resources and start teaching digital privacy and online safety in your classroom today.
+            Start with classroom activities, printables, and assessments on the site today. Help us prioritize PDF curricula and slide decks via the pilot or contact.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
@@ -451,11 +471,18 @@ const EducatorToolsPage: React.FC = () => {
               Family Hub
             </Link>
             <Link
-              to="/contact"
+              to="/pilot"
               className="bg-green-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 transition-colors inline-flex items-center gap-2"
             >
+              <Presentation size={20} />
+              Educator pilot
+            </Link>
+            <Link
+              to="/contact"
+              className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors inline-flex items-center gap-2"
+            >
               <Award size={20} />
-              Contact Us
+              Contact
             </Link>
           </div>
           <p className="mt-4 text-sm opacity-95">

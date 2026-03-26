@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { LogIn, UserPlus, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from './AuthWrapper';
-import { useToast } from '../../hooks/useToast';
+import { useToast } from '../../contexts/ToastContext';
 import Logo from '../../components/Logo';
 
 type Tab = 'signin' | 'signup';
@@ -36,7 +36,7 @@ const LoginPage: React.FC = () => {
       if (error) {
         showError(error.message ?? 'Sign in failed');
       } else {
-        success('Welcome back!');
+        showSuccess('Welcome back!');
         navigate(from, { replace: true });
       }
     } catch {
@@ -66,7 +66,7 @@ const LoginPage: React.FC = () => {
       if (error) {
         showError(error.message ?? 'Sign up failed');
       } else {
-        success('Account created! Check your email to confirm your account.');
+        showSuccess('Account created! Check your email to confirm your account.');
         setTab('signin');
       }
     } catch {

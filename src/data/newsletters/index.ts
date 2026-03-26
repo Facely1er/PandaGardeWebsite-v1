@@ -3,99 +3,155 @@ import { NewsletterContent } from '../../types/newsletter';
 
 export const newsletterArchive: NewsletterContent[] = [
   {
-    id: '2024-12',
-    month: 'December',
-    year: 2024,
-    title: 'Holiday Privacy Safety',
+    id: '2026-04',
+    month: 'April',
+    year: 2026,
+    title: 'Your New Rights: Maryland MODPA in Action',
     featuredTopic: {
-      title: 'Protecting Your Family\'s Privacy During the Holidays',
-      description: 'Learn how to protect your family\'s privacy during the holiday season, including safe online shopping, gift app setup, and managing digital devices received as presents.',
-      articleUrl: '/guides/emergency-safety'
+      title: 'Maryland MODPA Is Now in Effect — Here's What Your Family Can Do',
+      description:
+        'The Maryland Online Data Privacy Act (MODPA) is now fully in force. Maryland families can request access to personal data held by apps and websites, correct errors, delete records, receive a portable copy, and opt out of sale and targeted advertising — including for their children. This issue walks through each right in plain language and shows exactly how to submit a request.',
+      articleUrl: '/digital-rights'
     },
     monthlyTip: {
-      title: 'Review App Permissions Before Downloading',
-      content: 'Before downloading any new apps for holiday activities or games, review what permissions they request. Only grant access to what\'s necessary for the app to function.',
-      linkUrl: '/guides/app-selection'
+      title: 'Submit Your First MODPA Opt-Out',
+      content:
+        'The fastest way to exercise a MODPA right is an opt-out of sale or targeted advertising — most apps must honor it within 15 days. If your school or EdTech provider uses the EduSoluce Privacy Portal, you can send a formal request there in minutes.',
+      linkUrl: '/digital-rights'
     },
     newActivities: [
       {
-        title: 'Holiday Privacy Activity Pack',
-        description: 'Fun activities to teach kids about privacy while celebrating the holidays.',
-        pageUrl: '/activity-book'
+        title: 'Digital Rights Module',
+        description: 'Walk through MODPA rights, key terms, and real-world examples in our beginner-friendly module.',
+        pageUrl: '/digital-rights'
       }
     ],
     privacyNews: [
       {
-        title: 'New COPPA Updates',
-        summary: 'Recent updates to children\'s privacy protection laws may affect how apps collect data.',
+        title: 'What MODPA Covers (and What It Doesn\'t)',
+        summary:
+          'MODPA applies to many commercial data controllers that process Maryland residents\' data, but exempts some non-profits, government agencies, and small businesses. If you use a mainstream app, game, or EdTech platform, MODPA almost certainly applies.',
+        linkUrl: '/digital-rights'
+      },
+      {
+        title: 'How to Submit a Deletion Request for Your Child\'s EdTech Data',
+        summary:
+          'Under MODPA (and FERPA), parents have the right to request deletion of personal data held by educational apps. Start with the service\'s privacy portal or contact form, cite MODPA, and keep a copy of your request.',
         linkUrl: '/resources'
       }
     ],
-    publishedAt: '2024-12-15',
+    publishedAt: '2026-04-15',
     featured: true
   },
   {
-    id: '2024-11',
-    month: 'November',
-    year: 2024,
-    title: 'Social Media Privacy for Teens',
+    id: '2026-03',
+    month: 'March',
+    year: 2026,
+    title: 'AI, Deepfakes, and Family Trust',
     featuredTopic: {
-      title: 'Essential Tips for Helping Teenagers Navigate Social Media Safely',
-      description: 'Practical strategies for parents to help their teenagers understand privacy settings, digital footprints, and safe social media practices.',
-      articleUrl: '/guides/age-specific'
+      title: 'Talking With Kids About AI-Generated Content',
+      description:
+        'Help your family spot synthetic images, voices, and messages. Practice simple habits: pause before sharing, verify unusual requests, and agree on when to ask a trusted adult—especially as chatbots and creative tools show up in homework, games, and social feeds.',
+      articleUrl: '/guides/conversation-approaches'
     },
     monthlyTip: {
-      title: 'Enable Two-Factor Authentication',
-      content: 'Help your teen set up two-factor authentication on all their social media accounts. This adds an extra layer of security to protect their accounts.',
+      title: 'Use a Family Verification Phrase',
+      content:
+        'Pick a short phrase only your household knows. If someone texts or calls claiming to be family in an emergency, kids know to ask for the phrase before acting or sending money or codes.',
+      linkUrl: '/guides/emergency-safety'
+    },
+    newActivities: [
+      {
+        title: 'Digital Footprint Check-In',
+        description: 'Walk through what appears online about each family member and what you want to keep private.',
+        pageUrl: '/digital-footprint'
+      }
+    ],
+    privacyNews: [
+      {
+        title: 'Maryland MODPA: Rights for families',
+        summary:
+          'Maryland’s Maryland Online Data Privacy Act (MODPA) gives residents powerful tools: know what data is collected, access and correct it, delete it, take a portable copy, and opt out of sale and targeted advertising. Our Digital Rights page explains MODPA in plain language and links to the EduSoluce Privacy Portal when your school or organization uses it.',
+        linkUrl: '/digital-rights'
+      }
+    ],
+    publishedAt: '2026-03-15',
+    featured: true
+  },
+  {
+    id: '2026-02',
+    month: 'February',
+    year: 2026,
+    title: 'Safer Internet Season at Home',
+    featuredTopic: {
+      title: 'Turning “Safer Internet” Into Weekly Habits',
+      description:
+        'Safer Internet Day is a great prompt to refresh passwords, privacy settings, and your family agreement—not as a one-day event, but as small, repeatable routines everyone can follow.',
+      articleUrl: '/guides/family-privacy-plan'
+    },
+    monthlyTip: {
+      title: 'Review Location and Camera Access',
+      content:
+        'On phones and tablets, audit which apps can use location, microphone, and camera. Turn off access for apps that do not need it, and talk with kids about why those permissions matter.',
       linkUrl: '/guides/device-setup'
     },
     newActivities: [
       {
-        title: 'Teen Privacy Handbook',
-        description: 'A comprehensive guide designed specifically for teenagers.',
-        pageUrl: '/teen-handbook'
+        title: 'Family Internet Agreement',
+        description: 'Download or update your written rules for screens, sharing, and asking for help.',
+        pageUrl: '/family-agreement'
       }
     ],
     privacyNews: [
       {
-        title: 'Platform Privacy Policy Changes',
-        summary: 'Major social media platforms have updated their privacy policies. Review what\'s changed.',
-        linkUrl: '/resources'
+        title: 'Platform Teen and Default Privacy Settings',
+        summary:
+          'Major apps still adjust defaults for minors and new accounts. Revisit settings after updates—what was private last year may not match today’s defaults.',
+        linkUrl: '/guides/age-specific'
       }
     ],
-    publishedAt: '2024-11-15',
+    publishedAt: '2026-02-15',
     featured: false
   },
   {
-    id: '2024-10',
-    month: 'October',
-    year: 2024,
-    title: 'Back to School Privacy',
+    id: '2026-01',
+    month: 'January',
+    year: 2026,
+    title: 'New Year Privacy Reset',
     featuredTopic: {
-      title: 'Privacy Considerations for Students Returning to School',
-      description: 'Important privacy considerations for students using educational apps, school-issued devices, and online learning platforms.',
-      articleUrl: '/guides/device-setup'
+      title: 'A Practical Privacy Reset for the Whole Family',
+      description:
+        'Start the year by cleaning up accounts from holiday gifts, unsubscribing from noisy apps, and aligning on what your family shares in group chats, school portals, and social spaces.',
+      articleUrl: '/guides/privacy-concerns'
     },
     monthlyTip: {
-      title: 'Review School App Permissions',
-      content: 'Take time to review what data educational apps collect and how they use it. You have the right to understand what information is being shared.',
+      title: 'Inventory New Devices and Accounts',
+      content:
+        'List every new tablet, console, or wearable from the holidays. For each, set parental controls, disable unnecessary data collection where you can, and note which adult account owns the purchase.',
       linkUrl: '/guides/app-selection'
     },
     newActivities: [
       {
-        title: 'Digital Citizenship Activities',
-        description: 'Activities to teach students about being good digital citizens.',
-        pageUrl: '/digital-citizenship'
+        title: 'Privacy Assessment',
+        description: 'Take a quick check-in on your family’s digital privacy strengths and next steps.',
+        pageUrl: '/privacy-assessment'
       }
     ],
     privacyNews: [
       {
-        title: 'FERPA Updates',
-        summary: 'Understanding your rights under the Family Educational Rights and Privacy Act.',
+        title: 'School and EdTech Data Practices',
+        summary:
+          'Districts and classroom tools often share more data than families expect. Review notices sent at the start of the term and ask how student information is used and protected.',
         linkUrl: '/resources'
+      },
+      {
+        title: 'Maryland: MODPA and student data',
+        summary:
+          'If you live in Maryland, MODPA adds state-level rights over personal data that can apply to many online services—not only consumer apps. Pair district notices with an understanding of access, deletion, and opt-out so you can advocate clearly for your child.',
+        linkUrl: '/digital-rights'
       }
     ],
-    publishedAt: '2024-10-15',
+    publishedAt: '2026-01-15',
     featured: false
   }
 ];
@@ -111,4 +167,3 @@ export const getLatestNewsletter = (): NewsletterContent | undefined => {
 export const getNewslettersByYear = (year: number): NewsletterContent[] => {
   return newsletterArchive.filter(newsletter => newsletter.year === year);
 };
-

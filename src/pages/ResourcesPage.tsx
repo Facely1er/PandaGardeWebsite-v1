@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MessageCircle, FileText, Shield, Download, Users, Award, Eye, Heart, Brain, BookOpen, Globe, ArrowRight } from 'lucide-react';
+import { MessageCircle, FileText, Shield, Download, Users, Award, Eye, Heart, Brain, BookOpen, Globe, ArrowRight, Scale, ExternalLink } from 'lucide-react';
 import PageLayout from '../components/layout/PageLayout';
+import { PRIVACY_PORTAL_URL } from '../config/portal';
 
 const ResourcesPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('comprehensive-guides');
@@ -22,6 +23,41 @@ const ResourcesPage: React.FC = () => {
       {/* Resource Categories */}
       <section className="resources-section" id="parent-resources" style={{ padding: '2rem 0', background: 'var(--white)' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+          <div
+            className="rounded-xl border-2 border-teal-200 bg-gradient-to-r from-teal-50 to-cyan-50 p-4 md:p-5 mb-8"
+            style={{ maxWidth: '100%' }}
+          >
+            <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-teal-600 text-white flex items-center justify-center">
+                <Scale size={20} aria-hidden />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-lg font-bold text-teal-900 mb-1">Maryland residents: MODPA rights</h3>
+                <p className="text-sm text-teal-800 mb-3 leading-relaxed">
+                  Under the Maryland Online Data Privacy Act (MODPA), Maryland residents can request access, correction, deletion, and portability of personal data, and opt out of sale and targeted advertising. Teens and parents can start with our plain-language module; schools using the EduSoluce Privacy Portal can submit requests there.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Link
+                    to="/digital-rights"
+                    className="inline-flex items-center gap-2 px-3 py-2 bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium rounded-lg transition-colors"
+                  >
+                    <BookOpen size={16} aria-hidden />
+                    Digital Rights and MODPA guide
+                  </Link>
+                  <a
+                    href={PRIVACY_PORTAL_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-3 py-2 bg-white text-teal-800 border-2 border-teal-600 text-sm font-medium rounded-lg hover:bg-teal-50 transition-colors"
+                  >
+                    <ExternalLink size={16} aria-hidden />
+                    Privacy Portal
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="resources-tabs" style={{ 
             display: 'flex', 
             gap: '0.5rem', 
@@ -105,13 +141,13 @@ const ResourcesPage: React.FC = () => {
                   <Brain size={20} className="text-purple-500" />
                   <h4>Educator's Privacy Toolkit</h4>
                 </div>
-                <p>Comprehensive resources for teachers and educators, including curriculum guides, lesson plans, assessment tools, and professional development materials.</p>
+                <p>Teacher-facing index: classroom activities, links to assessments, printables, and implementation content. Packaged PDF curricula and slide ZIPs are still in development.</p>
                 <div className="flex items-center gap-4 mt-4">
                   <Link to="/educator-tools" className="button">
                     <Download size={16} />
-                    View Toolkit
+                    View Educator Tools
                   </Link>
-                  <span className="text-sm text-gray-500">Full Year Curriculum</span>
+                  <span className="text-sm text-gray-500">Live pages + pilot</span>
                 </div>
               </div>
 
@@ -337,7 +373,7 @@ const ResourcesPage: React.FC = () => {
                 </div>
                 <p>Customizable template for creating family rules about digital privacy, device usage, and online behavior. Includes child-friendly language and signature spaces.</p>
                 <div className="flex items-center gap-4 mt-4">
-                  <Link to="/family-agreement" className="button">
+                  <Link to="/downloads/family-agreement" className="button">
                     <Download size={16} />
                     View Template
                   </Link>
@@ -352,7 +388,7 @@ const ResourcesPage: React.FC = () => {
                 </div>
                 <p>Printable certificates and badges to celebrate children's privacy learning milestones. Includes Privacy Panda certificates, Digital Citizen awards, and more.</p>
                 <div className="flex items-center gap-4 mt-4">
-                  <Link to="/certificates" className="button">
+                  <Link to="/downloads/certificates" className="button">
                     <Download size={16} />
                     Generate Certificates
                   </Link>
@@ -365,9 +401,9 @@ const ResourcesPage: React.FC = () => {
                   <Eye size={20} className="text-purple-500" />
                   <h4>Privacy Education Posters</h4>
                 </div>
-                <p>Set of 12 colorful posters featuring key privacy concepts, safety rules, and reminders. Perfect for home or classroom display.</p>
+                <p>Five printable classroom posters (plus a separate family agreement template). Each card on the posters page opens the matching section in the HTML file.</p>
                 <div className="flex items-center gap-4 mt-4">
-                  <Link to="/safety-posters" className="button">
+                  <Link to="/downloads/safety-posters" className="button">
                     <Download size={16} />
                     View Posters
                   </Link>
@@ -382,7 +418,7 @@ const ResourcesPage: React.FC = () => {
                 </div>
                 <p>Educational worksheets and activity sheets for reinforcing privacy concepts through writing, drawing, and reflection exercises.</p>
                 <div className="flex items-center gap-4 mt-4">
-                  <Link to="/coloring-sheets" className="button">
+                  <Link to="/downloads/coloring-sheets" className="button">
                     <Download size={16} />
                     View Worksheets
                   </Link>

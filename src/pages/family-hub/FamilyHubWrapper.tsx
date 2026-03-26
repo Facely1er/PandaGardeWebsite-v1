@@ -30,15 +30,25 @@ const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 };
 
 const FamilyHubWrapper: React.FC = () => {
+  const location = useLocation();
+  const isLogin = location.pathname.endsWith('/family-hub/login');
+  const mainPad =
+    isLogin ? '' : ' pb-[calc(6.25rem+env(safe-area-inset-bottom,0px))]';
+
   return (
     <AuthProvider>
       <div className="family-hub-theme family-hub-wrapper flex flex-col">
         <FamilyHubHeader />
-        <div className="flex-grow">
+        <div
+          id="main-content"
+          className={`flex-grow${mainPad}`}
+          tabIndex={-1}
+        >
           <Routes>
             <Route path="login" element={<LoginPage />} />
             <Route index element={<AuthGuard><FamilyDashboard /></AuthGuard>} />
             <Route path="profile" element={<AuthGuard><ProfilePage /></AuthGuard>} />
+            <Route path="settings" element={<Navigate to="/family-hub/profile" replace />} />
             <Route path="certificates" element={<AuthGuard><CertificatePage /></AuthGuard>} />
             <Route path="learning" element={<AuthGuard><LearningHub /></AuthGuard>} />
             <Route path="games" element={<AuthGuard><LearningHub /></AuthGuard>} />

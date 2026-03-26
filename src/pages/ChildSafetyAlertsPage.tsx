@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Bell, AlertTriangle, ShoppingBag, BarChart3, ArrowRight, Shield } from 'lucide-react';
+import { Bell, AlertTriangle, ShoppingBag, BarChart3, ArrowRight, Shield, Scale, ExternalLink } from 'lucide-react';
 import ChildSafetyAlerts from '../components/alerts/ChildSafetyAlerts';
 import ServiceNotificationCenter from '../components/ServiceNotificationCenter';
 import EmailCaptureInline from '../components/EmailCaptureInline';
+import { Link } from 'react-router-dom';
+import { PRIVACY_PORTAL_URL, PRIVACY_PORTAL_OPT_OUT_URL } from '../config/portal';
 
 const ChildSafetyAlertsPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'alerts' | 'notifications'>('notifications');
@@ -78,7 +80,57 @@ const ChildSafetyAlertsPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Tabs */}
+          {/* MODPA Policy Alert */}
+          <div className="rounded-xl border-2 border-teal-300 dark:border-teal-700 bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/40 dark:to-cyan-900/40 p-4 mb-6">
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0 w-9 h-9 rounded-full bg-teal-600 flex items-center justify-center">
+                <Scale className="h-4 w-4 text-white" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xs font-bold uppercase tracking-wide bg-teal-100 dark:bg-teal-800 text-teal-800 dark:text-teal-200 px-2 py-0.5 rounded">
+                    Policy Alert
+                  </span>
+                  <span className="text-xs text-teal-600 dark:text-teal-400 font-medium">Maryland MODPA — In Effect</span>
+                </div>
+                <h3 className="font-bold text-teal-900 dark:text-teal-100 mb-1 text-sm">
+                  Maryland families can now formally request deletion of their child's app data
+                </h3>
+                <p className="text-xs text-teal-800 dark:text-teal-200 mb-3 leading-relaxed">
+                  Under the Maryland Online Data Privacy Act (MODPA), you can submit access, correction, deletion, and opt-out requests to any qualifying data controller — including games, EdTech tools, and social platforms your children use. Requests must be honored within 45 days (15 days for opt-outs).
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Link
+                    to="/digital-rights"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold rounded-lg transition-colors"
+                  >
+                    <Scale size={12} />
+                    Learn MODPA rights
+                  </Link>
+                  <a
+                    href={PRIVACY_PORTAL_OPT_OUT_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-teal-900/50 text-teal-800 dark:text-teal-200 border border-teal-400 dark:border-teal-600 text-xs font-semibold rounded-lg hover:bg-teal-50 dark:hover:bg-teal-800/50 transition-colors"
+                  >
+                    <ExternalLink size={12} />
+                    Opt-out of data sale
+                  </a>
+                  <a
+                    href={PRIVACY_PORTAL_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-teal-900/50 text-teal-800 dark:text-teal-200 border border-teal-400 dark:border-teal-600 text-xs font-semibold rounded-lg hover:bg-teal-50 dark:hover:bg-teal-800/50 transition-colors"
+                  >
+                    <ExternalLink size={12} />
+                    Privacy Portal
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Tabs */}
         <div className="mb-6 border-b border-gray-200 dark:border-gray-700">
           <nav className="flex space-x-8">
             <button

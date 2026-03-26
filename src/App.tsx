@@ -226,6 +226,7 @@ function App() {
             <Route path="/accessibility" element={<AccessibilityPage />} />
 
             {/* Download Pages */}
+            {/* Short paths mirror /downloads/* for bookmarks and old links; prefer /downloads/* in new links */}
             <Route path="/downloads/coloring-sheets" element={<ColoringSheetsPage />} />
             <Route path="/coloring-sheets" element={<ColoringSheetsPage />} />
             <Route path="/downloads/safety-posters" element={<SafetyPostersPage />} />

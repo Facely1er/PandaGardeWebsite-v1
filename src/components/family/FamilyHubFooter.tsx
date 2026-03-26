@@ -1,162 +1,178 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { type LucideIcon, Home, Gamepad2, Map, Award, ArrowLeft, Mail, HelpCircle, Shield, ExternalLink, Scale } from 'lucide-react';
-import Logo from '../Logo';
+import { Link, useLocation } from 'react-router-dom';
+import {
+  type LucideIcon,
+  Home,
+  Gamepad2,
+  Map,
+  Award,
+  User,
+  Globe,
+  HelpCircle,
+  Mail,
+  Shield,
+  Scale,
+} from 'lucide-react';
 import { PRIVACY_PORTAL_URL } from '../../config/portal';
 
-interface FooterLink {
+interface TabItem {
   icon: LucideIcon;
-  href: string;
+  to: string;
   label: string;
-  isExternal?: boolean;
+  /** Match learning + games under one tab */
+  match?: (path: string) => boolean;
 }
 
-const FamilyHubFooter: React.FC = () => {
-  const hubLinks: FooterLink[] = [
-    { icon: Home, href: '/family-hub', label: 'Dashboard' },
-    { icon: Gamepad2, href: '/family-hub/learning', label: 'Learning Hub' },
-    { icon: Map, href: '/family-hub/journeys', label: 'Journeys' },
-    { icon: Award, href: '/family-hub/certificates', label: 'Certificates' },
-  ];
+const hubTabs: TabItem[] = [
+  {
+    icon: Home,
+    to: '/family-hub',
+    label: 'Home',
+    match: (path) => path === '/family-hub' || path === '/family-hub/',
+  },
+  {
+    icon: Gamepad2,
+    to: '/family-hub/learning',
+    label: 'Learn',
+    match: (path) =>
+      path.startsWith('/family-hub/learning') || path.startsWith('/family-hub/games'),
+  },
+  {
+    icon: Map,
+    to: '/family-hub/journeys',
+    label: 'Journeys',
+    match: (path) => path.startsWith('/family-hub/journeys'),
+  },
+  {
+    icon: Award,
+    to: '/family-hub/certificates',
+    label: 'Awards',
+    match: (path) => path.startsWith('/family-hub/certificates'),
+  },
+  {
+    icon: User,
+    to: '/family-hub/profile',
+    label: 'Profile',
+    match: (path) =>
+      path.startsWith('/family-hub/profile') || path.startsWith('/family-hub/settings'),
+  },
+];
 
-  const supportLinks: FooterLink[] = [
-    { icon: HelpCircle, href: '/faq', label: 'FAQ' },
-    { icon: Mail, href: '/contact', label: 'Contact Us' },
-    { icon: Shield, href: '/privacy', label: 'Privacy Policy' },
-    { icon: Scale, href: PRIVACY_PORTAL_URL, label: 'Maryland (MODPA) – Your rights', isExternal: true },
-  ];
+const FamilyHubFooter: React.FC = () => {
+  const { pathname } = useLocation();
+  const isLogin = pathname.endsWith('/family-hub/login');
+
+  if (isLogin) {
+    return (
+      <footer
+        className="mt-auto border-t border-white/10 bg-slate-950/95 backdrop-blur-md safe-area-bottom z-40"
+        role="contentinfo"
+      >
+        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 px-3 py-3 text-[11px] text-purple-200/90">
+          <Link to="/" className="font-medium text-white hover:text-amber-200 transition-colors">
+            Main website
+          </Link>
+          <span className="text-white/20" aria-hidden>
+            ·
+          </span>
+          <Link to="/privacy" className="hover:text-white transition-colors">
+            Privacy
+          </Link>
+          <Link to="/terms" className="hover:text-white transition-colors">
+            Terms
+          </Link>
+          <span className="text-white/20 hidden sm:inline" aria-hidden>
+            ·
+          </span>
+          <span className="text-purple-300/70 w-full text-center sm:w-auto">
+            © 2026 PandaGarde
+          </span>
+        </div>
+      </footer>
+    );
+  }
 
   return (
-    <footer className="bg-gradient-to-br from-violet-900 via-purple-800 to-indigo-900 text-white mt-auto">
-      {/* Wave separator */}
-      <div className="w-full overflow-hidden leading-none">
-        <svg 
-          className="relative block w-full h-6"
-          xmlns="http://www.w3.org/2000/svg" 
-          viewBox="0 0 1200 120" 
-          preserveAspectRatio="none"
+    <footer
+      className="fixed bottom-0 left-0 right-0 z-40 flex flex-col border-t border-white/10 bg-slate-950/95 backdrop-blur-md shadow-[0_-4px_24px_rgba(0,0,0,0.35)]"
+      role="contentinfo"
+    >
+      {/* Compact app “more” row — not a marketing sitemap */}
+      <div className="flex items-center justify-center gap-x-2 sm:gap-x-3 px-2 py-1.5 border-b border-white/5 overflow-x-auto">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-1 shrink-0 px-2 py-1 rounded-md text-[10px] sm:text-xs font-medium text-purple-200 hover:text-white hover:bg-white/10 transition-colors"
         >
-          <path 
-            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" 
-            className="fill-[#F5F3FF]"
-          />
-        </svg>
+          <Globe size={12} className="opacity-80" aria-hidden />
+          Site
+        </Link>
+        <Link
+          to="/faq"
+          className="inline-flex items-center gap-1 shrink-0 px-2 py-1 rounded-md text-[10px] sm:text-xs text-purple-200/90 hover:text-white hover:bg-white/10 transition-colors"
+        >
+          <HelpCircle size={12} className="opacity-80" aria-hidden />
+          FAQ
+        </Link>
+        <Link
+          to="/contact"
+          className="inline-flex items-center gap-1 shrink-0 px-2 py-1 rounded-md text-[10px] sm:text-xs text-purple-200/90 hover:text-white hover:bg-white/10 transition-colors"
+        >
+          <Mail size={12} className="opacity-80" aria-hidden />
+          Contact
+        </Link>
+        <Link
+          to="/privacy"
+          className="inline-flex items-center gap-1 shrink-0 px-2 py-1 rounded-md text-[10px] sm:text-xs text-purple-200/90 hover:text-white hover:bg-white/10 transition-colors"
+        >
+          <Shield size={12} className="opacity-80" aria-hidden />
+          Privacy
+        </Link>
+        <a
+          href={PRIVACY_PORTAL_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 shrink-0 px-2 py-1 rounded-md text-[10px] sm:text-xs text-purple-200/90 hover:text-white hover:bg-white/10 transition-colors max-w-[140px] sm:max-w-none truncate"
+        >
+          <Scale size={12} className="opacity-80 shrink-0" aria-hidden />
+          <span className="truncate">MODPA rights</span>
+        </a>
       </div>
 
-      <div className="container mx-auto px-4 py-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Brand Section */}
-          <div className="lg:col-span-1">
-            <Link to="/family-hub" className="flex items-center gap-2 group mb-2">
-              <div className="w-12 h-12 flex-shrink-0">
-                <Logo />
-              </div>
-              <div>
-                <span className="text-white font-bold text-base">Family Hub</span>
-                <span className="block text-purple-200 text-xs">Privacy Learning</span>
-              </div>
-            </Link>
-            <p className="text-purple-200 text-xs leading-relaxed">
-              Teaching digital privacy through fun, interactive games.
-            </p>
-          </div>
-
-          {/* Hub Navigation */}
-          <div>
-            <h4 className="text-white font-semibold mb-1.5 flex items-center gap-2 text-sm">
-              <Gamepad2 size={14} className="text-purple-300" />
-              Family Hub
-            </h4>
-            <ul className="space-y-0.5">
-              {hubLinks.map((link, index) => (
-                <li key={index}>
-                  <Link 
-                    to={link.href}
-                    className="flex items-center gap-1.5 text-purple-200 hover:text-white transition-colors text-xs py-0.5"
-                  >
-                    <link.icon size={12} />
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Support Links */}
-          <div>
-            <h4 className="text-white font-semibold mb-1.5 flex items-center gap-2 text-sm">
-              <HelpCircle size={14} className="text-purple-300" />
-              Help & Support
-            </h4>
-            <ul className="space-y-0.5">
-              {supportLinks.map((link, index) => (
-                <li key={index}>
-                  {link.isExternal ? (
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 text-purple-200 hover:text-white transition-colors text-xs py-0.5"
-                    >
-                      <link.icon size={12} />
-                      {link.label}
-                    </a>
-                  ) : (
-                    <Link 
-                      to={link.href}
-                      className="flex items-center gap-1.5 text-purple-200 hover:text-white transition-colors text-xs py-0.5"
-                    >
-                      <link.icon size={12} />
-                      {link.label}
-                    </Link>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Back to Main Site */}
-          <div>
-            <h4 className="text-white font-semibold mb-1.5 flex items-center gap-2 text-sm">
-              <ExternalLink size={14} className="text-purple-300" />
-              PandaGarde
-            </h4>
-            <p className="text-purple-200 text-xs mb-2">
-              Visit the main site for more resources.
-            </p>
-            <Link 
-              to="/"
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/10 hover:bg-white/20 rounded-lg text-white text-xs transition-colors"
+      {/* Bottom tab bar */}
+      <nav
+        className="grid grid-cols-5 min-h-[56px] sm:min-h-[60px] safe-area-bottom"
+        aria-label="Family Hub primary navigation"
+      >
+        {hubTabs.map(({ icon: Icon, to, label, match }) => {
+          const active = match ? match(pathname) : pathname === to;
+          return (
+            <Link
+              key={to}
+              to={to}
+              className={[
+                'flex flex-col items-center justify-center gap-0.5 min-w-0 px-1 py-1.5',
+                'touch-manipulation transition-colors active:opacity-80',
+                active
+                  ? 'text-amber-300 bg-white/10'
+                  : 'text-purple-300/80 hover:text-white hover:bg-white/5',
+              ].join(' ')}
+              aria-current={active ? 'page' : undefined}
             >
-              <ArrowLeft size={12} />
-              Main Website
+              <Icon
+                size={22}
+                strokeWidth={active ? 2.5 : 2}
+                className="shrink-0"
+                aria-hidden
+              />
+              <span className="text-[10px] sm:text-[11px] font-medium leading-tight text-center truncate max-w-full">
+                {label}
+              </span>
             </Link>
-          </div>
-        </div>
-
-        {/* Bottom Bar */}
-        <div className="border-t border-white/10 mt-3 pt-3">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
-            <p className="text-purple-300 text-xs">
-              © 2026 PandaGarde Family Hub. All rights reserved.
-            </p>
-            <div className="flex items-center gap-3 text-xs">
-              <Link to="/privacy" className="text-purple-300 hover:text-white transition-colors">
-                Privacy
-              </Link>
-              <Link to="/terms" className="text-purple-300 hover:text-white transition-colors">
-                Terms
-              </Link>
-              <Link to="/accessibility" className="text-purple-300 hover:text-white transition-colors">
-                Accessibility
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
+          );
+        })}
+      </nav>
     </footer>
   );
 };
 
 export default FamilyHubFooter;
-

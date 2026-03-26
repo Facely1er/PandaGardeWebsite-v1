@@ -199,7 +199,7 @@ const CertificatesPage: React.FC = () => {
             Create a personalized certificate for any privacy education achievement. Perfect for recognizing individual accomplishments!
           </p>
           <Link
-            to="/certificates"
+            to="/downloads/certificates"
             className="bg-white text-yellow-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
           >
             <Award size={20} />

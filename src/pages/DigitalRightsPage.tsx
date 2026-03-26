@@ -94,6 +94,38 @@ const DigitalRightsPage: React.FC = () => {
       ]
     },
     {
+      id: 'modpa-maryland',
+      title: 'MODPA: Maryland Online Data Privacy Act',
+      description: 'Learn about Maryland\'s privacy law and how Maryland residents can exercise opt-out, access, and other rights.',
+      category: 'privacy-laws',
+      difficulty: 'Beginner',
+      duration: '15 mins',
+      completed: false,
+      icon: Scale,
+      keyPoints: [
+        'MODPA applies to Maryland residents and certain businesses',
+        'You have the right to opt out of sale of personal data and targeted advertising',
+        'You can request access, correction, deletion, and portability of your data',
+        'Opt-out and consent revocation must be honored within 15–30 days',
+        'Schools and EdTech may use a privacy portal for requests'
+      ],
+      realWorldExamples: [
+        'Submitting an opt-out request through your school\'s privacy portal',
+        'Requesting a copy of your data from an EdTech provider',
+        'Asking to delete your child\'s data from a learning app',
+        'Revoking consent for targeted advertising'
+      ],
+      yourRights: [
+        'Right to know what personal data is collected',
+        'Right to access your personal data',
+        'Right to correct inaccurate data',
+        'Right to delete your data',
+        'Right to data portability',
+        'Right to opt out of sale and targeted advertising',
+        'Right to revoke consent (within 30 days)'
+      ]
+    },
+    {
       id: 'coppa-under-13',
       title: 'COPPA: Protection for Kids Under 13',
       description: 'Understand how the Children\'s Online Privacy Protection Act protects younger users.',
@@ -220,38 +252,6 @@ const DigitalRightsPage: React.FC = () => {
         'Right to have your voice heard in policy debates',
         'Right to expect continued privacy protection'
       ]
-    },
-    {
-      id: 'modpa-maryland',
-      title: 'MODPA: Maryland Online Data Privacy Act',
-      description: 'Learn about Maryland\'s privacy law and how Maryland residents can exercise opt-out, access, and other rights.',
-      category: 'privacy-laws',
-      difficulty: 'Beginner',
-      duration: '15 mins',
-      completed: false,
-      icon: Scale,
-      keyPoints: [
-        'MODPA applies to Maryland residents and certain businesses',
-        'You have the right to opt out of sale of personal data and targeted advertising',
-        'You can request access, correction, deletion, and portability of your data',
-        'Opt-out and consent revocation must be honored within 15–30 days',
-        'Schools and EdTech may use a privacy portal for requests'
-      ],
-      realWorldExamples: [
-        'Submitting an opt-out request through your school\'s privacy portal',
-        'Requesting a copy of your data from an EdTech provider',
-        'Asking to delete your child\'s data from a learning app',
-        'Revoking consent for targeted advertising'
-      ],
-      yourRights: [
-        'Right to know what personal data is collected',
-        'Right to access your personal data',
-        'Right to correct inaccurate data',
-        'Right to delete your data',
-        'Right to data portability',
-        'Right to opt out of sale and targeted advertising',
-        'Right to revoke consent (within 30 days)'
-      ]
     }
   ];
 
@@ -308,7 +308,7 @@ const DigitalRightsPage: React.FC = () => {
   return (
     <PageLayout
       title="Digital Rights & Law"
-      subtitle="Understanding privacy legislation and digital rights. Learn about laws that protect your data and how to exercise your rights as a digital citizen."
+      subtitle="Understanding privacy legislation and digital rights—including Maryland’s MODPA for residents—and how to exercise your rights as a digital citizen."
       icon={Scale}
       badge="DIGITAL RIGHTS & LAW - AGES 13-17"
       breadcrumbs={true}

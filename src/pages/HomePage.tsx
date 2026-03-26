@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, Baby, User, GraduationCap, ShoppingBag, BarChart3, AlertTriangle, Target, Settings, CheckCircle, MessageCircle, Globe, X } from 'lucide-react';
+import { BookOpen, Users, ArrowRight, Play, Heart, Sparkles, Star, Shield, Baby, User, GraduationCap, ShoppingBag, BarChart3, AlertTriangle, Target, Settings, CheckCircle, MessageCircle, Globe, X, Scale, ExternalLink } from 'lucide-react';
+import { PRIVACY_PORTAL_URL } from '../config/portal';
 import { getAllPersonas, FamilyPersonaProfiles, type FamilyPersonaProfile } from '../data/familyPersonaProfiles';
 import { useJourneyProgress } from '../hooks/useJourneyProgress';
 import { useFamily } from '../contexts/FamilyContext';
@@ -21,8 +22,9 @@ const HomePage: React.FC = () => {
     return !localStorage.getItem('pandagarde_pilot_banner_dismissed');
   });
 
-  // Single clear hero message (removed carousel for clarity)
-  const heroMessage = 'Help your kids stay safe online with age-appropriate privacy education. Fun activities, expert guidance, 100% free.';
+  // Complements the h1 without repeating “stay safe online”
+  const heroMessage =
+    "Age-appropriate privacy education with fun activities, expert guidance, and it's 100% free.";
 
   // Track banner display
   useEffect(() => {
@@ -270,15 +272,11 @@ const HomePage: React.FC = () => {
                 fontWeight: '800',
                 lineHeight: '1.2',
                 marginBottom: '1.25rem',
-                letterSpacing: '-0.02em',
-                wordWrap: 'break-word',
-                overflowWrap: 'break-word'
+                letterSpacing: '-0.02em'
               }}>
-                <span className="hero-heading-line1" style={{ display: 'block' }}>Help Your Kids Stay Safe</span>
-                <span className="hero-heading-highlight" style={{
-                  display: 'block'
-                }}>
-                  Online
+                <span className="hero-heading-row">Help Your Kids Stay</span>
+                <span className="hero-heading-row">
+                  Safe <span className="hero-heading-highlight">Online</span>
                 </span>
               </h1>
               <p
@@ -441,21 +439,21 @@ const HomePage: React.FC = () => {
               </p>
 
               {/* Simplified Stats */}
-              <div className="hero-stats" style={{ paddingTop: '1.5rem', borderTop: '1px solid #e2e8f0' }}>
+              <div className="hero-stats hero-stats--compact" style={{ paddingTop: '1rem', borderTop: '1px solid #e2e8f0' }}>
                 <div className="stat-item">
                   <span className="stat-number" style={{
                     display: 'block',
-                    fontSize: '2rem',
+                    fontSize: 'clamp(1.25rem, 3vw, 1.5rem)',
                     fontWeight: '800',
                     background: 'linear-gradient(135deg, #1B5E20 0%, #66BB6A 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
                     lineHeight: '1',
-                    marginBottom: '0.5rem'
+                    marginBottom: '0.25rem'
                   }}>3</span>
                   <span className="stat-label" style={{
-                    fontSize: '0.875rem',
+                    fontSize: '0.75rem',
                     color: '#64748b',
                     fontWeight: '500'
                   }}>Age Groups</span>
@@ -463,17 +461,17 @@ const HomePage: React.FC = () => {
                 <div className="stat-item">
                   <span className="stat-number" style={{
                     display: 'block',
-                    fontSize: '2rem',
+                    fontSize: 'clamp(1.25rem, 3vw, 1.5rem)',
                     fontWeight: '800',
                     background: 'linear-gradient(135deg, #1B5E20 0%, #66BB6A 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
                     lineHeight: '1',
-                    marginBottom: '0.5rem'
+                    marginBottom: '0.25rem'
                   }}>100%</span>
                   <span className="stat-label" style={{
-                    fontSize: '0.875rem',
+                    fontSize: '0.75rem',
                     color: '#64748b',
                     fontWeight: '500'
                   }}>Free to Use</span>
@@ -486,8 +484,9 @@ const HomePage: React.FC = () => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              justifyContent: 'flex-end',
-              gap: '1rem'
+              justifyContent: 'flex-start',
+              gap: '1rem',
+              width: '100%'
             }}>
               <div style={{
                 width: '100%',
@@ -635,6 +634,52 @@ const HomePage: React.FC = () => {
 
       <div id="main-content">
         <OnboardingFlow />
+
+        {/* MODPA awareness banner — shown to all visitors above the fold */}
+        <section
+          className="fade-in"
+          style={{ background: 'linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%)', borderBottom: '2px solid #4db6ac' }}
+        >
+          <div className="container" style={{ padding: '0.875rem 1.5rem' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.75rem', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', flex: 1, minWidth: 0 }}>
+                <div style={{ flexShrink: 0, width: '32px', height: '32px', borderRadius: '50%', background: '#00897b', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Scale size={16} color="white" />
+                </div>
+                <div>
+                  <span style={{ fontSize: '0.8125rem', fontWeight: '700', color: '#004d40', display: 'block', lineHeight: 1.3 }}>
+                    Maryland families: your new MODPA rights are active
+                  </span>
+                  <span style={{ fontSize: '0.75rem', color: '#00695c', lineHeight: 1.3 }}>
+                    Access, correct, delete your data — and opt out of sale and targeted advertising.
+                  </span>
+                </div>
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', flexShrink: 0 }}>
+                <Link
+                  to="/digital-rights"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', background: '#00897b', color: 'white', textDecoration: 'none', fontSize: '0.75rem', fontWeight: '600', padding: '0.375rem 0.875rem', borderRadius: '6px', transition: 'background 0.2s' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = '#00695c'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = '#00897b'; }}
+                >
+                  Learn your rights
+                  <ArrowRight size={12} />
+                </Link>
+                <a
+                  href={PRIVACY_PORTAL_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', background: 'white', color: '#00695c', textDecoration: 'none', fontSize: '0.75rem', fontWeight: '600', padding: '0.375rem 0.875rem', borderRadius: '6px', border: '1.5px solid #4db6ac', transition: 'background 0.2s' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = '#e0f2f1'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = 'white'; }}
+                >
+                  <ExternalLink size={12} />
+                  Privacy Portal
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
         
         {/* Feature Unlock Celebration */}
         {showUnlockCelebration && unlockedFeature && (

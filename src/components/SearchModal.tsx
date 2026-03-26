@@ -17,6 +17,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onResultClic
     type: [] as string[],
     category: [] as string[],
   });
+  const [popularSearches, setPopularSearches] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -78,19 +79,40 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onResultClic
   }, [isOpen]);
 
   useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+    let cancelled = false;
+    getPopularSearches().then((terms) => {
+      if (!cancelled) {
+        setPopularSearches(Array.isArray(terms) ? terms : []);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [isOpen, getPopularSearches]);
+
+  useEffect(() => {
+    let cancelled = false;
     const timeoutId = setTimeout(() => {
       if (inputValue.trim()) {
         performSearch(inputValue, filters);
-        // Update suggestions
-        const newSuggestions = getSuggestions(inputValue);
-        setSuggestions(newSuggestions);
+        getSuggestions(inputValue).then((newSuggestions) => {
+          if (!cancelled) {
+            setSuggestions(Array.isArray(newSuggestions) ? newSuggestions : []);
+          }
+        });
       } else {
         clearSearch();
         setSuggestions([]);
       }
     }, 300);
 
-    return () => clearTimeout(timeoutId);
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+    };
   }, [inputValue, performSearch, clearSearch, filters, getSuggestions]);
 
   const handleResultClick = (result: SearchResult) => {
@@ -337,7 +359,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onResultClic
                     Popular Searches
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    {getPopularSearches().map((term) => (
+                    {popularSearches.map((term) => (
                       <button
                         key={term}
                         onClick={() => handleRecentSearchClick(term)}

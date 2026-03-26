@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Download, Shield, AlertTriangle, Users, Lock } from 'lucide-react';
+import { Download, Shield, AlertTriangle, Users, Lock, Smartphone, LifeBuoy } from 'lucide-react';
 import { pdfService } from '../lib/pdfService';
 import { downloadService } from '../lib/database';
 import PageLayout from '../components/layout/PageLayout';
@@ -12,60 +12,73 @@ const SafetyPostersPage: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  /* IDs and titles match anchors in /public/downloads/safety-posters.html (single HTML, five distinct sections). */
   const safetyPosters = [
     {
-      id: 'privacy-basics',
-      title: 'Privacy Basics',
-      description: 'Essential privacy concepts for young learners',
-      ageGroup: 'Ages 5-8',
-      size: '11" x 17"',
-      icon: Shield,
-      downloadUrl: '/downloads/safety-posters.html#privacy-basics'
-    },
-    {
-      id: 'online-safety-rules',
-      title: 'Online Safety Rules',
-      description: 'Simple rules for safe internet use',
-      ageGroup: 'Ages 6-10',
-      size: '11" x 17"',
-      icon: AlertTriangle,
-      downloadUrl: '/downloads/safety-posters.html#online-safety-rules'
-    },
-    {
-      id: 'password-protection',
-      title: 'Password Protection',
-      description: 'How to create and protect strong passwords',
-      ageGroup: 'Ages 8-12',
-      size: '11" x 17"',
+      id: 'password-safety',
+      title: 'Password Safety',
+      description: 'Strong, secret passwords — opens this poster in the printable HTML.',
+      ageGroup: 'Ages 5–10',
+      size: '11" × 17"',
       icon: Lock,
-      downloadUrl: '/downloads/safety-posters.html#password-protection'
+      downloadUrl: '/downloads/safety-posters.html#password-safety',
+      previewBackground: 'linear-gradient(145deg, #ecfdf5 0%, #6ee7b7 55%, #34d399 100%)',
+      iconColor: '#047857'
     },
     {
-      id: 'family-privacy-agreement',
-      title: 'Family Privacy Agreement',
-      description: 'Guidelines for family digital privacy',
-      ageGroup: 'All Ages',
-      size: '8.5" x 11"',
-      icon: Users,
-      downloadUrl: '/downloads/family-agreement.html'
-    },
-    {
-      id: 'cyberbullying-prevention',
-      title: 'Cyberbullying Prevention',
-      description: 'Recognizing and preventing online bullying',
-      ageGroup: 'Ages 9-13',
-      size: '11" x 17"',
-      icon: AlertTriangle,
-      downloadUrl: '/downloads/safety-posters.html#cyberbullying-prevention'
-    },
-    {
-      id: 'digital-footprint-awareness',
-      title: 'Digital Footprint Awareness',
-      description: 'Understanding your online presence',
-      ageGroup: 'Ages 10-14',
-      size: '11" x 17"',
+      id: 'personal-information',
+      title: 'Personal Information',
+      description: 'Keep name, address, and school private — opens this poster in the printable HTML.',
+      ageGroup: 'Ages 6–12',
+      size: '11" × 17"',
       icon: Shield,
-      downloadUrl: '/downloads/safety-posters.html#digital-footprint-awareness'
+      downloadUrl: '/downloads/safety-posters.html#personal-information',
+      previewBackground: 'linear-gradient(145deg, #eff6ff 0%, #93c5fd 50%, #3b82f6 100%)',
+      iconColor: '#1e40af'
+    },
+    {
+      id: 'stranger-danger',
+      title: 'Stranger Safety Online',
+      description: 'People you do not know — opens this poster in the printable HTML.',
+      ageGroup: 'Ages 6–12',
+      size: '11" × 17"',
+      icon: AlertTriangle,
+      downloadUrl: '/downloads/safety-posters.html#stranger-danger',
+      previewBackground: 'linear-gradient(145deg, #fff7ed 0%, #fdba74 45%, #f97316 100%)',
+      iconColor: '#9a3412'
+    },
+    {
+      id: 'app-safety',
+      title: 'App Safety',
+      description: 'Ask before downloading apps — opens this poster in the printable HTML.',
+      ageGroup: 'Ages 6–12',
+      size: '11" × 17"',
+      icon: Smartphone,
+      downloadUrl: '/downloads/safety-posters.html#app-safety',
+      previewBackground: 'linear-gradient(145deg, #faf5ff 0%, #d8b4fe 40%, #a855f7 100%)',
+      iconColor: '#6b21a8'
+    },
+    {
+      id: 'ask-for-help',
+      title: 'When to Ask for Help',
+      description: 'Talk to a trusted adult — opens this poster in the printable HTML.',
+      ageGroup: 'All ages',
+      size: '11" × 17"',
+      icon: LifeBuoy,
+      downloadUrl: '/downloads/safety-posters.html#ask-for-help',
+      previewBackground: 'linear-gradient(145deg, #fef2f2 0%, #fca5a5 40%, #ef4444 100%)',
+      iconColor: '#991b1b'
+    },
+    {
+      id: 'family-agreement',
+      title: 'Family Internet Agreement',
+      description: 'Separate printable template — not part of the poster HTML file.',
+      ageGroup: 'All ages',
+      size: '8.5" × 11"',
+      icon: Users,
+      downloadUrl: '/downloads/family-agreement.html',
+      previewBackground: 'linear-gradient(145deg, #f5f3ff 0%, #c4b5fd 45%, #7c3aed 100%)',
+      iconColor: '#5b21b6'
     }
   ];
 
@@ -171,9 +184,12 @@ const SafetyPostersPage: React.FC = () => {
                 className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
                 style={{ backgroundColor: 'var(--card-color)' }}
               >
-                <div className="aspect-w-4 aspect-h-3 bg-gray-100">
-                  <div className="w-full h-48 bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
-                    <IconComponent size={48} className="text-blue-600" />
+                <div className="aspect-w-4 aspect-h-3 overflow-hidden rounded-t-xl">
+                  <div
+                    className="w-full h-48 flex items-center justify-center"
+                    style={{ background: poster.previewBackground }}
+                  >
+                    <IconComponent size={48} style={{ color: poster.iconColor }} aria-hidden />
                   </div>
                 </div>
                 
@@ -216,7 +232,7 @@ const SafetyPostersPage: React.FC = () => {
             Complete Poster Collection
           </h2>
           <p className="text-lg mb-6 opacity-90">
-            Download all 6 safety posters in one package. Perfect for educators setting up comprehensive privacy education displays!
+            Download all five safety posters in one PDF. (The family agreement is a separate printable — see the card above.)
           </p>
           <button
             onClick={() => handleDownload('all-posters', 'Complete Safety Poster Collection')}
