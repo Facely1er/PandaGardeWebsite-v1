@@ -7,22 +7,26 @@
 import { childServiceCatalog, type ChildService } from '../data/childServiceCatalog';
 import { calculatePrivacyExposureIndex, getExposureLevel } from './privacyExposureIndex';
 import { getServiceRelationship, getSiblingServices } from '../data/serviceRelationships';
+import { getDataChainsForServices, getUniqueBrokersForServices, type ServiceDataChain } from '../data/dataBrokerNetwork';
 
 /** Map app category to where the app is typically used: school (EdTech), home, or in-between (both / everywhere). */
 function getUsageContext(category: string): UsageContext {
-  if (category === 'education') {
+  // edtech = school-assigned platforms (LMS, assessment, classroom tools)
+  // education = family-chosen learning apps (Khan Academy, Duolingo, etc.)
+  if (category === 'edtech' || category === 'education') {
     return 'school';
   }
   if (category === 'streaming' || category === 'creative') {
     return 'home';
   }
-  return 'in-between'; // social-media, messaging, gaming, other
+  // ai apps used everywhere — social media, messaging, gaming, ai, other
+  return 'in-between';
 }
 
 const CONTEXT_LABELS: Record<UsageContext, { label: string; description: string }> = {
   school: {
     label: 'At school & learning',
-    description: 'Apps used for school or learning (e.g. classroom tools, homework). Data from these can be shared with schools or vendors.'
+    description: 'Apps used for school or learning — including school-assigned platforms (LMS, assessment tools) and family-chosen education apps. School-assigned apps expose your child\'s data even without a family choice.'
   },
   home: {
     label: 'At home',
@@ -46,6 +50,42 @@ export interface FootprintAnalysis {
   dataSharingNetwork: DataSharingNode[];
   recommendations: Recommendation[];
   privacyScore: number; // 0-100, higher = better privacy
+  /** Deep trace: 3rd/4th party trackers and data broker chains for tracked services */
+  dataBrokerAnalysis: DataBrokerAnalysis;
+  /** AI-specific risks for any AI category apps in the family's list */
+  aiRiskSummary: AiRiskSummary | null;
+}
+
+/** Summary of 3rd-party and 4th-party (data broker) data flows */
+export interface DataBrokerAnalysis {
+  totalMappedServices: number;
+  totalUniqueThirdParties: number;
+  totalUniqueBrokers: number;
+  /** Per-service chain entries, only for services we have mapping data for */
+  serviceChains: Array<{
+    serviceId: string;
+    serviceName: string;
+    thirdPartyCount: number;
+    brokerCount: number;
+    chainSummary: string;
+    chainRiskLevel: 'low' | 'medium' | 'high' | 'very-high';
+  }>;
+  /** Brokers that appear across MULTIPLE services — data convergence risk */
+  crossServiceBrokers: Array<{
+    name: string;
+    type: string;
+    seenInServices: string[]; // service names
+    note: string;
+  }>;
+}
+
+/** Summary of AI-specific privacy risks */
+export interface AiRiskSummary {
+  totalAiApps: number;
+  trainingDataRisk: boolean;    // at least one app uses conversations for AI training
+  noFerpaApps: string[];        // AI apps with no FERPA compliance
+  highRiskAiApps: string[];     // very-high risk AI apps
+  keyWarnings: string[];
 }
 
 export type UsageContext = 'school' | 'home' | 'in-between';
@@ -231,6 +271,14 @@ export class FootprintAnalyzer {
         dataShared.push('Game Progress', 'In-Game Purchases', 'Social Interactions');
       } else if (risk.category === 'streaming') {
         dataShared.push('Viewing History', 'Preferences', 'Device Information');
+      } else if (risk.category === 'edtech') {
+        dataShared.push('Student Records', 'Learning Analytics', 'Assessment Data', 'Usage Behavior', 'Behavioral Profiles');
+      } else if (risk.category === 'education') {
+        dataShared.push('Learning Progress', 'Performance Data', 'Usage Patterns');
+      } else if (risk.category === 'ai') {
+        dataShared.push('Conversation History', 'Prompts & Queries', 'Personal Disclosures', 'AI Training Data');
+      } else if (risk.category === 'telecom') {
+        dataShared.push('Real-Time Location', 'Call & SMS Metadata', 'Device Identifiers (IMEI/IMSI)', 'App & Data Traffic Patterns');
       }
 
       let networkRiskLevel: 'low' | 'medium' | 'high' = 'low';
@@ -272,6 +320,12 @@ export class FootprintAnalyzer {
       averageExposureIndex
     );
 
+    // Deep trace: data broker analysis
+    const dataBrokerAnalysis = this.analyzeDataBrokerChains(serviceIds, serviceRisks);
+
+    // AI risk summary
+    const aiRiskSummary = this.analyzeAiRisks(serviceRisks);
+
     return {
       familyScore: footprintScore,
       totalServices,
@@ -282,7 +336,9 @@ export class FootprintAnalyzer {
       serviceRisks,
       dataSharingNetwork,
       recommendations,
-      privacyScore
+      privacyScore,
+      dataBrokerAnalysis,
+      aiRiskSummary
     };
   }
 
@@ -325,6 +381,29 @@ export class FootprintAnalyzer {
     averageExposure: number
   ): Recommendation[] {
     const recommendations: Recommendation[] = [];
+
+    // School-assigned services — involuntary exposure
+    const schoolAssignedServices = serviceRisks.filter(r => {
+      const service = childServiceCatalog.find(s => s.id === r.serviceId);
+      return service?.schoolAssigned === true;
+    });
+    if (schoolAssignedServices.length > 0) {
+      recommendations.push({
+        id: 'school-assigned-exposure',
+        priority: 'high',
+        category: 'privacy',
+        title: 'School-Assigned Apps — Involuntary Exposure',
+        description: `Your child uses ${schoolAssignedServices.length} app${schoolAssignedServices.length > 1 ? 's' : ''} assigned by school. Unlike family-chosen apps, you may have limited control over these — but you still have rights.`,
+        actionItems: [
+          'Ask your school for a list of all EdTech vendors they use and their data agreements',
+          'Under FERPA, you have the right to review your child\'s education records — including digital ones',
+          'Request data deletion for school-assigned tools your child no longer uses',
+          'Ask your school district whether each vendor is FERPA- and COPPA-compliant',
+          'Check state laws (e.g. Student Privacy laws) for additional protections in your state'
+        ],
+        affectedServices: schoolAssignedServices.map(r => r.serviceId)
+      });
+    }
 
     // High exposure services
     const highRiskServices = serviceRisks.filter(r => r.exposureIndex >= 70);
@@ -421,10 +500,145 @@ export class FootprintAnalyzer {
       });
     }
 
+    // Telecom recommendation — carrier data is the deepest reach possible
+    const telecomServices = serviceRisks.filter(r => r.category === 'telecom');
+    if (telecomServices.length > 0) {
+      recommendations.push({
+        id: 'telecom-location-data',
+        priority: 'high',
+        category: 'privacy',
+        title: 'Mobile Carrier — Real-Time Location & Data Broker Risk',
+        description: `Your family's mobile carrier${telecomServices.length > 1 ? 's' : ''} (${telecomServices.map(r => r.serviceName).join(', ')}) ${telecomServices.length > 1 ? 'have' : 'has'} the deepest access of any service — continuous location, call metadata, and device identifiers — and all major US carriers have a history of selling this data to brokers.`,
+        actionItems: [
+          'Opt out of carrier advertising programs: look for "Advertising & Analytics" in your account settings',
+          'Enable parental controls via your carrier\'s family safety app (Verizon Smart Family, AT&T Secure Family, T-Mobile FamilyMode)',
+          'Review your carrier\'s privacy policy to understand what data is retained and for how long',
+          'Request deletion of advertising profile data via your carrier\'s Privacy Center',
+          'Under CPNI rules, you can ask your carrier to restrict how they use your calling data'
+        ],
+        affectedServices: telecomServices.map(r => r.serviceId)
+      });
+    }
+
+    // AI-specific recommendation
+    const aiServices = serviceRisks.filter(r => r.category === 'ai');
+    if (aiServices.length > 0) {
+      const highRiskAi = aiServices.filter(r => r.exposureIndex >= 70);
+      const trainingRiskApps = aiServices.filter(r =>
+        ['chatgpt', 'character-ai', 'grammarly', 'snapchat-my-ai', 'meta-ai', 'perplexity-ai'].includes(r.serviceId)
+      );
+      recommendations.push({
+        id: 'ai-apps-risk',
+        priority: 'high',
+        category: 'privacy',
+        title: 'AI Apps — Conversation Data & Training Risk',
+        description: `Your family uses ${aiServices.length} AI app${aiServices.length > 1 ? 's' : ''}${trainingRiskApps.length > 0 ? `, including ${trainingRiskApps.length} that may use your child's conversations to train their AI models` : ''}.`,
+        actionItems: [
+          'Review each AI app\'s settings and disable "improve the model" / training data opt-ins',
+          'Regularly delete AI conversation history in each app',
+          'Remind your child: never share passwords, home address, school name, or mental health details with AI apps',
+          'AI apps do not have FERPA protection unless the school has an enterprise agreement — do not use consumer AI for school work',
+          highRiskAi.length > 0
+            ? `Review ${highRiskAi.map(r => r.serviceName).join(', ')} — these have very high privacy risk scores`
+            : 'Review the privacy settings on all AI apps in your list'
+        ],
+        affectedServices: aiServices.map(r => r.serviceId)
+      });
+    }
+
     return recommendations.sort((a, b) => {
       const priorityOrder = { high: 3, medium: 2, low: 1 };
       return priorityOrder[b.priority] - priorityOrder[a.priority];
     });
+  }
+
+  /**
+   * Analyse 3rd-party and 4th-party (data broker) data chains for the tracked services
+   */
+  private analyzeDataBrokerChains(
+    serviceIds: string[],
+    serviceRisks: ServiceRisk[]
+  ): DataBrokerAnalysis {
+    const chains = getDataChainsForServices(serviceIds);
+    const uniqueBrokers = getUniqueBrokersForServices(serviceIds);
+
+    // Collect unique 3rd-party trackers across all chains
+    const trackerNames = new Set<string>();
+    chains.forEach(c => c.thirdPartyTrackers.forEach(t => trackerNames.add(t.name)));
+
+    const serviceChains = chains.map(chain => {
+      const risk = serviceRisks.find(r => r.serviceId === chain.serviceId);
+      return {
+        serviceId: chain.serviceId,
+        serviceName: risk?.serviceName || chain.serviceId,
+        thirdPartyCount: chain.thirdPartyTrackers.length,
+        brokerCount: chain.fourthPartyBrokers.length,
+        chainSummary: chain.chainSummary,
+        chainRiskLevel: chain.chainRiskLevel
+      };
+    });
+
+    // Cross-service brokers: brokers that appear in 2+ services = data convergence
+    const crossServiceBrokers = uniqueBrokers
+      .filter(b => b.seenIn.length >= 2)
+      .map(b => ({
+        name: b.name,
+        type: b.type,
+        seenInServices: b.seenIn.map(id => {
+          const s = childServiceCatalog.find(svc => svc.id === id);
+          return s?.name || id;
+        }),
+        note: `Receives data from ${b.seenIn.length} of your family\'s apps — this broker can build a combined profile of your child across multiple platforms.`
+      }));
+
+    return {
+      totalMappedServices: chains.length,
+      totalUniqueThirdParties: trackerNames.size,
+      totalUniqueBrokers: uniqueBrokers.length,
+      serviceChains,
+      crossServiceBrokers
+    };
+  }
+
+  /**
+   * Summarise AI-specific risks for any AI category apps in the family's list
+   */
+  private analyzeAiRisks(serviceRisks: ServiceRisk[]): AiRiskSummary | null {
+    const aiRisks = serviceRisks.filter(r => r.category === 'ai');
+    if (aiRisks.length === 0) {return null;}
+
+    const TRAINING_DATA_APPS = new Set(['chatgpt', 'character-ai', 'grammarly', 'snapchat-my-ai', 'meta-ai', 'perplexity-ai', 'google-gemini']);
+    const FERPA_NON_COMPLIANT = new Set(['chatgpt', 'character-ai', 'snapchat-my-ai', 'meta-ai', 'perplexity-ai', 'google-gemini', 'microsoft-copilot']);
+
+    const trainingDataRisk = aiRisks.some(r => TRAINING_DATA_APPS.has(r.serviceId));
+    const noFerpaApps = aiRisks
+      .filter(r => FERPA_NON_COMPLIANT.has(r.serviceId))
+      .map(r => r.serviceName);
+    const highRiskAiApps = aiRisks
+      .filter(r => r.exposureIndex >= 70)
+      .map(r => r.serviceName);
+
+    const keyWarnings: string[] = [];
+    if (trainingDataRisk) {
+      keyWarnings.push('One or more AI apps may use your child\'s conversations to train future AI models — check and disable training opt-ins.');
+    }
+    if (noFerpaApps.length > 0) {
+      keyWarnings.push(`${noFerpaApps.join(', ')} ${noFerpaApps.length === 1 ? 'has' : 'have'} no FERPA protection for consumer accounts — school use creates unprotected student data.`);
+    }
+    if (highRiskAiApps.length > 0) {
+      keyWarnings.push(`${highRiskAiApps.join(', ')} ${highRiskAiApps.length === 1 ? 'has' : 'have'} a very high privacy exposure score — consider limiting or removing access.`);
+    }
+    if (aiRisks.some(r => r.serviceId === 'character-ai')) {
+      keyWarnings.push('Character.AI is linked to lawsuits over harm to minors — this app is not recommended for children under 16.');
+    }
+
+    return {
+      totalAiApps: aiRisks.length,
+      trainingDataRisk,
+      noFerpaApps,
+      highRiskAiApps,
+      keyWarnings
+    };
   }
 }
 

@@ -1,214 +1,206 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { 
-  Menu, X, Home, Gamepad2, Award, Moon, Sun, 
-  ArrowLeft, Map, User, Bell
+import {
+  ArrowLeft,
+  MoreHorizontal,
+  Moon,
+  Sun,
+  Globe,
+  HelpCircle,
+  Mail,
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import Logo from '../Logo';
 
+const ROUTE_TITLES: { test: (p: string) => boolean; title: string }[] = [
+  { test: (p) => p.endsWith('/family-hub/login'), title: 'Sign in' },
+  { test: (p) => p === '/family-hub' || p === '/family-hub/', title: 'Family Hub' },
+  {
+    test: (p) =>
+      p.startsWith('/family-hub/learning') || p.startsWith('/family-hub/games'),
+    title: 'Learn',
+  },
+  { test: (p) => p.startsWith('/family-hub/journeys'), title: 'Journeys' },
+  { test: (p) => p.startsWith('/family-hub/certificates'), title: 'Certificates' },
+  {
+    test: (p) =>
+      p.startsWith('/family-hub/profile') || p.startsWith('/family-hub/settings'),
+    title: 'Profile',
+  },
+];
+
+function titleForPath(pathname: string): string {
+  return ROUTE_TITLES.find((r) => r.test(pathname))?.title ?? 'Family Hub';
+}
+
+function isHubHome(pathname: string) {
+  return pathname === '/family-hub' || pathname === '/family-hub/';
+}
+
 const FamilyHubHeader: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { pathname } = useLocation();
   const { theme, toggleTheme } = useTheme();
-  const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  const isLogin = pathname.endsWith('/family-hub/login');
+  const title = titleForPath(pathname);
+  const showBack = !isLogin && !isHubHome(pathname);
+
+  useEffect(() => setMenuOpen(false), [pathname]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Close mobile menu on route change
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location.pathname]);
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isMobileMenuOpen) {
-        setIsMobileMenuOpen(false);
+    if (!menuOpen) return;
+    const onDoc = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
       }
     };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isMobileMenuOpen]);
-
-  const navItems = [
-    { icon: Home, label: 'Dashboard', href: '/family-hub' },
-    { icon: Gamepad2, label: 'Learning Hub', href: '/family-hub/learning' },
-    { icon: Map, label: 'Journeys', href: '/family-hub/journeys' },
-    { icon: Award, label: 'Certificates', href: '/family-hub/certificates' },
-    { icon: User, label: 'Profile', href: '/family-hub/profile' },
-  ];
-
-  const isActive = (href: string) => {
-    if (href === '/family-hub') {
-      return location.pathname === '/family-hub';
-    }
-    return location.pathname.startsWith(href);
-  };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    document.addEventListener('mousedown', onDoc);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDoc);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [menuOpen]);
 
   return (
     <>
-      {/* Skip Links for Accessibility */}
       <div className="sr-only focus-within:not-sr-only">
-        <a 
-          href="#main-content" 
-          className="absolute top-0 left-0 p-4 bg-purple-700 text-white z-50 focus:outline-none"
+        <a
+          href="#main-content"
+          className="absolute left-0 top-0 z-[100] m-2 rounded-lg bg-violet-700 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white"
         >
           Skip to main content
         </a>
       </div>
 
-      <header 
-        className={`sticky top-0 z-50 transition-all duration-300 ${
-          isScrolled 
-            ? 'bg-gradient-to-r from-violet-700 via-purple-600 to-indigo-600 shadow-lg' 
-            : 'bg-gradient-to-r from-violet-600 via-purple-500 to-indigo-500'
-        }`}
+      <header
+        className="relative z-50 flex h-[52px] shrink-0 items-center justify-center border-b border-gray-200/90 bg-white/95 px-2 backdrop-blur-md dark:border-gray-700 dark:bg-gray-950/95 safe-area-top"
         role="banner"
       >
-        {/* Logo - Outside container for larger size */}
-        <Link 
-          to="/family-hub"
-          className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-3 group z-10"
-          aria-label="Family Hub - Go to dashboard"
-        >
-          <div className="w-12 h-12 flex-shrink-0">
-            <Logo />
-          </div>
-          <div className="hidden sm:block">
-            <span className="text-white font-bold text-xl">Family Hub</span>
-            <span className="block text-purple-200 text-sm">Privacy Learning</span>
-          </div>
-        </Link>
-
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16 pl-16 sm:pl-44">
-            {/* Spacer for logo */}
-            <div className="flex-shrink-0" />
-
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-1" role="navigation" aria-label="Family Hub navigation">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const active = isActive(item.href);
-                return (
-                  <Link
-                    key={item.href}
-                    to={item.href}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
-                      active
-                        ? 'bg-white text-purple-700'
-                        : 'text-white/90 hover:bg-white/20 hover:text-white'
-                    }`}
-                    aria-current={active ? 'page' : undefined}
-                  >
-                    <Icon size={18} />
-                    <span>{item.label}</span>
-                  </Link>
-                );
-              })}
-            </nav>
-
-            {/* Right Side Actions */}
-            <div className="flex items-center gap-2">
-              {/* Back to Main Site */}
-              <Link
-                to="/"
-                className="hidden sm:flex items-center gap-2 px-3 py-2 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors text-sm"
-                title="Back to main site"
-              >
-                <ArrowLeft size={16} />
-                <span className="hidden lg:inline">Main Site</span>
-              </Link>
-
-              {/* Theme Toggle */}
-              <button
-                onClick={toggleTheme}
-                className="p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
-                aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
-              >
-                {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-              </button>
-
-              {/* Notifications */}
-              <button
-                className="p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors relative"
-                aria-label="Notifications"
-              >
-                <Bell size={20} />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-amber-400 rounded-full" />
-              </button>
-
-              {/* Mobile Menu Button */}
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
-                aria-expanded={isMobileMenuOpen}
-                aria-controls="mobile-menu"
-                aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-              >
-                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
-          </div>
+        <div className="absolute left-1.5 top-1/2 flex -translate-y-1/2 items-center sm:left-3">
+          {isLogin ? (
+            <Link
+              to="/"
+              className="flex min-h-[44px] min-w-[44px] items-center justify-center gap-1 rounded-xl px-2 text-sm font-medium text-violet-700 touch-manipulation dark:text-violet-300"
+            >
+              <ArrowLeft className="h-5 w-5 shrink-0" aria-hidden />
+              <span className="hidden sm:inline">Website</span>
+            </Link>
+          ) : showBack ? (
+            <Link
+              to="/family-hub"
+              className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl text-violet-700 touch-manipulation dark:text-violet-300"
+              aria-label="Back to Family Hub home"
+            >
+              <ArrowLeft className="h-6 w-6" aria-hidden />
+            </Link>
+          ) : (
+            <Link
+              to="/family-hub"
+              className="flex min-h-[44px] min-w-[44px] items-center justify-center touch-manipulation"
+              aria-label="Family Hub home"
+            >
+              <div className="h-9 w-9">
+                <Logo />
+              </div>
+            </Link>
+          )}
         </div>
 
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div 
-            id="mobile-menu"
-            className="md:hidden bg-gradient-to-b from-purple-700 to-purple-800 border-t border-white/10"
-          >
-            <nav className="container mx-auto px-4 py-4" role="navigation" aria-label="Mobile navigation">
-              <div className="space-y-1">
-                {navItems.map((item) => {
-                  const Icon = item.icon;
-                  const active = isActive(item.href);
-                  return (
-                    <Link
-                      key={item.href}
-                      to={item.href}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all ${
-                        active
-                          ? 'bg-white text-purple-700'
-                          : 'text-white/90 hover:bg-white/10'
-                      }`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      <Icon size={20} />
-                      <span>{item.label}</span>
-                    </Link>
-                  );
-                })}
-                
-                {/* Divider */}
-                <div className="border-t border-white/10 my-3" />
-                
-                {/* Back to Main Site */}
-                <Link
-                  to="/"
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-white/80 hover:bg-white/10 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
+        <h1 className="pointer-events-none max-w-[58vw] truncate text-center text-base font-semibold tracking-tight text-gray-900 dark:text-white sm:max-w-[320px]">
+          {title}
+        </h1>
+
+        <div
+          className="absolute right-1.5 top-1/2 flex -translate-y-1/2 items-center sm:right-3"
+          ref={menuRef}
+        >
+          {isLogin ? (
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl text-gray-700 touch-manipulation dark:text-gray-200"
+              aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+            >
+              {theme === 'light' ? (
+                <Moon className="h-5 w-5" aria-hidden />
+              ) : (
+                <Sun className="h-5 w-5" aria-hidden />
+              )}
+            </button>
+          ) : (
+            <>
+              <button
+                type="button"
+                onClick={() => setMenuOpen((o) => !o)}
+                className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl text-gray-800 touch-manipulation dark:text-gray-100"
+                aria-expanded={menuOpen}
+                aria-haspopup="menu"
+                aria-label="More options"
+              >
+                <MoreHorizontal className="h-6 w-6" aria-hidden />
+              </button>
+              {menuOpen && (
+                <div
+                  className="absolute right-0 top-[calc(100%+4px)] w-56 overflow-hidden rounded-2xl border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-600 dark:bg-gray-800"
+                  role="menu"
                 >
-                  <ArrowLeft size={20} />
-                  <span>Back to Main Site</span>
-                </Link>
-              </div>
-            </nav>
-          </div>
-        )}
+                  <Link
+                    role="menuitem"
+                    to="/"
+                    className="flex items-center gap-3 px-4 py-3 text-sm text-gray-900 hover:bg-gray-50 dark:text-white dark:hover:bg-gray-700/60"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <Globe className="h-4 w-4 shrink-0 opacity-70" aria-hidden />
+                    Main website
+                  </Link>
+                  <Link
+                    role="menuitem"
+                    to="/faq"
+                    className="flex items-center gap-3 px-4 py-3 text-sm text-gray-900 hover:bg-gray-50 dark:text-white dark:hover:bg-gray-700/60"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <HelpCircle className="h-4 w-4 shrink-0 opacity-70" aria-hidden />
+                    FAQ
+                  </Link>
+                  <Link
+                    role="menuitem"
+                    to="/contact"
+                    className="flex items-center gap-3 px-4 py-3 text-sm text-gray-900 hover:bg-gray-50 dark:text-white dark:hover:bg-gray-700/60"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <Mail className="h-4 w-4 shrink-0 opacity-70" aria-hidden />
+                    Contact
+                  </Link>
+                  <button
+                    role="menuitem"
+                    type="button"
+                    className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-gray-900 hover:bg-gray-50 dark:text-white dark:hover:bg-gray-700/60"
+                    onClick={() => {
+                      toggleTheme();
+                      setMenuOpen(false);
+                    }}
+                  >
+                    {theme === 'light' ? (
+                      <Moon className="h-4 w-4 shrink-0 opacity-70" aria-hidden />
+                    ) : (
+                      <Sun className="h-4 w-4 shrink-0 opacity-70" aria-hidden />
+                    )}
+                    {theme === 'light' ? 'Dark mode' : 'Light mode'}
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </header>
     </>
   );
 };
 
 export default FamilyHubHeader;
-

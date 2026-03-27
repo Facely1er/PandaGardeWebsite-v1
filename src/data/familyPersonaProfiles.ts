@@ -1,6 +1,6 @@
 /**
  * Family Privacy Persona Profiles
- * Adapted for PandaGarde's family-focused privacy education platform
+ * Adapted for PandaGarde\'s family-focused privacy education platform
  */
 
 export interface FamilyPersonaProfile {

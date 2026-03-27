@@ -37,11 +37,11 @@ const FamilyHubWrapper: React.FC = () => {
 
   return (
     <AuthProvider>
-      <div className="family-hub-theme family-hub-wrapper flex flex-col">
+      <div className="family-hub-theme family-hub-wrapper flex h-dvh max-h-dvh min-h-0 flex-col overflow-hidden">
         <FamilyHubHeader />
         <div
           id="main-content"
-          className={`flex-grow${mainPad}`}
+          className={`flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden outline-none${mainPad}`}
           tabIndex={-1}
         >
           <Routes>

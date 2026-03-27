@@ -3,11 +3,21 @@ import type { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'com.pandagarde.familyhub',
   appName: 'Privacy Panda Family Hub',
-  webDir: 'dist',
+  // dist-mobile contains the family-hub build with index.html as the entry point
+  webDir: 'dist-mobile',
   server: {
     androidScheme: 'https',
-    allowNavigation: ['*'],
-    cleartext: false
+    // Only allow navigation to known PandaGarde and required third-party domains.
+    // '*' is intentionally avoided to reduce the attack surface.
+    allowNavigation: [
+      '*.pandagarde.com',
+      '*.supabase.co',
+      '*.google-analytics.com',
+      '*.googletagmanager.com',
+      '*.googleapis.com',
+      '*.sentry.io',
+    ],
+    cleartext: false,
   },
   android: {
     buildOptions: {

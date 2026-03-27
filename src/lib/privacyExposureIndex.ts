@@ -48,7 +48,10 @@ export function calculatePrivacyExposureIndex(serviceId: string): number | null 
     'messaging': 12,
     'gaming': 10,
     'streaming': 8,
+    'edtech': 10, // school-assigned: institutional data collection, limited parental control
     'education': 5,
+    'ai': 14,     // conversation data, training use, no FERPA — second only to social-media
+    'telecom': 15, // real-time location 24/7 + call metadata + device ID = maximum reach
     'creative': 5,
     'other': 10
   };

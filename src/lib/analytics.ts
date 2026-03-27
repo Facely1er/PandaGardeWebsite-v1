@@ -1,5 +1,13 @@
-// No-op stub — analytics disabled in no-backend mode.
-// No user data is tracked or sent to any external service.
+// GA4 analytics via the global gtag initialized in index.html (G-VEQXJHYNHG).
+
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+    dataLayer?: unknown[];
+  }
+}
+
+const GA_ID = 'G-VEQXJHYNHG';
 
 export const AnalyticsEvents = {
   USER_SIGNUP: 'user_signup',
@@ -40,21 +48,81 @@ export const AnalyticsEvents = {
   PILOT_LEARN_MORE_CLICKED: 'pilot_learn_more_clicked',
 } as const;
 
-export const initAnalytics = () => {};
-export const trackPageView = (_path: string, _title?: string) => {};
-export const trackEvent = (_eventName: string, _parameters?: Record<string, unknown>) => {};
-export const trackUserAction = (_action: string, _details?: Record<string, unknown>) => {};
+export const isAnalyticsEnabled = (): boolean =>
+  typeof window !== 'undefined' && typeof window.gtag === 'function';
+
+// gtag is already bootstrapped by the snippet in index.html; nothing extra needed here.
+export const initAnalytics = (): void => {};
+
+export const trackPageView = (path: string, title?: string): void => {
+  if (!isAnalyticsEnabled()) { return; }
+  window.gtag?.('event', 'page_view', {
+    page_path: path,
+    page_title: title ?? document.title,
+  });
+};
+
+export const trackEvent = (eventName: string, parameters?: Record<string, unknown>): void => {
+  if (!isAnalyticsEnabled()) { return; }
+  window.gtag?.('event', eventName, parameters);
+};
+
+export const trackUserAction = (action: string, details?: Record<string, unknown>): void => {
+  trackEvent(action, details);
+};
+
 export const trackContentEngagement = (
-  _contentType: string,
-  _action: string,
-  _contentId?: string,
-  _details?: Record<string, unknown>
-) => {};
-export const trackPerformance = (_metricName: string, _value: number, _unit?: string) => {};
-export const trackError = (_error: Error, _context?: Record<string, unknown>) => {};
-export const setUserProperties = (_properties: Record<string, unknown>) => {};
-export const setUserId = (_userId: string) => {};
-export const trackConversion = (_conversionType: string, _value?: number, _currency?: string) => {};
-export const isAnalyticsEnabled = () => false;
-export const optOutAnalytics = () => {};
-export const optInAnalytics = () => {};
+  contentType: string,
+  action: string,
+  contentId?: string,
+  details?: Record<string, unknown>
+): void => {
+  trackEvent('content_engagement', {
+    content_type: contentType,
+    action,
+    content_id: contentId,
+    ...details,
+  });
+};
+
+export const trackPerformance = (metricName: string, value: number, unit?: string): void => {
+  trackEvent('performance_metric', {
+    metric_name: metricName,
+    metric_value: value,
+    metric_unit: unit,
+  });
+};
+
+export const trackError = (error: Error, context?: Record<string, unknown>): void => {
+  trackEvent('error_occurred', {
+    error_message: error.message,
+    error_stack: error.stack,
+    ...context,
+  });
+};
+
+export const setUserProperties = (properties: Record<string, unknown>): void => {
+  if (!isAnalyticsEnabled()) { return; }
+  window.gtag?.('set', 'user_properties', properties);
+};
+
+export const setUserId = (userId: string): void => {
+  if (!isAnalyticsEnabled()) { return; }
+  window.gtag?.('config', GA_ID, { user_id: userId });
+};
+
+export const trackConversion = (conversionType: string, value?: number, currency?: string): void => {
+  trackEvent('conversion', { conversion_type: conversionType, value, currency });
+};
+
+export const optOutAnalytics = (): void => {
+  if (typeof window !== 'undefined') {
+    (window as Record<string, unknown>)[`ga-disable-${GA_ID}`] = true;
+  }
+};
+
+export const optInAnalytics = (): void => {
+  if (typeof window !== 'undefined') {
+    (window as Record<string, unknown>)[`ga-disable-${GA_ID}`] = false;
+  }
+};

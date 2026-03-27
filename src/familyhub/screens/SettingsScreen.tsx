@@ -50,7 +50,7 @@ const SettingsScreen: React.FC = () => {
             Your privacy is important to us. All data is stored locally on your device and is never shared with third parties.
           </p>
           <a
-            href="/privacy-policy"
+            href="https://www.pandagarde.com/privacy-policy"
             target="_blank"
             rel="noopener noreferrer"
             className="text-teal-600 dark:text-teal-400 hover:underline flex items-center gap-2 text-sm font-medium"
@@ -68,7 +68,7 @@ const SettingsScreen: React.FC = () => {
           </div>
           <div className="space-y-3">
             <a
-              href="/faq"
+              href="https://www.pandagarde.com/faq"
               target="_blank"
               rel="noopener noreferrer"
               className="block text-teal-600 dark:text-teal-400 hover:underline flex items-center gap-2 text-sm font-medium"
@@ -77,7 +77,7 @@ const SettingsScreen: React.FC = () => {
               <ExternalLink size={14} />
             </a>
             <a
-              href="/support"
+              href="https://www.pandagarde.com/contact"
               target="_blank"
               rel="noopener noreferrer"
               className="block text-teal-600 dark:text-teal-400 hover:underline flex items-center gap-2 text-sm font-medium"

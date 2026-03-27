@@ -17,15 +17,19 @@ import {
   Palette,
   ChevronRight,
   Clock,
-  Bell
+  Bell,
+  BookOpen,
+  School,
+  Bot,
+  Signal,
+  Scale
 } from 'lucide-react';
 import { 
   childServiceCatalog, 
   getServicesByCategory, 
   type ServiceCategory,
   type ChildService
-} from '../data/childServiceCatalog';
-import { useFamily, type ServiceUsage } from '../contexts/FamilyContext';
+} from '../data/childServiceCatalog';import { useFamily, type ServiceUsage } from '../contexts/FamilyContext';
 import { calculatePrivacyExposureIndex, getExposureLevel } from '../lib/privacyExposureIndex';
 import { getServiceLogoUrlWithBrandColor, hasServiceLogo } from '../utils/serviceLogos';
 import ServiceRelationshipMap from './ServiceRelationshipMap';
@@ -38,6 +42,9 @@ const CATEGORY_LABELS: Record<ServiceCategory | 'all', string> = {
   gaming: 'Gaming',
   streaming: 'Streaming',
   education: 'Education',
+  edtech: 'School Tools (EdTech)',
+  ai: 'AI Apps',
+  telecom: 'Mobile Carriers',
   creative: 'Creative',
   other: 'Other'
 };
@@ -60,6 +67,7 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory | 'all'>('all');
   const [selectedRisk, setSelectedRisk] = useState<string>('all');
   const [selectedExposureLevel, setSelectedExposureLevel] = useState<string>('all');
+  const [filterLawEnforcement, setFilterLawEnforcement] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<'name' | 'exposure' | 'age'>('name');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [selectedService, setSelectedService] = useState<ChildService | null>(null);
@@ -115,6 +123,13 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
       });
     }
 
+    // Filter by law enforcement concerns
+    if (filterLawEnforcement) {
+      services = services.filter(
+        s => s.lawEnforcementConcerns && s.lawEnforcementConcerns.length > 0
+      );
+    }
+
     // Sort services
     services = [...services].sort((a, b) => {
       let comparison = 0;
@@ -138,7 +153,7 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
     });
 
     return services;
-  }, [searchQuery, selectedCategory, selectedRisk, selectedExposureLevel, sortBy, sortOrder]);
+  }, [searchQuery, selectedCategory, selectedRisk, selectedExposureLevel, filterLawEnforcement, sortBy, sortOrder]);
 
   // Get category icon
   const getCategoryIcon = (category: ServiceCategory) => {
@@ -151,8 +166,14 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
         return Gamepad2;
       case 'streaming':
         return Film;
+      case 'edtech':
+        return School;
       case 'education':
         return GraduationCap;
+      case 'ai':
+        return Bot;
+      case 'telecom':
+        return Signal;
       case 'creative':
         return Palette;
       default:
@@ -290,18 +311,24 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
         {/* Category pills in guided mode for friendlier browsing */}
         {guidedMode && (
           <div className="flex flex-wrap gap-2 mb-3" role="group" aria-label="Filter by category">
-            {(['all', 'social-media', 'messaging', 'gaming', 'streaming', 'education', 'creative'] as const).map((cat) => (
+            {(['all', 'edtech', 'ai', 'telecom', 'social-media', 'messaging', 'gaming', 'streaming', 'education', 'creative'] as const).map((cat) => (
               <button
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                   selectedCategory === cat
-                    ? 'bg-green-600 text-white shadow-md'
+                    ? cat === 'edtech'
+                      ? 'bg-amber-600 text-white shadow-md'
+                      : cat === 'ai'
+                        ? 'bg-purple-600 text-white shadow-md'
+                        : cat === 'telecom'
+                          ? 'bg-blue-700 text-white shadow-md'
+                          : 'bg-green-600 text-white shadow-md'
                     : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
-                {CATEGORY_LABELS[cat]}
+                {cat === 'edtech' ? '🏫 ' : cat === 'ai' ? '🤖 ' : cat === 'telecom' ? '📡 ' : ''}{CATEGORY_LABELS[cat]}
               </button>
             ))}
           </div>
@@ -317,6 +344,9 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
             aria-label="Filter by category"
           >
             <option value="all">All Categories</option>
+            <option value="edtech">School Tools (EdTech)</option>
+            <option value="ai">AI Apps</option>
+            <option value="telecom">Mobile Carriers</option>
             <option value="social-media">Social Media</option>
             <option value="messaging">Messaging</option>
             <option value="gaming">Gaming</option>
@@ -370,6 +400,20 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
           >
             {sortOrder === 'asc' ? '↑' : '↓'}
           </button>
+
+          {/* Law Enforcement filter toggle */}
+          <button
+            onClick={() => setFilterLawEnforcement(!filterLawEnforcement)}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-sm font-medium transition-colors border ${
+              filterLawEnforcement
+                ? 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300 border-red-400 dark:border-red-600'
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-transparent hover:bg-gray-300 dark:hover:bg-gray-600'
+            }`}
+            title="Show only services with law enforcement data-sharing concerns"
+          >
+            <Scale size={14} />
+            LE Concerns
+          </button>
         </div>
       </div>
 
@@ -393,6 +437,21 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
                   <div className="in-family-badge">
                     <CheckCircle size={12} />
                     Added
+                  </div>
+                )}
+                {service.schoolAssigned && (
+                  <div className="school-assigned-badge">
+                    <School size={12} />
+                    School
+                  </div>
+                )}
+                {service.lawEnforcementConcerns && service.lawEnforcementConcerns.length > 0 && (
+                  <div
+                    className="le-concerns-badge"
+                    title="This service has documented law enforcement data-sharing concerns"
+                  >
+                    <Scale size={12} />
+                    LE
                   </div>
                 )}
                 <div className="service-icon-wrapper">
@@ -529,6 +588,7 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
               setSelectedCategory('all');
               setSelectedRisk('all');
               setSelectedExposureLevel('all');
+              setFilterLawEnforcement(false);
             }}
             className="clear-filters-button"
           >
@@ -583,6 +643,14 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
 
             {/* Quick Add Button at Top */}
             <div className={`modal-quick-add-section ${isServiceInFamily(selectedService.id) ? 'added' : ''}`}>
+              {selectedService.schoolAssigned && (
+                <div className="flex items-start gap-3 px-4 py-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg mb-3 text-sm text-amber-800 dark:text-amber-200">
+                  <School size={18} className="mt-0.5 shrink-0 text-amber-600 dark:text-amber-400" />
+                  <span>
+                    <strong>School-assigned app</strong> — your child may already be using this through school, independently of your choice. Add it to see how it contributes to your family's digital footprint.
+                  </span>
+                </div>
+              )}
               <button
                 type="button"
                 onClick={() => handleToggleFamilyService(selectedService.id)}
@@ -664,6 +732,24 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
                     <strong>Privacy Concerns:</strong>
                     <ul>
                       {selectedService.privacyConcerns.slice(0, 3).map((concern, idx) => (
+                        <li key={idx}>{concern}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Law Enforcement Concerns */}
+                {selectedService.lawEnforcementConcerns && selectedService.lawEnforcementConcerns.length > 0 && (
+                  <div className="le-concerns-block">
+                    <div className="le-concerns-header">
+                      <Scale size={16} className="le-concerns-icon" />
+                      <strong>Law Enforcement Data-Sharing Concerns:</strong>
+                    </div>
+                    <p className="le-concerns-intro">
+                      This service has documented practices of sharing user data with government agencies or law enforcement.
+                    </p>
+                    <ul>
+                      {selectedService.lawEnforcementConcerns.map((concern, idx) => (
                         <li key={idx}>{concern}</li>
                       ))}
                     </ul>

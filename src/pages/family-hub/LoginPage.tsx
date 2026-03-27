@@ -9,7 +9,7 @@ type Tab = 'signin' | 'signup';
 
 const LoginPage: React.FC = () => {
   const { signIn, signUp } = useAuth();
-  const { success, error: showError } = useToast();
+  const { showSuccess, showError } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
   const from = (location.state as any)?.from ?? '/family-hub';
@@ -77,7 +77,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex min-h-full flex-1 flex-col justify-center bg-gradient-to-br from-green-50 to-blue-50 py-8 px-4 sm:px-6">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <div className="flex justify-center mb-4">
