@@ -744,6 +744,89 @@
   text-transform: capitalize;
 }
 
+/* ── Law Enforcement Concerns ─────────────────────────────────────────────── */
+
+/* Card badge */
+.le-concerns-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+@media (prefers-color-scheme: dark) {
+  .le-concerns-badge {
+    background: rgba(185, 28, 28, 0.25);
+    color: #fca5a5;
+    border-color: #b91c1c;
+  }
+}
+
+/* Modal block */
+.le-concerns-block {
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-left: 4px solid #ea580c;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-top: 12px;
+}
+
+.le-concerns-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  color: #c2410c;
+}
+
+.le-concerns-icon {
+  flex-shrink: 0;
+}
+
+.le-concerns-intro {
+  font-size: 13px;
+  color: #9a3412;
+  margin-bottom: 8px;
+}
+
+.le-concerns-block ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.le-concerns-block ul li {
+  font-size: 13px;
+  color: #7c2d12;
+  margin-bottom: 5px;
+  line-height: 1.45;
+}
+
+@media (prefers-color-scheme: dark) {
+  .le-concerns-block {
+    background: rgba(194, 65, 12, 0.12);
+    border-color: #9a3412;
+  }
+
+  .le-concerns-header {
+    color: #fb923c;
+  }
+
+  .le-concerns-intro {
+    color: #fdba74;
+  }
+
+  .le-concerns-block ul li {
+    color: #fed7aa;
+  }
+}
+
 @media (max-width: 768px) {
   .services-grid {
     grid-template-columns: 1fr;

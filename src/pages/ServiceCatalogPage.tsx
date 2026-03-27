@@ -6,7 +6,7 @@ import { ProgressBar } from '../components/ui/ProgressBar';
 import { Bell, Shield, BarChart3, FileText, ArrowRight, Unlock, CheckCircle, Sparkles, Target, ExternalLink, Scale, Plus, Heart, School, BookOpen, AlertTriangle, Bot, Signal } from 'lucide-react';
 import { useFamily } from '../contexts/FamilyContext';
 import { PRIVACY_PORTAL_URL, PRIVACY_PORTAL_OPT_OUT_URL } from '../config/portal';
-import { childServiceCatalog, getSchoolAssignedServices } from '../data/childServiceCatalog';
+import { childServiceCatalog, getSchoolAssignedServices, getServicesWithLawEnforcementConcerns } from '../data/childServiceCatalog';
 import { getServiceLogoUrlWithBrandColor, hasServiceLogo } from '../utils/serviceLogos';
 
 const SUGGESTED_SERVICE_IDS = ['youtube', 'instagram', 'whatsapp', 'roblox', 'khan-academy', 'duolingo'] as const;
@@ -24,6 +24,12 @@ const AI_SERVICE_IDS = [
 
 const TELECOM_SERVICE_IDS = [
   'verizon', 'att', 'tmobile', 'cricket-wireless', 'boost-mobile', 'mint-mobile'
+] as const;
+
+// Services with the most severe documented law enforcement concerns
+const HIGH_LE_CONCERN_IDS = [
+  'att', 'verizon', 'tmobile', 'tiktok', 'google-classroom', 'chatgpt',
+  'discord', 'snapchat', 'instagram', 'youtube', 'microsoft-teams-edu'
 ] as const;
 
 const ServiceCatalogPage: React.FC = () => {
@@ -46,6 +52,9 @@ const ServiceCatalogPage: React.FC = () => {
   const schoolServices = getSchoolAssignedServices().filter(s => SCHOOL_SERVICE_IDS.includes(s.id as typeof SCHOOL_SERVICE_IDS[number]));
   const aiServices = childServiceCatalog.filter(s => AI_SERVICE_IDS.includes(s.id as typeof AI_SERVICE_IDS[number]));
   const telecomServices = childServiceCatalog.filter(s => TELECOM_SERVICE_IDS.includes(s.id as typeof TELECOM_SERVICE_IDS[number]));
+  const leConcernServices = getServicesWithLawEnforcementConcerns().filter(
+    s => HIGH_LE_CONCERN_IDS.includes(s.id as typeof HIGH_LE_CONCERN_IDS[number])
+  );
 
   const handleSuggestedAddRemove = async (serviceId: string) => {
     if (addingId) {
@@ -667,10 +676,129 @@ const ServiceCatalogPage: React.FC = () => {
             </div>
           </div>
 
+          {/* ── Law Enforcement Concerns Section ─────────────────────────── */}
+          <div className="mb-8 rounded-xl border-2 border-red-200 dark:border-red-900 bg-red-50/60 dark:bg-red-950/30 overflow-hidden">
+            <div className="flex items-start gap-4 p-5 border-b border-red-200 dark:border-red-900">
+              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-red-100 dark:bg-red-900 flex items-center justify-center">
+                <Scale className="h-6 w-6 text-red-700 dark:text-red-300" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                  <h2 className="text-lg font-bold text-red-900 dark:text-red-100">
+                    Law Enforcement Concerns
+                  </h2>
+                  <span className="bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 text-xs font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
+                    <AlertTriangle size={11} />
+                    Government data access
+                  </span>
+                </div>
+                <p className="text-sm text-red-800 dark:text-red-200">
+                  These services have <strong>documented practices of sharing user data with government agencies or law enforcement</strong> — including through court orders, national security letters, CALEA wiretapping mandates, and in some cases proactive cooperation programs. Your child's location, messages, and account history may be accessible to authorities <strong>without your knowledge</strong>.
+                </p>
+                <p className="text-xs text-red-700 dark:text-red-300 mt-1">
+                  Look for the <strong className="inline-flex items-center gap-1"><Scale size={11} /> LE</strong> badge on service cards throughout the catalog. Open any card to see the detailed law enforcement concerns.
+                </p>
+              </div>
+            </div>
+
+            <div className="p-5">
+              {/* Spotlight: AT&T Project Hemisphere */}
+              <div className="mb-4 p-4 bg-white dark:bg-gray-900 border border-red-200 dark:border-red-800 rounded-lg">
+                <div className="flex items-start gap-3">
+                  <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400 mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-sm font-bold text-red-900 dark:text-red-100 mb-1">
+                      Spotlight: AT&amp;T "Project Hemisphere"
+                    </p>
+                    <p className="text-xs text-red-800 dark:text-red-200">
+                      AT&amp;T secretly ran a program sharing call records with the DEA and local police <em>proactively</em> — far beyond what the law requires. Officers were instructed not to reveal the program's existence in court proceedings. This is the most documented example of a US carrier going well beyond legal minimums in cooperating with law enforcement.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Spotlight: TikTok / CCP */}
+              <div className="mb-4 p-4 bg-white dark:bg-gray-900 border border-red-200 dark:border-red-800 rounded-lg">
+                <div className="flex items-start gap-3">
+                  <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400 mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-sm font-bold text-red-900 dark:text-red-100 mb-1">
+                      Spotlight: TikTok &amp; the Chinese Government
+                    </p>
+                    <p className="text-xs text-red-800 dark:text-red-200">
+                      ByteDance (TikTok's parent) is required under China's National Security Law to provide data to the Chinese government on demand — with no judicial review and no obligation to notify users. TikTok staff in China have confirmed access to US user data including private messages. There is no transparency report covering China-directed access.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-sm font-semibold text-red-900 dark:text-red-100 mb-3">
+                Services with notable law enforcement data-sharing practices:
+              </p>
+              <div className="flex flex-wrap gap-3">
+                {leConcernServices.map((service) => {
+                  const isAdded = familyServiceIds.includes(service.id);
+                  const isAdding = addingId === service.id;
+                  return (
+                    <div
+                      key={service.id}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all ${
+                        isAdded
+                          ? 'bg-red-100 dark:bg-red-900/40 border-red-400 dark:border-red-600'
+                          : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-red-400 dark:hover:border-red-600'
+                      }`}
+                    >
+                      {hasServiceLogo(service.id) ? (
+                        <img
+                          src={getServiceLogoUrlWithBrandColor(service.id) || undefined}
+                          alt=""
+                          className="w-10 h-10 rounded-lg object-contain bg-gray-100 dark:bg-gray-700 p-1"
+                        />
+                      ) : (
+                        <div className="w-10 h-10 rounded-lg bg-red-100 dark:bg-red-900 flex items-center justify-center">
+                          <Scale size={18} className="text-red-600 dark:text-red-300" />
+                        </div>
+                      )}
+                      <div className="min-w-0">
+                        <span className="font-medium text-gray-900 dark:text-white block truncate max-w-[140px]">
+                          {service.name}
+                        </span>
+                        {service.vendor && (
+                          <span className="text-xs text-gray-400 dark:text-gray-500 truncate max-w-[140px] block">
+                            {service.vendor}
+                          </span>
+                        )}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleSuggestedAddRemove(service.id)}
+                        disabled={isAdding}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors shrink-0 ${
+                          isAdded
+                            ? 'bg-red-600 text-white hover:bg-red-700'
+                            : 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200 hover:bg-red-200 dark:hover:bg-red-800/50'
+                        }`}
+                      >
+                        {isAdding ? '…' : isAdded ? (
+                          <><CheckCircle className="h-4 w-4" />Added</>
+                        ) : (
+                          <><Plus className="h-4 w-4" />Add</>
+                        )}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+              <p className="text-xs text-red-600 dark:text-red-400 mt-4 flex items-center gap-1.5">
+                <Scale size={13} />
+                Adding these services enables law enforcement exposure analysis in your Digital Footprint report. Use the <strong>LE Concerns</strong> filter in the full catalog below to see all flagged services.
+              </p>
+            </div>
+          </div>
+
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
             Browse all services
-          </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+          </h2>          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
             Tap any card to see details and add it to your list. Use categories to narrow down.
           </p>
           <ServiceCatalog guidedMode />
