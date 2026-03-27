@@ -863,7 +863,7 @@ const HomePage: React.FC = () => {
 
           <div className="features-grid" style={{ 
             display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+            gridTemplateColumns: 'repeat(2, 1fr)', 
             gap: '2rem',
             maxWidth: '1000px',
             margin: '0 auto'

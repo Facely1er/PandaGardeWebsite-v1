@@ -4,7 +4,6 @@ import { Bell, AlertTriangle, ShoppingBag, BarChart3, ArrowRight, Shield, Scale,
 import ChildSafetyAlerts from '../components/alerts/ChildSafetyAlerts';
 import ServiceNotificationCenter from '../components/ServiceNotificationCenter';
 import EmailCaptureInline from '../components/EmailCaptureInline';
-import { Link } from 'react-router-dom';
 import { PRIVACY_PORTAL_URL, PRIVACY_PORTAL_OPT_OUT_URL } from '../config/portal';
 
 const ChildSafetyAlertsPage: React.FC = () => {
