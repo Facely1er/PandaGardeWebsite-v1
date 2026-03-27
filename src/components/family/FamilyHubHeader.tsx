@@ -79,7 +79,7 @@ const FamilyHubHeader: React.FC = () => {
       </div>
 
       <header
-        className="relative z-50 flex h-[52px] shrink-0 items-center justify-center border-b border-gray-200/90 bg-white/95 px-2 backdrop-blur-md dark:border-gray-700 dark:bg-gray-950/95 safe-area-top"
+        className="relative z-50 flex h-[52px] shrink-0 items-center justify-center border-b border-teal-100/80 bg-white/90 px-2 shadow-sm backdrop-blur-md dark:border-gray-700/80 dark:bg-gray-950/95 dark:shadow-none safe-area-top"
         role="banner"
       >
         <div className="absolute left-1.5 top-1/2 flex -translate-y-1/2 items-center sm:left-3">
@@ -112,9 +112,16 @@ const FamilyHubHeader: React.FC = () => {
           )}
         </div>
 
-        <h1 className="pointer-events-none max-w-[58vw] truncate text-center text-base font-semibold tracking-tight text-gray-900 dark:text-white sm:max-w-[320px]">
-          {title}
-        </h1>
+        <div className="pointer-events-none max-w-[58vw] text-center sm:max-w-[320px]">
+          <h1 className="truncate text-base font-semibold tracking-tight text-slate-900 dark:text-white">
+            {title}
+          </h1>
+          {!isLogin && isHubHome(pathname) && (
+            <p className="truncate text-[10px] font-medium uppercase tracking-widest text-teal-600/80 dark:text-teal-400/90">
+              PandaGarde
+            </p>
+          )}
+        </div>
 
         <div
           className="absolute right-1.5 top-1/2 flex -translate-y-1/2 items-center sm:right-3"

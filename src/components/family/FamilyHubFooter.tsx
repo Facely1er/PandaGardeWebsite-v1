@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTheme } from '../../contexts/ThemeContext';
 import {
   type LucideIcon,
   Home,
@@ -60,31 +61,50 @@ const hubTabs: TabItem[] = [
 
 const FamilyHubFooter: React.FC = () => {
   const { pathname } = useLocation();
+  const { theme } = useTheme();
   const isLogin = pathname.endsWith('/family-hub/login');
+  const isLight = theme === 'light';
 
   if (isLogin) {
     return (
       <footer
-        className="mt-auto border-t border-white/10 bg-slate-950/95 backdrop-blur-md safe-area-bottom z-40"
+        className={`mt-auto safe-area-bottom z-40 border-t backdrop-blur-md ${
+          isLight
+            ? 'border-slate-200/90 bg-white/95 text-slate-600 shadow-[0_-1px_0_rgba(0,0,0,0.04)]'
+            : 'border-white/10 bg-slate-950/95 text-purple-200/90'
+        }`}
         role="contentinfo"
       >
-        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 px-3 py-3 text-[11px] text-purple-200/90">
-          <Link to="/" className="font-medium text-white hover:text-amber-200 transition-colors">
+        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 px-3 py-3 text-[11px]">
+          <Link
+            to="/"
+            className={`font-medium transition-colors ${
+              isLight ? 'text-teal-700 hover:text-teal-900' : 'text-white hover:text-amber-200'
+            }`}
+          >
             Main website
           </Link>
-          <span className="text-white/20" aria-hidden>
+          <span className={isLight ? 'text-slate-300' : 'text-white/20'} aria-hidden>
             ·
           </span>
-          <Link to="/privacy" className="hover:text-white transition-colors">
+          <Link
+            to="/privacy"
+            className={isLight ? 'hover:text-slate-900' : 'hover:text-white'}
+          >
             Privacy
           </Link>
-          <Link to="/terms" className="hover:text-white transition-colors">
+          <Link
+            to="/terms"
+            className={isLight ? 'hover:text-slate-900' : 'hover:text-white'}
+          >
             Terms
           </Link>
-          <span className="text-white/20 hidden sm:inline" aria-hidden>
+          <span className={`hidden sm:inline ${isLight ? 'text-slate-300' : 'text-white/20'}`} aria-hidden>
             ·
           </span>
-          <span className="text-purple-300/70 w-full text-center sm:w-auto">
+          <span
+            className={`w-full text-center sm:w-auto ${isLight ? 'text-slate-500' : 'text-purple-300/70'}`}
+          >
             © 2026 PandaGarde
           </span>
         </div>
@@ -94,35 +114,58 @@ const FamilyHubFooter: React.FC = () => {
 
   return (
     <footer
-      className="fixed bottom-0 left-0 right-0 z-40 flex flex-col border-t border-white/10 bg-slate-950/95 backdrop-blur-md shadow-[0_-4px_24px_rgba(0,0,0,0.35)]"
+      className={`fixed bottom-0 left-0 right-0 z-40 flex flex-col border-t backdrop-blur-xl safe-area-bottom ${
+        isLight
+          ? 'border-slate-200/80 bg-white/92 shadow-[0_-8px_32px_rgba(15,118,110,0.08)]'
+          : 'border-white/10 bg-slate-950/95 shadow-[0_-4px_24px_rgba(0,0,0,0.35)]'
+      }`}
       role="contentinfo"
     >
-      {/* Compact app “more” row — not a marketing sitemap */}
-      <div className="flex items-center justify-center gap-x-2 sm:gap-x-3 px-2 py-1.5 border-b border-white/5 overflow-x-auto">
+      <div
+        className={`flex items-center justify-center gap-x-2 overflow-x-auto border-b px-2 py-1.5 sm:gap-x-3 ${
+          isLight ? 'border-slate-100 bg-slate-50/80' : 'border-white/5'
+        }`}
+      >
         <Link
           to="/"
-          className="inline-flex items-center gap-1 shrink-0 px-2 py-1 rounded-md text-[10px] sm:text-xs font-medium text-purple-200 hover:text-white hover:bg-white/10 transition-colors"
+          className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-medium transition-colors sm:text-xs ${
+            isLight
+              ? 'text-slate-600 hover:bg-white hover:text-teal-800'
+              : 'text-purple-200 hover:bg-white/10 hover:text-white'
+          }`}
         >
           <Globe size={12} className="opacity-80" aria-hidden />
           Site
         </Link>
         <Link
           to="/faq"
-          className="inline-flex items-center gap-1 shrink-0 px-2 py-1 rounded-md text-[10px] sm:text-xs text-purple-200/90 hover:text-white hover:bg-white/10 transition-colors"
+          className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-[10px] transition-colors sm:text-xs ${
+            isLight
+              ? 'text-slate-600 hover:bg-white hover:text-teal-800'
+              : 'text-purple-200/90 hover:bg-white/10 hover:text-white'
+          }`}
         >
           <HelpCircle size={12} className="opacity-80" aria-hidden />
           FAQ
         </Link>
         <Link
           to="/contact"
-          className="inline-flex items-center gap-1 shrink-0 px-2 py-1 rounded-md text-[10px] sm:text-xs text-purple-200/90 hover:text-white hover:bg-white/10 transition-colors"
+          className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-[10px] transition-colors sm:text-xs ${
+            isLight
+              ? 'text-slate-600 hover:bg-white hover:text-teal-800'
+              : 'text-purple-200/90 hover:bg-white/10 hover:text-white'
+          }`}
         >
           <Mail size={12} className="opacity-80" aria-hidden />
           Contact
         </Link>
         <Link
           to="/privacy"
-          className="inline-flex items-center gap-1 shrink-0 px-2 py-1 rounded-md text-[10px] sm:text-xs text-purple-200/90 hover:text-white hover:bg-white/10 transition-colors"
+          className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-[10px] transition-colors sm:text-xs ${
+            isLight
+              ? 'text-slate-600 hover:bg-white hover:text-teal-800'
+              : 'text-purple-200/90 hover:bg-white/10 hover:text-white'
+          }`}
         >
           <Shield size={12} className="opacity-80" aria-hidden />
           Privacy
@@ -131,16 +174,19 @@ const FamilyHubFooter: React.FC = () => {
           href={PRIVACY_PORTAL_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 shrink-0 px-2 py-1 rounded-md text-[10px] sm:text-xs text-purple-200/90 hover:text-white hover:bg-white/10 transition-colors max-w-[140px] sm:max-w-none truncate"
+          className={`inline-flex max-w-[140px] shrink-0 items-center gap-1 truncate rounded-full px-2.5 py-1 text-[10px] transition-colors sm:max-w-none sm:text-xs ${
+            isLight
+              ? 'text-slate-600 hover:bg-white hover:text-teal-800'
+              : 'text-purple-200/90 hover:bg-white/10 hover:text-white'
+          }`}
         >
-          <Scale size={12} className="opacity-80 shrink-0" aria-hidden />
+          <Scale size={12} className="shrink-0 opacity-80" aria-hidden />
           <span className="truncate">MODPA rights</span>
         </a>
       </div>
 
-      {/* Bottom tab bar */}
       <nav
-        className="grid grid-cols-5 min-h-[56px] sm:min-h-[60px] safe-area-bottom"
+        className="grid min-h-[56px] grid-cols-5 sm:min-h-[60px]"
         aria-label="Family Hub primary navigation"
       >
         {hubTabs.map(({ icon: Icon, to, label, match }) => {
@@ -150,21 +196,35 @@ const FamilyHubFooter: React.FC = () => {
               key={to}
               to={to}
               className={[
-                'flex flex-col items-center justify-center gap-0.5 min-w-0 px-1 py-1.5',
-                'touch-manipulation transition-colors active:opacity-80',
-                active
-                  ? 'text-amber-300 bg-white/10'
-                  : 'text-purple-300/80 hover:text-white hover:bg-white/5',
+                'flex min-h-[52px] flex-col items-center justify-center gap-0.5 px-1 py-1.5',
+                'touch-manipulation transition-all duration-200 active:scale-[0.97]',
+                isLight
+                  ? active
+                    ? 'bg-teal-50 text-teal-800'
+                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+                  : active
+                    ? 'bg-white/10 text-amber-300'
+                    : 'text-purple-300/80 hover:bg-white/5 hover:text-white',
               ].join(' ')}
               aria-current={active ? 'page' : undefined}
             >
-              <Icon
-                size={22}
-                strokeWidth={active ? 2.5 : 2}
-                className="shrink-0"
-                aria-hidden
-              />
-              <span className="text-[10px] sm:text-[11px] font-medium leading-tight text-center truncate max-w-full">
+              <span
+                className={`flex h-8 w-8 items-center justify-center rounded-xl transition-colors ${
+                  isLight
+                    ? active
+                      ? 'bg-teal-100 text-teal-800'
+                      : 'bg-transparent'
+                    : ''
+                }`}
+              >
+                <Icon
+                  size={22}
+                  strokeWidth={active ? 2.5 : 2}
+                  className="shrink-0"
+                  aria-hidden
+                />
+              </span>
+              <span className="max-w-full truncate text-center text-[10px] font-semibold leading-tight sm:text-[11px]">
                 {label}
               </span>
             </Link>

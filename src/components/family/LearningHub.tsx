@@ -225,206 +225,209 @@ const LearningHub: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-cyan-50 to-emerald-50 dark:from-gray-900 dark:to-gray-800 p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-teal-50/40 to-cyan-50/30 dark:from-gray-950 dark:via-gray-900 dark:to-gray-900 px-4 py-6 sm:p-6">
+      <div className="mx-auto max-w-7xl">
         {currentMemberId == null && (
-          <div className="mb-4 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-950 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-100">
-            <UserCircle className="mt-0.5 shrink-0" size={22} />
+          <div className="mb-6 flex items-start gap-3 rounded-2xl border border-amber-200/80 bg-gradient-to-r from-amber-50 to-orange-50/80 p-4 shadow-sm dark:border-amber-800/60 dark:from-amber-950/40 dark:to-orange-950/20 dark:text-amber-50">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-100 dark:bg-amber-900/50">
+              <UserCircle className="text-amber-700 dark:text-amber-200" size={22} />
+            </div>
             <div>
-              <p className="font-semibold">Choose who’s playing on the dashboard</p>
-              <p className="mt-1 text-sm opacity-90">
-                Scores and completed games are saved per family member. Open the Family Hub home and select a player.
+              <p className="font-bold text-amber-950 dark:text-amber-100">Pick a player on the dashboard</p>
+              <p className="mt-1 text-sm text-amber-900/85 dark:text-amber-200/80">
+                Scores save per family member. Choose who’s playing on the Family Hub home screen.
               </p>
               <button
                 type="button"
                 onClick={() => navigate('/family-hub')}
-                className="mt-2 text-sm font-medium text-teal-700 underline hover:no-underline dark:text-teal-300"
+                className="mt-3 inline-flex items-center rounded-full bg-amber-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-700"
               >
-                Go to dashboard
+                Open dashboard
               </button>
             </div>
           </div>
         )}
-        {/* Header - Teal Theme */}
-        <div className="mb-8">
+
+        <div className="mb-6 rounded-2xl border border-white/60 bg-white/80 p-5 shadow-lg shadow-teal-900/5 backdrop-blur-sm dark:border-gray-700/80 dark:bg-gray-900/80 dark:shadow-black/20 sm:p-6">
           <button
+            type="button"
             onClick={handleBack}
-            className="mb-4 flex items-center space-x-2 text-teal-600 dark:text-teal-300 hover:text-teal-800 dark:hover:text-teal-100 transition-colors"
+            className="mb-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-semibold text-teal-700 transition hover:bg-teal-50 dark:text-teal-300 dark:hover:bg-teal-950/50"
           >
-            <ArrowLeft size={20} />
-            <span>Back to Family Hub</span>
+            <ArrowLeft size={18} />
+            Back
           </button>
-          
-          <div className="flex items-center justify-between flex-wrap gap-4">
+
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h1 className="text-4xl font-bold text-teal-800 dark:text-gray-100 flex items-center space-x-3">
-                <Sparkles className="text-yellow-500" size={36} />
-                <span>Learning Hub</span>
+              <h1 className="flex flex-wrap items-center gap-2 text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-md">
+                  <Sparkles size={22} aria-hidden />
+                </span>
+                Learning Hub
               </h1>
-              <p className="text-gray-600 dark:text-gray-300 mt-2">
-                Play fun games and learn to protect your privacy! 🎮🔐
+              <p className="mt-2 max-w-xl text-slate-600 dark:text-slate-400">
+                Play mini-games and build real privacy habits—one short activity at a time.
               </p>
             </div>
-            
-            {/* Stats */}
-            <div className="flex items-center space-x-4">
-              <div className="bg-white dark:bg-gray-800 rounded-lg px-4 py-2 shadow-sm">
-                <div className="flex items-center space-x-2">
-                  <Trophy className="text-yellow-500" size={20} />
-                  <span className="font-semibold text-gray-800 dark:text-gray-100">
-                    {completedGames.length}/{games.length}
-                  </span>
-                </div>
-                <div className="text-xs text-gray-500 dark:text-gray-400">Games Completed</div>
+
+            <div className="flex shrink-0 items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-600 dark:bg-slate-800/80">
+              <Trophy className="text-amber-500" size={24} aria-hidden />
+              <div>
+                <p className="text-lg font-bold tabular-nums text-slate-900 dark:text-white">
+                  {completedGames.length}/{games.length}
+                </p>
+                <p className="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  Games done
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Filters */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 mb-8">
-          <div className="flex flex-wrap items-center gap-4">
-            {/* Search */}
-            <div className="flex-1 min-w-[200px] relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+        <div className="mb-8 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-md dark:border-gray-700 dark:bg-gray-900 sm:p-5">
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="relative min-w-[200px] flex-1">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
               <input
-                type="text"
-                placeholder="Search games..."
+                type="search"
+                placeholder="Search games…"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
+                className="w-full rounded-xl border-2 border-slate-200 bg-slate-50 py-2.5 pl-10 pr-4 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/25 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
               />
             </div>
-
-            {/* Difficulty Filter */}
-            <div className="flex items-center space-x-2">
-              <Filter size={18} className="text-gray-500" />
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="flex items-center gap-2 rounded-xl border-2 border-slate-200 bg-slate-50 px-2 dark:border-slate-600 dark:bg-slate-800">
+                <Filter size={16} className="ml-1 text-slate-500" />
+                <select
+                  value={filterDifficulty}
+                  onChange={(e) => setFilterDifficulty(e.target.value)}
+                  className="cursor-pointer rounded-lg bg-transparent py-2.5 pl-1 pr-8 text-sm font-medium text-slate-800 focus:outline-none dark:text-slate-100"
+                >
+                  <option value="all">All levels</option>
+                  <option value="Easy">Easy</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Hard">Hard</option>
+                </select>
+              </div>
               <select
-                value={filterDifficulty}
-                onChange={(e) => setFilterDifficulty(e.target.value)}
-                className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
+                value={filterAge}
+                onChange={(e) => setFilterAge(e.target.value)}
+                className="cursor-pointer rounded-xl border-2 border-slate-200 bg-slate-50 py-2.5 pl-3 pr-8 text-sm font-medium text-slate-800 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/25 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
               >
-                <option value="all">All Difficulties</option>
-                <option value="Easy">Easy</option>
-                <option value="Medium">Medium</option>
-                <option value="Hard">Hard</option>
+                <option value="all">All ages</option>
+                <option value="elementary">Elementary (6–10)</option>
+                <option value="middle">Middle (11–13)</option>
+                <option value="high">High school (14+)</option>
               </select>
             </div>
-
-            {/* Age Filter */}
-            <select
-              value={filterAge}
-              onChange={(e) => setFilterAge(e.target.value)}
-              className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
-            >
-              <option value="all">All Ages</option>
-              <option value="elementary">Elementary (Ages 6-10)</option>
-              <option value="middle">Middle School (Ages 11-13)</option>
-              <option value="high">High School (Ages 14+)</option>
-            </select>
           </div>
         </div>
 
-        {/* Games Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredGames.map((game) => {
             const isCompleted = completedGames.includes(game.id);
-            
+
             return (
-              <div
+              <article
                 key={game.id}
-                className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1"
+                className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-md shadow-slate-900/5 transition duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-teal-900/10 dark:border-gray-700 dark:bg-gray-900 dark:shadow-black/30"
               >
-                {/* Game Header */}
-                <div className={`bg-gradient-to-r ${game.color} p-6 text-white relative`}>
-                  <div className="text-5xl mb-2">{game.icon}</div>
+                <div className={`relative bg-gradient-to-br ${game.color} p-6 text-white`}>
+                  <div className="text-5xl drop-shadow-sm transition group-hover:scale-105">{game.icon}</div>
                   {isCompleted && (
-                    <div className="absolute top-3 right-3 bg-white rounded-full p-1">
-                      <Star className="text-yellow-500" size={20} fill="currentColor" />
+                    <div className="absolute right-3 top-3 rounded-full bg-white/95 p-1.5 shadow-md">
+                      <Star className="text-amber-500" size={18} fill="currentColor" aria-hidden />
                     </div>
                   )}
                 </div>
 
-                {/* Game Info */}
-                <div className="p-4">
-                  <h3 className="font-bold text-lg text-gray-800 dark:text-gray-100 mb-1">{game.name}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">{game.description}</p>
+                <div className="flex flex-1 flex-col p-4">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">{game.name}</h3>
+                  <p className="mt-1 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                    {game.description}
+                  </p>
 
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      game.difficulty === 'Easy' ? 'bg-teal-100 text-teal-800 dark:bg-teal-900/20 dark:text-teal-300' :
-                      game.difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300' :
-                      'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300'
-                    }`}>
-                      <Target size={12} className="inline mr-1" />
+                  <div className="mb-4 mt-3 flex flex-wrap gap-2">
+                    <span
+                      className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold ${
+                        game.difficulty === 'Easy'
+                          ? 'bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-200'
+                          : game.difficulty === 'Medium'
+                            ? 'bg-amber-100 text-amber-900 dark:bg-amber-900/30 dark:text-amber-200'
+                            : 'bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-200'
+                      }`}
+                    >
+                      <Target size={12} aria-hidden />
                       {game.difficulty}
                     </span>
-                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
-                      <Clock size={12} className="inline mr-1" />
+                    <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                      <Clock size={12} aria-hidden />
                       {game.duration}
                     </span>
                   </div>
 
-                  {/* Play Button */}
                   <button
+                    type="button"
                     onClick={() => setSelectedGame(game.id)}
-                    className={`w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-lg font-medium transition-colors ${
+                    className={`mt-auto flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold transition active:scale-[0.98] ${
                       isCompleted
-                        ? 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                        : `bg-gradient-to-r ${game.color} text-white hover:opacity-90`
+                        ? 'border-2 border-slate-200 bg-slate-50 text-slate-800 hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700'
+                        : `bg-gradient-to-r ${game.color} text-white shadow-md hover:opacity-95 hover:shadow-lg`
                     }`}
                   >
-                    <Play size={18} />
-                    <span>{isCompleted ? 'Play Again' : 'Start Game'}</span>
+                    <Play size={18} className={isCompleted ? '' : 'drop-shadow'} />
+                    {isCompleted ? 'Play again' : 'Play'}
                   </button>
                 </div>
-              </div>
+              </article>
             );
           })}
         </div>
 
         {filteredGames.length === 0 && (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">🎮</div>
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">No games found</h3>
-            <p className="text-gray-600 dark:text-gray-300">Try adjusting your filters or search term</p>
+          <div className="rounded-2xl border border-dashed border-slate-300 bg-white/60 py-16 text-center dark:border-slate-600 dark:bg-gray-900/50">
+            <div className="mb-3 text-5xl">🎮</div>
+            <h3 className="text-lg font-bold text-slate-800 dark:text-white">No games match</h3>
+            <p className="mt-1 text-slate-600 dark:text-slate-400">Try clearing search or filters.</p>
           </div>
         )}
 
-        {/* Journey Hub Section - Teal Theme */}
-        <div className="mt-8 bg-gradient-to-r from-teal-700 via-teal-600 to-cyan-600 rounded-xl p-6 text-white">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                <Map className="text-white" size={28} />
+        <div className="mt-10 overflow-hidden rounded-2xl bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-600 p-6 text-white shadow-lg shadow-teal-900/20 sm:p-8">
+          <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
+            <div className="flex gap-4">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm">
+                <Map size={28} aria-hidden />
               </div>
               <div>
-                <h3 className="text-xl font-bold mb-1">Privacy Journeys</h3>
-                <p className="text-white/80 text-sm">
-                  Structured learning paths designed for different age groups. Build skills step by step!
+                <h3 className="text-xl font-bold">Privacy Journeys</h3>
+                <p className="mt-1 max-w-md text-sm text-white/90">
+                  Age-based paths—each step opens a real game. Finish games to fill your trail.
                 </p>
               </div>
             </div>
             <button
+              type="button"
               onClick={() => navigate('/family-hub/journeys')}
-              className="flex items-center gap-2 bg-white text-teal-700 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 hover:text-teal-800 transition-all w-full md:w-auto justify-center"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-bold text-teal-800 shadow-md transition hover:bg-amber-100 md:w-auto"
             >
-              <span>Explore Journeys</span>
+              Explore journeys
               <ChevronRight size={18} />
             </button>
           </div>
         </div>
 
-        {/* Footer Note - Teal Theme */}
-        <div className="mt-8 bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800 rounded-lg p-6">
-          <div className="flex items-start space-x-3">
-            <div className="text-2xl">💡</div>
+        <div className="mt-8 rounded-2xl border border-teal-200/80 bg-gradient-to-br from-teal-50 to-cyan-50 p-5 dark:border-teal-800 dark:from-teal-950/40 dark:to-cyan-950/20 sm:p-6">
+          <div className="flex gap-3">
+            <span className="text-2xl" aria-hidden>
+              💡
+            </span>
             <div>
-              <h4 className="font-semibold text-teal-800 dark:text-teal-200 mb-2">Learning Tips for Parents</h4>
-              <p className="text-sm text-teal-700 dark:text-teal-300">
-                These games are designed to be fun while teaching important privacy concepts. 
-                Play together with your children to discuss the lessons and reinforce good online habits!
+              <h4 className="font-bold text-teal-900 dark:text-teal-100">Tip for families</h4>
+              <p className="mt-1 text-sm leading-relaxed text-teal-800/90 dark:text-teal-200/85">
+                Play a round together and chat about what felt “safe” or “risky.” Short talks after each game stick
+                better than a long lecture.
               </p>
             </div>
           </div>

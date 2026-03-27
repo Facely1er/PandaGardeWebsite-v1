@@ -618,12 +618,15 @@ const FamilyDashboard: React.FC<FamilyDashboardProps> = ({ appMode = false }) =>
       )}
 
       {/* Quick Actions Bar */}
-      <div className="bg-white border-b border-teal-100 sticky top-16 z-30" style={{ backgroundColor: 'var(--card-color)' }}>
+      <div
+        className="border-b border-teal-100/80 bg-white/90 backdrop-blur-sm dark:border-teal-900/40 dark:bg-gray-900/80"
+        style={{ backgroundColor: 'var(--card-color)' }}
+      >
         <div className="container mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-end py-2.5 sm:py-3">
             <button
               onClick={() => setShowFeedback(true)}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg font-medium transition-colors text-sm"
+              className="flex items-center justify-center gap-2 rounded-full bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-teal-600/20 transition-all hover:bg-teal-700 hover:shadow-lg active:scale-[0.98] dark:shadow-teal-900/30"
             >
               <MessageSquare size={16} />
               <span>Feedback</span>
@@ -635,25 +638,43 @@ const FamilyDashboard: React.FC<FamilyDashboardProps> = ({ appMode = false }) =>
       {/* Main Content */}
       <main className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
         {familyMembers.length > 0 && (
-          <div className="mb-4 flex flex-col gap-3 rounded-xl border border-teal-200 bg-teal-50/90 p-4 dark:border-teal-800 dark:bg-teal-950/30 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-2 text-sm font-semibold text-teal-900 dark:text-teal-100">
-              <Gamepad2 size={18} className="shrink-0" aria-hidden />
-              <span>Who’s playing? (scores save here)</span>
+          <div className="relative mb-6 overflow-hidden rounded-2xl p-[1px] shadow-md shadow-teal-900/5 dark:shadow-black/20">
+            <div
+              className="absolute inset-0 bg-gradient-to-r from-teal-400 via-cyan-500 to-emerald-500 opacity-90 dark:from-teal-600 dark:via-cyan-600 dark:to-emerald-700"
+              aria-hidden
+            />
+            <div className="relative flex flex-col gap-4 rounded-2xl bg-white p-4 dark:bg-gray-900 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+              <div className="flex items-start gap-3 sm:items-center">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 to-cyan-600 text-white shadow-inner">
+                  <Gamepad2 size={22} aria-hidden />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-slate-900 dark:text-white">Who’s playing?</p>
+                  <p className="mt-0.5 text-xs text-slate-600 dark:text-slate-400">
+                    Game scores and journey steps save for this profile.
+                  </p>
+                </div>
+              </div>
+              <label className="w-full sm:w-auto sm:min-w-[220px]">
+                <span className="sr-only">Select active family member for games</span>
+                <select
+                  value={currentMemberId ?? familyMembers[0].id}
+                  onChange={(e) => setActiveMember(Number(e.target.value))}
+                  className="w-full cursor-pointer appearance-none rounded-xl border-2 border-slate-200 bg-slate-50 py-3 pl-4 pr-10 text-sm font-semibold text-slate-900 shadow-sm transition-colors focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:focus:border-teal-400"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230d9488' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 0.75rem center',
+                  }}
+                >
+                  {familyMembers.map((m) => (
+                    <option key={m.id} value={m.id}>
+                      {m.name} · {m.role} · age {m.age}
+                    </option>
+                  ))}
+                </select>
+              </label>
             </div>
-            <label className="flex flex-col gap-1 text-xs text-teal-800 dark:text-teal-200 sm:min-w-[200px]">
-              <span className="sr-only">Select active family member for games</span>
-              <select
-                value={currentMemberId ?? familyMembers[0].id}
-                onChange={(e) => setActiveMember(Number(e.target.value))}
-                className="rounded-lg border border-teal-300 bg-white px-3 py-2.5 text-sm font-medium text-gray-900 shadow-sm dark:border-teal-700 dark:bg-gray-900 dark:text-gray-100"
-              >
-                {familyMembers.map((m) => (
-                  <option key={m.id} value={m.id}>
-                    {m.name} · {m.role} · age {m.age}
-                  </option>
-                ))}
-              </select>
-            </label>
           </div>
         )}
         {/* Family Overview Cards - Teal Theme */}

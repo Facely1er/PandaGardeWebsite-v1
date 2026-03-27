@@ -193,7 +193,7 @@ const JourneyHub: React.FC = () => {
 
   if (selectedJourney) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-6 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 via-emerald-50/30 to-cyan-50/20 px-4 py-6 dark:from-gray-950 dark:via-gray-900 dark:to-gray-900 sm:p-6">
         <div className="mx-auto max-w-4xl">
           {currentMemberId == null && noPlayerBanner}
 
@@ -314,7 +314,7 @@ const JourneyHub: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-6 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-emerald-50/30 to-cyan-50/20 px-4 py-6 dark:from-gray-950 dark:via-gray-900 dark:to-gray-900 sm:p-6">
       <div className="mx-auto max-w-6xl">
         {currentMemberId == null && noPlayerBanner}
 
@@ -344,7 +344,7 @@ const JourneyHub: React.FC = () => {
             return (
               <div
                 key={path.id}
-                className="overflow-hidden rounded-2xl bg-white shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl dark:bg-gray-800"
+                className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-lg shadow-slate-900/5 transition-all hover:-translate-y-1 hover:shadow-xl dark:border-gray-700 dark:bg-gray-900 dark:shadow-black/25"
               >
                 <div className={`bg-gradient-to-r ${path.color} p-6 text-white`}>
                   <div className="mb-4 flex items-center justify-between">
