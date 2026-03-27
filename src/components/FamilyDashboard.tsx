@@ -15,6 +15,7 @@ import {
   detectSuspiciousActivity,
   logSecurityEvent
 } from '../lib/familyHubSecurity';
+import { useActiveMember } from '../utils/familyProgressIntegration';
 
 interface FamilyMember {
   id: number;
@@ -326,6 +327,7 @@ interface FamilyDashboardProps {
 const FamilyDashboard: React.FC<FamilyDashboardProps> = ({ appMode = false }) => {
   const navigate = useNavigate();
   const { calculateMemberScore, getMemberProgress } = useFamilyProgress();
+  const { currentMemberId, setActiveMember } = useActiveMember();
   const [familyMembers, setFamilyMembers] = useLocalStorage<FamilyMember[]>('pandagarde_family', []);
   const [familyGoals, setFamilyGoals] = useLocalStorage<FamilyGoal[]>('pandagarde_family_goals', []);
   const [showAddMember, setShowAddMember] = useState(false);
@@ -335,6 +337,18 @@ const FamilyDashboard: React.FC<FamilyDashboardProps> = ({ appMode = false }) =>
   const [newMember, setNewMember] = useState({ name: '', age: 0, role: 'Child' });
   const [newGoal, setNewGoal] = useState({ title: '', description: '', targetDate: '', priority: 'Medium' });
   const [memberErrors, setMemberErrors] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (familyMembers.length === 0) {
+      setActiveMember(null);
+      return;
+    }
+    const stillValid =
+      currentMemberId != null && familyMembers.some((m) => m.id === currentMemberId);
+    if (!stillValid) {
+      setActiveMember(familyMembers[0].id);
+    }
+  }, [familyMembers, currentMemberId, setActiveMember]);
 
   // Load demo data for demonstration purposes
   const loadDemoData = () => {
@@ -428,6 +442,7 @@ const FamilyDashboard: React.FC<FamilyDashboardProps> = ({ appMode = false }) =>
     };
     
     setFamilyMembers([...familyMembers, member]);
+    setActiveMember(member.id);
     setNewMember({ name: '', age: 0, role: 'Child' });
     setShowAddMember(false);
     
@@ -619,6 +634,28 @@ const FamilyDashboard: React.FC<FamilyDashboardProps> = ({ appMode = false }) =>
 
       {/* Main Content */}
       <main className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
+        {familyMembers.length > 0 && (
+          <div className="mb-4 flex flex-col gap-3 rounded-xl border border-teal-200 bg-teal-50/90 p-4 dark:border-teal-800 dark:bg-teal-950/30 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-2 text-sm font-semibold text-teal-900 dark:text-teal-100">
+              <Gamepad2 size={18} className="shrink-0" aria-hidden />
+              <span>Who’s playing? (scores save here)</span>
+            </div>
+            <label className="flex flex-col gap-1 text-xs text-teal-800 dark:text-teal-200 sm:min-w-[200px]">
+              <span className="sr-only">Select active family member for games</span>
+              <select
+                value={currentMemberId ?? familyMembers[0].id}
+                onChange={(e) => setActiveMember(Number(e.target.value))}
+                className="rounded-lg border border-teal-300 bg-white px-3 py-2.5 text-sm font-medium text-gray-900 shadow-sm dark:border-teal-700 dark:bg-gray-900 dark:text-gray-100"
+              >
+                {familyMembers.map((m) => (
+                  <option key={m.id} value={m.id}>
+                    {m.name} · {m.role} · age {m.age}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+        )}
         {/* Family Overview Cards - Teal Theme */}
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <div 
@@ -830,7 +867,10 @@ const FamilyDashboard: React.FC<FamilyDashboardProps> = ({ appMode = false }) =>
                         </div>
                         <div className="flex items-center gap-2">
                           <button
-                            onClick={() => setSelectedChildId(member.id)}
+                            onClick={() => {
+                              setActiveMember(member.id);
+                              setSelectedChildId(member.id);
+                            }}
                             className="p-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
                             title="View detailed progress"
                           >

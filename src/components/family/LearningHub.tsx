@@ -1,6 +1,6 @@
-import React, { Suspense, useState } from 'react';
-import { ArrowLeft, Play, Star, Target, Clock, Filter, Search, Trophy, Sparkles, Map, ChevronRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import React, { Suspense, useState, useEffect } from 'react';
+import { ArrowLeft, Play, Star, Target, Clock, Filter, Search, Trophy, Sparkles, Map, ChevronRight, UserCircle } from 'lucide-react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useFamilyProgress } from '../../contexts/FamilyProgressContext';
 import { useActiveMember } from '../../utils/familyProgressIntegration';
 
@@ -167,12 +167,22 @@ const games: Game[] = [
 
 const LearningHub: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
   const [filterDifficulty, setFilterDifficulty] = useState<string>('all');
   const [filterAge, setFilterAge] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const { getMemberProgress } = useFamilyProgress();
   const { currentMemberId } = useActiveMember();
+
+  useEffect(() => {
+    const play = searchParams.get('play');
+    if (!play || !games.some((g) => g.id === play)) return;
+    setSelectedGame(play);
+    const next = new URLSearchParams(searchParams);
+    next.delete('play');
+    setSearchParams(next, { replace: true });
+  }, [searchParams, setSearchParams]);
 
   // Get progress for current member
   const memberProgress = currentMemberId ? getMemberProgress(currentMemberId) : null;
@@ -217,6 +227,24 @@ const LearningHub: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 via-cyan-50 to-emerald-50 dark:from-gray-900 dark:to-gray-800 p-6">
       <div className="max-w-7xl mx-auto">
+        {currentMemberId == null && (
+          <div className="mb-4 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-950 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-100">
+            <UserCircle className="mt-0.5 shrink-0" size={22} />
+            <div>
+              <p className="font-semibold">Choose who’s playing on the dashboard</p>
+              <p className="mt-1 text-sm opacity-90">
+                Scores and completed games are saved per family member. Open the Family Hub home and select a player.
+              </p>
+              <button
+                type="button"
+                onClick={() => navigate('/family-hub')}
+                className="mt-2 text-sm font-medium text-teal-700 underline hover:no-underline dark:text-teal-300"
+              >
+                Go to dashboard
+              </button>
+            </div>
+          </div>
+        )}
         {/* Header - Teal Theme */}
         <div className="mb-8">
           <button
