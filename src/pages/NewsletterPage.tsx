@@ -84,7 +84,7 @@ const NewsletterPage: React.FC = () => {
     }),
     preview: `${newsletter.featuredTopic.description.substring(0, 80)  }...`,
     featured: newsletter.featured || false,
-    url: `/newsletter/${newsletter.id}`
+    url: `/newsletter/archive`
   }));
 
   return (
@@ -97,7 +97,7 @@ const NewsletterPage: React.FC = () => {
     >
 
       {/* Subscription Section */}
-      <section className="container mx-auto px-6 py-12">
+      <section className="py-12">
         <div className="max-w-2xl mx-auto text-center mb-12">
           <h2 className="text-3xl font-bold mb-6" style={{ color: 'var(--primary)' }}>
             Join Our Privacy Education Community
@@ -115,20 +115,20 @@ const NewsletterPage: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email address"
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                   disabled={isSubscribing}
                 />
                 <button
                   type="submit"
                   disabled={isSubscribing}
-                  className="bg-gradient-to-r from-pink-500 to-rose-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-pink-600 hover:to-rose-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-gradient-to-r from-green-700 to-green-800 text-white px-6 py-3 rounded-lg font-semibold hover:from-green-800 hover:to-green-900 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubscribing ? 'Subscribing...' : 'Subscribe'}
                 </button>
               </div>
               <p className="text-sm text-gray-500 mt-4">
                 We respect your privacy.{' '}
-                <Link to="/newsletter/unsubscribe" className="text-pink-600 hover:text-pink-700 underline">
+                <Link to="/newsletter/unsubscribe" className="text-green-700 hover:text-green-800 underline">
                   Unsubscribe at any time
                 </Link>
                 .
@@ -151,7 +151,7 @@ const NewsletterPage: React.FC = () => {
             const Icon = feature.icon;
             return (
               <div key={index} className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-rose-600 rounded-full flex items-center justify-center text-white mx-auto mb-4">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center text-white mx-auto mb-4" style={{ background: 'var(--gradient-primary)' }}>
                   <Icon size={32} />
                 </div>
                 <h3 className="text-lg font-bold mb-2" style={{ color: 'var(--primary)' }}>
@@ -167,8 +167,8 @@ const NewsletterPage: React.FC = () => {
       </section>
 
       {/* Recent Newsletters */}
-      <section className="bg-gray-50 py-12" style={{ backgroundColor: 'var(--light)' }}>
-        <div className="container mx-auto px-6">
+      <section className="py-12 rounded-xl" style={{ backgroundColor: 'var(--light)' }}>
+        <div>
           <div className="text-center mb-10">
             <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
               Recent Newsletters
@@ -178,7 +178,7 @@ const NewsletterPage: React.FC = () => {
             </p>
             <Link
               to="/newsletter/archive"
-              className="text-pink-600 hover:text-pink-700 font-semibold underline"
+              className="text-green-700 hover:text-green-800 font-semibold underline"
             >
               View All Newsletters →
             </Link>
@@ -190,7 +190,7 @@ const NewsletterPage: React.FC = () => {
                 <div
                   key={newsletter.id}
                   className={`bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all ${
-                    newsletter.featured ? 'border-2 border-pink-500' : ''
+                    newsletter.featured ? 'border-2 border-green-600' : ''
                   }`}
                   style={{ backgroundColor: 'var(--card-color)' }}
                 >
@@ -201,7 +201,7 @@ const NewsletterPage: React.FC = () => {
                           {newsletter.title}
                         </h3>
                         {newsletter.featured && (
-                          <span className="bg-pink-100 text-pink-800 text-xs font-semibold px-2 py-1 rounded-full">
+                          <span className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full">
                             Featured
                           </span>
                         )}
@@ -211,7 +211,7 @@ const NewsletterPage: React.FC = () => {
                     </div>
                     <Link
                       to={newsletter.url || '/newsletter'}
-                      className="ml-4 bg-gradient-to-r from-pink-500 to-rose-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-pink-600 hover:to-rose-700 transition-all inline-block"
+                      className="ml-4 text-white px-4 py-2 rounded-lg font-semibold transition-all inline-block" style={{ background: 'var(--gradient-primary)' }}
                     >
                       Read More
                     </Link>
@@ -224,7 +224,7 @@ const NewsletterPage: React.FC = () => {
       </section>
 
       {/* Privacy Promise */}
-      <section className="container mx-auto px-6 py-12">
+      <section className="py-12">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-8" style={{ color: 'var(--primary)' }}>
             Our Privacy Promise
@@ -249,7 +249,7 @@ const NewsletterPage: React.FC = () => {
                 Easy Unsubscribe
               </h3>
               <p className="text-sm" style={{ color: 'var(--gray-600)' }}>
-                <Link to="/newsletter/unsubscribe" className="text-pink-600 hover:text-pink-700 underline">
+                <Link to="/newsletter/unsubscribe" className="text-green-700 hover:text-green-800 underline">
                   Unsubscribe anytime
                 </Link> with one click. We respect your inbox.
               </p>
@@ -270,8 +270,8 @@ const NewsletterPage: React.FC = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="bg-gradient-to-r from-pink-600 to-rose-600 text-white py-12">
-        <div className="container mx-auto px-6 text-center">
+      <section className="rounded-xl py-12" style={{ background: 'linear-gradient(135deg, var(--accent) 0%, #c62828 100%)', color: 'white' }}>
+        <div className="text-center">
           <h2 className="text-3xl font-bold mb-4">
             Ready to Stay Informed?
           </h2>
@@ -281,13 +281,13 @@ const NewsletterPage: React.FC = () => {
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
               to="/activity-book"
-              className="bg-white text-pink-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
+              className="bg-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2" style={{ color: 'var(--primary)' }}
             >
               <BookOpen size={20} />
               Try Activities
             </Link>
             <Link to="/family-hub"
-              className="bg-pink-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-pink-800 transition-colors inline-flex items-center gap-2"
+              className="bg-white/10 text-white border border-white px-6 py-3 rounded-lg font-semibold hover:bg-white/20 transition-colors inline-flex items-center gap-2"
             >
               <Users size={20} />
               Family Hub

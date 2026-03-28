@@ -20,21 +20,6 @@ const PilotPage: React.FC = () => {
     });
   }, []);
 
-  const handleJoinPilot = () => {
-    trackEvent(AnalyticsEvents.PILOT_JOIN_CLICKED, {
-      source: 'pilot_page',
-      button_location: 'hero_section',
-      timestamp: new Date().toISOString()
-    });
-  };
-
-  const handleLearnMore = () => {
-    trackEvent(AnalyticsEvents.PILOT_LEARN_MORE_CLICKED, {
-      source: 'pilot_page',
-      button_location: 'hero_section',
-      timestamp: new Date().toISOString()
-    });
-  };
 
   const handleCTAClick = (location: string) => {
     trackEvent(AnalyticsEvents.PILOT_CTA_CLICKED, {
@@ -133,8 +118,7 @@ const PilotPage: React.FC = () => {
       badge="PILOT 2026"
       breadcrumbs={true}
     >
-      <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-        <main className="container mx-auto px-4 sm:px-6 py-12 max-w-6xl">
+      <div className="max-w-6xl mx-auto py-12">
           {/* Key Dates 2026 – momentum and deadlines */}
           <section id="key-dates" className="mb-16">
             <div className="text-center mb-8">
@@ -395,8 +379,7 @@ const PilotPage: React.FC = () => {
               </Link>
             </div>
           </section>
-        </main>
-      </div>
+        </div>
     </PageLayout>
   );
 };

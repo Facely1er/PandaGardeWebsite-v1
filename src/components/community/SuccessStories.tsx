@@ -150,7 +150,7 @@ const SuccessStories: React.FC<SuccessStoriesProps> = ({ compact = false }) => {
         <div className="container">
           <div className="text-center fade-in">
             <span className="badge">COMMUNITY</span>
-            <h1>Success Stories</h1>
+            <p className="text-2xl font-bold" style={{ color: 'var(--primary)' }}>Success Stories</p>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Real-world examples of families teaching privacy to their children. Share your anonymous success story and inspire others.
             </p>
@@ -164,9 +164,9 @@ const SuccessStories: React.FC<SuccessStoriesProps> = ({ compact = false }) => {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold mb-2" style={{ color: 'var(--primary)' }}>
+              <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--primary)' }}>
                 Success Stories
-              </h1>
+              </h2>
               <p className="text-lg" style={{ color: 'var(--gray-600)' }}>
                 Real-world examples of families teaching privacy to their children
               </p>

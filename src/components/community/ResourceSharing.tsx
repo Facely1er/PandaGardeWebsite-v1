@@ -179,9 +179,9 @@ const ResourceSharing: React.FC<ResourceSharingProps> = ({ compact = false }) =>
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold mb-2" style={{ color: 'var(--primary)' }}>
+              <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--primary)' }}>
                 Community Resources
-              </h1>
+              </h2>
               <p className="text-lg" style={{ color: 'var(--gray-600)' }}>
                 Privacy tools, guides, and educational resources shared by the community
               </p>

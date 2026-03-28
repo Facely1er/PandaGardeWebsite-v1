@@ -73,10 +73,10 @@ import SuccessStoriesPage from './pages/community/SuccessStoriesPage';
 import ResourceSharingPage from './pages/community/ResourceSharingPage';
 import PrivacyTipsForumPage from './pages/community/PrivacyTipsForumPage';
 import AppFeaturesPage from './pages/AppFeaturesPage';
-import AppStoreReviewPage from './pages/AppStoreReviewPage';
+import { usePageTracking } from './hooks/useAnalytics';
+import NotFoundPage from './pages/NotFoundPage';
 import NavigationErrorBoundary from './components/NavigationErrorBoundary';
 import { SentryErrorBoundary } from './lib/sentry';
-import { usePageTracking } from './hooks/useAnalytics';
 
 // Component to handle hash navigation
 const HashHandler: React.FC = () => {
@@ -264,7 +264,7 @@ function App() {
             <Route path="/downloads/worksheets" element={<PlaceholderPage title="Privacy Worksheets" description="Printable worksheets and activities for hands-on learning" />} />
             
             {/* 404 Fallback */}
-            <Route path="*" element={<HomePage />} />
+            <Route path="*" element={<NotFoundPage />} />
                         </Routes>
                         <ConditionalFooter />
                         <BackToTop />

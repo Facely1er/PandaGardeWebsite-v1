@@ -85,7 +85,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
 
           <h1 
             style={{
-              fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+              fontSize: 'clamp(2rem, 5vw, 3.5rem)',
               fontWeight: 800,
               lineHeight: 1.2,
               marginBottom: subtitle ? '0.75rem' : 0,

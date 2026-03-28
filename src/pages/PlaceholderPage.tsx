@@ -31,7 +31,7 @@ const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
               width: '128px',
               height: '128px',
               margin: '0 auto 2rem',
-              background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+              background: 'var(--gradient-primary)',
               borderRadius: '50%',
               display: 'flex',
               alignItems: 'center',
@@ -44,7 +44,7 @@ const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
               fontSize: 'clamp(1.875rem, 3vw, 2.25rem)', 
               fontWeight: 700, 
               marginBottom: '1rem',
-              color: '#1B5E20'
+              color: 'var(--primary)'
             }}>
               Coming Soon!
             </h2>
@@ -53,7 +53,7 @@ const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
               fontSize: '1.125rem', 
               marginBottom: '2rem', 
               lineHeight: 1.6,
-              color: '#64748b'
+              color: 'var(--gray-600)'
             }}>
               We're working hard to bring you this content. Our team is developing comprehensive resources
               to make your privacy education journey even better.
@@ -69,15 +69,15 @@ const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
           marginBottom: '3rem'
         }}>
           <div style={{
-            backgroundColor: '#ffffff',
+            backgroundColor: 'var(--card-color)',
             borderRadius: '16px',
             padding: '1.5rem',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+            boxShadow: 'var(--shadow-sm)'
           }}>
             <div style={{
               width: '48px',
               height: '48px',
-              backgroundColor: '#dbeafe',
+              backgroundColor: 'var(--logo-bg)',
               borderRadius: '12px',
               display: 'flex',
               alignItems: 'center',
@@ -85,19 +85,19 @@ const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
               marginBottom: '1rem',
               margin: '0 auto 1rem'
             }}>
-              <Construction size={24} style={{ color: '#2563eb' }} />
+              <Construction size={24} style={{ color: 'var(--info)' }} />
             </div>
             <h3 style={{ 
               fontSize: '1.125rem', 
               fontWeight: 600, 
               marginBottom: '0.5rem',
-              color: '#1B5E20'
+              color: 'var(--primary)'
             }}>
               In Development
             </h3>
             <p style={{ 
               fontSize: '0.875rem',
-              color: '#64748b',
+              color: 'var(--gray-600)',
               lineHeight: 1.5
             }}>
               This content is currently being developed by our expert team.
@@ -105,15 +105,15 @@ const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
           </div>
 
           <div style={{
-            backgroundColor: '#ffffff',
+            backgroundColor: 'var(--card-color)',
             borderRadius: '16px',
             padding: '1.5rem',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+            boxShadow: 'var(--shadow-sm)'
           }}>
             <div style={{
               width: '48px',
               height: '48px',
-              backgroundColor: '#dcfce7',
+              backgroundColor: 'rgba(76, 175, 80, 0.1)',
               borderRadius: '12px',
               display: 'flex',
               alignItems: 'center',
@@ -121,19 +121,19 @@ const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
               marginBottom: '1rem',
               margin: '0 auto 1rem'
             }}>
-              <BookOpen size={24} style={{ color: '#16a34a' }} />
+              <BookOpen size={24} style={{ color: 'var(--primary-light)' }} />
             </div>
             <h3 style={{ 
               fontSize: '1.125rem', 
               fontWeight: 600, 
               marginBottom: '0.5rem',
-              color: '#1B5E20'
+              color: 'var(--primary)'
             }}>
               Quality Assured
             </h3>
             <p style={{ 
               fontSize: '0.875rem',
-              color: '#64748b',
+              color: 'var(--gray-600)',
               lineHeight: 1.5
             }}>
               All content goes through rigorous testing with families and educators.
@@ -141,15 +141,15 @@ const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
           </div>
 
           <div style={{
-            backgroundColor: '#ffffff',
+            backgroundColor: 'var(--card-color)',
             borderRadius: '16px',
             padding: '1.5rem',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+            boxShadow: 'var(--shadow-sm)'
           }}>
             <div style={{
               width: '48px',
               height: '48px',
-              backgroundColor: '#f3e8ff',
+              backgroundColor: 'rgba(123, 31, 162, 0.08)',
               borderRadius: '12px',
               display: 'flex',
               alignItems: 'center',
@@ -157,19 +157,19 @@ const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
               marginBottom: '1rem',
               margin: '0 auto 1rem'
             }}>
-              <Users size={24} style={{ color: '#9333ea' }} />
+              <Users size={24} style={{ color: 'var(--purple)' }} />
             </div>
             <h3 style={{ 
               fontSize: '1.125rem', 
               fontWeight: 600, 
               marginBottom: '0.5rem',
-              color: '#1B5E20'
+              color: 'var(--primary)'
             }}>
               Coming Soon
             </h3>
             <p style={{ 
               fontSize: '0.875rem',
-              color: '#64748b',
+              color: 'var(--gray-600)',
               lineHeight: 1.5
             }}>
               We'll notify you when this content becomes available.
@@ -179,7 +179,7 @@ const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
 
         {/* Call to Action */}
         <div style={{
-          background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+          background: 'var(--gradient-primary)',
           borderRadius: '16px',
           padding: '2rem',
           color: 'white'
@@ -209,7 +209,7 @@ const PlaceholderPage: React.FC<PlaceholderPageProps> = ({
               to="/activity-book"
               style={{
                 background: 'white',
-                color: '#1B5E20',
+                color: 'var(--primary)',
                 padding: '0.875rem 1.5rem',
                 borderRadius: '12px',
                 fontWeight: 600,

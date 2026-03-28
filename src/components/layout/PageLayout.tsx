@@ -1,7 +1,6 @@
 import React from 'react';
 import { LucideIcon } from 'lucide-react';
 import PageHeader from './PageHeader';
-import { useTheme } from '../../contexts/ThemeContext';
 
 interface PageLayoutProps {
   title: string;
@@ -22,15 +21,13 @@ const PageLayout: React.FC<PageLayoutProps> = ({
   children,
   className = ''
 }) => {
-  const { theme } = useTheme();
-  
   return (
     <div 
       className={`page-layout ${className}`}
       style={{
         minHeight: '100vh',
-        backgroundColor: theme === 'dark' ? 'var(--white)' : '#FFFFFF',
-        color: theme === 'dark' ? 'var(--gray-800)' : '#212121'
+        backgroundColor: 'var(--white)',
+        color: 'var(--gray-800)'
       }}
     >
       <PageHeader
@@ -43,13 +40,12 @@ const PageLayout: React.FC<PageLayoutProps> = ({
 
       <main 
         style={{
-          padding: '1.5rem 0',
-          backgroundColor: theme === 'dark' ? 'var(--white)' : '#FFFFFF',
-          color: theme === 'dark' ? 'var(--gray-800)' : '#212121',
+          padding: '2rem 0',
+          backgroundColor: 'var(--white)',
+          color: 'var(--gray-800)',
           minHeight: '400px',
           position: 'relative',
-          zIndex: 1,
-          paddingTop: '1.5rem'
+          zIndex: 1
         }}
       >
         <div 
@@ -58,7 +54,6 @@ const PageLayout: React.FC<PageLayoutProps> = ({
             maxWidth: '1200px',
             margin: '0 auto',
             padding: '0 1.5rem',
-            color: theme === 'dark' ? 'var(--gray-800)' : '#212121',
             position: 'relative',
             zIndex: 2
           }}

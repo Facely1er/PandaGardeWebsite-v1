@@ -13,13 +13,13 @@ const ContactPage: React.FC = () => {
       badge="CONTACT US"
     >
       {/* Contact Form Section */}
-      <section style={{ marginBottom: '3rem' }}>
+      <section style={{ marginBottom: '2rem' }}>
         <ContactForm />
       </section>
 
       {/* FAQ Section */}
-      <section className="bg-gray-50 py-16" style={{ backgroundColor: 'var(--light)', marginTop: '3rem' }}>
-        <div className="container mx-auto px-6">
+      <section className="py-12 rounded-xl" style={{ backgroundColor: 'var(--light)' }}>
+        <div>
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
               Frequently Asked Questions

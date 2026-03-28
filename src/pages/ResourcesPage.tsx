@@ -58,52 +58,72 @@ const ResourcesPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="resources-tabs" style={{ 
-            display: 'flex', 
-            gap: '0.5rem', 
-            marginBottom: '3rem', 
-            flexWrap: 'wrap', 
-            justifyContent: 'center' 
-          }}>
-            <div
+          <div
+            className="resources-tabs"
+            role="tablist"
+            aria-label="Resource categories"
+            style={{ 
+              display: 'flex', 
+              gap: '0.5rem', 
+              marginBottom: '3rem', 
+              flexWrap: 'wrap', 
+              justifyContent: 'center' 
+            }}
+          >
+            <button
+              role="tab"
+              aria-selected={activeTab === 'comprehensive-guides'}
+              aria-controls="tab-panel-comprehensive-guides"
               className={`resource-tab ${activeTab === 'comprehensive-guides' ? 'active' : ''}`}
               onClick={() => openResourceTab('comprehensive-guides')}
             >
               <BookOpen size={16} />
               Comprehensive Guides
-            </div>
-            <div
+            </button>
+            <button
+              role="tab"
+              aria-selected={activeTab === 'discussion-guides'}
+              aria-controls="tab-panel-discussion-guides"
               className={`resource-tab ${activeTab === 'discussion-guides' ? 'active' : ''}`}
               onClick={() => openResourceTab('discussion-guides')}
             >
               <MessageCircle size={16} />
               Discussion Guides
-            </div>
-            <div
+            </button>
+            <button
+              role="tab"
+              aria-selected={activeTab === 'printable-resources'}
+              aria-controls="tab-panel-printable-resources"
               className={`resource-tab ${activeTab === 'printable-resources' ? 'active' : ''}`}
               onClick={() => openResourceTab('printable-resources')}
             >
               <FileText size={16} />
               Printable Resources
-            </div>
-            <div
+            </button>
+            <button
+              role="tab"
+              aria-selected={activeTab === 'digital-safety'}
+              aria-controls="tab-panel-digital-safety"
               className={`resource-tab ${activeTab === 'digital-safety' ? 'active' : ''}`}
               onClick={() => openResourceTab('digital-safety')}
             >
               <Shield size={16} />
               Digital Safety Tips
-            </div>
-            <div
+            </button>
+            <button
+              role="tab"
+              aria-selected={activeTab === 'activities-tools'}
+              aria-controls="tab-panel-activities-tools"
               className={`resource-tab ${activeTab === 'activities-tools' ? 'active' : ''}`}
               onClick={() => openResourceTab('activities-tools')}
             >
               <Users size={16} />
-              Activities & Tools
-            </div>
+              Activities &amp; Tools
+            </button>
           </div>
 
           {/* Comprehensive Guides Tab */}
-          <div className={`resource-content ${activeTab === 'comprehensive-guides' ? 'active' : ''}`} style={{ display: activeTab === 'comprehensive-guides' ? 'block' : 'none' }}>
+          <div id="tab-panel-comprehensive-guides" role="tabpanel" className={`resource-content ${activeTab === 'comprehensive-guides' ? 'active' : ''}`} style={{ display: activeTab === 'comprehensive-guides' ? 'block' : 'none' }}>
             <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
               <h3 style={{
                 fontSize: 'clamp(1.5rem, 3vw, 2rem)',
@@ -184,7 +204,7 @@ const ResourcesPage: React.FC = () => {
           </div>
 
           {/* Discussion Guides Tab */}
-          <div className={`resource-content ${activeTab === 'discussion-guides' ? 'active' : ''}`} style={{ display: activeTab === 'discussion-guides' ? 'block' : 'none' }}>
+          <div id="tab-panel-discussion-guides" role="tabpanel" className={`resource-content ${activeTab === 'discussion-guides' ? 'active' : ''}`} style={{ display: activeTab === 'discussion-guides' ? 'block' : 'none' }}>
             <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
               <h3 style={{
                 fontSize: 'clamp(1.5rem, 3vw, 2rem)',
@@ -223,7 +243,7 @@ const ResourcesPage: React.FC = () => {
           </div>
 
           {/* Printable Resources Tab */}
-          <div className={`resource-content ${activeTab === 'printable-resources' ? 'active' : ''}`} style={{ display: activeTab === 'printable-resources' ? 'block' : 'none' }}>
+          <div id="tab-panel-printable-resources" role="tabpanel" className={`resource-content ${activeTab === 'printable-resources' ? 'active' : ''}`} style={{ display: activeTab === 'printable-resources' ? 'block' : 'none' }}>
             <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
               <h3 style={{
                 fontSize: 'clamp(1.5rem, 3vw, 2rem)',
@@ -288,7 +308,7 @@ const ResourcesPage: React.FC = () => {
           </div>
 
           {/* Digital Safety Tips Tab */}
-          <div className={`resource-content ${activeTab === 'digital-safety' ? 'active' : ''}`} style={{ display: activeTab === 'digital-safety' ? 'block' : 'none' }}>
+          <div id="tab-panel-digital-safety" role="tabpanel" className={`resource-content ${activeTab === 'digital-safety' ? 'active' : ''}`} style={{ display: activeTab === 'digital-safety' ? 'block' : 'none' }}>
             <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
               <h3 style={{
                 fontSize: 'clamp(1.5rem, 3vw, 2rem)',
@@ -333,7 +353,7 @@ const ResourcesPage: React.FC = () => {
           </div>
 
           {/* Activities & Tools Tab */}
-          <div className={`resource-content ${activeTab === 'activities-tools' ? 'active' : ''}`} style={{ display: activeTab === 'activities-tools' ? 'block' : 'none' }}>
+          <div id="tab-panel-activities-tools" role="tabpanel" className={`resource-content ${activeTab === 'activities-tools' ? 'active' : ''}`} style={{ display: activeTab === 'activities-tools' ? 'block' : 'none' }}>
             <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
               <h3 style={{
                 fontSize: 'clamp(1.5rem, 3vw, 2rem)',

@@ -228,11 +228,12 @@ const HomePage: React.FC = () => {
           position: 'absolute',
           top: '10%',
           right: '5%',
-          width: '400px',
-          height: '400px',
+          width: 'clamp(200px, 30vw, 400px)',
+          height: 'clamp(200px, 30vw, 400px)',
           background: 'radial-gradient(circle, rgba(27, 94, 32, 0.04) 0%, transparent 70%)',
           borderRadius: '50%',
-          zIndex: 0
+          zIndex: 0,
+          pointerEvents: 'none'
         }} />
         
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
@@ -254,7 +255,7 @@ const HomePage: React.FC = () => {
                   Digital Privacy Education
                 </span>
                 <span className="badge" style={{
-                  background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                  background: 'linear-gradient(135deg, var(--info) 0%, var(--info-light) 100%)',
                   color: 'white',
                   padding: '0.5rem 1.25rem',
                   borderRadius: '50px',
@@ -517,19 +518,14 @@ const HomePage: React.FC = () => {
                       objectFit: 'contain'
                     }}
                     onError={(e) => {
-                      // Fallback to Logo component if image fails to load
                       const target = e.currentTarget;
                       target.style.display = 'none';
                       const parent = target.parentElement;
                       if (parent) {
-                        const logoDiv = document.createElement('div');
-                        logoDiv.style.width = '100%';
-                        logoDiv.style.height = '100%';
-                        logoDiv.style.display = 'flex';
-                        logoDiv.style.alignItems = 'center';
-                        logoDiv.style.justifyContent = 'center';
-                        parent.appendChild(logoDiv);
-                        // Render Logo component would need React, so we'll just hide and show a placeholder
+                        const fallback = document.createElement('div');
+                        fallback.style.cssText = 'width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1B5E20,#2E7D32);borderRadius:16px;color:white;fontSize:1.5rem;fontWeight:800;letterSpacing:-0.02em';
+                        fallback.textContent = 'PandaGarde';
+                        parent.appendChild(fallback);
                       }
                     }}
                   />
@@ -638,19 +634,19 @@ const HomePage: React.FC = () => {
         {/* MODPA awareness banner — shown to all visitors above the fold */}
         <section
           className="fade-in"
-          style={{ background: 'linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%)', borderBottom: '2px solid #4db6ac' }}
+          style={{ background: 'linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%)', borderBottom: '2px solid var(--secondary)' }}
         >
           <div className="container" style={{ padding: '0.875rem 1.5rem' }}>
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.75rem', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', flex: 1, minWidth: 0 }}>
-                <div style={{ flexShrink: 0, width: '32px', height: '32px', borderRadius: '50%', background: '#00897b', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ flexShrink: 0, width: '32px', height: '32px', borderRadius: '50%', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <Scale size={16} color="white" />
                 </div>
                 <div>
-                  <span style={{ fontSize: '0.8125rem', fontWeight: '700', color: '#004d40', display: 'block', lineHeight: 1.3 }}>
+                  <span style={{ fontSize: '0.8125rem', fontWeight: '700', color: 'var(--primary-dark)', display: 'block', lineHeight: 1.3 }}>
                     Maryland families: your new MODPA rights are active
                   </span>
-                  <span style={{ fontSize: '0.75rem', color: '#00695c', lineHeight: 1.3 }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--primary)', lineHeight: 1.3 }}>
                     Access, correct, delete your data — and opt out of sale and targeted advertising.
                   </span>
                 </div>
@@ -658,9 +654,9 @@ const HomePage: React.FC = () => {
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', flexShrink: 0 }}>
                 <Link
                   to="/digital-rights"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', background: '#00897b', color: 'white', textDecoration: 'none', fontSize: '0.75rem', fontWeight: '600', padding: '0.375rem 0.875rem', borderRadius: '6px', transition: 'background 0.2s' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = '#00695c'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = '#00897b'; }}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', background: 'var(--primary)', color: 'white', textDecoration: 'none', fontSize: '0.75rem', fontWeight: '600', padding: '0.375rem 0.875rem', borderRadius: '6px', transition: 'background 0.2s' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--primary-dark)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--primary)'; }}
                 >
                   Learn your rights
                   <ArrowRight size={12} />
@@ -669,8 +665,8 @@ const HomePage: React.FC = () => {
                   href={PRIVACY_PORTAL_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', background: 'white', color: '#00695c', textDecoration: 'none', fontSize: '0.75rem', fontWeight: '600', padding: '0.375rem 0.875rem', borderRadius: '6px', border: '1.5px solid #4db6ac', transition: 'background 0.2s' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = '#e0f2f1'; }}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', background: 'white', color: 'var(--primary)', textDecoration: 'none', fontSize: '0.75rem', fontWeight: '600', padding: '0.375rem 0.875rem', borderRadius: '6px', border: '1.5px solid var(--secondary)', transition: 'background 0.2s' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = '#e8f5e9'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.background = 'white'; }}
                 >
                   <ExternalLink size={12} />

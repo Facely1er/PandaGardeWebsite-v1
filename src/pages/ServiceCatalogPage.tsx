@@ -159,7 +159,7 @@ const ServiceCatalogPage: React.FC = () => {
                   Service Catalog
                 </h1>
                 {servicesCount === 0 && (
-                  <span className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
+                  <span className="bg-green-700 text-white text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
                     <Unlock size={12} />
                     Get Started
                   </span>
@@ -181,7 +181,7 @@ const ServiceCatalogPage: React.FC = () => {
               </Link>
               <Link
                 to="/digital-footprint"
-                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                className="flex items-center space-x-2 px-4 py-2 bg-green-800 hover:bg-green-900 text-white rounded-lg transition-colors"
               >
                 <BarChart3 className="h-5 w-5" />
                 <span>Footprint</span>
@@ -194,7 +194,7 @@ const ServiceCatalogPage: React.FC = () => {
           <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl p-6 mb-6">
             <div className="flex items-start space-x-4">
               <div className="flex-shrink-0">
-                <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-600 rounded-full flex items-center justify-center">
+                <div className="w-12 h-12 bg-green-700 rounded-full flex items-center justify-center">
                   <Unlock className="h-6 w-6 text-white" />
                 </div>
               </div>
@@ -304,14 +304,14 @@ const ServiceCatalogPage: React.FC = () => {
           )}
 
           {/* Privacy Exposure Index Banner */}
-          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
+          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 mb-6">
             <div className="flex items-start space-x-3">
-              <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5" />
+              <Shield className="h-5 w-5 text-green-700 dark:text-green-400 mt-0.5" />
               <div className="flex-1">
-                <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-1">
+                <h3 className="font-semibold text-green-900 dark:text-green-100 mb-1">
                   Privacy Exposure Index
                 </h3>
-                <p className="text-sm text-blue-800 dark:text-blue-200 mb-2">
+                <p className="text-sm text-green-800 dark:text-green-200 mb-2">
                   Each service includes a Privacy Exposure Index (0-100) that helps you understand the privacy risks. 
                   Higher scores indicate services that require more parental supervision and privacy controls.
                 </p>
@@ -424,9 +424,9 @@ const ServiceCatalogPage: React.FC = () => {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1 flex-wrap">
-                  <h2 className="text-lg font-bold text-amber-900 dark:text-amber-100">
+                  <p className="text-lg font-bold text-amber-900 dark:text-amber-100">
                     School &amp; EdTech Apps
-                  </h2>
+                  </p>
                   <span className="bg-amber-200 dark:bg-amber-700 text-amber-800 dark:text-amber-200 text-xs font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
                     <AlertTriangle size={11} />
                     School-assigned
@@ -511,9 +511,9 @@ const ServiceCatalogPage: React.FC = () => {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1 flex-wrap">
-                  <h2 className="text-lg font-bold text-purple-900 dark:text-purple-100">
+                  <p className="text-lg font-bold text-purple-900 dark:text-purple-100">
                     AI Apps
-                  </h2>
+                  </p>
                   <span className="bg-purple-200 dark:bg-purple-700 text-purple-800 dark:text-purple-200 text-xs font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
                     <AlertTriangle size={11} />
                     High risk

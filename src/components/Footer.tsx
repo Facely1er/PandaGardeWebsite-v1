@@ -38,16 +38,16 @@ const Footer: React.FC = () => {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand">
-            <h3>
-              <div className="logo-icon" style={{ width: '50px', height: '50px', marginRight: '8px' }}>
+            <div className="footer-brand-name">
+              <div className="logo-icon" style={{ width: '50px', height: '50px' }}>
                 <img
                   src="/LogoPandagarde.png"
                   alt="PandaGarde Logo"
                   style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                 />
               </div>
-              PandaGarde
-            </h3>
+              <span>PandaGarde</span>
+            </div>
             <p>We help families and kids ages 5–17 learn about online privacy through free activities, stories, and guides.</p>
           </div>
 

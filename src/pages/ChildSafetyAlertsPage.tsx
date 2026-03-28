@@ -92,9 +92,9 @@ const ChildSafetyAlertsPage: React.FC = () => {
                   </span>
                   <span className="text-xs text-teal-600 dark:text-teal-400 font-medium">Maryland MODPA — In Effect</span>
                 </div>
-                <h3 className="font-bold text-teal-900 dark:text-teal-100 mb-1 text-sm">
+                <p className="font-bold text-teal-900 dark:text-teal-100 mb-1 text-sm">
                   Maryland families can now formally request deletion of their child's app data
-                </h3>
+                </p>
                 <p className="text-xs text-teal-800 dark:text-teal-200 mb-3 leading-relaxed">
                   Under the Maryland Online Data Privacy Act (MODPA), you can submit access, correction, deletion, and opt-out requests to any qualifying data controller — including games, EdTech tools, and social platforms your children use. Requests must be honored within 45 days (15 days for opt-outs).
                 </p>

@@ -335,9 +335,9 @@ const DigitalRightsPage: React.FC = () => {
         {/* Progress Section */}
         <section style={{ padding: 'clamp(2rem, 4vw, 3rem) 0' }}>
           <div style={{
-            backgroundColor: '#ffffff',
+            backgroundColor: 'var(--card-color)',
             borderRadius: '16px',
-            boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
+            boxShadow: 'var(--shadow-lg)',
             padding: '2rem',
             marginBottom: '3rem'
           }}>
@@ -346,7 +346,7 @@ const DigitalRightsPage: React.FC = () => {
                 fontSize: 'clamp(1.5rem, 3vw, 1.875rem)', 
                 fontWeight: 700, 
                 marginBottom: '1rem',
-                color: '#1B5E20'
+                color: 'var(--primary)'
               }}>
                 Your Legal Knowledge Progress
               </h2>
@@ -559,7 +559,7 @@ const DigitalRightsPage: React.FC = () => {
 
         {/* Call to Action */}
         <section style={{
-          background: 'linear-gradient(135deg, #475569 0%, #334155 100%)',
+          background: 'var(--gradient-primary)',
           color: 'white',
           padding: 'clamp(3rem, 6vw, 4rem) 0',
           marginTop: 'clamp(2rem, 4vw, 3rem)',
@@ -592,7 +592,7 @@ const DigitalRightsPage: React.FC = () => {
               to="/teen-handbook"
               style={{
                 background: 'white',
-                color: '#475569',
+                color: 'var(--gray-700)',
                 padding: '0.875rem 1.5rem',
                 borderRadius: '12px',
                 fontWeight: 600,

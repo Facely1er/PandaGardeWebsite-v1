@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, User, Mail, Calendar, Shield, Save, Edit3, X, Download } from 'lucide-react';
 import { useAuth } from './family-hub/AuthWrapper';
 import { useToast } from '../contexts/ToastContext';

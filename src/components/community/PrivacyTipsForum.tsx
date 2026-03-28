@@ -244,14 +244,14 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
         <h2 style={{
           fontSize: '1.5rem',
           fontWeight: '700',
-          color: '#1B5E20',
+          color: 'var(--primary)',
           marginBottom: '1rem'
         }}>
           What is the Privacy Tips Forum?
         </h2>
         <p style={{
           fontSize: '1rem',
-          color: '#64748b',
+          color: 'var(--gray-600)',
           lineHeight: '1.7',
           marginBottom: '1.5rem'
         }}>
@@ -265,7 +265,7 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
               width: '48px',
               height: '48px',
               borderRadius: '50%',
-              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+              background: 'linear-gradient(135deg, var(--secondary) 0%, var(--primary-light) 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -273,10 +273,10 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
             }}>
               <MessageCircle size={24} style={{ color: 'white' }} />
             </div>
-            <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#0f172a', marginBottom: '0.5rem' }}>
+            <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: 'var(--gray-800)', marginBottom: '0.5rem' }}>
               Share Tips & Strategies
             </h3>
-            <p style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: '1.6' }}>
+            <p style={{ fontSize: '0.875rem', color: 'var(--gray-600)', lineHeight: '1.6' }}>
               Exchange practical advice on teaching privacy concepts, managing screen time, and protecting your family's digital footprint.
             </p>
           </div>
@@ -286,7 +286,7 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
               width: '48px',
               height: '48px',
               borderRadius: '50%',
-              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+              background: 'linear-gradient(135deg, var(--secondary) 0%, var(--primary-light) 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -294,10 +294,10 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
             }}>
               <Users size={24} style={{ color: 'white' }} />
             </div>
-            <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#0f172a', marginBottom: '0.5rem' }}>
+            <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: 'var(--gray-800)', marginBottom: '0.5rem' }}>
               Ask Questions
             </h3>
-            <p style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: '1.6' }}>
+            <p style={{ fontSize: '0.875rem', color: 'var(--gray-600)', lineHeight: '1.6' }}>
               Get answers from experienced parents and educators about age-appropriate privacy education, app safety, and digital citizenship.
             </p>
           </div>
@@ -307,7 +307,7 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
               width: '48px',
               height: '48px',
               borderRadius: '50%',
-              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+              background: 'linear-gradient(135deg, var(--secondary) 0%, var(--primary-light) 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -315,10 +315,10 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
             }}>
               <Shield size={24} style={{ color: 'white' }} />
             </div>
-            <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#0f172a', marginBottom: '0.5rem' }}>
+            <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: 'var(--gray-800)', marginBottom: '0.5rem' }}>
               Privacy First
             </h3>
-            <p style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: '1.6' }}>
+            <p style={{ fontSize: '0.875rem', color: 'var(--gray-600)', lineHeight: '1.6' }}>
               All data is stored locally on your device. No backend required. Use pseudonymous usernames. Completely anonymous and secure.
             </p>
           </div>
@@ -331,7 +331,7 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
           borderRadius: '8px',
           border: '1px solid #86efac'
         }}>
-          <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#1B5E20', marginBottom: '0.75rem' }}>
+          <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: 'var(--primary)', marginBottom: '0.75rem' }}>
             Topics You Can Explore:
           </h3>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
@@ -358,7 +358,7 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
           <div style={{
             marginTop: '2rem',
             padding: '1.5rem',
-            background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+          background: 'var(--gradient-primary)',
             borderRadius: '8px',
             color: 'white',
             textAlign: 'center'
@@ -371,7 +371,7 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
               style={{
                 padding: '0.75rem 2rem',
                 background: 'white',
-                color: '#1B5E20',
+                color: 'var(--primary)',
                 border: 'none',
                 borderRadius: '8px',
                 fontSize: '1rem',
@@ -432,7 +432,7 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
                   {React.createElement(getAvatarIcon(currentUser?.avatar), { size: 20 })}
                 </div>
                 <div style={{ flex: 1 }}>
-                  <p className="font-semibold mb-1" style={{ color: '#1B5E20', fontSize: '1rem' }}>
+                  <p className="font-semibold mb-1" style={{ color: 'var(--primary)', fontSize: '1rem' }}>
                     Welcome, {currentUser?.displayName || currentUser?.username || 'User'}!
                   </p>
                   <p className="text-sm" style={{ color: '#166534', lineHeight: '1.5' }}>
@@ -450,12 +450,12 @@ const PrivacyTipsForum: React.FC<PrivacyTipsForumProps> = ({ compact = false }) 
                 <h2 style={{
                   fontSize: 'clamp(1.5rem, 3vw, 2rem)',
                   fontWeight: '700',
-                  color: '#0f172a',
+                  color: 'var(--gray-800)',
                   marginBottom: '0.5rem'
                 }}>
                   Community Discussions
                 </h2>
-                <p style={{ color: '#64748b', fontSize: '1rem' }}>
+                <p style={{ color: 'var(--gray-600)', fontSize: '1rem' }}>
                   Join conversations and share your privacy tips
                 </p>
               </div>
@@ -628,7 +628,7 @@ const TopicDetailView: React.FC<TopicDetailViewProps> = ({
   const author = communityStorage.getForumUser(topic.authorId);
 
   return (
-    <main id="main-content" style={{ minHeight: '100vh', paddingTop: '80px' }}>
+    <main id="main-content" style={{ minHeight: '100vh' }}>
       {/* Back Navigation */}
       <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '1.5rem 1.5rem' }}>
         <button
@@ -642,21 +642,21 @@ const TopicDetailView: React.FC<TopicDetailViewProps> = ({
       </div>
 
       {/* Page Header */}
-      <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)' }}>
+      <section style={{ padding: 'clamp(3rem, 6vw, 4rem) 0', background: 'var(--gray-100)' }}>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <h1 style={{
             fontSize: 'clamp(2rem, 4vw, 2.5rem)',
             fontWeight: '800',
             lineHeight: '1.1',
             marginBottom: '1rem',
-            color: '#0f172a'
+            color: 'var(--gray-800)'
           }}>
             {topic.title}
           </h1>
           {topic.description && (
             <p style={{
               fontSize: '1.125rem',
-              color: '#64748b',
+              color: 'var(--gray-600)',
               maxWidth: '48rem',
               margin: '0 auto',
               lineHeight: '1.6'
@@ -672,7 +672,7 @@ const TopicDetailView: React.FC<TopicDetailViewProps> = ({
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
         {/* Topic Header */}
         <div className="bg-white rounded-lg p-6 shadow-md mb-6" style={{ backgroundColor: 'var(--card-color)' }}>
-          <h1 className="text-3xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
+          <h2 className="text-3xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
             {topic.title}
           </h1>
           {topic.description && (

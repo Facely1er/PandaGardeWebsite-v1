@@ -18,7 +18,7 @@ const SuccessStoriesPage: React.FC = () => {
         breadcrumbs={true}
       >
         {/* MODPA awareness callout for Maryland families */}
-        <div className="container mx-auto px-6 pt-8">
+        <div className="pt-6">
           <div className="rounded-xl border-2 border-teal-200 dark:border-teal-800 bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/30 dark:to-cyan-900/30 p-5 mb-6">
             <div className="flex flex-col sm:flex-row sm:items-start gap-3">
               <div className="flex-shrink-0 w-9 h-9 rounded-full bg-teal-600 flex items-center justify-center">
