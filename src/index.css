@@ -101,6 +101,7 @@
 /* Family Hub page wrapper styles */
 .family-hub-wrapper {
   min-height: 100vh;
+  min-height: 100dvh;
   background: var(--fh-bg-gradient);
   margin-top: -60px; /* Offset the main-content-wrapper padding since Family Hub has its own header */
   padding-top: 0;
@@ -830,6 +831,16 @@
   box-sizing: border-box;
 }
 
+/* Always fill the viewport: empty #root / broken flex chains cannot collapse to 0 height */
+html {
+  min-height: 100%;
+}
+
+#root {
+  min-height: 100%;
+  min-height: 100dvh;
+}
+
 /* Focus indicators for accessibility - Enhanced contrast */
 *:focus {
   outline: 2px solid var(--primary);
@@ -883,6 +894,8 @@ canvas:focus {
 
 body {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  min-height: 100%;
+  min-height: 100dvh;
   background-color: var(--white);
   color: var(--gray-800);
   line-height: 1.7;

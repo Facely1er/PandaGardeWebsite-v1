@@ -37,7 +37,7 @@ const FamilyHubWrapper: React.FC = () => {
 
   return (
     <AuthProvider>
-      <div className="family-hub-theme family-hub-wrapper flex h-dvh max-h-dvh min-h-0 flex-col overflow-hidden">
+      <div className="family-hub-theme family-hub-wrapper flex h-dvh max-h-dvh flex-col overflow-hidden">
         <FamilyHubHeader />
         <div
           id="main-content"
