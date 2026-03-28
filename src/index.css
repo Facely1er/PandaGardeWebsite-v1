@@ -3415,8 +3415,8 @@ body {
     z-index: 1001;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
-    padding: 1.5rem;
-    padding-top: 5rem;
+    padding: 0.75rem 1rem;
+    padding-top: 3.5rem;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
     overflow-x: hidden;
@@ -3564,8 +3564,8 @@ body {
     z-index: 1001;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
-    padding: 1.5rem;
-    padding-top: 5rem;
+    padding: 0.75rem 1rem;
+    padding-top: 3.5rem;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
     overflow-x: hidden;
@@ -3592,20 +3592,16 @@ body {
   }
   
   .mobile-nav li {
-    margin: 10px 0;
-  }
-  
-  .mobile-nav {
-    padding-top: 5rem;
+    margin: 2px 0;
   }
   
   .mobile-nav .nav-link {
     color: var(--gray-800);
     font-size: 1rem;
-    padding: 1rem 1.25rem;
-    margin: 0.5rem 0;
+    padding: 0.625rem 1rem;
+    margin: 0;
     border-radius: 12px;
-    min-height: 48px;
+    min-height: 44px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -3975,18 +3971,19 @@ body {
   
   /* Mobile navigation improvements for very small screens */
   .mobile-nav {
-    padding: 16px;
+    padding: 0.5rem 0.75rem;
+    padding-top: 3.5rem;
   }
   
   .mobile-nav .nav-link {
     font-size: 16px;
-    padding: 14px 20px;
+    padding: 10px 16px;
     max-width: 280px;
   }
   
   .mobile-search-item {
-    margin-top: 16px;
-    padding-top: 16px;
+    margin-top: 6px;
+    padding-top: 8px;
     max-width: 280px;
   }
   

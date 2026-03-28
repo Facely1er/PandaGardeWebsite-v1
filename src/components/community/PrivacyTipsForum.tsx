@@ -674,7 +674,7 @@ const TopicDetailView: React.FC<TopicDetailViewProps> = ({
         <div className="bg-white rounded-lg p-6 shadow-md mb-6" style={{ backgroundColor: 'var(--card-color)' }}>
           <h2 className="text-3xl font-bold mb-3" style={{ color: 'var(--primary)' }}>
             {topic.title}
-          </h1>
+          </h2>
           {topic.description && (
             <p className="mb-4" style={{ color: 'var(--gray-600)' }}>
               {topic.description}
