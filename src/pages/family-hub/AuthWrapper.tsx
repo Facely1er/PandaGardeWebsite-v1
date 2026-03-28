@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../../lib/supabase';
+import { supabase, isSupabaseAvailable } from '../../lib/supabase';
 import { reportError } from '../../lib/sentry';
 import { trackEvent, AnalyticsEvents, setUserId } from '../../lib/analytics';
 
@@ -50,6 +50,10 @@ interface AuthContextType {
   isParent: boolean;
   isChild: boolean;
   redirectToFamilyHub: () => void;
+  /** True when no Supabase backend — Family Hub runs as a local demo */
+  isFamilyHubDemo: boolean;
+  /** Restore demo session after sign-out (no-backend mode only) */
+  enterDemoSession: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -65,6 +69,33 @@ export const useAuth = () => {
 interface AuthProviderProps {
   children: React.ReactNode;
 }
+
+const DEMO_USER_ID = 'local-demo-family-hub';
+
+const buildDemoUser = (): User => ({
+  id: DEMO_USER_ID,
+  email: 'demo@pandagarde.local',
+});
+
+const buildDemoProfile = (): UserProfile => {
+  const now = new Date().toISOString();
+  return {
+    id: DEMO_USER_ID,
+    email: 'demo@pandagarde.local',
+    created_at: now,
+    updated_at: now,
+    profile_data: {
+      firstName: 'Demo',
+      lastName: 'Family',
+      role: 'parent',
+    },
+  };
+};
+
+const buildDemoSession = (): Session => ({
+  user: buildDemoUser(),
+  access_token: 'local-demo',
+});
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -90,8 +121,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
+  const applyDemoSession = useCallback(() => {
+    setUser(buildDemoUser());
+    setProfile(buildDemoProfile());
+    setSession(buildDemoSession());
+    setUserId(DEMO_USER_ID);
+  }, []);
+
   useEffect(() => {
-    if (!supabase) {
+    if (!isSupabaseAvailable()) {
+      applyDemoSession();
       setLoading(false);
       return;
     }
@@ -119,14 +158,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     });
 
     return () => subscription.unsubscribe();
-  }, [fetchProfile]);
+  }, [fetchProfile, applyDemoSession]);
 
   const signUp = useCallback(async (
     email: string,
     password: string,
     profileData?: Partial<UserProfile['profile_data']>
   ) => {
-    if (!supabase) return { error: { message: 'Authentication service is not configured' } };
+    if (!isSupabaseAvailable()) {
+      return {
+        error: {
+          message:
+            'Account creation needs the hosted app with sign-in enabled. Use “Continue with demo” to explore Family Hub locally.',
+        },
+      };
+    }
 
     try {
       const { data, error } = await (supabase as any).auth.signUp({
@@ -159,7 +205,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const signIn = useCallback(async (email: string, password: string) => {
-    if (!supabase) return { error: { message: 'Authentication service is not configured' } };
+    if (!isSupabaseAvailable()) {
+      return {
+        error: {
+          message:
+            'Email sign-in needs the hosted app. Use “Continue with demo” to explore Family Hub without an account.',
+        },
+      };
+    }
 
     try {
       const { error } = await (supabase as any).auth.signInWithPassword({ email, password });
@@ -176,7 +229,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const signOut = useCallback(async () => {
-    if (!supabase) return { error: null };
+    if (!isSupabaseAvailable()) {
+      setUser(null);
+      setProfile(null);
+      setSession(null);
+      trackEvent(AnalyticsEvents.USER_LOGOUT, {});
+      return { error: null };
+    }
 
     try {
       const { error } = await (supabase as any).auth.signOut();
@@ -193,7 +252,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const updateProfile = useCallback(async (updates: Partial<UserProfile['profile_data']>) => {
-    if (!supabase || !user) return { error: { message: 'Not authenticated' } };
+    if (!user) return { error: { message: 'Not authenticated' } };
+
+    if (!isSupabaseAvailable()) {
+      const newProfileData = { ...profile?.profile_data, ...updates };
+      setProfile(prev =>
+        prev
+          ? { ...prev, profile_data: newProfileData, updated_at: new Date().toISOString() }
+          : { ...buildDemoProfile(), profile_data: newProfileData }
+      );
+      return { error: null };
+    }
 
     try {
       const newProfileData = { ...profile?.profile_data, ...updates };
@@ -213,7 +282,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [user, profile]);
 
   const resetPassword = useCallback(async (email: string) => {
-    if (!supabase) return { error: { message: 'Authentication service is not configured' } };
+    if (!isSupabaseAvailable()) {
+      return { error: { message: 'Password reset needs the hosted app with email enabled.' } };
+    }
 
     try {
       const { error } = await (supabase as any).auth.resetPasswordForEmail(email, {
@@ -228,6 +299,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const isAuthenticated = user !== null;
   const isParent = profile?.profile_data?.role === 'parent';
   const isChild = profile?.profile_data?.role === 'child';
+  const isFamilyHubDemo = !isSupabaseAvailable();
 
   const value: AuthContextType = {
     user,
@@ -243,6 +315,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isParent,
     isChild,
     redirectToFamilyHub,
+    isFamilyHubDemo,
+    enterDemoSession: isFamilyHubDemo ? applyDemoSession : () => {},
   };
 
   return (

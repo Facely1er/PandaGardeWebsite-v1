@@ -1238,6 +1238,97 @@ body {
   display: flex !important;
 }
 
+/*
+ * Drawer panel uses a light background; base `.nav-link { color: white }` is for the green header.
+ * `.mobile-nav .nav-link` colors only exist inside @media (max-width: 768px), so tablets (769–1024px)
+ * were white-on-white (invisible). Scope all drawer typography/surfaces to `.nav-menu.mobile-nav`.
+ */
+/* List rows: kill vertical margins from `.mobile-nav li` (768px) — they stack with gap */
+.nav-menu.mobile-nav li {
+  margin: 0 !important;
+}
+
+.nav-menu.mobile-nav .nav-link,
+.nav-menu.mobile-nav .mobile-search-button {
+  color: var(--gray-800) !important;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 10px;
+  /* Tighter than header nav + 768px `.mobile-nav .nav-link`; still touch-friendly */
+  min-height: 40px;
+  padding: 0.4375rem 0.75rem !important;
+  width: 100%;
+  max-width: none !important;
+  justify-content: flex-start;
+  white-space: normal;
+  box-sizing: border-box;
+}
+
+.nav-menu.mobile-nav .nav-link::after {
+  display: none;
+}
+
+.nav-menu.mobile-nav .nav-link:hover {
+  background: var(--gray-100);
+  color: var(--primary) !important;
+}
+
+.nav-menu.mobile-nav .nav-link.active {
+  background: var(--primary);
+  color: var(--white) !important;
+  border-color: var(--primary);
+}
+
+.nav-menu.mobile-nav .mobile-search-button {
+  background: var(--primary);
+  color: var(--white) !important;
+  border-color: var(--primary);
+  font-weight: 600;
+}
+
+.nav-menu.mobile-nav .mobile-search-button:hover {
+  background: var(--primary-dark);
+  color: var(--white) !important;
+  border-color: var(--primary-dark);
+}
+
+[data-theme='dark'] .nav-menu.mobile-nav .nav-link,
+[data-theme='dark'] .nav-menu.mobile-nav .mobile-search-button {
+  color: var(--gray-900) !important;
+}
+
+[data-theme='dark'] .nav-menu.mobile-nav .nav-link:hover {
+  background: var(--gray-200);
+  color: var(--primary) !important;
+}
+
+[data-theme='dark'] .nav-menu.mobile-nav .nav-link.active {
+  background: var(--primary);
+  color: var(--white) !important;
+}
+
+[data-theme='dark'] .nav-menu.mobile-nav .mobile-search-button {
+  color: var(--white) !important;
+}
+
+/* Backdrop for mobile nav overlay */
+.mobile-nav-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.mobile-nav-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
 /* Hide desktop nav on tablets and mobile */
 @media (max-width: 1024px) {
   .desktop-nav {
@@ -3401,32 +3492,53 @@ body {
     display: flex !important;
   }
 
-  /* Mobile drawer should work on tablets too (<=1024px) */
+  /* Mobile drawer — portalled to body so position:fixed resolves to viewport */
   .nav-menu.mobile-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: min(320px, 85vw) !important;
+    right: auto !important;
     background: var(--white);
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
+    flex-direction: column !important;
+    /* Override `.nav-menu { justify-content: center !important }` — column + center = huge vertical gaps */
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    gap: 0.1875rem !important;
     z-index: 1001;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
-    padding: 0.75rem 1rem;
-    padding-top: 3.5rem;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    /* Small inset below status bar / notch; avoid large empty band at top */
+    padding-top: calc(0.375rem + env(safe-area-inset-top, 0px)) !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    /* Home indicator only — no extra fixed padding under last item */
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
     max-height: 100vh;
-    max-width: 100vw;
   }
 
   .nav-menu.mobile-nav.active {
     transform: translateX(0);
+  }
+
+  /* Drawer-only: undo global mobile `.nav-link` / `.mobile-search-item` spacing from other breakpoints */
+  .nav-menu.mobile-nav .nav-link {
+    margin: 0 !important;
+    max-width: none !important;
+  }
+
+  .nav-menu.mobile-nav .mobile-search-item {
+    margin-top: 0.375rem !important;
+    margin-bottom: 0 !important;
+    padding-top: 0.375rem !important;
+    padding-bottom: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
   }
 
   .logo {
@@ -3555,23 +3667,26 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
+    right: auto;
     bottom: 0;
+    width: min(320px, 85vw);
     background: var(--white);
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    gap: 0.1875rem !important;
     z-index: 1001;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
-    padding: 0.75rem 1rem;
-    padding-top: 3.5rem;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding-top: calc(0.375rem + env(safe-area-inset-top, 0px)) !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
     max-height: 100vh;
-    max-width: 100vw;
   }
   
   /* Dark theme support for mobile navigation */
@@ -3970,17 +4085,25 @@ body {
   }
   
   /* Mobile navigation improvements for very small screens */
-  .mobile-nav {
-    padding: 0.5rem 0.75rem;
-    padding-top: 3.5rem;
+  .mobile-nav,
+  .nav-menu.mobile-nav {
+    padding-top: calc(0.375rem + env(safe-area-inset-top, 0px)) !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
   }
   
-  .mobile-nav .nav-link {
+  /* Drawer list is `ul.nav-menu.mobile-nav` — exclude from loose `.mobile-nav .nav-link` padding */
+  .mobile-nav:not(.nav-menu) .nav-link {
     font-size: 16px;
     padding: 10px 16px;
     max-width: 280px;
   }
-  
+
+  .nav-menu.mobile-nav .nav-link {
+    font-size: 0.9375rem !important;
+  }
+
   .mobile-search-item {
     margin-top: 6px;
     padding-top: 8px;

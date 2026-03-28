@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, Home, Users, ClipboardCheck as ChalkboardTeacher, Info, Moon, Sun, Search, Bell, MessageCircle, Heart, Globe, Book, Sparkles, BarChart3 } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
@@ -247,75 +248,6 @@ function Header() {
             ))}
           </ul>
           
-          {/* Mobile Navigation Menu */}
-          <ul 
-            id="mobile-menu"
-            className={`nav-menu mobile-nav ${isMobileMenuOpen ? 'active' : ''}`}
-            role="menubar"
-            aria-label="Main navigation menu"
-            onKeyDown={handleMobileMenuKeyDown}
-          >
-            {mobileNavItems.map((item) => (
-              <li key={item.id} role="none">
-                {item.href.startsWith('#') ? (
-                  <a
-                    href={item.href}
-                    className={`nav-link ${isActive(item.href) ? 'active' : ''}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(item.href);
-                    }}
-                    role="menuitem"
-                    aria-label={`Navigate to ${item.label} section`}
-                  >
-                    <item.icon size={16} aria-hidden="true" />
-                    {item.label}
-                  </a>
-                ) : item.isExternal ? (
-                  <a
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="nav-link"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    role="menuitem"
-                    aria-label={`${item.label} (opens in new tab)`}
-                  >
-                    <item.icon size={16} aria-hidden="true" />
-                    {item.label}
-                  </a>
-                ) : (
-                  <Link 
-                    to={item.href} 
-                    className={`nav-link ${isActive(item.href) ? 'active' : ''}`}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    role="menuitem"
-                    aria-label={`Navigate to ${item.label} page`}
-                  >
-                    <item.icon size={16} aria-hidden="true" />
-                    {item.label}
-                  </Link>
-                )}
-              </li>
-            ))}
-            
-            {/* Mobile Search Button */}
-            <li role="none" className="mobile-search-item">
-              <button
-                onClick={() => {
-                  setIsSearchModalOpen(true);
-                  setIsMobileMenuOpen(false);
-                }}
-                className="nav-link mobile-search-button"
-                role="menuitem"
-                aria-label="Open search dialog"
-              >
-                <Search size={16} aria-hidden="true" />
-                Search
-              </button>
-            </li>
-          </ul>
-          
           <div className="nav-actions" role="toolbar" aria-label="Navigation actions">
             {/* Notification Badge */}
             <Link
@@ -378,6 +310,89 @@ function Header() {
         onResultClick={handleSearchResultClick}
       />
       </header>
+
+      {/* Mobile Navigation — rendered as a portal to escape the header's
+          backdrop-filter containing block so position:fixed resolves to viewport */}
+      {createPortal(
+        <>
+          {/* Backdrop */}
+          <div
+            className={`mobile-nav-backdrop ${isMobileMenuOpen ? 'active' : ''}`}
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+
+          {/* Drawer */}
+          <ul
+            id="mobile-menu"
+            className={`nav-menu mobile-nav ${isMobileMenuOpen ? 'active' : ''}`}
+            role="menubar"
+            aria-label="Main navigation menu"
+            onKeyDown={handleMobileMenuKeyDown}
+          >
+            {mobileNavItems.map((item) => (
+              <li key={item.id} role="none">
+                {item.href.startsWith('#') ? (
+                  <a
+                    href={item.href}
+                    className={`nav-link ${isActive(item.href) ? 'active' : ''}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(item.href);
+                    }}
+                    role="menuitem"
+                    aria-label={`Navigate to ${item.label} section`}
+                  >
+                    <item.icon size={16} aria-hidden="true" />
+                    {item.label}
+                  </a>
+                ) : item.isExternal ? (
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="nav-link"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    role="menuitem"
+                    aria-label={`${item.label} (opens in new tab)`}
+                  >
+                    <item.icon size={16} aria-hidden="true" />
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link
+                    to={item.href}
+                    className={`nav-link ${isActive(item.href) ? 'active' : ''}`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    role="menuitem"
+                    aria-label={`Navigate to ${item.label} page`}
+                  >
+                    <item.icon size={16} aria-hidden="true" />
+                    {item.label}
+                  </Link>
+                )}
+              </li>
+            ))}
+
+            {/* Mobile Search Button */}
+            <li role="none" className="mobile-search-item">
+              <button
+                onClick={() => {
+                  setIsSearchModalOpen(true);
+                  setIsMobileMenuOpen(false);
+                }}
+                className="nav-link mobile-search-button"
+                role="menuitem"
+                aria-label="Open search dialog"
+              >
+                <Search size={16} aria-hidden="true" />
+                Search
+              </button>
+            </li>
+          </ul>
+        </>,
+        document.body
+      )}
     </>
   );
 }

@@ -121,9 +121,75 @@ const FamilyHubFooter: React.FC = () => {
       }`}
       role="contentinfo"
     >
+      {/* Primary hub tabs first (above fold next to main content); utility links at screen bottom */}
+      <nav
+        className={`grid min-h-[56px] grid-cols-5 border-b bg-gradient-to-b sm:min-h-[60px] ${
+          isLight
+            ? 'from-teal-50/90 via-cyan-50/40 to-white border-teal-100/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]'
+            : 'from-teal-950/50 via-slate-950 to-slate-950 border-teal-800/40'
+        }`}
+        aria-label="Family Hub primary navigation"
+      >
+        {hubTabs.map(({ icon: Icon, to, label, match }) => {
+          const active = match ? match(pathname) : pathname === to;
+          return (
+            <Link
+              key={to}
+              to={to}
+              className={[
+                'group flex min-h-[52px] flex-col items-center justify-center gap-0.5 px-1 py-1.5',
+                'touch-manipulation transition-all duration-200 active:scale-[0.97]',
+                isLight
+                  ? active
+                    ? 'text-teal-900'
+                    : 'text-slate-600 hover:text-teal-800'
+                  : active
+                    ? 'text-amber-200'
+                    : 'text-teal-100/75 hover:text-white',
+              ].join(' ')}
+              aria-current={active ? 'page' : undefined}
+            >
+              <span
+                className={[
+                  'flex h-9 w-9 items-center justify-center rounded-2xl transition-all duration-200',
+                  isLight
+                    ? active
+                      ? 'bg-gradient-to-br from-[#0D7377] via-[#14919B] to-[#32B8C0] text-white shadow-md shadow-teal-600/25 ring-2 ring-white/90'
+                      : 'bg-white/70 text-slate-500 shadow-sm ring-1 ring-teal-100/80 group-hover:bg-teal-100/90 group-hover:text-teal-800 group-hover:ring-teal-200/60'
+                    : active
+                      ? 'bg-gradient-to-br from-teal-400 to-cyan-300 text-teal-950 shadow-lg shadow-teal-900/40 ring-2 ring-teal-300/30'
+                      : 'bg-white/10 text-teal-200/90 ring-1 ring-white/10 group-hover:bg-teal-500/20 group-hover:text-white',
+                ].join(' ')}
+              >
+                <Icon
+                  size={22}
+                  strokeWidth={active ? 2.5 : 2}
+                  className="shrink-0"
+                  aria-hidden
+                />
+              </span>
+              <span
+                className={[
+                  'max-w-full truncate text-center text-[10px] leading-tight sm:text-[11px]',
+                  isLight
+                    ? active
+                      ? 'font-bold tracking-tight text-teal-900'
+                      : 'font-semibold text-slate-600 group-hover:text-teal-800'
+                    : active
+                      ? 'font-bold text-amber-100'
+                      : 'font-semibold text-teal-100/80 group-hover:text-white',
+                ].join(' ')}
+              >
+                {label}
+              </span>
+            </Link>
+          );
+        })}
+      </nav>
+
       <div
-        className={`flex items-center justify-center gap-x-2 overflow-x-auto border-b px-2 py-1.5 sm:gap-x-3 ${
-          isLight ? 'border-slate-100 bg-slate-50/80' : 'border-white/5'
+        className={`flex items-center justify-center gap-x-2 overflow-x-auto px-2 py-1.5 sm:gap-x-3 ${
+          isLight ? 'bg-slate-50/80' : ''
         }`}
       >
         <Link
@@ -179,58 +245,12 @@ const FamilyHubFooter: React.FC = () => {
               ? 'text-slate-600 hover:bg-white hover:text-teal-800'
               : 'text-purple-200/90 hover:bg-white/10 hover:text-white'
           }`}
+          aria-label="Open privacy portal to submit data rights requests (opens in new tab)"
         >
           <Scale size={12} className="shrink-0 opacity-80" aria-hidden />
-          <span className="truncate">MODPA rights</span>
+          <span className="truncate">Data rights</span>
         </a>
       </div>
-
-      <nav
-        className="grid min-h-[56px] grid-cols-5 sm:min-h-[60px]"
-        aria-label="Family Hub primary navigation"
-      >
-        {hubTabs.map(({ icon: Icon, to, label, match }) => {
-          const active = match ? match(pathname) : pathname === to;
-          return (
-            <Link
-              key={to}
-              to={to}
-              className={[
-                'flex min-h-[52px] flex-col items-center justify-center gap-0.5 px-1 py-1.5',
-                'touch-manipulation transition-all duration-200 active:scale-[0.97]',
-                isLight
-                  ? active
-                    ? 'bg-teal-50 text-teal-800'
-                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
-                  : active
-                    ? 'bg-white/10 text-amber-300'
-                    : 'text-purple-300/80 hover:bg-white/5 hover:text-white',
-              ].join(' ')}
-              aria-current={active ? 'page' : undefined}
-            >
-              <span
-                className={`flex h-8 w-8 items-center justify-center rounded-xl transition-colors ${
-                  isLight
-                    ? active
-                      ? 'bg-teal-100 text-teal-800'
-                      : 'bg-transparent'
-                    : ''
-                }`}
-              >
-                <Icon
-                  size={22}
-                  strokeWidth={active ? 2.5 : 2}
-                  className="shrink-0"
-                  aria-hidden
-                />
-              </span>
-              <span className="max-w-full truncate text-center text-[10px] font-semibold leading-tight sm:text-[11px]">
-                {label}
-              </span>
-            </Link>
-          );
-        })}
-      </nav>
     </footer>
   );
 };

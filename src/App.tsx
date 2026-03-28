@@ -73,6 +73,7 @@ import SuccessStoriesPage from './pages/community/SuccessStoriesPage';
 import ResourceSharingPage from './pages/community/ResourceSharingPage';
 import PrivacyTipsForumPage from './pages/community/PrivacyTipsForumPage';
 import AppFeaturesPage from './pages/AppFeaturesPage';
+import AppStoreReviewPage from './pages/AppStoreReviewPage';
 import { usePageTracking } from './hooks/useAnalytics';
 import NotFoundPage from './pages/NotFoundPage';
 import NavigationErrorBoundary from './components/NavigationErrorBoundary';

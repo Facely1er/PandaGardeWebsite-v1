@@ -29,7 +29,8 @@ import {
   getServicesByCategory, 
   type ServiceCategory,
   type ChildService
-} from '../data/childServiceCatalog';import { useFamily, type ServiceUsage } from '../contexts/FamilyContext';
+} from '../data/childServiceCatalog';
+import { useFamily, type ServiceUsage } from '../contexts/FamilyContext';
 import { calculatePrivacyExposureIndex, getExposureLevel } from '../lib/privacyExposureIndex';
 import { getServiceLogoUrlWithBrandColor, hasServiceLogo } from '../utils/serviceLogos';
 import ServiceRelationshipMap from './ServiceRelationshipMap';
@@ -268,8 +269,8 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
 
   return (
     <div className="service-catalog">
-      {/* Only show header if not used in ServiceCatalogPage */}
-      {!onServiceSelect && (
+      {/* Standalone catalog only: ServiceCatalogPage sets guidedMode and provides the page h1 */}
+      {!onServiceSelect && !guidedMode && (
         <div className="catalog-header">
           <div className="flex items-center justify-between mb-2">
             <div>
@@ -285,13 +286,6 @@ const ServiceCatalog: React.FC<ServiceCatalogProps> = ({
             </Link>
           </div>
         </div>
-      )}
-
-      {/* Guided tip when in guided mode (tip is also on page; keep for catalog-only usage) */}
-      {guidedMode && (
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-          Tap any card to see details, then choose &quot;Add to My Services&quot; to include it in your footprint.
-        </p>
       )}
 
       {/* Filters */}

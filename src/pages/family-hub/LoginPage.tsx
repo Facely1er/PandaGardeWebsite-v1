@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { LogIn, UserPlus, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from './AuthWrapper';
@@ -8,11 +8,17 @@ import Logo from '../../components/Logo';
 type Tab = 'signin' | 'signup';
 
 const LoginPage: React.FC = () => {
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, isFamilyHubDemo, enterDemoSession, isAuthenticated } = useAuth();
   const { showSuccess, showError } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
   const from = (location.state as any)?.from ?? '/family-hub';
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, from, navigate]);
 
   const [tab, setTab] = useState<Tab>('signin');
   const [isLoading, setIsLoading] = useState(false);
@@ -76,6 +82,12 @@ const LoginPage: React.FC = () => {
     }
   };
 
+  const handleContinueDemo = () => {
+    enterDemoSession();
+    showSuccess('Welcome to the Family Hub demo');
+    navigate(from, { replace: true });
+  };
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center bg-gradient-to-br from-green-50 to-blue-50 py-8 px-4 sm:px-6">
       <div className="max-w-md w-full space-y-8">
@@ -90,6 +102,21 @@ const LoginPage: React.FC = () => {
         </div>
 
         <div className="bg-white shadow-xl rounded-lg overflow-hidden">
+          {isFamilyHubDemo && (
+            <div className="px-4 py-3 bg-teal-50 border-b border-teal-100 text-sm text-teal-900">
+              <p className="font-medium mb-2">Demo mode (no server sign-in)</p>
+              <p className="text-teal-800 mb-3">
+                Explore the full Family Hub with sample data. Nothing is sent to a cloud account.
+              </p>
+              <button
+                type="button"
+                onClick={handleContinueDemo}
+                className="w-full py-2.5 px-4 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              >
+                Continue with demo
+              </button>
+            </div>
+          )}
           <div className="flex border-b border-gray-200">
             <button
               onClick={() => setTab('signin')}

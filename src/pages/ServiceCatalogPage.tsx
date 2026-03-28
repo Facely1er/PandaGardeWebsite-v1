@@ -798,8 +798,9 @@ const ServiceCatalogPage: React.FC = () => {
 
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
             Browse all services
-          </h2>          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-            Tap any card to see details and add it to your list. Use categories to narrow down.
+          </h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            Tap any card for details, then use <strong>Add to My Services</strong> to include it in your Digital Footprint. Use the category pills to narrow the list.
           </p>
           <ServiceCatalog guidedMode />
         </div>
